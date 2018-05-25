@@ -15,6 +15,7 @@
 \newtheorem*{conj}{Conjecture}
 
 \newcommand{\R}{\mathbf{R}}
+\newcommand{\mo}{^{-1}}
 
 \begin{document}
 
@@ -30,23 +31,141 @@ If $g$ is differenciable at $x$, $J_g(x)$ denotes $\det g'(x)$.
 
 Before this result, some preliminary results, which I will no doubt prove someday, but for now just take it without evidence, yeah?
 
-\begin{prop}
-todo
+\begin{prop}\label{measurezeroc1}
+The image under a $C^1$ function of a set of measure zero has measure zero.
 \end{prop}
+
+\begin{prop}\label{compactunion}
+Any open set can be written as a countable union of almost-disjoint compact intervals.
+\end{prop}
+
+\begin{proof}
+Enumerate rationals etc etc.
+\end{proof}
+
+\begin{prop}
+If $X$ is a measurable set, there exists a sequence of characteristic functions (stair functions that only take the values 1 and 0) converging to $\chi_X$ almost everywhere.
+\end{prop}
+
+\begin{prop}
+If $X$ is a measurable set contained in open $T$, there exists a sequence of characteristic functions converging to $\chi_X$ almost everywhere, whose support is contained in $T$.
+\end{prop}
+
+\begin{proof}
+Consider $\chi_n \rightarrow \chi_X$, $T_1, T_2, \ldots$ a succession of limited open intervals whose union is almost $T$ (Consider the sequence of prop \ref{compactunion}, and take the interior of these), $\chi'_n$ the characteristic function of $T_1 \cup \ldots \cup T_n$. The function we want is $\min\{\chi_n, \chi'_n\}$.
+\end{proof}
 
 \section{The main proof}
 
 \begin{definition}
-Let $T$ be a subset of $\R^n$. We say \emph{$g$ is a coordinate change on $T$} if $g \in C^1(T \rightarrow \R^n)$, $g$ is injective, and $J_g(x)$ is never zero.
+Let $T$ be an open subset of $\R^n$. We say \emph{$g$ is a coordinate change on $T$} if $g \in C^1(T \rightarrow \R^n)$, $g$ is injective, and $J_g(x)$ is never zero.
 \end{definition}
 
 Here is our main result, which we intend to prove.
 
 \begin{conj}
-Let $X$ be a measurable subset of $T$, which is a subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(g(X))$. Then, ${f \circ g \cdot J_g \in L(X)}$ and
+Let $X$ be a measurable subset of $T$, which is an open subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(X)$. Then, ${f \circ g \cdot \lvert J_g \rvert \in L(g\mo(X))}$ and
 
-\[ \int_{g(X)} f =  \int_X f \circ g \cdot J_g \]
+\[ \int_{X} f =  \int_{g\mo(X)} f \circ g \cdot \lvert J_g \rvert \]
 \end{conj}
 
+The proof will be done inductively on $n$. However, to make it a bit more tractable, it will be done in two different steps:
+
+First, it is proven that, if it is true (for a given $n$) for the constant function 1 on compact intervals, then it is true in general. This makes sense, as, this also proves it for any constant function, and from there one can show the result for stair functions ($S$) and then pass to the limit to get $U$ and $L$.
+
+Then, done that, it is shown that if the (general) result is true for $n-1$, it is true for $n$. The base case can be done by applying the previous proposition to the constant 1 function in intervals in $\R$. It is true for these functions as shown in Calculus 1.
+
+\subsection{Constant to general}
+
+\begin{prop}
+If the change of variable formula is true for the constant function 1 in compact intervals in $T$, it is true for any Lebesgue-integrable function on any compact interval.
+\end{prop}
+
+\begin{proof}
+Let $X$ be the compact interval in question.
+
+First, suppose $s \in S(X)$. Since $s$ is a stair function, there exists a partition $P$ of $X$ such that, in all compact $R$ in $P$, $s$ is a constant function almost everywhere. We denote this constant by $s_R$.
+
+Now, notice that, by definition,
+
+\[\int_X s = \sum_{R \in P} \int_R s = \sum_{R \in P} s_R \int_R 1 \]
+
+On the other hand, by hypothesis, since the $R$ are compact, this equals
+
+\[\sum_{R \in P} s_R \int_{g\mo(R)} \lvert J_g \rvert \]
+
+Which is, in turn, equal to
+
+\[\sum_{R \in P} \int_{g\mo(R)} s \circ g \cdot \lvert J_g \rvert \]
+
+Finally, note the following: If two sets' intersection has null measure, the sum of the integrals over them is the same as the integral over their union.
+
+Furthermore, any two $R$ intersect at a set of measure zero, and the intersection  $g\mo(R_1) \cap g\mo(R_2)$ is the same as $g\mo(R_1 \cap R_2)$. Finally, by proposition \ref{measurezeroc1}, this thing has measure zero.
+
+What this shows is that summing the integrals over the preimages of the rectangles is the same as integrating over the preimage of their union, which in turn is the preimage of $X$. Thus, what we have shown is that
+
+\[\int_X s = \int_{g\mo(X)} s \circ g \cdot \lvert J_g \rvert\]
+
+for $s \in S(X)$.
+
+\noindent\rule{\textwidth}{1pt}
+
+Now, let $u \in U(X)$. Then, there exists $s_k \in S$ such that $s_k \nearrow u$ almost everywhere.
+
+Notice that $\int_X s_k = \int_{g\mo(X)} s_k \circ g \cdot \lvert J_g \rvert$, and since the succession on the left hand side is bounded, the one on the right hand side is as well. Furthermore, the succession $s_k \circ g \cdot \lvert J_g \rvert$ is also crescent, and so, by the theorem of monotonous convergence, it converges almost everywhere (to $u \circ g \cdot \lvert J_g \rvert$) and the integral of this last function equals precisely $\int_X u$.
+
+Finally, notice that any lebesgue integrable function is the difference of two functions in $U(X)$, and apply the formula to both of these, as well as the additivity of the integral.
+
+\end{proof}
+
+We have just proven this formula for compact intervals. We now make the extension to open, and then measurable sets.
+
+\begin{prop}
+If the change of variable formula is true for the constant function 1 in compact intervals in $T$, it is true for any Lebesgue-integrable function on any measurable subset of $T$.
+\end{prop}
+
+\begin{proof}
+We have already shown it, under this hypothesis, to be true on any compact subinterval of $T$.
+
+Now, let $X$ be an open subset of $T$, and $f$ an integrable function defined on $X$.
+
+Let $X_1, X_2, \ldots$ be a succession of almost-disjoint compact intervals whose union is $X$. (See proposition \ref{compactunion})
+
+\[\int_{X} f = \sum_i \int_{X_i} f = \sum_i \int_{g\mo(X_i)} f \circ g \cdot \lvert J_g \rvert\]
+
+Since $g\mo$ is injective and the $X_i$ are almost-disjoint, this equals
+
+\[\int_{g\mo(X)} f \circ g \cdot \lvert J_g \rvert\]
+
+as desired.
+
+\noindent\rule{\textwidth}{1pt}
+
+We are now ready to extend the result to measurable sets.
+
+Let $X$ be a measurable subset of $T$, $f$ a function in $L(X)$, extended for convenience to 0 outside of $X$.
+
+Since $X$ is measurable, there exists a sequence of characteristic functions $\chi_n \rightarrow \chi_X$ whose sets are contained in $T$.
+
+Fixed $n$, since the set represented by $\chi_n$ is open (call it $X_n$, we have
+
+\[ \int_{X_n} f = \int_{g\mo(X_n)} f \circ g \cdot \lvert J_g \rvert\]
+
+TODO: Justify that this all works out in the limit.
+\end{proof}
+
+\subsection{Induction step}
+
+\begin{prop}
+Suppose the variable change formula works for 1 and $n-1$. Then, it also works for $n$.
+\end{prop}
+
+\begin{proof}
+We will show this works for $n$ solely for the constant function equal to 1 on a compact interval $X$ contained in $T$. The previous subsection shows this is enough to guarantee full generality in $\R^n$.
+
+This demonstration will work by splitting $g$ into a composition of two coordinate transformations, each of which changes only one or $n-1$ coordinates, such that the hypothesis may be used on both separately. Unfortunately, the existance of this decomposition is only guaranteed locally, so we will have to do this on a local basis and later on stitch it all together.
+
+Fix some $x_0$ in $X$. By hypothesis, $J_g(x) \neq 0$, and as such, there exists $i$ such that $\partial_i g_n(x) \neq 0$.
+\end{proof}
 
 \end{document}
