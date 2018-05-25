@@ -64,7 +64,7 @@ Let $T$ be an open subset of $\R^n$. We say \emph{$g$ is a coordinate change on 
 Here is our main result, which we intend to prove.
 
 \begin{conj}
-Let $X$ be a measurable subset of $T$, which is an open subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(X)$. Then, ${f \circ g \cdot \lvert J_g \rvert \in L(g\mo(X))}$ and
+Let $X$ be a measurable subset of $g(T)$, which is an open subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(X)$. Then, ${f \circ g \cdot \lvert J_g \rvert \in L(g\mo(X))}$ and
 
 \[ \int_{X} f =  \int_{g\mo(X)} f \circ g \cdot \lvert J_g \rvert \]
 \end{conj}
@@ -78,7 +78,7 @@ Then, done that, it is shown that if the (general) result is true for $n-1$, it 
 \subsection{Constant to general}
 
 \begin{prop}
-If the change of variable formula is true for the constant function 1 in compact intervals in $T$, it is true for any Lebesgue-integrable function on any compact interval.
+If the change of variable formula is true for the constant function 1 in compact intervals in $g(T)$, it is true for any Lebesgue-integrable function on any compact interval.
 \end{prop}
 
 \begin{proof}
@@ -121,13 +121,13 @@ Finally, notice that any lebesgue integrable function is the difference of two f
 We have just proven this formula for compact intervals. We now make the extension to open, and then measurable sets.
 
 \begin{prop}
-If the change of variable formula is true for the constant function 1 in compact intervals in $T$, it is true for any Lebesgue-integrable function on any measurable subset of $T$.
+If the change of variable formula is true for the constant function 1 in compact intervals in $g(T)$, it is true for any Lebesgue-integrable function on any measurable subset of $g(T)$.
 \end{prop}
 
 \begin{proof}
-We have already shown it, under this hypothesis, to be true on any compact subinterval of $T$.
+We have already shown it, under this hypothesis, to be true on any compact subinterval of $g(T)$.
 
-Now, let $X$ be an open subset of $T$, and $f$ an integrable function defined on $X$.
+Now, let $X$ be an open subset of $g(T)$, and $f$ an integrable function defined on $X$.
 
 Let $X_1, X_2, \ldots$ be a succession of almost-disjoint compact intervals whose union is $X$. (See proposition \ref{compactunion})
 
@@ -143,9 +143,9 @@ as desired.
 
 We are now ready to extend the result to measurable sets.
 
-Let $X$ be a measurable subset of $T$, $f$ a function in $L(X)$, extended for convenience to 0 outside of $X$.
+Let $X$ be a measurable subset of $g(T)$, $f$ a function in $L(X)$, extended for convenience to 0 outside of $X$.
 
-Since $X$ is measurable, there exists a sequence of characteristic functions $\chi_n \rightarrow \chi_X$ whose sets are contained in $T$.
+Since $X$ is measurable, there exists a sequence of characteristic functions $\chi_n \rightarrow \chi_X$ whose sets are contained in $g(T)$.
 
 Fixed $n$, since the set represented by $\chi_n$ is open (call it $X_n$, we have
 
@@ -161,11 +161,21 @@ Suppose the variable change formula works for 1 and $n-1$. Then, it also works f
 \end{prop}
 
 \begin{proof}
-We will show this works for $n$ solely for the constant function equal to 1 on a compact interval $X$ contained in $T$. The previous subsection shows this is enough to guarantee full generality in $\R^n$.
+We will show this works for $n$ solely for the constant function equal to 1 on a compact interval $I$ contained in $g\mo(T)$. The previous subsection shows this is enough to guarantee full generality in $\R^n$.
 
 This demonstration will work by splitting $g$ into a composition of two coordinate transformations, each of which changes only one or $n-1$ coordinates, such that the hypothesis may be used on both separately. Unfortunately, the existance of this decomposition is only guaranteed locally, so we will have to do this on a local basis and later on stitch it all together.
 
-Fix some $x_0$ in $X$. By hypothesis, $J_g(x) \neq 0$, and as such, there exists $i$ such that $\partial_i g_n(x) \neq 0$.
+Fix some $t_0$ in $g\mo(I)$. By hypothesis, $J_g(t_0) \neq 0$, and as such, there exists $i$ such that $\partial_i g_n(t_0) \neq 0$.
+
+Define $\phi(t) = (t_1, \ldots, t_{n-1}, g_i(t))$. The jacobian of $\phi$ is clearly not zero at $t_0$, and by continuity, is also not 0 in a neighbourhood of it. By the inverse function theorem, $\phi$ is locally invertible at $t_0$.
+
+With this in mind, define $X$ to be an open subset $T$ satisfying these two conditions. We have $\phi$ is a coordinate transformation bijecting $X \rightarrow \phi(X)$.
+
+Now, in $\phi(X)$, define $\theta = g \circ \phi\mo$. This is clearly a coordinate transformation bijecting $\phi(X) \rightarrow g(X)$, and it is not too hard to see that $\theta_i(t) = t_n$. %todo justify
+
+We can, without loss of generality, assume $g(X)$ is an open rectangle. Since it is open and contains $g(t_0)$, consider a subrectangle of it, and change $X$ to mean the inverse image of this.
+
+
 \end{proof}
 
 \end{document}
