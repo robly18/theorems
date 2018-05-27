@@ -59,6 +59,10 @@ If $X$ is a measurable set contained in open $T$, there exists a sequence of cha
 Consider $\chi_n \rightarrow \chi_X$, $T_1, T_2, \ldots$ a succession of limited open intervals whose union is almost $T$ (Consider the sequence of prop \ref{compactunion}, and take the interior of these), $\chi'_n$ the characteristic function of $T_1 \cup \ldots \cup T_n$. The function we want is $\min\{\chi_n, \chi'_n\}$.
 \end{proof}
 
+\begin{prop}
+Given an open cover of a set, there exists a countable subcover.
+\end{prop}
+
 \section{The main proof}
 
 \begin{definition}
@@ -243,7 +247,23 @@ Consider that for all $x \in I$, as we have just shown, there exists a neighbour
 
 \[ \int_X \chi_I(x) \d x = \int_{g\mo(X)} \chi_I(g(x)) \rvert J_g(x) \lvert \d x \]
 
-TODO: please send help
+Notice that the only thing we have assumed so far about $\chi_I$ was that it was never negative. As such, if we take any other characteristic function, the formula will still apply. This allows us to stitch things the following way:
+
+All our $X$s make an open cover of $I$. As such, there is a countable subcover, $X_1, X_2, \ldots$. Let $L_i = X_1 \cup \ldots X_i$.
+
+What we will show by induction is that for any nonnegative function $\chi : T \rightarrow \R^n$ the variable change formula works on $L_i$.
+
+The case $i = 1$ is already shown. Suppose we have shown the case $i$ and wish to show $i+1$.
+
+Notice that if $f$ is a nonnegative function in $L(T)$, we have $\int_{L_{i+1}} f = \int_{L_i} f + \int_{X_{i+1}} f  - \int_{L_i \cap X_{i+1}} f$. All of these integrals exist. The first by the induction hypothesis, the second by what we have previously shown, and the last because it is equivalent to doing the integral over $L_i$ of $\chi_{X_{i+1}} \cdot f$.
+
+As such, the integral over $L_{i+1}$ of $f$ exists, and it can easily be shown that it equals the integral over $g\mo(L_{i+1})$ of $f \circ g \cdot \lvert J_g \rvert$, which concludes our induction step.
+
+So, $\int_{L_i} f = \int_{g\mo(L_i)} f \circ g \cdot \lvert J_g \rvert$ for all $i$, and taking the limit, since these are all positive functions and the sequence $L_i$ is increasing, we have, by monotonous convergence, where $L = \bigcup L_i$,
+
+\[ \int_L f = \int_{g\mo(L)} f \circ g \cdot \lvert J_g \rvert \]
+
+As we wished to show. Now, apply this result to $f = \chi_I$ and our demonstration is finally complete.
 
 \end{proof}
 
