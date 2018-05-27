@@ -17,6 +17,10 @@
 \newcommand{\R}{\mathbf{R}}
 \newcommand{\mo}{^{-1}}
 
+\makeatletter \renewcommand\d[1]{\ensuremath{%
+  \;\mathrm{d}#1\@ifnextchar\d{\!}{}}}
+\makeatother
+
 \begin{document}
 
 \maketitle
@@ -64,7 +68,7 @@ Let $T$ be an open subset of $\R^n$. We say \emph{$g$ is a coordinate change on 
 Here is our main result, which we intend to prove.
 
 \begin{conj}
-Let $X$ be a measurable subset of $g(T)$, which is an open subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(X)$. Then, ${f \circ g \cdot \lvert J_g \rvert \in L(g\mo(X))}$ and
+Let $X$ be a subset of $g(T)$, which is an open subset of $R^n$. Suppose $g$ is a coordinate change on $T$, and let $f \in L(X)$. Then, ${f \circ g \cdot \lvert J_g \rvert \in L(g\mo(X))}$ and
 
 \[ \int_{X} f =  \int_{g\mo(X)} f \circ g \cdot \lvert J_g \rvert \]
 \end{conj}
@@ -118,7 +122,7 @@ Finally, notice that any lebesgue integrable function is the difference of two f
 
 \end{proof}
 
-We have just proven this formula for compact intervals. We now make the extension to open, and then measurable sets.
+We have just proven this formula for compact intervals. We now make the extension to open sets, and finally, for any subset of $T$.
 
 \begin{prop}
 If the change of variable formula is true for the constant function 1 in compact intervals in $g(T)$, it is true for any Lebesgue-integrable function on any measurable subset of $g(T)$.
@@ -141,31 +145,83 @@ as desired.
 
 \noindent\rule{\textwidth}{1pt}
 
-We are now ready to extend the result to measurable sets.
+We are now ready to extend the result to all sets.
 
-Let $X$ be a measurable subset of $g(T)$, $f$ a function in $L(X)$, extended for convenience to 0 outside of $X$.
+Let $X \subseteq g(T)$, and $f \in L(X)$. Extend $f$ to 0 outside of $X$.
 
-Since $X$ is measurable, there exists a sequence of characteristic functions $\chi_n \rightarrow \chi_X$ whose sets are contained in $g(T)$.
+Then, by definition, $\int_X f = \int \chi_X \cdot f$. In particular, since $X$ is contained in $g(T)$, this equals $\int_{g(T)} \chi_X \cdot f$. Since $g(T)$ is an open subset of $g(T)$, the change of variable formula applies, and we get this equals $\int_{T} \chi_X(g(t)) f(g(t)) \lvert J_g(t) \rvert \d{t}$.
 
-Fixed $n$, since the set represented by $\chi_n$ is open (call it $X_n$, we have
+Finally, notice the condition that $t \in T$ and $g(t) \in X$ is the same as $t \in g\mo(X)$, which shows precisely what we wanted:
 
-\[ \int_{X_n} f = \int_{g\mo(X_n)} f \circ g \cdot \lvert J_g \rvert\]
-
-TODO: Justify that this all works out in the limit.
+\[ \int_X f = \int_{g\mo(X)} f \circ g \cdot \lvert J_g(t) \rvert \]
 \end{proof}
 
 \subsection{Induction step}
 
+We are almost ready to prove the induction step, but there is a minor hurdle to overcome.
+
+Here's the idea: we will split the change of variables into two separate variable changes, each with the following property: only $n-1$ variables are changed, in a sense. %todo word this better
+
+More specifically, we will say a change of variables $g$ is \emph{inductible} if there exist $i$, $j$ such that $g_i(x) = x_j$.
+
 \begin{prop}
-Suppose the variable change formula works for 1 and $n-1$. Then, it also works for $n$.
+If $g$ is inductible and the change of variables formula is valid for $n-1$ dimensions, then it's valid for $g$ on functions that never take negative values.
+\end{prop}
+
+\begin{proof}
+Suppose $g$ is an inductible coordinate transformation on $T$, $X \subseteq T$, $f \in L(X)$.
+
+Let $i, j$ be such that $g_i(x) = x_j$.
+
+By Fubini's theorem, since $f \in L(X)$, we have that, for almost all $x_j$, the function $\varphi_{x_j}$ defined as $\varphi_{x_j}(x_{\hat\jmath}) = f(x)$ is Lebesgue-integrable (if extended to zero to outside of its domain). Since this is a function of $n-1$ variables, we can apply the induction hypothesis on it.
+
+Define $\gamma_{x_j}(x_{\hat\jmath}) = g_{\hat\imath}(x)$, with $x_j$ still fixed.
+
+TO SHOW: $\gamma_{x_j}$ is a coordinate transformation.
+
+We can now apply the following trickery:
+
+By Fubini:
+
+\[\int_X f = \int \int_{X_{x_j}} \varphi_{x_j}(x_{\hat\jmath}) \d{x_{\hat\jmath}} \d{x_j}\]
+
+By the induction hypothesis on the inner integral, this equals
+
+\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} \varphi_{x_j}(\gamma_{x_j}(x_{\hat\jmath})) \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+
+Clearing up notation, and making use of our abbreviations:
+
+\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} \varphi_{g_i(x)}(g_{\hat\imath}(x)) \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+
+Also, doing trickery on the jacobian of $\gamma_{x_j}$
+
+\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} f(g(x)) \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+
+We wish to apply Tonelli, but the domain of the inner integral depends on the outer one. As such, we write this using the characteristic function.
+
+\[ \int \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) f(g(x)) \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+
+It is at this point that we consider the hypothesis that $f$ is never negative. Since the things inside the integral are never negative, we can apply Tonelli's theorem to get that, since the iterated integral exists, so does the full one, to get
+
+\[ \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) f(g(x)) \lvert J_g(x) \rvert \d{x} \]
+
+Finally, notice that $x_{\hat\jmath} \in \gamma_{x_j}\mo(X_{x_j})$ if and only if $\gamma_{x_j}(x_{\hat\jmath}) \in X_{g_i(x)}$ if and only if $g_{\hat\imath}(x) \in X_{g_i(x)}$ if and only if $g(x) \in X$ if and only if $x \in g\mo(X)$. This concludes our demonstration, as our integral now equals
+
+\[ \int_{g\mo(X)} f(g(x)) \lvert J_g(x) \rvert \d{x} \]
+\end{proof}
+
+Finally, the proof is within reach.
+
+\begin{prop}
+Suppose the variable change formula works for $n-1$. Then, it also works for $n$.
 \end{prop}
 
 \begin{proof}
 We will show this works for $n$ solely for the constant function equal to 1 on a compact interval $I$ contained in $g\mo(T)$. The previous subsection shows this is enough to guarantee full generality in $\R^n$.
 
-This demonstration will work by splitting $g$ into a composition of two coordinate transformations, each of which changes only one or $n-1$ coordinates, such that the hypothesis may be used on both separately. Unfortunately, the existance of this decomposition is only guaranteed locally, so we will have to do this on a local basis and later on stitch it all together.
+This demonstration will work by splitting $g$ into a composition of two coordinate transformations, both inductible. Unfortunately, the existance of this decomposition is only guaranteed locally, so we will have to do this on a local basis and later on stitch it all together.
 
-Fix some $t_0$ in $g\mo(I)$. By hypothesis, $J_g(t_0) \neq 0$, and as such, there exists $i$ such that $\partial_i g_n(t_0) \neq 0$.
+Fix some $t_0$ in $T$. By hypothesis, $J_g(t_0) \neq 0$, and as such, there exists $i$ such that $\partial_i g_n(t_0) \neq 0$.
 
 Define $\phi(t) = (t_1, \ldots, t_{n-1}, g_i(t))$. The jacobian of $\phi$ is clearly not zero at $t_0$, and by continuity, is also not 0 in a neighbourhood of it. By the inverse function theorem, $\phi$ is locally invertible at $t_0$.
 
@@ -173,8 +229,21 @@ With this in mind, define $X$ to be an open subset $T$ satisfying these two cond
 
 Now, in $\phi(X)$, define $\theta = g \circ \phi\mo$. This is clearly a coordinate transformation bijecting $\phi(X) \rightarrow g(X)$, and it is not too hard to see that $\theta_i(t) = t_n$. %todo justify
 
-We can, without loss of generality, assume $g(X)$ is an open rectangle. Since it is open and contains $g(t_0)$, consider a subrectangle of it, and change $X$ to mean the inverse image of this.
+Both $\theta$ and $\phi$ are inductible, and none of the following is ever negative, and so, as such, we can apply the previous lemma twice here to get
 
+\begin{align*}
+\int_X \chi_I(x) \d x =& \int_{\theta\mo(X)} \chi_I(\theta(x)) \rvert J_{\theta} \lvert x \d x \\
+=& \int_{\phi\mo(\theta\mo(X))} \chi_I(\theta(\phi(x))) \rvert J_{\theta}(\phi(x)) \lvert \cdot \rvert J_\phi(x) \lvert \d x \\
+=& \int_{g\mo(X)} \chi_I(g(x)) \rvert J_g(x) \lvert \d x
+\end{align*}
+
+As we wished. The local version is now proven. We can begin stitching.
+
+Consider that for all $x \in I$, as we have just shown, there exists a neighbourhood $X$ of $x$ where
+
+\[ \int_X \chi_I(x) \d x = \int_{g\mo(X)} \chi_I(g(x)) \rvert J_g(x) \lvert \d x \]
+
+TODO: please send help
 
 \end{proof}
 
