@@ -133,7 +133,7 @@ If the change of variable formula is true for the constant function 1 in compact
 \end{prop}
 
 \begin{proof}
-We have already shown it, under this hypothesis, to be true on any compact subinterval of $g(T)$.
+We have already shown it, under this hypothesis, to be true for any lebesgue-integrable function over any compact subinterval of $g(T)$.
 
 Now, let $X$ be an open subset of $g(T)$, and $f$ an integrable function defined on $X$.
 
@@ -169,15 +169,13 @@ Here's the idea: we will split the change of variables into two separate variabl
 More specifically, we will say a change of variables $g$ is \emph{inductible} if there exist $i$, $j$ such that $g_i(x) = x_j$.
 
 \begin{prop}
-If $g$ is inductible and the change of variables formula is valid for $n-1$ dimensions, then it's valid for $g$ on functions that never take negative values.
+If $g$ is inductible and the change of variables formula is valid for $n-1$ dimensions, then it's valid for $g$ on the constant 1 function over open sets.
 \end{prop}
 
 \begin{proof}
-Suppose $g$ is an inductible coordinate transformation on $T$, $X \subseteq T$, $f \in L(X)$.
+Suppose $g$ is an inductible coordinate transformation on $T$, $X$ an open subset of $g(T)$.
 
 Let $i, j$ be such that $g_i(x) = x_j$.
-
-By Fubini's theorem, since $f \in L(X)$, we have that, for almost all $x_j$, the function $\varphi_{x_j}$ defined as $\varphi_{x_j}(x_{\hat\jmath}) = f(x)$ is Lebesgue-integrable (if extended to zero to outside of its domain). Since this is a function of $n-1$ variables, we can apply the induction hypothesis on it.
 
 Define $\gamma_{x_j}(x_{\hat\jmath}) = g_{\hat\imath}(x)$, with $x_j$ still fixed.
 
@@ -187,31 +185,25 @@ We can now apply the following trickery:
 
 By Fubini:
 
-\[\int_X f = \int \int_{X_{x_j}} \varphi_{x_j}(x_{\hat\jmath}) \d{x_{\hat\jmath}} \d{x_j}\]
+\[\int_X \d x = \int_{g(T)} \chi_X(x) \d x = \int \int_{g(T)_{x_j}} \chi_{X_{x_j}}(x_{\hat\jmath}) \d{x_{\hat\jmath}} \d{x_j}\]
+
+Where, given a set $S$, $S_{x_j}$ is the set of $x_{\hat\jmath}$ such that $x \in S$.
 
 By the induction hypothesis on the inner integral, this equals
 
-\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} \varphi_{x_j}(\gamma_{x_j}(x_{\hat\jmath})) \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+\[ \int \int_{\gamma_{x_j}\mo(g(T)_{x_j})} \chi_{X_{x_j}}(\gamma_{x_j}(x_{\hat\jmath})) \cdot \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
 
-Clearing up notation, and making use of our abbreviations:
+The reader may, with a little work, verify that this is the same as
 
-\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} \varphi_{g_i(x)}(g_{\hat\imath}(x)) \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+\[ \int \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) \cdot \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j}  \]
 
-Also, doing trickery on the jacobian of $\gamma_{x_j}$
+At this point, the reader may notice, we have an iterated integral. The iterated integral of the modulus exists (since everything is nonnegative, the things inside the integral are their own modulus) and the function inside the integral is mensurable (the product of two mensurables is mensurable; characteristic functions of open sets are mensurable; continuous functions are mensurable). As such, we are in the conditions of Tonelli's theorem, and as such, we may pronounce this equal to
 
-\[ \int \int_{\gamma_{x_j}\mo(X_{x_j})} f(g(x)) \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+\[ \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) \lvert J_g(x) \rvert \d{x} \]
 
-We wish to apply Tonelli, but the domain of the inner integral depends on the outer one. As such, we write this using the characteristic function.
+Finally, one can easily notice that $x_{\hat\jmath} \in \gamma_{x_j}\mo(X_{x_j})$ if and only if ${x \in g\mo(X)}$. This concludes our demonstration, as our integral now equals
 
-\[ \int \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) f(g(x)) \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
-
-It is at this point that we consider the hypothesis that $f$ is never negative. Since the things inside the integral are never negative, we can apply Tonelli's theorem to get that, since the iterated integral exists, so does the full one, to get
-
-\[ \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) f(g(x)) \lvert J_g(x) \rvert \d{x} \]
-
-Finally, notice that $x_{\hat\jmath} \in \gamma_{x_j}\mo(X_{x_j})$ if and only if $\gamma_{x_j}(x_{\hat\jmath}) \in X_{g_i(x)}$ if and only if $g_{\hat\imath}(x) \in X_{g_i(x)}$ if and only if $g(x) \in X$ if and only if $x \in g\mo(X)$. This concludes our demonstration, as our integral now equals
-
-\[ \int_{g\mo(X)} f(g(x)) \lvert J_g(x) \rvert \d{x} \]
+\[ \int_{g\mo(X)} \lvert J_g(x) \rvert \d{x} \]
 \end{proof}
 
 Finally, the proof is within reach.
@@ -233,37 +225,51 @@ With this in mind, define $X$ to be an open subset $T$ satisfying these two cond
 
 Now, in $\phi(X)$, define $\theta = g \circ \phi\mo$. This is clearly a coordinate transformation bijecting $\phi(X) \rightarrow g(X)$, and it is not too hard to see that $\theta_i(t) = t_n$. %todo justify
 
-Both $\theta$ and $\phi$ are inductible, and none of the following is ever negative, and so, as such, we can apply the previous lemma twice here to get
+Both $\theta$ and $\phi$ are inductible, and none of the following is ever negative, and so, as such, we can apply the previous lemma twice here to get that, for any open set $S$ contained in $X$,
 
 \begin{align*}
-\int_X \chi_I(x) \d x =& \int_{\theta\mo(X)} \chi_I(\theta(x)) \rvert J_{\theta} \lvert x \d x \\
-=& \int_{\phi\mo(\theta\mo(X))} \chi_I(\theta(\phi(x))) \rvert J_{\theta}(\phi(x)) \lvert \cdot \rvert J_\phi(x) \lvert \d x \\
-=& \int_{g\mo(X)} \chi_I(g(x)) \rvert J_g(x) \lvert \d x
+\int_S \d x =& \int_{\theta\mo(S)} \rvert J_{\theta} \lvert x \d x \\
+=& \int_{\phi\mo(\theta\mo(S))} \rvert J_{\theta}(\phi(x)) \lvert \cdot \rvert J_\phi(x) \lvert \d x \\
+=& \int_{g\mo(S)} \rvert J_g(x) \lvert \d x
 \end{align*}
 
-As we wished. The local version is now proven. We can begin stitching.
+We will use this local version of the theorem to begin stitching.
 
-Consider that for all $x \in I$, as we have just shown, there exists a neighbourhood $X$ of $x$ where
+Consider that for all $x \in I$, by what we have just shown, there exists a neighbourhood $X$ of $x$ where, for any open $S$,
 
-\[ \int_X \chi_I(x) \d x = \int_{g\mo(X)} \chi_I(g(x)) \rvert J_g(x) \lvert \d x \]
+\[ \int_X \chi_S(x) \d x = \int_{g\mo(X)} \chi_S(g(x)) \rvert J_g(x) \lvert \d x \]
+%todo ponder over this
 
-Notice that the only thing we have assumed so far about $\chi_I$ was that it was never negative. As such, if we take any other characteristic function, the formula will still apply. This allows us to stitch things the following way:
+What we wish to show is that $\int_I \d x = \int_{g\mo(I)} \rvert J_g(x) \lvert \d x$. It would be convenient that our $I$ were to be an open set, so that we could apply what we already have to $\chi_I$. It is also useful that it is compact, however, to allow us to stitch it in finitely many pieces. This is less than a problem than it would seem, as the border of $I$ has null measure. As such, let $J = \textrm{int} I$. We will show $\int_J \d x = \int_{g\mo(J)} \rvert J_g(x) \lvert \d x$.
 
-All our $X$s make an open cover of $I$. As such, there is a countable subcover, $X_1, X_2, \ldots$. Let $L_i = X_1 \cup \ldots X_i$.
+All the $X$s we were talking about earlier make an open cover of $I$. As such, there is a finite subcover, $X_1, \ldots, X_N$, of $I$ (and thus, $J$) of sets where our hypothesis applies. Let $L_i = X_1 \cup \ldots X_i$ for $i = 1, \ldots, N$.
 
-What we will show by induction is that for any nonnegative function $\chi : T \rightarrow \R^n$ the variable change formula works on $L_i$.
+What we will show by induction is that for any open set $S$, the variable change formula works on $L_i \cap S$.
 
 The case $i = 1$ is already shown. Suppose we have shown the case $i$ and wish to show $i+1$.
 
-Notice that if $f$ is a nonnegative function in $L(T)$, we have $\int_{L_{i+1}} f = \int_{L_i} f + \int_{X_{i+1}} f  - \int_{L_i \cap X_{i+1}} f$. All of these integrals exist. The first by the induction hypothesis, the second by what we have previously shown, and the last because it is equivalent to doing the integral over $L_i$ of $\chi_{X_{i+1}} \cdot f$.
+Notice that
 
-As such, the integral over $L_{i+1}$ of $f$ exists, and it can easily be shown that it equals the integral over $g\mo(L_{i+1})$ of $f \circ g \cdot \lvert J_g \rvert$, which concludes our induction step.
+\[\int_{L_{i+1} \cap S} \d x = \int_{L_i \cap S} \d x + \int_{X_{i+1} \cap S} \d x  - \int_{L_i \cap (X_{i+1} \cap S)} \d x\]
 
-So, $\int_{L_i} f = \int_{g\mo(L_i)} f \circ g \cdot \lvert J_g \rvert$ for all $i$, and taking the limit, since these are all positive functions and the sequence $L_i$ is increasing, we have, by monotonous convergence, where $L = \bigcup L_i$,
+All of these integrals exist. The first and last by the induction hypothesis, and the second by the hypothesis on the $X_i$.
 
-\[ \int_L f = \int_{g\mo(L)} f \circ g \cdot \lvert J_g \rvert \]
+One can now apply the variable change formula on all the integrals on the right hand side, and join them together to get
 
-As we wished to show. Now, apply this result to $f = \chi_I$ and our demonstration is finally complete.
+\[ \int \chi_{g\mo(L_i \cap S)}(x) + \chi_{g\mo(X_{i+1} \cap S)}(x) - \chi_{g\mo(L_i \cap X_{i+1}\cap S)}(x) \d x \]
+
+With a little work, one can verify that
+\[\chi_{g\mo(L_i \cap S)} + \chi_{g\mo(X_{i+1} \cap S)} - \chi_{g\mo(L_i \cap X_{i+1}\cap S)} = \chi_{g\mo(L_{i+1})} \cdot \chi_{g\mo(S)}\]
+
+So, $\int_{L_i} \chi_S = \int_{g\mo(L_i)} \chi_{g\mo(S)} \cdot \lvert J_g \rvert$ for all $i$, and in particular, for $i = N$ and letting $S = J$,
+
+\[ \int_{L_N} \chi_J = \int_{g\mo(L_N)} \chi_{g\mo(J)} \cdot \lvert J_g \rvert \]
+
+Since $J$ is wholly contained in $L_N$, this is equivalent to
+
+\[ \int_J \d x = \int_{g\mo(J)} \lvert J_g(x) \rvert \d x \]
+
+Which concludes our proof.
 
 \end{proof}
 
