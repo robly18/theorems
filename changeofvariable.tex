@@ -169,41 +169,41 @@ Here's the idea: we will split the change of variables into two separate variabl
 More specifically, we will say a change of variables $g$ is \emph{inductible} if there exist $i$, $j$ such that $g_i(x) = x_j$.
 
 \begin{prop}
-If $g$ is inductible and the change of variables formula is valid for $n-1$ dimensions, then it's valid for $g$ on the constant 1 function over open sets.
+If $g$ is inductible and the change of variables formula is valid for $n-1$ dimensions, then it's valid for $g$ on a continuous function $f$ over open sets.
 \end{prop}
 
 \begin{proof}
-Suppose $g$ is an inductible coordinate transformation on $T$, $X$ an open subset of $g(T)$.
+Suppose $g$ is an inductible coordinate transformation on $T$, $X$ an open subset of $g(T)$, $f$ is a continuous function $X \rightarrow \R^n$.
 
 Let $i, j$ be such that $g_i(x) = x_j$.
 
-Define $\gamma_{x_j}(x_{\hat\jmath}) = g_{\hat\imath}(x)$, with $x_j$ still fixed.
+Fix $x_j$ and define $\gamma_{x_j}(x_{\hat\jmath}) = g_{\hat\imath}(x)$,  and $\varphi_{x_j}(x_{\hat\jmath}) = f(x)$.
 
-TO SHOW: $\gamma_{x_j}$ is a coordinate transformation.
+TO SHOW: $\gamma_{x_j}$ is a coordinate transformation, $\phi_{x_j}$ is continuous.
 
 We can now apply the following trickery:
 
 By Fubini:
 
-\[\int_X \d x = \int_{g(T)} \chi_X(x) \d x = \int \int_{g(T)_{x_j}} \chi_{X_{x_j}}(x_{\hat\jmath}) \d{x_{\hat\jmath}} \d{x_j}\]
+\[\int_X f(x) \d x = \int_{g(T)} \chi_X(x) f(x) \d x = \int \int_{g(T)_{x_j}} \chi_{X_{x_j}}(x_{\hat\jmath}) \varphi_{x_j}(x_{\hat\jmath}) \d{x_{\hat\jmath}} \d{x_j}\]
 
 Where, given a set $S$, $S_{x_j}$ is the set of $x_{\hat\jmath}$ such that $x \in S$. Furthermore, we will adopt the convention that, while $x_j$ is the $j$-th component of the vector $x$, $x_{\hat\jmath}$ is exactly the vector obtained by \emph{removing} the $j$-th component from $x$.
 
 By the induction hypothesis on the inner integral, this equals
 
-\[ \int \int_{\gamma_{x_j}\mo(g(T)_{x_j})} \chi_{X_{x_j}}(\gamma_{x_j}(x_{\hat\jmath})) \cdot \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
+\[ \int \int_{\gamma_{x_j}\mo(g(T)_{x_j})} \chi_{X_{x_j}}(\gamma_{x_j}(x_{\hat\jmath})) \cdot \varphi_{x_j}(\gamma_{x_j}(x_{\hat\jmath})) \cdot \lvert J_{\gamma_{x_j}}(x_{\hat\jmath}) \rvert \d{x_{\hat\jmath}} \d{x_j} \]
 
 The reader may, with a little work, verify that this is the same as
 
-\[ \int \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) \cdot \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j}  \]
+\[ \int \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) \cdot f(g(x)) \cdot \lvert J_g(x) \rvert \d{x_{\hat\jmath}} \d{x_j}  \]
 
-At this point, the reader may notice, we have an iterated integral. The iterated integral of the modulus exists (since everything is nonnegative, the things inside the integral are their own modulus) and the function inside the integral is mensurable (the product of two mensurables is mensurable; characteristic functions of open sets are mensurable; continuous functions are mensurable). As such, we are in the conditions of Tonelli's theorem, and as such, we may pronounce this equal to
+At this point, the reader may notice, we have an iterated integral. The iterated integral of the modulus exists (since everything is nonnegative, the things inside the integral are their own modulus) and the function inside the integral is mensurable (the product of mensurables is mensurable; characteristic functions of open sets are mensurable; continuous functions are mensurable). As such, we are in the conditions of Tonelli's theorem, and as such, we may pronounce this equal to
 
-\[ \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) \lvert J_g(x) \rvert \d{x} \]
+\[ \int \chi_{\gamma_{x_j}\mo(X_{x_j})}(x_{\hat\jmath}) f(g(x)) \lvert J_g(x) \rvert \d{x} \]
 
 Finally, one can easily notice that $x_{\hat\jmath} \in \gamma_{x_j}\mo(X_{x_j})$ if and only if ${x \in g\mo(X)}$. This concludes our demonstration, as our integral now equals
 
-\[ \int_{g\mo(X)} \lvert J_g(x) \rvert \d{x} \]
+\[ \int_{g\mo(X)} f(g(x)) \lvert J_g(x) \rvert \d{x} \]
 \end{proof}
 
 Finally, the proof is within reach.
