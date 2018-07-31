@@ -17,6 +17,7 @@
 \newcommand{\R}{\mathbb{R}}
 
 \newtheorem{teorema}{Teorema}
+\newtheorem{prop}{Prop}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definição}
@@ -141,6 +142,8 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Há várias formas possíveis de transformar um problema noutro.
 	
+	\subsubsection{Substituição de equivalências}
+	
 	Por exemplo, a condição de igualdade $a = b$ pode ser expressa como duas desigualdades: $a \leq b$ e $a \geq b$. Assim sendo, sabemos à partida que qualquer pol que nos venha à cabeça pode ser expresso só com condições de desigualdade.
 	
 	Para mais, a desigualdade $a \geq b$ é equivalente a $-a \leq -b$. Logo, podemos sempre assumir que as condições que restringem um pol são sempre da forma $Ax \leq b$.
@@ -158,8 +161,190 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	O que foi até agora descrito é o tipo mais simples possível de tradução de um problema a outro: trocar as condições por condições equivalentes, e substituir `maximizar $f$' por `minimizar $-f$'.
 	
-	\subsection{Canónico vs. Padrão}
+	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mas isso não é estritamente necessário.
+	
+	\subsubsection{Adição de positividades (Forma canónica)}
+	
+	É, em muitos casos, útil estar a estudar um problema de otimização em que sabemos que todas as variáveis são não-negativas. Assim sendo, vamos agora ver que podemos sempre, sem perda de generalidade, assumir que o nosso pol é da forma
+	
+	\[
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	O truque é modificar o conjunto em que estamos.
+	
+	Dado um número real $x$, define-se a sua parte positiva, $x^+$, como
+	
+	\[
+	x^+ =
+	\begin{cases}
+	x & \text{se } x \geq 0 \\
+	0 & \text{caso contrário}
+	\end{cases}
+	\]
+	
+	e a parte negativa, $x^-$, como
+	
+	\[
+	x^- =
+	\begin{cases}
+	0 & \text{se } x \geq 0 \\
+	-x & \text{caso contrário}
+	\end{cases}
+	\]
+	
+	Dado um vetor $x \in \R^n$, define-se $x^+$ como o vetor das partes positivas de $x$, e $x^-$ como o vetor das partes negativas. É claro que $x = x^+ - x^-$, e $x^+, x^- \geq 0$. Isto permite-nos escrever qualquer vetor como a diferença de dois vetores não-negativos.
+	
+	Assim sendo, considere-se a condição $Ax \leq b$. Esta condição é equivalente a $Ax^+ - Ax^-) \leq b$, com $x^+, x^- \geq 0$. Para mais, $cx = cx^+ - cx^-$, pelo que isto sugere a consideração de transformar o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b
+	\end{cases}
+	\]
+	
+	em
+	
+	\[
+	Q =
+	\begin{cases}
+	\max\limits_{(x_+, x_-)} cx_+ - cx_-\\
+	Ax_+ - Ax_- \leq b\\
+	x_+, x_- \geq 0
+	\end{cases}
+	\]
+	
+	(Aqui, $(x_+,x_-)$ representa apenas um vetor, de dimensão igual ao dobro da de $x$. O $+$ e $-$ em subscrito é suposto ser sugestivo de que um deles é a parte positiva e o outro a parte negativa de $x$.)
+	
+	Repare-se que este segundo pol não tem a mesma dimensão que o primeiro: se no primeiro, o vetor $x$ pertence a $\R^n$, no segundo, o vetor $(x_+, x_-)$ pertence a $\R^{2n}$. Portanto, não é imediatamente óbvio que estes são `o mesmo' pol, pelo que vamos fazer a seguinte definição:
+	
+	\begin{definition}
+	Dados dois problemas de otimização linear, $P$ e $Q$, dizemos que \emph{$Q$ é uma $f$-tradução de $P$} se se for possível resolver $P$ sabendo a resposta de $Q$, usando $f$.
+	
+	Em termos mais precisos, se $f$ é uma função sobrejetiva $X_Q \rightarrow X_P$ tal que $q \in X_Q$ tem uma pontuação melhor que $q' \in X_Q$ (menor se $Q$ é de minimzação, maior se maximização) sse $f(q)$ tem melhor pontuação que $f(q')$.
+	\end{definition}
+	
+	Esta definição tem interesse devido à seguinte proposição:
+	
+	\begin{prop}
+	Se $Q$ é uma $f$-tradução de $P$, $S_Q = f(S_P)$.
+	\end{prop}
+	\begin{proof}
+	Basta reparar que, por definição, $x \in S_Q$ sse $x$ tem pontuação melhor ou igual que $y$ para todo $y \in X_Q$, sse $f(x)$ tem pontuação melhor que $f(y)$ para todo $y \in X_Q$. Queremos então mostrar que isto é sse $f(x) \in S_P$.
+	
+	Como $f$ é sobrejetivo, isto implica que $f(x)$ tem pontuação melhor ou igual que todo $z$ em $X_P$, o que por definição implica $f(x) \in S_P$. Pelo outro lado, se houver $y \in X_Q$ tal que $f(y)$ tem pontuação melhor que $f(x)$, então $f(x)$ claramente não pode ser solução, pois $f(y)$ é admissível de pontuação melhor que ele.
+	\end{proof}
+	
+	Isto mostra que se resolvermos uma tradução de um pol, é fácil recuperar a solução e conjunto admissível do problema original.
+	
+	O caso anterior, em que $X_P = X_Q$ e $S_P = S_Q$ é o caso trivial em que $f$ é a identidade. Neste caso, em que pretendemos adicionar a condição de positividade, é ligeiramente mais complicado.
+	
+	Vamos mostrar que, para o $P$ e $Q$ definidos em cima, $Q$ é uma $f$-tradução de $P$, em que $f$ é a função $f(x_+, x_-) = x_+ - x_-$.
+	
+	\begin{proof}
+	Primeiro, mostre-se que se um vetor pertence a $X_Q$, a sua imagem pertence a $X_P$.
+	
+	Repare-se que, se $(x_+, x_-) \in X_Q$, então a sua imagem é $f(x_+, x_-) = x_+ - x_-$. Por definição, estes satisfazem $A(x_+ - x_-) \leq b$, donde $A f(x) \leq b$, que é a condição para $f(x) \in X_P$.
+	
+	Para mostrar sobrejetividade, repare-se que se $x \in X_P$, tem-se $(x^+, x^-) \in X_Q$, e $f(x^+, x^-) = x^+ - x^- = x$.
+	
+	Agora, queremos mostrar que $(x_+, x_-)$ tem pontuação melhor que $(y_+, y_-)$ sse $f(x_+, x_-)$ tem pontuação melhor que $f(y_+, y_-)$. Mas isto é trivial, pois a pontuação de $f(x_+, x_-)$ é a mesma que a de $(x_+, x_-)$, e o objetivo é, tanto em $P$ como em $Q$, maximizar.
+	\end{proof}
+	
+	Assim sendo, podemos sempre assumir, sem perda de generalidade, que qualquer problema que tenhamos está na chamada \emph{forma canónica}, isto é, é da forma
+	
+	\[
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	\subsubsection{Desigualdades para igualdades (Forma padrão)}
+	
+	Outra forma útil de expressar um problema de otimização linear é a chamada forma padrão, da forma seguinte:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Já sabemos que podemos supor que os nossos problemas estão na forma canónica, sem perda de generalidade. Portanto, considere-se o pol
 	
 	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	E vamos reescrevê-lo na forma padrão.
+	
+	Para fazer a tradução, é preciso representar desigualdades com igualdades. Para isso, repare-se que $a \leq b$ é a mesma coisa que dizer que $a + y = b$, para algum $y$ não-negativo. Assim, adicionamos as chamadas \emph{variáveis de folga}: Considere-se o pol
+	
+	\[
+	Q =
+	\begin{cases}
+	\min\limits_(x,y) -cx\\
+	Ax + y = b\\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Vamos mostrar que $Q$ é uma $f$-tradução de $P$, com $f(x,y) = x$.
+	
+	\begin{proof}
+	Primeiramente, verifique-se que se $(x,y) \in X_Q$ se tem $f(x,y) \in X_P$. Repare-se que a condição $f(x,y) \geq 0$ é trivial, pois $x \geq 0$ por hipótese, e a condição $A f(x,y) \leq 0$ é verídica pois $A f(x,y) = Ax \leq Ax + y = b$.
+	
+	De seguida, é preciso verificar sobrejetividade. Suponhamos que se quer um objeto cuja imagem sob $f$ seja $x \in X_P$. Considere-se, então, o vetor $(x,y)$, com $y = b - Ax$. Repare-se que este vetor pertence a $X_Q$, e a sua imagem é precisamente $x$, como queríamos demonstrar.
+	
+	Finalmente, provemos que $(x,y)$ tem melhor pontuação que $(x',y')$ em $Q$ sse $x$ tem melhor pontuação que $x'$ em P.
+	
+	Mas isto é trivial, pois $(x,y)$ tem melhor pontuação que $(x',y')$ sse $-cx < -cx'$ sse $cx > cx'$, como queríamos demonstrar.
+	\end{proof}
+	
+	Isto mostra, então, que qualquer pol tem uma tradução para um pol na forma padrão.
+	
+	\subsubsection{Padrão para Canónico}
+	
+	Viu-se agora uma forma para traduzir problemas da forma canónica para a forma padrão. É possível, também, passar da forma padrão para a canónica (provou-se, aliás, que é possível passar de qualquer pol para a forma canónica) usando os procedimentos usados antes.
+	
+	No entanto, é muito mais económico fazer o processo simples de transformar todas as igualdades em desigualdades do tipo $\leq$. Ou seja, passar de:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Para
+	
+	\[
+	\begin{cases}
+	\max\limits_x -cx\\
+	Ax \leq b\\
+	-Ax \leq -b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Já vimos antes que estas traduções são válidas.
+	
+	\subsection{Noções Topológicas}
 
 \end{document}
