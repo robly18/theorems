@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage[utf8]{inputenc}
 \usepackage[portuguese]{babel}
+\usepackage{tikz}
 
 \addto\captionsportuguese{
 	\renewcommand*{\proofname}{Dem}
@@ -23,7 +24,6 @@
 \newtheorem{definition}{Definição}
 \newtheorem*{notacao}{Notação}
 
-%\newenvironment{notacao}{\smallskip\noindent\textbf{Notação:}}{\smallskip \\}
 
 \begin{document}
 	\maketitle
@@ -82,7 +82,7 @@ E todas as seguintes desigualdades
 \]
 	\end{definition}
 	
-	Infelizmente, isto é mesmo nojento de escrever. Como tal, normalmente estas condições são escritas de forma mais compacta usando a linguagem da álgebra linear.
+	Infelizmente, isto é algo trabalhoso de escrever. Como tal, normalmente estas condições são escritas de forma mais compacta usando a linguagem da álgebra linear.
 	
 	\begin{notacao}
 Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para todo $i$.
@@ -128,10 +128,10 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{cases}
 	\]
 	
-	Apesar de terem uma aparência diferente, alguma inspeção leva à conclusão que estes são, na realidade, exatamente o mesmo problema. Ou seja, o mesmo problema pode ser representado de mais que uma forma diferente. Isto leva à possíbilidade de considerar `formas canónicas' de expressar os problemas, que sejam mais fáceis de estudar. Se conseguirmos arranjar forma(s) de expressar os pols que sejam bem estudadas, e arranjarmos forma de traduzir qualquer pol para esta forma, estamos numa boa situação.
+	Apesar de terem uma aparência diferente, alguma inspeção leva à conclusão que estes são, na realidade, exatamente o mesmo problema. Ou seja, o mesmo problema pode ser representado de mais do que uma forma diferente. Isto leva à possibilidade de considerar `formas canónicas' de expressar os problemas, que sejam mais fáceis de estudar. Se, por exemplo, dissermos que todos os problemas da forma XYZ podem ser resolvidos fazendo ABC, e arranjarmos forma de traduzir qualquer pol para esta forma XYZ, estamos numa boa situação.
 	
 	\begin{notacao}
-	Dado um pol $P$,o conjunto de $x \in \R^n$ que satisfazem as suas condições é denominado de \emph{conjunto admissível de $P$}, representado por $X_P$, ou só $X$ se o pol em questão for óbvio de contexto.
+	Dado um pol $P$, o conjunto de $x \in \R^n$ que satisfazem as suas condições é denominado de \emph{conjunto admissível de $P$}, representado por $X_P$, ou só $X$ se o pol em questão for óbvio de contexto.
 	
 	Da mesma forma, o \emph{conjunto solução de $P$}, $S_P$, ou $S$ se $P$ é claro de contexto, é o conjunto de $x \in X$ que maximizam, de facto, a função objetivo. Por outras palavras,
 	
@@ -161,11 +161,11 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	O que foi até agora descrito é o tipo mais simples possível de tradução de um problema a outro: trocar as condições por condições equivalentes, e substituir `maximizar $f$' por `minimizar $-f$'.
 	
-	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mas isso não é estritamente necessário.
+	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mashá traduções que não são tão triviais.
 	
 	\subsubsection{Adição de positividades (Forma canónica)}
 	
-	É, em muitos casos, útil estar a estudar um problema de otimização em que sabemos que todas as variáveis são não-negativas. Assim sendo, vamos agora ver que podemos sempre, sem perda de generalidade, assumir que o nosso pol é da forma
+	É, em muitos casos, útil estudar um problema de otimização em que sabemos que todas as variáveis são não-negativas. Assim sendo, vamos agora ver que podemos sempre, sem perda de generalidade, assumir que o nosso pol é da forma
 	
 	\[
 	\begin{cases}
@@ -298,7 +298,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\[
 	Q =
 	\begin{cases}
-	\min\limits_(x,y) -cx\\
+	\min\limits_{(x,y)} -cx\\
 	Ax + y = b\\
 	x, y \geq 0
 	\end{cases}
@@ -345,6 +345,40 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Já vimos antes que estas traduções são válidas.
 	
-	\subsection{Noções Topológicas}
+	\section{Noções Topológicas}
+	
+	\subsection{Prerequisitos}
+	
+	Para ler esta secção, é recomendado (i.e. necessário) que o leitor saiba os seguintes conceitos topológicos em $\R^n$:
+	
+	Conceito de conjunto aberto e conjunto fechado; interior, fronteira e extrior de um conjunto; função contínua; teorema de Bolzano e Weierstrass em $\R^n$
+	
+	\subsection{Intuição geométrica}
+	
+	Esta secção é dedicada a dar intuição geométrica para motivar os teoremas que se seguem. Vamos, a título de exemplo, partir de um pol específico a duas dimensões na forma canónica.
+	
+	Considere-se o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_(x,y) 2x + y\\
+	x + 2y \leq 8\\
+	x - y \leq 2 \\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Vamos representar, no plano cartesiano, a região admissível $X_P$ e o vetor $c^T = (2,1)$.
+	
+	\begin{tikzpicture}
+	\draw[->] (-2, 0) -- (6, 0) node[anchor=south] {x};
+	\draw[->] (0, -1) -- (0, 5) node[anchor=west] {y};
+	\filldraw[color=red, fill=blue!80, very thick] (0,0) node[anchor=north west, color=black]{0} -- (0,4) node[anchor=east, color=black]{(0,4)} -- (4,2) node[anchor=north west, color=black]{(4,2)} -- (2,0) node[anchor=north, color=black]{(2,0)} -- (0,0);
+	
+	\draw[->, color=green, very thick] (4,2) -- (6,3) node[anchor=west, color=black]{$c^T = (2,3)$};
+	\end{tikzpicture}
+	
+	Uma interpretação para o conjunto solução $S_P$ é o conjunto de vetores admissíveis que maximiza o produto escalar com $c^T$. Intuitivamente, os vetores que `estão o mais possível na direção de $c^T$'.
 
 \end{document}
