@@ -159,6 +159,8 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{cases}
 	\]
 	
+	A esta forma vamos-nos referir, no futuro, como `forma semicanónica', na falta de melhor nome. Sugestões são aceites.
+	
 	O que foi até agora descrito é o tipo mais simples possível de tradução de um problema a outro: trocar as condições por condições equivalentes, e substituir `maximizar $f$' por `minimizar $-f$'.
 	
 	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mashá traduções que não são tão triviais.
@@ -374,11 +376,50 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\begin{tikzpicture}
 	\draw[->] (-2, 0) -- (6, 0) node[anchor=south] {x};
 	\draw[->] (0, -1) -- (0, 5) node[anchor=west] {y};
-	\filldraw[color=red, fill=blue!80, very thick] (0,0) node[anchor=north west, color=black]{0} -- (0,4) node[anchor=east, color=black]{(0,4)} -- (4,2) node[anchor=north west, color=black]{(4,2)} -- (2,0) node[anchor=north, color=black]{(2,0)} -- (0,0);
+	\filldraw[color=red, fill=blue!80, very thick] (0,0) node[anchor=north west, color=black]{0} -- (0,4) node[anchor=east, color=black]{(0,4)} -- (4,2) node[anchor=north west, color=black]{\,(4,2)} -- (2,0) node[anchor=north, color=black]{(2,0)} -- (0,0);
 	
 	\draw[->, color=green, very thick] (4,2) -- (6,3) node[anchor=west, color=black]{$c^T = (2,3)$};
+	\draw[very thick, color=green] (3.5,3) -- (4.5,1);
 	\end{tikzpicture}
 	
 	Uma interpretação para o conjunto solução $S_P$ é o conjunto de vetores admissíveis que maximiza o produto escalar com $c^T$. Intuitivamente, os vetores que `estão o mais possível na direção de $c^T$'.
+	
+	É possível ver (isto em termos intuitivos, claro) que não há nenhum vetor admissível `para lá' da linha verde desenhada, o que indica que o conjunto solução será o conjunto $\{(4,2)\}$.
+	
+	Neste caso, o conjunto solução tem apenas um elemento, mas é concebível uma situação em que tivesse mais. Por exemplo, se o vetor $c^T$ estivesse perpendicular ao lado $(0,4)-(4,2)$.
+	
+	Isto é só especulação com base num desenho, mas dita especulação pode ser útil para motivar conclusões.
+	
+	E.g., com base nestas considerações, seria de esperar que, por exemplo, em geral o conjunto solução estará contido na fronteira do conjunto solução, o que quer que isso signifique (a área marcada a vermelho na imagem). Tambem é fácil uma pessoa convencer-se que tem necessáriamente de conter pelo menos um dos vértices -- novamente, o que quer que isso signifique.
+	
+	Seria também de esperar que se o conjunto admissível é limitado e não-vazio, solução existe necessáriamente. E, já agora, que o conjunto admissível é convexo.
+	
+	Todos estes factos aleatórios serão provados, e mais, e alguns deles provar-se-ão úteis na procura de formas de resolver problemas de otimização.
+	
+	\subsection{Factos introdutórios}
+	
+	Recorde-se o leitor da definição de interior, fronteira e exterior de conjunto, e da definição de conjunto aberto e fechado.
+	
+	\begin{prop}
+		Fixo um pol $P$, $X_P$ e $S_P$ são fechados.
+	\end{prop}
+	
+	\begin{proof}
+	Primeiramente, mostre-se que $X_P$ é fechado.
+	
+	Recorde-se que interseções finitas de fechados são fechadas. De seguida, note-se que, dado um pol $P$ (que podemos supor sem perda de generalidade estar na forma semicanónica. Assim, o conjunto admissível é o conjunto de $x \in \R^n$ que satisfazem as condições
+	
+	\[a_i x \leq b_i \text{ para $i = 1, 2, \cdots, m$}\]
+	
+	Onde os $a_i$ são vetores-linha, e os $b_i$ são escalares.
+	
+	Ou seja, $X_P$ é a interseção
+	
+	\[\bigcap_{i=1}^m \{\,x \in \R^n \mid a_i x \leq b_i \,\}\]
+	
+	Repare-se agora que $\{\,x \in \R^n \mid a_i x \leq b_i \,\}$ é a pré-imagem sob uma função linear (e então contínua) de um conjunto fechado ($]-\infty, b_i]$), pelo que usando Cálculo II se conclui que estes conjuntos são todos fechados, pelo que $X_P$ é fechado.
+	
+	Para mostrar que $S_P$ é fechado, repare-se que há dois casos: ou $S_P$ é vazio, e então fechado; ou contém pelo menos um elemento $s$. Neste último caso, $S_P = X_P \cap \{\,x \mid c^T x \geq c^T s\,\}$ por definição, e isto é a interseção de dois conjuntos fechados, e então fechado.
+	\end{proof}
 
 \end{document}
