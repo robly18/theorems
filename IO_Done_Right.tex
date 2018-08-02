@@ -11,6 +11,8 @@
 	\renewcommand*{\proofname}{Dem}
 }
 
+\DeclareMathOperator{\interior}{int}
+
 \title{IO Done Right}
 \author{Duarte Maia}
 \date{}
@@ -163,7 +165,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	O que foi até agora descrito é o tipo mais simples possível de tradução de um problema a outro: trocar as condições por condições equivalentes, e substituir `maximizar $f$' por `minimizar $-f$'.
 	
-	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mashá traduções que não são tão triviais.
+	Este tipo de tradução tem a propriedade que não muda o conjunto admissível e conjunto solução, mas há traduções que não são tão triviais.
 	
 	\subsubsection{Adição de positividades (Forma canónica)}
 	
@@ -201,7 +203,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Dado um vetor $x \in \R^n$, define-se $x^+$ como o vetor das partes positivas de $x$, e $x^-$ como o vetor das partes negativas. É claro que $x = x^+ - x^-$, e $x^+, x^- \geq 0$. Isto permite-nos escrever qualquer vetor como a diferença de dois vetores não-negativos.
 	
-	Assim sendo, considere-se a condição $Ax \leq b$. Esta condição é equivalente a $Ax^+ - Ax^-) \leq b$, com $x^+, x^- \geq 0$. Para mais, $cx = cx^+ - cx^-$, pelo que isto sugere a consideração de transformar o pol
+	Assim sendo, considere-se a condição $Ax \leq b$. Esta condição é equivalente a $Ax^+ - Ax^- \leq b$, com $x^+, x^- \geq 0$. Para mais, $cx = cx^+ - cx^-$, pelo que isto sugere a consideração de transformar o pol
 	
 	\[
 	P =
@@ -353,7 +355,9 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Para ler esta secção, é recomendado (i.e. necessário) que o leitor saiba os seguintes conceitos topológicos em $\R^n$:
 	
-	Conceito de conjunto aberto e conjunto fechado; interior, fronteira e extrior de um conjunto; função contínua; teorema de Bolzano e Weierstrass em $\R^n$
+	Conceito de conjunto aberto e conjunto fechado; interior, fronteira e extrior de um conjunto; função contínua; teorema de Bolzano e Weierstrass em $\R^n$.
+	
+	No que se segue vão ser usados alguns factos sobre estes conceitos que não vão ser justificados, visto que caem no âmbito da cadeira de Cálculo II. Estes serão devidamente assinalados, e o leitor é encorajado a prová-los se não estiver familiar com eles.
 	
 	\subsection{Intuição geométrica}
 	
@@ -431,14 +435,52 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Basta reparar que se $X_P$ é limitado, por ser fechado (ver acima), é compacto. Assim sendo, como a função objetivo é linear e então contínua, tem valor máximo algures em $X_P$. Os valores maximizantes formam o conjunto solução.
 	\end{proof}
 	
-	Mais um detalhe topológico simples, antes de avançarmos para coisas mais específicas: denomine-se o interior de um conjunto $X$ por $\mathrm{int}\, X$, e a sua fronteira por $\partial X$.
+	Mais um detalhe topológico simples, antes de avançarmos para coisas mais específicas: denomine-se o interior de um conjunto $X$ por $\interior X$, e a sua fronteira por $\partial X$.
 	
 	\begin{prop}
 	Se $P$ é um pol de função objetivo não-nula, $S_P \subseteq \partial X_P$.
 	\end{prop}
 	
 	\begin{proof}
-	Basta reparar que, se $x \in \mathrm{int}\, X_P$, então há uma vizinhança $\varepsilon$ de $x$ contida em $X_P$. A ideia é que, então, podemos `avançar um bocadinho na direção de $c^T$'. Em termos mais precisos, o vetor $y = x + \frac \varepsilon 2 \frac{c^T}{\lvert c^T \rvert}$ pertence a $X_P$. Mas este vetor é `melhor' que $x$, pois $cy = cx + c \frac \varepsilon 2 \frac {c^T}{\lvert c^T \rvert} = cx + \frac{\varepsilon |c^T|} 2 > cx$. Logo, $x$ não pertence a $S_P$, donde $S_P$ tem que estar todo contido na fronteira.
+	Basta reparar que, se $x \in \interior  X_P$, então há uma vizinhança $\varepsilon$ de $x$ contida em $X_P$. A ideia é que, então, se $c^T$ não é o vetor nulo, podemos `avançar um bocadinho na direção de $c^T$'. Em termos mais precisos, o vetor $y = x + \frac \varepsilon 2 \frac{c^T}{\lvert c^T \rvert}$ pertence a $X_P$. Mas este vetor é `melhor' que $x$, pois $cy = cx + c \frac \varepsilon 2 \frac {c^T}{\lvert c^T \rvert} = cx + \frac{\varepsilon |c^T|} 2 > cx$. Logo, nenhum $x \in \interior X_P$ pertence a $S_P$, donde $S_P$ tem que estar todo contido na fronteira.
+	\end{proof}
+	
+	Só um último detalhe, antes de avançarmos para outras pastagens: uma caraterização do interior de $X_P$ para um pol $P$, que se assume spdg estar na forma semicanónica.
+	
+	\begin{prop}
+	Seja $P$ o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b
+	\end{cases}
+	\]
+	
+	e assuma-se que nenhuma linha da matriz $A$ é composta somente de zeros. (Isto é denotado por \emph{$A$ é uma matriz própria})
+	
+	Então, $\interior X_P$ é o conjunto de $x > 0$ tal que $Ax < b$. Consequentemente, $\partial X_P$ é o conjunto de $x \geq 0$ tal que $Ax \leq b$ e há pelo menos uma igualdade.
+	\end{prop}
+	
+	\begin{proof}
+	Relembre-se da seguinte identidade: $\interior (A \cap B) = \interior A \cap \interior B$. Mais geralmente, o interior de uma interseção finita é a interceção dos interiores.
+	
+	Como tal, sendo que
+	
+	\[X_P = \bigcap_{i=1}^m \{\,x \in \R^n \mid a_i x \leq b_i \,\}\]
+	
+	onde $a_i$ representa a $i$-ésima linha da matriz $A$,
+	
+	Para determinar $\interior X_P$ basta determinar os interiores destes conjuntos. Afirmamos que o interior do $i$-ésimo conjunto é
+	
+	\[\interior \{\,x \in \R^n \mid a_i x \leq b_i \,\} = \{\,x \in \R^n \mid a_i x < b_i \,\}\]
+	
+	Para justificar a inclusão $\supseteq$, note-se que o lado direito é um conjunto aberto contido em $\{\,x \in \R^n \mid a_i x \leq b_i \,\}$, e então contido no seu interior.
+	
+	Para justificar a inclusão $\subseteq$, suponha-se que $x$ pertence ao lado esquerdo. Mostrar-se-á que pertence ao lado direito.
+	
+	Por pertencer ao interior daquele conjunto, sabemos que, para $y$ numa vizinhança $\varepsilon$ de $x$, $a_i y \leq b_i$. Considere-se, então, $y = x + \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert}$. Por hipótese, $a_i y \leq b_i$. Mas tem-se também $a_i y = a_i x + a_i \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert} = a_i x + \frac {\varepsilon \lvert a_i^T \rvert} 2 > a_i x$, donde se conclui $a_i x < a_i y \leq b_i$. Logo, $x$ pertence ao lado direito.
 	\end{proof}
 
 \end{document}
