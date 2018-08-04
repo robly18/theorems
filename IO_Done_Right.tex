@@ -483,73 +483,37 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Por pertencer ao interior daquele conjunto, sabemos que, para $y$ numa vizinhança $\varepsilon$ de $x$, $a_i y \leq b_i$. Considere-se, então, $y = x + \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert}$. Por hipótese, $a_i y \leq b_i$. Mas tem-se também $a_i y = a_i x + a_i \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert} = a_i x + \frac {\varepsilon \lvert a_i^T \rvert} 2 > a_i x$, donde se conclui $a_i x < a_i y \leq b_i$. Logo, $x$ pertence ao lado direito.
 	\end{proof}
 	
-	%DEPRECATED
-	\subsection{Planos, Faces e Vértices}
+	\section{Álgebra Linear}
 	
-	Nesta parte, vai-se investigar a intuição que o conjunto solução, se não-vazio, deve conter um vértice do conjunto admissível. Antes de o fazer, vamos formalizar o que queremos dizer com vértices, e, em geral, arestas e faces.
+	Nesta secção vamos tentar aplicar conhecimento da Álgebra Linear aos problemas de otimização linear, com o objetivo de arranjar forma de descobrir solução.
 	
-	\subsubsection{Planos}
+	Isto significa, no entanto, que, visto que AL é muito melhor a lidar com igualdades do que desigualdades, vamos começar a trabalhar com pols na forma padrão.
 	
-	Relembre-se da Álgebra Linear da definição de $m$-plano em $\R^n$.
+	Mais especificamente, para prevenir casos patológicos, vamos trabalhar em pols na chamada \emph{forma padrão reduzida}, isto é, pols da forma
 	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Em que a matriz $A$, de tamanho $m \times n$, tem caraterística $m$.
+	
+	Na prática, este requerimento é muito fácil de obter. Por exemplo, qualquer pol na forma padrão que venha de um pol na forma canónica está na forma padrão reduzida (verifique).
+	
+	No que se segue, vai-nos ser útil considerar a seguinte abreviatura: seja $N$ o conjunto $\{1,2,\cdots,n\}$.
 	\begin{definition}
-	Dizemos que $V$ é um $m$-plano em $\R^n$ se é da forma $a + U$, onde $a \in \R^n$ e $U$ é um subespaço de $\R^n$ de dimensão $n$.
+	Seja $B \subseteq N$. Denotamos por $A_B$ a matriz obtida de $A$ removendo as colunas cujos índices não estão em $B$. Da mesma forma, dado um vetor $x \in \R^n$ usamos $x_B$ para significar o vetor obtido de $x$ removendo os índices que não estão em $B$.
 	\end{definition}
 	
-	Um \emph{hiperplano em $\R^n$} é um $(n-1)$-plano.
-	
-	Relembre-se também que um $m$-plano $a + U$ pode ser caraterizado como a solução de  um sistema de equações lineares $Ax = b$ com a caraterística de $A$ igual a $n-m$. Os vetores-linha de $A$ formam um conjunto gerador de $U^\perp$
-	
-	Em particular, um hiperplano pode sempre ser descrito como o conjunto de $x$ tal que $w \cdot x = b$ para algum vetor $w$ diferente de zero e escalar $b$. 
-	
-	Esta descrição obviamente não é única, mas se $w \cdot x = b$ e $w' \cdot x = b'$ são duas descrições do mesmo plano, é fácil concluir que $w' = \lambda w$ para algum $\lambda$ diferente de zero, e assim sendo, $b' = \lambda b$.
-	
-	Isto permite-nos definir, dado um hiperplano $H = \{\,x \in \R^n \mid w \cdot x = b \,\}$, os semiespaços abertos $H^+$ e $H^-$, conjuntos-solução de $w \cdot x > b$ e $w \cdot x < b$ respetivamente.
-	
-	Usando a observação anterior, é possível provar que estes dois semiespaços não dependem da escolha de $w$, exceto possívelmente qual deles é o $+$ e qual é o $-$. Assim, dizemos que um hiperplano divide o espaço em dois semiespaços abertos, e estes não dependem da caraterização escolhida do plano.
-	
-	A ideia de plano é levantada porque vai ser usada para caraterizar no que consiste uma face de dimensão $m$.
-	
-	\subsubsection{Poliedros Convexos e Faces}
-	
-	Vamos agora falar de poliedros convexos e as suas faces.
-	
 	\begin{definition}
-	Um \emph{$n$-poliedro convexo} é um subespaço de $\R^n$ da forma
-	
-	\[\{\,x \in \R^n \mid Ax \leq b\,\}\]
-	
-	Para alguma matriz $A$ e vetor $b$.
-	
-	Um poliedro convexo limitado diz-se um \emph{polítopo convexo}.
+	Dizemos que $B \subseteq N$ é uma \emph{base de índices de $A$} se $\# B = m$ e a matriz (quadrada) $A_B$ é não-singular.
 	\end{definition}
 	
-	É fácil ver que dado um pol, o conjunto admissível é sempre um poliedro convexo, e, aliás, qualquer poliedro convexo é o conjunto admissível de algum pol. Isto permite-nos reutilizar algumas das proposições já estudadas: por exemplo, sabemos já que qualquer poliedro convexo é fechado.
-	
-	É também fácil ver que o conjunto solução de um pol é um poliedro.
-	
-	Relevante ao nosso estudo é a seguinte proposição, que justifica o nome, deixada ao leitor como exercício:
-	
-	\begin{prop}
-	Qualquer poliedro convexo $P$ é convexo, ou seja, se $x$ e $y$ pertencem a $P$, para todo $t \in [0,1]$ tem-se $t x + (1-t) y \in P$.
-	\end{prop}
-	
-	Como corolário, tem-se:
-	
-	\begin{prop}
-	Dado um pol $P$, o conjunto admissível $X_P$ é convexo.	O mesmo é verdade do conjunto solução $S_P$.
-	\end{prop}
-	
-	Vamos agora tentar esclarecer no que consiste a face de um poliedro convexo.
-	
 	\begin{definition}
-	Dado um poliedro $P$, $F \subseteq P$ diz-se uma \emph{face generalizada} se existe um hiperplano $H$ tal que $F = P \cap H$ e $P\setminus F$ está contido num dos semiespaços associados a $H$.
-	
-	Por outras palavras, se existe $w \in \R^n, b \in \R$ tal que $F$ é o conjunto de $x \in P$ tal que $w \cdot x = b$ e para todo $x$ em $P \setminus F$ se tem $w \cdot x < b$.
+	Um vetor $x \in \R^n$ é dito \emph{básico} se existe uma base $B \subseteq N$ tal que para todo $i \in N \setminus B$ se tem $x_i \neq 0$.
 	\end{definition}
-	
-	Esta definição, de momento, não nos é particularmente útil, visto que não nos permite distinguir arestas de faces ou de vértices.
-	
-	
 	
 \end{document}
