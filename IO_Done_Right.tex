@@ -368,7 +368,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\[
 	P =
 	\begin{cases}
-	\max\limits_(x,y) 2x + y\\
+	\max\limits_{(x,y)} 2x + y\\
 	x + 2y \leq 8\\
 	x - y \leq 2 \\
 	x, y \geq 0
@@ -382,7 +382,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\draw[->] (0, -1) -- (0, 5) node[anchor=west] {y};
 	\filldraw[color=red, fill=blue!80, very thick] (0,0) node[anchor=north west, color=black]{0} -- (0,4) node[anchor=east, color=black]{(0,4)} -- (4,2) node[anchor=north west, color=black]{\,(4,2)} -- (2,0) node[anchor=north, color=black]{(2,0)} -- (0,0);
 	
-	\draw[->, color=green, very thick] (4,2) -- (6,3) node[anchor=west, color=black]{$c^T = (2,3)$};
+	\draw[->, color=green, very thick] (4,2) -- (6,3) node[anchor=west, color=black]{$c^T = (2,1)$};
 	\draw[very thick, color=green] (3.5,3) -- (4.5,1);
 	\end{tikzpicture}
 	
@@ -394,9 +394,9 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Isto é só especulação com base num desenho, mas dita especulação pode ser útil para motivar conclusões.
 	
-	E.g., com base nestas considerações, seria de esperar que, por exemplo, em geral o conjunto solução estará contido na fronteira do conjunto solução, o que quer que isso signifique (a área marcada a vermelho na imagem). Tambem é fácil uma pessoa convencer-se que tem necessáriamente de conter pelo menos um dos vértices -- novamente, o que quer que isso signifique.
+	Por exemplo, com base nestas considerações, seria de esperar que, por exemplo, em geral o conjunto solução estará contido na fronteira do conjunto admissível, o que quer que isso signifique (a área marcada a vermelho na imagem). Também é fácil uma pessoa convencer-se que tem necessáriamente de conter pelo menos um dos vértices -- novamente, o que quer que isso signifique.
 	
-	Seria também de esperar que se o conjunto admissível é limitado e não-vazio, solução existe necessáriamente. E, já agora, que o conjunto admissível é convexo.
+	Seria também de esperar que no caso de o conjunto admissível ser limitado e não vazio, existe, necessariamente, solução. E, já agora, que o conjunto admissível é convexo.
 	
 	Todos estes factos aleatórios serão provados, e mais, e alguns deles provar-se-ão úteis na procura de formas de resolver problemas de otimização.
 	
@@ -442,7 +442,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{prop}
 	
 	\begin{proof}
-	Basta reparar que, se $x \in \interior  X_P$, então há uma vizinhança $\varepsilon$ de $x$ contida em $X_P$. A ideia é que, então, se $c^T$ não é o vetor nulo, podemos `avançar um bocadinho na direção de $c^T$'. Em termos mais precisos, o vetor $y = x + \frac \varepsilon 2 \frac{c^T}{\lvert c^T \rvert}$ pertence a $X_P$. Mas este vetor é `melhor' que $x$, pois $cy = cx + c \frac \varepsilon 2 \frac {c^T}{\lvert c^T \rvert} = cx + \frac{\varepsilon |c^T|} 2 > cx$. Logo, nenhum $x \in \interior X_P$ pertence a $S_P$, donde $S_P$ tem que estar todo contido na fronteira.
+	Basta reparar que, se $x \in \interior  X_P$, então há uma vizinhança $\varepsilon$ de $x$ contida em $X_P$. A ideia é que, então, se $c^T$ não é o vetor nulo, podemos `avançar um bocadinho na direção de $c^T$'. Em termos mais precisos, o vetor $y = x + \frac \varepsilon 2 \frac{c^T}{\lvert c^T \rvert}$ pertence a $X_P$, por distar de $x$ menos de $\varepsilon$. Mas este vetor é `melhor' que $x$, pois $cy = cx + c \frac \varepsilon 2 \frac {c^T}{\lvert c^T \rvert} = cx + \frac{\varepsilon |c^T|} 2 > cx$. Logo, nenhum $x \in \interior X_P$ pertence a $S_P$, donde $S_P$ tem que estar todo contido na fronteira.
 	\end{proof}
 	
 	Só um último detalhe, antes de avançarmos para outras pastagens: uma caraterização do interior de $X_P$ para um pol $P$, que se assume spdg estar na forma semicanónica.
@@ -482,5 +482,74 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Por pertencer ao interior daquele conjunto, sabemos que, para $y$ numa vizinhança $\varepsilon$ de $x$, $a_i y \leq b_i$. Considere-se, então, $y = x + \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert}$. Por hipótese, $a_i y \leq b_i$. Mas tem-se também $a_i y = a_i x + a_i \frac \varepsilon 2 \frac{a_i^T}{\lvert a_i^T \rvert} = a_i x + \frac {\varepsilon \lvert a_i^T \rvert} 2 > a_i x$, donde se conclui $a_i x < a_i y \leq b_i$. Logo, $x$ pertence ao lado direito.
 	\end{proof}
-
+	
+	%DEPRECATED
+	\subsection{Planos, Faces e Vértices}
+	
+	Nesta parte, vai-se investigar a intuição que o conjunto solução, se não-vazio, deve conter um vértice do conjunto admissível. Antes de o fazer, vamos formalizar o que queremos dizer com vértices, e, em geral, arestas e faces.
+	
+	\subsubsection{Planos}
+	
+	Relembre-se da Álgebra Linear da definição de $m$-plano em $\R^n$.
+	
+	\begin{definition}
+	Dizemos que $V$ é um $m$-plano em $\R^n$ se é da forma $a + U$, onde $a \in \R^n$ e $U$ é um subespaço de $\R^n$ de dimensão $n$.
+	\end{definition}
+	
+	Um \emph{hiperplano em $\R^n$} é um $(n-1)$-plano.
+	
+	Relembre-se também que um $m$-plano $a + U$ pode ser caraterizado como a solução de  um sistema de equações lineares $Ax = b$ com a caraterística de $A$ igual a $n-m$. Os vetores-linha de $A$ formam um conjunto gerador de $U^\perp$
+	
+	Em particular, um hiperplano pode sempre ser descrito como o conjunto de $x$ tal que $w \cdot x = b$ para algum vetor $w$ diferente de zero e escalar $b$. 
+	
+	Esta descrição obviamente não é única, mas se $w \cdot x = b$ e $w' \cdot x = b'$ são duas descrições do mesmo plano, é fácil concluir que $w' = \lambda w$ para algum $\lambda$ diferente de zero, e assim sendo, $b' = \lambda b$.
+	
+	Isto permite-nos definir, dado um hiperplano $H = \{\,x \in \R^n \mid w \cdot x = b \,\}$, os semiespaços abertos $H^+$ e $H^-$, conjuntos-solução de $w \cdot x > b$ e $w \cdot x < b$ respetivamente.
+	
+	Usando a observação anterior, é possível provar que estes dois semiespaços não dependem da escolha de $w$, exceto possívelmente qual deles é o $+$ e qual é o $-$. Assim, dizemos que um hiperplano divide o espaço em dois semiespaços abertos, e estes não dependem da caraterização escolhida do plano.
+	
+	A ideia de plano é levantada porque vai ser usada para caraterizar no que consiste uma face de dimensão $m$.
+	
+	\subsubsection{Poliedros Convexos e Faces}
+	
+	Vamos agora falar de poliedros convexos e as suas faces.
+	
+	\begin{definition}
+	Um \emph{$n$-poliedro convexo} é um subespaço de $\R^n$ da forma
+	
+	\[\{\,x \in \R^n \mid Ax \leq b\,\}\]
+	
+	Para alguma matriz $A$ e vetor $b$.
+	
+	Um poliedro convexo limitado diz-se um \emph{polítopo convexo}.
+	\end{definition}
+	
+	É fácil ver que dado um pol, o conjunto admissível é sempre um poliedro convexo, e, aliás, qualquer poliedro convexo é o conjunto admissível de algum pol. Isto permite-nos reutilizar algumas das proposições já estudadas: por exemplo, sabemos já que qualquer poliedro convexo é fechado.
+	
+	É também fácil ver que o conjunto solução de um pol é um poliedro.
+	
+	Relevante ao nosso estudo é a seguinte proposição, que justifica o nome, deixada ao leitor como exercício:
+	
+	\begin{prop}
+	Qualquer poliedro convexo $P$ é convexo, ou seja, se $x$ e $y$ pertencem a $P$, para todo $t \in [0,1]$ tem-se $t x + (1-t) y \in P$.
+	\end{prop}
+	
+	Como corolário, tem-se:
+	
+	\begin{prop}
+	Dado um pol $P$, o conjunto admissível $X_P$ é convexo.	O mesmo é verdade do conjunto solução $S_P$.
+	\end{prop}
+	
+	Vamos agora tentar esclarecer no que consiste a face de um poliedro convexo.
+	
+	\begin{definition}
+	Dado um poliedro $P$, $F \subseteq P$ diz-se uma \emph{face generalizada} se existe um hiperplano $H$ tal que $F = P \cap H$ e $P\setminus F$ está contido num dos semiespaços associados a $H$.
+	
+	Por outras palavras, se existe $w \in \R^n, b \in \R$ tal que $F$ é o conjunto de $x \in P$ tal que $w \cdot x = b$ e para todo $x$ em $P \setminus F$ se tem $w \cdot x < b$.
+	\end{definition}
+	
+	Esta definição, de momento, não nos é particularmente útil, visto que não nos permite distinguir arestas de faces ou de vértices.
+	
+	
+	
 \end{document}
