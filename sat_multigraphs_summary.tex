@@ -127,6 +127,7 @@ A \emph{valuation on $\Sigma$} is a function from $\Sigma$ to $\{\top, \bot\}$.
 
 Given a valuation $\rho$ and a literal $a = (\alpha, v_\alpha)$, we say $\rho$ satisfies $a$, denoted $\rho \sat a$ if and only if $\rho(\alpha) = v_\alpha$. Likewise, given a clause $C$ we say $\rho \sat C$ iff $\exists_{a \in C} \rho \sat a$. Finally, given a CNF $\Gamma$, we say $\rho \sat \Gamma$ iff $\forall_{C \in \Gamma} \rho \sat C$.
 
+We will say a CNF $\Gamma$ is \emph{degenerate} if $\emptyset \in \Gamma$. These are not of interest, because any degenerate CNF is immediately not satisfiable.
 
 \subsection{Logical symbols}
 
@@ -147,7 +148,7 @@ A \emph{directed multigraph} $G$ is an ordered pair $(V, E)$ where $E$ is a set 
 
 A multiedge on $V$ is an ordered pair $(A, B)$ where $A, B$ are subsets of $V$. This can be represented by the symbol $A \rightcurvearrow B$. We will often overload the term `edge' to mean multiedge, and the term `graph' to mean multigraph. When referring to graphs in the usual sense of the word (edges have one tail and one head), we will talk about `pure graphs'.
 
-Informally, the edges on multigraphs represent implication in the following way: $A \rightcurvearrow B$ means ``If all elements of $A$ are true, then one element of $B$ must be true. This motivates the following definition:
+Informally, the edges on multigraphs represent implication in the following way: $A \rightcurvearrow B$ means ``If all elements of $A$ are true, then one element of $B$ must be true''. This motivates the following definition:
 
 Fixed a multigraph $G = (V,E)$, we will work with colorations of the vertices with the colors $\top$ and $\bot$.
 
@@ -155,7 +156,7 @@ A coloration on $G$ is a function $\chi : V \rightarrow \{\top, \bot\}$.
 
 Given a coloration $\chi$, we define:
 
-\[ \chi \text{ is a valid coloration of $G$ iff } \forall_{(A,B) \in E} \left( \bigwedge_{\alpha \in A} \chi(\alpha) \rightarrow \bigvee_{\beta \in B} \chi(\beta) \right)\]
+\[ \chi \text{\emph{ is a valid coloration of $G$} iff } \forall_{(A,B) \in E} \left( \bigwedge_{\alpha \in A} \chi(\alpha) \rightarrow \bigvee_{\beta \in B} \chi(\beta) \right)\]
 
 We will say that \emph{$A$ indirectly implies $B$}, denoted $A \Rightcurvearrow B$, if all valid colorings that color all of $A$ as $\top$ must cover one of $B$ as $\top$.
 
@@ -165,37 +166,100 @@ Given a CNF $\Gamma$, define the \emph{full graph of $\Gamma$}, denoted as $\Gr 
 
 \[ E = \{ \, \conj A \rightcurveor (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}\]
 
-Given a CNF $\Gamma$, define the \emph{tail graph of $\Gamma$}, denoted as $\gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
+Given a nondegenerate CNF $\Gamma$, define the \emph{tail graph of $\Gamma$}, denoted as $\gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
 
 \[ E = \{ \, \conj a \rightcurveor (C \setminus \{a\}) \mid a \in C, C \in \Gamma \, \}\]
 
 Notice that this is a special kind of multigraph: one whose edges all have one and only one tail. We will call these \emph{tail graphs}.
 
-In the interest of characterizing the relation of indirect implication in the context of this kind of multigraph, we will leave the following definition:
+Given a nondegenerate 2-CNF $\Gamma$, define the \emph{pure graph of $\Gamma$}, denoted as $\gr'\Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
+
+\[ E = \{ \, \conj a \rightarrow b \mid \{a,b\} \in \Gamma \, \} \cup \{ \conj a \rightarrow a \mid \{a\} \in \Gamma \,\}\]
+
+Notice this is a pure graph.
+
+These three definitions have something in common: all of them somehow represent the CNF they originate from. We will make the meaning of this more precise:
+
+We will assign to every multigraph $G = (V,E)$ (where $V$ is the set of literals) a unique CNF, which we will say is \emph{the CNF represented by $G$}. This is the CNF $\Gamma$ such that
+
+\[\Gamma = \{\, \conj A \cup B \mid A \rightcurvearrow B \in E\,\}\]
+
+As the reader may easily check, given a CNF $\Gamma$, it is the CNF represented by $\Gr \Gamma$, $\gr \Gamma$, and, if applicable, $\gr'\Gamma$. This will allow us to study some properties of all of these three at the same time.
+\subsection{Valuations from colorings}
+
+Given a set of propositional symbols $\Sigma$, we will deem a coloring $\chi$ of the literals with the colors $\top, \bot$ to be \emph{valorable} if, for all literals $v$, $\chi(\conj v) = \conj{\chi(v)}$.
+
+\begin{prop}
+To every valorable coloration $\chi$ one can correspond a unique valuation $\rho$ such that $\chi(a, \top) = \rho(a)$, and vice versa.
+
+Define $\val \chi$ to be the valuation $\rho$ such that
+
+\[\rho(\alpha) = \chi(\alpha, \top)\]
+
+Likewise, define $\col \rho$ to be the valorable coloration $\chi$ such that
+
+\[\chi(\alpha, v_\alpha) = \rho(\alpha) \leftrightarrow v_\alpha\]
+
+The functions $\val$ and $\col$ are bijections from the valorable colorations to the valuations and vice versa.
+\end{prop}
+
+\begin{proof}
+We will do this by showing they are each other's left and right inverse.
+
+Let $\chi$ be a valorable coloration. Notice that
+
+\[\col \val \chi (\alpha, v_\alpha) = \val \chi (\alpha) \leftrightarrow v_\alpha = \chi(\alpha, \top) \leftrightarrow v_\alpha\]
+
+And a quick checking of both possible cases for $v_\alpha$ will show that this last thing equals $\chi(\alpha, v_\alpha)$.
+
+On the other hand, let $\rho$ be a valoration. We have
+
+\[\val \col \rho(\alpha) = \col \rho (\alpha, \top) = \rho(\alpha) \leftrightarrow \top = \rho(\alpha) \]
+
+As we wished to show.
+\end{proof}
+
+The following propositions makes the bridge between satisfiability and validity.
+
+\begin{prop}
+If $\Gamma$ is represented by $G = (V,E)$ and $\rho$ is a valoration of $\Gamma$, $\chi = \col \rho$ is valid iff $\rho$ satisfies $\Gamma$.
+\end{prop}
+
+\begin{proof}
+First, let us suppose $\rho$ is a colorating satisfying $\Gamma$. Consider the coloration of $G$ given by $\chi = \col \rho$. We wish to show it is valid.
+
+To do this, pick any edge $\conj A \rightcurvearrow B$. By definition, we know $A \cup B \in \Gamma$, and as such, we know, since $\rho \sat \Gamma$, there either exists some $(\alpha, v_\alpha) \in A$ such that $\rho(\alpha) = v_\alpha$, or some $(\beta, v_\beta) \in B$ such that $\rho(\beta) = v_\beta$.
+
+As such, either there exists some $a \in A$ such that $\chi(a) = \top$, or some $b \in B$ such that $\chi(b) = \top$, and thus, if $\chi$ was to color all elements of $\conj A$ as $\top$, it must color all elements of $A$ as $\bot$, and thus would color some element of $B$ as $\top$. In short: if $\chi$ colors all of $\conj A$ as $\top$, it must color some of $B$ as $\top$.
+
+This shows $\chi$ is valid with relation to this particular edge, but since the choice was arbitrary, $\chi$ is valid with relation to all edges, and so $\chi$ is a valid coloration of $G$.
+
+On the other hand, let us suppose that $\rho$ does not satisfy $\Gamma$. We wish to show $\chi$ is not valid.
+\end{proof}
+
+\begin{prop}
+If $\Gamma$ is represented by $G = (V,E)$, then $\Gamma$ is satisfiable iff $G$ has a valid valorable coloration.
+\end{prop}
+
+\begin{proof}
+First, let us suppose $\Gamma$ is satisfiable. Consider a satisfying valuation $\rho$. Consider the coloration of $G$ given by $\col \rho$. It is clearly valorable, so we need only show it is va
+\end{proof}
+
+\subsection{Direct implication}
+
+In the interest of characterizing the relation of indirect implication in the context of this kind of multigraph, we will consider the following definition:
 
 We define the relation \emph{$a$ n-implies $B$}, denoted as $a \rightcurveor_{\,n} B$, inductively as such:
 
 \[\text{if } B = \{a\} \text{, then } a \rightcurveor_0 B\]
 
-\[\text{if } a \rightcurveor_n B \text{, then } a \rightcurveor_{n+1} B\]
 
-\[\text{if } a \rightcurveor_n B \cup \{b\} \text{, } b \not \in B \text{, and } b \rightcurveor B' \text{, then } a \rightcurveor_{n+1} B \cup B'\]
+\[\text{if } a \rightcurveor_n B \text{, } b \in B \text{, and } b \rightcurveor C \text{, then } a \rightcurveor_{n+1} (B \setminus \{b\}) \cup B'\]
 
 We say $a \rightcurveor_* B$ if there exists $n$ for which $a \rightcurveor_n B$.
 
-This relation has an interpretation which I'll get to some day. It's the generalization of the idea ``there's a path from $a$ to $b$'' in strict (classical) graphs. In fact, if our graph is strict, $a \rightcurveor_* B$ if and only if $B$ is a singleton set $\{b\}$ and there is a path going from $a$ to $b$. $a \rightcurveor_n \{b\}$ if and only if there is a path of length $n$ from $a$ to $b$ in this case.
+This relation is a generalization of the idea ``there's a path from $a$ to $b$'' in pure graphs. In fact, if our graph is pure, $a \rightcurveor_* B$ if and only if $B$ is a singleton set $\{b\}$ and there is a path going from $a$ to $b$. $a \rightcurveor_n \{b\}$ if and only if there is a path of length $n$ from $a$ to $b$ in this case. This can easily be shown by induction.
 
-\subsection{Valuations from colorings}
-
-Given a CNF $\Gamma$, we will deem a coloring $\chi$ of $\gr \Gamma$ with the colors $\top, \bot$ to be \emph{valorable} if for all vertices $v$, $\chi(\conj v) = \conj{\chi(v)}$.
-
-One of our easy results is that to each valorable coloration one can correspond a unique valuation $\rho$ such that $\chi(a, \top) = \rho(a)$, and vice versa. If this happens, we will say $\rho = \val \chi$, and $\chi = \col \rho$.
-
-\subsection{2-CNF}
-
-Given a 2-CNF $\Gamma$, define the \emph{strict graph of $\Gamma$}, denoted as $\gr' \Gamma$, much like $\gr \Gamma$, with the following change: any edges of the form $a \rightcurveor \emptyset$ are changed to $a \rightarrow \conj a$.
-
-This graph has the benefit that it is strict, leaving the realm of the less well-behaved multigraphs.
 
 \subsection{The exhaustion algorithm}
 
@@ -203,6 +267,7 @@ Consider an arbitrary multigraph $G = (V,E)$, and let $V_0 \subseteq V$
 
 We will call the following the \emph{exhaustion algorithm}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[mathescape]
 $T \gets V_0$
 $U \gets E$
@@ -214,6 +279,7 @@ While $\exists_{(A,B) \in U} \, A \subseteq T$:
         $T \gets T \cup \{v\}$
         $U \gets U \setminus \{(A,B)\}$
 \end{lstlisting}
+\end{minipage}
 
 It will be useful to study all the possible outputs of this algorithm, and as such, we make the following definition:
 
