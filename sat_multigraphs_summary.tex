@@ -234,7 +234,9 @@ As such, either there exists some $a \in A$ such that $\chi(a) = \top$, or some 
 
 This shows $\chi$ is valid with relation to this particular edge, but since the choice was arbitrary, $\chi$ is valid with relation to all edges, and so $\chi$ is a valid coloration of $G$.
 
-On the other hand, let us suppose that $\rho$ does not satisfy $\Gamma$. We wish to show $\chi$ is not valid.
+On the other hand, let us suppose that $\chi$ is valid. We will show $\rho$ satisfies $\Gamma$.
+
+To do this, pick an arbitrary $C \in \Gamma$. By hypothesis, we know $C$ is of the form $A \cup B$, where $\conj A \rightcurvearrow B$ is an edge in $G$. Since $\chi$ is valid, we have that either it colors an element of $A$, or an element of $B$, as $\top$. As such for some $(\gamma, v_\gamma) \in C$ we have $\chi(\gamma, v_\gamma) = \top$, and so $\rho(\gamma)$ must equal $v_\gamma$, and so $\rho$ satisfies this literal, and thus this clause. Since the clause chosen was arbitrary, $\rho$ satisfies all clauses, and thus satisfies $\Gamma$.
 \end{proof}
 
 \begin{prop}
@@ -242,12 +244,12 @@ If $\Gamma$ is represented by $G = (V,E)$, then $\Gamma$ is satisfiable iff $G$ 
 \end{prop}
 
 \begin{proof}
-First, let us suppose $\Gamma$ is satisfiable. Consider a satisfying valuation $\rho$. Consider the coloration of $G$ given by $\col \rho$. It is clearly valorable, so we need only show it is va
+Simply apply the previous proposition. If $\Gamma$ is satisfiable, pick a satisfying valuation and consider its coloration, which will be valid and valorable. If $G$ has a valid valorable coloration, consider its associated valuation.
 \end{proof}
 
 \subsection{Direct implication}
 
-In the interest of characterizing the relation of indirect implication in the context of this kind of multigraph, we will consider the following definition:
+In the interest of characterizing the relation of indirect implication in the context of tail graphs, we will consider the following definition:
 
 We define the relation \emph{$a$ n-implies $B$}, denoted as $a \rightcurveor_{\,n} B$, inductively as such:
 
@@ -259,7 +261,6 @@ We define the relation \emph{$a$ n-implies $B$}, denoted as $a \rightcurveor_{\,
 We say $a \rightcurveor_* B$ if there exists $n$ for which $a \rightcurveor_n B$.
 
 This relation is a generalization of the idea ``there's a path from $a$ to $b$'' in pure graphs. In fact, if our graph is pure, $a \rightcurveor_* B$ if and only if $B$ is a singleton set $\{b\}$ and there is a path going from $a$ to $b$. $a \rightcurveor_n \{b\}$ if and only if there is a path of length $n$ from $a$ to $b$ in this case. This can easily be shown by induction.
-
 
 \subsection{The exhaustion algorithm}
 
@@ -281,6 +282,7 @@ While $\exists_{(A,B) \in U} \, A \subseteq T$:
 \end{lstlisting}
 \end{minipage}
 
+%begin deprecated
 It will be useful to study all the possible outputs of this algorithm, and as such, we make the following definition:
 
 A \emph{state} is a pair $\cS = (T,U)$, where $T \subseteq V$ and $U \subseteq E$. The set of \emph{successors of a state}, denoted $s(\cS)$, is defined as follows:
@@ -294,7 +296,7 @@ Otherwise, define $s(\cS)$ as
 It is easy to recognize $s(\cS)$ as ``the set of states we can be in after one iteration of the exhaustion algorithm, bar premature halting''.
 
 Define $\cS^n$ inductively as: $\cS^0 = \{\cS\}$, $\cS^{n+1} = \cup_{R \in \cS^n} s(R)$. In other words, ``the set of states we can be in after $n$ iterations of the exhaustion algorithm, bar premature halting''.
-
+%end deprecated
 \section{Propositions}
 
 \subsection{General results on multigraphs}
@@ -305,12 +307,27 @@ In the following, consider fixed a multigraph $G = (V,E)$.
 The exhaustion algorithm halts, and when it does, if it has not halted prematurely, the coloration $\chi(a) = (\top \text{ if } a \in T \text{ else } \bot)$ is valid.
 \end{prop}
 
+\begin{proof}
+To show that it halts, merely notice that the cardinality of $U$ decreases by 1 with each iteration.
+
+To show that the coloration induced by $T$ is valid after it does, notice that whenever an edge $A \rightcurvearrow B$ is removed from $U$, you are sure to have at least one element of $B$ in $T$.
+
+As such, we can split edges into two sets. Those that are still in $U$ don't have all of their tail elements painted $\top$, as if any did, that would lead to another run in the loop, and so they are valid. Those that are not in $U$ have at least one element of their head painted $\top$, and so they are valid.
+
+As such, in the end, all edges are validated, and the coloring induced by $T$ is valid.
+\end{proof}
+
 \begin{prop}
 If there is a valid coloration $\chi$ of $G$, starting the exhaustion algorithm with any subset of $\{ \, v \in V \mid \chi(v) = \top \, \}$, there is a sequence of choices that does not lead to premature halting.
 \end{prop}
 
+\begin{proof}
+TODO
+\end{proof}
+
 These results can be mirrored as results about states.
 
+%TODO
 \begin{prop}
 Fixed a state $\cS$, there exists $n$ such that $\cS^{n+1} = \cS^n$. Fixed any state $(T,U)$ in this fixed point, the coloration induced by $T$ is valid.
 
