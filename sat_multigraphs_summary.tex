@@ -282,21 +282,6 @@ While $\exists_{(A,B) \in U} \, A \subseteq T$:
 \end{lstlisting}
 \end{minipage}
 
-%begin deprecated
-It will be useful to study all the possible outputs of this algorithm, and as such, we make the following definition:
-
-A \emph{state} is a pair $\cS = (T,U)$, where $T \subseteq V$ and $U \subseteq E$. The set of \emph{successors of a state}, denoted $s(\cS)$, is defined as follows:
-
-If there exists no $(A,B) \in U$ such that $A \subseteq T$, define $s(\cS)$ as $\{\cS\}$.
-
-Otherwise, define $s(\cS)$ as
-
-\[ \{ \, (T \cup \{v\}, U \setminus \{(A,B)\}) \mid (A,B) \in U, A \subseteq T, v \in B \, \}\]
-
-It is easy to recognize $s(\cS)$ as ``the set of states we can be in after one iteration of the exhaustion algorithm, bar premature halting''.
-
-Define $\cS^n$ inductively as: $\cS^0 = \{\cS\}$, $\cS^{n+1} = \cup_{R \in \cS^n} s(R)$. In other words, ``the set of states we can be in after $n$ iterations of the exhaustion algorithm, bar premature halting''.
-%end deprecated
 \section{Propositions}
 
 \subsection{General results on multigraphs}
@@ -318,57 +303,52 @@ As such, in the end, all edges are validated, and the coloring induced by $T$ is
 \end{proof}
 
 \begin{prop}
-If there is a valid coloration $\chi$ of $G$, starting the exhaustion algorithm with any subset of $\{ \, v \in V \mid \chi(v) = \top \, \}$, there is a sequence of choices that does not lead to premature halting.
+If there is a valid coloration $\chi$ of $G$, starting the exhaustion algorithm with any subset of $S = \{ \, v \in V \mid \chi(v) = \top \, \}$, there is a sequence of choices that does not lead to premature halting.
 \end{prop}
 
 \begin{proof}
-TODO
+The idea is to take the greedy approach, and make sure $T$ is always a subset of  $S$.
+
+Before the while loop, this is true by hypothesis. Every run of the while loop, an edge $A \rightcurvearrow B$ is chosen such that $A$ is contained in $T$, and thus, in $S$. Therefore, some element of $B$ is contained in $S$. Pick that element. The condition that $T \subseteq S$ remains true, which preserves our invariant, allowing for yet another run of the loop, and so on until termination.
 \end{proof}
 
-These results can be mirrored as results about states.
+It will be useful to study all the possible outputs of the exhaustion algorithm, and as such, we make the following definition:
 
-%TODO
+A \emph{state} is a pair $\cS = (T,U)$, where $T \subseteq V$ and $U \subseteq E$. The set of \emph{successors of a state $\cS = (T,U)$}, denoted $s(\cS)$, is defined as follows:
+
+If there exists no $(A,B) \in U$ such that $A \subseteq T$, define $s(\cS)$ as $\{(T, \emptyset)\}$.
+
+Otherwise, define $s(\cS)$ as
+
+\[ \{ \, (T \cup \{v\}, U \setminus \{(A,B)\}) \mid (A,B) \in U, A \subseteq T, v \in B \, \}\]
+
+It is easy to recognize $s(\cS)$ as ``the set of states we can be in after one iteration of the exhaustion algorithm, bar premature halting''.
+
+Define $\cS^n$ inductively as: $\cS^0 = \{\cS\}$, $\cS^{n+1} = \cup_{R \in \cS^n} s(R)$. In other words, ``the set of states we can be in after $n$ iterations of the exhaustion algorithm, bar premature halting''.
+
+The previous results can be mirrored as results about states.
+
 \begin{prop}
-Fixed a state $\cS$, there exists $n$ such that $\cS^{n+1} = \cS^n$. Fixed any state $(T,U)$ in this fixed point, the coloration induced by $T$ is valid.
+Fixed a state $\cS = (T_0, U_0)$, there exists $n$ such that $\cS^{n+1} = \cS^n$.
 
 We will refer to this `fixed point' as $\fp \cS$.
+
+Given a graph $G = (V,E)$, suppose we start with $T_0 \subseteq V$, $U = E$. Fixed any state $(T,U)$ in the fixed point, the coloration of $G$ induced by $T$ is valid.
 \end{prop}
 
-\begin{prop}
-If there is a valid coloration $\chi$ of $G$, if we define $V_0$  as $\{ \, v \in V \mid \chi(v) = \top \, \}$, and $\cS = (V_0, E)$, we have $\cS^n$ is never empty.
-\end{prop}
+\begin{proof}
+To show the fixed point exists, consider the families $U^n = \{\,U\mid (T,U) \in \cS^n\,\}$. Consider the maximum cardinality of the elements of $U^n$.
 
-In fact, I'm going to keep stating results as about states, because they're way easier to prove like that.
+For $n = 0$, this maximum cardinality is clearly $\# U_0$. Now, notice that this maximum cardinality always decreases, unless it is zero. When this max cardinality is zero, we are in a fixed point.
 
-The following is possibly the best result I've got here.
+To show that, for all $(T,U) \in \fp \cS$, the coloration induced by $T$ is valid, merely notice that, for all $n$, all states of $\cS^n$ obey the following property: if $A \rightcurvearrow B$ is not in $U$, then either there exists some element of $B$ in $T$, or there exists an element of $A$ not in $T$. This is easy to see in virtue of how the elements are removed from $U$.
 
-\begin{prop}
-Let $G = (V,E)$ be a tail graph.
+As such, since at the end, all states have $U$ empty, all edges are valid with respect to their respective $T$, and so the colorations are valid.
 
-$a \Rightcurveor B$ iff there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
-
-This is proven by showing that they are both equivalent to:
-
-There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
-\end{prop}
-
-\begin{av}
-Try to broaden this to non-tail graphs.
-\end{av}
+%This is pretty piss poorly written. Find a better way to do this.
+\end{proof}
 
 \subsection{Full graphs}
-
-\begin{prop}
-Let $\Gamma$ be a CNF.
-
-Furthermore, let $\rho$ be a valuation of $\Sigma$, and $\chi = \col \rho$.
-
-Then, $\rho \sat \Gamma$ iff $\chi$ is valid on $\Gr \Gamma$.
-\end{prop}
-
-\begin{corollary}
-$\Gamma$ is satisfiable iff there exists a valid valorable coloration of its full graph.
-\end{corollary}
 
 \begin{prop}
 Let $\Gamma$ be a CNF, ${A \rightcurvearrow B}$ an edge of $\Gr \Gamma$.
@@ -457,6 +437,22 @@ $\Gamma$ is satisfiable iff there exists a valid valorable coloration of its tai
 \end{corollary}
 
 I'm sure I'll find more stuff to put here.
+
+The following is possibly the best result I've got here.
+
+\begin{prop}
+Let $G = (V,E)$ be a tail graph.
+
+$a \Rightcurveor B$ iff there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
+
+This is proven by showing that they are both equivalent to:
+
+There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
+\end{prop}
+
+\begin{av}
+Try to broaden this to non-tail graphs.
+\end{av}
 
 \subsubsection{2-CNF}
 
