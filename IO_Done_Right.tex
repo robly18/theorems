@@ -25,6 +25,7 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definição}
+\newtheorem*{definition*}{Definição}
 \newtheorem*{notacao}{Notação}
 
 
@@ -505,46 +506,53 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	O desenho do conjunto admissível é o seguinte:
 	
+	\resizebox{\columnwidth}{!}{
 	\begin{tikzpicture}
 	\draw[->] (0, 0) -- (10, 0) node[anchor=south] {x};
-	\draw[->] (0, 0) -- (-5, -5) node[anchor=west] {y};
+	\draw[->] (0, 0) -- (-5, -5) node[anchor=north west] {y};
 	\draw[->] (0, 0) -- (0, 7) node[anchor=west] {z};
 	\filldraw[color=red, pattern color=blue, very thick, pattern = north east lines] (8,0) node[anchor=north, color=black]{(8,0,0)} -- (-4,-4) node[anchor=east, color=black]{(0,4,0)} -- (0,6) node[anchor=west, color=black]{(0,0,6)} -- (8,0);
 	\end{tikzpicture}
+	}
 	
 	Resta caraterizar no que consistem os vértices, mas, pela imagem, parecem ser os pontos com o máximo de zeros possíveis.
 	
-	Primeiramente, vamos %todo
+	Primeiramente, vamos tentar definir o que queremos dizer por `vértice'.
 	
-	Nesta secção vamos tentar aplicar conhecimento da Álgebra Linear aos problemas de otimização linear, com o objetivo de arranjar forma de descobrir solução.
+	\subsection{Geometria}
 	
-	Isto significa, no entanto, que, visto que AL é muito melhor a lidar com igualdades do que desigualdades, vamos começar a trabalhar com pols na forma padrão.
+	Dado o nosso contexto, é possível atribuir significado aos termos `vértice', `aresta', `lado' e assim por diante. No entanto, por simplicidade, vamos apenas definir o significado de vértice.
 	
-	Mais especificamente, para prevenir casos patológicos, vamos trabalhar em pols na chamada \emph{forma padrão reduzida}, isto é, pols da forma
+	Relembre-se da definição de plano em Álgebra Linear. Um plano em $\R^n$ é um conjunto da forma $U = a + V$, em que $a \in \R^n$ e $V$ é um subespaço vetorial de $\R^n$. Dizemos que $U$ é um plano de dimensão $m$ se $V$ tiver dimensão $m$.
 	
-	\[
-	\begin{cases}
-	\min\limits_x cx\\
-	Ax = b\\
-	x \geq 0
-	\end{cases}
-	\]
+	Um \emph{hiperplano em $\R^n$} é um plano de dimensão $n-1$.
 	
-	Em que a matriz $A$, de tamanho $m \times n$, tem caraterística $m$.
+	Relembre-se que os planos podem também ser caraterizados como conjuntos-solução de equações lineares $Ax = b$ a $n$ dimensões. A dimensão do plano é, então, a dimensão do núcleo da matriz $A$. Relembre-se também que, se um plano $a + V$ é definido por $Ax = b$, as colunas de $A^T$ geram o espaço $V^\perp$.
 	
-	Na prática, este requerimento é muito fácil de obter. Por exemplo, qualquer pol na forma padrão que venha de um pol na forma canónica está na forma padrão reduzida (verifique).
+	Uma particularidade dos hiperplanos é que o seu espaço ortogonal tem dimensão 1. Assim sendo, um hiperplano pode sempre ser expresso da forma $w \cdot x = b$, para algum vetor não-nulo $w$ e escalar $b$. Para mais, quaisquer duas expressões que representem o mesmo hiperplano têm vetores colineares.
 	
-	No que se segue, vai-nos ser útil considerar a seguinte abreviatura: seja $N$ o conjunto $\{1,2,\cdots,n\}$.
-	\begin{definition}
-	Seja $B \subseteq N$. Denotamos por $A_B$ a matriz obtida de $A$ removendo as colunas cujos índices não estão em $B$. Da mesma forma, dado um vetor $x \in \R^n$ usamos $x_B$ para significar o vetor obtido de $x$ removendo os índices que não estão em $B$.
-	\end{definition}
+	Isso permite fazer a seguinte definição:
 	
 	\begin{definition}
-	Dizemos que $B \subseteq N$ é uma \emph{base de índices de $A$} se $\# B = m$ e a matriz (quadrada) $A_B$ é não-singular.
+	Dado um plano $H$ definido por $w \cdot x = b$, dizemos que este separa o espaço em dois semiespaços: $H^+$, definido por $w \cdot x > b$ e $H^-$, definido por $w \cdot x < b$.
+	
+	Devido à observação anterior, esta definição não depende do $w$ escolhido, a menos de sinal. Ou seja, $H^+$ e $H^-$ não dependem de $w$, exceto para distinguir qual é qual.
+	
+	Diz-se que $H$ \emph{separa o espaço em $H^+$ e $H^-$}.
 	\end{definition}
 	
+	Estamos agora prontos para caraterizar o que queremos dizer com `vértice', ao menos neste contexto.
+	
 	\begin{definition}
-	Um vetor $x \in \R^n$ é dito \emph{básico} se existe uma base $B \subseteq N$ tal que para todo $i \in N \setminus B$ se tem $x_i \neq 0$.
+	Dado um conjunto $S \subseteq \R^n$, dizemos que $v \in S$ é um \emph{vértice exterior de $S$} se existem $w \in \R^n$ e $b \in \R$ tal que $w \cdot v = b$ e $w \cdot x < b$ para todo $x \in S \setminus \{v\}$.
 	\end{definition}
+	
+	Uma definição equivalente é a seguinte:
+	
+	\begin{definition*}
+	Nas mesmas condições, dizemos que $v \in S$ é vértice exterior se existe um hiperplano que separa $v$ do resto do conjunto. Ou seja, se existe um hiperplano $H$ que separe o espaço em $H^+$ e $H^-$ tal que $v \in H$ e $S \setminus \{v\} \subseteq H^-$.
+	\end{definition*}
+	
+	Repare-se que é óbvio que esta segunda definição implica a primeira, devido à forma como se definiram os subespaços. No entanto, a outra implicação tem um detalhe, pois não é exigido do vetor $w$ que seja diferente de zero. Este detalhe tem pequena relevância, mas permitir-nos-á simplificar uma prova algures no futuro. Claro que se o vetor $w$ for $0$, o conjunto $S$ contém apenas o ponto $v$, e portanto a segunda definição aplica-se com qualquer hiperplano que passe por $v$. Isto mostra que as duas definições são equivalentes.
 	
 \end{document}
