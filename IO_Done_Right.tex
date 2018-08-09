@@ -489,7 +489,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	\subsection{Intuição geométrica}
 	
-	Queremos agora investigar a intuição que o conjunto solução contém sempre um vértice, se não-vazio.
+	Queremos agora investigar a intuição que o conjunto solução contém sempre um vértice, no caso de este ser não-vazio.
 	
 	Para este estudo, no entanto, é útil considerar, em vez do pol na forma canónica, o pol na forma padrão, visto que é mais fácil caraterizar o significado de `vértice' neste contexto.
 	
@@ -515,9 +515,9 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{tikzpicture}
 	}
 	
-	Resta caraterizar no que consistem os vértices, mas, pela imagem, parecem ser os pontos com o máximo de zeros possíveis.
+	Temos agora de definir o conceito de vértices no contexto de otimização linear, mas a figura deve tornar evidente que se tratam dos pontos com o maior número de coordenadas 0.
 	
-	Primeiramente, vamos tentar definir o que queremos dizer por `vértice'.
+	Vamos primeiro tentar definir o que queremos dizer por `vértice'.
 	
 	\subsection{Geometria}
 	
@@ -541,18 +541,104 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Diz-se que $H$ \emph{separa o espaço em $H^+$ e $H^-$}.
 	\end{definition}
 	
-	Estamos agora prontos para caraterizar o que queremos dizer com `vértice', ao menos neste contexto.
+	Estamos agora prontos para caraterizar o que queremos dizer com `vértice'.
 	
 	\begin{definition}
 	Dado um conjunto $S \subseteq \R^n$, dizemos que $v \in S$ é um \emph{vértice exterior de $S$} se existem $w \in \R^n$ e $b \in \R$ tal que $w \cdot v = b$ e $w \cdot x < b$ para todo $x \in S \setminus \{v\}$.
 	\end{definition}
 	
-	Uma definição equivalente é a seguinte:
+	Esta definição é equivalente à seguinte:
 	
 	\begin{definition*}
 	Nas mesmas condições, dizemos que $v \in S$ é vértice exterior se existe um hiperplano que separa $v$ do resto do conjunto. Ou seja, se existe um hiperplano $H$ que separe o espaço em $H^+$ e $H^-$ tal que $v \in H$ e $S \setminus \{v\} \subseteq H^-$.
 	\end{definition*}
 	
-	Repare-se que é óbvio que esta segunda definição implica a primeira, devido à forma como se definiram os subespaços. No entanto, a outra implicação tem um detalhe, pois não é exigido do vetor $w$ que seja diferente de zero. Este detalhe tem pequena relevância, mas permitir-nos-á simplificar uma prova algures no futuro. Claro que se o vetor $w$ for $0$, o conjunto $S$ contém apenas o ponto $v$, e portanto a segunda definição aplica-se com qualquer hiperplano que passe por $v$. Isto mostra que as duas definições são equivalentes.
+	Repare-se que é óbvio que esta segunda definição implica a primeira, devido à forma como se definiram os subespaços. No entanto, a outra implicação não é tão óbvia, pois repare-se que não é exigido do vetor $w$ que seja diferente de zero. Este detalhe tem pequena relevância, mas permitir-nos-á simplificar uma prova algures no futuro. Claro que se o vetor $w$ for $0$, o conjunto $S$ contém apenas o ponto $v$, e portanto a segunda definição aplica-se com qualquer hiperplano que passe por $v$. Isto mostra que as duas definições são equivalentes.
+	
+	Para exemplificar esta definição, considere-se o conjunto:
+	
+	\[S = \{\, (x,y) \mid x,y \geq 0, y \leq 2+x, y \geq -2 + 2x\,\}\]
+	
+	Em baixo, está uma representação da afirmação: ``o ponto $(4, 6)$ é vértice de $S$, pois pondo $w = (1,1)$ e $b = 10$, tem-se $w \cdot (4,6) = b$ e para todos os pontos $(x,y)$ em $S \setminus \{(4,6)\}$ tem-se $w \cdot (x,y) < b$''.
+	
+	\begin{tikzpicture}
+	\draw[->] (-2, 0) -- (6, 0) node[anchor=south] {x};
+	\draw[->] (0, -1) -- (0, 8) node[anchor=west] {y};
+	\filldraw[color=blue, fill=blue!80, very thick] (0,0) -- (0,2) -- (4,6) -- (1,0) -- (0,0);
+	
+	\draw[->, color=purple, very thick] (4,6) -- (5,7) node[anchor=west, color=black]{$w = (1,1)$};
+	
+	\draw[color=green, very thick] (2.5, 7.5) -- (5.5, 4.5);
+	\fill[pattern=north east lines, pattern color=green] (-1.5, -0.5) -- (-1.5, 7.5) -- (2.5, 7.5) -- (5.5, 4.5) -- (5.5, -0.5);
+	\end{tikzpicture}
+	
+	A reta verde representa o hiperplano (reta) $H$ definido por ${w \cdot (x,y) = 10}$, e a área pintada a verde representa o semiespaço $H^-$ definido por ${w \cdot (x,y) < 10}$. Repare-se que todo o conjunto $S$, exceto o ponto $(4,6)$, está contido neste semiespaço.
+	
+	\subsection{Vértices de conjuntos admissíveis}
+	
+	Estamos agora prontos para tentar caraterizar os vértices de conjuntos admissíveis de pols na forma padrão. A seguinte proposição ser-nos-á útil:
+	
+	\begin{prop} \label{vertexvpmh}
+	Seja $S$ um conjunto em $\R^n$. As seguintes quatro afirmações não podem ser todas verdade ao mesmo tempo:
+	
+	\begin{itemize}
+	\item $v$ é vértice de $S$
+	\item $v + h \in S$
+	\item $v - h \in S$
+	\item $h \neq 0$
+	\end{itemize}
+	\end{prop}
+	
+	\begin{proof}
+	Para mostrar isto, vamos supor que três destes são verdade, e mostramos que o quarto tem que ser falso. Nomeadamente, suponhamos que $v$ é vértice de $S$, $v+h \in S$ e $h \neq 0$.
+	
+	Assim sendo, visto que $v$ é vértice, existem $w$ e $b$ tal que $w \cdot v = b$ e $w \cdot x < b$ para todo $x \in S$ diferente de $v$. Em particular, $w \cdot (v + h) < b$. Mas então $w \cdot h < 0$, donde $w \cdot (v-h) > b$, e então concluímos que $v-h$ não pode pertencer a $S$.
+	\end{proof}
+	
+	Na caraterização de vértices é-nos útil falar das coordenadas positivas de vetores, e das colunas correspondentes da matriz $A$. (A razão para isto será evidente em breve.) Assim sendo, adotamos as seguintes notações:
+	
+	\begin{notacao}
+	No nosso contexto, considere-se o seguinte pol a $n$ dimensões:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Em que $x$ é um vetor em $\R^n$, $A$ é uma matriz $m \times n$ e $b$ é um vetor em $\R^m$. Por conveniência, seja $N$ o conjunto $\{1,2,\cdots,n\}$.
+	
+	Fixo um vetor $x$:
+	
+	Usamos $P_x$ para denotar o conjunto de índices $i$ tal que $x_i > 0$.
+	
+	Dado um conjunto de índices $B \subseteq N$, $x_B$ representa o vetor em $\R^{\#B}$ obtido de $x$ resultante apenas das coordenadas em $B$. Por exemplo, se $B$ é o conjunto $\{2, 5, 9\}$, $x_B$ seria o vetor em $\R^3$ dado por $(x_2, x_5, x_9)$. Análogamente, $A_B$ denota a submatriz de $A$ considerando apenas as colunas com índices em $B$.
+	\end{notacao}
+	
+	Antes de fazer a prova `a sério', será feito um esboço de prova para suportar a afirmação feita há bocado: ``os vértices tratam-se dos pontos com o maior número de coordenadas 0''. Este esboço de prova vai-nos servir para motivar a caraterização (completa) dos vértices de $X_P$, para $P$ na forma padrão.
+	
+	Seja $k$ a caraterística da matriz $A$. Recorde-se que a caraterística de uma matriz equivale à dimensão do seu espaço de colunas. Afirmamos que qualquer vértice de $X_P$ tem no máximo $k$ coordenadas maiores que zero.
+	
+	Para justificar isto, considere-se um $x \in X_P$ tal que $\# P_x > k$. Queremos justificar que este não pode ser um vértice, e vamos fazer isso usando a proposição \ref{vertexvpmh}.
+	
+	Nomeadamente, vamos arranjar um $h$ diferente de zero tal que $x+h$ e $x-h$ pertencem a $X_P$, o que, devido a esta proposição, implica que $x$ não é vértice de $X_P$. Para arranjar este $h$, repare-se nas condições que ele tem que obedecer:
+	
+	\begin{itemize}
+	\item $h \neq 0$
+	\item $Ah = 0$
+	\item $x \pm h \geq 0$
+	\end{itemize}
+	
+	Em particular, a última condição diz-nos algo importante: para todo $i$, se $x_i = 0$, $h_i$ tem que ser $0$. Caso contrário, um daqueles dois vetores teria a $i$-ésima casa negativa.
+	
+	Assim sendo, isso limita as nossas escolhas de $h$. Este tem necessáriamente as casas em $N \setminus P_x$ igual a zero, pelo que resta definir $h_{P_x}$.
+	
+	Repare-se, agora, que, sob estas condições, $Ah = A_{P_x} h_{P_x}$, e visto que $\# P_x$ é maior do que a caraterística de $A$, a matriz $A_{P_x}$ é singular, e então existe um $h$ diferente de zero (chamemos-lhe $\tilde h$) que satisfaz $A \tilde h = 0$ e $\tilde h_i$ é igual a zero para $i \not \in P_x$. Falta apenas assegurar que $x \pm \tilde h \geq 0$, mas isto pode não ser verdade.
+	
+	Para o passo final, repare-se que estas duas condições ($A \tilde h = 0, h \neq 0$) não deixam de ser verdade se multiplicarmos $\tilde h$ por um escalar $t$ diferente de zero.
+	
+	A ideia é a seguinte: para todo $i \in N$ tem-se um dos dois casos: ou $x_i = 0$ e então, como $\tilde h_i = 0$, $x_i + t \tilde h_i \geq 0$ independentemente de $t$, ou $x_i > 0$ e então $x_i + t \tilde h_i \geq 0$ para qualquer $t$ de módulo pequeno o suficiente. Considere-se o $m$ mínimo destes módulos, e tem-se que, para $t$ de módulo menor que $m$, $x \pm t \tilde h_i \geq 0$. Pondo $h = t \tilde h_i$, obtemos o resultado desejado: $x \pm h \in X_P$ e $h \neq 0$. Assim sendo, $x$ não pode ser vértice de $X_P$.
 	
 \end{document}
