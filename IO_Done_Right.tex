@@ -19,6 +19,7 @@
 \date{}
 
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
 
 \newtheorem{teorema}{Teorema}
 \newtheorem{prop}{Prop}
@@ -313,7 +314,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Vamos mostrar que $Q$ é uma $f$-tradução de $P$, com $f(x,y) = x$.
 	
 	\begin{proof}
-	Primeiramente, verifique-se que se $(x,y) \in X_Q$ se tem $f(x,y) \in X_P$. Repare-se que a condição $f(x,y) \geq 0$ é trivial, pois $x \geq 0$ por hipótese, e a condição $A f(x,y) \leq 0$ é verídica pois $A f(x,y) = Ax \leq Ax + y = b$.
+	Primeiro, verifique-se que se $(x,y) \in X_Q$ se tem $f(x,y) \in X_P$. Repare-se que a condição $f(x,y) \geq 0$ é trivial, pois $x \geq 0$ por hipótese, e a condição $A f(x,y) \leq 0$ é verídica pois $A f(x,y) = Ax \leq Ax + y = b$.
 	
 	De seguida, é preciso verificar sobrejetividade. Suponhamos que se quer um objeto cuja imagem sob $f$ seja $x \in X_P$. Considere-se, então, o vetor $(x,y)$, com $y = b - Ax$. Repare-se que este vetor pertence a $X_Q$, e a sua imagem é precisamente $x$, como queríamos demonstrar.
 	
@@ -396,7 +397,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Isto é só especulação com base num desenho, mas dita especulação pode ser útil para motivar conclusões.
 	
-	Por exemplo, com base nestas considerações, seria de esperar que, por exemplo, em geral o conjunto solução estará contido na fronteira do conjunto admissível, o que quer que isso signifique (a área marcada a vermelho na imagem). Também é fácil uma pessoa convencer-se que tem necessáriamente de conter pelo menos um dos vértices -- novamente, o que quer que isso signifique.
+	Por exemplo, com base nestas considerações, seria de esperar que, por exemplo, em geral o conjunto solução estará contido na fronteira do conjunto admissível, o que quer que isso signifique (a área marcada a vermelho na imagem). Também é fácil uma pessoa convencer-se que tem necessariamente de conter pelo menos um dos vértices -- novamente, o que quer que isso signifique.
 	
 	Seria também de esperar que no caso de o conjunto admissível ser limitado e não vazio, existe, necessariamente, solução. E, já agora, que o conjunto admissível é convexo.
 	
@@ -576,7 +577,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	\subsection{Vértices de conjuntos admissíveis}
 	
-	Estamos agora prontos para tentar caraterizar os vértices de conjuntos admissíveis de pols na forma padrão. A seguinte proposição ser-nos-á útil:
+	Estamos agora prontos para tentar caraterizar os vértices de conjuntos admissíveis do pol na forma padrão. A seguinte proposição ser-nos-á útil:
 	
 	\begin{prop} \label{vertexvpmh}
 	Seja $S$ um conjunto em $\R^n$. As seguintes quatro afirmações não podem ser todas verdade ao mesmo tempo:
@@ -633,12 +634,104 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Em particular, a última condição diz-nos algo importante: para todo $i$, se $x_i = 0$, $h_i$ tem que ser $0$. Caso contrário, um daqueles dois vetores teria a $i$-ésima casa negativa.
 	
-	Assim sendo, isso limita as nossas escolhas de $h$. Este tem necessáriamente as casas em $N \setminus P_x$ igual a zero, pelo que resta definir $h_{P_x}$.
+	Assim sendo, isso limita as nossas escolhas de $h$. Este tem necessariamente as casas em $N \setminus P_x$ igual a zero, pelo que resta definir $h_{P_x}$.
 	
 	Repare-se, agora, que, sob estas condições, $Ah = A_{P_x} h_{P_x}$, e visto que $\# P_x$ é maior do que a caraterística de $A$, a matriz $A_{P_x}$ é singular, e então existe um $h$ diferente de zero (chamemos-lhe $\tilde h$) que satisfaz $A \tilde h = 0$ e $\tilde h_i$ é igual a zero para $i \not \in P_x$. Falta apenas assegurar que $x \pm \tilde h \geq 0$, mas isto pode não ser verdade.
 	
 	Para o passo final, repare-se que estas duas condições ($A \tilde h = 0, h \neq 0$) não deixam de ser verdade se multiplicarmos $\tilde h$ por um escalar $t$ diferente de zero.
 	
 	A ideia é a seguinte: para todo $i \in N$ tem-se um dos dois casos: ou $x_i = 0$ e então, como $\tilde h_i = 0$, $x_i + t \tilde h_i \geq 0$ independentemente de $t$, ou $x_i > 0$ e então $x_i + t \tilde h_i \geq 0$ para qualquer $t$ de módulo pequeno o suficiente. Considere-se o $m$ mínimo destes módulos, e tem-se que, para $t$ de módulo menor que $m$, $x \pm t \tilde h_i \geq 0$. Pondo $h = t \tilde h_i$, obtemos o resultado desejado: $x \pm h \in X_P$ e $h \neq 0$. Assim sendo, $x$ não pode ser vértice de $X_P$.
+	
+	Repare-se que neste esboço de prova, a condução que $\#P_x > k$ foi apenas usada para justificar que as colunas de $A_{P_x}$ são linearmente dependentes. Acontece que esta nova condição, mais fraca, não é só suficiente como necessária. Provamos, agora, a
+	
+	\begin{prop}
+	Seja $P$ o seguinte pol na forma padrão:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Então, $x \in X_P$ é vértice de $X_P$ sse $A_{P_x}$ tem as suas colunas todas linearmente independentes.
+	\end{prop}
+	
+	\begin{proof}
+	Primeiro, a parte que já está feita: se as colunas de $A_{P_x}$ não forem linearmente independentes, $x$ não é vértice. ($\rightarrow$) Construa-se $\tilde h \neq 0$ tal que $\tilde h_i = 0$ para $i \not \in P_x$, e $\tilde h_{P_x}$ é tal que $A_{P_x} \tilde h_{P_x} = 0$. Isto pode ser feito porque, por hipótese, a solução $A_{P_x} = 0$ tem soluções não-triviais.
+	
+	Considere-se a função $f(t) = x + t \tilde h$. Pretendemos arranjar $t$ tal que \allowbreak ${f(t), f(-t) \geq 0}$, pois assim ter-se-ia que $x \pm t \tilde h \in X_P$ com $t \tilde h \neq 0$, o que justifica $x$ não ser vértice conforme a prop \ref{vertexvpmh}.
+	
+	Para este objetivo, decomponha-se esta função em $f_{P_x}(t)$ e $f_{N \setminus P_x}(t)$. A segunda é sempre $\geq 0$ (por ser sempre igual a zero), pelo que basta examinar a primeira.
+	
+	Mas repare-se que, como $f$ é contínua (soma de uma constante com uma função linear), a sua restrição às coordenadas de $P_x$ também. Para mais, note-se que $f_{P_x}(0) > 0$, pelo que, por continuidade, existe uma vizinhança $\varepsilon$ de zero onde $f_{P_x}(t) > 0$, e então $f(t) \geq 0$. Escolhendo um $t$ diferente de zero nesta vizinhança, por exemplo, $t = \varepsilon/2$, temos $f(t), f(-t) > 0$, como desejado.
+	
+	A partir daqui, aplicando o raciocínio anterior, usando $h = t \tilde h$, concluimos que $x$ não é vértice de $X_P$.
+	
+	Agora, a segunda parte ($\leftarrow$): mostrar que se $x \in X_P$ e as colunas de $A_{P_x}$ são linearmente independentes, então $x$ é vértice.
+	
+	Para fazer isto, considere-se o vetor $w$ definido como
+	
+	\[w_i = (\text{$0$ se $i \in P_x$, $-1$ caso contrário})\]
+	
+	E o escalar $0$.
+	
+	Então, claramente temos $w \cdot x = 0$.
+	
+	Agora, mostre-se que, para todo $y \in X_P \setminus \{x\}$ se tem $w \cdot y < 0$. Isto é claramente equivalente (dado que $y \in X_P$ e então $y \geq 0$) a mostrar que $y_i \neq 0$ para algum $i \not \in P_x$. Ou seja, que $P_y \not \subseteq P_x$.
+	
+	Para este efeito, suponha-se que $y \in X_P$ e $P_y \subseteq P_x$. Vamos mostrar que $y = x$.
+	
+	Se $y \in X_P$, temos $Ay = b$. Mas como $P_y \subseteq P_x$, temos que $Ay = A_{P_x} y_{P_x} = b$. Mas como as colunas de $A_{P_x}$ são linearmente independentes, a solução do sistema $A_{P_x} v = b$, se existir (neste caso existe), é única. Assim sendo, $y_{P_x} = x_{P_x}$, e como as outras coordenadas de $y$ são todas 0, como as de $x$, temos $y = x$, como queriamos demonstrar.
+	
+	Logo, para $y \in X_P \setminus \{x\}$ tem-se sempre $w \cdot y < 0$, como se pretendia demonstrar, e então $x$ é vértice de $X_P$.
+	\end{proof}
+	
+	Estamos agora em condições de justificar o seguinte:
+	
+	\begin{prop}
+	Seja $P$ o pol
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Se $S_P$ é não-vazio, contém pelo menos um vértice de $X_P$.
+	\end{prop}
+	
+	\begin{proof}
+	Suponha-se que $S_P$ é não-vazio. A função $x \mapsto \#P_x$ vai de $S_P$ para $\N_0$, pelo que é minimizada nalgum ponto. Chamemos-lhe $z$. Mostraremos que $z$ é vértice de $X_P$.
+	
+	Para fazer isto, usaremos a caraterização feita há pouco: mostraremos que as colunas de $A_{P_z}$ são linearmente independentes, o que justifica que $z$ é vértice.
+	
+	A prova faz-se por contrarecíproco. Para mostrar que um $z$ que minimize $\#P_z$ é vértice, supõe-se que não é vértice e mostra-se que não minimiza $\#P_z$.
+	
+	Suponha-se, então, que $z$ não é vértice, ou seja, que as colunas de $A_{P_z}$ são linearmente dependentes. Vamos arranjar um elemento $\tilde z$ de $S_P$ tal que $\#P_{\tilde z} < \#P_z$
+	
+	Sabendo que as colunas de $A_{P_z}$ são linearmente dependentes, existe solução não-trivial do sistema $A_{P_z} x = 0$. Seja $\tilde h$ tal que $\tilde h_i = 0$ para $i \not \in P_z$, e $\tilde h_{P_z}$ é solução não-trivial de $A_{P_z} \tilde h_{P_z} = 0$ Suponha-se, sem perda de generalidade, que $\tilde h$ tem pelo menos uma coordenada positiva. Podemos fazer isto, pois, se não for o caso, substitua-se $\tilde h$ por $-\tilde h$.
+	
+	Repare-se, primeiro, no seguinte detalhe importante: $c \tilde h = 0$. Isto é pois, usando o mesmo raciocínio que na prova anterior, existe $t \neq 0$ tal que $z \pm t \tilde h \in X_P$. Estes dois vetores têm pontuação $cz \pm t c \tilde h$, pelo que, se $c \tilde h$ não fosse zero, um destes teria pontuação melhor do que $z$. Isto contraria a hipótese de $z$ ser solução.
+	
+	Assim sendo, para todo o $t$ tal que $z - t \tilde h$ é admissível, este é solução.
+	
+	A ideia é, agora, escolher $t$ de modo a que $z - t \tilde h$ tenha menos coordenadas positivas do que $z$, mas continue admissível. Para fazer isto, efetivamente, o que se faz é `subir o valor de $t$ continuamente até uma das coordenadas ser zero'. (Isto vai ser formalizado mais tarde.) Essa coordenada ficará zero, e nenhuma coordenada que fosse antes zero deixou de o ser, pelo que o número de coordenadas positivas diminuiu... E o vetor continua a ser admissível porque a condição $Ax = b$ nunca deixa de ser verdade, e a condição $x \geq 0$ continua a ser verdade porque não deixamos nenhuma coordenada ir para os negativos.
+	
+	Em termos formais: considere-se o conjunto $T = \{\,\frac {z_i} {\tilde h_i} \mid i \in P_{\tilde h}\,\}$. Este conjunto é não-vazio (assumimos que $\tilde h$ tinha pelo menos uma coordenada positiva), finito e todos os seus elementos são positivos (pois $P_{\tilde h} \subseteq P_z$). Considere-se, então, o seu mínimo, $\alpha$. Vamos ver que o vetor $\tilde z = z - \alpha \tilde h$ é admissível e tem menos coordenadas positivas do que $z$.
+	
+	Como já vimos, obedece à condição $A \tilde z = b$, pelo que basta certificarmo-nos que $\tilde z \geq 0$. Fazemos isto coordenada a coordenada.
+	
+	Examine-se $\tilde z_i = z_i - \alpha \tilde h_i$. Se $i \not \in P_{\tilde h}$, isto é claramente $\geq z_i \geq 0$. Pelo outro lado, se $i \in P_{\tilde h}$, temos que $\alpha \leq z_i/\tilde h_i$, e então $-\alpha \geq -z_i/\tilde h_i$, donde $z_i - \alpha \tilde h_i \geq z_i - \frac {z_i}{\tilde h_i} h_i = 0$. Como se pretendia demonstrar.
+	
+	Assim sendo, o vetor $\tilde z$ é admissível. Já vimos que é solução. E, finalmente, mostramos que tem menos coordenadas positivas do que $z$.
+	
+	Repare-se que para todo $i$, se $z_i = 0$ então $\tilde h_i = 0$, pelo que nenhumas coordenadas positivas `novas' aparecem. Pelo outro lado, pelo menos uma coordenada positiva fica nula. Nomeadamente, visto que $\alpha$ é o valor mínimo do conjunto $\{\,\frac {z_i} {\tilde h_i} \mid i \in P_{\tilde h}\,\}$, é da forma $\alpha = z_j / \tilde h_j$ para algum $j$. Vamos examinar a coordenada $j$ de $\tilde z$.
+	
+	Sabemos que $z_j > 0$. Mas também temos que $\tilde z_j = 0$, pois $\tilde z_j = z_j - \alpha \tilde h_j = z_j - \frac {z_j}{\tilde h_j} \tilde h_j = 0$. Isto mostra, então, que $\tilde z$ tem pelo menos uma coordenada positiva a menos que $z$, o que mostra que $\tilde z$ é o elemento de $S_P$ que pretendiamos arranjar. Isto conclui a nossa prova.
+	\end{proof}
 	
 \end{document}
