@@ -7,12 +7,34 @@
 \usepackage[portuguese]{babel}
 \usepackage{tikz}
 \usetikzlibrary{patterns}
+\usepackage{listings}
+\usepackage{ifxetex}
+
+\ifxetex
+%xetex is recommended!
+\else
+\lstset{
+  literate=
+  {á}{{\'a}}1
+  {à}{{\`a}}1
+  {ã}{{\~a}}1
+  {é}{{\'e}}1
+  {ê}{{\^e}}1
+  {í}{{\'i}}1
+  {ó}{{\'o}}1
+  {õ}{{\~o}}1
+  {ú}{{\'u}}1
+  {ü}{{\"u}}1
+  {ç}{{\c{c}}}1
+}
+\fi
 
 \addto\captionsportuguese{
 	\renewcommand*{\proofname}{Dem}
 }
 
 \DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\im}{Im}
 
 \title{IO Done Right}
 \author{Duarte Maia}
@@ -733,5 +755,78 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Sabemos que $z_j > 0$. Mas também temos que $\tilde z_j = 0$, pois $\tilde z_j = z_j - \alpha \tilde h_j = z_j - \frac {z_j}{\tilde h_j} \tilde h_j = 0$. Isto mostra, então, que $\tilde z$ tem pelo menos uma coordenada positiva a menos que $z$, o que mostra que $\tilde z$ é o elemento de $S_P$ que pretendiamos arranjar. Isto conclui a nossa prova.
 	\end{proof}
+	
+	\subsection{O método dos vetores básicos}
+	
+	Estamos perto de ter um método primitivo de resolução de problemas de otimização linear. Dado um pol, podemos sempre pô-lo na forma padrão. Lá estando, podemos examinar os vértices.
+	
+	A ideia é que, em principio (vamos provar isto) haverá um número finito de vértices. Se o problema tiver solução, o vértice de melhor pontuação será solução. Daí em diante, é preciso verificar que, de facto, $S_P$ é não-vazio. Os detalhes de tal verificação serão feitos mais tarde: por agora, arranjaremos um método de encontrar os vértices de $X_P$ para $P$ na forma padrão.
+	
+	A ideia é a seguinte: considere-se um conjunto de índices $B \subseteq N$ tal que $A_B$ tem colunas linearmente independentes. Então, a equação $A_B x = b$ tem zero ou uma soluções. Isto dá-nos o primeiro método, mais primitivo possível, de encontrar os vértices de $X_P$:
+
+	\begin{lstlisting}[mathescape=true, keepspaces=true]
+Para todo $B \subseteq N$:
+  Se as colunas de $A_B$ são linearmente independentes:
+    Resolver o sistema $A_B x = b$.
+    Se este tiver solução $x$:
+      Se $x \geq 0$:
+        Definir $v \in \R^n$ de modo a que $v_B = x$ e $v_{N\setminus B} = 0$
+        Adicionar $v$ à lista de vértices.
+	\end{lstlisting}
+	
+	Este método funciona, mas tem um enorme problema: se estamos em dimensão $n$, temos $2^n$ sistemas para resolver. Procuramos, então, uma forma mais computacionalmente eficiente de fazer as coisas.
+	
+	Lembre-se da Álgebra Linear que qualquer conjunto linearmente independente de vetores pode ser extendido a uma base. Isso é refletido na seguinte proposição:
+	
+	\begin{prop}
+	Dada uma matriz $A$ $m \times n$ e um conjunto de índices $B \subseteq N$, dizemos que $B$ é uma \emph{base de índices} se as colunas de $A_B$ formam uma base de $\im A$.
+	
+	Se $B \subseteq N$ é tal que as colunas de $A_B$ são linearmente independentes, existe uma base de índices $B' \supseteq B$.
+	\end{prop}
+	
+	\begin{proof}
+	Esta prova será feita mostrando que, se $B$ é tal que $A_B$ tem colunas linearmente independentes mas $B$ não é base de índices, é possível adicionar um elemento $b$ a $B$ tal que as colunas de $B \cup \{b\}$ continuem a ser linearmente independentes. Feito isto, o algoritmo para extender $B$ a uma base passa a ser repetir este processo até se ter um conjunto de tamanho igual à caraterística de $A$.
+	
+	Assim sendo, basta mostrar este passo. Suponha-se que $B$ está sob estas condições, mas não é uma base de índices. Então, tem de existir um vetor-coluna de $A$ que não está em $\im A_B$. Isto pois, caso contrário, $\im A = \im A_B$, e $B$ seria uma base de índices. Assim sendo, escolha-se uma tal coluna, e seja $b$ o seu índice. As colunas de $A_{B \cup \{b\}}$ são linearmente independentes, como o leitor poderá facilmente verificar, o que termina a nossa prova.
+	\end{proof}
+	
+	Dizemos que um vetor $x$ é básico (no contexto de um pol $P$ na forma padrão) se $P_x$ está contido numa base de índices $B$.
+	
+	O que a proposição anterior mostra é que todo vértice é básico (pegue-se em $P_x$ e extenda-se a uma base). Pelo outro lado, é fácil ver que qualquer vetor básico $x$ tem a propriedade que as colunas de $A_{P_x}$ são linearmente independentes. Temos, então, que os vetores admissíveis básicos e os vértices de $X_P$ são os mesmos.
+	
+	As bases de índices têm uma propriedade notável: no contexto do pol
+	
+	\[
+	P =
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Se a equação $Ax = b$ é impossível, este problema trivialmente não tem solução, visto que o conjunto admissível é vazio. Se isto acontece, dizemos que o pol $P$ é \emph{vazio}.
+	
+	Pelo outro lado, se $b \in \im A$, dada um base de índices $B$, temos que o sistema de equações $A_B x = b$ tem uma e só uma solução.
+	
+	Outra observação importante é que as bases de índices de $A$ têm todas tamanho igual à dimensão do espaço de colunas de $A$, ou seja, a sua caraterística.
+	
+	Assim sendo, considere-se o seguinte (novo) algoritmo.
+	
+	\begin{lstlisting}[mathescape=true, keepspaces=true]
+Verificar se o problema é vazio.
+Caso afirmativo, a lista de vértices é vazia.
+Caso contrário:
+  Seja $k$ a caraterística de $A$.
+  Para todo $B \subseteq N$ tal que $\#B = k$:
+    Se as colunas de $A_B$ são linearmente independentes:
+      Resolver o sistema $A_B x = b$. (Solução existe necessariamente)
+      Se $x \geq 0$:
+        Definir $v \in \R^n$ de modo a que $v_B = x$ e $v_{N\setminus B} = 0$
+        Adicionar $v$ à lista de vértices.
+	\end{lstlisting}
+	
+	Este algoritmo é muito mais económico do que o anterior. Ao passo que no outro havia $2^n$ possibilidades para verificar, aqui é preciso apenas verificar $\binom{n}{k}$ conjuntos, onde $k$ é a caraterística de $A$.
+	
 	
 \end{document}
