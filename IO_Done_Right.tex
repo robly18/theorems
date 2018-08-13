@@ -35,6 +35,7 @@
 
 \DeclareMathOperator{\interior}{int}
 \DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\CC}{CC}
 
 \title{IO Done Right}
 \author{Duarte Maia}
@@ -45,12 +46,14 @@
 
 \newtheorem{teorema}{Teorema}
 \newtheorem{prop}{Prop}
+\newtheorem{conjetura}{Conjetura}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definição}
 \newtheorem*{definition*}{Definição}
 \newtheorem*{notacao}{Notação}
 
+%todo, make def environment bolder, and bolden the just defined terms
 
 \begin{document}
 	\maketitle
@@ -61,7 +64,7 @@
 	
 	TODO: Escrever palavras motivadoras ou algo assim
 	
-	\section{Prerequisitos}
+	\section{Pré-requisitos}
 	
 	Vou aqui escrevendo coisas à medida que elas são necessárias.
 	
@@ -78,7 +81,11 @@
 	\begin{definition}
 	Um \emph{problema de otimização linear} (normalmente abreviado a \emph{pol}) é um problema da forma:
 	
+	\smallskip
+	
 	\textbf{Objetivo: } maximizar/minimizar (em função de $x \in \R^n$) o valor de ${c_1 x_1 + c_2 x_2 + \ldots + c_n x_n}$
+	
+	\smallskip
 	
 	\textbf{Restrições: } $x$ tem de obedecer a todas as seguintes igualdades
 
@@ -376,7 +383,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	\section{Noções Topológicas}
 	
-	\subsection{Prerequisitos}
+	\subsection{Pré-requisitos}
 	
 	Para ler esta secção, é recomendado (i.e. necessário) que o leitor saiba os seguintes conceitos topológicos em $\R^n$:
 	
@@ -747,7 +754,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Como já vimos, obedece à condição $A \tilde z = b$, pelo que basta certificarmo-nos que $\tilde z \geq 0$. Fazemos isto coordenada a coordenada.
 	
-	Examine-se $\tilde z_i = z_i - \alpha \tilde h_i$. Se $i \not \in P_{\tilde h}$, isto é claramente $\geq z_i \geq 0$. Pelo outro lado, se $i \in P_{\tilde h}$, temos que $\alpha \leq z_i/\tilde h_i$, e então $-\alpha \geq -z_i/\tilde h_i$, donde $z_i - \alpha \tilde h_i \geq z_i - \frac {z_i}{\tilde h_i} h_i = 0$. Como se pretendia demonstrar.
+	Examine-se $\tilde z_i = z_i - \alpha \tilde h_i$. Se $i \not \in P_{\tilde h}$, claramente $\tilde z_i \geq z_i \geq 0$. Pelo outro lado, se $i \in P_{\tilde h}$, temos que $\alpha \leq z_i/\tilde h_i$, e então $-\alpha \geq -z_i/\tilde h_i$, donde $z_i - \alpha \tilde h_i \geq z_i - \frac {z_i}{\tilde h_i} h_i = 0$. Como se pretendia demonstrar.
 	
 	Assim sendo, o vetor $\tilde z$ é admissível. Já vimos que é solução. E, finalmente, mostramos que tem menos coordenadas positivas do que $z$.
 	
@@ -765,7 +772,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	A ideia é a seguinte: considere-se um conjunto de índices $B \subseteq N$ tal que $A_B$ tem colunas linearmente independentes. Então, a equação $A_B x = b$ tem zero ou uma soluções. Isto dá-nos o primeiro método, mais primitivo possível, de encontrar os vértices de $X_P$:
 
 	\begin{lstlisting}[mathescape=true, keepspaces=true]
-Para todo $B \subseteq N$:
+Para todo o $B \subseteq N$:
   Se as colunas de $A_B$ são linearmente independentes:
     Resolver o sistema $A_B x = b$.
     Se este tiver solução $x$:
@@ -818,9 +825,9 @@ Verificar se o problema é vazio.
 Caso afirmativo, a lista de vértices é vazia.
 Caso contrário:
   Seja $k$ a caraterística de $A$.
-  Para todo $B \subseteq N$ tal que $\#B = k$:
+  Para todo o $B \subseteq N$ tal que $\#B = k$:
     Se as colunas de $A_B$ são linearmente independentes:
-      Resolver o sistema $A_B x = b$. (Solução existe necessariamente)
+      Resolver o sistema $A_B x = b$.
       Se $x \geq 0$:
         Definir $v \in \R^n$ de modo a que $v_B = x$ e $v_{N\setminus B} = 0$
         Adicionar $v$ à lista de vértices.
@@ -828,5 +835,146 @@ Caso contrário:
 	
 	Este algoritmo é muito mais económico do que o anterior. Ao passo que no outro havia $2^n$ possibilidades para verificar, aqui é preciso apenas verificar $\binom{n}{k}$ conjuntos, onde $k$ é a caraterística de $A$.
 	
+	Para obter um candidato a solução basta, agora, calcular os vértices de $X_P$, $v_1, v_2, \cdots, v_\ell$, calcular $c v_i$ para $i = 1, \cdots, \ell$ e ver qual destes é menor. Pegando, então, num vértice $v_j$ que minimize $c v_j$, se o conjunto solução for não-vazio, contém $v_j$. Precisamos, então, de um método de verificar se um vértice é solução. É a isso que nos dedicamos agora.
+	
+	\section{Cones}
+	
+	\subsection{Introdução}
+	
+	No estudo do pol na forma padrão e canónica, é muito comum ver expressões da forma $Ax$ com $x \geq 0$. Ou seja, combinações lineares não-negativas das colunas de $A$.
+	
+	Este fenómeno é tão comum que tem um nome.
+	
+	\begin{definition}
+	Sejam $a_1, a_2, \cdots, a_r$ vetores de $\R^n$. O \emph{cone formado por $a_1, \cdots, a_r$} é o conjunto:
+	
+	\[\{\, \sum_{i=1}^r t_i a_i \mid t_i \in \R^+_0 \text{ para } i = 1, \cdots, r \,\}\]
+	
+	Em particular, é muito comum estes vetores serem as colunas de uma matriz. Assim sendo, dada uma matriz $A$, definimos \emph{o cone das colunas de $A$}, denominado $\CC A$, como:
+	
+	\[\{\, Ax \mid x \in \R^n, x \geq 0\,\}\]
+	
+	É fácil verificar que isto é o mesmo que o cone formado pelas colunas de $A$.
+	\end{definition}
+	
+	Nesta secção, estudaremos os cones, que têm surpreendente aplicação ao problema de otimização linear. O nosso principal resultado será o chamado \emph{lema de Farkas}. Este e as suas variantes serão de grande utilidade para encontrar métodos para descobrir se um vetor é solução.
+	
+	Um destes métodos é o chamado \emph{método das linhas ativas}, e vamos esboçar metade da sua prova de funcionamento, com o intuito de motivar o que se segue.
+	
+	\subsection{Método das linhas ativas (Parte 1)}
+	
+	Suponhamos que temos um pol na forma semicanónica:
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b
+	\end{cases}
+	\]
+	
+	Já vimos que, para o pol na forma padrão, o conjunto-solução, sempre que não-vazio, contém pelo menos um vértice. Em geral, infelizmente, isto não é verdade. Por exemplo, o pol mais trivial possível a uma dimensão:
+	
+	\[
+	\begin{cases}
+	\max\limits_x 0x\\
+	\text{(Sem condições...)}
+	\end{cases}
+	\]
+	
+	Este pol tem solução (qualquer $x$, na realidade) mas não tem nenhum vértice. Isto mostra que a proposição ``o conjunto solução, se não-vazio, contém pelo menos um vértice'' não é verdade em geral. No entanto, é possível arranjar resultados parecidos, em espírito.
+	
+	Para arranjar uma medida de `quão na fronteira estamos', fazemos a seguinte definição:
+	
+	\begin{definition}
+	Dado o pol $P$ definido acima, a $i$-ésima linha de $A$ (denotada, por agora, de $a_i$) diz-se \emph{ativa relativamente a $x$} se $a_i x = b$.
+	\end{definition}
+	
+	Já vimos no início que $x$ pertence à fronteira de $X_P$ sse $A$ tem pelo menos uma linha ativa relativamente a $x$. O que vamos ver nesta secção é que é possível averiguar se um vetor é solução examinando as linhas ativas.
+	
+	\begin{definition}
+	Dado um vetor $x$ de $X_P$, $A^x$ representa a matriz das linhas ativas de $A$.
+	\end{definition}
+	
+	%todo add motivação?
+	
+	\begin{prop}
+	Seja $x$ um vetor admissível de $P$. $x$ não é solução sse existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$
+	\end{prop}
+	
+	\begin{proof}
+	Prove-se primeiro a implicação ($\leftarrow$). Suponha-se que existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$. A ideia é `somar $w$ em pequenas quantidades'.
+	
+	É óbvio que se existe $t$ positivo tal que $x + tw \in X_P$, $x$ não é solução, pois este novo vetor tem pontuação melhor do que $x$.
+	
+	Para arranjar tal $t$, considere-se cada linha de $A(x + tw)$.
+	
+	Para todo $i$, há dois casos:
+	
+	Ou $a_i$ é linha ativa, e então $a_i (x + tw) = a_i x + t a_i w \leq a_i x = b_i$ para qualquer $t$,
+	
+	Ou $a_i$ não é linha ativa, e então $a_i (x + t w) = a_i x + t a_i w$. Como $a_i x < b_i$, temos que, para $t$ de módulo menor que $\lvert \frac{b_i - a_i x}{a_i w} \rvert$, $a_i x + t a_i w \leq b_i$.
+	
+	Considere-se então $t$ pequeno o suficiente para que $a_i (x + t w) \leq b_i$ para todo $i$ (é fácil ver que tal $t$ existe) e temos, como desejado, que este vetor é admissível e tem pontuação melhor do que $x$.
+	
+	Para provar a implicação ($\rightarrow$) suponha-se que $x$ não é solução. Então, existe um vetor $x+w$ de pontuação melhor do que $x$. Vamos mostrar que este $w$ obedece às condições do enunciado.
+	
+	Obviamente $cw > 0$, pois $c(x+w) = cx + cw > cx$ por hipótese. Falta então provar que $A^x w \leq 0$.
+	
+	Mas se isso não fosse o caso, e houvesse $i$ tal que $a_i$ é linha ativa e $a_i w > 0$, ter-se-ia que a linha $i$ de $A(x+w)$ seria $a_i x + a_i w > a_i x  = b_i$, e então $x+w$ não seria admissível. Contradição.
+	\end{proof}
+	
+	Esta proposição vai-nos ajudar a desenvolver o método das linhas ativas. Falta, agora, caraterizar quando é que existe $w$ tal que $cw > 0$ e $A^x w \leq 0$. Para dar uma ideia, visualize-se a situação.
+	
+	Repare-se, primeiro que tudo, que a condição $cw > 0$ implica que $w$ é diferente de zero, pelo que $w$ define um hiperplano. Para mais, recorde-se que os hiperplanos dividem o espaço em dois. A condição que temos, então, é que, se considerarmos $c^T$ e as colunas de $A^{xT}$ como vetores em $\R^n$, o hiperplano definido por $w$ separa $c^T$ das colunas da matriz:
+	
+	\begin{tikzpicture}
+	\draw[->] (-4, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -4) -- (0, 4) node[anchor=west] {y};
+	
+	\draw[->, color=green, very thick] (0,0) -- (-0.33333,1) node[anchor=south, color=black]{$w$};
+	\draw[color=green, very thick] (-3 * 1.5,-1 * 1.5) -- (3 * 1.5,1 * 1.5);
+	
+	\draw[->, color=purple, very thick] (0,0) -- (3,1);
+	\draw[->, color=purple, very thick] (0,0) -- (1,-2) node[anchor=north, color=black]{(As colunas de $A^{xT}$)};
+	\draw[->, color=purple, very thick] (0,0) -- (-1,-3);
+	
+	
+	\draw[->, color=blue, very thick] (0,0) -- (-2,4) node[anchor=south west, color=black]{$c^T$};
+	\end{tikzpicture}
+	
+	Vamos ver esta mesma imagem, mas, a vermelho, está o cone das colunas de $A^{xT}$.
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3 * 1.5, 1*1.5) --  (3 * 1.5, -3.5) -- (-1 * 3.5/3, -3.5);
+	
+	\draw[->] (-4, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -4) -- (0, 4) node[anchor=west] {y};
+	
+	\draw[->, color=green, very thick] (0,0) -- (-0.33333,1) node[anchor=south, color=black]{$w$};
+	\draw[color=green, very thick] (-3 * 1.5,-1 * 1.5) -- (3 * 1.5,1 * 1.5);
+	
+	
+	
+	\draw[->, color=purple, very thick] (0,0) -- (3,1);
+	\draw[->, color=purple, very thick] (0,0) -- (1,-2) node[anchor=north, color=black]{(O cone das colunas de $A^{xT}$)};
+	\draw[->, color=purple, very thick] (0,0) -- (-1,-3);
+	
+	\draw[->, color=blue, very thick] (0,0) -- (-2,4) node[anchor=south west, color=black]{$c^T$};
+	
+	\end{tikzpicture}
+	
+	A ideia é, então, a seguinte: mostrar que se $c^T$ está fora deste cone, é possível arranjar tal $w$. Isto porque verificar se $c^T$ está fora do cone é possívelmente mais fácil. Por exemplo, se as linhas de $A^x$ são linearmente independentes, a equação $A^{xT} y = c^T$ tem no máximo uma solução. É então possível tentar encontrar tal solução. Se ela existir e for $\geq 0$, então $c^T$ está no cone desejado, e $x$ é solução. Caso contrário, não está, e $x$ não é solução.
+	
+	Isto motiva, então, o enunciado do lema de Farkas:
+	
+	\begin{conjetura} (Lema de Farkas)
+	
+	Seja $A$ uma matriz $n \times m$, $v$ um vetor de $\R^n$.
+	
+	$v \not\in \CC A$ sse existe $w$ tal que $w \cdot v > 0$ e $A^T w \leq 0$.
+	\end{conjetura}
+	
+	Focamo-nos, agora, em provar este lema.
 	
 \end{document}
