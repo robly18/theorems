@@ -70,6 +70,12 @@
 	
 	Obviamente é preciso saber um pouco de cálculo I e AL.
 	
+	É recomendado (i.e. necessário) que o leitor saiba os seguintes conceitos topológicos em $\R^n$:
+	
+	Conceito de conjunto aberto e conjunto fechado; interior, fronteira e extrior de um conjunto; função contínua; teorema de Bolzano e Weierstrass em $\R^n$, definição topológica de continuidade ($f : D \rightarrow \R^m$ é contínua sse para todo conjunto aberto $A$ se tem $f^{-1}(A)$ é aberto relativamente a $D$ sse para todo conjunto fechado $A$ se tem $f^{-1}(A)$ é fechado relativamente a $D$)
+	
+	No que se segue vão ser usados alguns factos sobre estes conceitos que não vão ser justificados, visto que caem no âmbito da cadeira de Cálculo II. Estes serão devidamente assinalados, e o leitor é encorajado a prová-los se não estiver familiar com eles.
+	
 	\section{Problemas de Otimização Linear}
 	
 	\subsection{Introdução}
@@ -382,14 +388,6 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Já vimos antes que estas traduções são válidas.
 	
 	\section{Noções Topológicas}
-	
-	\subsection{Pré-requisitos}
-	
-	Para ler esta secção, é recomendado (i.e. necessário) que o leitor saiba os seguintes conceitos topológicos em $\R^n$:
-	
-	Conceito de conjunto aberto e conjunto fechado; interior, fronteira e extrior de um conjunto; função contínua; teorema de Bolzano e Weierstrass em $\R^n$.
-	
-	No que se segue vão ser usados alguns factos sobre estes conceitos que não vão ser justificados, visto que caem no âmbito da cadeira de Cálculo II. Estes serão devidamente assinalados, e o leitor é encorajado a prová-los se não estiver familiar com eles.
 	
 	\subsection{Intuição geométrica}
 	
@@ -748,7 +746,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Assim sendo, para todo o $t$ tal que $z - t \tilde h$ é admissível, este é solução.
 	
-	A ideia é, agora, escolher $t$ de modo a que $z - t \tilde h$ tenha menos coordenadas positivas do que $z$, mas continue admissível. Para fazer isto, efetivamente, o que se faz é `subir o valor de $t$ continuamente até uma das coordenadas ser zero'. (Isto vai ser formalizado mais tarde.) Essa coordenada ficará zero, e nenhuma coordenada que fosse antes zero deixou de o ser, pelo que o número de coordenadas positivas diminuiu... E o vetor continua a ser admissível porque a condição $Ax = b$ nunca deixa de ser verdade, e a condição $x \geq 0$ continua a ser verdade porque não deixamos nenhuma coordenada ir para os negativos.
+	A ideia é, agora, escolher $t$ de modo a que $z - t \tilde h$ tenha menos coordenadas positivas do que $z$, mas continue admissível. Para fazer isto, efetivamente, o que se faz é `subir o valor de $t$ continuamente até uma das coordenadas ser zero'. (Isto vai ser formalizado já a seguir.) Essa coordenada ficará zero, e nenhuma coordenada que fosse antes zero deixou de o ser, pelo que o número de coordenadas positivas diminuiu... E o vetor continua a ser admissível porque a condição $Ax = b$ nunca deixa de ser verdade, e a condição $x \geq 0$ continua a ser verdade porque não deixamos nenhuma coordenada ir para os negativos.
 	
 	Em termos formais: considere-se o conjunto $T = \{\,\frac {z_i} {\tilde h_i} \mid i \in P_{\tilde h}\,\}$. Este conjunto é não-vazio (assumimos que $\tilde h$ tinha pelo menos uma coordenada positiva), finito e todos os seus elementos são positivos (pois $P_{\tilde h} \subseteq P_z$). Considere-se, então, o seu mínimo, $\alpha$. Vamos ver que o vetor $\tilde z = z - \alpha \tilde h$ é admissível e tem menos coordenadas positivas do que $z$.
 	
@@ -765,7 +763,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	\subsection{O método dos vetores básicos}
 	
-	Estamos perto de ter um método primitivo de resolução de problemas de otimização linear. Dado um pol, podemos sempre pô-lo na forma padrão. Lá estando, podemos examinar os vértices.
+	Estamos perto de ter um método primitivo de resolução de problemas de otimização linear. Dado um pol, podemos sempre pô-lo na forma padrão. Uma vez nesta forma, podemos examinar os vértices.
 	
 	A ideia é que, em principio (vamos provar isto) haverá um número finito de vértices. Se o problema tiver solução, o vértice de melhor pontuação será solução. Daí em diante, é preciso verificar que, de facto, $S_P$ é não-vazio. Os detalhes de tal verificação serão feitos mais tarde: por agora, arranjaremos um método de encontrar os vértices de $X_P$ para $P$ na forma padrão.
 	
@@ -859,7 +857,7 @@ Caso contrário:
 	
 	Nesta secção, estudaremos os cones, que têm surpreendente aplicação ao problema de otimização linear. O nosso principal resultado será o chamado \emph{lema de Farkas}. Este e as suas variantes serão de grande utilidade para encontrar métodos para descobrir se um vetor é solução.
 	
-	Um destes métodos é o chamado \emph{método das linhas ativas}, e vamos esboçar metade da sua prova de funcionamento, com o intuito de motivar o que se segue.
+	Um destes métodos é o chamado \emph{método das linhas ativas}, e vamos esboçar metade da sua prova de correção, com o intuito de motivar o que se segue.
 	
 	\subsection{Método das linhas ativas (Parte 1)}
 	
@@ -893,7 +891,7 @@ Caso contrário:
 	Já vimos no início que $x$ pertence à fronteira de $X_P$ sse $A$ tem pelo menos uma linha ativa relativamente a $x$. O que vamos ver nesta secção é que é possível averiguar se um vetor é solução examinando as linhas ativas.
 	
 	\begin{definition}
-	Dado um vetor $x$ de $X_P$, $A^x$ representa a matriz das linhas ativas de $A$.
+	Dado um vetor $x$ de $X_P$, $A^x$ representa a matriz das linhas ativas de $x$ em $A$.
 	\end{definition}
 	
 	%todo add motivação?
@@ -976,5 +974,185 @@ Caso contrário:
 	\end{conjetura}
 	
 	Focamo-nos, agora, em provar este lema.
+	
+	\subsection{O Lema de Farkas (Parte 1)}
+	
+	Para provar o Lema de Farkas vai-nos ser necessário provar vários resultados intermédios. É, no entanto, feito o esboço da prova, para motivar esses resultados.
+	
+	O objetivo é, dado um cone $C$ e um ponto $v$ fora deste:
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3.5, 2) --  (3.5, -1.5) -- (1, -1.5);
+	
+	\draw[->] (-2, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -2) -- (0, 3) node[anchor=west] {y};
+	
+	\draw[->, color=blue, very thick] (0,0) -- (1,2.5) node[anchor=south west, color=black]{$v$};
+	
+	\end{tikzpicture}
+	
+	Encontrar um hiperplano que os separe.
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3.5, 2) --  (3.5, -1.5) -- (1, -1.5);
+	
+	\draw[->] (-2, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -2) -- (0, 3) node[anchor=west] {y};
+	
+	\draw[color=green, very thick] (-3.5 / 2, -1) -- (3.5, 2);
+	
+	\draw[->, color=blue, very thick] (0,0) -- (1,2.5) node[anchor=south west, color=black]{$v$};
+	
+	\end{tikzpicture}
+	
+	O que vamos fazer é considerar a projeção ortogonal de $v$, digamos $z$, no cone
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3.5, 2) --  (3.5, -1.5) -- (1, -1.5);
+	
+	\draw[->] (-2, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -2) -- (0, 3) node[anchor=west] {y};
+	
+	\draw[color=green, very thick] (-3.5 / 2, -1) -- (3.5, 2);
+	
+	\draw[->, color=blue, very thick] (0,0) -- (1,2.5) node[anchor=south west, color=black]{$v$};
+	\draw[->, color=yellow, very thick] (0,0) -- (1.83077,1.04617) node[anchor=east, color=black]{$z$};
+	
+	\draw[dashed] (1,2.5) -- (1.83077,1.04617);
+	
+	\draw (1.83077-0.248072*0.5,1.04617+0.43412*0.5)
+		-- ++(0.43412*0.5, 0.248072*0.5)
+		-- ++(0.248072*0.5,-0.43412*0.5);
+	
+	\end{tikzpicture}
+	
+	E consideramos o plano definido por $w = v-z$.
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3.5, 2) --  (3.5, -1.5) -- (1, -1.5);
+	
+	\draw[->] (-2, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -2) -- (0, 3) node[anchor=west] {y};
+	
+	\draw[color=green, very thick] (-3.5 / 2, -1) -- (3.5, 2);
+	
+	\draw[->, color=blue, very thick] (0,0) -- (1,2.5) node[anchor=south west, color=black]{$v$};
+	\draw[->, color=yellow, very thick] (0,0) -- (1.83077,1.04617) node[anchor=east, color=black]{$z$};
+	
+	\draw[->, color=green, very thick] (1.83077,1.04617) -- (1,2.5) node[anchor=west, color=black, pos=0.5]{$w$};
+	
+	\draw (1.83077-0.248072*0.5,1.04617+0.43412*0.5)
+		-- ++(0.43412*0.5, 0.248072*0.5)
+		-- ++(0.248072*0.5,-0.43412*0.5);
+	
+	\end{tikzpicture}
+	
+	A partir daqui, há dois grandes passos que é preciso justificar:
+	
+	\begin{itemize}
+	\item O que queremos dizer por projeção ortogonal, e como a encontramos?
+	\item Como sabemos que o plano assim definido separa o ponto $v$ do cone $C$?
+	\end{itemize}
+	
+	Dedicamo-nos agora ao primeiro.
+	
+	\subsection{Cones primitivos}
+	
+	Em geral, a `projeção ortogonal de $x$ em $Y$' pode ser definida como o $y \in Y$ que minimize $\lvert x - y \rvert$. No entanto, é preciso assegurar que esta função pode ser minimizada.
+	
+	Felizmente, em certas condições, a existência deste mínimo é-nos garantida.
+	
+	\begin{prop}
+	Se $x \in \R^n$ e $Y$ é um subconjunto fechado e não-vazio de $\R^n$, existe $y \in Y$ tal que $\lvert x - y \rvert \leq \lvert x - y' \rvert$ para todo $y' \in Y$.
+	\end{prop}
+	
+	\begin{proof}
+	Primeiro que tudo, considere-se o caso em que $Y$ é limitado. Assim sendo, visto que também é fechado, é compacto. Logo, a função $f(y) = \rvert x - y \lvert$ tem mínimo por Weierstrass, o que mostra a nossa afirmação.
+	
+	No caso de $Y$ não ser limitado, pegue-se num $y'$ qualquer em $Y$. Considere-se $Y' = Y \cap \{\, y \in \R^n \mid \, \rvert x - y \lvert \leq \rvert x - y' \lvert \,\}$. Este conjunto já é compacto, e então o raciocínio anterior aplica-se, e existe $y$ que minimize $f$ em $Y'$.
+	
+	Mas se $y$ minimiza $f$ em $Y'$, também minimiza $f$ em $Y$, pois para qualquer $y''$ em $Y \setminus Y'$ tem-se $f(y) \leq f(y') \leq f(y'')$.
+	\end{proof}
+	
+	Assim sendo, dado um ponto $x \in \R^n$ e um conjunto fechado $Y$, sabemos que existe a chamada \emph{projeção ortogonal de $x$ em $Y$}, ou seja, o $y \in Y$ que minimiza $\rvert x - y \lvert$.
+	
+	Precisamos, agora, de assegurar que os cones são fechados.
+	
+	Repare-se que qualquer cone em $\R^n$ pode ser expresso como $\{\,Ax \mid x \in \R^m, x \geq 0\,\}$ para alguma matriz $m \times n$. (As suas colunas são os vetores que geram o cone.)
+	
+	Vamos começar por considerar o caso particular de um cone gerado por uma matriz não-singular $A$. Representamos por $\R^n_{+0}$ o conjunto $\{\,x \in \R^n \mid x \geq 0\,\}$. Repare-se que este conjunto é fechado (deixado como exercício ao leitor.)
+	
+	Assim sendo, queremos considerar o conjunto $A \R^n_{+0}$, e queremos justificar que este é fechado.
+	
+	Repare-se que a função linear $x \mapsto Ax$ é contínua. Infelizmente, não é necessáriamente verdade que a imagem sob uma função contínua de um conjunto fechado seja fechado. No entanto, há um resultado que nos pode ajudar:
+	
+	\begin{prop}
+	Se $f : \R^n \rightarrow \R^n$ é uma bijeção de inversa contínua e $X$ é um conjunto fechado, $f(X)$ é fechado.
+	\end{prop}
+	
+	\begin{proof}
+	Seja $g$ a inversa de $f$, que sabemos ser contínua. Temos que $f(X) = g^{-1}(X)$. Como $X$ é fechado, $g^{-1}(X)$ é fechado, e então $f(X)$ é fechado.
+	\end{proof}
+	
+	Repare-se que a nossa função $x \mapsto Ax$ está nestas condições, pois tem inversa contínua (em particular, linear) $x \mapsto A^{-1} x$. Assim sendo, a imagem sob $A$ de $\R^n_{+0}$ é fechada, e o nosso cone é fechado.
+	
+	Este raciocínio pode ser feito, com algumas modificações, na hipótese mais fraca de $A$ ter colunas linearmente indepentes.
+	
+	\begin{prop}
+	Dizemos que um cone $A \R^m_{+0}$ é \emph{primitivo} se as colunas de $A$ são linearmente independentes.
+	
+	Qualquer cone primitivo é fechado.
+	\end{prop}
+	
+	\begin{proof}
+	Considere-se os vetores (colunas de $A$) $a_1, \cdots, a_m$ linearmente independentes, e extendenda-se este conjunto a uma base $a_1, \cdots, a_m, a_{m+1}, \cdots, a_n$.
+	
+	Se $A'$ é a matriz cujas colunas são $a_1, \cdots, a_n$, o cone $A \R^m_{+0}$ é igual a \allowbreak ${A' (\R^m_{+0} \times \{0\})}$. A função $x \mapsto A'x$ tem inversa contínua, e o conjunto $\R^m_{+0} \times \{0\}$ é fechado, pelo que o cone original é fechado.
+	\end{proof}
+	
+	Infelizmente, não é fácil extender este raciocínio a qualquer cone. É possível, no entanto escrever qualquer cone como uma união de cones primitivos.
+	
+	A ideia é a seguinte: suponhamos que tenho o cone gerado por $a_1, \cdots, a_m$. Qualquer elemento $x$ deste cone pode ser escrito como $t_1 a_1 + \cdots + t_m a_m$ para $t_i \geq 0$, $i = 1, \cdots, m$. No entanto, da Álgebra Linear, sabemos que podemos escrevê-lo como $t_1 a_{i_1} + \cdots t_k a_{i_k}$ onde $a_{i_1}, \cdots, a_{i_k}$ são linearmente independentes. Se conseguirmos assegurar que há uma forma de escrever isto de modo a que $t_1, \cdots, t_k$ são todos $\geq 0$, obtemos que $x$ pertence ao cone (primitivo) gerado por $a_{i_1}, \cdots, a_{i_k}$.
+	
+	Feito isto, considere-se o cone gerado por $B = \{a_1, \cdots, a_n\}$. O que isto provaria seria que qualquer $x$ no cone gerado por $B$ pertence a um cone gerado por um $B' \subseteq B$ tal que $B'$ é linearmente independente, e então o cone gerado por $B$ é a união dos cones gerados pelos subconjuntos linearmente independentes de $B$, e então é união (finita) de cones primitivos, sendo então fechado.
+	
+	Falta apenas, então, mostrar que é sempre possível escrever um elemento do cone como soma não-negativa de elementos linearmente independentes.
+	
+	\begin{prop}
+	Qualquer cone é união finita de cones primitivos, sendo então fechado.
+	\end{prop}
+	
+	\begin{proof}
+	Pelo que já vimos antes, basta mostrar que, para $x$ da forma $t_1 a_1 + \cdots t_m a_m$, ($t_1, \cdots, t_m \geq 0$), existem $i_1, \cdots, i_k$ e $r_1, \cdots, r_k \geq 0$ tal que $a_{i_1}, \cdots, a_{i_k}$ são linearmente independentes e $x = r_1 a_{i_1} + \cdots + r_k a_{i_k}$.
+	
+	Para fazer isto, suponha-se que $x$ pertence ao cone gerado por $a_1, \cdots, a_m$, e considere-se uma forma de escrever $x$ que minimize os índices diferentes de zero. Ou seja, vamos escrever $x$ como $t_1 a_1 + \cdots + t_m a_m$ de uma forma que faça com que o número de $i$ tal que $t_i > 0$ seja mínimo.
+	
+	Sejam $i_1, \cdots, i_k$ os índices tais que $t_{i_1}, \cdots, t_{i_k} > 0$. Provamos que $a_{i_1}, \cdots, a_{i_k}$ são linearmente independentes.
+
+	Para este objetivo, suponha-se que não são. Mostraremos que afinal esta forma de escrever $x$ não é o mínimo que tinhamos suposto.
+	
+	Se não são linearmente independentes, existem $s_1, \cdots, s_k$, nem todos iguais a zero (suponha-se spdg que pelo menos um deles é maior que zero), tal que $s_1 a_{i_1} + \cdots + s_k a_{i_k} = 0$
+	
+	Comparando as duas equações que temos até agora: (E pondo $r_j = t_{i_j}$)
+	
+	\begin{align*}
+	r_1 a_{i_1} + \cdots + r_k a_{i_k} &= x \\
+	s_1 a_{i_1} + \cdots + s_k a_{i_k} &= 0
+	\end{align*}
+	
+	A ideia é subtrair a equação de baixo à de cima de modo a deixar todos os termos $\geq 0$, mas cancelar pelo menos um, e então mostrar que existe uma forma de somar os $a$'s a zero que tem menos termos não-nulos.
+	
+	Para este efeito, considere-se o conjunto $\{\,\frac{r_j}{s_j} \mid s_j > 0\,\}$. Este conjunto é não-vazio por hipótese, e é finito, pelo que tem um mínimo $\frac{r_\ell}{s_\ell}$. Ponha-se então $r'_j = r_j - \frac{r_\ell}{s_\ell} s_j$.
+	
+	É fácil verificar que $r'_j \geq 0$ para todo $j$ (o caso em que $s_j \leq 0$ é trivial, o caso em que $s_j > 0$ é deixado ao leitor) e que $r'_\ell = 0$. Finalmente, é trivial ver que $r'_1 a_{i_1} + \cdots + r'_k a_{i_k} = x$, pois o que foi feito foi subtrair a equação de baixo à equação de cima $\frac{r_\ell}{s_\ell}$ vezes, pelo que o resultado dá $x + \frac{r_\ell}{s_\ell} 0 = x$.
+	
+	Isto mostra, então, que a forma de somar a $x$ que minimiza o número de termos não-zero tem todos os termos linearmente independentes, pelo que $x$ é soma de vetores linearmente independentes e então pertence a um dos cones primitivos gerados por subconjuntos linearmente independentes de $B = \{a_1, \cdots, a_m\}$.
+	
+	Como o número de tais subconjuntos é finito, o cone gerado por $B$ é uma união finita de cones primitivos. Como todos este são fechados, e uniões finitas de conjuntos fechados são fechados, o nosso cone é fechado.
+	\end{proof}
+	
+	Esta proposição é a principal razão pela qual passámos pelos cones primitivos. Visto que agora sabemos que os cones são todos fechados, sabemos que podemos considerar projeções ortogonais, e avançamos para o lema de Farkas.
+	
+	\subsection{O Lema de Farkas (Parte 2)}
 	
 \end{document}
