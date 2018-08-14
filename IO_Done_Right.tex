@@ -844,9 +844,9 @@ Caso contrário:
 	Este fenómeno é tão comum que tem um nome.
 	
 	\begin{definition}
-	Sejam $a_1, a_2, \cdots, a_r$ vetores de $\R^n$. O \emph{cone formado por $a_1, \cdots, a_r$} é o conjunto:
+	Sejam $a_1, a_2, \cdots, a_r$ vetores de $\R^n$. O \emph{cone formado por $a_1, \cdots, a_r$} é o conjunto: \footnote{O leitor poderá perguntar-se o que acontece ao cone gerado por zero elementos. Neste caso, o nosso conjunto será o conjunto que contém apenas um elemento ($\R^0$ tem um elemento, e todos os seus índices são $\geq 0$) e este será a soma vazia, que dá zero. Logo, o cone gerado pelo vazio é o conjunto $\{0\}$. Tendo isto em conta, é fácil ver que o conjunto vazio \emph{não} é um cone sob esta definição.}
 	
-	\[\{\, \sum_{i=1}^r t_i a_i \mid t_i \in \R^+_0 \text{ para } i = 1, \cdots, r \,\}\]
+	\[\{\, \sum_{i=1}^r t_i a_i \mid t \in \R^r, t \leq 0\,\}\]
 	
 	Em particular, é muito comum estes vetores serem as colunas de uma matriz. Assim sendo, dada uma matriz $A$, definimos \emph{o cone das colunas de $A$}, denominado $\CC A$, como:
 	
@@ -1154,5 +1154,85 @@ Caso contrário:
 	Esta proposição é a principal razão pela qual passámos pelos cones primitivos. Visto que agora sabemos que os cones são todos fechados, sabemos que podemos considerar projeções ortogonais, e avançamos para o lema de Farkas.
 	
 	\subsection{O Lema de Farkas (Parte 2)}
+	
+	Vamos, agora, voltar aos nossos desenhos. Relembre-se que temos um ponto $v$ e um cone $C$ (a vermelho na imagem abaixo) e pretendemos arranjar um hiperplano que separasse $v$ de $C$. Tinhamos a conjetura que o $w$ construido abaixo (que já sabemos que podemos construir) poderia ser de uso.
+	
+	\begin{tikzpicture}
+	\fill[->, color=purple!50, very thick] (0,0) -- (3.5, 2) --  (3.5, -1.5) -- (1, -1.5);
+	
+	\draw[->] (-2, 0) -- (4, 0) node[anchor=south] {x};
+	\draw[->] (0, -2) -- (0, 3) node[anchor=west] {y};
+	
+	\draw[color=green, very thick] (-3.5 / 2, -1) -- (3.5, 2);
+	
+	\draw[->, color=blue, very thick] (0,0) -- (1,2.5) node[anchor=south west, color=black]{$v$};
+	\draw[->, color=yellow, very thick] (0,0) -- (1.83077,1.04617) node[anchor=east, color=black]{$z$};
+	
+	\draw[->, color=green, very thick] (1.83077,1.04617) -- (1,2.5) node[anchor=west, color=black, pos=0.5]{$w$};
+	
+	\draw (1.83077-0.248072*0.5,1.04617+0.43412*0.5)
+		-- ++(0.43412*0.5, 0.248072*0.5)
+		-- ++(0.248072*0.5,-0.43412*0.5);
+	
+	\end{tikzpicture}
+	
+	Repare-se que não justificámos o ângulo reto na figura. No entanto, da figura é óbvio (e vamos demonstrar) que, de facto, $z \cdot w = 0$. Isto vai ser relevante na nossa prova.
+	
+	A ideia para justificar que, para todo $x \in C$ se tem $w \cdot x \leq 0$ é a seguinte: suponhamos que havia $x \in C$ tal que $w \cdot x > 0$.
+	
+	Repare-se que o cone é convexo (exercício ao leitor), pelo que todos os vetores da forma $(1-t) z + t x$ pertencem ao cone para $t \in [0,1]$. Mas repare-se no aspeto da função $f(t) = \rvert v - ((1-t) z + t x) \lvert ^2$. Expandido com o produto escalar, ficamos com
+	
+	\begin{align*}
+	f(t) &= \rvert(v - z) + t(z - x)\lvert^2 \\
+	&= \rvert v-z \lvert^2 + 2 (v - z) \cdot (z - x) t + \rvert z - x \lvert^2 t^2
+	\end{align*}
+	
+	Isto tem a aparência de uma parábola virada para cima. Agora, vejamos como é que esta se parece no intervalo $[0,1]$... Calculando a derivada desta função em zero, é possível verificar que esta dá $2 (v - z) \cdot (z - x) = - 2 w \cdot x < 0$ (as contas serão feitas com mais cuidado em breve) e então a derivada é negativa em zero... O que significa que existe uma vizinhança de zero onde a função toma valores menores do que $f(0)$, o que significa que existe $t_0$ tal que $f(t_0) < f(0)$. Logo, temos um ponto, $(1-t_0) z + t_0 x$ que pertence ao cone, cuja distância a $v$ é menor do que a de $z$, o que contraria a nossa hipótese de minimalidade quanto a $z$.
+	
+	Isto é o cerne da demonstração. Os detalhes serão feitos agora.
+	
+	\begin{prop} (Lema de Farkas)
+	Seja $C \subseteq \R^n$ um cone, $v \in \R^n$
+	
+	$v \not \in C$ sse existe $w \in \R^n$ tal que $w \cdot v > 0$ e $w \cdot x \leq 0$ para todo $x \in C$.
+	\end{prop}
+	
+	\begin{proof}
+	Primeiro, lide-se com a implicação óbvia: ($\leftarrow$).
+	
+	Se existe $w$ tal que $w \cdot x \leq 0$ para todo $x \in C$ e $w \cdot v > 0$, é óbvio que $v$ não pode pertencer a $C$. Feito.
+	
+	O que nos leva à implicação não-óbvia.
+	
+	Suponhamos que $v \not \in C$. Seja $z$ a projeção ortogonal de $v$ em $C$, que sabemos existir pois $C$ é fechado e não-vazio, e seja $w = v - z$.
+	
+	Para provar que $w \cdot z = 0$, considere-se a função $g(t) = \rvert v - t z \lvert ^2$. Sabemos, por definição de $z$, que $g$ tem um mínimo em $t = 1$, pois os pontos da forma $tz$ pertencem todos ao cone para $t \in \R^+_0$ (verifique). Logo, $g'(1) = 0$.
+	
+	Calculando $g(t)$ (expandindo o quadrado da norma com o produto escalar), temos que este dá $\rvert v \lvert ^2 - 2 (v \cdot z) t + \rvert z \lvert ^2 t^2$. A derivada é, então, $2 (-(v \cdot z) + (z \cdot z) t)$. Em particular, sabemos que para $t = 1$ isto dá zero, pelo que $2 (-v \cdot z + z \cdot z) = 0$ e então temos que $(v - z) \cdot z = 0$ donde se conclui $w \cdot z = 0$, como queríamos demonstrar.
+	
+	Feito isto, continue-se a prova. Pretendemos mostrar que para todo $x \in C$ se tem $w \cdot x \leq 0$, pelo que supomos por contradição que existe $x \in C$ tal que $w \cdot x > 0$.
+	
+	Visto que o cone é convexo (verifique) temos que para todo $t \in [0,1]$ o vetor $(1-t)z + tx$ pertence ao cone. Assim sendo, consideramos a função
+	
+	
+	\begin{align*}
+	f(t) &= \rvert v - ((1-t)z + tx) \lvert^2 \\
+	&= \rvert(v - z) + t(z - x)\lvert^2 \\
+	&= \rvert v-z \lvert^2 + 2 (v - z) \cdot (z - x) t + \rvert z - x \lvert^2 t^2
+	\end{align*}
+	
+	Esta função tem, como já vimos, derivada negativa em zero:
+	
+	
+	\begin{align*}
+	f'(t) &= 2 (v - z) \cdot (z - x) + 2 \rvert z - x \lvert^2 t \\
+	f'(0) &= 2 (v - z) \cdot (z - x)\\
+	&= 2 w \cdot z - 2 w \cdot x\\
+	&= - 2 w \cdot x\\
+	&< 0
+	\end{align*}
+	
+	Logo, para $t>0$ pequeno o suficiente tem-se $f(t) < f(0)$. Pondo $t_0$ um destes $t$ pequenos o suficiente, temos que $z' = (1-t_0)z + t_0 x$ é um ponto que pertence ao cone que tem distância a $v$ menor do que $z$, o que contraria a nossa hipótese sobre $z$. Assim sendo, a hipótese que $w \cdot x > 0$ tem que ser falsa, e o lema de Farkas está provado.
+	\end{proof}
 	
 \end{document}
