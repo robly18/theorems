@@ -44,8 +44,8 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
 
-\newtheorem{teorema}{Teorema}
 \newtheorem{prop}{Prop}
+\newtheorem*{prop*}{Prop}
 \newtheorem{conjetura}{Conjetura}
 
 \theoremstyle{definition}
@@ -844,7 +844,7 @@ Caso contrário:
 	Este fenómeno é tão comum que tem um nome.
 	
 	\begin{definition}
-	Sejam $a_1, a_2, \cdots, a_r$ vetores de $\R^n$. O \emph{cone formado por $a_1, \cdots, a_r$} é o conjunto: \footnote{O leitor poderá perguntar-se o que acontece ao cone gerado por zero elementos. Neste caso, o nosso conjunto será o conjunto que contém apenas um elemento ($\R^0$ tem um elemento, e todos os seus índices são $\geq 0$) e este será a soma vazia, que dá zero. Logo, o cone gerado pelo vazio é o conjunto $\{0\}$. Tendo isto em conta, é fácil ver que o conjunto vazio \emph{não} é um cone sob esta definição.}
+	Sejam $a_1, a_2, \cdots, a_r$ vetores de $\R^n$. O \emph{cone formado por $a_1, \cdots, a_r$} é o conjunto:
 	
 	\[\{\, \sum_{i=1}^r t_i a_i \mid t \in \R^r, t \leq 0\,\}\]
 	
@@ -852,7 +852,7 @@ Caso contrário:
 	
 	\[\{\, Ax \mid x \in \R^n, x \geq 0\,\}\]
 	
-	É fácil verificar que isto é o mesmo que o cone formado pelas colunas de $A$.
+	É fácil verificar que isto é o mesmo que o cone formado pelas colunas de $A$. \footnote{O leitor poderá perguntar-se o que acontece ao cone gerado por zero elementos. Neste caso, o nosso conjunto será o conjunto que contém apenas um elemento ($\R^0$ tem um elemento, e todos os seus índices são $\geq 0$) e este será a soma vazia, que dá zero. Logo, o cone gerado pelo vazio é o conjunto $\{0\}$. Em termos matriciais, isto equivale ao cone gerado por uma matriz $n \times 0$. Tendo isto em conta, é fácil ver que o conjunto vazio \emph{não} é um cone sob esta definição.}
 	\end{definition}
 	
 	Nesta secção, estudaremos os cones, que têm surpreendente aplicação ao problema de otimização linear. O nosso principal resultado será o chamado \emph{lema de Farkas}. Este e as suas variantes serão de grande utilidade para encontrar métodos para descobrir se um vetor é solução.
@@ -896,12 +896,12 @@ Caso contrário:
 	
 	%todo add motivação?
 	
-	\begin{prop}
+	\begin{prop} \label{linhasativas1}
 	Seja $x$ um vetor admissível de $P$. $x$ não é solução sse existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$
 	\end{prop}
 	
 	\begin{proof}
-	Prove-se primeiro a implicação ($\leftarrow$). Suponha-se que existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$. A ideia é `somar $w$ em pequenas quantidades'.
+	Prove-se primeiro a implicação ($\leftarrow$). Suponha-se que existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$. A ideia é `somar $w$ em pequenas quantidades', de modo a obter um vetor admissível de pontuação melhor do que $x$.
 	
 	É óbvio que se existe $t$ positivo tal que $x + tw \in X_P$, $x$ não é solução, pois este novo vetor tem pontuação melhor do que $x$.
 	
@@ -1234,5 +1234,52 @@ Caso contrário:
 	
 	Logo, para $t>0$ pequeno o suficiente tem-se $f(t) < f(0)$. Pondo $t_0$ um destes $t$ pequenos o suficiente, temos que $z' = (1-t_0)z + t_0 x$ é um ponto que pertence ao cone que tem distância a $v$ menor do que $z$, o que contraria a nossa hipótese sobre $z$. Assim sendo, a hipótese que $w \cdot x > 0$ tem que ser falsa, e o lema de Farkas está provado.
 	\end{proof}
+	
+	A seguir está uma versão equivalente do Lema de Farkas, que é mais fácil de verificar na prática, pois basta verificar a condição $w \cdot x \leq 0$ para um número finito de vetores.
+	
+	\begin{prop} (Lema de Farkas Modificado)
+	Seja $A$ uma matriz $n \times m$, $v \in \R^n$
+	
+	$v \not \in \CC A$ sse existe $w \in \R^n$ tal que $w \cdot v > 0$ e $A^T w \leq 0$.
+	\end{prop}
+	
+	\begin{proof}
+	Sabemos que $v \not \in \CC A$ sse existe $w \in \R^n$ tal que $w \cdot v > 0$ e $w \cdot (Ax) \leq 0$ para todo $x \geq 0$.
+	
+	Em particular, pondo $x = e_1, e_2, \cdots, e_m$ (onde $e_i$ representa o $i$-ésimo vetor da base canónica em $\R^m$), temos que $v \not \in \CC A$ implica que existe $w \in \R^n$ tal que $w \cdot v > 0$ e $w \cdot a_i \leq 0$ para todo $i = 1, \cdots, m$. Isto pode ser reformulado como $w \cdot v > 0$ e $A^T w \leq 0$, o que conclui a implicação ($\rightarrow$).
+	
+	Basta agora mostrar ($\leftarrow$). Suponha-se que existe $w \in \R^n$ tal que $w \cdot v > 0$ e $A^T w \leq 0$. Mostraremos que este $w$ é tal que $w \cdot (Ax) \leq 0$ para todo $x \geq 0$, o que, por Farkas, mostra que $v \not \in \CC A$.
+	
+	Ora, de $A^t w \leq 0$ obtemos que $w \cdot a_i \leq 0$ para todo $i$, onde $a_i$ representa a $i$-ésima coluna de $A$. Assim sendo, pondo $x$ um vetor não-negativo, temos $w \cdot (Ax) = w \cdot \sum_{i=1}^m x_i a_i = \sum_{i=1}^m x_i (w \cdot a_i)$. Todos os termos desta soma são $\leq 0$, pelo que obtemos $w \cdot (Ax) \leq 0$, como queríamos demonstrar.
+	\end{proof}
+	
+	\subsection{Método das linhas ativas (Parte 2)}
+	
+	Recorde-se da proposição \ref{linhasativas1}, que provámos anteriormente:
+	
+	\begin{prop*}
+	Seja $P$ o seguinte pol na forma semicanónica:
+	
+	\[
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b
+	\end{cases}
+	\]
+	
+	E seja $x$ um vetor admissível de $P$. $x$ não é solução sse existe $w \in \R^n$ tal que $cw > 0$ e $A^x w \leq 0$
+	\end{prop*}
+	
+	Com o lema de Farkas, podemos refinar isto para o seguinte útil critério:
+	
+	\begin{prop} (Critério das linhas ativas)
+	
+	Sob as mesmas hipótses, $x$ é solução sse $c^T$ pertence a $\CC A^{xT}$
+	\end{prop}
+	
+	A demonstração disto é uma aplicação trivial do lema de Farkas, que o leitor poderá confirmar por si mesmo.
+	
+	Visto que qualquer pol pode ser transformado na forma semicanónica, este critério acaba por ser extremamente útil para demonstrar que um dado vetor é solução.
+	
 	
 \end{document}
