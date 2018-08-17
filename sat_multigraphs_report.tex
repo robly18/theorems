@@ -185,6 +185,7 @@ We will assign to every multigraph $G = (V,E)$ (where $V$ is the set of literals
 \[\Gamma = \{\, \conj A \cup B \mid A \rightcurvearrow B \in E\,\}\]
 
 As the reader may easily check, given a CNF $\Gamma$, it is the CNF represented by $\Gr \Gamma$, $\gr \Gamma$, and, if applicable, $\gr'\Gamma$. This will allow us to study some properties of all of these three at the same time.
+
 \subsection{Valuations from colorings}
 
 Given a set of propositional symbols $\Sigma$, we will deem a coloring $\chi$ of the literals with the colors $\top, \bot$ to be \emph{valorable} if, for all literals $v$, $\chi(\conj v) = \conj{\chi(v)}$.
@@ -247,7 +248,13 @@ If $\Gamma$ is represented by $G = (V,E)$, then $\Gamma$ is satisfiable iff $G$ 
 Simply apply the previous proposition. If $\Gamma$ is satisfiable, pick a satisfying valuation and consider its coloration, which will be valid and valorable. If $G$ has a valid valorable coloration, consider its associated valuation.
 \end{proof}
 
-\subsection{Direct implication}
+\subsection{Indirect Implication}
+
+To help us study valid colorations of multigraphs, we make the following definition:
+
+Given a graph $G$ and two sets of vertices $A$ and $B$, we say \emph{$A$ indirectly implies $B$}, denoted $A \Rightcurvearrow B$, if all valid colorations $\chi$ that obey $\chi(a) = \top$ for all $a \in A$ also obey $\chi(b) = \top$ for some $b \in B$.
+
+\subsection{Direct Implication}
 
 In the interest of characterizing the relation of indirect implication in the context of tail graphs, we will consider the following definition:
 
@@ -350,43 +357,88 @@ As such, since at the end, all states have $U$ empty, all edges are valid with r
 
 \subsection{Full graphs}
 
+Remind yourself of the definition of the full graph of a CNF $\Gamma$:
+\begin{gather*}
+\Gr \Gamma = (V,E) \\
+\text{Where $V$ is the set of literals, and}\\
+E = \{ \, \conj A \rightcurveor (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}
+\end{gather*}
+
+This graph has very strong properties.
+
+We already showed that $\Gamma$ is the CNF represented by $\Gr \Gamma$, which shows that $\Gamma$ is satisfiable iff there exists a valid valorable coloration of $\Gr \Gamma$. What we will now show is that this can be relaxed to ``there exists a valid coloration''.
+
+First, a property of the edges of these graphs that will be useful in the sequence.
+
 \begin{prop}
-Let $\Gamma$ be a CNF, ${A \rightcurvearrow B}$ an edge of $\Gr \Gamma$.
+Let $\Gamma$ be a CNF. The following refers to $\Gr \Gamma$:
 
-$A$ and $\conj B$ are disjoint.
-\end{prop}
-
-\begin{prop} (Symmetry)
-Under the same assumptions, if ${a \in A}$, then ${(A \setminus \{a\}) \rightcurvearrow (B \cup \{\conj a \})}$ is an edge. Likewise, if ${b \in B}$, then ${(A \cup \{\conj b\}) \rightcurvearrow (B \setminus \{b\})}$ is as well.
-\end{prop}
-
-To word the latter differently:
-
-\begin{prop*}
 If $a \not\in A$ and $\conj a \not\in B$, then $(A \cup \{a\}) \rightcurvearrow B$ iff $A \rightcurvearrow (B \cup \{\conj a\})$.
-\end{prop*}
 
-\begin{prop}
-If $\chi$ is a valid coloration of a graph $G$, its restriction to $V \setminus \{a\}$ is a valid coloration of $G_{\setminus a}$.
+We will refer to this property of the full graph as \emph{local symmetry}.
 \end{prop}
 
-\begin{prop}
-Let $\Gamma$ be a CNF, $G$ its graph, and suppose $\chi$ is a valid coloration of $G_{\setminus a}$. Then, it can be extended to a valid coloration of $G$ by putting $\chi(a) = \conj{\chi(\conj a)}$.
+\begin{proof}
+Suppose $a \not\in A$ and $\conj a \not\in B$. Then, $(A \cup \{a\}) \rightcurvearrow B$ iff $\conj A \cup \{\conj a\} \cup B \in \Gamma$ iff $A \rightcurvearrow (B \cup \{\conj a\})$
+\end{proof}
+
+\begin{prop} \label{swapvalue}
+Let $\Gamma$ be a CNF, $G$ its full graph, and suppose $\chi$ is a valid coloration of $G$. Then, fixed some literal $a$, the coloration $\chi'$ of $G$ defined as follows is also valid:
+
+\[
+\chi'(v) =
+\begin{cases}
+\chi(v) & \text{if $v \neq a$}\\
+\conj{\chi(\conj a)} & \text{if $v = a$}
+\end{cases}
+\]
 \end{prop}
 
-\begin{corollary} \label{swapvalue}
-If $\chi$ is a valid coloration of $G$, fixed $a \in V$, the coloration obtained from $\chi$ by changing $\chi(a)$ to $\conj{\chi(\conj a)}$ is valid.
-\end{corollary}
+\begin{proof}
+Fix an arbitrary edge $A \rightcurvearrow B$. We will show that if it is not valid with relation to $\chi'$, then $\chi$ is not a valid coloration.
+
+Suppose, then, it is not valid with relation to $\chi'$. Then, $\chi'(\alpha) = \top$ for all $\alpha \in A$, and $\chi'(\beta) = \bot$ for all $\beta \in B$.
+
+If $a \not \in A \cup B$, then $\chi(\alpha) = \top$ for all $\alpha \in A$ and $\chi(\beta) = \bot$ for all $\beta \in B$, which shows $A \rightcurvearrow B$ is not valid wrt $\chi$ and so $\chi$ is not a valid coloration.
+
+If $a \in A$ and $a \not \in B$, then $\chi(\alpha) = \top$ for all $\alpha \in A \setminus \{a\}$, and $\chi(b) = \bot$ for all $b \in B \cup \{\conj a\}$, which shows the edge $A \setminus \{a\} \rightcurvearrow B \cup \{\conj a\}$ is not valid wrt $\chi$ and so $\chi$ is not a valid coloration.
+
+The other two cases ($a \in B$ and $a \not \in B$; $a \in A$ and $a \in B$) are similar and left as an exercise to the reader.
+
+%todo maybe this could be improves
+\end{proof}
+
+This brings us to our main result about the full graph:
 
 \begin{prop}
-Let $\Gamma$ be a CNF, $G$ its corresponding graph.
+Let $\Gamma$ be a CNF.
 
-$\Gamma$ is satisfiable iff there exists a valid coloration of $G$.
+$\Gamma$ is satisfiable iff there exists a valid coloration of $\Gr \Gamma$.
 \end{prop}
+
+\begin{proof}
+If $\Gamma$ is satisfiable, there is a valid valorable coloration of $\Gr \Gamma$, and so there is a valid coloration.
+
+If there is a valid coloration $\chi$ of $\Gr \Gamma$, we can use prop \ref{swapvalue} to make it valorable. Simply take every $a$ such that $\chi(a) = \chi(\conj a)$ and swap one of them. The coloration at the end will be valorable, by \ref{swapvalue} it will be valid, and so there is a valid valorable coloration and $\Gamma$ is satisfiable.
+\end{proof}
 
 \begin{corollary}
 $\Gamma$ is not satisfiable iff $\emptyset \Rightcurvearrow \emptyset$.
 \end{corollary}
+
+\begin{proof}
+Notice that the condition $\emptyset \Rightcurvearrow \emptyset$ is equivalent to ``there is no valid coloration''.
+
+The right-implication is obvious: if $\emptyset \Rightcurvearrow \emptyset$, any valid coloration that makes all elements of $\emptyset$ true must make some element of $\emptyset$ true. The first condition applies to all valid colorations, the second applies to none, and so there can be no valid coloration.
+
+The left-implication is also obvious: if there is no valid coloration, $A \Rightcurvearrow B$ is true, as all valid colorations that make all elements of $A$ true make some element of $B$ true. This is obvious because there are none. In particular, plugging $A = B = \emptyset$, $\emptyset \Rightcurvearrow \emptyset$.
+
+This shows that $\emptyset \Rightcurvearrow \emptyset$ iff there are no valid colorations, which we already know to be iff $\Gamma$ is not satisfiable.
+\end{proof}
+
+This raises the question of how to find indirect implications. If we can find a way to deduce that $\emptyset \Rightcurvearrow \emptyset$, we have a way of showing a formula is not satisfiable.
+
+The following motivates a possible calculus, which this shows to be correct, for discovering indirect implications, but it is not known yet (by the author) if it is complete.
 
 \begin{prop}
 Fixed an arbitrary multigraph $G$, indirect implication in this graph has the following three properties:
@@ -399,60 +451,36 @@ Fixed an arbitrary multigraph $G$, indirect implication in this graph has the fo
 \end{prop}
 
 \begin{av}
-Is there a complete calculus for finding indirect implication, based on the above rules and perhaps some more?
+Would a calculus based on these properties be complete? If not, what needs to be added?
 \end{av}
-
-\begin{prop} (Symmetry)
-In the context of the full graph of a CNF:
-
-If $\conj a \not \in A$ and $a \not \in B$, then
-
-\[ A \cup \{a\} \Rightcurvearrow B \text{ iff } A \Rightcurvearrow B \cup \{\conj a\} \]
-\end{prop}
-
-An important detail to take note of: while the symmetry for direct and indirect implication is very similar, there is a subtle but important difference: in direct implication, we must assume $a \not \in A \cup \conj B$. Here we assume exactly the opposite: $\conj a \not \in A \cup \conj B$.
-
-\begin{prop}
-Let $\Gamma$ be a CNF formula, $G = (V, E)$ its full graph.
-
-Run the exhaustion algorithm with $V_0 = \emptyset$.
-
-$\Gamma$ is satisfiable iff there is a sequence of choices that lead to this algorithm not halting prematurely.
-
-If such a thing happens, the valuation $\rho(\alpha) = \top \text{ if } (\alpha, \top) \in T \text { else } \bot$ satisfies $\Gamma$.
-\end{prop}
 
 \subsection{Tail graphs}
 
-\begin{prop}
-Let $\Gamma$ be a CNF.
-
-Furthermore, let $\rho$ be a valuation of $\Sigma$, and $\chi = \col \rho$.
-
-Then, $\rho \sat \Gamma$ iff $\chi$ is valid on $\gr \Gamma$.
-\end{prop}
-
-\begin{corollary}
-$\Gamma$ is satisfiable iff there exists a valid valorable coloration of its tail graph.
-\end{corollary}
-
-I'm sure I'll find more stuff to put here.
-
-The following is possibly the best result I've got here.
+We could actually show that such a calculus does work for tail graphs.
 
 \begin{prop}
 Let $G = (V,E)$ be a tail graph.
 
 $a \Rightcurveor B$ iff there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
-
-This is proven by showing that they are both equivalent to:
-
-There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
 \end{prop}
 
-\begin{av}
-Try to broaden this to non-tail graphs.
-\end{av}
+\begin{proof}
+Recall the definition of states, as this proposition is proven by showing the following cyclical implication.
+
+Consider the following propositions:
+
+\begin{enumerate}[i]
+\item There exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
+\item $a \Rightcurveor B$
+\item There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
+\end{enumerate}
+
+We will show the following cyclical implication: $i) \Rightarrow ii) \Rightarrow iii) \Rightarrow i)$. This clearly shows all three are equivalent, and, in particular, $i) \Leftrightarrow ii)$.
+
+$i) \Rightarrow ii)$ is a trivial exercise in induction. One easily shows by induction that if $a \rightcurveor_* B'$ then $a \Rightcurveor B'$, and it is easy to see that from this one concludes $a \Rightcurveor B$.
+
+TODO
+\end{proof}
 
 \subsubsection{2-CNF}
 
