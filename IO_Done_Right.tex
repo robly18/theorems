@@ -310,6 +310,8 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{cases}
 	\]
 	
+	Repare-se que a nossa função de tradução $f$ é linear. Isto vai ser relevante eventualmente. Dizemos que qualquer pol pode ser \emph{traduzido linearmente para um pol na forma canónica}.
+	
 	\subsubsection{Desigualdades para igualdades (Forma padrão)}
 	
 	Outra forma útil de expressar um problema de otimização linear é a chamada forma padrão, da forma seguinte:
@@ -359,7 +361,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	Mas isto é trivial, pois $(x,y)$ tem melhor pontuação que $(x',y')$ sse $-cx < -cx'$ sse $cx > cx'$, como queríamos demonstrar.
 	\end{proof}
 	
-	Isto mostra, então, que qualquer pol tem uma tradução para um pol na forma padrão.
+	Isto mostra, então, que qualquer pol tem uma tradução linear para um pol na forma padrão.
 	
 	\subsubsection{Padrão para Canónico}
 	
@@ -729,11 +731,11 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	\end{cases}
 	\]
 	
-	Se $S_P$ é não-vazio, contém pelo menos um vértice de $X_P$.
+	Se a função $x \mapsto cx$ é minorada em $X_P$, para todo $v \in X_P$ existe um vértice $z$ de $X_P$ tal que $cz \leq cv$.
 	\end{prop}
 	
 	\begin{proof}
-	Suponha-se que $S_P$ é não-vazio. A função $x \mapsto \#P_x$ vai de $S_P$ para $\N_0$, pelo que é minimizada nalgum ponto. Chamemos-lhe $z$. Mostraremos que $z$ é vértice de $X_P$.
+	Se $v \in X_P$, o conjunto $\{\,x \in X_P \mid cx \leq cv\,\}$ é não-vazio. A função $x \mapsto \#P_x$ vai deste conjunto para $\N_0$, pelo que é minimizada nalgum ponto. Chamemos-lhe $z$. Mostraremos que $z$ é vértice de $X_P$.
 	
 	Para fazer isto, usaremos a caraterização feita há pouco: mostraremos que as colunas de $A_{P_z}$ são linearmente independentes, o que justifica que $z$ é vértice.
 	
@@ -741,11 +743,13 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Suponha-se, então, que $z$ não é vértice, ou seja, que as colunas de $A_{P_z}$ são linearmente dependentes. Vamos arranjar um elemento $\tilde z$ de $S_P$ tal que $\#P_{\tilde z} < \#P_z$
 	
-	Sabendo que as colunas de $A_{P_z}$ são linearmente dependentes, existe solução não-trivial do sistema $A_{P_z} x = 0$. Seja $\tilde h$ tal que $\tilde h_i = 0$ para $i \not \in P_z$, e $\tilde h_{P_z}$ é solução não-trivial de $A_{P_z} \tilde h_{P_z} = 0$ Suponha-se, sem perda de generalidade, que $\tilde h$ tem pelo menos uma coordenada positiva. Podemos fazer isto, pois, se não for o caso, substitua-se $\tilde h$ por $-\tilde h$.
+	Sabendo que as colunas de $A_{P_z}$ são linearmente dependentes, existe solução não-trivial do sistema $A_{P_z} x = 0$. Seja $\tilde h$ tal que $\tilde h_i = 0$ para $i \not \in P_z$, e $\tilde h_{P_z}$ é solução não-trivial de $A_{P_z} \tilde h_{P_z} = 0$. Suponha-se, sem perda de generalidade, que $c \tilde h \geq 0$. Podemos fazer isto, pois, se não for o caso, substitua-se $\tilde h$ por $-\tilde h$.
 	
-	Repare-se, primeiro, no seguinte detalhe importante: $c \tilde h = 0$. Isto é pois, usando o mesmo raciocínio que na prova anterior, existe $t \neq 0$ tal que $z \pm t \tilde h \in X_P$. Estes dois vetores têm pontuação $cz \pm t c \tilde h$, pelo que, se $c \tilde h$ não fosse zero, um destes teria pontuação melhor do que $z$. Isto contraria a hipótese de $z$ ser solução.
+	Repare-se que, como consequência, podemos também assumir que $\tilde h$ tem pelo menos uma coordenada positiva. Isto pois, se $c \tilde h = 0$ podemos simplesmente trocar $\tilde h$ por $- \tilde h$, e se $c \tilde h > 0$, este vetor tem de certeza pelo menos uma coordenada positiva. Caso contrário, todos os vetores da forma $x - t \tilde h$ seriam admissíveis (verifique) e, fazendo $t \rightarrow +\infty$, temos que a função objetivo toma valores arbitráriamente pequenos em $X_P$, o que contraria o enunciado.
 	
-	Assim sendo, para todo o $t$ tal que $z - t \tilde h$ é admissível, este é solução.
+	Assim sendo, temos as seguinte duas hipóteses sobre $\tilde h$: $c \tilde h \geq 0$ e $\tilde h$ tem pelo menos uma coordenada positiva.
+	
+	Assim sendo, para todo o $t$ tal que $z - t \tilde h$ é admissível, este tem pontuação melhor ou igual do que $v$.
 	
 	A ideia é, agora, escolher $t$ de modo a que $z - t \tilde h$ tenha menos coordenadas positivas do que $z$, mas continue admissível. Para fazer isto, efetivamente, o que se faz é `subir o valor de $t$ continuamente até uma das coordenadas ser zero'. (Isto vai ser formalizado já a seguir.) Essa coordenada ficará zero, e nenhuma coordenada que fosse antes zero deixou de o ser, pelo que o número de coordenadas positivas diminuiu... E o vetor continua a ser admissível porque a condição $Ax = b$ nunca deixa de ser verdade, e a condição $x \geq 0$ continua a ser verdade porque não deixamos nenhuma coordenada ir para os negativos.
 	
@@ -755,11 +759,27 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Examine-se $\tilde z_i = z_i - \alpha \tilde h_i$. Se $i \not \in P_{\tilde h}$, claramente $\tilde z_i \geq z_i \geq 0$. Pelo outro lado, se $i \in P_{\tilde h}$, temos que $\alpha \leq z_i/\tilde h_i$, e então $-\alpha \geq -z_i/\tilde h_i$, donde $z_i - \alpha \tilde h_i \geq z_i - \frac {z_i}{\tilde h_i} h_i = 0$. Como se pretendia demonstrar.
 	
-	Assim sendo, o vetor $\tilde z$ é admissível. Já vimos que é solução. E, finalmente, mostramos que tem menos coordenadas positivas do que $z$.
+	Assim sendo, o vetor $\tilde z$ é admissível. Já vimos que tem pontuação melhor ou igual do que $v$. E, finalmente, mostramos que tem menos coordenadas positivas do que $z$.
 	
 	Repare-se que para todo $i$, se $z_i = 0$ então $\tilde h_i = 0$, pelo que nenhumas coordenadas positivas `novas' aparecem. Pelo outro lado, pelo menos uma coordenada positiva fica nula. Nomeadamente, visto que $\alpha$ é o valor mínimo do conjunto $\{\,\frac {z_i} {\tilde h_i} \mid i \in P_{\tilde h}\,\}$, é da forma $\alpha = z_j / \tilde h_j$ para algum $j$. Vamos examinar a coordenada $j$ de $\tilde z$.
 	
-	Sabemos que $z_j > 0$. Mas também temos que $\tilde z_j = 0$, pois $\tilde z_j = z_j - \alpha \tilde h_j = z_j - \frac {z_j}{\tilde h_j} \tilde h_j = 0$. Isto mostra, então, que $\tilde z$ tem pelo menos uma coordenada positiva a menos que $z$, o que mostra que $\tilde z$ é o elemento de $S_P$ que pretendiamos arranjar. Isto conclui a nossa prova.
+	Sabemos que $z_j > 0$. Mas também temos que $\tilde z_j = 0$, pois $\tilde z_j = z_j - \alpha \tilde h_j = z_j - \frac {z_j}{\tilde h_j} \tilde h_j = 0$. Isto mostra, então, que $\tilde z$ tem pelo menos uma coordenada positiva a menos que $z$, o que mostra que $\tilde z$ é o elemento que pretendiamos arranjar. Isto conclui a nossa prova.
+	\end{proof}
+	
+	Um corolário útil, cuja demonstração é deixada como exercício ao leitor:
+	
+	\begin{prop}
+	Se $S_P$ é não-vazio, contém pelo menos um vértice de $X_P$.
+	\end{prop}
+	
+	Outro corolário:
+	
+	\begin{prop}
+	Dado um pol $P$ na forma padrão, se o conjunto admissível não for vazio, tem pelo menos um vértice.
+	\end{prop}
+	
+	\begin{proof}
+	Já provámos que, dado um elemento $v$ do conjunto admissível, existe um vértice de pontuação menor ou igual que $v$. Em particular, isto significa que existe um vértice.
 	\end{proof}
 	
 	\subsection{O método dos vetores básicos}
@@ -834,7 +854,32 @@ Caso contrário:
 	
 	Este algoritmo é muito mais económico do que o anterior. Ao passo que no outro havia $2^n$ possibilidades para verificar, aqui é preciso apenas verificar $\binom{n}{k}$ conjuntos, onde $k$ é a caraterística de $A$.
 	
-	Para obter um candidato a solução basta, agora, calcular os vértices de $X_P$, $v_1, v_2, \cdots, v_\ell$, calcular $c v_i$ para $i = 1, \cdots, \ell$ e ver qual destes é menor. Pegando, então, num vértice $v_j$ que minimize $c v_j$, se o conjunto solução for não-vazio, contém $v_j$. Precisamos, então, de um método de verificar se um vértice é solução. É a isso que nos dedicamos agora.
+	Para obter um candidato a solução basta, agora, calcular os vértices de $X_P$, $v_1, v_2, \cdots, v_\ell$, calcular $c v_i$ para $i = 1, \cdots, \ell$ e ver qual destes é menor. Pegando, então, num vértice $v_j$ que minimize $c v_j$, se o conjunto solução for não-vazio, contém $v_j$. Precisamos, então, de um método de verificar se um vértice é solução. É a isso que nos dedicamos de seguida. Mas antes, algumas proposições extremamente úteis:
+	
+	\begin{prop}
+	Dado um pol $P$ na forma padrão, se a função-objetivo for minorada e o conjunto admissível não for vazio, o pol tem solução.
+	\end{prop}
+	
+	\begin{proof}
+	Já vimos que $X_P$ tem pelo menos um vértice, e já vimos que tem um número finito. Considere-se então um vértice $z$ de menor pontuação. Mostraremos que este é solução.
+	
+	Fixe-se um ponto $x \in X_P$ arbitrário. Como a função-objetivo é minorada, sabemos que existe um vértice $\tilde z$ de pontuação menor ou igual do que $x$, e sabemos que $z$ tem pontuação menor ou igual do que $\tilde z$. Logo, a pontuação de $z$ é menor igual do que a de $x$. Como $x$ é arbitrário, $z$ é solução.
+	\end{proof}
+	
+	\begin{prop}
+	Dado um pol $P$ de minimização, se a função-objetivo for minorada e o conjunto admissível não for vazio, o pol tem solução.
+	
+	Da mesma forma, se $P$ for de maximização, a função-objetivo for majorada e  o conjunto admissível não for vazio, o pol tem solução.
+	\end{prop}
+	
+	\begin{proof}
+	%todo this is awful
+	Dado um pol arbitrário, sabemos, pelos conteúdos da primeira secção, que podemos traduzi-lo linearmente para a forma padrão com uma certa função linear sobrejetiva $f$ que é monótona para a pontuação.
+	
+	Isto significa que se a função objetivo é minorada/majorada no pol original, também será minorada no pol traduzido. Isto pois repare que, para as traduções que fizemos, se começarmos com um pol de minimização, a pontuação de $f(x)$ é igual à pontuação de $x$. Caso contrário, é a sua negação. Assim sendo, se $M$ é minorante da pontuação no pol traduzido, $M$ será minorante, ou $-M$ será majorante, no original, consoante se este é de minimização ou maximização.
+	
+	Logo, se a função-objetivo for majorada/minorada, será minorada no pol traduzido, pelo que este terá solução, pelo que o pol original tem solução.
+	\end{proof}
 	
 	\section{Cones}
 	
@@ -1532,7 +1577,15 @@ Caso contrário:
 	
 	O pol dual pode também ser utilizado para servir de prova de existência de solução.
 	
+	\begin{prop}
+	Se $X$ e $Y$ forem ambos não-vazios, tanto o pol original como o seu dual têm solução.
+	\end{prop}
 	
+	\begin{proof}
+	Recorde-se que, visto que o pol original é um pol de maximização, se a função-objetivo for majorada, tem solução. Se $Y$ é não-vazio, qualquer seu elemento tem pontuação que majora a dos elementos de $X$, pelo que o pol original tem pontuação majorada e então tem solução.
+	
+	A prova que o dual tem solução é semelhante e deixada para o leitor.
+	\end{proof}
 	
 	
 \end{document}
