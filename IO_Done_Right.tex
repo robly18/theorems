@@ -9,6 +9,7 @@
 \usetikzlibrary{patterns}
 \usepackage{listings}
 \usepackage{ifxetex}
+\usepackage{mathrsfs}
 
 \ifxetex
 %xetex is recommended!
@@ -1280,6 +1281,218 @@ Caso contrário:
 	A demonstração disto é uma aplicação trivial do lema de Farkas, que o leitor poderá confirmar por si mesmo.
 	
 	Visto que qualquer pol pode ser transformado na forma semicanónica, este critério acaba por ser extremamente útil para demonstrar que um dado vetor é solução.
+	
+	\section{Dualidade}
+	
+	\subsection{Motivação}
+	
+	Para motivar o conceito de dualidade, vamos primeiro considerar um exemplo.
+	
+	Considere-se o seguinte pol, que já apareceu neste documento:
+	
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_{(x,y)} 2x + y\\
+	x + 2y \leq 8\\
+	x - y \leq 2 \\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Repete-se a representação visual da região admissível, do vetor $c^T$ e da solução (4,2).
+	
+	\begin{tikzpicture}
+	\draw[->] (-2, 0) -- (6, 0) node[anchor=south] {x};
+	\draw[->] (0, -1) -- (0, 5) node[anchor=west] {y};
+	\filldraw[color=red, fill=blue!80, very thick] (0,0) node[anchor=north west, color=black]{0} -- (0,4) node[anchor=east, color=black]{(0,4)} -- (4,2) node[anchor=north west, color=black]{\,(4,2)} -- (2,0) node[anchor=north, color=black]{(2,0)} -- (0,0);
+	
+	\draw[->, color=green, very thick] (4,2) -- (6,3) node[anchor=west, color=black]{$c^T = (2,1)$};
+	\draw[very thick, color=green] (3.5,3) -- (4.5,1);
+	\end{tikzpicture}
+	
+	Da imagem, é claro que este ponto é solução. Mas uma imagem não é uma demonstração, e vamos então provar isto analíticamente.
+	
+	Queremos provar que $(4,2)$ é solução, ou seja, que todos os pontos em $X_P$ têm pontuação $\leq 2 \cdot 4 + 2 = 10$.
+	
+	Para fazer isto, peguemos nas desigualdades que temos: $x + 2y \leq 8$ e $x - y \leq 2$.
+	
+	Normalmente, dados sistemas de equações lineares, adicionamos múltiplos de umas às outras para obter informação sobre as nossas variáveis. É isso que fazemos aqui.
+	
+	Por exemplo, adicionando a primeira desigualdade mais duas vezes a segunda, obtemos $(x+2y) + 2(x-y) \leq 8 + 2(2)$, ou seja, $3x \leq 12$, e então $x \leq 4$ para todo $(x,y) \in X_P$.
+	
+	Observe-se a desigualdade $x + 2y \leq 8$, que é igual a $\frac 1 2 x + y \leq 4$. Somando $\frac 3 2 x$, obtemos $2x + y \leq \frac 3 2 x + 4 \leq 6 + 4 = 10$. Logo, para todo $(x,y) \in X_P$ temos que a sua pontuação é no máximo 10, pelo que, como o nosso ponto (4,2) tem pontuação 10, este é solução.
+	
+	Reiterando, o que fizemos foi pegar nas nossas desigualdades e somá-las de modo a que o lado esquerdo fosse a expressão da nossa função-objetivo, e então obter um majorante desta.
+	
+	Vamos fazer outro exemplo, desta vez sem imagem:
+	
+	Considere-se o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_{(x,y)} x + y\\
+	x + 2y \leq 8\\
+	5x + y \leq 13 \\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Usando uma ideia semelhante, obtemos que, somando $4 \times$ a primeira desigualdade a $1 \times$ a segunda, $4(x + 2y) + 1(5x + y) \leq 4 \cdot 8 + 13$, donde $9x + 9y \leq 45$ e então $x+y \leq 5$. Agora, se arranjarmos um elemento admissível que tenha pontuação 5, sabemos que este é solução, e de facto, o ponto $(2, 3)$ é admissível, de pontuação 5, pelo que é solução.
+	
+	Só mais um exemplo, este trivial para mostrar que às vezes a condição $\geq 0$ é necessária. Remova-se a segunda desigualdade ao pol anterior para obter
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_{(x,y)} x + y\\
+	x + 2y \leq 8\\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Bem, sabendo que $8 \geq x + 2y$, e sabendo que $y \geq 0$, obtemos $8 \geq x + y + y \geq x + y$, donde $x+y \leq 8$.
+	
+	Assim, se arranjarmos um ponto com pontuação 8, este é solução. E de facto, pondo $(x,y) = (8,0)$, temos a nossa solução desejada.
+	
+	Isto já são exemplos suficientes para fazer o seguinte ponto: adicionar desigualdades é útil. E é nisso que se baseia a dualidade.
+	
+	\subsection{Introdução à dualidade}
+	
+	Considere-se um pol $P$ na forma canónica:
+	
+	\[
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Vamos tentar generalizar o método de somar desigualdades. Vamos escrever a desigualdade $Ax \leq b$ como:
+	
+	\begin{gather*}
+	a_1 x \leq b_1\\
+	a_2 x \leq b_2\\
+	\cdots\\
+	a_m x \leq b_m
+	\end{gather*}
+	
+	Sejam $y_1, \cdots, y_m$ escalares $\geq 0$ (isto é necessário porque multiplicar por escalares menores que zero troca as desigualdades). Temos que
+	
+	\[y_1 (a_1 x) + y_2 (a_2 x) + \cdots + y_m (a_m x) \leq y_1 b_1 + y_2 b_2 + \cdots + y_m b_m\]
+	
+	Isto pode ser escrito de forma compacta da seguinte forma. Seja $y$ o vetor -coluna cuja $i$-ésima componente é $y_i$. Temos que, se $y \geq 0$,
+	
+	\[y^T Ax \leq y^T b\]
+	
+	Visto que isto é um número real, transpôr não faz diferença, pelo que
+	
+	\[b^T y \geq y^T Ax\]
+	
+	Relembre-se que esta mixórdia de somar desigualdades umas às outras foi com o intuito de arranjar majorantes de $cx$. Portanto, sendo $p_i$ a $i$-ésima casa de $y^T A$, isto dá-nos que
+	
+	\[b^T y \geq p_1 x_1 + p_2 x_2 + \cdots + p_n x_n\]
+	
+	Aqui podemos usar o facto que $x \geq 0$ para obter que, \emph{na condição que $p_i \geq c_i$ para todo $i$},
+	
+	\begin{align*}
+	b^T y &\geq p_1 x_1 + p_2 x_2 + \cdots + p_n x_n\\
+	&\geq c_1 x_1 + c_2 x_2 + \cdots + c_n x_n = cx
+	\end{align*}
+	
+	E então $b^T y$ é um majorante da função objetivo.
+	
+	Em suma: dado o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	É possível arranjar majorantes de $cx$ somando as desigualdades de $Ax \leq b$. Na condição de $A^T y \geq c^T$, temos que $b^T y$ é majorante de $cx$.
+	
+	Obviamente estamos interessados no \emph{menor} majorante, daí fazer sentido considerarmos o pol
+	
+	\[
+	\begin{cases}
+	\min\limits_y b^T y\\
+	A^T y \geq c^T\\
+	y \geq 0
+	\end{cases}
+	\]
+	
+	Este é o chamado \emph{dual de $P$}.
+	
+	Um facto interessante: se a mesma estratégia for aplicada a este pol, acabamos com o pol com que começámos!
+	
+	Nomeadamente, considere-se somar as linhas de $A^T y \geq c^T$ com o vetor $z \geq 0$. Ficamos com $z^T A^T y \geq z^T c^T = cz$, pelo que, na condição de $z^T A^T$ ter todas as respetivas componentes menores ou iguais do que $b^T$, $cz$ é minorante de $b^T y$. Ou seja, para obter o maior minorante, resolvemos o pol
+	
+	\[
+	\begin{cases}
+	\max\limits_z cz\\
+	Az \leq b\\
+	z \geq 0
+	\end{cases}
+	\]
+	
+	Que é exatamente o pol com que começámos.
+	
+	\subsection{Algumas palavras sobre o dual}
+	
+	Antes de avançar na teoria, gostaria de fazer notar uma coisa.
+	
+	A técnica usada anteriormente, de somar desigualdades, é útil, mas não é um método rigoroso de descobrir `o dual de um pol'. Até agora foi considerado o pol na forma canónica, mas vamos adiante considerar duais de pols na forma padrão e semicanónica. E um facto importante é que o dual do mesmo pol em qualquer uma destas três formas é diferente. Ou seja, o dual depende da forma como o pol é expresso. E, por exemplo, se tentássemos fazer o dual do pol
+	
+	\[
+	\begin{cases}
+	\min\limits_{(x,y)} -x+y\\
+	-2x-y \geq 0\\
+	x \geq 0\\
+	y \geq 0
+	\end{cases}
+	\]
+	
+	Teriamos resultados diferentes se interpretássemos este como um pol da forma
+	
+	\[
+	\begin{cases}
+	\min\limits_y c y\\
+	A y \leq b\\
+	y \geq 0
+	\end{cases}
+	\]
+	
+	Ou da forma
+	
+	\[
+	\begin{cases}
+	\min\limits_y c y\\
+	A y \leq b
+	\end{cases}
+	\]
+	
+	Portanto o dual não depende só da forma como o pol está expresso, mas também da forma como o interpretamos... Assim sendo, reservamos o termo `o dual de um pol' como um termo informal, cujo significado será óbvio de contexto e definições anteriores, e não como uma definição rigorosa.
+	
+	Para terminar esta parte, o termo dual tem significado rigoroso no contexto de problemas de max-min e min-max. Ou seja, problemas da forma:
+	
+	\[\sup\limits_x \inf\limits_y \mathscr{L}(x,y) \text{ ou } \inf\limits_y \sup\limits_x \mathscr{L}(x,y)\]
+	
+	Em que $\mathscr{L}$ é uma função $X \times Y \rightarrow \R$ e $X$ e $Y$ são conjuntos arbitários.
+	
+	Neste contexto, o dual é não-ambíguo: estes dois problemas são duais um do outro.
+	
+	É possível tentar fazer a noção de dual no contexto do pol mais rigorosa, transformando o pol num problema max-min e min-max. No entanto, esta transformação sofre dos mesmos problemas de depender de como interpretamos o pol, e é bastante artificial.
+	
+	\subsection{Propriedades básicas do dual}
+	
+	
 	
 	
 \end{document}
