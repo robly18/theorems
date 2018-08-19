@@ -10,6 +10,7 @@
 \usepackage{listings}
 \usepackage{ifxetex}
 \usepackage{mathrsfs}
+\usepackage{enumerate}
 
 \ifxetex
 %xetex is recommended!
@@ -1563,7 +1564,8 @@ Caso contrário:
 	
 	Primeiro que tudo, a proposição que motivou a consideração do problema dual.
 	
-	\begin{prop}
+	\begin{prop} (Teorema fraco da dualidade)
+	
 	Se $x \in X$ e $y \in Y$, então $cx \leq b^T y$.
 	
 	Como consequência, se $cx = b^T y$, $x$ e $y$ são soluções dos respetivos problemas.
@@ -1585,6 +1587,143 @@ Caso contrário:
 	Recorde-se que, visto que o pol original é um pol de maximização, se a função-objetivo for majorada, tem solução. Se $Y$ é não-vazio, qualquer seu elemento tem pontuação que majora a dos elementos de $X$, pelo que o pol original tem pontuação majorada e então tem solução.
 	
 	A prova que o dual tem solução é semelhante e deixada para o leitor.
+	\end{proof}
+	
+	Recorde-se que nos exemplos que fizemos, era sempre possível somar as desigualdades de modo a obter um majorante minimal. Ou seja, nesses exemplos, 
+conseguimos sempre descobrir um upper bound que corresponde à solução.
+
+	Não é inconcebível de um cenário em que isto é impossível. Ou seja, um pol em que a solução é, digamos, 2, mas com a estratégia do dual só conseguimos provar que é no máximo 3.
+	
+	Acontece que isto é, de facto, impossível. Ou seja, tendo como base a estratégia do dual, o menor majorante corresponde exatamente à solução.
+	
+	Para provar isto, provamos primeiro uma coisa parecida: caso exista solução, é possível arranjar majorantes tão `apertados' quanto queiramos.
+	
+	\begin{prop}
+	Seja $s$ uma solução do pol original. Então, para todo $\varepsilon > 0$ existe $y \in Y$ tal que $cs \leq b^T y < cs + \varepsilon$
+	
+	Da mesma forma, se $r$ é solução do dual, para todo $\varepsilon$ existe $x \in X$ tal que $b^T y - \varepsilon < cx \leq b^T y$.
+	\end{prop}
+	
+	\begin{proof}
+	Suponha-se que o pol original é
+	
+	\[
+	P =
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	E que este tem uma solução $s$.
+	
+	A ideia para criar um majorante arbitráriamente próximo é usar o lema de Farkas de forma inteligente.
+	
+	Repare-se que não existe $x$ tal que
+	
+	\begin{gather*}
+	Ax \leq b\\
+	x \geq 0\\
+	cx \geq cs + \varepsilon
+	\end{gather*}
+	
+	Isto pode ser expresso em cones. Repare-se que isto é a mesma coisa que dizer que não existe $x \geq 0$ tal que
+	
+	\[
+	\begin{bmatrix}A \\
+	-c\end{bmatrix}
+	x \leq
+	\begin{bmatrix} b \\
+	-cs - \varepsilon \end{bmatrix}
+	\]
+	
+	Isto pode ser escrito como uma afirmação sobre cones se formos inteligentes. Adicionando as variáveis de folga $f$, temos que isto é igual a dizer que não existe $x, f \geq 0$ tal que
+	\[
+	\begin{bmatrix}A & I & \\
+	-c & & 1\end{bmatrix}
+	\begin{bmatrix}x \\
+	f\end{bmatrix}
+	=
+	\begin{bmatrix} b \\
+	-cs - \varepsilon \end{bmatrix}
+	\]
+	
+	Isto é o mesmo que dizer que o vetor $(b, -cs-\varepsilon)$ não pertence a $\CC \begin{bmatrix}A & I & \\
+	-c & & 1\end{bmatrix}$.
+	
+	Isto permite-nos aplicar Farkas e dizer que existe um vetor $(w,z)$ tal que
+	
+	\[(w, z) \cdot (b, -cs-\varepsilon) < 0\]
+	
+	E
+	
+	\[\begin{bmatrix}A^T & -c^T\\
+	I &  \\
+	  & 1\end{bmatrix} (w,z) \geq 0\]
+	  
+	Repare-se que trocámos as desigualdades do lema de Farkas. Isto foi por uma razão de conveniência, pelo que se vai ver no que se segue. Não há problema em fazer isto, pois basta pegar no vetor assegurado pelo lema de Farkas e considerar a sua negação.
+	
+	Rearranjando os termos acima usando muliplicação de matrizes por blocos, obtemos que $(w,z)$ satisfaz:
+	
+	\begin{gather*}
+	b^T w < z(cx + \varepsilon) \\
+	A^T w \geq z c^T\\
+	w \geq 0\\
+	z \geq 0
+	\end{gather*}
+	
+	É fácil, agora, verificar que, se por acaso $z$ for diferente de zero, o vetor $y = \frac 1 z w$ satisfaz o que é dele desejado. Basta, então, mostrar que $z \neq 0$.
+	
+	Para ver isto, repare-se que, se $z$ fosse zero, ter-se-ia que
+	
+	\begin{gather*}
+	b^T w < 0 \\
+	A^T w \geq c^T\\
+	w \geq 0\\
+	\end{gather*}
+	
+	O que, usando o lema de Farkas, implicaria que $b \not \in \CC \begin{bmatrix}A & I \end{bmatrix}$. Usando o truque das variáveis de folga, é fácil ver que isto é o mesmo que dizer que não existe $x \geq 0$ tal que $Ax \leq b$, mas sabemos que isto é falso, pois por hipótese, o nosso vetor $s$ é admissível. Isto mostra que $z$ não pode ser igual a zero, e então existe o nosso vetor $y$ desejado.
+	
+	A prova da segunda parte pode ser feita de forma análoga, ou pode ser feita reparando que o pol dual é equivalente a
+	
+	\[
+	\begin{cases}
+	\max\limits_y -b^Ty\\
+	-A^T y \leq -c^T\\
+	y \geq 0
+	\end{cases}
+	\]
+	
+	E que o dual deste (interpretando este como um pol na forma canónica) é equivalente ao pol original.
+	
+	Então, usando esta proposição, sendo $r$ uma solução do dual, temos que existe $x$ admissível no pol original tal que $-b^T y \leq -cx < -b^T y + \varepsilon$, ou seja, existe $x$ admissível tal que $b^T y - \varepsilon < cx \leq b^T y$, como pretendiamos demonstrar.
+	\end{proof}
+	
+	Isto leva diretamente a:
+	
+	\begin{prop} (Teorema forte da dualidade)
+	
+	Fixo o pol na forma canónica e o seu dual, um dos seguintes quatro casos acontece necessáriamente:
+	
+	\begin{enumerate}[i]
+	\item $X = \emptyset = Y$ e então nenhum dos pols tem solução.
+	
+	\item $X = \emptyset \neq Y$ e então a função-objetivo não é minorada no pol dual e nenhum deles tem solução.
+	
+	\item $X \neq \emptyset = Y$ e então a função-objetivo não é majorada no pol original e nenhum deles tem solução.
+	
+	\item $X \neq \emptyset \neq Y$ e então ambos os pols têm solução. Se $s \in S$ e $r \in R$, temos $cs = b^T r$.
+	\end{enumerate}
+	
+	\end{prop}
+	
+	\begin{proof}
+	Esta prova vai examinar os quatro casos separadamente.
+	
+	i) Este caso é trivial.
+	
+	ii) %todo!
 	\end{proof}
 	
 	
