@@ -1732,5 +1732,170 @@ conseguimos sempre descobrir um upper bound que corresponde à solução.
 	Temos que $cs = b^T r$ pois, caso contrário, seja $\varepsilon = b^T r - cs$. Sabemos pela prop anterior que existe $y$ tal que $b^T y < cs + \varepsilon = b^T r$, o que contraria a hipótese de  $r$ ser solução. Logo, $cs = b^T r$.
 	\end{proof}
 	
+	\subsection{Outros duais}
+	
+	Até agora, já tivemos bastante sucesso a arranjar formas de verificar se um vetor é solução de um pol: o método das linhas ativas para pols na forma semicanónica e dualidade para pols na forma canónica. Isto ser-nos-ia útil se tivessemos uma forma de \emph{adivinhar} soluções. Temos um método (vetores básicos), mas este só funciona para o pol na forma padrão. Assim sendo, faz sentido tentar extender os nossos métodos de verificação ao pol na forma padrão.
+	
+	Vamos investigar dualidade para o pol na forma padrão. Claro que é sempre possível transformar o pol na forma padrão para o pol na forma canónica e tomar  o dual deste -- E vamos investigar isto na sequência -- mas vamos tentar fazer primeiro as coisas de raíz como fizemos com o canónico.
+	
+	Para exemplificar e depois generalizar, vamos considerar um pol na forma padrão:
+	
+	\[
+	\begin{cases}
+	\min\limits_{(x,y,z)} x + 2y - z\\
+	x + y + z = 1\\
+	x,y,z \geq 0
+	\end{cases}
+	\]
+	
+	Da primeira restrição, sabemos que $x+y+z = 1$ e então $-x-y-z = -1$. Ora, $x + 2y - z \geq -x-y-z = -1$, donde a função-objetivo é sempre maior ou igual que $-1$.
+	
+	Como o ponto $(0,0,1)$ toma este valor, sabemos que este é solução.
+	
+	Para um exemplo menos trivial, vamos adicionar uma restrição a este problema.
+	
+	\[
+	\begin{cases}
+	\min\limits_{(x,y,z)} x + 2y - z\\
+	x + y + z = 1\\
+	-y  + z = 0\\
+	x,y,z \geq 0
+	\end{cases}
+	\]
+	
+	Desta vez, repare-se que $x + 2y - z \geq \frac 1 2 x + 2y - z = \frac 1 2 (x + y + z) - \frac 3 2 (-y + z) = \frac 1 2$. Logo, se arranjarmos um elemento que tenha pontuação $\frac 1 2$ este tem que ser solução, e o vetor $(0,\frac 1  2, \frac 1 2)$ é admissível e tem esta pontuação, sendo então solução.
+	
+	Vamos agora generalizar. Suponhamos que temos um pol na forma padrão:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Somando as linhas de $Ax = b$, obtemos igualdades da forma $y^T Ax = y^T b$. Ao contrario do pol na forma canónica, não nos precisamos aqui de preocupar com que $y$ seja $\geq 0$, pois não há sinais de desigualdades a trocar.
+	
+	Queremos arranjar minorantes da função objetivo, portanto queremos que $y^T A x \leq cx$. Para isso, é suficiente que $y^T A \leq c$, e então temos o nosso minorante: $b^T y = y^T A x \leq cx$ desde que $A^T y \leq c^T$
+	
+	Claro que queremos arranjar o maior minorante possível, pelo que ficamos que o dual do pol na forma padrão:
+	
+	\[
+	\begin{cases}
+	\max\limits_y b^T y\\
+	A^T y \leq c^T
+	\end{cases}
+	\]
+	
+	O leitor poderá reparar que isto é um pol na forma semicanónica.
+	
+	Fazemos a mesma estratégia na direção oposta, para justificar que o dual do pol na forma semicanónica é o pol original na forma padrão.
+	
+	Podemos somar linhas da desigualdade $A^T y \leq c^T$ para obter $x^T A^T y \leq x^T c^T$. Se $Ax = b$, temos que $cx \geq (Ax)^T y = b^T y$, donde $cx$ é majorante de $b^T y$. Queremos o menor majorante possível, pelo que voltamos a
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Como desejado.
+	
+	Queremos agora justificar que estes dois pols têm propriedades que já associámos ao dual. Nomeadamente, queremos demonstrar algo parecido com o teorema forte da dualidade.
+	
+	Podemos fazer isto diretamente, claro, mas podemos ser mais económicos aproveitando o teorema forte da dualidade que já temos.
+	
+	Vamos fazer isto usando traduções: vamos traduzir ambos os pols para pols de formas em que podemos dizer que estes são o dual um do outro.
+	
+	Primeiro que tudo, repare-se que o pol
+	
+	\[
+	P =
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	É equivalente ao pol na forma canónica
+	
+	
+	\[
+	P' =
+	\begin{cases}
+	\max\limits_x -cx\\
+	\begin{bmatrix}
+	-A \\
+	A
+	\end{bmatrix}
+	x \leq
+	\begin{bmatrix}
+	-b \\
+	b
+	\end{bmatrix}\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Que por sua vez tem dual
+	
+	\[
+	Q' =
+	\begin{cases}
+	\min\limits_{(y_+,y_-)} -b^T (y_+ - y_-)\\
+	-A^T (y_+ - y_-) \geq -c^T\\
+	y_+, y_- \geq 0
+	\end{cases}
+	\]
+	
+	Mas este pol é uma tradução do pol
+	
+	\[
+	Q =
+	\begin{cases}
+	\max\limits_y b^T y\\
+	A^T y \leq c^T
+	\end{cases}
+	\]
+	
+	Como descrito na secção Tradução - Adição de positividades.
+	
+	Assim sendo, temos que $X_P = \emptyset$ sse $X_{P'} = \emptyset$, $S_P = \emptyset$ sse $S_{P'} = \emptyset$, e coisas semelhantes para $Q$ e $Q'$. Assim sendo, aplicando o teorema forte da dualidade a $P'$ e $Q'$, temos que um se algum de $X_P$, $X_Q$ for vazio, nenhum dos quatro pols acima tem solução. Se $X_P$ e $X_Q$ forem não-vazios, $X_{P'}$ e $X_{Q'}$ são não-vazios e então, por dualidade, $S_{P'}$ e $S_{Q'}$ são não-vazios, e por tradução temos que $P$ e $Q$ têm ambos solução.
+	
+	Sabendo que o valor mínimo de $P$ é a negação do valor máximo de $P'$, que por sua vez é igual ao valor mínimo de $Q'$ que é a negação do valor máximo de $Q$. Logo, se $s \in S_P$ e $r \in S_Q$ temos que $cs = b^T r$
+	
+	Isto acaba o nosso esboço de demonstração do teorema forte da dualidade para o pol na forma padrão. O leitor é, no entanto, encorajado a verificar os detalhes, e/ou, se tiver pachorra (o autor não teve), a fazer a demonstração com o lema de Farkas.
+	
+	Resumindo isto tudo:
+	
+	\begin{prop} (Teorema forte da dualidade para o pol na forma padrão)
+	
+	Seja $P$ o pol
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	E $Q$ o pol
+	
+	\[
+	\begin{cases}
+	\max\limits_y b^T y\\
+	A^T y \leq c^T
+	\end{cases}
+	\]
+	
+	Dizemos que estes são duais um do outro.
+	
+	Se algum destes não tiver vetores admissíveis, nenhum dos dois tem solução. Se ambos tiverem vetores admissíveis, têm ambos solução e se $s$ é solução de $P$ e $r$ é solução de $Q$ tem-se $cs = b^T r$.
+	\end{prop}
 	
 \end{document}
