@@ -8,7 +8,7 @@
 \usepackage{enumerate}
 \usepackage{listings}
 
-\title{Summary of important results}
+\title{Draft of report}
 \author{}
 \date{}
 
@@ -458,7 +458,7 @@ Would a calculus based on these properties be complete? If not, what needs to be
 
 We could actually show that such a calculus does work for tail graphs.
 
-\begin{prop}
+\begin{prop} \label{tailgraphndirectimplicationcharacterization}
 Let $G = (V,E)$ be a tail graph.
 
 $a \Rightcurveor B$ iff there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
@@ -504,21 +504,82 @@ For every element $d$ of $D'$, either $d \in B$ or there exists $B_d \subseteq B
 
 \subsubsection{2-CNF}
 
-\begin{prop}
-Let $\Gamma$ be a 2-CNF, $V$ the literals.
+The following result can be found in \cite{2cnf}.
 
-A valorable coloration of $V$ is valid in $\gr \Gamma$ iff it is valid in $\gr' \Gamma$.
+\begin{prop*}
+Let $\Gamma$ be a 2-CNF.
+
+$\Gamma$ is satisfiable iff there is no cycle in $\gr' \Gamma$ that passes through a vertex and its conjugate at the same time.
+\end{prop*}
+
+Proposition \ref{tailgraphndirectimplicationcharacterization} turns out to give us a simple novel proof of this fact. Before it, however, a few simple propositions, the proofs of which are left to the reader.
+
+\begin{prop}
+Given a 2-CNF $\Gamma$, $\gr' \Gamma$ is a pure graph and, more generally, a tail graph.
 \end{prop}
 
-(A bunch of auxiliary results will probably end up being here...)
+\begin{prop}
+Given a 2-CNF $\Gamma$, if $\gr' \Gamma$ has the edge $a \rightarrow b$ it also has the edge $\conj b \rightarrow \conj a$. As such, it also has the property that if there is a path from $a$ to $b$, there is also one from $\conj b$ to $\conj a$.
+\end{prop}
 
-This is the main objective of this project: the main result of \cite{2cnf}, proven with a different approach.
+\begin{prop}
+If $G$ is a pure graph, $a \rightcurveor B$ iff $B$ is a singleton set $\{b\}$ and there is a path from $a$ to $b$.
+\end{prop}
+
+\begin{prop}
+If $G$ is a pure graph, $a \Rightcurveor B$ iff there exists $b \in B$ such that there is a path from $a$ to $b$.
+\end{prop}
+
+With these in mind:
 
 \begin{prop}
 Let $\Gamma$ be a 2-CNF.
 
-$\Gamma$ is satisfiable iff there is no cycle in $\gr' \Gamma$ that passes through a vertex and its conjugate at the same time.
+$\Gamma$ is satisfiable iff there is no cycle in $\gr' \Gamma$ that passes through a vertex $a$ and its conjugate $\conj a$ at the same time.
 \end{prop}
+
+\begin{proof}
+If there exists such a cycle, then clearly any valid coloring must have $a$ and $\conj a$ colored the same and as such any valid coloring cannot be valorable. This shows there are no valid valorable coloring and thus $\Gamma$ is not satisfiable. This shows the right-implication.
+
+The left-implication is trickier. To do it, we will suppose there is no such cycle and build a coloration explicitly.
+
+In the following, we use $p(a)$ to mean the set of $b$ such that there is a path from $a$ to $b$ (this includes $a$ itself).
+
+Consider the following algorithm:
+
+\begin{lstlisting}[mathescape]
+$T \gets \emptyset$
+While $\exists_{a \in V} \, a \not \in T \text{ and } \conj a \not \in T$:
+    If $\conj a \text{ indirectly implies } a$:
+        $T \gets T \cup p(a)$
+    Else:
+        $T \gets T \cup p(\conj a)$
+\end{lstlisting}
+
+It is easy to show this algorithm halts, as the size of $T$ increases by at least one every iteration, yet $T$ is always contained in the finite set $V$.
+
+To show that the coloration induced by $T$ at the end is valid is also easy, as whenever we add an element to $T$ we also add all of the elements it has a path to. As such, there is never an edge $b \rightarrow c$ such that $b \in T$ but $c \not \in T$, as if $b$ was added then there was a path from some $a$ to $b$, but then there is also a path from $a$ to $c$ and thus $c$ would have been added.
+
+%this part could be improved
+
+All that's left is to show this color is valorable. Because of the condition of the while, it is clear that for all $a$ at least one of $a, \conj a$ will be in $T$. All that's left to show is that at most one of these will be in $T$. This is clearly true at the start, which means we need only show that this property is preserved by the while loop.
+
+So, let's suppose that we are going through a run through the loop, this property is true at the outset, and to show it will be true by the end we will examine both branches of the if.
+
+In the first branch, if this property weren't preserved then one of the following happens:
+
+\begin{enumerate}[i)]
+\item There exists some $t \in T$ such that we added $\conj t$. This means that $a$ indirectly implies $\conj t$. By duality, $t$ indirectly implies $\conj a$ and since we're assuming the coloration induced by $T$ was valid at the outset, we get $\conj a$ must have been in $T$ from the get-go, which contradicts our choice for $a$.
+
+\item There exists $v$ such that $v$ and $\conj v$ are both in $p(a)$. This means that there is a path from $a$ to $v$ and from $a$ to $\conj v$. By duality, this implies there's a path from $v$ to $\conj a$ and by transitivity, there must be a path from $a$ to $\conj a$. But since, by hypothesis, there is a path from $\conj a$ to $a$, this implies that there is a cycle passing through $a$ and $\conj a$ and so we run into contradiction with our hypothesis.
+\end{enumerate}
+
+As for the second branch (wherein we know that $\conj a$ does not indirectly imply $a$), if this property weren't preserved, we could reach a contradiction similarly.
+
+The cases are the same. For case $i)$, the proof is exactly the same. For case $ii)$, notice that we can truncate the proof until the part where we conclude that there is a path from (in this case) $\conj a$ to $a$. From here, we conclude that this is a contradiction, as we were precisely assuming $\conj a$ does not indirectly imply $a$.
+
+This finishes our proof that this property is preserved through the whole loop, which in turn shows it is true at the end, which, finally, shows our coloration to be valorable. This means we have constructed a valid valorable coloration, and so $\Gamma$ is satisfiable.
+\end{proof}
 
 
 \begin{thebibliography}{1}
