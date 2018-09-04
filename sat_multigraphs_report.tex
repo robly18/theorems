@@ -158,13 +158,11 @@ Given a coloration $\chi$, we define:
 
 \[ \chi \text{\emph{ is a valid coloration of $G$} iff } \forall_{(A,B) \in E} \left( \bigwedge_{\alpha \in A} \chi(\alpha) \rightarrow \bigvee_{\beta \in B} \chi(\beta) \right)\]
 
-We will say that \emph{$A$ indirectly implies $B$}, denoted $A \Rightcurvearrow B$, if all valid colorings that color all of $A$ as $\top$ must cover one of $B$ as $\top$.
-
 \subsection{Multigraphs from CNFs}
 
 Given a CNF $\Gamma$, define the \emph{full graph of $\Gamma$}, denoted as $\Gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
 
-\[ E = \{ \, \conj A \rightcurveor (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}\]
+\[ E = \{ \, \conj A \rightcurvearrow (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}\]
 
 Given a nondegenerate CNF $\Gamma$, define the \emph{tail graph of $\Gamma$}, denoted as $\gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
 
@@ -174,9 +172,9 @@ Notice that this is a special kind of multigraph: one whose edges all have one a
 
 Given a nondegenerate 2-CNF $\Gamma$, define the \emph{pure graph of $\Gamma$}, denoted as $\gr'\Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
 
-\[ E = \{ \, \conj a \rightarrow b \mid \{a,b\} \in \Gamma \, \} \cup \{ \conj a \rightarrow a \mid \{a\} \in \Gamma \,\}\]
+\[ E = \{ \, \conj a \rightarrow b \mid \{a,b\} \in \Gamma \, \} \]
 
-Notice this is a pure graph.
+Notice this is a pure graph. Furthermore notice that this definition also takes into account clauses with only one element, as the set $\{a\}$ is the same as $\{a,a\}$.
 
 These three definitions have something in common: all of them somehow represent the CNF they originate from. We will make the meaning of this more precise:
 
@@ -227,11 +225,11 @@ If $\Gamma$ is represented by $G = (V,E)$ and $\rho$ is a valoration of $\Gamma$
 \end{prop}
 
 \begin{proof}
-First, let us suppose $\rho$ is a colorating satisfying $\Gamma$. Consider the coloration of $G$ given by $\chi = \col \rho$. We wish to show it is valid.
+First, let us suppose $\rho$ is a coloration satisfying $\Gamma$. Consider the coloration of $G$ given by $\chi = \col \rho$. We wish to show it is valid.
 
 To do this, pick any edge $\conj A \rightcurvearrow B$. By definition, we know $A \cup B \in \Gamma$, and as such, we know, since $\rho \sat \Gamma$, there either exists some $(\alpha, v_\alpha) \in A$ such that $\rho(\alpha) = v_\alpha$, or some $(\beta, v_\beta) \in B$ such that $\rho(\beta) = v_\beta$.
 
-As such, either there exists some $a \in A$ such that $\chi(a) = \top$, or some $b \in B$ such that $\chi(b) = \top$, and thus, if $\chi$ was to color all elements of $\conj A$ as $\top$, it must color all elements of $A$ as $\bot$, and thus would color some element of $B$ as $\top$. In short: if $\chi$ colors all of $\conj A$ as $\top$, it must color some of $B$ as $\top$.
+As such, either there exists some $a \in A$ such that $\chi(a) = \top$, or some $b \in B$ such that $\chi(b) = \top$, and thus, if $\chi$ was to color all elements of $\conj A$ as $\top$, it must color all elements of $A$ as $\bot$, and then necessarily color some element of $B$ as $\top$.
 
 This shows $\chi$ is valid with relation to this particular edge, but since the choice was arbitrary, $\chi$ is valid with relation to all edges, and so $\chi$ is a valid coloration of $G$.
 
@@ -361,7 +359,7 @@ Remind yourself of the definition of the full graph of a CNF $\Gamma$:
 \begin{gather*}
 \Gr \Gamma = (V,E) \\
 \text{Where $V$ is the set of literals, and}\\
-E = \{ \, \conj A \rightcurveor (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}
+E = \{ \, \conj A \rightcurvearrow (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}
 \end{gather*}
 
 This graph has very strong properties.
@@ -371,7 +369,7 @@ We already showed that $\Gamma$ is the CNF represented by $\Gr \Gamma$, which sh
 First, a property of the edges of these graphs that will be useful in the sequence.
 
 \begin{prop}
-Let $\Gamma$ be a CNF. The following refers to $\Gr \Gamma$:
+Let $\Gamma$ be a CNF. In the context of $\Gr \Gamma$:
 
 If $a \not\in A$ and $\conj a \not\in B$, then $(A \cup \{a\}) \rightcurvearrow B$ iff $A \rightcurvearrow (B \cup \{\conj a\})$.
 
@@ -419,7 +417,7 @@ $\Gamma$ is satisfiable iff there exists a valid coloration of $\Gr \Gamma$.
 \begin{proof}
 If $\Gamma$ is satisfiable, there is a valid valorable coloration of $\Gr \Gamma$, and so there is a valid coloration.
 
-If there is a valid coloration $\chi$ of $\Gr \Gamma$, we can use prop \ref{swapvalue} to make it valorable. Simply take every $a$ such that $\chi(a) = \chi(\conj a)$ and swap one of them. The coloration at the end will be valorable, by \ref{swapvalue} it will be valid, and so there is a valid valorable coloration and $\Gamma$ is satisfiable.
+If there is a valid coloration $\chi$ of $\Gr \Gamma$, we can use prop \ref{swapvalue} to make it valorable. Simply take every $a$ such that $\chi(a) = \chi(\conj a)$ and swap one of them. The coloration at the end will be valorable, by prop \ref{swapvalue} it will be valid, and so there is a valid valorable coloration and $\Gamma$ is satisfiable.
 \end{proof}
 
 \begin{corollary}
@@ -431,7 +429,7 @@ Notice that the condition $\emptyset \Rightcurvearrow \emptyset$ is equivalent t
 
 The right-implication is obvious: if $\emptyset \Rightcurvearrow \emptyset$, any valid coloration that makes all elements of $\emptyset$ true must make some element of $\emptyset$ true. The first condition applies to all valid colorations, the second applies to none, and so there can be no valid coloration.
 
-The left-implication is also obvious: if there is no valid coloration, $A \Rightcurvearrow B$ is true, as all valid colorations that make all elements of $A$ true make some element of $B$ true. This is obvious because there are none. In particular, plugging $A = B = \emptyset$, $\emptyset \Rightcurvearrow \emptyset$.
+The left-implication is also obvious: if there is no valid coloration, for all $A, B \subseteq V$, we have that $A \Rightcurvearrow B$ is true, as all valid colorations that make all elements of $A$ true make some element of $B$ true. This is because there are none. In particular, plugging $A = B = \emptyset$, $\emptyset \Rightcurvearrow \emptyset$.
 
 This shows that $\emptyset \Rightcurvearrow \emptyset$ iff there are no valid colorations, which we already know to be iff $\Gamma$ is not satisfiable.
 \end{proof}
@@ -443,7 +441,7 @@ The following motivates a possible calculus, which this shows to be correct, for
 \begin{prop}
 Fixed an arbitrary multigraph $G$, indirect implication in this graph has the following three properties:
 
-\begin{enumerate}[i]
+\begin{enumerate}[i)]
 \item If $A \rightcurvearrow B$, then $A \Rightcurvearrow B$
 \item (Extensionality) If $A' \supseteq A$, $B \subseteq B'$, and $A \Rightcurvearrow B$, then $A' \Rightcurvearrow B'$.
 \item (Concatenation) If $A \Rightcurvearrow \{x\}$ and $\{x\} \Rightcurvearrow B$, then $A \Rightcurvearrow B$.
@@ -451,7 +449,7 @@ Fixed an arbitrary multigraph $G$, indirect implication in this graph has the fo
 \end{prop}
 
 \begin{av}
-Would a calculus based on these properties be complete? If not, what needs to be added?
+Would a calculus based on these properties be complete? If not, what needs to be added? It is very likely that property $iii)$ needs to be made stronger.
 \end{av}
 
 \subsection{Tail graphs}
@@ -469,7 +467,7 @@ Recall the definition of states, as this proposition is proven by showing the fo
 
 Consider the following propositions:
 
-\begin{enumerate}[i]
+\begin{enumerate}[i)]
 \item There exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
 \item $a \Rightcurveor B$
 \item There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
@@ -479,7 +477,7 @@ We will show the following cyclical implication: $i) \Rightarrow ii) \Rightarrow
 
 $i) \Rightarrow ii)$ is a trivial exercise in induction. One easily shows by induction that if $a \rightcurveor_* B'$ then $a \Rightcurveor B'$, and it is easy to see that from this one concludes $a \Rightcurveor B$.
 
-$ii) \rightarrow iii)$ is done by contrapositive. Suppose there is a state $(T, U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$. Then, by prop \ref{statesfixedpointvalid}, the coloration induced by $T$ is valid. Therefore, there is a valid coloration that makes $a$ true but keeps all elements of $B$ false, and hence we do not have $a \Rightcurveor B$, as desired.
+$ii) \Rightarrow iii)$ is done by contrapositive. Suppose there is a state $(T, U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$. Then, by prop \ref{statesfixedpointvalid}, the coloration induced by $T$ is valid. Therefore, there is a valid coloration that makes $a$ true but keeps all elements of $B$ false, and hence we do not have $a \Rightcurveor B$, as desired.
 
 The difficult one is $iii) \rightarrow i)$. This one is done by induction.
 
