@@ -487,17 +487,24 @@ For $n = 0$ this is trivial, as the only state in $\cS^0 (\{a\}, E)$ is $(\{a\},
 
 Suppose, then, this is true for $n$. We will show it is true for $n+1$.
 
-Suppose that for all states $(T,U)$ in $\cS^{n+1} (\{a\}, E)$ we have $T$ contains an element of $B$. Consider for a state $S = (T,U) \in \cS^{n+1} (\{a\}, E)$ this element to be $b_S$.
+Suppose that for all states $(T,U)$ in $\cS^{n+1} (\{a\}, E)$ we have $T$ contains an element of $B$.
 
-If $b_S \in T$ and $(T,U) \in \cS^{n+1} (\{a\}, E)$, that means one of two things: Either ($\dag$) there exists a state $(T, U') \in \cS^n (\{a\}, E)$ such that no edges of $U'$ are invalid wrt $T$, or ($\dag\dag$) there exists a state $(T',U \cup \{c \rightcurveor B\}) \in \cS^n (\{a\}, E)$ where $b_S \in B$ and $c \in T'$.
+Then, fixed a state $S = (T, U) \in \cS^n (\{a\}, E)$ we have that every successor of $S$ has some element of $B$ in its corresponding $T$.
 
-If $\dag$, define $c_S$ as $b_S$. Otherwise, if $\dag\dag$, define $c_s$ as the $c$ we know exists by above. Define $C$ to be the set of $c_S$ for $S \in \cS^{n+1} (\{a\}, E)$.
+If there are no edges in $U$ whose antecedent is in $T$, since the only successor of $S$ is of the form $(T, \emptyset)$, we have that $T$ contains an element of $B$, let's say $d_{S}$.
 
-Every state $S'$ in $\cS^n (\{a\}, E)$ either has at least one successor in $S \in \cS^{n+1} (\{a\}, E)$, and so contains an element $d_{S'}$ of $C$ (namely, $c_S$ where $S$ is some successor) or it has no successor, in which case it contains an edge of the form $d_{S'} \rightcurveor \emptyset$. Let $D$ be the set of $d_{S'}$. Since all elements of $\cS^n (\{a\}, E)$ contain some element of $D$, by the induction hypothesis, there exists $D' \subseteq D$ such that $a \rightcurveor_* D'$.
+If there exists some edge in $U$ whose antecedent is in $T$, let's say $a_{S} \rightcurveor B_{S}$ such that $T$ contains $a_{S}$, all elements of the form $(T \cup \{b\}, U \setminus \{a_{S} \rightcurveor B_{S}\})$ for $b \in B_{S}$ are successors of $S'$, and so belong in $\cS^{n+1} (\{a\}, E)$.
 
-For every element $d$ of $D'$, either $d \in B$ or there exists $B_d \subseteq B$ such that $d \rightcurveor B_d$. As such, one can conclude $a \rightcurveor_* (D \cap B) \cup B_{d_1} \cup B_{d_2} \cup \cdots \cup B_{d_k}$, which is a subset of $B$ and thus the $B'$ we were looking for.
+If $B_S$ is a subset of $B$, let $d_S = a_S$.
+
+If this is not the case, there exists $b \in B_S \setminus B$. Consider the state $(T \cup \{b\}, U \setminus \{a_{S} \rightcurveor B_{S}\})$. Since $T \cup \{b\}$ must contain an element of $B$, but $b \not \in B$, $T$ must contain an element of $B$, let's call it $d_S$.
+
+Now that we have defined $d_S$ in all cases, let $D = \{\,d_{S'} \mid S' \in \cS^n (\{a\}, E)\,\}$. Since every element $(T, U)$ of $\cS^n (\{a\}, E)$ is such that $T$ contains an element of $D$, we have that for some subset $D'$ of $D$ we have, by the induction hypothesis, $a \rightcurveor D'$.
+
+For every element $d$ of $D'$, either $d \in B$ or there exists $B_d \subseteq B$ such that $d \rightcurveor B_d$. As such, if we let $d_1, d_2, \cdots, d_k$ be the $d \in D'$ that don't match the first case, one can conclude $a \rightcurveor_* (D \cap B) \cup B_{d_1} \cup B_{d_2} \cup \cdots \cup B_{d_k}$, which is a subset of $B$ and thus the $B'$ we were looking for.
 
 %i hate this. find a better way to do it :(
+%reviewed: i hate this less. could be tidied up but isn't cancer anymore.
 \end{proof}
 
 \subsubsection{2-CNF}
