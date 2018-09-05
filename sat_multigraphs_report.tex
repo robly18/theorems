@@ -8,7 +8,7 @@
 \usepackage{enumerate}
 \usepackage{listings}
 
-\title{Draft of report}
+\title{SAT, Multigraphs, and CNF}
 \author{}
 \date{}
 
@@ -104,11 +104,15 @@
 
 \maketitle
 
-\tableofcontents
+\section{Introduction}
 
-\section{Definitions}
+This project was motivated by the paper \cite{2cnf}. It builds a bridge between 2-CNF (a particular case of SAT for propositional logic) and directed graphs, with a theorem that states that the satisfiability of a given 2-CNF is equivalent to the nonexistance of a certain type of loop in a graph built from it. We thought it of interest to generalize some of the strategies found therein, possibly find a novel proof of this theorem, and perhaps even generalize it.
 
-\subsection{Propositional Logic}
+The important idea for building this bridge is to, from a CNF (a special type of propositional formula), build a special graph, that represents the implications one can deduce from the given formula. The idea is that, if we construct this graph in a complete enough way, we can know if our formula is satisfiable just by checking that the graph does not have any cycles that spell obvious contradiction: namely, if there is no `path of implications' from some letter $a$ to $\conj a$ and from $\conj a$ to $a$.
+
+These ideas will be properly introduced at the end of the document. The first half of it is mostly definitions to lay the groundwork for later. The second half contains the main results, culminating in a novel proof of the aforementioned theorem, using these novel results.
+
+\section{Propositional Logic}
 %provisory telegraphic definitions. to be reviewed
 
 We will work with a set $\Sigma$, which we will suppose finite for convenience, which will be our \emph{set of propositional symbols}.
@@ -117,7 +121,7 @@ A \emph{literal} is an element of $\Sigma \times \{\top, \bot\}$.
 
 If $(a, v_a)$ is a literal, its \emph{conjugate}, denoted $\conj{(a,v_a)}$ is the literal $(a, \conj{v_a})$, where $\conj \top = \bot$ and $\conj \bot = \top$.
 
-We say $\Gamma$ is a \emph{conjunctive normal form}, or \emph{CNF} if it is a set of \emph{clauses}. In turn, a clause is a set of literals.
+We say $\Gamma$ is a \emph{conjunctive normal form}, or \emph{CNF} if it is a set of \emph{clauses}. In turn, a clause is a set of literals. We say $\Gamma$ is an $n$-CNF if all of its clauses have at most $n$ literals. We are particularly interested in $2$-CNF.
 
 We will, in general, obey the convention that a letter or literal is represented by a lower case letter, a clause by an upper case latin letter, and CNF by an upper case greek letter.
 
@@ -129,7 +133,7 @@ Given a valuation $\rho$ and a literal $a = (\alpha, v_\alpha)$, we say $\rho$ s
 
 We will say a CNF $\Gamma$ is \emph{degenerate} if $\emptyset \in \Gamma$. These are not of interest, because any degenerate CNF is immediately not satisfiable.
 
-\subsection{Logical symbols}
+\section{Logical symbols}
 
 We want to do logical operations on $\top$ and $\bot$, such as ``or'', ``and'', implications, equivalence...
 
@@ -142,7 +146,7 @@ For boolean implication, we will use $\rightarrow$, reserving the symbol $\Right
 Finally, boolean equivalence is represented as $\leftrightarrow$, while meta-equivalence is represented by the usual $\Leftrightarrow$.
 
 
-\subsection{Multigraphs}
+\section{Multigraphs}
 
 A \emph{directed multigraph} $G$ is an ordered pair $(V, E)$ where $E$ is a set of \emph{multiedges} on V.
 
@@ -158,7 +162,7 @@ Given a coloration $\chi$, we define:
 
 \[ \chi \text{\emph{ is a valid coloration of $G$} iff } \forall_{(A,B) \in E} \left( \bigwedge_{\alpha \in A} \chi(\alpha) \rightarrow \bigvee_{\beta \in B} \chi(\beta) \right)\]
 
-\subsection{Multigraphs from CNFs}
+\section{Multigraphs from CNFs}
 
 Given a CNF $\Gamma$, define the \emph{full graph of $\Gamma$}, denoted as $\Gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
 
@@ -184,9 +188,9 @@ We will assign to every multigraph $G = (V,E)$ (where $V$ is the set of literals
 
 As the reader may easily check, given a CNF $\Gamma$, it is the CNF represented by $\Gr \Gamma$, $\gr \Gamma$, and, if applicable, $\gr'\Gamma$. This will allow us to study some properties of all of these three at the same time.
 
-\subsection{Valuations from colorings}
+\section{Valuations from colorings}
 
-Given a set of propositional symbols $\Sigma$, we will deem a coloring $\chi$ of the literals with the colors $\top, \bot$ to be \emph{valorable} if, for all literals $v$, $\chi(\conj v) = \conj{\chi(v)}$.
+Given a set of propositional symbols $\Sigma$, we will deem a function $\chi$ from the literals to $\top, \bot$ to be \emph{valorable} if, for all literals $v$, $\chi(\conj v) = \conj{\chi(v)}$.
 
 \begin{prop}
 To every valorable coloration $\chi$ one can correspond a unique valuation $\rho$ such that $\chi(a, \top) = \rho(a)$, and vice versa.
@@ -246,13 +250,13 @@ If $\Gamma$ is represented by $G = (V,E)$, then $\Gamma$ is satisfiable iff $G$ 
 Simply apply the previous proposition. If $\Gamma$ is satisfiable, pick a satisfying valuation and consider its coloration, which will be valid and valorable. If $G$ has a valid valorable coloration, consider its associated valuation.
 \end{proof}
 
-\subsection{Indirect Implication}
+\section{Indirect Implication}
 
 To help us study valid colorations of multigraphs, we make the following definition:
 
 Given a graph $G$ and two sets of vertices $A$ and $B$, we say \emph{$A$ indirectly implies $B$}, denoted $A \Rightcurvearrow B$, if all valid colorations $\chi$ that obey $\chi(a) = \top$ for all $a \in A$ also obey $\chi(b) = \top$ for some $b \in B$.
 
-\subsection{Direct Implication}
+\section{Direct Implication}
 
 In the interest of characterizing the relation of indirect implication in the context of tail graphs, we will consider the following definition:
 
@@ -261,13 +265,13 @@ We define the relation \emph{$a$ n-implies $B$}, denoted as $a \rightcurveor_{\,
 \[\text{if } B = \{a\} \text{, then } a \rightcurveor_0 B\]
 
 
-\[\text{if } a \rightcurveor_n B \text{, } b \in B \text{, and } b \rightcurveor C \text{, then } a \rightcurveor_{n+1} (B \setminus \{b\}) \cup B'\]
+\[\text{if } a \rightcurveor_n B \text{, } b \in B \text{, and } b \rightcurveor C \text{, then } a \rightcurveor_{n+1} (B \setminus \{b\}) \cup C\]
 
 We say $a \rightcurveor_* B$ if there exists $n$ for which $a \rightcurveor_n B$.
 
 This relation is a generalization of the idea ``there's a path from $a$ to $b$'' in pure graphs. In fact, if our graph is pure, $a \rightcurveor_* B$ if and only if $B$ is a singleton set $\{b\}$ and there is a path going from $a$ to $b$. $a \rightcurveor_n \{b\}$ if and only if there is a path of length $n$ from $a$ to $b$ in this case. This can easily be shown by induction.
 
-\subsection{The exhaustion algorithm}
+\section{The exhaustion algorithm}
 
 Consider an arbitrary multigraph $G = (V,E)$, and let $V_0 \subseteq V$
 
@@ -287,14 +291,13 @@ While $\exists_{(A,B) \in U} \, A \subseteq T$:
 \end{lstlisting}
 \end{minipage}
 
-\section{Propositions}
 
-\subsection{General results on multigraphs}
+\section{General results on multigraphs}
 
 In the following, consider fixed a multigraph $G = (V,E)$.
 
 \begin{prop}
-The exhaustion algorithm halts, and when it does, if it has not halted prematurely, the coloration $\chi(a) = (\top \text{ if } a \in T \text{ else } \bot)$ is valid.
+The exhaustion algorithm halts, and when it does, if it has not halted prematurely (that is, due to the Halt instruction), the coloration $\chi(a) = (\top \text{ if } a \in T \text{ else } \bot)$ is valid.
 \end{prop}
 
 \begin{proof}
@@ -353,7 +356,7 @@ As such, since at the end, all states have $U$ empty, all edges are valid with r
 %This is pretty piss poorly written. Find a better way to do this.
 \end{proof}
 
-\subsection{Full graphs}
+\section{Full graphs}
 
 Remind yourself of the definition of the full graph of a CNF $\Gamma$:
 \begin{gather*}
@@ -452,7 +455,7 @@ Fixed an arbitrary multigraph $G$, indirect implication in this graph has the fo
 Would a calculus based on these properties be complete? If not, what needs to be added? It is very likely that property $iii)$ needs to be made stronger.
 \end{av}
 
-\subsection{Tail graphs}
+\section{Tail graphs}
 
 We could actually show that such a calculus does work for tail graphs.
 
