@@ -1898,4 +1898,84 @@ conseguimos sempre descobrir um upper bound que corresponde à solução.
 	Se algum destes não tiver vetores admissíveis, nenhum dos dois tem solução. Se ambos tiverem vetores admissíveis, têm ambos solução e se $s$ é solução de $P$ e $r$ é solução de $Q$ tem-se $cs = b^T r$.
 	\end{prop}
 	
+	\section{Simplexo}
+	
+	\subsection{Introdução}
+	
+	O algoritmo do Simplexo é bastante importante, visto que permite resolver problemas de otimização linear muito mais rapidamente do que os métodos que o precederam. E apesar de haver outros algoritmos, na teoria mais rápidos do que o Simplexo\footnote{Os detalhes serão especificados quando se falar sobre complexidade de algoritmos, mas em termos técnicos, o algoritmo do Simplexo é \emph{worst-case} exponencial. Existem algoritmos que resolvem pols em \emph{worst-case} polinomial. No entanto, repare-se que os casos em que o Simplexo corre lentamente são raros, de modo a que, em média (para diversos sentidos da palavra), o Simplexo é polinomial. Estes assuntos estão, no entanto, bastante fora do âmbito da cadeira, pelo que ficam apenas aqui como trivia para o leitor.}, este acaba por ser usado ainda hoje em aplicações práticas, dado que é, na vasta maioria dos casos, extremamente eficiente.
+	
+	A ideia base por trás do Simplexo é razoavelmente simples. Considere-se o algoritmo dos vetores básicos para o pol na forma padrão. Visto que sabemos que, se houver solução, existe solução básica, basta verificar os vetores básicos todos, e destes o que tiver melhor pontuação é o nosso candidato a solução.
+	
+	Este algoritmo tem dois problemas: primeiro que tudo, não nos diz se um dado pol tem de facto solução, apenas indica o melhor candidato para tal. Segundo, um pol pode ter imensos vetores admissíveis básicos, pelo que pode ser muito ineficiente verificá-los a todos.
+	
+	Veremos que, na tentativa de resolver um destes problemas, acabamos por resolver o outro, e o resultado final será o algoritmo do Simplexo.
+	
+	\subsection{Motivação}
+	
+	A nossa procura começa com o seguinte: tentaremos aplicar dualidade para obter um teste que nos diga se, dado um pol e um vetor admissível $x$, se $x$ é solução.
+	
+	Recorde-se que já temos o método das linhas ativas, mas esse tem um problema: requer uma `testemunha'. Ou seja, ele permite-me justificar que $x$ é solução, mas para isso preciso de mostrar que $c^T$ pertence ao cone das colunas de $A^{xT}$. Para isso, preciso de arranjar um $w \geq 0$ tal que $A^{xT} w = c^T$. Arranjar este $w$ não é fácil em geral.
+	
+	Vamos, então, procurar um método que nos permita, dado um $x$, sob certas condições, determinar se $x$ é solução ou não.
+	
+	Consideremos então o pol na forma padrão:
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Tendo em conta o teorema forte da dualidade, pretendemos descobrir se existe $y$ tal que $A^T y \leq c^T$ e $b^T y = cx$. Visto que isto são números reais, e que $x$ é admissível, temos que pretendemos descobrir $y$ tal que $x^T A^T y = x^T c^T$ e $A^T y \leq c^T$.
+	
+	Uma possível ideia seria tentar descobrir $y$ tal que $A^T y = c^T$. Tal $y$ certamente obedeceria a ambas as condições. Infelizmente, em geral, este $y$ não existe, visto que a matriz $A^T$ pode ser muito alta, e então a equação $A^T y = c^T$ pode não ter solução.
+	
+	Suponhamos, no entanto, que $x$ é básico. Então, $cx = x_{P_x}^T c_{P_x}^T$. Da mesma forma, $b^T y = x^T A^T y = x_{P_x}^T (A^T y)_{P_x}$, e este último, como o leitor poderá facilmente verificar, é igual a $x_{P_x}^T A_{P_x}^T y$.\footnote{Para evitar ambiguidade: na expressão $A_{P_x}^T$, o subscrito toma precedência. Ou seja, por $A_{P_x}^T$ entende-se: a matriz obtida por transposição a partir da matriz $A_{P_x}$. Por outras palavras, a matriz obtida de $A^T$ apagando as linhas $i$ tal que $x_i = 0$.}  Assim sendo, a condição $b^T y = cx$ acaba por ser equivalente a $x_{P_x}^T A_{P_x}^T y = x_{P_x}^T c_{P_x}^T$. Ficamos então com a ideia de resolver $A_{P_x}^T y = c_{P_x}^T$, e esta equação sim é solúvel, pois, por definição de vetor básico, as linhas de $A_{P_x}^T$ são linearmente independentes, e então a caraterística desta matriz é igual à sua altura.
+	
+	Infelizmente, resolver esta equação não nos assegura nada sobre se $x$ é solução ou não, visto que também é preciso verificar $A^T y \leq c^T$. No entanto, \emph{se} se encontrar uma solução de $A_{P_x}^T y = c_{P_x}^T$ que satisfaz $A^T y \leq c^T$, de certeza que $x$ é solução.
+	
+	A proposição seguinte diz-nos que não só a existência de tal $y$ é suficiente para que $x$ seja solução, é também necessária.
+	
+	\begin{prop}
+	Dado o pol
+	
+	\[
+	\begin{cases}
+	\min\limits_x cx\\
+	Ax = b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	E um vetor $x$ admissível,\footnote{Repare-se que não é tomado como hipótese que $x$ seja básico.} temos que $x$ é solução sse existe $y$ tal que $A_{P_x}^T y = c_{P_x}^T$ e $A^T y \leq c^T$.
+	\end{prop}
+	
+	\begin{proof}
+	A implicação ($\leftarrow$) é trivial, visto que um $y$ tal que $A^T y \leq c^T$ é admissível do dual, e se $A_{P_x}^T y = c_{P_x}^T$ temos que $x_{P_x}^T A_{P_x}^T y = x_{P_x}^T c_{P_x}^T$ e então (verifique) $x^T A^T y = cx$ e então, visto que $x$ é admissível, temos que $b^T y = cx$, o que, por dualidade, nos indica que $x$ é solução.
+	
+	Para a implicação ($\rightarrow$), aplique-se o teorema da dualidade forte. Sabemos que se $x$ é solução existe $y$ tal que $A^T y \leq c^T$ e $b^T y = cx$. Mas é fácil ver que esta ultima condição é equivalente a $x_{P_x}^T A_{P_x}^T y = x_{P_x}^T c_{P_x}^T$.
+	
+	Mostraremos agora que $A_{P_x}^T y = c_{P_x}^T$. Sabemos já que $A_{P_x}^T y \leq c_{P_x}^T$, por $y$ ser admissível do dual, e vejamos então o que acontece se não houver igualdade.
+	
+	Visto que $x^T A^T y = x^T c^T$, temos que
+	
+	\[\sum_{i = 1}^n x_i (A^T y)_i = \sum_{i = 0}^n x_i c_i\]
+	Supondo que não se tem $A_{P_x}^T y = c_{P_x}^T$, existirá $j \in P_x$ tal que $(A^T y)_j \neq c_j$, e então $(A^T y)_j < c_j$. Separando este termo do resto, temos
+	
+	\[x_j (A^T y)_j + \sum_{i \neq j} x_i (A^T y)_i = x_j c_j + \sum_{i \neq j} x_i c_i\]
+	
+	Mas visto que todos os $x_i$ são maiores ou iguais que zero, e como $A^T y \leq c^T$, temos que $x_i (A^T y)_i \leq x_i c_i$ para todo $i$, e então
+	
+	\[\sum_{i \neq j} x_i (A^T y)_i \leq \sum_{i \neq j} x_i c_i\]
+	
+	E como $x_j$ é positivo e, por hipótese, $(A^T y)_j < c_j$, temos que $x_j (A^T y)_j < x_j c_j$. Somando estas duas desigualdades, obtemos
+	
+	\[x_j (A^T y)_j + \sum_{i \neq j} x_i (A^T y)_i < x_j c_j + \sum_{i \neq j} x_i c_i\]
+	
+	O que contradiz a igualdade acima. Logo, não pode existir tal $j$, donde obtemos que $A_{P_x}^T y = c_{P_x}^T$, como pretendiamos demonstrar.
+	\end{proof}
+	
+	
 \end{document}
