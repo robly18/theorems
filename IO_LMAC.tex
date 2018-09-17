@@ -10,6 +10,9 @@
 \usepackage{ifxetex}
 \usepackage{mathrsfs}
 \usepackage{enumerate}
+\usepackage{courier}
+
+\lstset{basicstyle=\ttfamily,breaklines=true}
 
 \ifxetex
 %xetex is recommended!
@@ -1980,10 +1983,9 @@ conseguimos sempre descobrir um upper bound que corresponde à solução.
 	Este novo critério para verificar se um dado $x$ é solução é, em geral, não muito mais útil do que os que temos até agora. Existe um caso, no entanto, em que funciona na perfeição.
 	
 	Suponha-se que $x$ é um vetor admissível básico. Então, decerto que a equação $A_{P_x}^T y = c^T_{P_x}$ é possível. Verificar se existe uma solução que obedece a $A^T y \leq c^T$ é, em geral, difícil
-, mas se houver uma única solução, fica uma tarefa trivial. Ora, isto acontece precisamente quando $A_{P_x}^T$ é quadrada, ou seja, $\# P_x = n$, onde $n$ é o número de incógnitas em jogo.
+, mas se houver uma única solução, fica uma tarefa trivial. Ora, isto acontece precisamente quando $A_{P_x}^T$ é quadrada, ou seja, $\# P_x = m$, onde $m$ é o número de linhas da matriz $A$.
 
-	Se $x$ é um vetor básico tal que $\#P_x = n$, dizemos que $x$ é um \emph{vetor básico não-degenerado}. O que vimos agora é um teste rápido e eficaz de testar se um vetor básico não-degenerado é solução:
-	
+	Se $x$ é um vetor básico tal que $\#P_x = m$, dizemos que $x$ é um \emph{vetor básico não-degenerado}. O que vimos agora é um teste rápido e eficaz de testar se um vetor básico não-degenerado é solução:
 	
 	\begin{lstlisting}[mathescape=true, keepspaces=true]
 Resolver a equação $A_{P_x}^T y = c_{P_x}^T$
@@ -1991,4 +1993,27 @@ Verificar se $A^T y \leq c^T$
 Caso afirmativo, $y$ é solução
 Caso contrário, $y$ não é solução
 	\end{lstlisting}
+	
+	A restrição que $x$ seja não-degenerado não é tão restritiva quanto possa parecer. Em geral, vetores degenerados são raros, especialmente quando se trabalha com aproximações e dados reais.
+	
+	Para ter uma ideia de porquê (mas repare-se que o que se segue não é uma prova formal) vamos considerar o menor caso não-trivial de um vetor básico degenerado: considere-se um pol em $\R^3$ cuja matriz $A$ seja uma matriz $2 \times 3$ de linhas linearmente independentes. O conjunto-admissível será então uma reta.
+	
+	Neste contexto, um vetor básico degenerado seria um vetor com $0$ ou $1$ coordenadas iguais a zero. Ora, a existência de tal vetor requer que a que a reta que representa o conjunto admissível passe por um dos eixos. O leitor pode facilmente convencer-se que, na prática, é preciso muita pontaria para que a reta toque nos eixos. Acontece (mas não será justificado) que isto é verdade em geral, ou seja, é muito raro haver vetores básicos degenerados. Para mais, mesmo que haja, a mais pequena disturbância (e.g. um erro de arredondamento) pode transformar o problema de volta num problema não-degenerado. Assim sendo, vamos desenvolver o algoritmo do Simplexo ignorando a sua existência. É possível adaptar o algoritmo para contextos em que vetores degenerados aparecem, mas isto encontra-se fora do âmbito da cadeira.
+	
+	Vamos, então, trabalhar sob a seguinte hipótese: dizemos que um pol $P$ é \emph{não-degenerado no sentido lato} se não tiver nenhum vetor básico degenerado.
+	
+	Neste contexto, o teste acima, para além de eficaz e eficiente, dá-nos uma forma de, em caso negativo, arranjar um vetor melhor, como se verá no seguimento. É, aliás, nisto que se baseia o algoritmo do Simplexo. Os detalhes serão feitos a seguir, mas a ideia é um ciclo da forma:
+	
+	\begin{lstlisting}[mathescape=true, keepspaces=true]
+Começar com um vetor básico $x$
+$x$ é solução?
+Se sim, parar.
+Se não, arranjar um vetor melhor.
+  Conseguimos arranjar vetores arbitráriamente bons?
+  Se sim, parar. Não há solução.
+  Se não, (provaremos) é possível arranjar um vetor
+    básico $v$ de pontuação melhor do que $x$.
+    Voltar ao início, com $x = v$
+	\end{lstlisting}
+	
 \end{document}
