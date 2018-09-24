@@ -1,0 +1,72 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\title{Establishing with rigour and certainty the existance of Turing Machines that compute certain functions}
+\author{Duarte Maia}
+\date{}
+
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\B}{\mathbf{B}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Q}{\mathcal{Q}}
+
+\begin{document}
+	\maketitle
+
+	\section{Introduction}
+
+	It is to my dismay that books on computability, even those that boast of care and rigour, often skimp on showing the computability of functions. That is, to show that a certain function is computable, a Turing Machine is given (or the sketch of how such would be written) and an appeal to intuition is made so that the reader will `clearly see' that the given machine will halt in finite time and output the desired result.
+	
+	In this document, we will establish with rigour the computability of a certain class of functions (namely, $\mu$-recursive functions), and we will show that any $\mu$-recursive function can be computed by a Turing Machine.
+	
+	\section{Roadmap}
+	
+	Before we begin, a note on what lies ahead of us.
+	
+	Turing Machines are hard to tame beasts. The rules they obey are seemingly simple, but a lot of complexity is hidden by them. They are, in general, wild and unpredictable, given that branching can and will occur at almost any moment. We will not try to tame these wild beasts, but will instead make tools to allow us to build structured programs whose termination and correction are more reasonably provable. Of course, the Halting Problem guarantees us that we won't be able to find a recipe for proving these things, but that doesn't stop us from doing it on a case-per-case basis.
+	
+	We will, on top of Turing Machines, build two languages, one on top of the other. %give them names?
+	The reason for this indirection is to make it easier to compile these languages to a Turing Machine, and to show that they have the semantics we wish them to have.
+	
+	%how structured will this be?
+
+	\section{Turing Machines}
+
+	We start by giving a formal definition of Turing Machine. Ours will be a definition of a Turing Machine with a tape infinite only to the right. These definitions are an adaptation of the definition found in \cite{bridges}.
+	
+	We will consider fixed an alphabet $Y$, the \emph{tape alphabet}, containing at least one symbol, the `blank symbol', which we will denote by $\B$. We will consider another alphabet, $X \subseteq Y$, which is called the \emph{input alphabet}, that does not contain $\B$. These definitions will be as general as possible, but we will always assume in the following $X$ has at least two symbols: 0 and 1. That is, $\{0,1\} \subseteq X$.
+	
+	Given an alphabet $A$, the set of finite strings in $A$ (including the empty one, which we will denote by $\Lambda$) is denoted $A^*$. Given a string $s$, we will denote its length by $\lvert s \rvert$. The set of (countably infinite) sequences in $A$ will be denoted $A^\infty$:  these are, formally, functions from $\N^+$ to $A$.
+	
+	We will allow concatenation of finite strings $u, v$ by juxtaposition: $uv$. We will allow the usual abbreviations for building languages (sets of strings): if $L$ and $M$ are two languages, $LM$ represents the language containing strings of the form $\ell m$ where $\ell \in L, m \in M$. Union, in this context, is denoted by a +. When convenient, we will omit curly braces, for example using $1^*$ to represent all strings containing only 1, or $01^*0 + 0$ to represent all strings that start and end in zeros, with only ones in the middle.
+	
+	Given a string $s$ or language $A$, it will be useful to denote by $s \B^\infty$ or $A \B^\infty$ the sequence (or set of sequences) obtained by concatenating the string $s$ or language $A$ to the beginning of the sequence $\B\B\B\cdots$. A sequence of the form $s \B^\infty$ is said to be \emph{finitary}.
+	
+	A \emph{Turing Machine} is a 4-uple $\M = (\Q, \delta, q_0, q_f)$, where:
+	
+	\begin{itemize}
+	\item $\Q$ is a set, the so-called \emph{set of states}
+	
+	\item $\delta$ is a partial function $\Q \times Y \rightharpoonup \Q \times Y \times \{L, \Lambda, R\}$
+	
+	\item $q_0, q_f \in \Q$ are the so-called start and end states, respectively.
+	
+	\item $\delta(q_f, y)$ is undefined for all $y \in Y$
+	\end{itemize}
+	
+	A \emph{tape state on $\M = (\Q, \delta, q_0, q_f)$} is a triple $T = (q, t, p)$ such that $q \in \Q$, $t \in Y^\infty$, $p \in \N^+$.
+
+	
+\begin{thebibliography}{9}
+\bibitem{bridges} 
+Bridges, Douglas S.
+\textit{Computability - A Mathematical Sketchbook}. 
+Springer, 1994. %i don't know how to do this right
+\end{thebibliography}	
+
+\end{document}
