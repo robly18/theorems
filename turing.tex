@@ -14,6 +14,10 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\Q}{\mathcal{Q}}
+\DeclareMathOperator{\suc}{\mathbf{succ}}
+\DeclareMathOperator{\run}{\mathbf{run}}
+\DeclareMathOperator{\dom}{\mathrm{dom}}
+
 
 \begin{document}
 	\maketitle
@@ -33,6 +37,8 @@
 	We will, on top of Turing Machines, build two languages, one on top of the other. %give them names?
 	The reason for this indirection is to make it easier to compile these languages to a Turing Machine, and to show that they have the semantics we wish them to have.
 	
+	Our goal is to make proving things easier, and so our final language will have as few `moving parts' as possible. For example, we will abolish the pointer position, giving us less state to keep track of.
+	
 	%how structured will this be?
 
 	\section{Turing Machines}
@@ -47,6 +53,8 @@
 	
 	Given a string $s$ or language $A$, it will be useful to denote by $s \B^\infty$ or $A \B^\infty$ the sequence (or set of sequences) obtained by concatenating the string $s$ or language $A$ to the beginning of the sequence $\B\B\B\cdots$. A sequence of the form $s \B^\infty$ is said to be \emph{finitary}.
 	
+	Given a string or sequence $s$, we will use $s[i]$ to refer to the $i$-th character in $s$, and notations such as $s[i,j]$ or $s]i,j[$ or anything inbetween to refer to particular intervals. The question of whether the edges are included or not should be obvious by analogy with the notation for intervals. In the particular case of sequences, we also allow the notation $s[i, \infty[$.
+	
 	A \emph{Turing Machine} is a 4-uple $\M = (\Q, \delta, q_0, q_f)$, where:
 	
 	\begin{itemize}
@@ -60,6 +68,45 @@
 	\end{itemize}
 	
 	A \emph{tape state on $\M = (\Q, \delta, q_0, q_f)$} is a triple $T = (q, t, p)$ such that $q \in \Q$, $t \in Y^\infty$, $p \in \N^+$.
+	
+	Given a Turing Machine $\M = (\Q, \delta, q_0, q_f)$ and a tape state $T = (q, t, p)$, we will say $T' = (q', t', p')$ is the \emph{successor state of $T$} if:
+	
+	Let $\delta(q, t[p]) = (q', c, d)$ in
+	
+	\begin{itemize}
+	\item $t' = t[1, p[ \, c \, t]p, \infty[$
+	
+	\item If $d$ is $L, \Lambda, R$, then $p = p' + 1, p = p', p + 1 = p'$, respectively.
+	\end{itemize}
+	
+	The reader should have no trouble seeing that this state is unique (justifying calling it `the' successor rather than `a' successor), and it is not hard to see that it is not always defined. For example, if $p$ is $1$ and $d$ is $L$, the equation $p = p' + 1$ has no solution $p'$ in $\N^+$. Furthermore, this is obviously not defined if $\delta(q, t[p])$ is undefined, which it might very well be.
+	
+	We define the partial \emph{successor} function $\suc T = T'$.
+	
+	We say that the Turing Machine $\M = (\Q, \delta, q_0, q_f)$ \emph{halts on input $s$ with output $t$}, where $s, t \in X^*$, if there exists $n$ such that
+	
+	\[\suc^n (q_0, s \B^\infty, 1) = (q_f, t \B^\infty, 1)\]
+	
+	It is clear that given some input, the output on which $\M$ halts, if it exists, is unique, as this last state has no successor as $\delta(q_f, (t \B^\infty)[1])$ is undefined by definition.
+	
+	This allows us to define, for any Turing Machine $\M$, the partial function $\run_\M : X^* \rightharpoonup X^*$ that, given $s$, if $\M$ halts on input $s$ with some output $t$, returns $t$. It is otherwise undefined.
+	
+	\section{Computability}
+	
+	We have laid out the basic groundwork for defining what it means for a function to be Turing Computable:
+	
+	Given a partial function $f : X^* \supseteq A \rightharpoonup B \subseteq X^*$, we say $\M$ \emph{represents $f$ on $A$} if:
+	
+	\begin{itemize}
+	
+	\item For all $s \in \dom f$, $\run_\M s$ is defined and equals $f(s)$
+	
+	\item For all $s \in A \setminus \dom f$ either $\run_\M s$ is undefined, or it is not in $B$.
+	
+	\end{itemize}
+	
+	We wish to establish the computability or noncomputability of some functions. For example, we would like to show that the sum of natural numbers is computable. Of course, the sum is a function from $\N \times \N$ to $\N$, neither of which are (unless you have a very odd notion of natural number and cartesian product) subsets of $X^*$.
+	
 
 	
 \begin{thebibliography}{9}
