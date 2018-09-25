@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
+\usepackage{mathtools}
 
 \title{Establishing with rigour and certainty the existance of Turing Machines that compute certain functions}
 \author{Duarte Maia}
@@ -17,6 +18,7 @@
 \DeclareMathOperator{\suc}{\mathbf{succ}}
 \DeclareMathOperator{\run}{\mathbf{run}}
 \DeclareMathOperator{\dom}{\mathrm{dom}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
 
 \begin{document}
@@ -105,8 +107,33 @@
 	
 	\end{itemize}
 	
-	We wish to establish the computability or noncomputability of some functions. For example, we would like to show that the sum of natural numbers is computable. Of course, the sum is a function from $\N \times \N$ to $\N$, neither of which are (unless you have a very odd notion of natural number and cartesian product) subsets of $X^*$.
+	We wish to establish the computability or noncomputability of some functions. For example, we would like to show that the sum of natural numbers is computable. Of course, the sum is a function from $\N_0 \times \N_0$ to $\N_0$, neither of which are (unless you have a very odd notion of natural number and cartesian product) subsets of $X^*$, so we will have to adjust our definitions accordingly.
 	
+	As such, we will encode $n$-uples of natural numbers in a standard form: any natural number $n$ will be encoded in unary. The symbol $\ceil{n}$ will be used to denote the string composed of $n$ ones. That is:
+	
+	\[\ceil{n} = \underbrace{111\cdots1}_{n \text{ times}}\]
+	
+	Defining this inductively: $\ceil{0} = \Lambda$; $\ceil{n+1} = \ceil{n}1$.
+	
+	It is easy to see by induction that $\ceil{n+m} = \ceil{n}\ceil{m}$.
+	
+	We now move on to encoding $n$-uples of natural numbers. For our purposes, zero will serve as a comma. As such, the $n$-uple $(x_1, x_2, \cdots, x_n)$ is encoded as
+
+	\[ \ceil{(x_1, x_2, \cdots, x_n)} = \ceil{x_1}0\ceil{x_2}0\cdots0\ceil{x_n} \]
+	
+	For our purposes, when convenient, we will identify $\N_0$ with the set of strings of ones, i.e. we will pretend $\N_0 = 1^*$, and likewise, we will identify $\N_0^n$ with the strings of the above form. That is, we identify:
+	
+	\[\N_0^n = \underbrace{1^*\,0\,1^*\,0\,1^*\,0 \cdots 0\,1^*}_{n \text{ zeroes}}\]
+	
+	This leaves us with only one caveat: the zero-uple. I have yet to find a satisfying way to define these things in a satisfactory way.
+	
+	Our definition of computable function will stay the same, but our focus will be mostly on functions from $\N_0^n$ to $\N_0$, where $n$ is greater than zero.\footnote{We could focus on functions from $\N_0^n$ to $\N_0^m$, but any such function can just be represented by $m$ functions from $\N_0^n$ to $\N_0$, and so, we can restrict our study to this slightly easier class of functions without loss of generality.} It is a shame to be excluding the zeroary functions, but fortunately, these are just constants, and thus of little interest, as a function to compute these would simply erase the tape and write its own output, making all such functions trivially computable.
+	
+	So, we wish to investigate the set of Turing computable functions. Examples of functions we would love to show computable would be, for example, the function $+ : \N_0^2 \rightarrow \N_0$, or $\times$, or $- : \N_0^2 \rightharpoonup \N_0$. However, while writing out a program for each of these is not of extreme difficulty, showing formally that they terminate and that the output is what we expect it to be is tedious. So much so, in fact, that most books on the subject simply forego this verification for the most part.
+	
+	The main reason for this is that, on Turing Machines, there is a lot of global state to keep track of, and relatively few tools to keep track of it. Not only do we have both the tape and pointer position to keep track of, it is also very hard in general to modify arbitrary data, as, unless we are modifying something at the rightmost end of the written data, we will have to shuffle things over to make room, which, without being very careful about how we organize the data, might very well be an enormous headache. Add to it the fact that there are no limitations on control flow (you can jump from any state to any other state without restrictions) and it is extremely hard to show the correctness of a given program.
+	
+	As such, in this study, we will develop a sort of `compiled language', which will sit on Turing machines and which we will show can be compiled to one, with the semantics we will later establish, and about which it will be much easier to reason about, using techniques such as (a modified version of) Hoare calculus.
 
 	
 \begin{thebibliography}{9}
