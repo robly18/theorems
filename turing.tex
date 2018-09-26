@@ -13,6 +13,7 @@
 
 \newcommand{\B}{\mathbf{B}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Ha}{\mathbf{H}}
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\Q}{\mathcal{Q}}
 \DeclareMathOperator{\suc}{\mathbf{succ}}
@@ -134,6 +135,12 @@
 	The main reason for this is that, on Turing Machines, there is a lot of global state to keep track of, and relatively few tools to keep track of it. Not only do we have both the tape and pointer position to keep track of, it is also very hard in general to modify arbitrary data, as, unless we are modifying something at the rightmost end of the written data, we will have to shuffle things over to make room, which, without being very careful about how we organize the data, might very well be an enormous headache. Add to it the fact that there are no limitations on control flow (you can jump from any state to any other state without restrictions) and it is extremely hard to show the correctness of a given program.
 	
 	As such, in this study, we will develop a sort of `compiled language', which will sit on Turing machines and which we will show can be compiled to one, with the semantics we will later establish, and about which it will be much easier to reason about, using techniques such as (a modified version of) Hoare calculus.
+	
+	The first step in this path is to develop a set of instructions (composed of possibly more than one state) whose behavior we can reason about in abstract. But before we do that, we will need a way to compose them.
+	
+	\section{Composition}
+	
+	Consider a set of Turing Machines, $\{\M_i\}$ indexed by some finite set $I$, and let $\Ha$ be a symbol (the `halt meta-state') not in $I$. Suppose defined a partial function $\Delta : I \times Y \rightharpoonup I \cup \{\Ha\}$
 
 	
 \begin{thebibliography}{9}
