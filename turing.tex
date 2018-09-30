@@ -25,6 +25,9 @@
 \DeclareMathOperator{\Nthen}{\mathbf{then}}
 \DeclareMathOperator{\Nelse}{\mathbf{else}}
 \DeclareMathOperator{\Nendif}{\mathbf{endif}}
+\DeclareMathOperator{\Nwhileon}{\mathbf{while\,on}}
+\DeclareMathOperator{\Ndo}{\mathbf{do}}
+\DeclareMathOperator{\Nendwhile}{\mathbf{endwhile}}
 
 
 \begin{document}
@@ -364,7 +367,30 @@
 	\begin{proof}
 	TODO. Do this when you fix your damn notation.
 	\end{proof}
+	
+	We finish this section with the last kind of composition we will need for sanely making Turing Machines.
 
+	Fixed some subset $S$ of $Y$ and a Turing Machine $\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})$, we define the following Turing Machine:
+	
+	\[ \M = \Nwhileon S \Ndo \M_1 \Nendwhile \]
+	
+	As $\M = (\Q, \delta, q_0, q_f)$ such that:
+	
+	\begin{itemize}
+	\item $\Q = \Q_1 \cup \{q_0, q_f\}$
+	
+	\item $q_0$ and $q_f$ are symbols not in $\Q$
+	
+	\item $\delta(q_0, y) = (q_{10}, y, \Lambda)$ for all $y \in S$
+	
+	\item $\delta(q_0, y) = (q_f, y, \Lambda)$ for all $y \not\in S$
+	
+	\item $\delta(q, y) = \delta_1(q, y)$ for all $q \in \Q_1$ if $q \neq q_{1f}$
+	
+	\item $\delta(q_{1f}, y) = (q_0, y, \Lambda)$
+	\end{itemize}
+	
+	
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
