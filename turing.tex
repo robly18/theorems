@@ -271,6 +271,8 @@
 	
 	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true and $\M$ halts when given the tape $s, p$, then after running $\M$ on the tape $(q_0, s, p)$ until it halts to become $(q_f, s', p')$, $\psi(s', p')$ is true.'
 	
+	Sometimes the juxtaposition notation will be inadequate. If this is the case, we also allow using curly braces to group propositions, as such: $\{\phi\}\M\{\psi\}$.
+	
 	%i need better notation!!
 	
 	\begin{theorem}
@@ -289,15 +291,79 @@
 	
 	We move on to our second special program: conditional branching.
 	
-	Fix two Turing Machines, $\M_1$ and $\M_2$. We define the following Turing Machine:
+	Fix two Turing Machines, $\M_1$ and $\M_2$ such that
 	
-	\[ \Nifat y \Nthen \M_1 \Nelse \M_2 \Nendif \]
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
+	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
+	
+	And fixed some element $y_0$ of $Y$, we define the following Turing Machine:
+	
+	\[ \M = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \]
 	
 	As $\M = (\Q, \delta, q_0, q_f)$ such that:
 	
 	\begin{itemize}
+	\item $\Q = \{\,(q, i) \mid q \in \Q_i, i = 1,2\,\} \cup \{q_0, q_f\}$
 	
+	\item $q_0$ and $q_f$ are distinct symbols %this needs to be done better
+	
+	\item $\delta(q_0, y_0) = ((q_{10}, 1), y_0, \Lambda)$
+	
+	\item $\delta(q_0, y) = ((q_{20}, 2), y, \Lambda)$ for all $y \neq y_0$
+	
+	\item $\delta((q, i), y) = ((q', i), c, d)$ if $\delta_i(q, y) = (q', c, d)$
+	
+	\item $\delta((q_{if}, i), y) = (q_f, y, \Lambda)$
 	\end{itemize}
+	
+	This machine's behavior is what it says on the tin, as the next proposition shows.
+	
+	\begin{theorem}
+	Let $s$ be a sequence, $p$ a position, $y_0 \in Y$, and the following Turing Machines:
+	
+	
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
+	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
+	\[\M = (\Q, \delta, q_0, q_f) = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \]
+	
+	If $s[p] = y_0$ and $\suc^n_{\M_1} (q_{10}, s, p) = (q_{1f}, s', p')$, then $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$
+	
+	Likewise, if $s[p] \neq y_0$ and $\suc^n_{\M_2} (q_{20}, s, p) = (q_{2f}, s', p')$, then $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$
+	\end{theorem}
+	
+	\begin{proof}
+	We will only do the proof for the first case, as the proof of the second is completely analogous.
+	
+	Suppose, then $s[p] = y_0$. We have $\suc_\M (q_0, s, p) = ((q_{10}, 1), s, p)$, as the reader may easily verify.
+	
+	From now on, we show by induction that, for $i = 0, \cdots, n$, if
+	
+	\[\suc^i_{\M_1} (q_{10}, s, p) = (q, s', p')\]
+	
+	Then
+	
+	\[\suc^{1+i}_\M (q_0, s, p) = ((q, 1), s', p')\]
+	
+	For $i = 0$ this has already been shown. Suppose, now, this is true for some $i < n$.
+	
+	Applying the definition of $\delta$ vs $\delta_1$, knowing that $q \neq q_{1f}$, one can easily see that if the state change for the former is given by $(q', c, d)$, the state change for the latter is given by $((q', 1), c, d)$, and so the successors will also obey this relation.
+	
+	Finally, now that we know that if $\suc^n_{\M_1} (q_{10}, s, p) = (q_{1f}, s', p')$ then $\suc^{1+n}_\M (q_0, s, p) = ((q_{1f}, 1), s', p')$, applying the successor function to the latter once more, we get $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$, as we wished to show.
+	
+	This finishes the proof of the first case. As said before, the proof of the second case is completely analogous.
+	\end{proof}
+	
+	This gives us the following corollary:
+	
+	\begin{theorem}
+	Suppose that $\{\phi \land s[p] = y_0\} \M_1 \{\psi\}$ and $\{\phi \land s[p] \neq y_0\} \M_1 \{\psi\}$. Then,
+	
+	\[\{\phi\} \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \{\psi\}\]
+	\end{theorem}
+	
+	\begin{proof}
+	TODO. Do this when you fix your damn notation.
+	\end{proof}
 
 	
 \begin{thebibliography}{9}
