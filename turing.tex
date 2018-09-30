@@ -21,6 +21,10 @@
 \DeclareMathOperator{\run}{\mathbf{run}}
 \DeclareMathOperator{\dom}{\mathrm{dom}}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclareMathOperator{\Nifat}{\mathbf{if\,at}}
+\DeclareMathOperator{\Nthen}{\mathbf{then}}
+\DeclareMathOperator{\Nelse}{\mathbf{else}}
+\DeclareMathOperator{\Nendif}{\mathbf{endif}}
 
 
 \begin{document}
@@ -265,7 +269,7 @@
 	
 	This last proposition tells us something very important, that will form the basis of most of what we will do from now on.
 	
-	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true, then after running $\M$ on the tape $(q_0, s, p)$ until it halts to become $(q_f, s', p')$, $\psi(s', p')$ is true.'
+	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true and $\M$ halts when given the tape $s, p$, then after running $\M$ on the tape $(q_0, s, p)$ until it halts to become $(q_f, s', p')$, $\psi(s', p')$ is true.'
 	
 	%i need better notation!!
 	
@@ -274,12 +278,26 @@
 	\end{theorem}
 	
 	\begin{proof}
+	%deal with non-haltings!!
+	
 	If $\phi(s,p)$ is true, then, by hypothesis, if $\M_1$ halts on the tape $(q_{10}, s, p)$ with $(q_{1f}, s', p')$, we have $\psi(s', p')$. We then run $\M_2$ on $(q_{20}, s', p')$ to get $(q_{2f}, s'', p'')$, and thus, by hypothesis $\omega(s'', p'')$.
 	
 	Since, by the previous theorem, $\M_1;\M_2$ halts on the tape $((q_{10}, 1),s,p)$ with output $((q_{2f}, 2), s'', p'')$, it is clear that $\phi \M_1;\M_2 \omega$.
 	
 	%NOTATION!!!
 	\end{proof}
+	
+	We move on to our second special program: conditional branching.
+	
+	Fix two Turing Machines, $\M_1$ and $\M_2$. We define the following Turing Machine:
+	
+	\[ \Nifat y \Nthen \M_1 \Nelse \M_2 \Nendif \]
+	
+	As $\M = (\Q, \delta, q_0, q_f)$ such that:
+	
+	\begin{itemize}
+	
+	\end{itemize}
 
 	
 \begin{thebibliography}{9}
