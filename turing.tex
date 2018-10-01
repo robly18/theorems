@@ -17,9 +17,13 @@
 \newcommand{\M}{\mathcal{M}}
 \newcommand{\Nc}{\mathcal{N}}
 \newcommand{\Q}{\mathcal{Q}}
+\newcommand{\prarrow}[1]{\overset{#1}{\rightarrow}}
+\newcommand{\plarrow}[1]{\overset{#1}{\leftarrow}}
 \DeclareMathOperator{\suc}{\mathbf{succ}}
 \DeclareMathOperator{\run}{\mathbf{run}}
 \DeclareMathOperator{\dom}{\mathrm{dom}}
+\DeclareMathOperator{\runtime}{\mathbf{runtime}}
+\DeclareMathOperator{\out}{\mathbf{out}}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclareMathOperator{\Nifat}{\mathbf{if\,at}}
 \DeclareMathOperator{\Nthen}{\mathbf{then}}
@@ -100,7 +104,11 @@
 	
 	It is clear that given some input, the output on which $\M$ halts, if it exists, is unique, as this last state has no successor as $\delta(q_f, (t \B^\infty)[1])$ is undefined by definition.
 	
-	This allows us to define, for any Turing Machine $\M$, the partial function $\run_\M : X^* \rightharpoonup X^*$ that, given $s$, if $\M$ halts on input $s$ with some output $t$, returns $t$. It is otherwise undefined.
+	This allows us to define, for any Turing Machine $\M$, the partial function $\out_\M : X^* \rightharpoonup X^*$ that, given $s$, if $\M$ halts on input $s$ with some output $t$, returns $t$. It is otherwise undefined.
+	
+	In what follows, we will be interested in a more general meaning of `run' and `halt'. Namely, we will be interested in the behavior of machines that stop execution, even if they don't park on the left end of the tape, or with a tape of the form $X^* \B^\infty$, or if they don't necessarily start in these conditions.
+	
+	Suppose given a sequence $s$ and a position $p$, as well as a Turing Machine $\M$ with starting state $q_0$ and final state $q_f$. On the occasion that there exists $n$ such that $\suc^n (q_0, s, p) = (q_f, s', p')$ -- It is clear that this $n$ is unique due to the restriction enforced on the state change function -- we define the partial function $\runtime_\M (s,p) := n$, as well as $\run_\M (s, p) = (s', p')$. If these exist, we say $\M$ \emph{halts on the tape $(s,p)$ with the tape $(s', p')$ after $n$ steps}. Otherwise, we say $\M$ does not halt. Notice that this includes the case of undefined behavior, such as an undefined result for $\delta$, or trying to move $\L$ on position 0.
 	
 	\section{Computability}
 	
@@ -110,9 +118,9 @@
 	
 	\begin{itemize}
 	
-	\item For all $s \in \dom f$, $\run_\M s$ is defined and equals $f(s)$
+	\item For all $s \in \dom f$, $\out_\M s$ is defined and equals $f(s)$
 	
-	\item For all $s \in A \setminus \dom f$ either $\run_\M s$ is undefined, or it is not in $B$.
+	\item For all $s \in A \setminus \dom f$ either $\out_\M s$ is undefined, or it is not in $B$.
 	
 	\end{itemize}
 	
@@ -147,38 +155,28 @@
 	The first step in this path is to develop a set of instructions (composed of possibly more than one state) whose behavior we can reason about in abstract. But before we do that, we will need a way to compose them.
 	
 	\section{Composition}
-	
-	Consider a set of Turing Machines, $\{\M_i\}$ indexed by some finite set $I$. Suppose defined a partial function $\Delta : I \times Y \rightharpoonup I$, and pick a starting state $i_0 \in I$ and a halting state $i_f \in I$. Suppose also that $\Delta(i_f, y)$ is undefined for all $i \in Y$. The 5-uple $\Nc = (I, \{\M_i\}, \Delta, i_0, i_f)$ is said to be a \emph{meta-Turing Machine}.
-	
-	The analogy between this and a Turing machine should be clear, which is why we make the following definition:
-	
-	Given a meta-Turing Machine $\Nc = (I, \{\M_i\}, \Delta, i_0, i_f)$, we say $\Nc$ \emph{compiles to} $\M = (\Q, \delta, q_0, q_f)$ if $\M$ is the Turing Machine such that:
-	
-	\begin{itemize}
-	\item Suppose $\M_i = (\Q_i, \delta_i, q_{i0}, q_{if})$
-	
-	\item $\Q = \{\,(q, i) \mid i \in I, q \in \Q_i\,\}$
-	
-	\item $\delta((q, i), y) = ((q', i), c, d)$ if $q \neq q_{if}$ and $\delta_i(q, y) = (q', c, d)$
-	
-	\item $\delta((q_{i_f}, i), y) = \text{ let $\Delta(i, y) = j$ in } (q_{j0}, y, \Lambda)$
-	
-	\item $q_0 = (q_{i_0 0}, i_0)$
-	
-	\item $q_f = (q_{i_f f}, i_f)$
-	\end{itemize}
-	
-	The reader can verify that $\M$ does indeed satisfy the definition of a Turing Machine.
-	
-	It might seem unclear how throwing this mess of a definition on top of the already-complicated Turing Machines would make anything easier. But the trick is, we're only compiling special programs.
-	
 	Our first special program is going to be composition.
 	
-	Given two Turing Machines, $\M_1$ and $\M_2$, their \emph{composition}, denoted $\M_1;\M_2$, is the machine obtained by compilation of:
+	Given two Turing Machines, $\M_1$ and $\M_2$, their \emph{composition}, denoted $\M_1;\M_2$, is the machine $\M$ described as follows:
 	
-	\[(\{1,2\}, \{\M_1, \M_2\}, \Delta, 1, 2)\]
+	Let 
 	
-	Where $\Delta(1, y) = 2$.
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
+	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
+	
+	Define
+	
+	\[ \M = \M_1 ; \M_2 \]
+	
+	As $\M = (\Q, \delta, (q_{10}, 1), (q_{2f}, 2))$ such that:
+	
+	\begin{itemize}
+	\item $\Q = \{\, (q, i) \mid q \in \Q_i, i = 1,2 \,\}$
+	
+	\item $\delta((q, i), y) = ((q', i), c, d)$ where $\delta_i(q,y) = (q', c, d)$ and $q \neq q_{if}$
+	
+	\item $\delta((q_{1f}, 1), y) = ((q_{20}, 2), y, \Lambda)$
+	\end{itemize}
 	
 	Predictably, we prove that this machine has the expected behavior: it's as though we ran $\M_1$ until it halts, followed by running $\M_2$ on the result.
 	
@@ -188,31 +186,25 @@
 	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
 	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
 	
-	And some sequence $s$ and position $p$.
+	And some sequence $s$ and position $p$. Let $\M = (\Q, \delta, q_0, q_f) = \M_1 ; \M_2$. Then, we have
 	
-	Suppose $n_1$ is such that
+	\[\run_\M (s,p) = \run_{\M_2} \run_{\M_1} (s,p)\]
+	\[\runtime_\M (s,p) = \runtime_{\M_1} (s,p) + 1 + \runtime_{\M_2} \run_{\M_1} (s,p)\]
 	
-	\[\suc^{n_1}_{\M_1} (q_{10}, s, p) = (q_{1f}, t, p_1)\]
-	
-	And $n_2$ is such that
-	
-	\[\suc^{n_2}_{\M_2} (q_{20}, t, p_1) = (q_{1f}, r, p_2)\]
-	
-	Then, $\suc^{n_1 + n_2 + 1}_{\M_1;\M_2} ((q_{10},1), s, p) = ((q_{1f},2), r, p_2)$.
+	(This includes the case of non-halting, as, in that case, both sides will be undefinex.
 	\end{theorem}
 	
 	\begin{proof}
-	%todo, make this proof less disgusting. maybe introduce new notation so this won't suck
+	To simplify the exposition, we introduce the following notation:
 	
-	First, we show by induction that for $i = 0, \cdots, n_1$ we have that if
+	Given two triples $(q, c, d)$ and $(q', c', d')$, we say $(q, c, d) \prarrow{i} (q', c', d')$ if $c = c', d = d'$ and $q' = (q, i)$.
 	
-	\[\suc^{i}_{\M_1} (q_{10}, s, p) = (q', s', p')\]
+	Let $n_1 = \runtime_{\M_1} (s,p)$ and $n_2 = \runtime_{\M_2} \run_{\M_1} (s,p)$. We suppose for now that both of these exist.
 	
-	And
+	Now, we show by induction that for $i = 0, \cdots, n_1$ we have that
 	
-	\[\suc^{i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = (q'', s'', p'')\]
+	\[\suc^{i}_{\M_1} (q_{10}, s, p) \prarrow{1} \suc^{i}_{\M_1;\M_2} ((q_{10}, 1), s, p)\]
 	
-	Then $s' = s''$, $p' = p''$ and $q'' = (q', 1)$.
 	
 	For $i = 0$ this is obvious. Suppose this is true for some $i < n_1$.
 	
@@ -226,7 +218,7 @@
 	\[\suc^{i+1}_{\M_1} (q_{10}, s, p) = \suc_{\M_1} (q', s', p')\]
 	\[\suc^{i+1}_{\M_1;\M_2} (q_{10}, s, p) = \suc_{\M_1;\M_2} ((q',1), s', p')\]
 	
-	Supposing $\delta_1(q', s'[p']) = (q'', c, d)$, we have that, if $\delta$ is the state change function of $\M_1;\M_2$, $\delta((q', 1), s'[p']) = ((q'', 1), c, d)$. We know this because, since $i < n_1$, $q'$ can't be equal to $q_{0f}$. Comparing this with the definition of successor, the reader will easily get to the conclusion that the induction step checks out. %todo fix this trash
+	Supposing $\delta_1(q', s'[p']) = (q'', c, d)$, we have that $\delta((q', 1), s'[p']) = ((q'', 1), c, d)$. The reader can now easily examine the three cases of the definition of successor to see that, indeed, if the former is $(q'', s'', p'')$, the latter will be $((q'', 1), s'', p'')$.
 	
 	Now, notice that if
 	
@@ -239,44 +231,41 @@
 	Taking the successor of the latter, we know that, for $i = 0$,
 	
 	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) = (q_{20}, t, p_1)\]
-	\[\suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q_{20}, 1), t, p_1)\]
+	\[\suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q_{20}, 2), t, p_1)\]
 	
 	We will show that for $i = 0, \cdots, n_2$ we have that, if
 	
-	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) = (q', t', p')\]
-	
-	Then
-	
-	\[\suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q', 1), t', p')\]
+	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) \prarrow{2} \suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p)\]
 	
 	We already saw it true for $i=0$, so we show it true for the rest by induction.
 	
-	Suppose $i < n_2$. Then,
+	Suppose $i < n_2$. Then assuming it true for $i$, we have,
 	
 	\[\suc^{i+1}_{\M_2} (q_{20}, t, p_1) = \suc_{\M_2} (q', t', p')\]
 	
 	\[\suc^{n_1+1+(i+1)}_{\M_1;\M_2} ((q_{10}, 1), s, p) = \suc_{\M_1;\M_2} ((q', 2), t', p')\]
 	
-	Repeating the same argument as before, we see that if $\delta_2(q', t'[p']) = (q'', c, d)$, then $\delta((q',2), t'[p']) = ((q'', 2), c, d)$ as $q' \neq q_{2f}$, and so, checking against the definition of successor, the induction step holds true.
+	Repeating the same argument as before, we see that if $\delta_2(q', t'[p']) = (q'', c, d)$, then $\delta((q',2), t'[p']) = ((q'', 2), c, d)$ as $q' \neq q_{2f}$, and so, checking against the definition of successor, if the former is $(q'', t'', p'')$ then the latter will be $((q'', 2), t'', p'')$.
 	
 	This culminates in $i = n_2$, where we have
 	
-	\[\suc^{n_2}_{\M_2} (q_{20}, t, p_1) = (q_{1f}, r, p_2)\]
+	\[\suc^{n_2}_{\M_2} (q_{20}, t, p_1) = (q_{2f}, r, p_2)\]
 	
 	And so,
 	
-	\[\suc^{n_1 + 1 + n_2}_{\M_1;\M_2} ((q_{10},1), s, p) = ((q_{1f},2), r, p_2)\]
+	\[\suc^{n_1 + 1 + n_2}_{\M_1;\M_2} ((q_{10},1), s, p) = ((q_{2f},2), r, p_2)\]
 	
 	As we wished.
+	
+	Now, we need only show that if either machine does not halt, then neither does their composition. If one of the machines does not halt, then either there is undefined behavior, or it never reaches the final state. Reproducing the steps in the proof above, one can see that if any of these happens, it also happens for the composed machine. %maybe fix this later
 	\end{proof}
 	
 	This last proposition tells us something very important, that will form the basis of most of what we will do from now on.
 	
-	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true and $\M$ halts when given the tape $s, p$, then after running $\M$ on the tape $(q_0, s, p)$ until it halts to become $(q_f, s', p')$, $\psi(s', p')$ is true.'
+	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true and $\run_\M(s, p) = (s', p')$, then $\psi(s', p')$ is true.'
 	
 	Sometimes the juxtaposition notation will be inadequate. If this is the case, we also allow using curly braces to group propositions, as such: $\{\phi\}\M\{\psi\}$.
 	
-	%i need better notation!!
 	
 	\begin{theorem}
 	If $\phi \M_1 \psi$ and $\psi \M_2 \omega$, then $\phi \M_1;\M_2 \omega$
@@ -284,6 +273,7 @@
 	
 	\begin{proof}
 	%deal with non-haltings!!
+	TODO fix
 	
 	If $\phi(s,p)$ is true, then, by hypothesis, if $\M_1$ halts on the tape $(q_{10}, s, p)$ with $(q_{1f}, s', p')$, we have $\psi(s', p')$. We then run $\M_2$ on $(q_{20}, s', p')$ to get $(q_{2f}, s'', p'')$, and thus, by hypothesis $\omega(s'', p'')$.
 	
