@@ -191,7 +191,7 @@
 	\[\run_\M (s,p) = \run_{\M_2} \run_{\M_1} (s,p)\]
 	\[\runtime_\M (s,p) = \runtime_{\M_1} (s,p) + 1 + \runtime_{\M_2} \run_{\M_1} (s,p)\]
 	
-	(This includes the case of non-halting, as, in that case, both sides will be undefinex.
+	(This includes the case of non-halting, as, in that case, both sides will be undefined).
 	\end{theorem}
 	
 	\begin{proof}
@@ -203,7 +203,7 @@
 	
 	Now, we show by induction that for $i = 0, \cdots, n_1$ we have that
 	
-	\[\suc^{i}_{\M_1} (q_{10}, s, p) \prarrow{1} \suc^{i}_{\M_1;\M_2} ((q_{10}, 1), s, p)\]
+	\[\suc^{i}_{\M_1} (q_{10}, s, p) \prarrow{1} \suc^{i}_{\M} ((q_{10}, 1), s, p)\]
 	
 	
 	For $i = 0$ this is obvious. Suppose this is true for some $i < n_1$.
@@ -211,14 +211,16 @@
 	That is, suppose 
 	
 	\[\suc^{i}_{\M_1} (q_{10}, s, p) = (q', s', p')\]
-	\[\suc^{i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q', 1), s', p')\]
+	\[\suc^{i}_{\M} ((q_{10}, 1), s, p) = ((q', 1), s', p')\]
 	
 	Thus,
 	
 	\[\suc^{i+1}_{\M_1} (q_{10}, s, p) = \suc_{\M_1} (q', s', p')\]
-	\[\suc^{i+1}_{\M_1;\M_2} (q_{10}, s, p) = \suc_{\M_1;\M_2} ((q',1), s', p')\]
+	\[\suc^{i+1}_{\M} (q_{10}, s, p) = \suc_{\M} ((q',1), s', p')\]
 	
 	Supposing $\delta_1(q', s'[p']) = (q'', c, d)$, we have that $\delta((q', 1), s'[p']) = ((q'', 1), c, d)$. The reader can now easily examine the three cases of the definition of successor to see that, indeed, if the former is $(q'', s'', p'')$, the latter will be $((q'', 1), s'', p'')$.
+	
+	(If $n_1$ does not exist, either you can continue this process indefinitely, thus showing that $\M$ never reaches the final state, or at some point the successor will be undefined, thus showing $\M$ does not halt because of undefined behavior.)
 	
 	Now, notice that if
 	
@@ -226,16 +228,16 @@
 	
 	Then, by what we just showed,
 	
-	\[\suc^{n_1}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q_{1f}, 1), t, p_1)\]
+	\[\suc^{n_1}_{\M} ((q_{10}, 1), s, p) = ((q_{1f}, 1), t, p_1)\]
 	
 	Taking the successor of the latter, we know that, for $i = 0$,
 	
 	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) = (q_{20}, t, p_1)\]
-	\[\suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p) = ((q_{20}, 2), t, p_1)\]
+	\[\suc^{n_1+1+i}_{\M} ((q_{10}, 1), s, p) = ((q_{20}, 2), t, p_1)\]
 	
 	We will show that for $i = 0, \cdots, n_2$ we have that, if
 	
-	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) \prarrow{2} \suc^{n_1+1+i}_{\M_1;\M_2} ((q_{10}, 1), s, p)\]
+	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) \prarrow{2} \suc^{n_1+1+i}_{\M} ((q_{10}, 1), s, p)\]
 	
 	We already saw it true for $i=0$, so we show it true for the rest by induction.
 	
@@ -243,9 +245,11 @@
 	
 	\[\suc^{i+1}_{\M_2} (q_{20}, t, p_1) = \suc_{\M_2} (q', t', p')\]
 	
-	\[\suc^{n_1+1+(i+1)}_{\M_1;\M_2} ((q_{10}, 1), s, p) = \suc_{\M_1;\M_2} ((q', 2), t', p')\]
+	\[\suc^{n_1+1+(i+1)}_{\M} ((q_{10}, 1), s, p) = \suc_{\M} ((q', 2), t', p')\]
 	
 	Repeating the same argument as before, we see that if $\delta_2(q', t'[p']) = (q'', c, d)$, then $\delta((q',2), t'[p']) = ((q'', 2), c, d)$ as $q' \neq q_{2f}$, and so, checking against the definition of successor, if the former is $(q'', t'', p'')$ then the latter will be $((q'', 2), t'', p'')$.
+	
+	(As with last time: if $n_12$ does not exist, either you can continue this process indefinitely, thus showing that $\M$ never reaches the final state, or at some point the successor will be undefined, thus showing $\M$ does not halt because of undefined behavior.)
 	
 	This culminates in $i = n_2$, where we have
 	
@@ -253,11 +257,11 @@
 	
 	And so,
 	
-	\[\suc^{n_1 + 1 + n_2}_{\M_1;\M_2} ((q_{10},1), s, p) = ((q_{2f},2), r, p_2)\]
+	\[\suc^{n_1 + 1 + n_2}_{\M} ((q_{10},1), s, p) = ((q_{2f},2), r, p_2)\]
 	
 	As we wished.
 	
-	Now, we need only show that if either machine does not halt, then neither does their composition. If one of the machines does not halt, then either there is undefined behavior, or it never reaches the final state. Reproducing the steps in the proof above, one can see that if any of these happens, it also happens for the composed machine. %maybe fix this later
+	We mostly dealt with the case where both machines halt, but the parenthical comments are enough to justify that the proposition is still true in the event of non-halting.
 	\end{proof}
 	
 	This last proposition tells us something very important, that will form the basis of most of what we will do from now on.
@@ -272,14 +276,8 @@
 	\end{theorem}
 	
 	\begin{proof}
-	%deal with non-haltings!!
-	TODO fix
 	
-	If $\phi(s,p)$ is true, then, by hypothesis, if $\M_1$ halts on the tape $(q_{10}, s, p)$ with $(q_{1f}, s', p')$, we have $\psi(s', p')$. We then run $\M_2$ on $(q_{20}, s', p')$ to get $(q_{2f}, s'', p'')$, and thus, by hypothesis $\omega(s'', p'')$.
-	
-	Since, by the previous theorem, $\M_1;\M_2$ halts on the tape $((q_{10}, 1),s,p)$ with output $((q_{2f}, 2), s'', p'')$, it is clear that $\phi \M_1;\M_2 \omega$.
-	
-	%NOTATION!!!
+	We have already shown $\run_{\M_1;\M_2} (s,p) = \run_{\M_2} \run_{\M_1} (s,p)$. If any of this is undefined, the theorem is true by definition. Otherwise, we know that if $\phi$ is true applied to $(s,p)$, then $\psi$ is true applied to $\run_{\M_1} (s,p)$ and thus $\omega$ is true applied to $\run_{\M_1;\M_2} (s,p) = \run_{\M_2} \run_{\M_1} (s,p)$, as we wished to show.
 	\end{proof}
 	
 	We move on to our second special program: conditional branching.
@@ -298,7 +296,7 @@
 	\begin{itemize}
 	\item $\Q = \{\,(q, i) \mid q \in \Q_i, i = 1,2\,\} \cup \{q_0, q_f\}$
 	
-	\item $q_0$ and $q_f$ are distinct symbols %this needs to be done better
+	\item $q_0$ and $q_f$ are distinct symbols
 	
 	\item $\delta(q_0, y_0) = ((q_{10}, 1), y_0, \Lambda)$
 	
@@ -319,9 +317,9 @@
 	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
 	\[\M = (\Q, \delta, q_0, q_f) = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \]
 	
-	If $s[p] = y_0$ and $\suc^n_{\M_1} (q_{10}, s, p) = (q_{1f}, s', p')$, then $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$
+	If $s[p] = y_0$ then $\run_{\M_1} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_1}(s,p) + 2 = \runtime_\M(s,p)$.
 	
-	Likewise, if $s[p] \neq y_0$ and $\suc^n_{\M_2} (q_{20}, s, p) = (q_{2f}, s', p')$, then $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$
+	If $s[p] \neq y_0$ then $\run_{\M_2} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_2}(s,p) + 2 = \runtime_\M(s,p)$.
 	\end{theorem}
 	
 	\begin{proof}
