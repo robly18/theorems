@@ -353,7 +353,15 @@
 	\end{theorem}
 	
 	\begin{proof}
-	TODO. Do this when you fix your damn notation.
+	Let $\M = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif$. We wish to show $\{\phi\}\M\{\psi\}$.
+	
+	Suppose $\phi$ is true of $(s,p)$. Then, one of two cases happens:
+	
+	Either $s[p] = y_0$, in which case $\run_\M(s,p) = \run_{\M_1}(s,p)$. Since $\phi(s,p)$ and $s[p] = y_0$ we have, by hypothesis on $\M_1$, that $\psi$ is true applied to $\run_{\M_1}(s,p) = \run_\M(s,p)$.
+	
+	On the other hand, it could happen that $s[p] \neq y_0$, in which case $\run_\M(s,p) = \run_{\M_2}(s,p)$. Applying the same argument, we get that in this case $\psi$ is also true applied to $\run_\M(s,p)$.
+	
+	In both cases, we reach the conclusion that, if $\phi$ is true of $(s,p)$, then $\psi$ is true of $\run_\M(s,p)$, as we intended.
 	\end{proof}
 	
 	We finish this section with the last kind of composition we will need for sanely making Turing Machines.
@@ -377,6 +385,86 @@
 	
 	\item $\delta(q_{1f}, y) = (q_0, y, \Lambda)$
 	\end{itemize}
+	
+	The semantics of this machine are slightly harder to pinpoint than the rest, but it is doable.
+	
+	\begin{theorem}
+	Let $\M_1$ be a Turing Machine, $S \subseteq Y$, and $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$. Fix a tape $(s,p)$.
+
+	Suppose that, for some $k$, $\run_{\M_1}^k (s,p) = (s', p')$ is such that $s'[p'] \not \in S$. Consider the smallest such $k$. Then, $\run_\M (s,p) = \run_{\M_1}^k (s,p)$ and 
+	
+	\[\runtime_\M (s,p) = k + 1 + \sum_{i=1}^k \runtime_{\M_1} \run_{\M_1}^{k-1}(s,p)\]
+	
+	If such a $k$ does not exist, $\run_\M(s,p)$ is undefined.
+	\end{theorem}
+	
+	\begin{proof}
+	First, suppose such a $k$ exists. We will show that, for $i = 0, \cdots, k$, there exists $n$ such that
+	
+	\[\suc_\M^n (s,p) = (q_0,  \run_{\M_1}^i (s,p))\]
+	
+	For $i = 0$ this is obvious, with $n = 0$. Suppose now that this is true for some $i < k$, with some $n$, and we will show it true for $i+1$.
+	
+	Let $(s', p') = \run_{\M_1}^i (s,p)$, and so, by hypothesis, $\suc_\M^n (s,p) = (q_0, s', p')$.
+	
+	Suppose $(s'', p'') = \run_{\M_1}(s',p')$. Let $n_1$ be the runtime of this.
+	
+	We will show that $\suc_\M^{j+1} (q_0, s',p') = \suc_{\M_1}^j (q_{10}, s', p')$ for $j = 0, \cdots, n_1$.
+	
+	This is clearly true for $j = 0$, as the latter will be simply $(q_{10}, s', p')$ and the former, since $i < k$ and thus $s'[p'] \not \in S$, will be $(q_{10}, s', p')$, as $\delta(q_0, s'[p']) = (q_{10}, s'[p'], \Lambda)$. One can easily check that, if true for $j < n_1$, it is true for $j+1$, which shows what we desired.
+	
+	Finally, we get that $\suc_\M^{n_1+1} (q_0, s',p') = \suc_{\M_1}^{n_1} (q_{10}, s', p') = (q_{1f}, s'', p'')$ and so, taking the successor again, $\suc_\M^{n_1 + 2}(q_0, s', p') = (q_0, s'', p'')$.
+	
+	In other words, $\suc_\M^{n + n_1 + 2}(q_0, s, p) = (q_0, \run_{\M_1}^{i+1} (s, p))$, as we wished to show.
+	
+	Put $i = k$ to get that there exists $n$ such that $\suc_\M^n(q_0, s, p) = (q_0, \run_{\M_1}^k(s, p))$. Now, take the successor of the left hand side. Since, by definition of $k$, we have, if $(s', p') = \run_{\M_1}^k(s, p)$ then $y = s'[p'] \not \in S$. As such, $\delta(q_0, y) = (q_f, y, \Lambda)$, and thus $\suc_\M^{n+1}(q_0, s, p) = (q_f, \run_{\M_1}^k(s, p))$ and so $\run_\M(s, p) = \run_{\M_1}^k (s, p)$ as we wished to show.
+	
+	This deals with the case where such a $k$ exists. If it does not, then the induction step can be done \textit{ad infinum}. If there is undefined behavior at any point, then $\run_\M(s, p)$ is undefined as desired. On the other hand, if there is no undefined behavior but $(s', p') = \run_{\M_1}^i (s,p)$ is never such that $s'[p'] \not \in S$, $\M$ will never reach the final state (as the induction above shows) and so $\run_\M(s, p)$ is undefined. This concludes our demonstration.
+	\end{proof}
+	
+	\begin{theorem}
+	Fix $\M_1$, $S$, and suppose $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$. Then, if
+	
+	\[\{\phi \land s[p] \in S\}\M_1\{\phi\}\]
+	
+	We have
+	
+	\[\{\phi\}\M\{\phi \land s[p] \not \in S\}\]
+	\end{theorem}
+	
+	\begin{proof}
+	In the case that these machines do not halt, the result is trivial, so let's suppose they do. Let $k$ be as described in the previous theorem, and let $(s,p)$ obey $\phi$.
+	
+	We will show by induction that for $i = 0, \cdots, k$ we have $(s', p') = \run_{\M_1}^i (s, p)$ obeys $\phi$.
+	
+	For $i = 0$ this is trivial. Suppose, then, it is true for $i < k$.
+	
+	Since $i < k$, by definition of $k$ we have that $(s', p') = \run_{\M_1}^i (s, p)$ obeys $s'[p'] \in S$. Furthermore, by the induction hypothesis, it also obeys $\phi$. As such, $\run_{\M_1}(s', p') = \run_{\M_1}^{i+1}(s,p)$ obeys $\phi$, as we wished to show.
+	
+	Plug in $i = k$. We know $(s', p') = \run_{\M_1}^k (s, p) = \run_\M(s,p)$ obeys $\phi$, and also, by definition of $k$, $s'[p'] \not \in S$. As such, it obeys $\phi \land s'[p'] \not \in S$ as we wished to show.
+	\end{proof}
+	
+	\section{Total Correction}
+	
+	The previous results give us ways to manufacture programs and show their correction. That is, if they halt given correct input, they halt with correct output.
+	
+	This is not enough to show they actually compute a function, however. Indeed, we still need to show that they halt. For composition and branching, this is easy. As we showed in the respective propositions:
+	
+	If $\M_1$ halts on correct input, and $\M_2$ halts on $\M_1$'s correct output, then $\M_1;\M_2$ halts on correct input.
+	
+	If $\M_1$ halts on input that obeys $\phi$ and $s[p] = y_0$, and $\M_2$ halts on input that obeys $\phi$ and $s[p] \neq y_0$, then $\Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif$ halts on input that obeys $\phi$.
+	
+	In fact, for these two cases we even gave a formula for the amount of time taken for halting.
+	
+	The case for While, however, is trickier. There is a direct condition for termination, but it turns out to be unwieldy at times. Regardless, we present it here.
+	
+	\begin{theorem}
+	Let $r = \run_\M_1$, $(s,p)$ be a tape, and suppose that if $r^i(s,p) = (s', p')$ is defined and $s'[p'] \in S$ then $r^{i+1}(s,p)$ is also defined. Suppose, also, that there exists $k$ such that $r^k(s,p) = (s', p')$ is defined and $s'[p'] \not \in S$. Suppose $k$ is minimal without loss of generality.
+	
+	Then, if $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$, we have $\M$ halts on input $(s,p)$, with output $r^k(s,p)$.
+	\end{theorem}
+	
+	This is clearly not a wieldy condition to use to show termination! As such, we present a slightly more amenable condition, making use of the concept of \emph{monovariant}.
 	
 	
 	
