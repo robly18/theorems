@@ -32,6 +32,9 @@
 \DeclareMathOperator{\Nwhileon}{\mathbf{while\,on}}
 \DeclareMathOperator{\Ndo}{\mathbf{do}}
 \DeclareMathOperator{\Nendwhile}{\mathbf{endwhile}}
+\DeclareMathOperator{\Ncase}{\mathbf{case}}
+\DeclareMathOperator{\Nof}{\mathbf{of}}
+\DeclareMathOperator{\Nendcase}{\mathbf{endcase}}
 
 
 \begin{document}
@@ -459,12 +462,25 @@
 	The case for While, however, is trickier. There is a direct condition for termination, but it turns out to be unwieldy at times. Regardless, we present it here.
 	
 	\begin{theorem}
-	Let $r = \run_\M_1$, $(s,p)$ be a tape, and suppose that if $r^i(s,p) = (s', p')$ is defined and $s'[p'] \in S$ then $r^{i+1}(s,p)$ is also defined. Suppose, also, that there exists $k$ such that $r^k(s,p) = (s', p')$ is defined and $s'[p'] \not \in S$. Suppose $k$ is minimal without loss of generality.
+	Let $r = \run_{\M_1}$, $(s,p)$ be a tape, and suppose that if $r^i(s,p) = (s', p')$ is defined and $s'[p'] \in S$ then $r^{i+1}(s,p)$ is also defined. Suppose, also, that there exists $k$ such that $r^k(s,p) = (s', p')$ is defined and $s'[p'] \not \in S$. Suppose $k$ is minimal without loss of generality.
 	
 	Then, if $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$, we have $\M$ halts on input $(s,p)$, with output $r^k(s,p)$.
 	\end{theorem}
 	
 	This is clearly not a wieldy condition to use to show termination! As such, we present a slightly more amenable condition, making use of the concept of \emph{monovariant}.
+	
+	\begin{theorem}
+	Let $r = \run_{\M_1}$, and suppose $r$ is defined for all tapes that obey $\phi \land s[p] \in S$, outputting a tape that obeys $\phi$ in this case. Suppose, furthermore, defined a function $f$ on the tapes that obey $\phi$ to $\N_0$ such that:
+	
+	\begin{itemize}
+	\item If $s[p] \in S$, $f(s,p) = 0$
+	\item Otherwise, $f(r(s,p)) < f(s,p)$
+	\end{itemize}
+	
+	In this case, the machine $\Nwhileon S \Ndo \M_1 \Nendwhile$ halts for any tape that obeys $\phi$.
+	\end{theorem}
+	
+	This is simple exercise in strong induction on the value of $f(s,p)$, and so the proof will be omitted.
 	
 	
 	
