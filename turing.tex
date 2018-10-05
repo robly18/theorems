@@ -36,6 +36,15 @@
 \DeclareMathOperator{\Nof}{\mathbf{of}}
 \DeclareMathOperator{\Nendcase}{\mathbf{endcase}}
 
+\newcommand{\NIL}{\mathbf{NIL}}
+\newcommand{\MR}{\mathbf{MR}}
+\newcommand{\ML}{\mathbf{ML}}
+
+\newcommand{\W}{\mathbf{W}}
+
+\newcommand{\RT}{\mathbf{RT}}
+\newcommand{\LT}{\mathbf{LT}}
+
 
 \begin{document}
 	\maketitle
@@ -472,7 +481,38 @@
 	
 	This is simple exercise in strong induction on the value of $f(s,p)$, and so the proof will be omitted.
 	
+	\section{Building Blocks}
 	
+	We begin by establishing some notation for handling tape states.
+	
+	As it happens, the notation $(s, p)$ can be cumbersome, especially when the position is something rather specific. As such, we will often use the following notation: If $s$ is a string, $t$ is a sequence, and $c$ is a character, we write $s \underline c t$ to mean the pair $(sct, \lvert s \rvert + 1)$. That is, the tape is $sct$, and the pointer is on the character $c$.
+	
+	That said, we establish four basic programs: $\NIL$, $\MR$, $\ML$, $\W(y)$.
+	
+	$\NIL$ is the program that does nothing. It is characterized by the trivial machine $(\{q_0\}, \delta, q_0, q_0)$, where $\delta$ is the undefined function. $\run_\NIL$ is the identity function.
+	
+	$\MR$ (Move Right) is the program that moves the pointer right. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y, R)$. $\ML$ (Move Left) is the same, but moves the pointer left. $\run_\MR(s,p) = (s, p+1)$ and $\run_\ML(s, p+1) = (s, p)$.
+	
+	$\W(y_0)$ (Write $y_0$), where $y_0$ is a fixed parameter, is the program that writes $y_0$ on the tape. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y_0, \Lambda)$. $\run_{\W(y_0)}(s \underline y t) = (s \underline{y_0} t)$.
+	
+	We begin with our first composite program: Right Until.
+	
+	\begin{theorem}
+	Let $S \subseteq Y$. We define:
+	\begin{align*}
+	\RT(S) =& \Nwhileon (Y \setminus S) \Ndo \MR \Nendwhile
+	\end{align*}
+	
+	It has the following behavior: suppose it is given a tape $(s,p_0)$. Let $p'$ be the smallest number such that $p' \geq p_0$ and $s[p'] \in S$. If it doesn't exist, the behavior of this machine is undefined. If it does, the machine will return $(s,p')$.
+	\end{theorem}
+	
+	\begin{proof}
+	To see this, notice that, in the former case, we have that the pointer position will always be $\geq p_0$. Since, for the machine to halt on a position $p'$, we would need to have $p' \geq p_0 \land s[p'] \not \in (Y \setminus S)$, that is, $p' \geq p_0 \land s[p'] \in S$. Since, by hypothesis, such $p'$ does not exist, the machine cannot halt.
+	
+	As for the latter case, consider the invariant condition: $p_0 \leq p \leq p'$. It is clearly true at the start, as $p_0 \leq p_0$, and if $p_0 \leq p \leq p' \land s[p] \in (Y \setminus S)$, then, since the pointer isn't on an element of $S$, it can't be in position $p'$. As such, it must be in a position $<p'$, and so, after moving right, we remain with the condition $p_0 \leq p \leq p'$. Since the only position $p$ in this interval that obeys $s[p] \not \in (Y \setminus S)$ is $p'$, because of the hypothesis that it was the smallest, if it does halt, it halts with $p = p'$, as we wished to show. We need only show that it does halt, but it is not hard to see that, after $p' - p_0$ runs of $\MR$, we are in position $p'$, which terminates our loop.
+	\end{proof}
+	
+	We also define $\LT(S)$ (Left Until) analogously. We leave its exact definition and proof to the reader, as it is extremely similar to the previous.
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
