@@ -285,50 +285,40 @@
 	
 	We move on to our second special program: conditional branching.
 	
-	Fix two Turing Machines, $\M_1$ and $\M_2$ such that
+	Fix a function $M : Y \rightarrow \{\text{Turing Machines}\}$. Define the Turing Machine:
 	
-	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
-	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
-	
-	And fixed some element $y_0$ of $Y$, we define the following Turing Machine:
-	
-	\[ \M = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \]
+	\[ \M = \Ncase M \Nendcase \]
 	
 	As $\M = (\Q, \delta, q_0, q_f)$ such that:
 	
 	\begin{itemize}
-	\item $\Q = \{\,(q, i) \mid q \in \Q_i, i = 1,2\,\} \cup \{q_0, q_f\}$
+	\item Let $\M_y = (\Q_y, \delta_y, q_{y0}, q_{yf}) = M(y)$
+	
+	\item $\Q = \{\,(q, y) \mid q \in \Q_y, y \in Y\,\} \cup \{q_0, q_f\}$
 	
 	\item $q_0$ and $q_f$ are distinct symbols
 	
-	\item $\delta(q_0, y_0) = ((q_{10}, 1), y_0, \Lambda)$
+	\item $\delta(q_0, y) = ((q_{y0}, 2), y, \Lambda)$
 	
-	\item $\delta(q_0, y) = ((q_{20}, 2), y, \Lambda)$ for all $y \neq y_0$
+	\item $\delta((q, y_0), y) = ((q', y_0), c, d)$ if $\delta_{y_0}(q, y) = (q', c, d)$
 	
-	\item $\delta((q, i), y) = ((q', i), c, d)$ if $\delta_i(q, y) = (q', c, d)$
-	
-	\item $\delta((q_{if}, i), y) = (q_f, y, \Lambda)$
+	\item $\delta((q_{y_0 f}, y_0), y) = (q_f, y, \Lambda)$
 	\end{itemize}
 	
-	This machine's behavior is what it says on the tin, as the next proposition shows.
+	This machine's behavior is the following: it detects the character the pointer is lying on, let's say $y_0$, and then runs $M(y_0)$.
 	
 	\begin{theorem}
-	Let $s$ be a sequence, $p$ a position, $y_0 \in Y$, and the following Turing Machines:
+	Let $s$ be a sequence, $p$ a position, $M$ a function $Y \rightarrow \{\text{Turing Machines}\}$, and $y_0 = s[p]$. Let
 	
 	
-	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
-	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
-	\[\M = (\Q, \delta, q_0, q_f) = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \]
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f}) = M(y_0)\]
+	\[\M = (\Q, \delta, q_0, q_f) = \Ncase M \Nendcase \]
 	
-	If $s[p] = y_0$ then $\run_{\M_1} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_1}(s,p) + 2 = \runtime_\M(s,p)$.
-	
-	If $s[p] \neq y_0$ then $\run_{\M_2} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_2}(s,p) + 2 = \runtime_\M(s,p)$.
+	Then, $\run_{\M_1} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_1}(s,p) + 2 = \runtime_\M(s,p)$.
 	\end{theorem}
 	
 	\begin{proof}
-	We will only do the proof for the first case, as the proof of the second is completely analogous.
-	
-	Suppose, then $s[p] = y_0$. We have $\suc_\M (q_0, s, p) = ((q_{10}, 1), s, p)$, as the reader may easily verify.
+	First, notice we have $\suc_\M (q_0, s, p) = ((q_{10}, 1), s, p)$, as the reader may easily verify.
 	
 	From now on, we show by induction that, for $i = 0, \cdots, n$, if
 	
@@ -343,29 +333,29 @@
 	Applying the definition of $\delta$ vs $\delta_1$, knowing that $q \neq q_{1f}$, one can easily see that if the state change for the former is given by $(q', c, d)$, the state change for the latter is given by $((q', 1), c, d)$, and so the successors will also obey this relation.
 	
 	Finally, now that we know that if $\suc^n_{\M_1} (q_{10}, s, p) = (q_{1f}, s', p')$ then $\suc^{1+n}_\M (q_0, s, p) = ((q_{1f}, 1), s', p')$, applying the successor function to the latter once more, we get $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$, as we wished to show.
-	
-	This finishes the proof of the first case. As said before, the proof of the second case is completely analogous.
 	\end{proof}
 	
 	This gives us the following corollary:
 	
 	\begin{theorem}
-	Suppose that $\{\phi \land s[p] = y_0\} \M_1 \{\psi\}$ and $\{\phi \land s[p] \neq y_0\} \M_1 \{\psi\}$. Then,
+	Suppose that $M$ is a function from $Y$ to the Turing Machines. If $\{\phi \land s[p] = y\} M(y) \{\psi\}$ for all $y \in Y$, then
 	
-	\[\{\phi\} \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif \{\psi\}\]
+	\[\{\phi\} \Ncase M \Nendcase \{\psi\}\]
 	\end{theorem}
 	
 	\begin{proof}
-	Let $\M = \Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif$. We wish to show $\{\phi\}\M\{\psi\}$.
+	Let $\M = \Ncase M \Nendcase$. We wish to show $\{\phi\}\M\{\psi\}$.
 	
-	Suppose $\phi$ is true of $(s,p)$. Then, one of two cases happens:
+	Suppose $\phi$ is true of $(s,p)$. Let $y_0 = s[p]$.
 	
-	Either $s[p] = y_0$, in which case $\run_\M(s,p) = \run_{\M_1}(s,p)$. Since $\phi(s,p)$ and $s[p] = y_0$ we have, by hypothesis on $\M_1$, that $\psi$ is true applied to $\run_{\M_1}(s,p) = \run_\M(s,p)$.
-	
-	On the other hand, it could happen that $s[p] \neq y_0$, in which case $\run_\M(s,p) = \run_{\M_2}(s,p)$. Applying the same argument, we get that in this case $\psi$ is also true applied to $\run_\M(s,p)$.
-	
-	In both cases, we reach the conclusion that, if $\phi$ is true of $(s,p)$, then $\psi$ is true of $\run_\M(s,p)$, as we intended.
+	Either $s[p] = y_0$, in which case $\run_\M(s,p) = \run_{M(y_0)}(s,p)$. Since $\phi(s,p)$ and $s[p] = y_0$ we have, by hypothesis on $M$, that $\psi$ is true applied to $\run_{M(y_0)}(s,p) = \run_\M(s,p)$.
 	\end{proof}
+	
+	As a note for notation: the syntax for case expressions is rather unwieldy, requiring the creation of a new function just for expressing them. To bypass this, we introduce the following notation:
+	
+	\[\Ncase \ell \Nof \text{(some expression involving $\ell$...)} \Nendcase\]
+	
+	Where this should be understood as Case applied to the function that takes $\ell$ to said expression, with $\ell$ replaced by its value.
 	
 	We finish this section with the last kind of composition we will need for sanely making Turing Machines.
 
@@ -455,7 +445,7 @@
 	
 	If $\M_1$ halts on correct input, and $\M_2$ halts on $\M_1$'s correct output, then $\M_1;\M_2$ halts on correct input.
 	
-	If $\M_1$ halts on input that obeys $\phi$ and $s[p] = y_0$, and $\M_2$ halts on input that obeys $\phi$ and $s[p] \neq y_0$, then $\Nifat y_0 \Nthen \M_1 \Nelse \M_2 \Nendif$ halts on input that obeys $\phi$.
+	If, for all $y$, $M(y)$ halts on input that obeys $\phi$ and $s[p] = y$, then $\Ncase M \Nendcase$ halts on input that obeys $\phi$.
 	
 	In fact, for these two cases we even gave a formula for the amount of time taken for halting.
 	
