@@ -45,6 +45,11 @@
 \newcommand{\RT}{\mathbf{RT}}
 \newcommand{\LT}{\mathbf{LT}}
 
+\newcommand{\RS}{\mathbf{RS}}
+
+
+\newcommand{\pull}{\mathbf{pull}}
+
 
 \begin{document}
 	\maketitle
@@ -513,6 +518,28 @@
 	\end{proof}
 	
 	We also define $\LT(S)$ (Left Until) analogously. We leave its exact definition and proof to the reader, as it is extremely similar to the previous.
+	
+	We define another command, which we will call $\pull$. It is defined as:
+	
+	\[\pull = \ML; \Ncase \ell \Nof \MR; \W(\ell) \Nendcase\]
+	
+	It takes a tape $s \ell \underline c t$, moves left becoming $s \underline \ell c t$, and then runs $\MR; \W(\ell)$, moving back right to $s \ell \underline c t$ and writing $\ell$, becoming $s \ell \underline \ell t$. In essence, it copies the symbol on the left of the pointer to the place where the pointer is.
+	
+	Finally, we define a program, which will be very useful in the sequence, called $\RS$, for Right Shift.
+	
+	\begin{align*}
+	\RS =& \Ncase \ell \Nof\\
+	&\quad \W(\B);\\
+	&\quad \MR;\\
+	&\quad \RT(\B);\\
+	&\quad \pull;\\
+	&\quad \Nwhileon X \Ndo\\
+	&\quad \quad \ML; \pull\\
+	&\quad \Nendwhile;\\
+	&\quad \W(\ell);\\
+	&\quad \ML\\
+	&\Nendcase
+	\end{align*}
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
