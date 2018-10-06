@@ -45,10 +45,10 @@
 \newcommand{\RT}{\mathbf{RT}}
 \newcommand{\LT}{\mathbf{LT}}
 
-\newcommand{\RS}{\mathbf{RS}}
-
 
 \newcommand{\pull}{\mathbf{pull}}
+\newcommand{\pt}{\mathbf{pt}}
+\newcommand{\RS}{\mathbf{RS}}
 
 
 \begin{document}
@@ -492,6 +492,8 @@
 	
 	As it happens, the notation $(s, p)$ can be cumbersome, especially when the position is something rather specific. As such, we will often use the following notation: If $s$ is a string, $t$ is a sequence, and $c$ is a character, we write $s \underline c t$ to mean the pair $(sct, \lvert s \rvert + 1)$. That is, the tape is $sct$, and the pointer is on the character $c$.
 	
+	Another notation that can be useful at times when we don't have a specific character to focus on, or don't care about it, is this: if $s$ is a string and $t$ is a sequence, $s |\rangle t$ represents the same as $(st, \rvert s \lvert + 1)$.
+	
 	That said, we establish four basic programs: $\NIL$, $\MR$, $\ML$, $\W(y)$.
 	
 	$\NIL$ is the program that does nothing. It is characterized by the trivial machine $(\{q_0\}, \delta, q_0, q_0)$, where $\delta$ is the undefined function. $\run_\NIL$ is the identity function.
@@ -517,29 +519,57 @@
 	As for the latter case, consider the invariant condition: $p_0 \leq p \leq p'$. It is clearly true at the start, as $p_0 \leq p_0$, and if $p_0 \leq p \leq p' \land s[p] \in (Y \setminus S)$, then, since the pointer isn't on an element of $S$, it can't be in position $p'$. As such, it must be in a position $<p'$, and so, after moving right, we remain with the condition $p_0 \leq p \leq p'$. Since the only position $p$ in this interval that obeys $s[p] \not \in (Y \setminus S)$ is $p'$, because of the hypothesis that it was the smallest, if it does halt, it halts with $p = p'$, as we wished to show. We need only show that it does halt, but it is not hard to see that, after $p' - p_0$ runs of $\MR$, we are in position $p'$, which terminates our loop.
 	\end{proof}
 	
+	Notice that another way to state the behavior of this machine is the following: suppose that $s$ is a string of $S^*$, $q$ is any string, and $t$ is a sequence that begins with an element not in $S$. Then, $\RT(S)$ takes the tape state $q |\rangle s t$ and returns the tape $q s |\rvert t$.
+	
 	We also define $\LT(S)$ (Left Until) analogously. We leave its exact definition and proof to the reader, as it is extremely similar to the previous.
 	
-	We define another command, which we will call $\pull$. It is defined as:
+	It is very useful to be able to go back to, or at least recognize, the beginning of the tape. As such, we will try to work with tapes of the form $\B s \B^\infty$, where $s \in X^*$ for example, as to allow us to easily go back to the beginning.
+	
+	To allow us to assume our tape is of this sort, we will need to construct two important machines, Right Shift and Left Shift. We will build the former first, and we will tread with care and in small steps.
+	
+	We define a command, which we will call $\pull$. It is defined as:
 	
 	\[\pull = \ML; \Ncase \ell \Nof \MR; \W(\ell) \Nendcase\]
 	
 	It takes a tape $s \ell \underline c t$, moves left becoming $s \underline \ell c t$, and then runs $\MR; \W(\ell)$, moving back right to $s \ell \underline c t$ and writing $\ell$, becoming $s \ell \underline \ell t$. In essence, it copies the symbol on the left of the pointer to the place where the pointer is.
 	
-	Finally, we define a program, which will be very useful in the sequence, called $\RS$, for Right Shift.
+	We define another one, which we will call $\pt$, for Pull Until.
+	
+	\[\pt = \pull; \Nwhileon X \Ndo \ML; \pull \Nendwhile\]
+	
+	Suppose $q$ is any string, $s$ is a string in $X^*$, $t$ is any sequence.
+	
+	Suppose the program $\pt$ is given the tape $q \B s |\rangle \B t$. These aren't the most general possible conditions, but they are enough for our purposes.
+	
+	If $s = \Lambda$, we will simply end with $q \B |\rangle \B t$, as the reader may very easily check.
+	
+	Otherwise, after $\pull$, we will end up with (if $\lvert s \rvert = l$) the tape $q \B s[1, l] |\rangle s[l,l] \B t$.
+	
+	Now, notice that if $1 \leq p \leq l$, and the tape is $q \B s[1, p] |\rangle s[p,l] \B t$, then running $\ML$ will make it $q \B s[1, p[ \underline{ s[p]} s[p,l] \B t$ and doing pull will make it $q \B s[1, p-1] |\rangle s[p-1, l] \B t$. This code will run $l-1$ times as, until $p = 1$, the pointer will always be on an element of $s$, which is always in $X$. When this ($p = 1$) happens, the tape is $q \B s[1] |\rangle s \B t$. Moving left, we get $q \B \underline{s[1]} s \B t$, and pulling, we have $q \B \underline{\B} s \B t$. At this point, the While loop halts, and we exit the loop ending with $q \B |\rangle \B s t$.
+	
+	So, in both cases ($s = \Lambda$ and $s \neq \Lambda$) we have that, starting with the tape $q \B s |\rangle \B t$ we end with the tape $q \B |\rangle \B s t$.
+	
+	Finally, we define $\RS$ as follows:
 	
 	\begin{align*}
 	\RS =& \Ncase \ell \Nof\\
 	&\quad \W(\B);\\
-	&\quad \MR;\\
-	&\quad \RT(\B);\\
-	&\quad \pull;\\
-	&\quad \Nwhileon X \Ndo\\
-	&\quad \quad \ML; \pull\\
-	&\quad \Nendwhile;\\
-	&\quad \W(\ell);\\
-	&\quad \ML\\
+	&\quad \MR; \RT(\B);\\
+	&\quad \pt; \\
+	&\quad \W(\ell); \ML\\
 	&\Nendcase
 	\end{align*}
+	
+	It does the following: suppose it is given a tape $|\rangle s \B^\infty$, where $s \in X^*$.
+	
+	If $s = \Lambda$, then $\RS$ is the identity, as can be easily seen.
+	
+	Otherwise, let $s = \ell s'$. The machine starts by identifying $\ell$, and run the machine $\W(\B); \MR; \RT(\B); \pt; \MR; \W(\ell); \ML$. So, after the first instruction, the tape is $|\rangle \B s' \B^\infty$. Then, the pointer moves right, and then right until $\B$, becoming $\B s' |\rangle \B^\infty$. Then the instruction $\pt$ is run, and we end with the tape $\B |\rangle \B s' \B^\infty$. Write $\ell$ and return left to end with the tape $|\rangle \B s \B^\infty$.
+	
+	So, in short, $\RS$ will shift the tape right by one, filling in the blank with a $\B$. That is, it starts with $|\rangle s \B^\infty$ and ends with $|\rangle \B s \B^\infty$
+	
+	
+	
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
