@@ -49,6 +49,7 @@
 \newcommand{\pull}{\mathbf{pull}}
 \newcommand{\pt}{\mathbf{pt}}
 \newcommand{\RS}{\mathbf{RS}}
+\newcommand{\LS}{\mathbf{LS}}
 
 
 \begin{document}
@@ -514,12 +515,12 @@
 	\end{theorem}
 	
 	\begin{proof}
-	To see this, notice that, in the former case, we have that the pointer position will always be $\geq p_0$. Since, for the machine to halt on a position $p'$, we would need to have $p' \geq p_0 \land s[p'] \not \in (Y \setminus S)$, that is, $p' \geq p_0 \land s[p'] \in S$. Since, by hypothesis, such $p'$ does not exist, the machine cannot halt.
+	To see this, notice that, in the case where $p'$ does not exist, we have that the pointer position will always be $\geq p_0$. Since, for the machine to halt on a position $p'$, we would need to have $p' \geq p_0 \land s[p'] \not \in (Y \setminus S)$, that is, $p' \geq p_0 \land s[p'] \in S$. Since, by hypothesis, such $p'$ does not exist, the machine cannot halt.
 	
-	As for the latter case, consider the invariant condition: $p_0 \leq p \leq p'$. It is clearly true at the start, as $p_0 \leq p_0$, and if $p_0 \leq p \leq p' \land s[p] \in (Y \setminus S)$, then, since the pointer isn't on an element of $S$, it can't be in position $p'$. As such, it must be in a position $<p'$, and so, after moving right, we remain with the condition $p_0 \leq p \leq p'$. Since the only position $p$ in this interval that obeys $s[p] \not \in (Y \setminus S)$ is $p'$, because of the hypothesis that it was the smallest, if it does halt, it halts with $p = p'$, as we wished to show. We need only show that it does halt, but it is not hard to see that, after $p' - p_0$ runs of $\MR$, we are in position $p'$, which terminates our loop.
-	\end{proof}
+	As for the latter case, consider the invariant condition: $p_0 \leq p \leq p'$. It is clearly true at the start, as $p_0 \leq p_0 \leq p'$, and if $p_0 \leq p \leq p' \land s[p] \in (Y \setminus S)$, then, since the pointer isn't on an element of $S$, it can't be in position $p'$. As such, it must be in a position $<p'$, and so, after moving right, we remain with the condition $p_0 \leq p \leq p'$. Since the only position $p$ in this interval that obeys $s[p] \not \in (Y \setminus S)$ is $p'$, because of the hypothesis that it was the smallest, if it does halt, it halts with $p = p'$, as we wished to show. We need only show that it does halt, but it is not hard to see that, after $p' - p_0$ runs of $\MR$, we are in position $p'$, which terminates our loop.
+	\end{proof} %pretty sure im complicating this proof.
 	
-	Notice that another way to state the behavior of this machine is the following: suppose that $s$ is a string of $S^*$, $q$ is any string, and $t$ is a sequence that begins with an element not in $S$. Then, $\RT(S)$ takes the tape state $q |\rangle s t$ and returns the tape $q s |\rvert t$.
+	Notice that another way to state the behavior of this machine is the following: suppose that $s$ is a string of $S^*$, $q$ is any string, and $t$ is a sequence that begins with an element not in $S$. Then, $\RT(S)$ takes the tape state $q |\rangle s t$ and returns the tape $q s |\rangle t$.
 	
 	We also define $\LT(S)$ (Left Until) analogously. We leave its exact definition and proof to the reader, as it is extremely similar to the previous.
 	
@@ -550,7 +551,6 @@
 	So, in both cases ($s = \Lambda$ and $s \neq \Lambda$) we have that, starting with the tape $q \B s |\rangle \B t$ we end with the tape $q \B |\rangle \B s t$.
 	
 	Finally, we define $\RS$ as follows:
-	
 	\begin{align*}
 	\RS =& \Ncase \ell \Nof\\
 	&\quad \W(\B);\\
@@ -568,6 +568,9 @@
 	
 	So, in short, $\RS$ will shift the tape right by one, filling in the blank with a $\B$. That is, it starts with $|\rangle s \B^\infty$ and ends with $|\rangle \B s \B^\infty$
 	
+	The reader may easily verify that we didn't touch the $\B$ tiles after the first one. That is, this machine could also work in the more general context of taking $|\rangle s \B t$ to $|\rangle \B s t$. Furthermore, there is no possibility of undefined behavior by going before the start. As such, this also works on tapes of the form $u |\rangle s \B t$, to become $u |\rangle \B s t$. This will be relevant in the sequence.
+	
+	As well as Right Shift, Left Shift (\LS) will also be an important machine. It is defined almost like Right Shift, but the directions (including in $\pull$ and $\pt$) must be swapped. It takes a tape $(u \B s t, \lvert u \rvert + 1 + \lvert s \rvert)$ and returns $(u s \B t, \lvert u \rvert + 1 + \lvert s \rvert)$
 	
 	
 	
