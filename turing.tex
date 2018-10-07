@@ -51,6 +51,12 @@
 \newcommand{\RS}{\mathbf{RS}}
 \newcommand{\LS}{\mathbf{LS}}
 
+\newcommand{\Oright}{\mathbf{right}}
+\newcommand{\Oleft}{\mathbf{left}}
+
+
+\newcommand{\PREPEND}{\mathbf{PREPEND}}
+
 
 \begin{document}
 	\maketitle
@@ -570,13 +576,66 @@
 	
 	The reader may easily verify that we didn't touch the $\B$ tiles after the first one. That is, this machine could also work in the more general context of taking $|\rangle s \B t$ to $|\rangle \B s t$. Furthermore, there is no possibility of undefined behavior by going before the start. As such, this also works on tapes of the form $u |\rangle s \B t$, to become $u |\rangle \B s t$. This will be relevant in the sequence.
 	
-	As well as Right Shift, Left Shift (\LS) will also be an important machine. It is defined almost like Right Shift, but the directions (including in $\pull$ and $\pt$) must be swapped. It takes a tape $(u \B s t, \lvert u \rvert + 1 + \lvert s \rvert)$ and returns $(u s \B t, \lvert u \rvert + 1 + \lvert s \rvert)$
+	As well as Right Shift, Left Shift ($\LS$) will also be an important machine. It is defined almost like Right Shift, but the directions (including in $\pull$ and $\pt$) must be swapped. It takes a tape $(u \B s t, \lvert u \rvert + 1 + \lvert s \rvert)$ and returns $(u s \B t, \lvert u \rvert + 1 + \lvert s \rvert)$
 	
 	\section{Segregated Memory Form}
 	
 	This section aims at fixing two main issues that make Turing Machines untenable: dealing with pointer state is a huge hassle, and there is no easy way to segregate data, that is, a concept of variables. There is one monolithic tape and that's that.
 	
 	We aim to fix that by implementing, on top of the Turing Machine, an alternate computing model.
+	
+	Intuitively, the idea is this: we have a fixed\footnote{Fixed as in, cannot be changed at runtime. It is a compile time parameter, so to speak.} number $N$ of `memory slots'. `Variables', if you will. Each of them holds a (possibly empty) string. We can prepend or pop a character as an instruction, and we can do conditional branching and looping based on whether a variable is empty or not. %is this good enough??
+	
+	In more rigorous terms, we will say a sequence is in \emph{Segregated Memory Form of type $N$}, or $N$-SMF, if it is of the form:
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_N \B^\infty\]
+	
+	Where $s_i \in X^*$ for all $i$.
+	
+	Given a tape in $N$-SMF, we say the pointer is parked if it is at position 1. It is, however, useful for us to move the pointer around, which is why we consider the instructions:
+	
+	\[\Oright = \MR; \RT(\B)\]
+	\[\Oleft = \ML; \LT(\B)\]
+	
+	As the reader may easily verify, they take a tape of the sort $\ldots \underline \B s_i \B \ldots$ and turn it into (in the case of $\Oright$) $\ldots \B s_i \underline \B \ldots$, while $\Oleft$ does the inverse.
+	
+	It is also useful for us to have the ability to prepend a character $c \in X$ to one of the $s_i$.
+	
+	Let's assume, first, that our tape is already in $N$-SMF form, and that the pointer is parked.
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_N \B^\infty\]
+	
+	First, we will run the instruction $\Oright$ $i-1$ times, denoted $\Oright^{i-1}$. After this, we will be at a position of the sort
+	
+	\[ \ldots |\rangle \B s_i \B s_{i+1} \B \ldots \]
+	
+	Now, what we need to do is to shift $s_i$ right and place $c$ in the blank we just opened up. But we also need to shift all the $s_{i+1}, s_{i+1}, \cdots s_N$ right as well. So, in fact, we proceed to run $\Oright$ the other $N-i$ times. By the end of this we will be at position
+	
+	\[ \ldots |\rangle \B s_N \B^\infty \]
+	
+	It is at this point that we move right once, and Right Shift, to end with $\ldots \B s_{N-1} \B |\rangle \B s_N \B^\infty$. Then we move left, apply the $\Oleft$ instruction, and repeat. We do this procedure $N-i$ times, to end up with a tape of the form
+	
+	\[ \ldots s_{i-1} \B |\rangle \B s_i \B s_{i+1} \B \ldots \]
+	
+	Finally, we write the character $c$, move left, and apply $\Oleft$ a total of $i-1$ times, parking the pointer.
+	
+	So, in essence, our program to prepend a character $c$ to $s_i$ is the following:
+	\begin{align*}
+	\PREPEND(c, i, N) =& \Oright^{N-1};\\
+	& (\MR; \RS; \ML; \Oleft)^{N-i};\\
+	& \MR; \RS; \W(c); \ML;\\
+	& \Oleft^{i-1}
+	\end{align*}
+	
+	And it has the behavior that it takes a tape
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_i \B \cdots \B s_N \B^\infty\]
+	
+	Into
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	
 	
 	
 \begin{thebibliography}{9}
