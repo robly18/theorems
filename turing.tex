@@ -39,6 +39,7 @@
 \newcommand{\NIL}{\mathbf{NIL}}
 \newcommand{\MR}{\mathbf{MR}}
 \newcommand{\ML}{\mathbf{ML}}
+\newcommand{\UNDEF}{\mathbf{UNDEF}}
 
 \newcommand{\W}{\mathbf{W}}
 
@@ -57,6 +58,10 @@
 
 \newcommand{\PREPEND}{\mathbf{PREPEND}}
 \newcommand{\POP}{\mathbf{POP}}
+\newcommand{\SAFEPOP}{\mathbf{SAFEPOP}}
+\newcommand{\STRICTPOP}{\mathbf{STRICTPOP}}
+\newcommand{\CASE}{\mathbf{CASE}}
+\newcommand{\WHILE}{\mathbf{WHILE}}
 
 
 \begin{document}
@@ -508,6 +513,8 @@
 	
 	$\MR$ (Move Right) is the program that moves the pointer right. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y, R)$. $\ML$ (Move Left) is the same, but moves the pointer left. $\run_\MR(s,p) = (s, p+1)$ and $\run_\ML(s, p+1) = (s, p)$.
 	
+	$\UNDEF$ (Undefined) is the program that loops indefinitely. It will be used to make sure that undefined behavior stays undefined, even if we compose Machines in certain ways. It is the machine $(\{q_0\}, \delta, q_0, q_f)$, where $\delta$ is the undefined function.
+	
 	$\W(y_0)$ (Write $y_0$), where $y_0$ is a fixed parameter, is the program that writes $y_0$ on the tape. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y_0, \Lambda)$. $\run_{\W(y_0)}(s \underline y t) = (s \underline{y_0} t)$.
 	
 	We begin with our first composite program: Right Until.
@@ -620,7 +627,7 @@
 	
 	Finally, we write the character $c$, move left, and apply $\Oleft$ a total of $i-1$ times, parking the pointer.
 	
-	So, in essence, our program to prepend a character $c$ to $s_i$ is the following:
+	So, in essence, our program to prepend a character $c \in X$ to $s_i$ is the following:
 	\begin{align*}
 	\PREPEND(c, i, N) =& \Oright^{N-1};\\
 	& (\MR; \RS; \ML; \Oleft)^{N-i};\\
@@ -675,9 +682,66 @@
 	
 	And at last, $\Oleft$ a total of $N$ times to go back to the beginning and park.
 	
+	Do not use this command if the cell in question is empty. Regrettably, the behavior is not undefined.
+	
 	We now have tools to mess with each memory cell without worrying about interfering with the others.
 	
+	We present a tool for probing a memory cell, also without worrying about collateral effects.
 	
+	Let $M$ be a function from $X$ to the set of Turing Machines, and $\M_\B$ a Turing Machine. Define the Machine:
+	\begin{align*}
+	\CASE(i, M, \M_\B) =& \,\Oright^{i-1}; \MR;\\
+	&\Ncase \ell \Nof\\
+	&\quad \ML; \Oleft^{i-1};\\
+	&\quad \text{if $\ell \in X$, } M(\ell)\\
+	&\quad \text{else, } \M_\B\\
+	&\Nendcase
+	\end{align*}
+	
+	It will take a parked $N$-SMF of the form:
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_i \B \cdots \B s_N \B^\infty\]
+	
+	If $s_i = \Lambda$, it will move to the following position:
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_i |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	Enter the case with $\ell = \B$, go back to the start, and run $\M_\B$.
+	
+	If $s_i = \ell s'$, it will move to the position:
+	
+	\[\B s_1 \B s_2 \B \cdots \B |\rangle \ell s' \B \cdots \B s_N \B^\infty\]
+	
+	And park the pointer again and run $M(\ell)$.
+	
+	So this is a safe and collateral-free way of running code conditionally.
+	
+	It also allows us to define the following commands:
+	
+	\[\SAFEPOP(i) = \CASE(i, \POP, \NIL)\]
+	
+	\[\STRICTPOP(i) = \CASE(i, \POP, \UNDEF)\]
+	
+	The former will turn $s_i$ into $s'$ in the event that $s_i = c s$, and do nothing in the event that $s_i = \Lambda$. The latter will do the same, except that, instead of doing nothing if $s_i = \Lambda$, it will loop indefinitely. These are both better than $\POP$ because under no circumstances will they mess up the SMF-ness of the tape.
+	
+	We also provide a way to do looping.
+	\begin{align*}
+	\WHILE(i, \M) =& \,\Oright^{i-1}; \MR;\\
+	&\Nwhileon X \Ndo\\
+	&\quad \ML; \Oleft^{i-1};\\
+	&\quad \M;\\
+	&\quad \Oright^{i-1}; \MR\\
+	&\Nendwhile\\
+	&\ML; \Oleft^{i-1}
+	\end{align*}
+	
+	This will take a parked $N$-SMF, and move the pointer to the first character of $s_i$ (or the $\B$ after it, if it happens to be empty).
+	
+	Then, while this character is an element of $X$, it will run the code inside. That is, it will park, run $\M$, and go back to the same position.
+	
+	The While loop will terminate when $s_i$ is in fact empty, at which point the pointer will park and execution will terminate.
+	
+	This also provides us an easy invariant: if we make sure that every run of $\M$ decreases the length of $s_i$ by at least one, we are sure that the program will eventually halt.
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
