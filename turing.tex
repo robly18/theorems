@@ -56,6 +56,7 @@
 
 
 \newcommand{\PREPEND}{\mathbf{PREPEND}}
+\newcommand{\POP}{\mathbf{POP}}
 
 
 \begin{document}
@@ -635,6 +636,46 @@
 	
 	\[|\rangle \B s_1 \B s_2 \B \cdots \B c s_i \B \cdots \B s_N \B^\infty\]
 	
+	Similarly, we define the following program:
+	\begin{align*}
+	\POP(i, N) =& \Oright^{i-1};\\
+	& \MR; \W(\B); \Oright;\\
+	& (\ML; \LS; \MR; \Oright)^{N-i};\\
+	& \ML; \LS;\\
+	& \Oleft^{N}
+	\end{align*}
+	
+	Its behavior is as follows: start with a parked $N$-SMF of the form:
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	Move $\Oright$ $i-1$ times to be at
+	
+	\[\B s_1 \B s_2 \B \cdots |\rangle \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	Move right, write $\B$, move $\Oright$ to be at
+	
+	\[\B s_1 \B s_2 \B \cdots \B \B s_i |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	Then, we apply $\ML; \LS$ to be at
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_i |\rangle \B \B \cdots \B s_N \B^\infty\]
+	
+	Now we $\MR; \Oright$ to be at position
+	
+	\[\B s_1 \B \cdots \B s_i \B \B s_{i+1} |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	And repeat this procedure a total of $N-i$ times, culminating at something of the form
+	
+	\[\B s_1 \B \cdots \B \B s_N |\rangle \B^\infty\]
+	
+	Here, finally, Move Left and Left Shift to get
+	
+	\[\B s_1 \B \cdots \B s_N |\rangle \B^\infty\]
+	
+	And at last, $\Oleft$ a total of $N$ times to go back to the beginning and park.
+	
+	We now have tools to mess with each memory cell without worrying about interfering with the others.
 	
 	
 	
