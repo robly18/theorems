@@ -51,6 +51,7 @@
 \newcommand{\pt}{\mathbf{pt}}
 \newcommand{\RS}{\mathbf{RS}}
 \newcommand{\LS}{\mathbf{LS}}
+\newcommand{\LSEL}{\mathbf{LSEL}}
 
 \newcommand{\Oright}{\mathbf{right}}
 \newcommand{\Oleft}{\mathbf{left}}
@@ -65,6 +66,7 @@
 
 
 \newcommand{\CLEAN}{\mathbf{CLEAN}}
+\newcommand{\RETURN}{\mathbf{RETURN}}
 
 
 \begin{document}
@@ -632,7 +634,7 @@
 	
 	So, in essence, our program to prepend a character $c \in X$ to $s_i$ is the following:
 	\begin{align*}
-	\PREPEND(c, i, N) =& \Oright^{N-1};\\
+	\PREPEND(c, i) =& \Oright^{N-1};\\
 	& (\MR; \RS; \ML; \Oleft)^{N-i};\\
 	& \MR; \RS; \W(c); \ML;\\
 	& \Oleft^{i-1}
@@ -648,7 +650,7 @@
 	
 	Similarly, we define the following program:
 	\begin{align*}
-	\POP(i, N) =& \Oright^{i-1};\\
+	\POP(i) =& \Oright^{i-1};\\
 	& \MR; \W(\B); \Oright;\\
 	& (\ML; \LS; \MR; \Oright)^{N-i};\\
 	& \ML; \LS;\\
@@ -751,6 +753,49 @@
 	\[\CLEAN(i) = \WHILE(i, \POP(i))\]
 	
 	It halts, as can be easily seen by the monovariant above. By the time it does, $s_i$ will be empty. It doesn't change any other part of the string, so its behavior is simply making $s_i = \Lambda$.
+	
+	\section{O-Machines}
+	
+	Now that we have made this machinery, let's put it to good use.
+	
+	Our $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$ instructions will only function if our tape is in $N$-SMF. As such, we present the tools (easy at this point) to function with this state of affairs.
+	
+	Suppose we are given an input tape of the form $|\rangle s \B^\infty$. First, we $\RS$ it, to get something of the form $|\rangle \B s \B^\infty$. This can be interpreted as an $N$-SMF, for any $N \geq 1$.
+	
+	From hereonout, we can write a program composed only of $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$, using $s_1$ as our input, and let's suppose we write our intended output on $s_k$. We wish to, so to speak, `return $s_k$'.
+	
+	Well, first, we begin by clearing all variables but this one. That is, we run $\CLEAN(1), \CLEAN(2), \cdots, \CLEAN(k-1), \CLEAN(k+1), \cdots, \CLEAN(N)$. We are left with the tape $|\rangle \B^k s_k \B^\infty$. Now, we run $\Oright^{k}$, and we will be at tape $\B^k s_k |\rangle \B^\infty$, and we are almost done. We run $\ML$, $\LS$ $k-1$ times, and $\MR$ to get $\B s_k |\rangle \B^\infty$. Finally, we face the problem of pushing $s_k$ back this one last time and park to get a tape as desired. Unfortunately, $\LS$ won't work, as we will have no way to detect the beginning of the tape to park. As such, we define the following function, called Left Shift End Left:
+	
+	\begin{align*}
+	\LSEL =& \Oleft; \MR;\\
+	&\Ncase \ell \Nof\\
+	&\quad \W(\B); \Oright;\\
+	&\quad \ML; \LS; \Oleft;\\
+	&\quad \W(\ell)\\
+	&\Nendcase
+	\end{align*}
+	
+	This will take our tape $\B s_k |\rangle \B^\infty$, move $\Oleft$ to become $|\rangle \B s_k \B^\infty$, and move back right to be $\B |\rangle s_k \B^\infty$.
+	
+	At this point, if $s_k = \Lambda$, the reader can easily verify that the program will end at $|\rangle \B^\infty = |\rangle s_k \B^\infty$.
+	
+	On the other hand, if $s_k = \ell s'$, we will now run $\W(\B); \Oright; \ML; \LS; \MR; \Oleft; \W(\ell)$ on the tape $\B |\rangle \ell s' \B^\infty$. In order, the tape will become:
+	\begin{align*}
+	&\B |\rangle \ell s' \B^\infty &\text{Start}\\
+	&\B |\rangle \B s' \B^\infty &\text{After $\W(\B)$}\\
+	&\B \B s' |\rangle \B^\infty &\text{After $\Oright$}\\
+	&\B s' |\rangle \B^\infty &\text{After $\ML; \LS$}\\
+	&|\rangle \B s' \B^\infty &\text{After $\Oleft$}\\
+	&|\rangle \ell s' \B^\infty &\text{After $\W(\ell)$}
+	\end{align*}
+	
+	And so, at the end, we have, as desired, $|\rangle s_k \B^\infty$.
+	
+	%THERE ARE A LOT OF SUBTLE PROBLEMS WITH LS. VERIFY AND FIX THEM.
+	
+	We will call this sequence of instructions we just designed $\RETURN(k)$.
+	
+	What this shows is that, as long as we make sure our program starts with a $\RS$ and ends with a $\RETURN$, we can, if we use the four instructions above, assume we are in SMF.
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
