@@ -71,8 +71,12 @@
 
 \newcommand{\MOVR}{\mathbf{MOVR}}
 
-
 \newcommand{\COPY}{\mathbf{COPY}}
+
+\newcommand{\REMONE}{\mathbf{REMONE}}
+
+
+\newcommand{\P}{\mathbf{P}}
 
 
 \begin{document}
@@ -848,8 +852,60 @@
 	First of all, remember that an $n$-uple $(x_1, x_2, \cdots, x_n)$ is represented as the string $\ceil{x_1}0\ceil{x_2}0\cdots0\ceil{x_n}$. The $k$-projection function is the function that takes such a string and returns $x_k$.
 	
 	To show why this is computable, we must first design the following programs:
+	\begin{align*}
+	\mathbf{ISONE}(i, j) =&\CLEAN(j)\\
+	&\CASE(i,\\
+	&\quad \ell \mapsto
+	\begin{cases}
+	\PREPEND(1, j) &\text{if $\ell = 1$}\\
+	\NIL &\text{otherwise}
+	\end{cases}\\
+	&\quad ,\NIL\\
+	&)
+	\end{align*}
 	
+	This will make $s_j = 1$ if $s_i$ starts with a 1, $s_j = \Lambda$ otherwise.
 	
+	This allows us to make the following machine:
+	
+	Let $TMP$ be a variable not used anywhere else.
+	
+	\begin{align*}
+	\REMONE(i, j) =& \CLEAN(j); \mathbf{ISONE}(i, TMP)\\
+	&\WHILE(TMP,\\
+	&\quad \POP(i); \PREPEND(1, j);\\
+	&\quad \mathbf{ISONE}(i, TMP)\\
+	&)\\
+	&\POP(i)
+	\end{align*}
+	
+	The behavior of this machine is as follows: suppose $s_i = \ceil{n}0\cdots$. (This would also work if it were just $\ceil{n}$, but we leave that case to the reader.)
+	
+	If $n = 0$, then the ISONE command will make $s_{TMP} = \Lambda$, and so the loop won't run at all, leaving $s_j = \Lambda = \ceil{n}$.
+	
+	Otherwise, the loop will run. Each run of the loop will remove an element from $s_i$ and push a 1 onto $s_j$, and write $1$ to $s_{TMP}$ if $s_j$ still starts with a 1, and nothing otherwise. As such, the loop will run as long as $s_i$ starts with a 1. By the time the loop halts, $s_i$ will start with a zero.
+	
+	This happens after $n$ runs of the loop, and so $s_j$ will be of the form $\ceil{n}$. Finally, we pop this last zero from $s_i$.
+	
+	The behavior of this machine is, then, the following:
+	
+	Suppose $s_i = \ceil{n_1} 0 \ceil{n_2} 0 \cdots 0 \ceil{n_k}$. After running $\REMONE(i, j)$, we will have $s_i = \ceil{n_2} 0 \cdots 0 \ceil{n_k}$ and $s_j$ = \ceil{n_1}$.
+	
+	In essence, this `separates the $n$-uple into its head and tail'.
+	
+	We can now, finally, write a program for projection:
+	
+	\begin{align*}
+	\P(k) =& \REMONE(inp, out)^k
+	\end{align*}
+	
+	If the input is $\ceil{x_1} 0 \ceil{x_2} 0 \cdots 0 \ceil{x_n}$, after running $\P(k)$ with $k < n$, we will have $\ceil{x_k}$ on the output variable. This can easily be shown by induction on $k$.
+	
+	This gives us the beginning of the proof that all $\mu$-computable functions are computable, as these are defined inductively starting with the constant function, the successor function, and the projection functions.
+	
+	The next step is to show that we can compose functions, do primitive recusion, and do minimization.
+	
+	\section{Composition}
 	
 	
 \begin{thebibliography}{9}
