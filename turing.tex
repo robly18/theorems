@@ -69,6 +69,12 @@
 \newcommand{\RETURN}{\mathbf{RETURN}}
 
 
+\newcommand{\MOVR}{\mathbf{MOVR}}
+
+
+\newcommand{\COPY}{\mathbf{COPY}}
+
+
 \begin{document}
 	\maketitle
 
@@ -723,11 +729,11 @@
 	
 	It also allows us to define the following commands:
 	
-	\[\SAFEPOP(i) = \CASE(i, \POP, \NIL)\]
+	\[\SAFEPOP(i) = \CASE(i, \POP(i), \NIL)\]
 	
-	\[\STRICTPOP(i) = \CASE(i, \POP, \UNDEF)\]
+	\[\STRICTPOP(i) = \CASE(i, \POP(i), \UNDEF)\]
 	
-	The former will turn $s_i$ into $s'$ in the event that $s_i = c s$, and do nothing in the event that $s_i = \Lambda$. The latter will do the same, except that, instead of doing nothing if $s_i = \Lambda$, it will loop indefinitely. These are both better than $\POP$ because under no circumstances will they mess up the SMF-ness of the tape.
+	The former will turn $s_i$ into $s'$ in the event that $s_i = c s$, and do nothing in the event that $s_i = \Lambda$. The latter will do the same, except that, instead of doing nothing if $s_i = \Lambda$, it will loop indefinitely. These are both better than $\POP$ because under no circumstances will they mess up the structure of the tape.
 	
 	We also provide a way to do looping.
 	\begin{align*}
@@ -791,11 +797,60 @@
 	
 	And so, at the end, we have, as desired, $|\rangle s_k \B^\infty$.
 	
-	%THERE ARE A LOT OF SUBTLE PROBLEMS WITH LS. VERIFY AND FIX THEM.
-	
 	We will call this sequence of instructions we just designed $\RETURN(k)$.
 	
 	What this shows is that, as long as we make sure our program starts with a $\RS$ and ends with a $\RETURN$, we can, if we use the four instructions above, assume we are in SMF.
+	
+	A \emph{P-Machine} is a Turing Machine made by composition of the instructions $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$, with a fixed $N$. Notice two observations:
+	
+	First of all, as long as we make sure our $i$s are always $\leq N$, the value of $N$ is not really important, and the computation will have the same effect. This means we can make it arbitrarily big.
+	
+	Secondly, we can shuffle our $i$s around in whatever way we like, and the behavior of the machine will always be the same, as long as we make sure our input is read from $i = 1$, and we keep track of where we write our output as to return it at the end.
+	
+	As such, we will begin writing our programs in a more symbolic fashion. Instead of specific numbers, we will write variable names. In order to turn what we write into a valid Turing Machine, one writes down all the variables we used. Let $N$ be their number, and assign each of them a unique number from $1$ to $N$, reserving 1 for the input variable. Since the exact assignment is irrelevant, we are assured the behavior is well-defined.
+	
+	This also allows us to freely compose computations. But first, we will need some helper functions.
+	
+	For instance, suppose we want to copy a value from one cell to another. It is difficult to do this nondestructively. So first, we define the following Machine:
+	
+	\[\MOVR(i, j) = \CLEAN(j);\WHILE(i, \CASE(i, \ell \mapsto \PREPEND(\ell, j); \STRICTPOP(i), \NIL))\]
+	
+	It clearly halts because of the already mentioned monovariant. First, it cleans $s_j$, and then, every step, it takes the first character of $s_i$ and prepends it to $s_j$. As such, after the $p$-th step, we will have that, if $s_i = s$ and $\lvert s \rvert = l$ at the beginning, we will have $s_i = s]p,l]$ and $s_j = t]l-p, l]$, where $t$ is obtained from $s$ by reversing it. At the end, we will have $s_i = \Lambda$ and $s_j = t$, and every other variable remains unchanged.
+	
+	We define another program, very similarly:
+	\begin{align*}
+	\MOVR2(i, j_1, j_2) =& \CLEAN(j_1); \CLEAN(j_2);\\
+	& \WHILE(i,\\
+	&\quad \CASE(i,\\
+	&\quad \quad \ell \mapsto \PREPEND(\ell, j_1); \PREPEND(\ell, j_2); \STRICTPOP(i),\\
+	&\quad \NIL)\\
+	&)
+	\end{align*}
+	
+	This one does the exact same, but writes $s_i$ backwards on both $s_{j_1}$ and $s_{j_2}$.
+	
+	This allows us to define the following command:
+	
+	Let $TMP$ be a temporary variable, not used anywhere else. Define:
+	
+	\[\COPY(i, j) = \MOVR(i, TMP); \MOVR2(TMP, i, j)\]
+	
+	This copies the value of $s_i$ into $s_j$ nondestructively. In more usual syntax, it might be written $j \leftarrow i$ or $j = i$.
+	
+	This allows us to compose computations. We will say a function $X^* \supseteq C \rightharpoonup X^*$ is P-Computable if there exists a P-Machine that, given $x \in C$ in a variable $inp$, will write $f(x)$ on a variable $out$ if $f(x)$ is defined, and loop indefinitely otherwise.
+	
+	Clearly, all constant functions are P-Computable. Simply prepend the characters in your constant on your $out$ variable in reverse order.
+	
+	Furthermore, the function that takes $\ceil{n}$ into $\ceil{n+1}$ is also computable: merely prepend a 1.
+	
+	Finally, the projection functions are also computable. But that will take a little explaining.
+	
+	First of all, remember that an $n$-uple $(x_1, x_2, \cdots, x_n)$ is represented as the string $\ceil{x_1}0\ceil{x_2}0\cdots0\ceil{x_n}$. The $k$-projection function is the function that takes such a string and returns $x_k$.
+	
+	To show why this is computable, we must first design the following programs:
+	
+	
+	
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
