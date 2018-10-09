@@ -76,7 +76,7 @@
 \newcommand{\REMONE}{\mathbf{REMONE}}
 
 
-\newcommand{\P}{\mathbf{P}}
+\newcommand{\PR}{\mathbf{P}}
 
 
 \begin{document}
@@ -889,23 +889,53 @@
 	
 	The behavior of this machine is, then, the following:
 	
-	Suppose $s_i = \ceil{n_1} 0 \ceil{n_2} 0 \cdots 0 \ceil{n_k}$. After running $\REMONE(i, j)$, we will have $s_i = \ceil{n_2} 0 \cdots 0 \ceil{n_k}$ and $s_j$ = \ceil{n_1}$.
+	Suppose $s_i = \ceil{n_1} 0 \ceil{n_2} 0 \cdots 0 \ceil{n_k}$. After running $\REMONE(i, j)$, we will have $s_i = \ceil{n_2} 0 \cdots 0 \ceil{n_k}$ and $s_j = \ceil{n_1}$.
 	
 	In essence, this `separates the $n$-uple into its head and tail'.
 	
 	We can now, finally, write a program for projection:
 	
 	\begin{align*}
-	\P(k) =& \REMONE(inp, out)^k
+	\PR(k) =& \REMONE(inp, out)^k
 	\end{align*}
 	
-	If the input is $\ceil{x_1} 0 \ceil{x_2} 0 \cdots 0 \ceil{x_n}$, after running $\P(k)$ with $k < n$, we will have $\ceil{x_k}$ on the output variable. This can easily be shown by induction on $k$.
+	If the input is $\ceil{x_1} 0 \ceil{x_2} 0 \cdots 0 \ceil{x_n}$, after running $\PR(k)$ with $k < n$, we will have $\ceil{x_k}$ on the output variable. This can easily be shown by induction on $k$.
 	
 	This gives us the beginning of the proof that all $\mu$-computable functions are computable, as these are defined inductively starting with the constant function, the successor function, and the projection functions.
 	
 	The next step is to show that we can compose functions, do primitive recusion, and do minimization.
 	
 	\section{Composition}
+	
+	First, let us clarify our terms a bit here.
+	
+	We will say a function $f : X^* \supseteq C \rightharpoonup X^*$ is P-computable if there is a program using only the instructions $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$ that will take the contents of the `variable' $s_{inp}$ (for some $inp$) and write $f(x)$ on $s_{out}$ for some $out$, in the event that $f(x)$ is defined. If it is not, this machine should loop indefinitely.
+	
+	Clearly, if a function is P-Computable, it is Turing Computable, as one can, given a P-Machine, implement it on a Turing Machine. First, make sure to $\RS$ the tape, let $inp = 1$, and run the program. Then, at the end, do $\RETURN(out)$.
+	
+	What we wish to show is that all $\mu$-computable functions are P-computable. As we have already seen, the constant, successor, and projection functions are computable. Before we move on, we will actually define the $\mu$-computable functions, in order to know what we are doing.
+	
+	We define these inductively, starting with the base functions above, and using the following four operators:
+	
+	\begin{itemize}
+	\item (Aggregation) If $f : \N^n \rightharpoonup \N^{m_1}$ and $g : \N^n \rightharpoonup \N^{m_2}$ are computable, the function $(f,g) : \N^n \rightharpoonup \N^{m_1 + m_2}$ is also computable.
+	
+	\item (Composition) If $f : \N^n \rightharpoonup \N^m$ and $g : \N^m \rightharpoonup \N^r$ are computable, so is $g \circ f : \N^n \rightharpoonup \N^r$
+	
+	\item (Primitive recursion) Suppose $g : \N^n \rightharpoonup \N$ and $h : \N^{n+2} \rightharpoonup \N$. Then, the function $f$ (denoted $\rho(g, h)$) defined inductively as:
+	\begin{gather*}
+	f(0, x_1, x_2, \cdots, x_n) = g(x_1, \cdots, x_n)\\
+	f(y+1, x_1, x_2, \cdots, x_n) = h(y, f(y, x_1, \cdots, x_n), x_1, \cdots, x_n)
+	\end{gather*}
+	
+	Is computable.
+	
+	\item (Minimization) Let $f : \N^{n+1} \rightharpoonup \N$. Then, the function defined as
+	
+	\[\mu(f)(x_1, \cdots, x_n) = k\]
+	
+	Where $k$ is such that $f(k, x_1, \cdots, x_n) = 0$ and $f(k', x_1, \cdots, x_n)$ is defined and $>0$ for all $k' <k$. If this $k$ does not exist, $\mu(f)(x_1, \cdots, x_n)$ is undefined.
+	\end{itemize}
 	
 	
 \begin{thebibliography}{9}
