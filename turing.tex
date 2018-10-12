@@ -937,6 +937,30 @@
 	Where $k$ is such that $f(k, x_1, \cdots, x_n) = 0$ and $f(k', x_1, \cdots, x_n)$ is defined and $>0$ for all $k' <k$. If this $k$ does not exist, $\mu(f)(x_1, \cdots, x_n)$ is undefined.
 	\end{itemize}
 	
+	We do these in order.
+	
+	Let $f : \N^n \rightharpoonup \N^{m_1}$ and $g : \N^n \rightharpoonup \N^{m_2}$ be partial P-computable functions. Suppose $F$ and $G$ are P-machines that take some input written on $inp_1$ and $inp_2$, respectively, and write their output on $out_1$ and $out_2$. We wish to write a program that computes $(f,g)$.
+	
+	To do this, suppose our input is on the variable $inp$. First, do $\COPY(inp, inp_1); \COPY(inp, inp_2)$. Then, run $F$ and $G$. The only thing left to do is to join $out_1$ and $out_2$ into $out$. It is not hard to see that this is easily done by concatenating the values of these variables, with a 0 in the middle.
+	
+	So, first, we $\COPY(out_2, out)$. Then, we $\PREPEND(0, out)$. Finally, we need a way to prepend a variable to another without destroying the latter. To do this, we make a minor adjustment to our $\COPY$ code:
+	\begin{align*}
+	\MOVR2'(i, j_1, j_2) =& \CLEAN(j_1);\\
+	& \WHILE(i,\\
+	&\quad \CASE(i,\\
+	&\quad \quad \ell \mapsto \PREPEND(\ell, j_1); \PREPEND(\ell, j_2); \STRICTPOP(i),\\
+	&\quad \NIL)\\
+	&)
+	\end{align*}
+	
+	It is not hard to show that this writes the contents of the variable $i$ in reverse to the variable $j_1$, and prepends it backwards to the variable $j_2$.
+	
+	Now let $TMP$ be a temporary variable. Define:
+	
+	\[\COPY'(i, j) = \MOVR(i, TMP); \MOVR2'(TMP, i, j)\]
+	
+	This will prepend the contents of the variable $i$ into variable $j$. This allows us to finish our code, by doing $\COPY'(out_1, out)$. This finishes our demonstration that aggregation of P-computable functions is P-computable.
+	
 	
 \begin{thebibliography}{9}
 \bibitem{bridges} 
