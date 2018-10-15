@@ -876,7 +876,7 @@
 	&\quad \POP(i); \PREPEND(1, j);\\
 	&\quad \mathbf{ISONE}(i, TMP)\\
 	&)\\
-	&\POP(i)
+	&\SAFEPOP(i)
 	\end{align*}
 	
 	The behavior of this machine is as follows: suppose $s_i = \ceil{n}0\cdots$. (This would also work if it were just $\ceil{n}$, but we leave that case to the reader.)
@@ -960,6 +960,16 @@
 	\[\COPY'(i, j) = \MOVR(i, TMP); \MOVR2'(TMP, i, j)\]
 	
 	This will prepend the contents of the variable $i$ into variable $j$. This allows us to finish our code, by doing $\COPY'(out_1, out)$. This finishes our demonstration that aggregation of P-computable functions is P-computable.
+	
+	Now, we move on to composition. This one is not particularly hard.
+	
+	Let $f : \N^n \rightharpoonup \N^m$ and $g : \N^m \rightharpoonup \N^k$ be P-computable. Let $F$ be a P-machine that takes a variable $inp$ and writes $f(inp)$ to a variable $out_1$, and let $G$ be a P-machine that takes a variable $out_1$ and writes $g(out_1)$ to $out$. Composing the two machines $F;G$ will get us a machine that computes $g \circ f$.
+	
+	Next up is primitive recursion. This is possibly the hardest of the four.
+	
+	Suppose $g$ is a P-computable function $\N^n \rightharpoonup \N$, with a machine $G$ that takes a variable $inp_g$ and writes $g$ of it to $out_g$. Likewise, let $h$ be a P-computable function $\N^{2+n} \rightharpoonup \N$ that is computed by $H$, which writes $h(inp_h)$ to $out_h$.
+	
+	Now, to write a program that computes $\rho(g, h)$. First, suppose it takes the input in a variable $inp$. Begin by running %todo remone
 	
 	
 \begin{thebibliography}{9}
