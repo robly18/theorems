@@ -1,0 +1,106 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\title{On sublimits, limit superior, and limit inferior}
+\author{}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\CR}{\overline\R}
+\newcommand{\N}{\mathbb{N}}
+
+\newtheorem{prop}{Prop}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Def}
+
+\begin{document}
+	\maketitle
+
+	\section{The closed number line}
+	
+	In this document, $\R$ stands for the real line $\left]-\infty, \infty\right[$ and $\CR$ stands for the closed real line $[-\infty, \infty]$.
+	
+	We remind ourselves of the axiom of the least upper bound property in $\R$:
+	
+	\textbf{Least Upper Bound Property:} Any nonempty set $X \subseteq \R$ with a real upper bound has a least upper bound, denoted $\sup X$.
+	
+	This property can easily be extended to the closed real line in a rather nicer way:
+	
+	\textbf{Least Upper Bound Property (in $\CR$):} Any set $X \subseteq \CR$ has a least upper bound, denoted $\sup X$.
+	
+	We now conclude the latter principle from the former:
+	
+	\begin{proof}
+	Let $X \subseteq \CR$.
+	
+	If $\infty \in X$, the least (and in fact, the only) upper bound is precisely $\infty$.
+	
+	If $\infty \not \in X$, let $Y = X \cap \R$. If $Y$ is empty, then $X$ is either empty or $\{-\infty\}$; in both cases any element of $\CR$ is an upper bound, and the smallest of these is precisely $-\infty$.
+	
+	If $Y$ is not empty, it either has a real upper bound or it does not. If not, since $\infty$ is an upper bound and there are no real upper bounds, $\infty$ is the least upper bound.
+	
+	If, on the other hand, it does have a real upper bound, we are in the conditions of the least upper bound property for $\R$, and thus, $Y$ has a least (real) upper bound $M$ in $\R$. Notice this is still least in the context of $\CR$, since $-\infty$ is not an upper bound (because $Y$ is nonempty) and, while $\infty$ is an upper bound, it is larger than $M$, hence we conclude $M$ is still, in this context, the least upper bound of $Y$, and ergo of $X$.
+	
+	Thus, we showed that, in every case, there exists a least upper bound for $X$.
+	\end{proof}
+	
+	Notice that, as shown in the proof, if we are in the conditions of the real LUBP, then the suprema obtained in $\R$ and in $\CR$ are the same, and thus there is no ambiguity in saying $\sup X$.
+	
+	We use $\inf X$ to denote the greatest lower bound, which, as one can easily show, always exists, equaling $- \sup(-X)$, where $-X$ denotes $\{\, -x \mid x \in X\,\}$.
+	
+	\section{Limits and sublimits}
+	
+	\subsection{Neighbourhoods}
+	
+	We remind ourselves of the notion of \emph{neighbourhood of a real number}:
+	
+	Given a real number $a$ and a positive real $\varepsilon$, we define
+	
+	\[V_\varepsilon(a) := \{\, x \mid \left| x - a \right| < \varepsilon \,\}\]
+	
+	This definition does not make sense if we try to put $a = \pm \infty$, so in an effort to define neighbourhoods in the real closed number line we must define them for the infinities separately. As such, we define:
+	
+	\[V_\varepsilon(\infty) := \left] 1/\varepsilon, \infty \right]\]
+	\[V_\varepsilon(-\infty) := \left[-\infty, -1/\varepsilon \right[\]
+	
+	The reason behind using $1/\varepsilon$ rather than $\varepsilon$ is simply so that we can assert that if we decrease the radius of the neighbourhood we also decrease the set, a property that is sometimes handy, albeit never strictly necessary.
+	
+	\subsection{Convergence}
+	
+	Given a sequence $a_n$ of numbers in $\CR$, we say it \emph{converges towards $L \in \CR$}, denoted $a_n \rightarrow L$ if:
+	
+	\[\forall_\varepsilon \exists_N \forall_{n \geq N} a_n \in V_\varepsilon(L)\]
+	
+	Where it is implied that $\varepsilon \in \R^+$ and $N \in \N$.
+	
+	\begin{prop}
+	If $a_n$ converges towards $L$ and $L'$ then $L = L'$. That is: the limit, when it exists, is unique.
+	\end{prop}
+	
+	\begin{proof}
+	To do this, it is enough to show that if $L \neq L'$ then there exist $\varepsilon, \varepsilon'$ such that $V_\varepsilon(L)$ and $V_{\varepsilon'}(L')$ are disjoint. (We say that $\CR$ is a \emph{Hausdorff space})
+	
+	This is enough because we simply notice that, for such $\varepsilon$, by definition there exists $N$ such that for all $n \geq N$ we have that $a_n \in V_\varepsilon(L)$, and also there exists $N'$ such that for $n \geq N'$ we have $a_n \in V_{\varepsilon'}(L')$. Taking $p$ as the maximum of $N$ and $N'$, we have $a_p$ is in both $V_\varepsilon(L)$ and $V_{\varepsilon'}(L')$; an impossibility if these two are disjoint.
+	
+	So all we need to show now is that $\CR$ is Hausdorff. We do this on a case-by-case basis.
+	
+	If $L$ and $L'$ are both finite (i.e. in $\R$) let $\varepsilon = \varepsilon' = \frac{\left|L-L'\right|}2 > 0$. It is a simple application of the triangular inequality to show the respective neighbourhoods are disjoint.
+	
+	If $L$ is finite and $L'$ is $\infty$, pick a positive number $s$ greater than $L$. Put $\varepsilon = s - L$ and $\varepsilon' = 1/s$. The case where $L' = -\infty$ is completely analogous, and if $L$ is infinite and $L'$ is finite one simply swaps the letters to return to this case.
+	
+	Finally, if $L = -L' = \pm \infty$, $\varepsilon = \varepsilon' = 1$ works.
+	\end{proof}
+	
+	We can then write, without ambiguity, $\lim a_n$ to denote the limit of the sequence $a_n$ when it exists.
+	
+	\subsection{Sublimits}
+	
+	Unfortunately, not every sequence converges (shocker). However, as we will soon show, given any sequence, we can find a subsequence of it that does converge.
+	
+	(todo)
+
+\end{document}
