@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 
 \usepackage{enumerate}
 
@@ -14,6 +15,8 @@
 \newcommand{\CR}{\overline\R}
 \newcommand{\N}{\mathbb{N}}
 
+\DeclareMathOperator{\sgn}{sgn}
+
 \newtheorem{prop}{Prop}
 
 \theoremstyle{definition}
@@ -21,6 +24,8 @@
 
 \begin{document}
 	\maketitle
+	
+	\tableofcontents
 
 	\section{The closed number line}
 	
@@ -54,7 +59,7 @@
 	
 	We use $\inf X$ to denote the greatest lower bound, which, as one can easily show, always exists, equaling $- \sup(-X)$, where $-X$ denotes $\{\, -x \mid x \in X\,\}$.
 	
-	\section{Limits and sublimits}
+	\section{Limits}
 	
 	\subsection{Neighbourhoods}
 	
@@ -107,13 +112,19 @@
 	
 	However, this distinction can be easily blurred once we try to define multiplication on $\CR$.
 	
+	To make life easier on ourselves, we will temporarily adopt the following formalism: instead of working with $\pm \infty$, we will work with ordered pairs $(\pm 1, \infty)$, where $(1, \infty)$ should be understood as $\infty$ and $(-1, \infty)$ as $-\infty$.
+	
+	For elements different from zero, we define the \emph{sign function}, $\sgn$, as
+	
+	\[\sgn x := \text{$1$ if $x > 0$, $-1$ if $x < 0$}\]
+	
 	We define multiplication of numbers in $\CR$ as follows: let $x, y \in \CR$.
 	
 	If both are real, their product is defined as their product as real numbers.
 	
-	If one is an infinity and the other is a positive element of $\CR$, it equals the infinity. If the other is a negative, the signal is swapped.
+	We define, \emph{in this context}, $0 \times \infty$ to be $0$.
 	
-	Finally, we define, \emph{in this context}, $0 \times \infty$ to be $0$.
+	And finally, if one of them is an infinity and the other is different from zero, we define $xy$ to be $(\sgn x \, \sgn y, \infty)$.
 	
 	One can easily check the following properties of this new multiplication on $\CR$:
 	
@@ -205,5 +216,39 @@
 	\begin{prop}
 	Any sequence has a converging subsequence.
 	\end{prop}
+
+	\section{Sublimits}
+	
+	We proceed to investigate the concept of sublimit in more detail.
+	
+	Given a sequence $a_n$, denote the set of its sublimits by $S_a$. We know by the previous proposition that $S_a \neq \varnothing$.
+	
+	A more or less natural question is the following: does this set have a maximum? Is there a single greatest sublimit?
+	
+	The answer, somewhat surprisingly, is yes. But to answer this question, we will delve a little bit into topology.
+	
+	\subsection{Topology}
+	
+	We will say a set $X \subseteq \CR$ is \emph{open} if for all $x \in X$ there exists an $\varepsilon$-neighbourhood of $x$ contained in $X$. In symbols:
+	
+	\[\forall_{x \in X} \exists_\varepsilon V_\varepsilon(x) \subseteq X \]
+	
+	We say a set $X$ is \emph{closed} if its complement, $X^c$, is open.
+	
+	Closed sets have the nice property of always (if not empty) having extrema, as we proceed to show:
+	
+	\begin{prop}
+	If $X \neq \varnothing$ is closed, it has a maximum and a minimum.
+	\end{prop}
+	
+	\begin{proof}
+	We show only the existence of a maximum; the existence of a minimum is done much similarly, with $\inf$ instead of $\sup$ and a few signal swaps.
+	
+	Let $s = \sup X$. We wish to show $s$ is an element of $X$. If we do, we will have shown $s$ is an element of $X$ greater than all others, i.e. the maximum of $X$.
+	
+	If $s = -\infty$, then $s \in X$, as $X$ contains at least one element, which must be $\leq -\infty$, and thus must be $-\infty$ itself, showing $s \in X$.
+	
+	Suppose, then, $s > -\infty$. Since $X$ is closed, if $s$ were not in $X$, there would be an $\varepsilon$-neighbourhood of $s$ disjoint from $X$. But then, we could pick an element of said neighbourhood lesser than $s$, which would also be an upper bound of $X$. This contradicts the definition of $s$ as the least upper bound of $X$, which means $s$ must be in $X$, as we wished to show.
+	\end{proof}
 
 \end{document}
