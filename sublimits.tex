@@ -4,6 +4,8 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 
+\usepackage{enumerate}
+
 \title{On sublimits, limit superior, and limit inferior}
 \author{}
 \date{}
@@ -97,10 +99,111 @@
 	
 	We can then write, without ambiguity, $\lim a_n$ to denote the limit of the sequence $a_n$ when it exists.
 	
+	\subsection{Operations}
+	
+	One of the main disadvantages of working with $\CR$ instead of $\R$ is that the former is not a field: while we are used to adding, subtracting, and multiplying elements of $\R$ in very nice ways, infinity does not take kindly to being messed with in this manner. Indeed, there is no way to extend the operations $+$ and $\times$ on $\R$ to $\CR$ while staying in an ordered field.
+	
+	An important thing to notice is that the symbol $-\infty$ should not be taken in the same sense something like $-x$ should be: the latter stands for the additive inverse of a real number; the number $y$ such that $x+y = 0$. The former, on the other hand, is simply a symbol distinct from $\infty$.
+	
+	However, this distinction can be easily blurred once we try to define multiplication on $\CR$.
+	
+	We define multiplication of numbers in $\CR$ as follows: let $x, y \in \CR$.
+	
+	If both are real, their product is defined as their product as real numbers.
+	
+	If one is an infinity and the other is a positive element of $\CR$, it equals the infinity. If the other is a negative, the signal is swapped.
+	
+	Finally, we define, \emph{in this context}, $0 \times \infty$ to be $0$.
+	
+	One can easily check the following properties of this new multiplication on $\CR$:
+	
+	\begin{prop}
+	The product as we just defined it on $\CR$ is such that, for all $x,y,z \in \CR$:
+	
+	\begin{enumerate}[i)]
+	
+	\item $xy = yx$
+	
+	\item $x(yz) = (xy)z$
+	
+	\item If $x \geq y$ and $z \geq 0$ then $xz \geq yz$
+	
+	\item However, it is possible that $x > y$ and $z > 0$, yet $xz \not > yz$
+	
+	\item If $x \geq y$ and $z \leq 0$ then $xz \leq yz$
+	\end{enumerate}
+	\end{prop}
+	
+	\begin{proof}
+	This is left as an exercise.
+	\end{proof}
+	
+	Under this notion of multiplication, one can settle the situation with minuses: if we take $-x$ to be an abbreviation for $(-1)x$, then the symbol $-\infty$ is the same as $-x$ for $x = \infty$.
+	
+	One can also check it (mostly) plays nice with limits.
+	
+	\begin{prop}
+	If $a_n \rightarrow L$ and $c \in \R$, $c a_n \rightarrow c L$
+	\end{prop}
+	
+	\begin{proof}
+	If $c = 0$ this is trivial, so we assume $c \neq 0$.
+	
+	Pick some $\varepsilon$. We wish to find $N$ such that for $n \geq N$ we have $c a_n \in V_\varepsilon(cL)$.
+	
+	If $c > 0$, as the reader may easily check, $c a_n \in V_\varepsilon(cL)$ iff $a_n \in V_{\varepsilon/c}(L)$, which happens for all large enough $n$.
+
+	If, on the other hand, $c < 0$, we have $c a_n \in V_\varepsilon(cL)$ iff $a_n \in V_{-\varepsilon/c}(L)$, which also happens for all large enough $n$.
+	\end{proof}
+	
+	Notice that we excluded the case $c = \pm \infty$. It is instructive to find an example of a sequence $a_n$ converging to some number $L$, and some $c$ such that $c a_n$ does not converge to $cL$.
+	
+	A particular case which will be useful in the sequence:
+	
+	\begin{prop}
+	If $a_n \rightarrow L$ then $-a_n \rightarrow -L$
+	\end{prop}
+	
 	\subsection{Sublimits}
 	
 	Unfortunately, not every sequence converges (shocker). However, as we will soon show, given any sequence, we can find a subsequence of it that does converge.
 	
-	(todo)
+	First, an easy consequence of the supremum axiom.
+	
+	\begin{prop}
+	Any monotone sequence converges in $\CR$.
+	
+	In particular, if $a_n$ is increasing it converges to $\sup a_n$ and if it is decreasing it converges to $\inf a_n$.
+	\end{prop}
+	
+	\begin{proof}
+	We will do this proof only for an increasing sequence $a_n$; if $a_n$ is decreasing, simply consider the sequence $-a_n$, which shall converge to some limit $L$, implying $a_n$ will converge to $-L$.
+	
+	Let $L = \sup a_n$. If $L = -\infty$ then all $a_n$ must be $-\infty$, so in this case the proposition is trivially true.
+	
+	Suppose, then, $L \neq -\infty$. Fix any $\varepsilon > 0$. Let $s$ be an element of $V_\varepsilon(L)$ that is lesser than $L$. By definition of $\sup$, there exists some $a_N > s$. But then, since the sequence is increasing, and $L$ is greater than or equal to all $a_n$, we have that, for $n \geq N$, $a_n \in ]s, L] \subseteq V_\varepsilon(L)$, as we wished to show.
+	\end{proof}
+	
+	Because of this, to show that any sequence has a converging subsequence it is enough to show it has a monotone one.
+	
+	\begin{prop}
+	Any sequence has a monotone subsequence.
+	\end{prop}
+	
+	\begin{proof}
+	Let $a_n$ be a sequence, and let $S$ be the set of all $n$ such that $a_n$ is greater than or equal to all elements after it. In symbols:
+	
+	\[S = \{\,n \mid a_n \geq a_m \text{ for all $m > n$}\,\}\]
+	
+	Either $S$ is finite or infinite. If it is infinite, let $i_0 < i_1 < i_2 < \cdots$ be an infinitude of elements of $S$. Then, the sequence $a_{i_n}$ is decreasing, by definition of `element of $S$'.
+	
+	If, on the other hand, $S$ is finite, pick $i_0$ greater than all elements of $S$. Since $i_0$ is not in $S$, there exists $i_1 > i_0$ such that $a_{i_0} < a_{i_1}$. Likewise, there exists $i_2 > i_1$ such that $a_{i_1} < a_{i_2}$, and so on and so forth. Collecting an infinitude of such $i_n$, the sequence $a_{i_n}$ is increasing.
+	\end{proof}
+	
+	This allows us to conclude
+	
+	\begin{prop}
+	Any sequence has a converging subsequence.
+	\end{prop}
 
 \end{document}
