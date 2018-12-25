@@ -1,0 +1,135 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{listings}
+%USAR XELATEX!!
+
+\title{Sobre a facilidade computacional de IPS}
+\author{Duarte Maia, ist189623}
+\date{}
+
+\newtheorem{prop}{Prop}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+
+\lstset{
+basicstyle=\ttfamily,
+mathescape=true,
+breaklines=true,
+tabsize=4
+}
+
+\begin{document}
+	\maketitle
+	
+	\tableofcontents
+
+	\section{Introdução}
+
+	Este trabalho baseia-se no seminário da professora Patrícia Gonçalves sobre o movimento aleatório de partículas.
+	%todo reference
+	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quão longe é possível ir com eles. Investigaremos a complexidade assintótica de algumas classes de modelos e comparemos os limites teóricos com dados experimentais.
+
+	\section{Notação}
+
+	Primeiro que tudo, especificamos o que se entende por um IPS neste contexto.
+	
+	Neste relatório, trabalharemos com o tipo mais básico de IPS: aquele onde existe apenas um tipo de partícula, o número de partículas permanece constante e não pode haver sobreposição de partículas. Chamemos a estes \emph{HCEIPS}, abreviatura para \emph{Homogeneous and Closed Exclusive Interacting Particle Systems}. Por simplicidade, assumimos um modelo discreto.
+	
+	Para caraterizar um HCIPS precisamos de:
+	
+	\begin{itemize}
+	\item Um conjunto de posições $X$
+	
+	\item Um tempo médio de movimento $\lambda$
+	
+	\item Uma função probabilidade de transição $p : X \times X \rightarrow [0,1]$
+	
+	\item Uma distribuição inicial (possívelmente aleatória) $\rho_0$
+	\end{itemize}
+	
+	Dado um HCIPS $H = (X, \lambda, p, \rho_0)$, podemos ver o que acontece após um certo tempo $t \geq 0$. Isto é denotado por $H_t$ (uma variável aleatória representando uma distribuição de partículas), e repare-se nos seguintes factos:
+	
+	Segundo o modelo dado de IPS, $H$ é um sistema dinâmico. Visto que a distribuição de Poisson é amnésica, temos que, se $H = (X, \lambda, p, \rho_0)$, $H_{t+s}$ é igual a $(X, \lambda, p, H_t)_s$.
+	
+	Uma concretização de $H_t$ será então uma função $\eta : X \rightarrow \N_0$, a chamada função de \emph{número de partículas}.
+	
+	Claro que em termos práticos não queremos saber da variável aleatória em si, mas sim de uma concretização. Assim sendo, apresentamos o seguinte algoritmo para conseguir uma concretização.
+	
+	\subsection{O algoritmo base}
+	
+	Seja $H = (X, \lambda, p, \rho_0)$. Pretendemos calcular uma concretização de $H_T$
+	
+	Supomos dada uma função (no sentido computacional) $poisson : \R^+_0 \rightarrow \R^p_0$ que, dado um valor médio $\lambda$, retorna uma número gerado aleatóriamente com uma distribuição de Poisson de valor médio $\lambda$. Da mesma forma, assumimos dada uma função zeroária $unif : \{()\} \rightarrow [0,1]$ que gera um número aleatório uniformemente entre 0 e 1.
+	
+	Assumimos também a noção de \emph{PriorityQueue} (Ver anexo). Assumimo que uma instância vazia destas pode ser inicializada com $EmptyPriorityQueue()$.
+	
+	\begin{lstlisting}
+	$\eta \leftarrow \rho_0$ //Popular $\eta$ com a distribuição inicial
+	$queue \leftarrow EmptyPriorityQueue()$
+	For $x \in X$:
+		If $\eta(x) = 1$:
+			$xt \leftarrow poisson(\lambda)$
+			$queue.push((x,xt))$
+	$t \leftarrow 0$
+	While $! queue.empty()$:
+		$x, t \leftarrow queue.popmin()$ //Próximo evento
+		
+		$ptotal \leftarrow \sum_{y \in X, \eta(y) = 0} p(x, y)$
+		$gen \leftarrow unif() \times ptotal$
+		$accp \leftarrow 0$
+		For $y \in X, \eta(y) = 0$:
+			$accp \leftarrow accp + p(x,y)$
+			If $accp \geq gen$:
+				$\eta(x) \leftarrow 0$
+				$\eta(y) \leftarrow 1$
+				$x \leftarrow y$
+				Break
+		
+		$xt \leftarrow t + poisson(\lambda)$ //Agendar o evento seguinte desta partícula
+		If $xt \leq T$:
+			$queue.push((x,xt))$
+	\end{lstlisting}
+	
+	No final deste programa, $\eta$ conterá uma concretização de $H_T$.
+	
+	Estamos interessados em estimar o tempo que este programa demora a correr.
+	
+	\subsection{Estimativa}
+	
+	Primeiro que tudo, gostaria de esclarecer que a estimativa que se segue não é de todo rigorosa: é uma coisa muito básica, uma \emph{back of the envelope calculation}.
+	
+	Suporei, primeiro que tudo, que a maior parte do tempo é passada dentro do \emph{While}, pelo que o tempo demorado a popular a distribuição inicial e os relógios é negligível. Assim sendo, a estimativa de tempo demorado será $N \times \Theta$, onde $N$ é o número médio de iterações, e $\Theta$ é o tempo médio demorado a correr o \emph{While} uma vez.
+	
+	Para estimar $N$, repare-se que os relógios são independentes para cada partícula, pelo que $N = \nu \times M$, onde $M$ é o número médio de iterações do \emph{While}, \emph{por partícula} e $\nu$ é o número de partículas. Ora, sabemos que a simulação corre até um tempo $T$, pelo que o tempo médio entre iterações do loop por cada partícula é $T/M = \lambda$, donde $M = T/\lambda$.
+	
+	Assim sendo, a nossa estimativa para $N$ é $\frac{T \times \nu}\lambda$.
+	
+	Prosseguimos a estimar $\Theta$.
+	
+	\[\Theta \approx \text{Tempo a dar pop da queue} + \#X + S + \text{Tempo a dar push na queue}\]
+	
+	Onde $S$ é o tempo médio passado dentro do \emph{For}. É de esperar que o número de iterações deste loop seja da ordem de grandeza de $\#X$, pelo que assumimos $S \approx \#X$.
+	
+	Finalmente, examinemos o tempo a dar pop e push na queue. Isto depende da forma como a Priority Queue está implementada, mas na maioria das implementações modernas este tempo é assintóticamente da ordem de $n \log n$, onde $n$ é o número de elementos da queue. No nosso caso, $n = \nu$, donde estimamos
+	
+	\[\Theta \approx \nu \log \nu + \#X\]
+	
+	Juntando tudo, obtemos que o tempo médio de execução do nosso programa é da ordem de:
+	
+	\[\frac{T \times \nu}\lambda (\nu \log \nu + \#X)\]
+	
+	\section{Anexo: Priority Queue}
+	
+	todo
+
+\end{document}
