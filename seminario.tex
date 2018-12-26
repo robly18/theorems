@@ -40,33 +40,32 @@ tabsize=4
 
 	Este trabalho baseia-se no seminário da professora Patrícia Gonçalves sobre o movimento aleatório de partículas.
 	%todo reference
-	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quão longe é possível ir com eles. Investigaremos a complexidade assintótica de algumas classes de modelos e comparemos os limites teóricos com dados experimentais.
+	
+	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quão longe é possível ir com eles. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
 
 	\section{Notação}
 
 	Primeiro que tudo, especificamos o que se entende por um IPS neste contexto.
 	
-	Neste relatório, trabalharemos com o tipo mais básico de IPS: aquele onde existe apenas um tipo de partícula, o número de partículas permanece constante e não pode haver sobreposição de partículas. Chamemos a estes \emph{HCEIPS}, abreviatura para \emph{Homogeneous and Closed Exclusive Interacting Particle Systems}. Por simplicidade, assumimos um modelo discreto.
+	Neste relatório, trabalharemos com o tipo mais básico de IPS: aquele onde existe apenas um tipo de partícula, o número de partículas permanece constante e não pode haver sobreposição de partículas. Chamemos a estes \emph{HCEIPS}, abreviatura para \emph{Homogeneous and Closed Exclusive Interacting Particle Systems}. Por simplicidade, assumimos um modelo finito.
 	
 	Para caraterizar um HCEIPS precisamos de:
 	
 	\begin{itemize}
-	\item Um conjunto de posições $X$
+	\item Um conjunto finito de posições $X$
 	
 	\item Um tempo médio de movimento $\lambda$
 	
-	\item Uma função probabilidade de transição $p : X \times X \rightarrow [0,1]$
+	\item Uma função afinidade de transição $p : X \times X \rightarrow \R^+_0$
 	
-	\item Uma distribuição inicial (possívelmente aleatória) $\rho_0$
+	\item Uma distribuição inicial $\rho_0 : X \rightarrow \{0,1\}$
 	\end{itemize}
 	
-	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, podemos ver o que acontece após um certo tempo $t \geq 0$. Isto é denotado por $H_t$ (uma variável aleatória representando uma distribuição de partículas), e repare-se nos seguintes factos:
+	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, podemos ver o que acontece após um certo tempo $t \geq 0$. Isto é denotado por $H_t$ (uma variável aleatória representando uma distribuição de partículas).
 	
-	Segundo o modelo dado de IPS, $H$ é um sistema dinâmico. Visto que a distribuição exponencial é amnésica, temos que, se $H = (X, \lambda, p, \rho_0)$, $H_{t+s}$ é igual a $(X, \lambda, p, H_t)_s$.
+	Uma concretização de $H_t$ será então uma função $\eta : X \rightarrow \{0,1\}$.
 	
-	Uma concretização de $H_t$ será então uma função $\eta : X \rightarrow \N_0$, a chamada função de \emph{número de partículas}.
-	
-	Claro que em termos práticos não queremos saber da variável aleatória em si, mas sim de uma concretização. Assim sendo, apresentamos o seguinte algoritmo para conseguir uma concretização.
+	Claro que em termos práticos não queremos saber da variável aleatória em si, mas sim de uma concretização. Assim sendo, apresentamos o seguinte algoritmo para conseguir uma.
 	
 	\section{O algoritmo base}
 	
@@ -76,37 +75,45 @@ tabsize=4
 	
 	Assumimos também a noção de \emph{PriorityQueue} (Ver anexo). Assume-se que uma instância vazia destas pode ser inicializada com $EmptyPriorityQueue()$.
 	
+	\begin{minipage}{\linewidth}
 	\begin{lstlisting}
 	$\eta \leftarrow \rho_0$ //Popular $\eta$ com a distribuição inicial
 	$queue \leftarrow EmptyPriorityQueue()$
-	For $x \in X$:
+	For $x \in X$: //Dar relógios a cada partícula
 		If $\eta(x) = 1$:
 			$xt \leftarrow randomexp(\lambda)$
 			If $xt \leq T$:
 				$queue.push((x,xt))$
-	$t \leftarrow 0$
+
 	While $! queue.empty()$:
 		$x, t \leftarrow queue.popmin()$ //Próximo evento
 		
+		//Escolher aleatóriamente, de forma pesada, uma
+		//casa vazia para onde a partícula se deve mexer
 		$ptotal \leftarrow \sum_{y \in X, \eta(y) = 0} p(x, y)$
 		$gen \leftarrow unif() \times ptotal$
 		$accp \leftarrow 0$
 		For $y \in X, \eta(y) = 0$:
 			$accp \leftarrow accp + p(x,y)$
-			If $accp \geq gen$:
+			If $accp > gen$:
 				$\eta(x) \leftarrow 0$
 				$\eta(y) \leftarrow 1$
 				$x \leftarrow y$
 				Break
 		
-		$xt \leftarrow t + randomexp(\lambda)$ //Agendar o evento seguinte desta partícula
-		If $xt \leq T$:
-			$queue.push((x,xt))$
+		$t \leftarrow t + randomexp(\lambda)$ //Agendar o evento seguinte desta partícula
+		If $t \leq T$:
+			$queue.push((x,t))$
 	\end{lstlisting}
+	\end{minipage}
 	
-	No final deste programa, $\eta$ conterá uma concretização de $H_T$.
+	\bigskip
+	
+	No final deste programa, a variável $\eta$ conterá uma concretização de $H_T$.
 	
 	Estamos interessados em estimar o tempo que este programa demora a correr.
+	
+	%approx 312 palavras so far
 	
 	\section{Estimativa de tempo de execução}
 	
@@ -119,21 +126,21 @@ tabsize=4
 	Assim sendo, a nossa estimativa para $N$ é $\frac{T \times \nu}\lambda$.
 	
 	Prosseguimos a estimar $\Theta$.
-	\[\Theta \approx \text{Tempo a dar pop da queue} + \#X + S + \text{Tempo a dar push na queue}\]
+	\[\Theta \approx \text{Tempo a dar pop da queue} + C \#X + S + \text{Tempo a dar push na queue}\]
 	
-	Onde $S$ é o tempo médio passado dentro do \emph{For}. É de esperar que o número de iterações deste loop seja da ordem de grandeza de $\#X$, pelo que assumimos $S \approx \#X$.
+	Onde $C$ é uma constante e $S$ é o tempo médio passado dentro do \emph{For}. É o número de iterações deste loop é necessariamente menor ou igual que $\#X$, pelo que assumimos $C \#X + S \approx C \#X$.
 	
-	Finalmente, examinemos o tempo a dar pop e push na queue. Isto depende da forma como a Priority Queue está implementada, mas na maioria das implementações modernas este tempo é assintóticamente da ordem de $\log n$, onde $n$ é o número de elementos da queue. No nosso caso, $n = \nu$, donde estimamos
+	Finalmente, examinemos o tempo a dar pop e push na queue. Isto depende da forma como a Priority Queue está implementada, mas na maioria das implementações modernas este tempo é assintóticamente da ordem de $D \log n$, onde $D$ é uma constante e $n$ é o número de elementos da queue. No nosso caso, $n = \nu$, donde estimamos
 	
-	\[\Theta \approx \log \nu + \#X\]
+	\[\Theta \approx D \log \nu + C \#X\]
 	
 	Juntando tudo, obtemos que o tempo médio de execução do nosso programa é da ordem de:
 	
-	\[\frac{T \times \nu}\lambda (\log \nu + \#X)\]
+	\[\frac{T \times \nu}\lambda (D \log \nu + C \#X)\]
 	
 	Para $\#X$ grande o suficiente, como $\nu \leq \#X$, temos que $\log \nu \leq \log \#X$ é negligível perante $\#X$, donde, para $\#X$ grande,
 	
-	\[\Theta_{exec} \approx \frac 1 \lambda T \nu \#\!X\]
+	\[\Theta_{exec} \propto \frac 1 \lambda T \nu \#\!X\]
 	
 	Procedemos agora a confirmar esta estimativa experimentalmente.
 	
@@ -296,6 +303,76 @@ tabsize=4
 	Isto muda drasticamente a complexidade algorítmica do código. Fazendo as mesmas contas do que há bocado, chegamos a uma expressão da forma
 	
 	\[\Theta_{exec} \approx \frac T \lambda \nu \log \nu\]
+	
+	Para poupar espaço, não faremos o mesmo tipo de estudo que foi feito para os HCEIPS. No entanto, mostramos uma comparação.
+	
+	Foram feitas simulações de HCEIPS e HCELIPS com os seguintes parâmetros:
+	
+	\begin{itemize}
+	\item $T$ e $\lambda$ fixos, iguais a 100 e 1 respetivamente
+	
+	\item $N = 2 \nu$, com $\nu$ a variar
+	\end{itemize}
+	
+	Feitas as simulações, foram comparados os tempos de execução, que se encontram na seguinte tabela:
+	
+	\begin{tabular}{r | l | l}
+	$\eta$ & \texttt{TSim[2 eta, 1, 100, eta, 5]} & \texttt{TSimE[2 eta, 1, 100, eta, 5]}\\
+	\hline
+	50 & 0.734375 & 1.83333 \\
+	100 & 1.57292 & 5.76563 \\
+	300 & 5.51042 & 51.1042\\
+	700 & 13.349 & 232.807\\
+	1000 & 19.5625 & 485.411
+	\end{tabular}
+	
+	Graficamente (o tempo de execução do HCELIPS é representado pelas cruzes, o tempo de execução do HCEIPS pelos círculos):
+	
+	\begin{tikzpicture}
+	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, ylabel = $\Theta_{exec}$]
+\addplot [domain=0:1010, samples=100, dashed, color = green] {0.0005*x^2};
+\addplot [domain=0:1010, samples=2, dashed, color = red] {0.019*x};
+\addplot [domain=0:1010, samples=100, dashed, color = blue] {0.003*x*ln(x)};
+\addplot [only marks, mark=x] table {
+	50 0.734375
+	100 1.57292
+	300 5.51042
+	700 13.349
+	1000 19.5625
+};
+\addplot [only marks, mark=o] table {
+	50 1.83333
+	100 5.76563
+	300 51.1042
+	700 232.807
+	1000 485.411
+};
+\end{axis}
+\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, ylabel = $\Theta_{exec}$]
+\addplot [domain=0:200, samples=100, dashed, color = green] {0.0005*x^2};
+\addplot [domain=0:1010, samples=2, dashed, color = red] {0.019*x};
+\addplot [domain=0:1010, samples=100, dashed, color = blue] {0.003*x*ln(x)};
+\addplot [only marks, mark=x] table {
+	50 0.734375
+	100 1.57292
+	300 5.51042
+	700 13.349
+	1000 19.5625
+};
+\end{axis}
+\end{tikzpicture}
+
+	A verde, está representada a parábola $y = 0.0005 x^2$, a vermelho a reta $y = 0.019 x$  e a azul o gráfico de $y = 0.003 x \log(x)$.
+	
+	Estes dados experimentais confirmam as estimativas teóricas: enquanto que o tempo de execução do HCEIPS é quadrático em $\nu$, o tempo de execução do HCELIPS está muito mais próximo de linear. De facto, os dados parecem-se adequar melhor à reta do que a $y \propto x \log x$. Isto poderá ter a ver com detalhes de implementação das priority queues que faz com que o seu desempenho seja mais próximo de linear sob 
+	
+	\section{Conclusão}
+	
+	Conclui-se então o seguinte:
+	
+	O tempo de execução de um HCEIPS geral em função de $N$, $T$, $\nu$ e $\lambda$ é proporcional a $\frac 1 \lambda T N \nu$. Se, no nosso caso particular, tivermos um HCELIPS, é possível fazer uma otimização que diminui isto para $\frac 1 \lambda T \nu \log \nu$.
 	
 	\section{Anexo: Priority Queue}
 	
