@@ -3,10 +3,11 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
-\usepackage[utf8]{inputenc}
 \usepackage[portuguese]{babel}
 \usepackage{listings}
 \usepackage{pgfplots}
+
+\usepackage{indentfirst}
 %USAR XELATEX!!
 
 \title{Sobre a facilidade computacional de IPS}
@@ -41,7 +42,7 @@ tabsize=4
 	Este trabalho baseia-se no seminário da professora Patrícia Gonçalves sobre o movimento aleatório de partículas.
 	%todo reference
 	
-	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quão longe é possível ir com eles. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
+	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quantas partículas é possível simular simultaneamente em tempo útil. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
 
 	\section{Notação}
 
@@ -61,17 +62,15 @@ tabsize=4
 	\item Uma distribuição inicial $\rho_0 : X \rightarrow \{0,1\}$
 	\end{itemize}
 	
-	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, podemos ver o que acontece após um certo tempo $t \geq 0$. Isto é denotado por $H_t$ (uma variável aleatória representando uma distribuição de partículas).
-	
-	Uma concretização de $H_t$ será então uma função $\eta : X \rightarrow \{0,1\}$.
+	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, podemos investigar o que acontece após um certo tempo $t \geq 0$. O estado de $H$ após um tempo $t$ é uma variável aleatória $\eta$, que é uma função $X \rightarrow \{0,1\}$.
 	
 	Claro que em termos práticos não queremos saber da variável aleatória em si, mas sim de uma concretização. Assim sendo, apresentamos o seguinte algoritmo para conseguir uma.
 	
 	\section{O algoritmo base}
 	
-	Seja $H = (X, \lambda, p, \rho_0)$. Pretendemos calcular uma concretização de $H_T$
+	Seja $H = (X, \lambda, p, \rho_0)$. Pretendemos calcular uma concretização do estado de $H$ após um certo tempo $T$.
 	
-	Supomos dada uma função (no sentido computacional) $randomexp : \R^+_0 \rightarrow \R^p_0$ que, dado um valor médio $\lambda$, retorna uma número gerado aleatóriamente com uma distribuição exponencial de valor médio $\lambda$. Da mesma forma, assumimos dada uma função zeroária $unif : \{()\} \rightarrow [0,1]$ que gera um número aleatório uniformemente entre 0 e 1.
+	Supomos dada uma função (no sentido computacional) ${randomexp : \R^+_0 \rightarrow \R^+_0}$ que, dado um valor médio $\lambda$, retorna uma número gerado aleatóriamente com uma distribuição exponencial de valor médio $\lambda$. Da mesma forma, assumimos dada uma função zeroária $unif : \{()\} \rightarrow [0,1]$ que gera um número aleatório uniformemente entre 0 e 1.
 	
 	Assumimos também a noção de \emph{PriorityQueue} (Ver anexo). Assume-se que uma instância vazia destas pode ser inicializada com $EmptyPriorityQueue()$.
 	
@@ -112,8 +111,6 @@ tabsize=4
 	No final deste programa, a variável $\eta$ conterá uma concretização de $H_T$.
 	
 	Estamos interessados em estimar o tempo que este programa demora a correr.
-	
-	%approx 312 palavras so far
 	
 	\section{Estimativa de tempo de execução}
 	
@@ -164,7 +161,7 @@ tabsize=4
 	\item $\rho_0$ consiste em $\nu$ partículas uniformemente e aleatóriamente distribuidas, onde $\nu$ é variável.
 	\end{enumerate}
 	
-	Temos então três quantidades variáveis em jogo, $N, T$ e $\nu$. Estamos à espera que o tempo de execução seja proporcional a $N$, $T$ e $\nu$. Implementou-se uma função \texttt{TSim[N\_, lambda\_, T\_, nu\_, attemptno\_]} que, dados estes parâmetros e um número de tentativas, devolve o tempo médio necessário de correr a simulação dados esses parâmetros.
+	Temos então três quantidades variáveis em jogo, $N, T$ e $\nu$. Estamos à espera que o tempo de execução seja proporcional a $N$, $T$ e $\nu$. Implementou-se uma função \texttt{TSim[N\_, lambda\_, T\_, nu\_, attemptno\_]} que, dados estes parâmetros e um número de tentativas, devolve o tempo médio necessário de correr a simulação com esses parâmetros, em segundos.
 	
 	Primeiro, investigamos a dependência em $T$.
 	
@@ -172,8 +169,11 @@ tabsize=4
 	
 	Fixos $N = 100$ e $\nu = 50$, seguem-se os dados de tempo de execução em função de $T$, calculados como a média de 5 tentativas.
 	
+	\begin{tabular}{cc}
+	
+	\begin{minipage}{.3\linewidth}
 	\begin{tabular}{r | l}
-	$T$ & \texttt{TSim[100, 1, T, 50, 5]} \\
+	$T$ & $\Theta_{exec}$ \\
 	\hline
 	1 & 0.019 \\
 	5 & 0.103\\
@@ -183,23 +183,25 @@ tabsize=4
 	75 & 1.49 \\
 	100 & 2.12
 	\end{tabular}
+	\end{minipage}
 	
-	Graficamente:
-	
+	\begin{minipage}{.7\linewidth}
 	\begin{tikzpicture}
 	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $T$, ylabel = $\Theta_{exec}$]
-\addplot [domain=0:110, samples=2, dashed, color = red] {0.02*x};
-\addplot [only marks, mark=x] table {
-	1 0.019
-	5 0.103
-	10 0.197
-	30 0.594 
-	50 1.01 
-	75 1.49 
-	100 2.12
-};
-\end{axis}
-\end{tikzpicture}
+	\addplot [domain=0:110, samples=2, dashed, color = red] {0.02*x};
+	\addplot [only marks, mark=x] table {
+		1 0.019
+		5 0.103
+		10 0.197
+		30 0.594 
+		50 1.01 
+		75 1.49 
+		100 2.12
+	};
+	\end{axis}
+	\end{tikzpicture}
+	\end{minipage}
+\end{tabular}
 
 	Representada a vermelho está a reta $y = 0.02x$, donde concluímos que, para estes valores (e para esta implementação específica), $\Theta_{exec} \approx \frac{0.02 \times 1}{100 \times 50} \frac{N \nu T}\lambda = 4 \times 10^{-5} \frac{N \nu T}\lambda$.
 	
@@ -207,8 +209,11 @@ tabsize=4
 	
 	Fixe-se agora $N = 100$ e $T = 100$. Seguem-se os dados de tempo de execução em função de $\nu$, calculados como a média de 5 tentativas.
 	
+	\begin{tabular}{cc}
+	
+	\begin{minipage}{0.3\linewidth}
 	\begin{tabular}{r | l}
-	$\nu$ & \texttt{TSim[100, 1, nu, 100, 5]} \\
+	$\nu$ & $\Theta_{exec}$ \\
 	\hline
 	1 & 0.0344 \\
 	5 & 0.169 \\
@@ -218,9 +223,9 @@ tabsize=4
 	75 & 2.83 \\
 	100 & 4.19
 	\end{tabular}
+	\end{minipage}
 	
-	Graficamente:
-	
+	\begin{minipage}{0.7\linewidth}
 	\begin{tikzpicture}
 	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\nu$, ylabel = $\Theta_{exec}$]
 \addplot [domain=0:110, samples=2, dashed, color = red] {0.04*x};
@@ -235,6 +240,9 @@ tabsize=4
 };
 \end{axis}
 \end{tikzpicture}
+\end{minipage}
+
+\end{tabular}
 
 	Representada a vermelho está a reta $y = 0.04x$, donde concluímos $\Theta_{exec} \approx \frac{0.04 \times 1}{100 \times 100} \frac{N \nu T}\lambda = 4 \times 10^{-5} \frac{N \nu T}\lambda$, confirmando o resultado anterior.
 	
@@ -242,8 +250,11 @@ tabsize=4
 	
 	Fixamos agora $\nu = 25$ e $T = 100$, seguem-se os dados de tempo de execução em função de $N$, calculados como a média de 5 tentativas.
 	
+	\begin{tabular}{cc}
+	
+	\begin{minipage}{0.3\linewidth}
 	\begin{tabular}{r | l}
-	$N$ & \texttt{TSim[N, 1, 100, 25, 5]} \\
+	$N$ & $\Theta_{exec}$ \\
 	\hline
 	25 & 0.440625 \\
 	75 & 0.740625 \\
@@ -254,9 +265,11 @@ tabsize=4
 	500 & 3.71 \\
 	600 & 5.30
 	\end{tabular}
+	\end{minipage}
 	
-	Graficamente:
+	&
 	
+	\begin{minipage}{0.7\linewidth}	
 	\begin{tikzpicture}
 	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $N$, ylabel = $\Theta_{exec}$]
 \addplot [domain=0:610, samples=2, dashed, color = red] {0.009*x};
@@ -272,6 +285,9 @@ tabsize=4
 };
 \end{axis}
 \end{tikzpicture}
+\end{minipage}
+
+\end{tabular}
 
 	Representada a vermelho está a reta $y = 0.009x$, obtendo-se então $\Theta_{exec} \approx \frac{0.009 \times 1}{25 \times 100} \frac{N \nu T}\lambda = 0.36  \times 10^{-5} \frac{N \nu T}\lambda \approx 4 \times 10^{-5} \frac{N \nu T}\lambda$, o que confirma mais uma vez o nosso resultado.
 	
@@ -279,7 +295,7 @@ tabsize=4
 	
 	O nosso trabalho anterior mostra que o tempo de execução de um HCEIPS é da ordem de $10^{-5} \frac{N \nu T}\lambda$. Se assumirmos que $\nu$ é da ordem de $N$ (por exemplo, metade das casas estão ocupadas), isto fica da ordem de $10^{-5} \frac{N^2 T}\lambda$. Isto é quadrático em $N$. É, no entanto, possível ser-se mais eficiente, dadas certas restrições.
 	
-	Suponhamos $X = \{1,\cdots, N\}$ e que as partículas só se podem mover para espaços a elas adjacentes. Isto é uma restrição bastante comum na prática, que nos permite otimizar fortemente o código. Para maior generalidade e maior facilidade de implementação, supomos que estamos num toro e então 1 conta como adjacente a $N$.
+	Suponhamos $X = \{1,\cdots, N\}$ e que as partículas só se podem mover para espaços a elas adjacentes. Isto é uma restrição bastante comum na prática, que nos permite otimizar fortemente o código. Para maior generalidade e facilidade de implementação, supomos que estamos num toro e então, para os nossos efeitos, 1 é adjacente a $N$.
 	
 	Chamemos a estes sistemas \emph{HCELIPS}, abreviatura para \emph{Homogeneous and Closed Exclusive Locally Interacting Particle Systems}. A otimização principal para estes sistemas é a seguinte: só é preciso calcular $p(x,y)$ para $y = x \pm 1$. Logo, o cálculo de para onde se deve mover a partícula passa de algo feito em $\#X$ passos para algo feito em dois.
 	
@@ -326,10 +342,10 @@ tabsize=4
 	1000 & 19.5625 & 485.411
 	\end{tabular}
 	
-	Graficamente (o tempo de execução do HCELIPS é representado pelas cruzes, o tempo de execução do HCEIPS pelos círculos):
+	Nos gráficos seguinte, as cruzes representam o tempo de execução do HCELIPS, enquanto que os círculos representam tempos de execução do HCEIPS.
 	
 	\begin{tikzpicture}
-	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, ylabel = $\Theta_{exec}$]
+	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, xlabel style ={anchor=west}, ylabel = $\Theta_{exec}$, width=0.5\linewidth]
 \addplot [domain=0:1010, samples=100, dashed, color = green] {0.0005*x^2};
 \addplot [domain=0:1010, samples=2, dashed, color = red] {0.019*x};
 \addplot [domain=0:1010, samples=100, dashed, color = blue] {0.003*x*ln(x)};
@@ -350,10 +366,14 @@ tabsize=4
 \end{axis}
 \end{tikzpicture}
 	\begin{tikzpicture}
-	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, ylabel = $\Theta_{exec}$]
+	\begin{axis}[axis lines = middle, xmin=0, ymin=0, xlabel = $\eta$, xlabel style ={anchor=west}, ylabel = $\Theta_{exec}$, width=0.5\linewidth]
 \addplot [domain=0:200, samples=100, dashed, color = green] {0.0005*x^2};
 \addplot [domain=0:1010, samples=2, dashed, color = red] {0.019*x};
 \addplot [domain=0:1010, samples=100, dashed, color = blue] {0.003*x*ln(x)};
+\addplot [only marks, mark=o] table {
+	50 1.83333
+	100 5.76563
+};
 \addplot [only marks, mark=x] table {
 	50 0.734375
 	100 1.57292
@@ -366,16 +386,30 @@ tabsize=4
 
 	A verde, está representada a parábola $y = 0.0005 x^2$, a vermelho a reta $y = 0.019 x$  e a azul o gráfico de $y = 0.003 x \log(x)$.
 	
-	Estes dados experimentais confirmam as estimativas teóricas: enquanto que o tempo de execução do HCEIPS é quadrático em $\nu$, o tempo de execução do HCELIPS está muito mais próximo de linear. De facto, os dados parecem-se adequar melhor à reta do que a $y \propto x \log x$. Isto poderá ter a ver com detalhes de implementação das priority queues que faz com que o seu desempenho seja mais próximo de linear sob 
+	Estes dados experimentais confirmam as estimativas teóricas: enquanto que o tempo de execução do HCEIPS é quadrático em $\nu$, o tempo de execução do HCELIPS está muito mais próximo de linear. De facto, os dados parecem-se adequar melhor à reta do que a $y \propto x \log x$. Isto poderá ter a ver com detalhes de implementação das priority queues que faz com que o seu desempenho seja mais próximo de linear sob as condições de uso.
 	
 	\section{Conclusão}
 	
 	Conclui-se então o seguinte:
 	
-	O tempo de execução de um HCEIPS geral em função de $N$, $T$, $\nu$ e $\lambda$ é proporcional a $\frac 1 \lambda T N \nu$. Se, no nosso caso particular, tivermos um HCELIPS, é possível fazer uma otimização que diminui isto para $\frac 1 \lambda T \nu \log \nu$.
+	O tempo de execução de um HCEIPS geral em função de $N$, $T$, $\nu$ e $\lambda$ é, usando o algoritmo pos nós descrito, proporcional a $\frac 1 \lambda T N \nu$. Se, no nosso caso particular, tivermos um HCELIPS, é possível fazer uma otimização que diminui isto para $\frac 1 \lambda T \nu \log \nu$.
+	
+	A nossa implementação particular em Mathematica permite fazer simulações de HCELIPS com um número de partículas na ordem de $10^3$ em 10 segundos, mas é concebível que uma implementação numa linguagem mais rápida, por exemplo C, levasse a um desempenho uma ordem de grandeza maior, permitindo simulações com por volta de $10^4$ partículas.
 	
 	\section{Anexo: Priority Queue}
 	
-	todo
+	Uma \emph{Priority Queue} é uma estrutura de dados que (para os nossos efeitos) tem duas operações.
+	
+	\begin{itemize}
+	\item É possível dar \emph{push} de um elemento para dentro da queue
+	
+	\item É possível dar \emph{pop} de um elemento para fora da queue
+	\end{itemize}
+	
+	Semânticamente, a Priority Queue ordena os seus elementos internamente sob uma função de prioridade (definida pelo programador que a usa), de modo a que, quando removido um elemento usando pop, é removido o elemento de prioridade mais alta.
+	
+	No nosso caso particular, a prioridade de um par $(x, t)$ é dada por $-t$, de modo a que, quando se remove um evento da Priority Queue, é removido o evento que acontece mais cedo; isto é, o primeiro cronológicamente.
+	
+	Os detalhes de implementação desta estrutura de dados estão fora do âmbito deste trabalho, mas um leitor interessado poderá satisfazer a sua curiosidade na Wikipedia.
 
 \end{document}
