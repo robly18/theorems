@@ -43,8 +43,6 @@ tabsize=4
 	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quantas partículas é possível simular simultaneamente em tempo útil. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
 
 	\section{Notação}
-
-	Primeiro que tudo, especificamos o que se entende por um IPS neste contexto.
 	
 	Neste relatório, trabalharemos com o tipo mais básico de IPS: aquele onde existe apenas um tipo de partícula, o número de partículas permanece constante e não pode haver sobreposição de partículas. Chamemos a estes \emph{HCEIPS}, abreviatura para \emph{Homogeneous and Closed Exclusive Interacting Particle Systems}. Por simplicidade, assumimos um modelo finito.
 	
@@ -60,9 +58,7 @@ tabsize=4
 	\item Uma distribuição inicial $\rho_0 : X \rightarrow \{0,1\}$
 	\end{itemize}
 	
-	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, podemos investigar o que acontece após um certo tempo $t \geq 0$. O estado de $H$ após um tempo $t$ é uma variável aleatória $\eta$, que é uma função $X \rightarrow \{0,1\}$.
-	
-	Claro que em termos práticos não queremos saber da variável aleatória em si, mas sim de uma concretização. Assim sendo, apresentamos o seguinte algoritmo para conseguir uma.
+	Dado um HCEIPS $H = (X, \lambda, p, \rho_0)$, pretendemos investigar o que acontece após um certo tempo $T \geq 0$. Isto é uma variável aleatória, mas para efeitos práticos, estamos apenas interessados numa concretização.
 	
 	\section{O algoritmo base}
 	
@@ -114,7 +110,7 @@ tabsize=4
 	
 	Primeiro que tudo, gostaria de esclarecer que a estimativa que se segue não é de todo rigorosa: é uma coisa muito básica, uma \emph{back of the envelope calculation}.
 	
-	Suporei, primeiro que tudo, que a maior parte do tempo é passada dentro do \emph{While}, pelo que o tempo demorado a popular a distribuição inicial e os relógios é negligível. Assim sendo, a estimativa de tempo demorado será $N \times \Theta$, onde $N$ é o número médio de iterações, e $\Theta$ é o tempo médio demorado a correr o \emph{While} uma vez.
+	Suporei que a maior parte do tempo é passada dentro do \emph{While}, pelo que o tempo demorado a popular a distribuição inicial e os relógios é negligível. Assim sendo, a estimativa de tempo demorado será $N \times \Theta$, onde $N$ é o número médio de iterações, e $\Theta$ é o tempo médio demorado a correr o \emph{While} uma vez.
 	
 	Para estimar $N$, repare-se que os relógios são independentes para cada partícula, pelo que $N = \nu \times M$, onde $M$ é o número médio de iterações do \emph{While}, \emph{por partícula} e $\nu$ é o número de partículas. Ora, sabemos que a simulação corre até um tempo $T$, pelo que o tempo médio entre iterações do loop por cada partícula é $T/M = \lambda$, donde $M = T/\lambda$.
 	
@@ -382,7 +378,7 @@ tabsize=4
 \end{axis}
 \end{tikzpicture}
 
-	A verde, está representada a parábola $y = 0.0005 x^2$, a vermelho a reta $y = 0.019 x$  e a azul o gráfico de $y = 0.003 x \log(x)$.
+	A verde está representada a parábola $y = 0.0005 x^2$, a vermelho a reta $y = 0.019 x$ e a azul o gráfico de $y = 0.003 x \log(x)$.
 	
 	Estes dados experimentais confirmam as estimativas teóricas: enquanto que o tempo de execução do HCEIPS é quadrático em $\nu$, o tempo de execução do HCELIPS está muito mais próximo de linear. De facto, os dados parecem-se adequar melhor à reta do que a $y \propto x \log x$. Isto poderá ter a ver com detalhes de implementação das priority queues que faz com que o seu desempenho seja mais próximo de linear sob as condições de uso.
 	
