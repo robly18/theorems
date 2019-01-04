@@ -38,9 +38,9 @@ tabsize=4
 
 	\section{Introdução}
 
-	Este trabalho baseia-se no seminário da professora Patrícia Gonçalves sobre o movimento aleatório de partículas \cite{pat}. 
+	Este trabalho baseia-se no seminário da professora Patrícia Gonçalves sobre o movimento aleatório de partículas \cite{pat}. Na sua apresentação, a professora expôs um modelo microscópico probabilístico para o comportamento de partículas: os Interacting Particle Systems, neste trabalho abreviado a IPS.
 	
-	Na sua apresentação, a professora apresenta um modelo microscópico probabilístico bastante geral para o comportamento de partículas: os chamados Interacting Particle Systems (neste trabalho abreviado a IPS). O âmbito deste trabalho é determinar os limites computacionais destes modelos, e ver quantas partículas é possível simular simultaneamente em tempo útil. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
+	O âmbito deste trabalho é determinar os limites computacionais destes modelos, e averiguar quantas partículas é possível simular simultaneamente em tempo útil. Investigaremos a complexidade assintótica de duas classes de modelos e comparemos os limites teóricos com dados experimentais.
 
 	\section{Notação}
 	
@@ -64,9 +64,13 @@ tabsize=4
 	
 	Seja $H = (X, \lambda, p, \rho_0)$. Pretendemos calcular uma concretização do estado de $H$ após um certo tempo $T$.
 	
-	Supomos dada uma função (no sentido computacional) ${randomexp : \R^+_0 \rightarrow \R^+_0}$ que, dado um valor médio $\lambda$, retorna uma número gerado aleatóriamente com uma distribuição exponencial de valor médio $\lambda$. Da mesma forma, assumimos dada uma função zeroária $unif : \{()\} \rightarrow [0,1]$ que gera um número aleatório uniformemente entre 0 e 1.
+	\begin{itemize}
+	\item Supomos dada uma função (no sentido computacional) ${randomexp : \R^+_0 \rightarrow \R^+_0}$ que, dado um valor médio $\lambda$, retorna uma número gerado aleatóriamente com uma distribuição exponencial de valor médio $\lambda$.
 	
-	Assumimos também a noção de \emph{PriorityQueue} (Ver anexo). Assume-se que uma instância vazia destas pode ser inicializada com $EmptyPriorityQueue()$.
+	\item Da mesma forma, assumimos dada uma função zeroária $unif : \{()\} \rightarrow [0,1]$ que gera um número aleatório uniformemente entre 0 e 1.
+	
+	\item Finalmente, assumimos a noção de \emph{Priority Queue} (Ver anexo). Assume-se que uma instância vazia destas pode ser inicializada com $EmptyPriorityQueue()$.
+	\end{itemize}
 	
 	\begin{minipage}{\linewidth}
 	\begin{lstlisting}
@@ -74,9 +78,9 @@ tabsize=4
 	$queue \leftarrow EmptyPriorityQueue()$
 	For $x \in X$: //Dar relógios a cada partícula
 		If $\eta(x) = 1$:
-			$xt \leftarrow randomexp(\lambda)$
-			If $xt \leq T$:
-				$queue.push((x,xt))$
+			$t \leftarrow randomexp(\lambda)$
+			If $t \leq T$:
+				$queue.push((x,t))$
 
 	While $! queue.empty()$:
 		$x, t \leftarrow queue.popmin()$ //Próximo evento
@@ -110,7 +114,7 @@ tabsize=4
 	
 	Primeiro que tudo, gostaria de esclarecer que a estimativa que se segue não é de todo rigorosa: é uma coisa muito básica, uma \emph{back of the envelope calculation}.
 	
-	Suporei que a maior parte do tempo é passada dentro do \emph{While}, pelo que o tempo demorado a popular a distribuição inicial e os relógios é negligível. Assim sendo, a estimativa de tempo demorado será $N \times \Theta$, onde $N$ é o número médio de iterações, e $\Theta$ é o tempo médio demorado a correr o \emph{While} uma vez.
+	Suporemos que a maior parte do tempo é passada dentro do \emph{While}, pelo que o tempo demorado a popular a distribuição inicial e os relógios é negligível. Assim sendo, a estimativa de tempo demorado será $N \times \Theta$, onde $N$ é o número médio de iterações, e $\Theta$ é o tempo médio demorado a correr o \emph{While} uma vez.
 	
 	Para estimar $N$, repare-se que os relógios são independentes para cada partícula, pelo que $N = \nu \times M$, onde $M$ é o número médio de iterações do \emph{While}, \emph{por partícula} e $\nu$ é o número de partículas. Ora, sabemos que a simulação corre até um tempo $T$, pelo que o tempo médio entre iterações do loop por cada partícula é $T/M = \lambda$, donde $M = T/\lambda$.
 	
@@ -119,7 +123,7 @@ tabsize=4
 	Prosseguimos a estimar $\Theta$.
 	\[\Theta \approx \text{Tempo a dar pop da queue} + C \#X + S + \text{Tempo a dar push na queue}\]
 	
-	Onde $C$ é uma constante e $S$ é o tempo médio passado dentro do \emph{For}. É o número de iterações deste loop é necessariamente menor ou igual que $\#X$, pelo que assumimos $C \#X + S \approx C \#X$.
+	Onde $C$ é uma constante e $S$ é o tempo médio passado dentro do \emph{For}. O número de iterações deste loop é necessariamente menor ou igual que $\#X$, pelo que assumimos $C \#X + S \approx C \#X$.
 	
 	Finalmente, examinemos o tempo a dar pop e push na queue. Isto depende da forma como a Priority Queue está implementada, mas na maioria das implementações modernas este tempo é assintóticamente da ordem de $D \log n$, onde $D$ é uma constante e $n$ é o número de elementos da queue \cite{wiki}. No nosso caso, $n = \nu$, donde estimamos
 	
@@ -143,7 +147,7 @@ tabsize=4
 	
 	Por razões computacionais, assumimos que $X$ é da forma $\{1, 2, \cdots, N\}$.
 	
-	Foi feita uma simulação com os seguintes parâmetros:
+	Serão feitas simulações com os seguintes parâmetros:
 	
 	\begin{enumerate}
 	\item $X = \{1, 2, \cdots, N\}$, onde $N$ é variável
@@ -250,11 +254,11 @@ tabsize=4
 	\begin{tabular}{r | l}
 	$N$ & $\Theta_{exec}$ \\
 	\hline
-	25 & 0.440625 \\
-	75 & 0.740625 \\
-	100 & 0.921875 \\
-	200 & 1.525 \\
-	300 & 2.47813 \\
+	25 & 0.441 \\
+	75 & 0.741 \\
+	100 & 0.922 \\
+	200 & 1.52 \\
+	300 & 2.48 \\
 	400 & 3.05 \\
 	500 & 3.71 \\
 	600 & 5.30
@@ -329,11 +333,11 @@ tabsize=4
 	\begin{tabular}{r | l | l}
 	$\eta$ & \texttt{TSim[2 eta, 1, 100, eta, 5]} & \texttt{TSimE[2 eta, 1, 100, eta, 5]}\\
 	\hline
-	50 & 0.734375 & 1.83333 \\
-	100 & 1.57292 & 5.76563 \\
-	300 & 5.51042 & 51.1042\\
-	700 & 13.349 & 232.807\\
-	1000 & 19.5625 & 485.411
+	50 & 0.734 & 1.83 \\
+	100 & 1.57 & 5.76 \\
+	300 & 5.51 & 51.1\\
+	700 & 13.3 & 233\\
+	1000 & 19.6 & 485
 	\end{tabular}
 	
 	Nos gráficos seguinte, as cruzes representam o tempo de execução do HCELIPS, enquanto que os círculos representam tempos de execução do HCEIPS.
@@ -404,7 +408,7 @@ tabsize=4
 	
 	No nosso caso particular, a prioridade de um par $(x, t)$ é dada por $-t$, de modo a que, quando se remove um evento da Priority Queue, é removido o evento que acontece mais cedo; isto é, o primeiro cronológicamente.
 	
-	Os detalhes de implementação desta estrutura de dados estão fora do âmbito deste trabalho, mas um leitor interessado poderá satisfazer a sua curiosidade na Wikipedia \cite{wiki}. 
+	Os detalhes de implementação desta estrutura de dados estão fora do âmbito deste trabalho, mas o leitor interessado poderá satisfazer a sua curiosidade na Wikipedia \cite{wiki}. 
 	
 	
 
