@@ -12,7 +12,7 @@
 \usepackage{enumerate}
 \usepackage{courier}
 
-\lstset{basicstyle=\ttfamily,breaklines=true}
+\lstset{mathescape=true, keepspaces=true, tabsize=2,basicstyle=\fontencoding{T1}\ttfamily,breaklines=true}
 
 \ifxetex
 %xetex is recommended!
@@ -1998,8 +1998,8 @@ conseguimos sempre descobrir um upper bound que corresponde à solução.
 	\begin{lstlisting}[mathescape=true, keepspaces=true]
 Resolver a equação $A_{P_x}^T y = c_{P_x}^T$
 Verificar se $A^T y \leq c^T$
-Caso afirmativo, $y$ é solução
-Caso contrário, $y$ não é solução \end{lstlisting}
+Caso afirmativo, $x$ é solução
+Caso contrário, $x$ não é solução \end{lstlisting}
 
 	A restrição que $x$ seja não-degenerado não é tão restritiva quanto possa parecer. Em geral, vetores degenerados são raros, especialmente quando se trabalha com aproximações e dados reais.
 	
@@ -2027,23 +2027,23 @@ Se não, arranjar um vetor melhor.
 	
 	Para finalizar o algoritmo, falta-nos apenas um ingrediente: se soubermos que $x$ não é solução, como arranjar um vetor de melhor pontuação?
 	
-	Por outras palavras, o que desejamos é arranjar um vetor $h$ tal que $x+h$ seja também admissível e tal que $c(x+h) < cx$, ou seja, $ch<0$.
+	Por outras palavras, o que desejamos é arranjar um vetor $\tilde x$ tal que $\tilde x$ seja também admissível e tal que $c \tilde x < cx$.
 	
-	Para arranjar um candidato, voltemos à nossa forma de justificar que um vetor $x$ \emph{não} é solução. Resolvemos a equação $A_{P_x}^T y = c^T_{P_x}$ e verificámos que ${A^T y \not\leq c^T}$. Assim sendo, existe uma casa, digamos a $j$-ésima, tal que ${(A^T y)_j > c_j}$. Sabemos decerto que $j \not \in P_x$, pois para estes índices há igualdade.
+	Para arranjar um candidato, voltemos à nossa forma de justificar que um vetor $x$ \emph{não} é solução. Supondo que $x$ é um vetor básico não-degenerado, resolvemos a equação $A_{P_x}^T y = c^T_{P_x}$ e verificámos que ${A^T y \not\leq c^T}$. Assim sendo, existe uma casa, digamos a $j$-ésima, tal que ${(A^T y)_j > c_j}$. Sabemos decerto que $j \not \in P_x$, pois para estes índices há igualdade.
 	
 	Considere-se o que acontece quando tentamos `andar um pouco na $j$-ésima direção'. Seja $e_j$ o vetor unitário com 1 na casa $j$. Queremos que o nosso $h$ seja `parecido com` algo da forma $t e_j$, mas infelizmente o vetor $x + h$ assim obtido pode não ser admissível.
 	
-	Para o ser, é preciso o requerimento que $Ah = 0$ (verifique), portanto tente-se modificar o vetor $e_j$ ligeiramente para isto acontecer. Considere-se o vetor $\hat h$ tal que $P_{\hat h} \subseteq P_x$ e tal que $A_{P_x} \hat h_{P_x} = A e_j$. Então, o vetor $h = \hat h - e_j$ satisfaz $A h = 0$. Para mais, se se considerar $\tilde x = x - \varepsilon h$ para $\varepsilon > 0$ pequeno o suficiente, $\tilde x \geq 0$. Para ver porquê, repare-se que todas as casas $i$ de $\tilde x$ obedecem a um dos três casos seguintes:
+	Para o ser, é preciso o requerimento que $Ah = 0$ (verifique), portanto tente-se modificar o vetor $e_j$ ligeiramente para isto acontecer. Considere-se o vetor $\hat h$ tal que $h_i = 0$ para $i \not \in P_x$ e tal que $A_{P_x} \hat h_{P_x} = A e_j$. Então, o vetor $h = \hat h - e_j$ satisfaz $A h = 0$. Para mais, se se considerar $\tilde x = x - \varepsilon h$ para $\varepsilon > 0$ pequeno o suficiente, $\tilde x \geq 0$. Para ver porquê, repare-se que todas as casas $i$ de $\tilde x$ obedecem a um dos três casos seguintes:
 	
 	\begin{enumerate}
 	\item Se $i \not \in P_x$ e $i \neq j$, $\tilde x_i = x_i = 0 \geq 0$
 	
 	\item Se $i = j$, $\tilde x_i = x_i + \varepsilon = \varepsilon \geq 0$
 	
-	\item Se $i \in P_x$, $\tilde x_i = x_i + \varepsilon h_i$, e como $x_i > 0$, para $\varepsilon$ pequeno o suficiente isto continua a ser $\geq 0$.
+	\item Se $i \in P_x$, $\tilde x_i = x_i - \varepsilon h_i$, e como $x_i > 0$, para $\varepsilon$ pequeno o suficiente isto continua a ser $\geq 0$.
 	\end{enumerate}
 	
-	Um detalhe importante: se $h_i > 0$ para todo $i \in P_x$, \emph{qualquer $\varepsilon$ funciona}. No caso contrário, existe um $\varepsilon$ maximal, que será útil na sequência.
+	Um detalhe importante: se $h_i \geq 0$ para todo $i \in P_x$, \emph{qualquer $\varepsilon$ funciona}. No caso contrário, existe um $\varepsilon$ maximal, que será útil na sequência.
 	
 	Sabendo que $\tilde x$ é admissível, basta agora mostrar que a sua pontuação é melhor do que a de $x$. Para isso, basta mostrar que $ch > 0$. Para esse efeito, eis as seguintes contas:
 	
@@ -2057,6 +2057,55 @@ Se não, arranjar um vetor melhor.
 	\end{align*}
 	
 	O que, agradávelmente, é precisamente o desejado. Assim sendo, temos uma forma de arranjar vetores admissíveis melhores que $x$.
+	
+	\medskip
+	
+	Para terminar rapidamente um caso, repare-se no seguinte: se $h \leq 0$, $x - \varepsilon h$ é admissível \emph{para qualquer $\varepsilon$ positivo}. Assim sendo, é possível arranjar vetores arbitrariamente bons: basta fazer $\varepsilon \rightarrow \infty$, obtendo-se que $x - \varepsilon h$ é sempre admisível, e a sua pontuação é $cx - \varepsilon ch \rightarrow - \infty$. Disto se conclui o seguinte:
+	
+	\textbf{Se o vetor $h$ obtido anteriormente for tal que $h \leq 0$, o pol não tem solução.}
+	
+	Basta agora terminar o outro caso: supondo que $h \not \leq 0$, como arranjar um vetor melhor? De preferência, um vetor básico não-degenerado, de modo a podermos repetir o algoritmo.
+	
+	Recorde-se que a razão pela qual, neste caso, não se pode tomar valores de $\varepsilon$ arbitrariamente grandes é porque para $\varepsilon$ grande o suficiente o vetor $x - \varepsilon h$ pode não ser $\geq 0$.
+	
+	Suponha-se que $i$ é tal que $h_i > 0$. Então, sendo $\xi_i = \frac{x_i}{h_i}$, o sinal de $x_i - \varepsilon h_i$ depende de se $\varepsilon$ é menor, maior, ou igual a $\xi_i$.
+	
+	O maior $\varepsilon$ tal que $x_i - \varepsilon h_i \geq 0$ é precisamente $\xi_i$. Considere-se, então, $\xi = \min_{i \in P_h} \xi_i$, suponhamos $\xi_k$. Então, é facil ver que, para $\varepsilon = \xi$ se tem $x - \varepsilon h \geq 0$.
+	
+	Para ver isto, considere-se a divisão em casos feita acima. Para $i \not \in P_x$ é trivialmente verdade que $x_i - \varepsilon h_i \geq 0$; para $i \in P_x$ isto é verdade desde que $h_i \leq 0$, e finalmente, no caso em que $h_i > 0$ temos que
+	
+	\[x_i - \varepsilon h_i = x_i - \xi h_i \geq x_i - \xi_i h_i = 0\]
+	
+	Em particular, para $i = k$, $x_i - \varepsilon h_i = 0$.
+	
+	Assim sendo, repare-se que não só é o vetor obtido admissível, mas também é tal que as suas coordenadas positivas são as de $x$, com a adição do índice $j$ e com a exclusão do índice $k$ e possívelmente mais. Assim sendo, o número de coordenadas positivas não aumentou, e há esperanças que o vetor resultante seja básico e não-degenerado. É este o nosso candidato para `sucessor'.
+	
+	Isto deixa-nos, no entanto, com uma primeira versão do algoritmo do simplexo:
+	
+	\begin{lstlisting}
+Começar com um vetor básico não-degenerado $x$
+Seja $y$ a solução de $A_{P_x}^T y = c_{P_x}^T$
+Se $A^T y \leq c^T$:
+	$x$ é solução. Parar.
+Caso contrário:
+	Seja $j$ um índice tal que $(A^T y) j > c_j$
+	Seja $h$ o vetor definido da seguinte forma:
+		$h_j = -1$
+		$h_{P_x}$ é a solução de $A_{P_x} h_{P_x} = A e_j$
+		$h_i = 0$ para o resto dos índices
+	Se $h \leq 0$:
+		Há vetores admissíveis arbitráriamente bons, pelo que o pol não tem solução. Parar.
+	Caso contrário:
+		Seja $\xi$ o menor número da forma $x_i/h_i$, para $i \in P_h$
+		Seja $\tilde x = x - \xi h$
+		Se $\tilde x$ é básico não-degenerado:
+			Começar o algoritmo de novo com $x = \tilde x$
+		Caso contrário:
+			Desistir. :(
+	\end{lstlisting}
+	
+	Seria agora desejável provar que desistências não acontecem. Infelizmente, em geral, isto não acontece. No entanto, sob certas hipóteses, é possível mostrar que $\tilde x$ é sempre básico não-degenerado.
+	
 	
 	%todo se h_Px \leq 0 entao ha coisas de pontuacao arbitrariamente boa qed
 	%caso contrario, se eu adicionar na quantidade certa chego a outro basico, e se esse nao for degenerado entao posso dar rinse and repeat
