@@ -922,9 +922,9 @@
 	
 	\item (Composition) If $f : \N^n \rightharpoonup \N^m$ and $g : \N^m \rightharpoonup \N^r$ are computable, so is $g \circ f : \N^n \rightharpoonup \N^r$
 	
-	\item (Primitive recursion) Suppose $g : \N^n \rightharpoonup \N$ and $h : \N^{n+2} \rightharpoonup \N$. Then, the function $f$ (denoted $\rho(g, h)$) defined inductively as:
+	\item (Primitive recursion) Suppose $h : \N^{n+2} \rightharpoonup \N$ is P-computable. Then, the function $f$ (denoted $\rho(h)$) defined inductively as:
 	\begin{gather*}
-	f(0, x_1, x_2, \cdots, x_n) = g(x_1, \cdots, x_n)\\
+	f(0, x_1, x_2, \cdots, x_n) = (x_1, \cdots, x_n)\\
 	f(y+1, x_1, x_2, \cdots, x_n) = h(y, f(y, x_1, \cdots, x_n), x_1, \cdots, x_n)
 	\end{gather*}
 	
@@ -967,9 +967,62 @@
 	
 	Next up is primitive recursion. This is possibly the hardest of the four.
 	
-	Suppose $g$ is a P-computable function $\N^n \rightharpoonup \N$, with a machine $G$ that takes a variable $inp_g$ and writes $g$ of it to $out_g$. Likewise, let $h$ be a P-computable function $\N^{2+n} \rightharpoonup \N$ that is computed by $H$, which writes $h(inp_h)$ to $out_h$.
+	Let $h$ be a P-computable function $\N^{2+n} \rightharpoonup \N$ that is computed by $H$, which writes $h(inp_h)$ to $out_h$.
 	
-	Now, to write a program that computes $\rho(g, h)$. First, suppose it takes the input in a variable $inp$. Begin by running %todo remone
+	Now, to write a program that computes $\rho(h)$. First, suppose it takes the input in a variable $inp$. Begin by running $\REMONE(inp, ix)$. This wil take the $n+1$-uple $(y, x_1, \cdots, x_n)$ contained in $inp$, and write $y$ to $ix$, leaving $(x_1, \cdots, x_n)$ in $inp$.
+	
+	Now, if $y = 0$, we are done, so we just $\COPY(inp, out)$. Otherwise, however, we want to run $h$ and decrease $y$ by one, and repeat this until $y$ is in fact zero. Consider, then, the following program: (where $ix2$ is a variable that starts empty)
+	
+	\begin{align*}
+	&\COPY(inp, inp_g);\\
+	&G;\\ %todo write out what g is
+	&\COPY(out_g, out_h);\\
+	&\WHILE(ix,\\
+	&\quad \COPY(inp, inp_h);\\
+	&\quad \PREPEND(0, inp_h); \COPY'(out_h, inp_h);\\
+	&\quad \PREPEND(0, inp_h); \COPY'(ix2, inp_h);
+	&\quad H\\
+	&\quad \POP(ix); \PREPEND(1, ix2)\\
+	&);\\
+	&\COPY(out_h, out)
+	\end{align*}
+	
+	Let us remind ourselves that, at the start of the while, we have the current state:
+	
+	$ix$ contains $y$, $ix2$ contains 0, and $out_h$ contains $g(x_1, \cdots, x_n)$.
+	
+	If $y = 0$, the loop won't run and we will just write $g(x_1, \cdots, x_n)$ to the output, as desired. Otherwise, let us suppose the loop runs at least once.
+	
+	We will copy $inp$ to $inp_h$, leaving $inp_h$ with the value $(x_1, \cdots, x_n)$. The next two lines turn $inp_h$ into the $n+2$-uple $(ix2, out_h, x_1, \cdots, x_n)$, which, keeping in mind the assignment of variables, is the $n+2$-uple $(0, g(x_1, \cdots, x_n), x_1, \cdots, x_n)$.
+	
+	Then we run $h$ on this, leaving $out_h$ with the value $h(0, g(x_1, \cdots, x_n), x_1, \cdots, x_n)$, which is $\rho(h,g)(1, x_1, \cdots, x_n)$. Finally, we pop $ix$, leaving it at $y-1$, and prepend 1 to $ix2$, leaving it at $1$.
+	
+	If $y = 1$, we exit the loop with the correct output, otherwise we run it again, a total of $y$ times.
+	
+	Formalizing the situation: notice that, when we enter the loop, we are at situation
+	
+	\smallskip
+	\begin{tabular}{c | c | c}
+	$out_h$ & $ix$ & $ix2$\\
+	\hline
+	$g(x_1, \cdots, x_n)$ & $y$ & 0
+	\end{tabular}
+	\smallskip
+	
+	More generally, the situation is of the form
+	
+	\smallskip
+	
+	\begin{tabular}{c | c | c}
+	$out_h$ & $ix$ & $ix2$\\
+	\hline
+	$\rho(h,g)(k, x_1, \cdots, x_n)$ & $y - k$ & $k$
+	\end{tabular}
+	\smallskip
+	
+	With $k = 0$.
+	
+	If 
 	
 	
 \begin{thebibliography}{9}
