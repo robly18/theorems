@@ -41,6 +41,8 @@
 }
 
 \DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\exterior}{ext}
+\DeclareMathOperator{\border}{\partial}
 \DeclareMathOperator{\im}{Im}
 \DeclareMathOperator{\CC}{CC}
 
@@ -111,7 +113,7 @@
 	
 	\subsection{Introdução}
 	
-	Um problema de otimização é um tipo específico de problema em que o objetivo é minimizar ou maximizar uma certa função (função-objetivo), dentro de um certo domínio, usualmente (no contexto desta cadeira) um subconjunto de $\R^n$ parametrizado por um conjunto de (in)equações.
+	Um problema de otimização é um tipo específico de problema em que o objetivo é minimizar ou maximizar uma certa função (função-objetivo ou pontuação), dentro de um certo domínio, usualmente (no contexto desta cadeira) um subconjunto de $\R^n$ parametrizado por um conjunto de (in)equações.
 	
 	Mais concretamente, o tipo de problemas com que se lida nesta cadeira são problemas de otimização linear. Estes são problemas em que a função-objetivo é uma função linear $\R^n \rightarrow \R$ e todas as condições no domínio são da forma $ax \leq b$, $ax = b$ ou $ax \geq b$, onde $a$ é um vetor-linha e $b$ é um escalar.
 	
@@ -2180,8 +2182,85 @@ Caso contrário:
 	
 	\appendix
 	
-	\section{Conceitos topológicos}
+	\section{Conceitos de Álgebra Linear}
 	
-	To do.
+	%i dont know if this is all necessary.
+	
+	\begin{definition*}
+	Sejam $x, y$ pontos em $\R^n$. Define-se o produto interno de $x$ e $y$, denotado $\langle x, y \rangle$, como $x_1 y_1 + \cdots + x_n y_n$.
+	
+	Repare-se que, para qualquer $x$, $\langle x, x \rangle$ é sempre maior ou igual a zero, por ser uma soma de quadrados.
+	
+	A norma de um ponto, $\lvert x \rvert$, é definida como $\sqrt{\langle x, x \rangle}$. A distância entre dois pontos, $x, y$, denotada $d(x, y)$, é definida como $\lvert x - y \rvert$.
+	\end{definition*}
+	
+	\begin{prop}
+	(Desigualdade de Cauchy-Schwarz) $\lvert \langle x, y \rangle \rvert \leq \lvert x \rvert \lvert y \rvert$
+	
+	Igualdade acontece sse $x = \lambda y$ ou $y = \lambda x$, para algum $\lambda \in R$.
+	\end{prop}
+	
+	\begin{proof}
+	Considere-se a função $f(\lambda) = \langle y - \lambda x, y - \lambda x \rangle$. Isto é uma função real de variável real, que corresponde a uma parábola. De facto, aplicando a propriedade distributiva, obtemos:
+	
+	\[f(\lambda) = \langle y, y \rangle - \lambda 2 \langle x, y \rangle + \lambda^2 \langle x, x \rangle\]
+	
+	Ora, sabemos que a função $f$ só toma valores maiores ou iguais a zero, pelo que, inspecionando a formula resolvente, concluimos que, no caso em que $x \neq 0$ (para não dividirmos por 0) o discriminante (o valor que fica dentro da raíz quadrada; $b^2 - 4 a c$) é necessariamente menor ou igual a zero. Assim sendo,
+	
+	\[(2 \langle x, y \rangle) ^2 - 4 \langle x, x \rangle \langle y, y \rangle \leq 0\]
+	
+	Disto se conclui rapidamente a desigualdade desejada. O caso não considerado, em que $x = 0$, é trivial.
+	
+	Finalmente, inspecionemos o caso de igualdade. Se $x = 0$ temos igualdade, e de facto temos $x = \lambda y$ com $\lambda = 0$.
+	
+	Pelo outro lado, se $x \neq 0$, igualdade acontece sse o discriminante de $f$ é zero, sse a função $f$ tem uma raíz $\lambda$. Mas, ora, se $f(\lambda) = 0$ temos que $y = \lambda x$, como queriamos demonstrar.
+	\end{proof}
+	
+	\begin{prop}
+	(Desigualdade triangular) $\lvert x + y \rvert \leq \lvert x \rvert + \lvert y \rvert$
+	\end{prop}
+	
+	\begin{proof}
+	Repare-se que
+	
+	\begin{align*}
+	\lvert x + y \rvert ^2 &= \lvert x \rvert ^2 + 2 \langle x, y \rangle + \lvert y \rvert ^2 \\
+	&\leq \lvert x \rvert ^2 + 2 \lvert \langle x, y \rangle \rvert + \lvert y \rvert ^2 \\
+	&\leq \lvert x \rvert ^2 + 2 \lvert x \rvert \lvert y \rvert + \lvert y \rvert ^2 \\
+	&= (\lvert x \rvert + \lvert y \rvert)^2
+	\end{align*}
+	
+	Tomando a raíz quadrada dos dois lados obtemos o desejado.
+	\end{proof}
+	
+	\section{Conceitos Topológicos}
+	
+	\begin{definition*}
+	Seja $x \in \R^n$. Define-se a \emph{vizinhança-$\varepsilon$ de $x$}, denotada $V_\varepsilon(x)$, como o conjunto de pontos $y$ tal que $d(x, y) < \varepsilon$. Implícito estará sempre que $\varepsilon > 0$.
+	\end{definition*}
+	
+	\begin{definition*}
+	Seja $S \subseteq \R^n$. Definem-se o interior, exterior, borda e fecho de $S$, respetivamente, da seguinte forma:
+	
+	\[\interior S = \{\, x \in S \mid \exists_\varepsilon V_\varepsilon (x) \subseteq S\,\}\]
+	
+	\[\exterior S = \interior (\R^n \setminus S)\]
+	
+	\[\border S = \R^n \setminus \interior S \setminus \exterior S\]
+	
+	\[\overline S = S \cup \border S = \interior S \cup \border S = \R^n \setminus \exterior S\]
+	
+	Um conjunto $S$ diz-se aberto se $S = \interior S$. Um conjunto $S$ diz-se fechado se o seu complementar, $\R^n \setminus S$, for aberto, ou, equivalentemente, se $S = \overline S$.
+	
+	Usando a desigualdade triangular é possível provar que $V_\varepsilon(x)$ é sempre aberto.
+	\end{definition*}
+	
+	\begin{definition*}
+	Seja $D \subseteq \R^n$, $f : D \to \R^m$.
+	\end{definition*}
+	
+	\begin{prop}
+	Seja $D \subseteq \R^n$, $f : D \to \R^m$.
+	\end{prop}
 	
 \end{document}
