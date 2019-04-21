@@ -1,0 +1,204 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\title{}
+\author{}
+
+\newtheorem{prop}{Prop}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\maketitle
+
+\section{Intro}
+
+Venho hoje falar sobre um tema que vos vai chatear bastante a cabeça num futuro próximo: o Integral de Lebesgue.
+
+A principal razão pela qual venho fazer isso é porque vão ouvir disso do Magalhães, e com toda a sinceridade, detesto a abordagem que ele toma.
+
+Ora, infelizmente, entendo a razão pela qual ele o faz: não há tempo para dar o integral de Lebesgue \emph{bem} na cadeira de cálculo 2. E de facto, não venho aqui para o fazer bem: se ele não tem tempo em duas semanas, eu não tenho tempo em uma aula.
+
+No entanto, venho dar uns cheirinhos. Venho dar a entender a história e as ideias que vieram por trás, para que talvez consigam a ter uma apreciação do assunto que eu não consegui ter quando estive nos vossos pés.
+
+Dito isto, sem mais contratempos...
+
+\section{Prólogo}
+
+O conceito de integral e de área já são conceitos extremamente antigos: o próprio Arquimedes inventou o chamado `método da exaustão', sobre o qual vou falar daqui a pouco, que se assemelha muito ao que vós conhecem como integral de Riemann.
+
+A primeira definição rigorosa de integral deve-se a Cauchy em 1823, que é um caso particular da de Riemann. A ideia do Cauchy foi uma com a qual já estão familiares: se pretendo integrar uma função $f$ de $a$ até $b$, particiono o intervalo $[a,b]$ em pedaços $a < x_1 < \cdots < x_n < b$ e em cada pedaço calculo a área do retângulo $[x_i, x_{i+1}] \times [0, f(x_i)]$. Somando estas áreas, obtenho uma aproximação para a área sob o gráfico. O Cauchy provou que para funções contínuas, quando se `faz os intervalos tender para zero', esta aproximação converge para um valor fixo, independentemente das divisões escolhidas.
+
+Esta definição só está feita para funções contínuas, pelo que Riemann (1853) a generalizou para uma classe ligeiramente mais alargada de funções, e Darboux (1875) deu uma definição equivalente que é a que aprenderam em cálculo 1.
+
+No entanto, este integral mostrou-se retroativamente insuficiente. Digo isto pois o que vou dizer a seguir precede estas definições.
+
+Joseph Fourier, em 1802, começou a estudar a forma como o calor se propagava, e usando algumas ideias de Newton, chegou ao que hoje se conhece como a equação do calor. Isto é uma equação diferencial parcial da qual vão ouvir falar em ACED, mas tudo o que precisam de saber sobre ela é o seguinte:
+
+Suponhamos que temos uma barra metálica (digamos, $[0,1]$) com uma certa distribuição de temperaturas $T_0(x)$. Pretendemos saber como é que a temperatura se distribui ao longo do tempo, e, se tudo correr bem, obter uma função $T(x, t)$ que nos diz a temperatura no ponto $x$ no instante $t$.
+
+Não é extremamente difícil resolver esta equação para certas distribuições iniciais. O próprio Fourier resolveu com alguma ingenuidade os casos em que as distribuições iniciais eram funções sinusoidais, mas a parte impressionante foi a generalização a qualquer estado inicial.
+
+Eis a ideia do Fourier: ele já sabia como resolver a equação se a situação inicial fosse sinusoidal... Ele reparou também que a equação é linear, ou seja, combinações lineares de soluções são soluções. Em particular, se $T(x,t)$ resolve a equação com condições iniciais $T_0$, e $T'(x,t)$ resolve para condições iniciais $T'_0$, (estes apóstrofos não são derivadas) sabemos já resolver o caso em que as condições iniciais são $T_0 + T'_0$: basta considerar $T + T'$.
+
+Eis a surpresa número um: o Fourier decidiu passar isto ao limite, e declarar que sabia resolver para qualquer condição inicial que fosse uma série trigonométrica. Bastava, segundo ele, simplesmente decompor $T_0$ como $\sum T^i_0$, resolver cada um destes termos, e somar as soluções.
+
+A surpresa número dois era a seguinte: ele afirmava que qualquer função inicial $T_0$ podia ser escrita como uma série destes.
+
+E a surpresa número três: ele descreveu até uma forma de calcular estas séries.
+
+Muito feliz com o seu trabalho, foi apresentá-lo à academia de ciências de Paris, em 1807. Infelizmente para ele, os matemáticos não acharam que o trabalho dele estava a um nível de rigor suficiente e efetivamente adiaram publicação indefinidamente, até que o homem teve que se publicar a si mesmo.
+
+Da perspetiva de um matemático, de facto, o trabalho de Fourier não tinha rigor. Ele era um engenheiro, não um matemático. Para ele, a demonstração que aquele método funcionava sempre era ``Bem, funciona para estes exemplos simples.'' No entanto, inegável era que o método dele \emph{funcionava}. E um facto bastante giro é que muitas das descobertas matemáticas do século XIX podem ser interpretadas como `passos para justificar aquelas coisas que o Fourier fez'.
+
+A título de exemplo: falei em passar coisas ao limite. Na altura o pessoal não tinha realmente um conceito rigoroso de limite; foi o Bolzano, em 1817, que deu a definição que hoje em dia conhecemos.
+
+Mais: na altura do Fourier, o pessoal pensava em funções como ``expressões'', tipo $x^2$ ou $\sin x$. Ora, foi o Dirichlet, em 1837, que definiu o que hoje se entende por função, precisamente porque para tratar com rigor estes assuntos era preciso ter uma noção mais alargada do que se entende por este conceito.
+
+E eis a parte onde entram os integrais: eu disse que o Fourier descreveu um método para, dada uma função, obter a série trigonométrica que lhe corresponde. A ideia pode ser posta quase em termos de álgebra linear.
+
+Pensemos em $\R^n$ e na base canónica $e_1, \cdots, e_n$. Se queremos escrever um vetor $v$ como combinação linear destes vetores, a fórmula é simples:
+
+\[v = \sum \langle v, e_i \rangle e_i\]
+
+A ideia do Fourier foi considerar uma coisa parecida, só que em vez de termos $\R^n$ temos o espaço de funções e em vez de termos a base canónica temos senos e cosenos. E como produto interno, usamos o produto que aprenderam em AL:
+
+\[ \langle f, g \rangle = \int fg \]
+
+E portanto, segundo o Fourier, uma função $f : [0, 2 \pi] \to \R$ podia ser escrita como (o $2 \pi$ é para evitar escrever constantes em todo o lado)
+
+\[f(x) = \sum_{n = 1}^\infty a_n \sin( n x ) + b_n \cos ( n x )\]
+
+onde os coeficientes $a_n$ e $b_n$ eram calculados como
+
+\[a_n = \int_0^{2 \pi} f(x) \sin ( n x ); b_n = \int_0^{2 \pi} f(x) \cos ( n x )\]
+
+(Isto está ligeiramente (muito) errado, mas a \emph{minutia} não me interessa)
+
+É aqui que entra a história dos integrais: para calcular estes coeficientes para uma função ``arbitrária'', é preciso entender muito bem o que se entende por integral. E foi à custa disso que o Cauchy se pôs a pensar nestes assuntos.
+
+\section{Seguimento}
+
+Vamos, então, por-nos nos pés de um matemático do século XIX e perguntar: o que entendemos realmente por integral? A definição `naïve' é a seguinte: `é a àrea por baixo do gráfico'. Na realidade é só um pouco mais complicado do que isso, porque o gráfico pode ir para baixo do eixo dos x, mas é uma questão de dividir a coisa em dois bocados. O problema verdadeiro desta definição é que não se está a definir coisa que seja, está-se só a chutar a bola para outro campo: o que entendemos por área?
+
+E de facto, tanto a definição do integral de Riemann como o de Lebesgue podem ser reduzidos a `a área debaixo do gráfico', sob certas noções de área.
+
+Vamos, então, tentar clarificar o que entendemos por isto. Uma das primeiras pessoas que pensou bem nestes assuntos foi Giuseppe Peano, por volta de 1884
+
+A ideia dele relaciona-se com o método da exaustão de Arquimedes, que mencionei à pouco. Arquimedes não estava preocupado com a definição de àrea, mas estava preocupado com como calcular áreas. Por exemplo, a área do círculo.
+
+A observação dele foi a seguinte: peguemos numa figura no plano, $A$. Suponhamos que esta figura está contida numa figura $B$, e contém uma figura $C$. Suponhamos que sabemos a área destas duas: $b$ e $c$.
+
+Então, Arquimedes observou: não sei quanto é a área de $A$, mas sei de certeza absoluta que está entre $b$ e $c$. E de facto, ele utilizou estes métodos para aproximar $\pi$, obtendo as melhores aproximações do seu tempo: $\frac{223}{71} < \pi < \frac{22}{7}$
+
+A ideia do Peano foi a seguinte: ele isolou três propriedades `essenciais' ao conceito de área.
+
+1- A área de um retângulo $x \times y$ é $xy$
+
+2- Dadas duas figuras disjuntas, a área da união é a soma das áreas
+
+3- A observação do Arquimedes: se $A$ está contido em $B$ e contém $C$, a área de $A$ está entre as áreas destes.
+
+Com as observações 1 e 2 é possível definir área para os chamados conjuntos elementares: uniões finitas de retângulos. Uma pessoa escreve o conjunto como uma união disjunta de retângulos e soma as áreas destes. É preciso ter cuidado: provar que é possível escrever como união disjunta, provar que independentemente da forma como se decompõe o conjunto se chega ao mesmo número... Assuntos, enfim, que enfiarei para baixo do tapete.
+
+Usando a observação $3$, ele definiu o que chamamos hoje conteúdo exterior e conteúdo interior.
+
+Considere-se um conjunto elementar que contém o nosso conjunto $A$. A área deste é certamente um majorante da área de $A$. Tomando, então, o ínfimo destes majorantes, obtemos ainda um majorante da área de $A$:
+
+\[\overline c (A) = \inf_{E \supseteq A} \text{área de $E$}\]
+
+Da mesma forma, usando conjuntos elementares contidos em $A$, conseguimos um minorante da área:
+
+\[\underline c (A) = \sup_{E \subseteq A} \text{área de $E$}\]
+
+E a observação do Peano foi a seguinte: se estes dois números coincídem, a área de $A$ é necessariamente igual a este número comum.
+
+E assim se definiu, para os conjuntos em que isto acontece, a `área' de um conjunto no plano. Visto que a história não é justa, esta área, denotada $c(A)$, é conhecida como `conteúdo de Jordan de $A$'.
+
+É esta a área que corresponde ao que conhecem como integral de Riemann: e de facto, uma forma de intuir a equivalência entre esta definição de área e a do integral de Darboux é reparar que os retângulos de Darboux formam conjuntos elementares que cobrem e são cobertos pelo conjunto cuja área pretendemos determinar.
+
+Após vos mostrar a fundação por trás do integral de Riemann, procedo a mostrar porque é que ela não chega.
+
+\section{Limite}
+
+Recordem-se que esta conversa surgiu por causa das séries trigonométricas. Quem fala de séries fala de limites. Quem fala de limites e de integral de Riemann queima-se.
+
+Decerto já conhecem todos o exemplo prototípico de função que não é Riemann-integrável: a função de Dirichlet. Muitos de vós já devem conhecer, então o seguinte exemplo:
+
+Seja $\{q_n\}$ uma enumeração dos racionais. Seja $f_n$ a função que é 0 em todo o lado e 1 em $q_n$. Fácil é ver que todas as funções $f_n$ são Riemann-integráveis. Fácil também é notar que $\sum f_n$ é a função de Dirichlet, que, ora, não é integrável.
+
+Isto leva-nos a um não-teorema muito importante: posso ter um monte de funções todas Riemann-integráveis, mas a sua soma não ser. (Isto no sentido de séries)
+
+Há inúmeros não-teoremas assim: meta-se aqui limites de sucessões, limites contínuos, derivadas... E deixem-me dizer-vos, o facto de isto serem não-teoremas é uma alta chatice.
+
+Metendo isto em termos de áreas, vemos o cerne da questão: Sejam $\{A_n\}$ uma infinidade de conjuntos disjuntos, de áreas $a_n$. Tal como no caso finito, gostariamos imenso que a união destes tivesse área $\sum a_n$, mas pode acontecer precisamente que $\cup A_n$ não tem sequer área definida.
+
+Foram feitas várias tentativas de remediar isto. Uma delas foi literalmente definir, em casos destes, a área de $\cup A_n$ como $\sum a_n$. Este remédio não funcionou. Para ver o problemapensemos no contexto de comprimentos dado que é tudo a mesma coisa. Considere-se o conjunto dos racionais entre 0 e 1; isto é uma união contável de pontos, e então o seu comprimento sob esta definição é zero. Considere-se o intervalo $[0,1]$ e retirem-se esses pontos. Visto que retirámos um conjunto de comprimento zero, o resultante, os irracionais entre 0 e 1, deveriam ainda ter área 1. No entanto é possível provar que qualquer conjunto com área positiva tem interior não vazio, e como o conjunto dos irracionais não tem interior, obtemos um conjunto que não tem área.
+
+Olhando para exemplos de desgraças deste género, Émile Borel (1898) destilou as propriedades essenciais que queria que `área' tivesse, e resumiu-as no que hoje se chama uma \emph{medida}.
+
+\section{$\sigma$-álgebras e medidas}
+
+Repare-se que eu há bocado dei à função $c$ o nome de \emph{conteúdo}, e agora estou a falar de medidas. Isto não é acidente, mas sim termos técnicos: conteúdos e medidas são mais ou menos a mesma coisa. São ambos tentativas de extrair o significado de área. O conceito de medida é bastante mais restritivo, mas é também muito mais útil.
+
+Começo por expor o melhor caso concebível, e falarei em $\R$ e comprimentos para simplificar a exposição.
+
+Suponha-se que há uma função $\mu$ que atribui, a qualquer subconjunto de $\R$, um `comprimento', num certo sentido. Que propriedades queremos que esta função tenha?
+
+1- Desejamos que os conjuntos que já conhecemos bem se comportem bem. Isto é, nem que seja, queremos que o comprimento do intervalo $[a,b]$ seja precisamente $b-a$.
+
+2- Como vimos antes, vamos establecer que se $\{A_n\}$ são disjuntos, a medida de $\cup A_n$ é a soma das medidas destes.
+
+3- É imperativo que a área seja invariante para translações, e se estivermos a pensar em dimensões acima, rotações.
+
+O primeiro indivíduo a reparar que isto dá barraca foi um indivíduo pelo nome de Giuseppe Vitali, em 1905. De facto, ele construiu um conjunto, hoje em dia conhecido como conjunto de Vitali, que, sob estas definições, nos permite chegar a uma contradição. Se eu tiver tempo para isso falarei nele.
+
+É um bocado surpreendente (digo eu) que se tirarmos os infinitos da equação obtemos uma coisa concretizável em $\R$ e $\R^2$. No entanto, o paradoxo de Banach-Tarski (1924) mostra que de $\R^3$ para cima não há volta a dar.
+
+Para aqueles que não sabem, Banach e Tarski arranjaram uma forma de fazer o seguinte: considere-se uma esfera no espaço. É possivel decompor a esfera como união disjunta $A \cup B \cup C \cup D$, rodar e transladar estas quatro peças, de modo a obter duas esferas idênticas à primeira. Ora, se houvesse tal coisa como `volume', isto claramente violaria conservação de volume!
+
+Devido a estes exemplos, Borel decidiu que tentar definir área para qualquer subconjunto do plano era demasiado ambicioso, e tentou arranjar um conceito menos abrangente mas mais não-impossível.
+
+%roughly 40 mins
+
+Os seus pensamentos levaram-no ao conceito de $\sigma$-álgebra (e é aqui que a coisa começa a ficar abstrata)
+
+Seja $X$ um conjunto qualquer. No nosso caso, $\R^2$, mas faço notar que não há aqui restrição nenhuma em $X$.
+
+Seja $M$ uma classe de conjuntos de $X$, ou seja, $M \subseteq P(X)$. Dizemos que $M$ é uma \emph{$\sigma$-álgebra em $X$} se:
+
+1- Contém o vazio e o $X$
+
+2- Se $\{A_n\}$ são elementos de $M$, $\cup A_n$ também é
+
+3- Se $A$ é elemento de $M$, o complementar de $A$ também é
+
+A partir destas propriedades uma pessoa mostra que $M$ é também fechado para interseções, por exemplo.
+
+O nosso $M$ será a classe dos conjuntos `mensuráveis', isto é, os conjuntos nos quais teremos definida área.
+
+Depois disto, ele estableceu o significado de \emph{uma medida em $M$}.
+
+Dizemos que $\mu : M \to [0, \infty]$ (sim, isto é um intervalo fechado) é uma medida se:
+
+1- $\mu \emptyset = 0$
+
+2- Se $\{A_n\}$ são elementos disjuntos de $M$, $\mu \cup A_n = \sum \mu A_n$
+
+argh. todo.
+
+
+
+
+
+\end{document}
