@@ -190,8 +190,6 @@ Primeiro que tudo, queremos, como já vimos, que se $A_1, A_2, \cdots$ são mens
 
 Exigimos também uma coisa que tem a ver com o tal método da exaustão: suponhamos que $A \subseteq B$. Se tanto $A$ como $B$ forem mensuráveis, queremos que $\mmu A \leq \mmu B$. Mas vamos exigir, ainda mais, que $B \setminus A$ seja mensurável e se tenha $\mmu (B \setminus A) = \mmu B - \mmu A$.
 
-Finalmente, vamos alargar um pouco esta última condição. Vamos establecer que, mesmo que $A$ não esteja contido em $B$, se forem ambos mensuráveis, $B \setminus A$ também o é.
-
 Queremos também que isto extenda a nossa noção de área. Como tal, vamos exigir que qualquer conjunto que tenha conteúdo de Jordan definido seja mensurável, com $\mmu A = c(A)$.
 
 Bem, isto são muitas exigências. A nossa primeira questão é se não estamos a pedir demasiado. Surpreendentemente, a resposta é não. \textbf{Existe pelo menos uma função nestas condições.}
@@ -277,13 +275,9 @@ Assim sendo, visto que sabemos que todos os abertos são mensuráveis, sabemos q
 
 Foi nesta $\sigma$-álgebra que o Borel definiu a sua medida. Esta família já inclui os retângulos, mas, ligeiramente surpreendentemente, não inclui todos os Jordan-mensuráveis! Para manter a exposição curta, não darei o exemplo, mas ele existe e se quiserem posso falar sobre ele no final da aula.
 
-Alguns anos depois, em 1902, Henri Lebesgue arranjou forma de `cobrir os buracos'. A observação necessária para entender o que ele fez é simples: ele fez o que se chama `completar a medida'.
+Alguns anos depois, em 1902, Henri Lebesgue, na sua tese de doutoramento (com o Borel!) arranjou forma de definir a sua medida para $M(\text{Jordan-mensuráveis})$! E é esta a medida que nos interessa, porque deixem-me dizer-vos, esta classe (chamada a classe dos Lebesgue-mensuráveis) contém basicamente tudo o que alguma vez vão usar. É preciso tentar com mesmo muita força para arranjar um conjunto que não seja Lebesgue-mensurável: o primeiro exemplo demorou três anos a aparecer!
 
-Suponhamos que temos um conjunto mensurável $N$ de medida. Suponhamos, para mais, que $A$ é um conjunto contido em $N$. Seria de esperar, naturalmente, que $A$ também fosse mensurável de medida nula, mas é possível encontrar contraexemplos na $\sigma$-álgebra de Borel. Uma medida que satisfaça esta propriedade ($A$ é mensurável de medida 0) diz-se \emph{completa}, e o que estamos aqui a dizer é que \textbf{a medida de Borel não é completa.}
-
-Para passar da medida de Borel para a de Lebesgue é preciso fazer uma alteração simples. Considerem-se conjuntos da forma $E \cup N$, onde $E$ é Borel-mensurável e $N$ é subconjunto de um conjunto de medida nula. Defina-se a medida disto como $E$, e \textit{voila}. Temos definida a medida de Lebesgue (simbolizada por $m$), e passamos a ter uma extensão do conteúdo de Jordan.
-
-Podemos, então, caraterizar a medida de Lebesgue como uma extensão do conteúdo de Jordan a uma medida, e isto dá-nos toda a informação necessária para trabalhar com ela.
+Dito isto, podemos então caraterizar a medida de Lebesgue como uma extensão do conteúdo de Jordan a uma medida, e isto dá-nos toda a informação necessária para trabalhar com ela.
 
 \section{Integral}
 
@@ -294,5 +288,60 @@ Vou restringir a minha atenção a funções $f : \R \to [0, \infty]$ para simpl
 Recordem-se da definição de $\Omega^+_f$. Defino que uma função $f$ é Lebesgue-mensurável se $\Omega^+_f$ é Lebesgue-mensurável, e neste caso, defino $\int f$ como $m(\Omega^+_f)$.
 
 Parece demasiado simples, mas o truque é que a dificuldade toda foi varrida para baixo do tapete quando me recusei a definir a medida.
+
+Vamos investigar que propriedades é que isto vai ter. Parto do princípio que, para conjuntos Jordan-mensuráveis, a medida de Lebesgue está definida e é igual. Obtenho, então, como consequência imediata, que qualquer função Riemann-integrável é Lebesgue-integrável, com o mesmo integral. Isto dá-me já um enorme leque de funções com que mexer.
+
+Então e funções contínuas? Se definidas num intervalo limitado e fechado, certamente são Riemann e então Lebesgue, mas não é preciso essa hipótese para provar a sua mensurabilidade em geral.
+
+De facto, dada uma função contínua $f : \R \to [0, \infty]$, é possível provar que o seu conjunto de ordenadas é aberto, e então Borel, e então Lebesgue-mensurável, pelo que tem integral definido. Repare-se, no entanto, que este integral pode ser infinito.
+
+Com um bocadinho mais de trabalho, mostra-se que se duas funções $f, g$ são mensuráveis a sua soma e produto também, e tem-se a relação $\int f + g = \int f + \int g$.
+
+Finalmente, recordem-se da razão pela qual estamos a fazer isto: queremos mexer com limites. Estou, por isso, feliz em dizer que estamos na condição de provar (uma forma ligeiramente restrita de) o \textbf{Teorema da Convergência Monótona.}
+
+\begin{prop}
+(Teorema da Convergência Monótona) Seja $f_n$ uma sucessão crescente de funções, convergindo pontualmente para $f$. Se todos os $f_n$ são mensuráveis então $f$ é mensurável com $\int f = \lim \int f_n$
+\end{prop}
+
+\begin{proof}
+A demonstração disto passa apenas por observar o seguinte facto:
+
+\[\Omega^+_f = \cup \Omega^+_{f_n}\]
+
+Daqui, usando o teorema de convergência monótona que já provámos para conjuntos, o nosso trabalho fica trivial.
+\end{proof}
+
+Gostaria de dar a entender o sucesso que isto é. Recordem-se que isto é brutalmente falso para o integral de Riemann: basta pensar no exemplo de Dirichlet.
+
+Não é, no entanto, uma vitória total. Muito raramente serão as sucessões de funções encontradas ``na vida real'' sucessões crescentes. Infelizmente, o teorema não pode ser generalizado descuidadamente, como os seguintes exemplos mostram.
+
+Considere-se a sucessão de funções $f_n$ definidas da seguinte forma:
+
+\[ f_n(x) =
+\begin{cases}
+n & \text{se } x \in \left]0, 1/n\right] \\
+0 & \text{c.c.}
+\end{cases}
+\]
+
+Todas elas são integráveis, de integral 1. No entanto, tomando o limite ponto a ponto, obtemos a função $f(x) = 0$, que tem integral zero... Logo, aqui, a passagem para o limite falha completamente.
+
+Um exemplo parecido encontra-se tomando a sucessão de funções:
+
+
+\[ f_n(x) =
+\begin{cases}
+1 & \text{se } x \in [n, n+1] \\
+0 & \text{c.c.}
+\end{cases}
+\]
+
+Novamente, o integral de cada uma destas é 1, mas o integral final é 0. O que se está aqui a passar?
+
+Por observação destas funções, percebemos rapidamente o problema: a área está, de alguma forma, a fugir toda para o infinito! A solução para este problema é impedir isso de acontecer, exigindo que a função se mantenha `dentro de algo finito'. Por outras palavras, e sem demonstração, eis o \textbf{Teorema da Convergência Dominada}:
+
+\begin{prop}
+Seja $f_n$ uma sucessão de funções $\R \to [0, \infty]$. Suponha-se que $f_n$ converge pontualmente para $f$. Então, $f$ é mensurável, e partindo do princípio que existe $g$ tal que $\int g$ é finito e $f_n \leq g$ para todo $n$, temos que $\int f = \lim \int f_n$
+\end{prop}
 
 \end{document}
