@@ -5,6 +5,7 @@
 \usepackage{amsfonts}
 \usepackage[utf8]{inputenc}
 \usepackage[portuguese]{babel}
+\usepackage{indentfirst}
 
 \title{}
 \author{}
@@ -16,6 +17,8 @@
 }
 
 \newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\mmu}{\mu}
 
 \begin{document}
 
@@ -157,7 +160,7 @@ Foram feitas várias tentativas de remediar isto. Uma delas foi literalmente def
 
 Olhando para exemplos de desgraças deste género, Émile Borel (1898) destilou as propriedades essenciais que queria que `área' tivesse, e resumiu-as no que hoje se chama uma \emph{medida}. Mas no caminho encontrou algumas dificuldades.
 
-\section{$\sigma$-álgebras e medidas}
+\section{O problema de Borel}
 
 Começo por expor o melhor caso concebível, e falarei em $\R$ e comprimentos para simplificar a exposição.
 
@@ -179,34 +182,117 @@ Repare-se que este exemplo surgiu depois de Borel, portanto não foi por olhar p
 
 %roughly 40 mins
 
-Os seus pensamentos levaram-no ao conceito de $\sigma$-álgebra (e é aqui que a coisa começa a ficar abstrata)
+Vamos, então, pensar novamente no género de propriedades que queremos que esta nossa `medida', de preferência mais simpática que o conteúdo de Jordan, obedeça. Estableçamos um conjunto de propriedades que uma função área $\mmu$, definida para alguns subconjuntos de $\R^2$, teria que ter.
 
-Seja $X$ um conjunto qualquer. No nosso caso, $\R^2$, mas faço notar que não há aqui restrição nenhuma em $X$.
+Direi que um conjunto $A \subseteq \R^2$ é \emph{mensurável} se $\mmu A$ estiver definido.
 
-Seja $M$ uma classe de conjuntos de $X$, ou seja, $M \subseteq P(X)$. Dizemos que $M$ é uma \emph{$\sigma$-álgebra em $X$} se:
+Primeiro que tudo, queremos, como já vimos, que se $A_1, A_2, \cdots$ são mensuráveis e disjuntos, $\cup A_n$ também é mensurável e $\mmu \cup A_n = \sum \mmu A_n$.
 
-1- $\emptyset, X \in M$
+Exigimos também uma coisa que tem a ver com o tal método da exaustão: suponhamos que $A \subseteq B$. Se tanto $A$ como $B$ forem mensuráveis, queremos que $\mmu A \leq \mmu B$. Mas vamos exigir, ainda mais, que $B \setminus A$ seja mensurável e se tenha $\mmu (B \setminus A) = \mmu B - \mmu A$.
+
+Finalmente, vamos alargar um pouco esta última condição. Vamos establecer que, mesmo que $A$ não esteja contido em $B$, se forem ambos mensuráveis, $B \setminus A$ também o é.
+
+Queremos também que isto extenda a nossa noção de área. Como tal, vamos exigir que qualquer conjunto que tenha conteúdo de Jordan definido seja mensurável, com $\mmu A = c(A)$.
+
+Bem, isto são muitas exigências. A nossa primeira questão é se não estamos a pedir demasiado. Surpreendentemente, a resposta é não. \textbf{Existe pelo menos uma função nestas condições.}
+
+Pouco surpreendente será por esta altura que um exemplo disto é a medida de Lebesgue. Mas não nos adiantemos.
+
+A questão `existe alguma função nestas condições' foi proposta e resolvida por Borel. Mas antes de olharmos melhor para a solução, vamos propor o problema em termos mais claros.
+
+\section{$\sigma$-álgebras e medidas}
+
+Antes de formalizar alguns destes conceitos, gostaria de vos alertar a uma inevitabilidade: este conceito de área \emph{não tomará apenas valores reais}.
+
+Isto pois, sob esta definição, por exemplo, o espaço todo é mensurável. Basta cobri-lo todo por retângulos. E qual é a sua área? Somando a área de uma infinidade de retângulos $1 \times 1$, obtemos uma série divergente. Associamos, então, o valor de $+ \infty$.
+
+Pelo outro lado, como qualquer conjunto contém o vazio, que tem área 0, qualquer conjunto tem área $\geq 0$, pelo que as nossas áreas vão tomar valores em $[0, \infty]$. Notar, novamente, que o intervalo é fechado.
+
+Estamos, então, à procura de uma função $\mmu : M \to [0, \infty]$ que satisfaça certas propriedades; $M$ é a classe dos conjuntos mensuráveis.
+
+Esta classe satisfaz certas propriedades, que podem ser resumidas na definição do que hoje se chama uma $\sigma$-álgebra:
+
+Dizemos que uma classe de conjuntos $M$ é uma $\sigma$-álgebra se:
+
+1- O vazio e o todo pertencem a $M$
 
 2- Se $\{A_n\}$ são elementos de $M$, $\cup A_n \in M$
 
 3- Se $A$ é elemento de $M$, o complementar de $A$ também é
 
-A partir destas propriedades uma pessoa mostra que $M$ é também fechado para interseções, por exemplo.
+Exigimos, em adição, que $M$ contenha todos os conjuntos Jordan-mensuráveis.
 
-O nosso $M$ será a classe dos conjuntos `mensuráveis', isto é, os conjuntos nos quais teremos definida área.
+Repare-se que, com a exceção da condição de conter os Jordan-mensuráveis, estas condições são completamente agnósticas em relação ao espaço subjacente.
 
-Depois disto, ele estableceu o significado de \emph{uma medida em $M$}.
+A função $\mmu$ tém também que satisfazer certas condições, que são englobadas no conceito de \emph{medida}.
 
-Dizemos que $\mu : M \to [0, \infty]$ (sim, isto é um intervalo fechado) é uma medida se:
+Se $M$ é uma $\sigma$-álgebra, uma função $\mmu : M \to [0, \infty]$ diz-se uma medida se:
 
-1- $\mu \emptyset = 0$
+1- $\mu(\emptyset) = 0$
 
-2- Se $\{A_n\}$ são elementos disjuntos de $M$, $\mu \cup A_n = \sum \mu A_n$
+2- Se $A_1, A_2, \cdots \in M$ são disjuntos, $\mmu(\cup A_n) = \sum \mmu(A_n)$
 
-todo....
+Exigimos, em adição, que, para conjuntos Jordan-mensuráveis, $\mmu(A) = c(A)$.
 
+Novamente, com a exceção desta última exigência, não há aqui nada específico a $\R^2$ ou sequer a $\R^n$. De facto, o estudo de medidas em espaços abstratos pode ser feito, e muitos resultados não requerem nada específico sobre o espaço ambiente. Eis um exemplo, que será importante na sequência.
 
+\begin{prop}
+Seja $\mmu : M \to [0, \infty]$ uma medida, e sejam $A_1 \subseteq A_2 \subseteq A_3 \subseteq \cdots$, todos mensuráveis, com $A = \cup A_n$.
 
+Então, $A$ é mensurável e $\mmu(A) = \lim \mmu(A_n)$.
+\end{prop}
 
+\begin{proof}
+A mensurabilidade de $A$ é trivial por definição de $\sigma$-álgebra. Para provar a igualdade, defina-se:
+
+\begin{gather*}
+B_1 = A_1\\
+B_n = A_n \setminus A_{n-1}, n > 1
+\end{gather*}
+
+É fácil verificar que todos os $B_n$ são disjuntos e que $\cup B_n = \cup A_n$. Temos, então,
+
+\[ \mmu(A) = \mmu(\cup B_n) = \sum \mmu(B_n) \]
+
+Aplicando a definição de série, isto é igual a $\lim \sum_{n = 1}^N \mmu(B_n)$, e como $B_1, \cdots, B_N$ são disjuntos e a sua união é $A_n$, a soma destas medidas é $\mmu(A_N)$ e temos então o desejado.
+\end{proof}
+
+Isto é uma versão daquilo que se chama \emph{o teorema de convergência monótona}.
+
+\section{A medida de Lebesgue}
+
+Com isto, tenho andado a dançar à volta do problema: como é que arranjo uma medida em $\R^2$ que seja uma extensão dos Jordan-mensuráveis? Infelizmente, isto é deliberado: a medida de Lebesgue é não-trivial de construir, e requer mexer com algo chamado \emph{Teorema de Carethedory}, que se eu tiver tempo explico o que é, mas a conclusão a que quero chegar é: isto é não-trivial.
+
+No entanto, a partir do momento em que aceitamos a existência de tal coisa, não é preciso muita maquinaria para provar coisas sobre ela.
+
+Vamos começar com algo fácil: que tipo de conjuntos conseguimos assegurar serem mensuráveis?
+
+Bem, sabemos que os retângulos são todos mensuráveis. Visto que o conjunto dos mensuráveis é uma $\sigma$-álgebra, uniões contáveis de retângulos são mensuráveis. Ora, é possível provar (usando truques do género `retângulos de extremos racionais' que conjuntos abertos são uniões contáveis de retângulos. Assim sendo, qualquer aberto é mensurável.
+
+Uma noção que é ocasionalmente útil é a noção de \emph{$\sigma$-álgebra gerada por conjunto}. Vocês já ouviram falar de `subgrupo gerado por conjunto' e `ideal gerado por conjunto'. Isto é uma coisa parecida.
+
+Observação: Dadas duas $\sigma$-álgebras $M, N$, o conjunto $M \cap N$ é também uma $\sigma$-álgebra. Mais geralmente, dada uma família de $\sigma$-álgebras, a sua interseção é uma também. Assim sendo, dada uma família de conjuntos $F$, define-se $M(F)$ como a menor $\sigma$-álgebra que contém $F$, ou seja, a interseção de todas as $\sigma$-álgebras que contêm $F$. Em particular, se sabemos que uma $\sigma$-álgebra $M$ contém $F$, sabemos que $M \supseteq M(F)$.
+
+Assim sendo, visto que sabemos que todos os abertos são mensuráveis, sabemos que todos os elementos de $M(\text{abertos})$ são mensuráveis. A esta família chama-se a $\sigma$-álgebra de Borel, $B$.
+
+Foi nesta $\sigma$-álgebra que o Borel definiu a sua medida. Esta família já inclui os retângulos, mas, ligeiramente surpreendentemente, não inclui todos os Jordan-mensuráveis! Para manter a exposição curta, não darei o exemplo, mas ele existe e se quiserem posso falar sobre ele no final da aula.
+
+Alguns anos depois, em 1902, Henri Lebesgue arranjou forma de `cobrir os buracos'. A observação necessária para entender o que ele fez é simples: ele fez o que se chama `completar a medida'.
+
+Suponhamos que temos um conjunto mensurável $N$ de medida. Suponhamos, para mais, que $A$ é um conjunto contido em $N$. Seria de esperar, naturalmente, que $A$ também fosse mensurável de medida nula, mas é possível encontrar contraexemplos na $\sigma$-álgebra de Borel. Uma medida que satisfaça esta propriedade ($A$ é mensurável de medida 0) diz-se \emph{completa}, e o que estamos aqui a dizer é que \textbf{a medida de Borel não é completa.}
+
+Para passar da medida de Borel para a de Lebesgue é preciso fazer uma alteração simples. Considerem-se conjuntos da forma $E \cup N$, onde $E$ é Borel-mensurável e $N$ é subconjunto de um conjunto de medida nula. Defina-se a medida disto como $E$, e \textit{voila}. Temos definida a medida de Lebesgue (simbolizada por $m$), e passamos a ter uma extensão do conteúdo de Jordan.
+
+Podemos, então, caraterizar a medida de Lebesgue como uma extensão do conteúdo de Jordan a uma medida, e isto dá-nos toda a informação necessária para trabalhar com ela.
+
+\section{Integral}
+
+No meio disto tudo, acabei por ainda não definir integral. Mas dado o conceito de área, não é particulamente difícil.
+
+Vou restringir a minha atenção a funções $f : \R \to [0, \infty]$ para simplificar a exposição.
+
+Recordem-se da definição de $\Omega^+_f$. Defino que uma função $f$ é Lebesgue-mensurável se $\Omega^+_f$ é Lebesgue-mensurável, e neste caso, defino $\int f$ como $m(\Omega^+_f)$.
+
+Parece demasiado simples, mas o truque é que a dificuldade toda foi varrida para baixo do tapete quando me recusei a definir a medida.
 
 \end{document}
