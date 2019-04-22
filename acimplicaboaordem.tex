@@ -1,0 +1,71 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\title{AC $\rightarrow$ Boa Ordenação}
+\author{}
+\date{}
+
+\newtheorem{prop}{Prop}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\DeclareMathOperator{\pred}{pred}
+
+\begin{document}
+	\maketitle
+
+	Supomos aqui os axiomas de ZFC e provamos o teorema da Boa Ordenação.
+	
+	Primeiro que tudo, algumas propriedades sobre boas ordenações:
+	
+	\section{Boas Ordens}
+	
+	Dado um elemento de um conjunto bem ordenado, ou esse elemento é maximal, ou existe um menor elemento maior do que ele. Se for este o caso, chama-se a esse o sucessor.
+	
+	\begin{prop}
+	Seja $(A, <)$ um conjunto bem ordenado. Dizemos que $T \subseteq A$ é \emph{cheio} se para todo $t \in T$ se tem $\pred t \subseteq A$.
+	
+	Se $T$ é cheio, ou $T = A$ ou existe $\theta \in A$ tal que $T = \pred \theta$.
+	\end{prop}
+	
+	\begin{prop}
+	Seja $a \in A$. Então, ou $a$ é o sucessor de algum elemento, ou $\pred a = \cup_{t < a} \pred t$.
+	\end{prop}
+	
+	\section{Demonstração}
+	
+	Seja $X$ um conjunto arbitrário. Comece-se por se considerar uma função escolha definida em $S = P(X) \setminus \{\emptyset\}$. Ou seja, $e : S \rightarrow X$ tal que $e(A) \in A$.
+	
+	Seja $(A, <_A)$ um subconjunto bem ordenado de $X$. Diz-se que este é \emph{correto} se para todo $a \in A$ se tem que $e(X \setminus \pred_A a) = a$.
+	
+	Sejam $(A, <_A)$ e $(B, <_B)$ dois conjuntos corretos. Pretende-se mostrar que um destes é extensão do outro.
+	
+	Repare-se, primeiro, numa propriedade óbvia da definição de correto: se $\pred_A a = \pred_B b$ então $a = b$.
+
+	Para provar o desejado, suponha-se que $A \not \subseteq B$ e prove-se $B \subseteq A$.
+	
+	Por hipótese, existe $a \in A \setminus B$, que podemos supor $A$-minimal. Isto implica que $\pred_A a \subseteq B$.
+	
+	Suponha-se que não há igualdade: ou seja, que existe $b \in B \setminus \pred_A a$. Novamente, suponha-se este minimal. Então, $\pred_B b \subseteq \pred_A a$.
+	
+	Se não se tivesse igualdade, haveria $t \in A \cap B$ (A-minimal) tal que $t <_A a$ e $t \not <_B b$.
+	
+	Sendo este o caso, ou $t = b$ ou $t >_B b$.
+	
+	No primeiro caso, temos contradição direta com a hipótese que $b \not \in \pred_A a$.
+	
+	No segundo caso, temos que se $x <_A t$ tem-se $x \not <_A a$ ou $x <_B b$. Mas como $x <_A t <_A a$, é necessário $x <_B b$. Logo, $b \not <_A t$, donde $b >_A t$, pelo que existe um ciclo da forma $t >_B b >_A t$.
+	
+	Para provar que isto não pode acontecer, seja $s$ o $A$-menor elemento de $\pred_A a$
+	
+	Seja $a$ $A$-minimal não em $B$ e $b$ não em $A$. Temos que $\pred_A a \subseteq B$ e $\pred_B b \subseteq A$. Logo, são ambos subconjuntos de $A \cap B$.
+	
+	Suponha-se $t \in A \cap B$ tal que $t >_A a$.
+	
+\end{document}
