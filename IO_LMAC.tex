@@ -2188,8 +2188,10 @@ Caso contrário:
 	
 	%i dont know if this is all necessary.
 	
+	O leitor deverá estar familiar com os seguintes conceitos, definições e teoremas, que são aqui deixados sem prova. O leitor curioso poderá saciar a sua curiosidade com recurso a \cite{axler} e \cite{spivak}.
+	
 	\begin{definition*}
-	Sejam $x, y$ pontos em $\R^n$. Define-se o produto interno de $x$ e $y$, denotado $\langle x, y \rangle$, como $x_1 y_1 + \cdots + x_n y_n$.
+	Sejam $x, y$ pontos em $\R^n$. Define-se o produto interno de $x$ e $y$, denotado $\langle x, y \rangle$, como $x_1 y_1 + \cdots + x_n y_n$. Se considerarmos os pontos em $\R^n$ como sendo matrizes $n \times 1$, este produto pode ser escrito como $y^T x$, facto que será usado frequentemente.
 	
 	Repare-se que, para qualquer $x$, $\langle x, x \rangle$ é sempre maior ou igual a zero, por ser uma soma de quadrados.
 	
@@ -2202,38 +2204,9 @@ Caso contrário:
 	Igualdade acontece sse $x = \lambda y$ ou $y = \lambda x$, para algum $\lambda \in R$.
 	\end{prop}
 	
-	\begin{proof}
-	Considere-se a função $f(\lambda) = \langle y - \lambda x, y - \lambda x \rangle$. Isto é uma função real de variável real, que corresponde a uma parábola. De facto, aplicando a propriedade distributiva, obtemos:
-	
-	\[f(\lambda) = \langle y, y \rangle - \lambda 2 \langle x, y \rangle + \lambda^2 \langle x, x \rangle\]
-	
-	Ora, sabemos que a função $f$ só toma valores maiores ou iguais a zero, pelo que, inspecionando a formula resolvente, concluimos que, no caso em que $x \neq 0$ (para não dividirmos por 0) o discriminante (o valor que fica dentro da raíz quadrada; $b^2 - 4 a c$) é necessariamente menor ou igual a zero. Assim sendo,
-	
-	\[(2 \langle x, y \rangle) ^2 - 4 \langle x, x \rangle \langle y, y \rangle \leq 0\]
-	
-	Disto se conclui rapidamente a desigualdade desejada. O caso não considerado, em que $x = 0$, é trivial.
-	
-	Finalmente, inspecionemos o caso de igualdade. Se $x = 0$ temos igualdade, e de facto temos $x = \lambda y$ com $\lambda = 0$.
-	
-	Pelo outro lado, se $x \neq 0$, igualdade acontece sse o discriminante de $f$ é zero, sse a função $f$ tem uma raíz $\lambda$. Mas, ora, se $f(\lambda) = 0$ temos que $y = \lambda x$, como queriamos demonstrar.
-	\end{proof}
-	
 	\begin{prop}
 	(Desigualdade triangular) $\lvert x + y \rvert \leq \lvert x \rvert + \lvert y \rvert$
 	\end{prop}
-	
-	\begin{proof}
-	Repare-se que
-	
-	\begin{align*}
-	\lvert x + y \rvert ^2 &= \lvert x \rvert ^2 + 2 \langle x, y \rangle + \lvert y \rvert ^2 \\
-	&\leq \lvert x \rvert ^2 + 2 \lvert \langle x, y \rangle \rvert + \lvert y \rvert ^2 \\
-	&\leq \lvert x \rvert ^2 + 2 \lvert x \rvert \lvert y \rvert + \lvert y \rvert ^2 \\
-	&= (\lvert x \rvert + \lvert y \rvert)^2
-	\end{align*}
-	
-	Tomando a raíz quadrada dos dois lados obtemos o desejado.
-	\end{proof}
 	
 	\section{Conceitos Topológicos}
 	
@@ -2258,11 +2231,75 @@ Caso contrário:
 	\end{definition*}
 	
 	\begin{definition*}
-	Seja $D \subseteq \R^n$, $f : D \to \R^m$.
+	Seja $D \subseteq \R^n$, $f : D \to \R^m$. e seja $x \in D$. $f$ diz-se \emph{contínua em $x$} se:
+	
+	\[\forall_\varepsilon \exists_\delta \forall_{y \in D \cap V_\delta(x)} f(y) \in V_\varepsilon(f(x))\]
+	
+	Uma definição alternativa e equivalente é a seguinte: Se $x_n$ é uma sucessão de termos em $D$ que converge para $x$, então $f(x_n)$ converge para $f(x)$.
+	
+	Uma função $f : D \to \R^m$ diz-se \emph{contínua} se for contínua em todos os pontos do seu domínio.
 	\end{definition*}
 	
 	\begin{prop}
-	Seja $D \subseteq \R^n$, $f : D \to \R^m$.
+	Seja $D \subseteq \R^n$, $f : D \to \R^m$. Se $f$ é contínua, a preimagem de qualquer aberto é aberta relativamente a $D$. Por outras palavras:
+	
+	Seja $U$ um aberto contido em $\R^m$. Então, $f^{-1}(U)$ é da forma $D \cap V$, onde $V$ é aberto em $\R^n$. Em particular. se $f$ tiver domínio real, $f^{-1}(U)$ é aberto.
+	
+	Mais ainda, isto é um sse. Ou seja, se esta última condição se verificar para qualquer aberto $U$, então $f$ é contínua em todos os pontos.
 	\end{prop}
+	
+	\begin{proof}
+	Suponha-se, primeiro, que $f : D \to \R^m$ é contínua e que $U \subseteq \R^m$ é aberto. Mostre-se que $f^{-1}(U)$ é aberto relativamente a $D$.
+	
+	Seja $x \in f^{-1}(U)$, ou seja, $f(x) \in U$. Visto que $U$ é aberto, é deixado como exercício para o leitor pode observar que há uma bola aberta $B_x$ à volta de $x$ tal que, para qualquer $x' \in D \cap B_x$ temos $f(x') \in U$. Sendo $V$ a união destes $B_x$ para $x \in D$, temos que $V$ é aberto, por ser união de abertos; temos que para qualquer ponto $x$ em $D \cap V$ se tem $f(x) \in U$, pelo que $D \cap V \subseteq f^{-1}(U)$, e finalmente, para qualquer ponto $x$ em $f^{-1}(U)$ temos uma bola centrada em $x$ contida em $V$, pelo que, em particular, $x$ em $D \cap V$. Conclui-se, então, $D \cap V = f^{-1}(U)$, como desejado.
+	
+	Prove-se agora a implicação oposta. Suponha-se que, para qualquer aberto $U$, $f^{-1}(U)$ é aberto relativamente a $D$. Mostre-se que $f$ é contínua.
+	\end{proof}
+	
+	\begin{prop}
+	Seja $T : \R^n \to \R^m$ uma transformação linear. Então, $T$ é contínua.
+	\end{prop}
+	
+	\begin{proof}
+	
+	\end{proof}
+	
+	A seguinte definição merece algumas palavras. O conceito prestes a ser definido é o de conjunto \emph{compacto}. Isto é um conceito topológico, que se aplica a contextos altamente gerais. A definição geral é, no entanto, alto intragável. Assim sendo, o leitor fica informado que a definição que se segue se aplica apenas a $\R^n$.
+	
+	\begin{definition*}
+	Seja $K \subseteq \R^n$. $K$ diz-se compacto se é fechado e limitado.
+	\end{definition*}
+	
+	Observação: o conceito de compacidade pode ser posto em termos de sucessões, em virtude do facto que tanto o conceito de conjunto fechado como o de conjunto limitado podem ser postos nestes termos. Temos a seguinte proposição:
+	
+	\begin{prop}
+	Um conjunto $S \subseteq \R^n$ é:
+	
+	\begin{itemize}
+	\item Fechado sse qualquer sucessão convergente de elementos de $S$ tem limite em $S$
+	
+	\item Limitado sse qualquer sucessão de elementos de $S$ tem uma subsucessão convergente
+	
+	\item Compacto sse qualquer sucessão de elementos de $S$ tem uma subsucessão com limite em $S$
+	\end{itemize}
+	\end{prop}
+	
+	Como consequência, tem-se o seguinte teorema, que o leitor poderá interpretar como uma generalização do teorema de Weierstrass.
+	
+	\begin{prop}
+	Funções contínuas levam compactos em compactos.
+	\end{prop}
+	
+	\begin{proof}
+	
+	\end{proof}
+	
+	\begin{thebibliography}{9}
+	\bibitem{axler} Linear Algebra Done Right, Sheldon Axler
+	
+	\bibitem{spivak} Calculus on Manifolds, Michael Spivak
+	
+	\bibitem{io} Foundations and Applications of Linear Optimization, Cristina Sernadas et al.
+	\end{thebibliography}
 	
 \end{document}
