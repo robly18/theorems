@@ -2258,14 +2258,6 @@ Caso contrário:
 	Fixe-se $x \in D$ e mostre-se que $f$ é contínua em $x$. Escolha-se $\varepsilon$ arbitrário. Seja $B$ a bola de raio $\varepsilon$ em torno de $f(x)$. Isto é aberto em $\R^m$, pelo que a sua preimagem, $f^{-1}(B)$ é, por hipótese, da forma $D \cap V$ com $V$ aberto. $f(x)$ está contido em $B$, pelo que $x$ está contido em $f^{-1}(B) \subseteq V$. Visto que este último é aberto, existe uma bola de raio $\delta$ em torno de $x$ contida em $V$, pelo que, para $x' \in D \cap V_\delta(x)$ se tem $x' \in D \cap V$, donde, por definição de $D \cap V$, se tem $f(x') \in B = V_\varepsilon(f(x))$, como desejado.
 	\end{proof}
 	
-	\begin{prop}
-	Seja $T : \R^n \to \R^m$ uma transformação linear. Então, $T$ é contínua.
-	\end{prop}
-	
-	\begin{proof}
-	
-	\end{proof}
-	
 	A seguinte definição merece algumas palavras. O conceito prestes a ser definido é o de conjunto \emph{compacto}. Isto é um conceito topológico, que se aplica a contextos altamente gerais. A definição geral é, no entanto, alto intragável. Assim sendo, o leitor fica informado que a definição que se segue se aplica apenas a $\R^n$.
 	
 	\begin{definition*}
@@ -2286,6 +2278,20 @@ Caso contrário:
 	\end{itemize}
 	\end{prop}
 	
+	\begin{proof}
+	(Fechado implica sucessões convergentes convergem para dentro de $S$) Por contradição: Suponha-se que $S$ é fechado e que existe uma sucessão $x_n$ de elementos de $S$ cujo limite $L$ não pertece a $S$. Assim sendo, visto que $L \in \R^n \setminus S$ e $S$ é aberto, existe uma vizinhança $\varepsilon$ de $L$ que não interseta $S$. Por definição de $L$, existe uma ordem a partir do qual todos os elementos de $x_n$ estão em tal vizinhança. Em particular, existe pelo menos um elemento desta sucessão que está nesta vizinhança, e portanto não pertence a $S$, o que contradiz a hipótese sobre a sucessão.
+	
+	(Sucessões convergentes convergem para dentro de $S$ implica fechado) Por contra-recíproco: Suponha-se que $S$ não é fechado. Existe então um ponto $L$ na fronteira de $S$ que não pertence a $S$. Visto que $L$ está na fronteira de $S$, existem pontos de $S$ arbitráriamente próximos de $L$. Escolha-se uma sucessão $x_n$ de elementos de $S$ tal que $x_n$ esteja a menos de $\frac 1 n$ de $L$. Temos então por definição que $x_n$ é uma sucessão de elementos de $S$ que converge para $L$, limite este que não está em $S$.
+	
+	(Limitado implica qualquer sucessão de elementos em $S$ tem uma subsucessão convergente) Como o leitor pode facilmente verificar, para mostrar isto basta verificar que qualquer sucessão limitada tem uma subsucessão convergente. Para este efeito, seja $x_n$ uma sucessão limitada.
+	
+	Por ser limitada, esta sucessão está contida num retângulo fechado $R$. Considere-se o seguinte processo: visto que a sucessão é infinita, existem infinitos $n$ tal que $x_n \in R$. (Em particular, todos). Divida-se $R$ em $2^n$ retângulos idênticos fechados (partindo-o ao meio ao longo de cada eixo). Visto que há infinitos termos, pelo menos um destes retângulos contém um número infinito de termos. Chame-se a tal retângulo $R_1$. Repita-se o processo com $R_1$ para obter um retângulo $R_2$ que contém um número infinito de termos, e assim por diante. Visto que a sequência de retângulos obtida é uma sequência descendente de retângulos fechados, a interseção contém pelo menos um ponto $L$. É agora fácil verificar que, se se definir $i_1$ como sendo um índice tal que $x_{i_1} \in R_1$, $i_2$ como sendo um índice maior que $i_1$ tal que $x_{i_2} \in R_2$, e assim por diante, temos que a subsucessão de $x_n$ dada por $x_{i_n}$ converge para $L$. Esta verificação é deixada ao leitor.
+	
+	(Qualquer sucessão de elementos de $S$ tem subsucessão convergente implica $S$ limitado) Por contra-recíproco: Suponha-se que $S$ é ilimitado, e seja então $x_n$ uma sucessão de elementos de $S$ tal que $\lvert x_n \rvert > n$. É fácil verificar que qualquer subsucessão de $x_n$ satisfaz esta propriedade, pelo que não converge. Logo, $x_n$ não tem subsucessões convergentes.
+	
+	Provados estes dois resultados, o resultado para compacidade é trivial.
+	\end{proof}
+	
 	Como consequência, tem-se o seguinte teorema, que o leitor poderá interpretar como uma generalização do teorema de Weierstrass.
 	
 	\begin{prop}
@@ -2293,7 +2299,23 @@ Caso contrário:
 	\end{prop}
 	
 	\begin{proof}
+	Seja $f : D \to \R^m$ contínua, com $D \subseteq \R^n$ um compacto. Seja $S = f(D)$. Para mostrar que $S$ é compacto, fixe-se uma sucessão $y_n$ de elementos de $S$ e encontre-se uma subsucessão convergente desta.
 	
+	Sabendo que $y_n \in f(D)$ para todo $n$, existe uma sucessão $x_n \in D$ tal que $f(x_n) = y_n$. Ora, visto que a sucessão $x_n$ está contida no compacto $D$, existe uma subsucessão $x_{i_n}$ que converge para algum $x \in D$. Assim sendo, é fácil ver que a sucessão $y_{i_n} = f(x_{i_n})$ converge para $f(x) \in f(D)$.
+	
+	Temos a demonstração concluída, visto que começámos com uma sucessão arbitrária de elementos de $S$ e encontrámos uma subsucessão convergente desta cujo limite está em $S$.
+	\end{proof}
+	
+	\begin{prop}
+	Seja $T : \R^n \to \R^m$ uma transformação linear. Então, $T$ é contínua.
+	\end{prop}
+	
+	\begin{proof}
+	Seja $x_n$ uma sucessão de elementos de $\R^n$ de limite $L$. Mostre-se que a sucessão $T(x_n)$ tem limite $T(L)$. Isto é equivalente a provar que a sucessão $T(x_n - L)$ tem limite $0$. Para isso, é suficiente mostrar que se $x_n$ é uma sucessão que converge para $0$ então $T(x_n)$ converge para $T(0)$.
+	
+	Considere-se agora o seguinte: suponha-se momentâneamente que $x_n$ não tem nenhum termo igual a zero. Então, $T(x_n) = \lvert x_n \rvert T(\frac{x_n}{\lvert x_n \rvert})$, ou seja, $\lvert x_n \rvert$ vezes $T(z_n)$, onde $z_n$ é um elemento do círculo unitário. (É possível levantar agora a restrição $x_n \neq 0$, visto que esta última afirmação continua a ser verdade para $x_n = 0$; basta escolher $z_n$ arbitrário.)
+	
+	Repare-se agora no seguinte: o círculo unitário é compacto. Logo, a imagem do círculo sob $T$ é compacta, pelo que, em particular, é limitada. Logo, existe $C$ tal que, para $z$ unitário, $\lvert T(z) \rvert \leq C$, donde $\lvert T(x_n) \rvert = \lvert x_n \rvert T(z_n) \leq C \lvert x_n \rvert$. Ora, como $x_n \rightarrow 0$ temos que este último termo vai para zero, donde $T(x_n)$ vai para zero, como desejado. 
 	\end{proof}
 	
 	\begin{thebibliography}{9}
