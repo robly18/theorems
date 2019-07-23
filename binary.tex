@@ -9,10 +9,14 @@
 \usepackage{lipsum}
 
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\HH}{\mathcal{H}}
+\newcommand{\BB}{\mathcal{B}}
 
 \newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
 
 \title{\textbf{On optimal bounds for comparing Binary (and $n$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
 
@@ -44,7 +48,7 @@
 
 \section{Hausdorff and Binary measures: a review}
 
-\paragraph{Hausdorff}
+\subsection{Hausdorff}
 
 Let $X$ be a metric space, with distance $d$. We define the \emph{$s$-dimensional Hausdorff measure on $X$} as follows:
 
@@ -54,13 +58,18 @@ First, define, for $E \subseteq X$ and $\delta > 0$, $\HH_s^\delta(E) := \inf \s
 
 \item $\lvert E \rvert$ denotes the \emph{diameter of $E$}, defined by the $\sup$ of distances between elements of $E$;
 
-\item The infimum is taken over countable coverings $\{U_i\}_{i \in \N}$ of $E$ such that the diameter of all $U_i$ is less than $\delta$.
+\item The infimum is taken over countable coverings $\{U_i\}_{i \in \N}$ of $E$ such that the diameter of all $U_i$ is less than $\delta$. This mouthful is usually abbreviated to \emph{$\delta$-coverings}.
 
 \end{itemize}
 
-It is easy to see that, as $\delta$ decreases, this quantity increases. Hence, the limit $\lim_{\delta \to 0} \HH_s^\delta(E)$ exists in $\left[ 0, \infty \right]$. It is this quantity that we denote by $\HH_s(E)$, the \emph{$s$-dimensional Hausdorff measure of $E$}.
+It is easy to see that, as $\delta$ decreases, this quantity increases. Hence, the limit $\lim_{\delta \to 0} \HH_s^\delta(E)$ exists in $\left[ 0, \infty \right]$. It is this quantity that we denote by the \emph{$s$-dimensional Hausdorff measure of $E$}:
 
-\paragraph{Dimension}
+\begin{definition}(Hausdorff Measure)
+
+ \[\HH_s(E) := \lim_{\delta \to 0} \HH_s^\delta(E)\]
+\end{definition}
+
+\subsection{Dimension}
 
 Fixed any set $E$ in a metric space $X$, an interesting phenomenon occurs: there exists a dimension $\sigma \in \left[0, \infty\right]$ such that:
 
@@ -82,7 +91,10 @@ todo
 
 With this in mind, define, for a set $E$, its dimension
 
+\begin{definition} (Hausdorff dimension of a set)
+
 \[\sigma_E := \sup \{\, s \mid \HH_s(E) > 0 \,\}\]
+\end{definition}
 
 We can now show:
 
@@ -103,10 +115,39 @@ The second inequality is trivial by definition of $\sigma_E$.
 As for the first inequality, notice that if $s < \sigma_E$ then there exists $t > s$ such that $\HH_t(E) > 0$. By lemma \ref{helperdimension}, we have $\HH_s(E) = \infty$, as desired.
 \end{proof}
 
+This shows that the dimension of a set is the only dimension for which its Hausdorff measure may be nontrivial, that is, different from $0$ or $\infty$. It should be noted, however, that there is no requirement that it is so.
+
+\begin{definition}
+We will say $E \subseteq X$ is an \emph{$s$-set} if $\HH_s(E) \in \left]0, \infty \right[$.
+
+It is obvious that an $s$-set has dimension $s$.
+\end{definition}
+
+\subsection{Net measures}
+
+Hausdorff measure, and by extension Hausdorff dimension, is sometimes rather unwieldy to calculate, seeing as its definition requires one to look at all possible $\delta$-coverings. As such, there is interest in simplifying this process.
+
+We will restrict our attention to $\R^n$, and later on to $\R$, as unfortunately a lot of what follows is not generalizable to other contexts.
+
+First, notice that it is not without precedent for one to restrict their attention to specific coverings. Indeed, the reader may easily show that, if in the definition of $\HH_s^\delta$ one takes the infimum over \emph{open} $\delta$-coverings instead of arbitrary ones, the value of $\HH_s^\delta$ may change, but the limit as $\delta \to 0$ remains the same. Hence, one could consider the Hausdorff measure defined using open $\delta$-coverings without losing anything.
+
+The notion of net measure arises from the idea of redefining the Hausdorff measure with a more manageable collection of sets to use for coverings. In the context of $\R^n$, Besicovitch (in 1952) used the so-called binary intervals, construction which we will make for the case of $n = 1$, but the reader can satisfy any curiosity they might have regarding the general case in \cite{falconer} \cite{rogers}.
+
+\begin{definition}
+Define the so-called \emph{binary intervals} in $\R$ as the set of intervals of the form $\left[ \frac k {2^j}, \frac {k+1} {2^j} \right[$, for $k, j \in \Z$.
+
+The binary measure is defined analogously to the Hausdorff measure, except instead of arbitrary coverings one restricts themselves to $\delta$-coverings by binary intervals. It is denoted by $\BB_s(E) = \lim_{\delta \to 0} \BB_s^\delta(E)$.
+\end{definition}
+
+The usefulness of this definition lies in that, even though these measures do \emph{not} coincide in general, one can find bounds for one given the other.
+
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
 K. J. Falconer, \textit{The Geometry of Fractal Sets}
+
+\bibitem{rogers}
+C. A. Rogers, \textit{Hausdorff Measures}
 
 \end{thebibliography}
 
