@@ -16,7 +16,10 @@
 \newcommand{\BB}{\mathcal{B}}
 
 \newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
+
+\newtheorem*{remark}{Remark}
 
 \title{\textbf{On optimal bounds for comparing Binary (and $n$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
 
@@ -52,17 +55,17 @@
 
 Let $X$ be a metric space, with distance $d$. We define the \emph{$s$-dimensional Hausdorff measure on $X$} as follows:
 
-First, define, for $E \subseteq X$ and $\delta > 0$, $\HH_s^\delta(E) := \inf \sum_i \lvert U_i \rvert^s$, where:
+First, define, for $E \subseteq X$, $s \in \R^+_0$ and $\delta > 0$, $\HH_s^\delta(E) := \inf \sum_i \lvert U_i \rvert^s$, where:
 
 \begin{itemize}
 
-\item $\lvert E \rvert$ denotes the \emph{diameter of $E$}, defined by the $\sup$ of distances between elements of $E$;
+\item $\lvert E \rvert$ denotes the \emph{diameter of $E$}, defined by the $\sup$ of distances between elements of $E$;\footnote{We follow the convention that the diameter of the empty set be 0.}
 
 \item The infimum is taken over countable coverings $\{U_i\}_{i \in \N}$ of $E$ such that the diameter of all $U_i$ is less than $\delta$. This mouthful is usually abbreviated to \emph{$\delta$-coverings}.
 
 \end{itemize}
 
-It is easy to see that, as $\delta$ decreases, this quantity increases. Hence, the limit $\lim_{\delta \to 0} \HH_s^\delta(E)$ exists in $\left[ 0, \infty \right]$. It is this quantity that we denote by the \emph{$s$-dimensional Hausdorff measure of $E$}:
+It is easy to see that, as $\delta$ decreases, this quantity increases. Hence, the limit $\lim_{\delta \to 0} \HH_s^\delta(E)$ exists in $\left[ 0, \infty \right]$. It is this quantity that we call the \emph{$s$-dimensional Hausdorff measure of $E$}:
 
 \begin{definition}(Hausdorff Measure)
 
@@ -82,7 +85,7 @@ Fixed any set $E$ in a metric space $X$, an interesting phenomenon occurs: there
 To see that this is so, the following lemma is key:
 
 \begin{lemma}\label{helperdimension}
-Let $s < t$ be real nonnegative numbers. Then, if $\HH_t(E) > 0$ we have $\HH_s(E) = \infty$.
+Let $t < s$ be real nonnegative numbers. Then, if $\HH_t(E) < \infty$ we have $\HH_s(E) = 0$.
 \end{lemma}
 
 \begin{proof}
@@ -93,7 +96,7 @@ With this in mind, define, for a set $E$, its dimension
 
 \begin{definition} (Hausdorff dimension of a set)
 
-\[\sigma_E := \sup \{\, s \mid \HH_s(E) > 0 \,\}\]
+\[\sigma_E := \inf \{\, s \mid \HH_s(E) < \infty \,\}\]
 \end{definition}
 
 We can now show:
@@ -110,9 +113,9 @@ We can now show:
 \end{lemma}
 
 \begin{proof}
-The second inequality is trivial by definition of $\sigma_E$.
+The first inequality is trivial by definition of $\sigma_E$.
 
-As for the first inequality, notice that if $s < \sigma_E$ then there exists $t > s$ such that $\HH_t(E) > 0$. By lemma \ref{helperdimension}, we have $\HH_s(E) = \infty$, as desired.
+As for the second inequality, notice that if $s > \sigma_E$ then there exists $t < s$ such that $\HH_t(E) < \infty$. By lemma \ref{helperdimension}, we have $\HH_s(E) = 0$, as desired.
 \end{proof}
 
 This shows that the dimension of a set is the only dimension for which its Hausdorff measure may be nontrivial, that is, different from $0$ or $\infty$. It should be noted, however, that there is no requirement that it is so.
@@ -140,6 +143,28 @@ The binary measure is defined analogously to the Hausdorff measure, except inste
 \end{definition}
 
 The usefulness of this definition lies in that, even though these measures do \emph{not} coincide in general, one can find bounds for one given the other.
+
+The following theorem is found in \cite{falconer} \cite{rogers} and is left here without proof, though in the sequence of this document we will prove stronger results for the particular case of $n = 1$.
+
+\begin{theorem}
+Consider the Hausdorff and Binary measures defined in $\R^n$. The following inequalities hold for any set $E$:
+
+\[ \HH_s(E) \leq \BB_s(E) \leq 3^n 2^{n^2} \HH_s(E) \]
+\end{theorem}
+
+\begin{remark}
+Even though the preceding theorem will not be proven, it should be noticed that one of the inequalities is trivial.
+
+Indeed, for any $\delta$ we have $\HH_s^\delta(E) \leq \BB_s^\delta(E)$, since both are infima taken over coverings of $E$, but the set of coverings `accepted' by the Hausdorff measure is a superset of those considered in the binary measure. Making $\delta \to 0$, we have inequality $\HH_s(E) \leq \BB_s(E)$.
+\end{remark}
+
+The preceding theorem has the following consequence: defining the ``binary dimension'' of a set analogously to how we defined the Hausdorff dimension, these two concepts would coincide. To see why, simply notice that the Hausdorff measure of a set is zero iff the binary measure is zero, and same for infinity.
+
+Hence, if we are interested in the Hausdorff dimension of a set, we may begin by investigating its binary measure.
+
+Notice, however, that the provided bound is, in simple terms, \emph{awful}. Indeed, for $n = 1$ the obtained constant amounts to 6, but we will see below that it can be significantly lowered without much effort. (And then lowered more, with significantly more effort.)
+
+Of course, this is of no consequence for dimensional considerations, which is where (as far as the author is aware) their main utility is found. However, the results that follow allow for much tighter bounds, and hopefully better understanding of how these two relate.
 
 
 \begin{thebibliography}{1}
