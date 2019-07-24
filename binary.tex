@@ -161,7 +161,7 @@ The usefulness of this definition lies in that, even though these measures do \e
 
 The following theorem is found in \cite{falconer} \cite{rogers} and is left here without proof, though in the sequence of this document we will prove stronger results for the particular case of $n = 1$.
 
-\begin{theorem}
+\begin{theorem}\label{badbound}
 Consider the Hausdorff and Binary measures defined in $\R^n$. The following inequalities hold for any set $E$:
 
 \[ \HH_s(E) \leq \BB_s(E) \leq 3^n 2^{n^2} \HH_s(E) \]
@@ -226,6 +226,36 @@ This inequality because for every $U_i$ we assign its three corresponding interv
 \end{align*}
 
 \end{proof}
+
+This bound, while much better than the one mentioned in theorem \ref{badbound}, can still go a long way. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a binary $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by binary intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. The reader might be concerned about making sure that these binary intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
+
+\begin{lemma}
+Fix a dimension $s \in \R^+$.
+
+Suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a binary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
+
+\[\sum m_i^s \leq C \ell^s\]
+
+Then $\BB_s \leq C \HH_s$
+\end{lemma}
+
+\begin{proof}
+This proof proceeds much like the previous one, with one caveat.
+
+Fixed some $E$, let $I_i$ be any $\delta$-covering of $E$ by intervals. For each $I_i$, let $\{J_{ij}\}_{j \in \N}$ be a collection of binary intervals such that  $\sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s$.
+
+First, notice that, while it is \emph{not} necessary that the collection $\{J_{ij}\}_{i,j \in \N}$ forms a $\delta$-covering, we can be assured that it forms at most a $C^{1/s}\delta$-covering, as, for any $i, j$ we have
+
+\[ \lvert J_{ij} \rvert^s \leq \sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s \leq C \delta^s\]
+
+And so $\lvert J_{ij} \rvert \leq C^{1/s} \delta$, as desired.
+
+The argument now goes much like the previous one, except we can only show that $\BB_s^{C^{1/s} \delta} \leq C \HH_s^\delta$. This turns out to be enough, however, as taking $\delta \to 0$ also yields $C^{1/s} \delta \to 0$, and so both sides of this inequality converge to $\BB_s$ and $\HH_s$, respectively.
+\end{proof}
+
+\begin{remark}
+It should be noted that we had to exclude the case $s = 0$ from consideration in this last proposition. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, as the reader should verify, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on the reals.
+\end{remark}
 
 
 \begin{thebibliography}{1}
