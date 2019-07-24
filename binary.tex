@@ -17,11 +17,14 @@
 
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{prop}{Prop}
+
 \newtheorem{definition}{Definition}
 
 \newtheorem*{remark}{Remark}
 
-\title{\textbf{On optimal bounds for comparing Binary (and $n$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
+\title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Binary (and $b$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
 
 
 \author{Duarte Maia}
@@ -149,7 +152,7 @@ First, notice that it is not without precedent for one to restrict their attenti
 The notion of net measure arises from the idea of redefining the Hausdorff measure with a more manageable collection of sets to use for coverings. In the context of $\R^n$, Besicovitch (1952) used the so-called binary intervals, construction which we will make for the case of $n = 1$, but the reader can satisfy any curiosity they might have regarding the general case in \cite{falconer} \cite{rogers}.
 
 \begin{definition}
-Define the so-called \emph{binary intervals} in $\R$ as the set of intervals of the form $\left[ \frac k {2^j}, \frac {k+1} {2^j} \right[$, for $k, j \in \Z$.
+Define the so-called \emph{binary intervals} in $\R$ as the set of intervals of the form $\left[ k 2^j, (k+1) 2^j \right[$, for $k, j \in \Z$.
 
 The binary measure is defined analogously to the Hausdorff measure, except instead of arbitrary coverings one restricts themselves to $\delta$-coverings by binary intervals. It is denoted by $\BB_s(E) = \lim_{\delta \to 0} \BB_s^\delta(E)$.
 \end{definition}
@@ -178,9 +181,51 @@ Notice, however, that the provided bound is, in simple terms, \emph{awful}. Inde
 
 Of course, this is of no consequence for dimensional considerations, which is where (as far as the author is aware) their main utility is found. However, the results that follow allow for much tighter bounds, and hopefully better understanding of how these two relate.
 
-\section{Better elementary bounds, and a few notes on notation}
+\subsection{Hausdorff Coverings}
 
-\lipsum[1]
+As mentioned above, it is sometimes convenient, yet entirely admissible, for one to only consider open coverings of sets instead of allowing for the full generality of any possible covering. This is not the only simplification that will be useful for us to do.
+
+First, notice that any monotone operation that can be done on a set without increasing its diameter can be assumed to be done without loss of generality.
+
+To use an example: notice that taking the closure of a set $U$ does not increase its diameter. As such, given any $\delta$-covering $\{U_i\}$ of a set $E$, the collection $\{ \overline{U_i} \}$ is also a $\delta$-covering of $E$, with all sets closed, and with all diameters the same, whence the Hausdorff sum is also the same. This shows, then, that we can assume without loss of generality that our infimum in the definition of $\HH_s^\delta$ can be taken over the closed sets.
+
+A more specific example, yet useful for our purposes, is (in $\R^n$) the operation of taking the convex hull, which, as the reader may notice, satisfies the condition of monotony and not increasing diameters. This shows, then, that we may take infima over convex sets with no loss of generality.
+
+In the particular case of $\R$, what this shows is that we can assume the sets we are using for coverings are intervals. Sometimes it will be useful for us to assume these intervals closed, sometimes it's useful to suppose them open. In any case, the reader should be aware that these hypotheses harm in no way the generality of the results obtained.
+
+As a final remark, it is often useful to exclude, in our coverings, cases where the sets have diameter 0. Indeed, many authors explicitly exclude the case of 0-diameter sets in the definition of $\delta$-coverings. It is, however, a simple exercise that it doesn't matter whether you allow these sets or not.
+
+\section{Better elementary bounds}
+
+We have already shown, as a remark, that, in $\R$, $\HH_s \leq \BB_s$. We will now proceed to establish a bound in the opposite direction, beginning our journey to find optimal bounds.
+
+Everything that follows will be done in the context of $\R$.
+
+\begin{theorem}
+\[ \BB_s \leq 3 \HH_s \]
+\end{theorem}
+
+\begin{proof}
+To show this fact, we will show that for any $E$ and $\delta$ we have the inequality $\BB_s^\delta(E) \leq 3 \HH_s^\delta(E)$. To this effect, we will show that given any $\delta$-covering of $E$ we can construct a binary $\delta$-covering of $E$ such that its `Hausdorff sum' is not much bigger than the original's.
+
+Fix, then, a $\delta$-covering $\{U_i\}$ of $E$, which we suppose without loss of generality to be composed of intervals with diameter strictly greater than zero. Define, for each $i$, $j_i$ to be the greatest integer such that $2^{j_i} < \lvert U_i \rvert$, and hence $2^{j_i} < \delta$ for all $i$.
+
+Notice that at least one interval of the form $\left[ k_i 2^{j_i}, (k_i + 1) 2^{j_i} \right[$ is wholly contained within $U_i$. Furthermore, this interval, united with the intervals of its size immediately to its left and immediately to its right, cover $U_i$ entirely.
+
+Now, consider the covering $\{I_i\}$ obtained from $\{U_i\}$ by replacing each $U_i$ by the three intervals mentioned above. We now have a binary $\delta$-covering of $E$, with Hausdorff sum:
+
+\[\sum \lvert I_i \rvert^s \leq \sum 3 \lvert U_i \rvert^s\]
+
+This inequality because for every $U_i$ we assign its three corresponding intervals, each with diameter less than $\lvert U_i \rvert$. This completes our proof, since:
+
+\begin{align*}
+3 \HH_s^\delta &= 3 \times \inf \text{over $U_i$}\\
+&\geq \inf \text{over the corresponding $I_i$}\\
+&\geq \inf \text{over all binary $\delta$-coverings}\\
+&= \BB_s^\delta
+\end{align*}
+
+\end{proof}
 
 
 \begin{thebibliography}{1}
