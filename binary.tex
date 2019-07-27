@@ -22,6 +22,8 @@
 
 \newtheorem{definition}{Definition}
 
+\newtheorem{conjecture}{Conjecture}
+
 \newtheorem*{remark}{Remark}
 
 \title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Binary (and $b$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
@@ -112,7 +114,7 @@ With this in mind, define, for a set $E$, its dimension
 
 We can now show:
 
-\begin{lemma}
+\begin{prop}
 (Well-definedness of the dimension of a set) Let $E \subseteq X$, where $X$ is a metric space.
 
 \begin{itemize}
@@ -121,7 +123,7 @@ We can now show:
 \item For $s > \sigma_E$, $\HH_s(E) = 0$;
 \end{itemize}
 
-\end{lemma}
+\end{prop}
 
 \begin{proof}
 The first inequality is trivial by definition of $\sigma_E$.
@@ -236,7 +238,7 @@ Suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can
 
 \[\sum m_i^s \leq C \ell^s\]
 
-Then $\BB_s \leq C \HH_s$
+Then $\BB_s \leq C \HH_s$.
 \end{lemma}
 
 \begin{proof}
@@ -257,7 +259,79 @@ The argument now goes much like the previous one, except we can only show that $
 It should be noted that we had to exclude the case $s = 0$ from consideration in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, as the reader should verify, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on the reals.
 \end{remark}
 
-This last lemma will be central in what follows. Indeed, our strategy to find a bound $C$ will be to, given an interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$.
+This last lemma will be central in what follows. Indeed, our strategy to find a bound $C$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before moving on, a few remarks are in order.
+
+\section{$b$-ary measures}
+
+As mentioned before, for the purposes of dimensional analysis, the binary measures are more than sufficient. However, for the purposes of estimating the Hausdorff measure, it might be worth looking into something slightly more general than binary intervals.
+
+\begin{definition}
+Define the $b$-ary intervals, where $b \in \Z_{\geq 2}$, as those of the form:
+
+\[\left[k b^j, (k+1) b^j \right[, \;k, j \in \Z\]
+
+The definition for the $s$-dimensional $b$-ary measure, denoted $\BB_{bs}$, and the corresponding $\delta$-measures $\BB_{bs}^\delta$, should be evident by comparison to the definition of the binary one, using the $b$-ary intervals instead of the binary ones.
+\end{definition}
+
+The results of the last section can be translated into this slightly more generic context without much added effort. The following proposition is left to the reader, their proofs an easy adaptation.
+
+\begin{lemma}
+Fix a dimension $s \in \R^+$.
+
+Suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable $b$-ary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
+
+\[\sum m_i^s \leq C \ell^s\]
+
+Then $\BB_{bs} \leq C \HH_s$.
+
+In particular, one can easily show the premise is true for $C = b+1$, whence one gets the bound:
+
+\[\HH_s \leq \BB_{bs} \leq (b+1) \HH_s\]
+\end{lemma}
+
+This last bound hints at something we will study: it appears that, the bigger the $b$ (that is, the more pieces we divide our intervals in) the worse the estimate. This makes sense: the bigger the $b$, the less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
+
+This intuition proves to be partially correct, as the following proposition shows:
+
+\begin{prop}
+Let $b, c \in \Z_{\geq 2}$ and suppose $c$ is a multiple of $b$.
+
+Then, $\BB_{bs} \leq \BB_{cs}$
+\end{prop}
+
+\begin{proof}
+This proof is trivial: simply notice that, if $c$ is a multiple of $b$, any $c$-ary interval is also a $b$-ary one. As such, when taking the infima for $\BB_{bs}^\delta$ one has more sets than in $\BB_{cs}^\delta$, whence $\BB_{bs}^\delta \leq \BB_{cs}^\delta$ and the result follows.
+\end{proof}
+
+We conjecture that this proposition captures precisely which of these measures are greater than others. That is:
+
+\begin{conjecture}
+$\BB_{bs} \leq \BB_{cs}$ iff $c$ is a multiple of $b$.
+\end{conjecture}
+
+Unfortunately, we have, as of yet, been unable to show this. We do, however, have some evidence that shows that the following proposition is \textbf{false}: if $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$. The counterexample to this possible conjecture is found closer to the end of this document.
+
+\section{Minimal interval coverings}
+
+We focus now on the problem of, fixed a dimension $s$ and given an interval $I$, finding a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume $I$ to be of the form $\left[ a, b \right[$ with $a < b$, as we can always assume our Hausdorff coverings are composed of intervals of this kind. (To see why, notice that we can always assume the coverings to be by open intervals, and we lose nothing by closing our intervals on the left.) The reason we are assuming this is so that this plays well with our binary intervals, which are also half-open.
+
+In truth, what we are actually concerned about is, as a function of the length of the interval $I$, let's call it $\ell$, how small a $b$-ary covering of it can we make? In particular, we want to find out the smallest $C$ such that we can always find a binary covering with Hausdorff sum less than or equal to $C \ell^s$. Symbolically this can be written as:
+
+\[\sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}\]
+
+Where the supremum is taken over the half-open intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any binary covering is admissible.
+
+Notice, now, that an interval is uniquely determined by its length and its position. We can, then, write that supremum as:
+
+\[\sup_\ell \sup_\text{$I$ of length $\ell$} \frac{\BB_{bs}^\infty(I)}{\ell^s}\]
+
+Which is the same as:
+
+\[\sup_\ell \frac{\sup_I \BB_{bs}^\infty(I)}{\ell^s}\]
+
+We investigate, then, $\sup \BB_{bs}^\infty(I)$, where the supremum is taken over intervals of a fixed length $\ell$.
+
+Fixed $I$, there are two possible cases: either $I$ contains the origin, or it is wholly contained in a $b$-ary interval. Notice that this latter case is, in some sense, unnecessary to consider, as if the best possible covering of some $I$ is given by an interval containing it in its whole then translating this interval %todo??? help????
 
 
 \begin{thebibliography}{1}
