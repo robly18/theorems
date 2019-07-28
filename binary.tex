@@ -319,7 +319,7 @@ In truth, what we are actually concerned about is, as a function of the length o
 
 \[\sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}\]
 
-Where the supremum is taken over the half-open intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any binary covering is admissible.
+Where the supremum is taken over the half-open nonempty intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any binary covering is admissible.
 
 Notice, now, that an interval is uniquely determined by its length and its position. We can, then, write that supremum as:
 
@@ -331,21 +331,66 @@ Which is the same as:
 
 We investigate, then, $\sup \BB_{bs}^\infty(I)$, where the supremum is taken over intervals of a fixed length $\ell$.
 
-We will now show the following: we can assume, in addition, that our interval contains the origin.
+We will now show the following: we can assume, in addition, that our interval contains the origin. To this effect, given any interval $I$ we will construct an interval $I'$, containing the origin, such that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
 
-Let $b^j$ be the largest power of $b$ strictly less than $\ell$, so $b^j < \ell \leq b^{j+1}$, and let $I$ be an interval of length $\ell$. There exists at least one number of the form $k b^j$ contained in $I$. Let $I'$ be the interval $I$, translated such that this point becomes the origin. We will show that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$, and so that, if we consider the interval $I'$ in our supremum, we do not need to look at $I$.
+This construction, unfortunately, is not the most elegant, and requires splitting into three cases:
 
-First, consider the following two cases: either $\BB_{bs}^\infty(I) = \BB_{bs}^{b^{j+1}}(I)$, or $\BB_{bs}^\infty(I) < \BB_{bs}^{b^{j+1}}(I)$.
+Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
-In the first case, we need only consider coverings with intervals of length $b^j$ or below. Notice that these intervals are preserved by the translation that took $I$ to $I'$, and as such $\BB_{bs}^{b^j}(I) = \BB_{bs}^{b^j}(I')$. Hence:
+Does there exist a number of the form $k b^{j+1}$ contained in $I$?
+%%Todo make explicit that s \in [0,1]
+\begin{enumerate}
 
-\[\BB_{bs}^\infty(I) = \BB_{bs}^{b^j}(I) = \BB_{bs}^{b^j}(I') \leq \BB_{bs}^\infty(I')\]
+\item \textbf{If so,} let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order. Observation number one:
 
-As desired. We now proceed to inspect the second case: suppose $\BB_{bs}^\infty(I) < \BB_{bs}^{b^j}(I)$. In this case, there exists a $b$-ary covering of $I$ with sum less than any which uses only intervals of length $b^j$ or less. This covering must use at least one interval of size $b^{j+1}$ or above.
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^{j+1}}(I')\]
 
-There are now two cases: either this interval covers $I$ entirely or it does not.
+This is clearly true because any covering of $I'$ using an interval of size greater than $b^{j+1}$ can be `improved' by replacing it with a smaller interval. Observation number two:
 
-In this last case, suppose `retroactively' that the point we have chosen to translate $I$ by to become $I'$ was the end of the big interval that is contained in $I$. 
+\[\BB_{bs}^{b^{j+1}}(I') = \BB_{bs}^{b^{j+1}}(I)\]
+
+This is clearly true because the translation done to turn $I$ into $I'$ preserves binary intervals of size $b^{j+1}$ or less.
+
+These two, joined with the fact that $\BB_{bs}^{b^{j+1}}(I) \geq \BB_{bs}^\infty(I)$, give us the desired inequality:
+
+\[\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)\]
+
+\item \textbf{If not,} then it is easy to see that
+
+\[\BB_{bs}^\infty(I) = \min(\BB_{bs}^{b^j}(I), b^{(j+1)s})\]
+
+We know for sure there exists at least one point of the form $k b^j$ in $I$. Let $I'$ be given by translating $I$ by $-k b^j$. We proceed to compare $\BB_{bs}^\infty(I')$ and $\BB_{bs}^\infty(I)$.
+
+\begin{enumerate}
+
+\item \textbf{If} $\BB_{bs}^{b^j}(I) \leq b^{(j+1)s}$, then notice that, as above, we have
+
+\[\BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) \leq b^{(j+1)s}\]
+
+And thus, $\BB_{bs}^{b^j}(I') = \BB_{bs}^\infty(I')$, as any coverings containing intervals bigger then $b^j$ can be safely ignored. Finalizing, we get:
+
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) = \BB_{bs}^\infty(I)\]
+
+\item \textbf{If} $\BB_{bs}^{b^j}(I) \geq b^{(j+1)s}$, simply observe that either
+
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I')\]
+
+In which case $\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I) \geq \BB_{bs}^\infty(I)$, as desired.
+
+Or it could happen that
+
+\[\BB_{bs}^\infty(I') < \BB_{bs}^{b^j}(I')\]
+
+In which case we can safely assert $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{bs}^\infty(I)$ since we need only consider coverings that contain at least one interval of length $b^{j+1}$ and so have Hausdorff sum of at least $b^{(j+1)s}$.
+\end{enumerate}
+\end{enumerate}
+
+\qed
+
+This construction done, we have now shown that our problem can be reduced to
+
+
+\[\sup_\ell \sup_{\substack{\text{$I$ of length $\ell$}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\ell^s}\]
 
 
 \begin{thebibliography}{1}
