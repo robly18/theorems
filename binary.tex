@@ -257,6 +257,8 @@ The argument now goes much like the previous one, except we can only show that $
 
 \begin{remark}
 It should be noted that we had to exclude the case $s = 0$ from consideration in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, as the reader should verify, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on the reals.
+
+As such, in all that follows, unless said otherwise, \textbf{it should be assumed that $s \neq 0$}.
 \end{remark}
 
 This last lemma will be central in what follows. Indeed, our strategy to find a bound $C$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before moving on, a few remarks are in order.
@@ -338,7 +340,7 @@ This construction, unfortunately, is not the most elegant, and requires splittin
 Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
 Does there exist a number of the form $k b^{j+1}$ contained in $I$?
-%%Todo make explicit that s \in [0,1]
+%%Todo make explicit that s \in ]0,1]
 \begin{enumerate}
 
 \item \textbf{If so,} let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order. Observation number one:
@@ -390,7 +392,29 @@ In which case we can safely assert $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{b
 This construction done, we have now shown that our problem can be reduced to
 
 
-\[\sup_\ell \sup_{\substack{\text{$I$ of length $\ell$}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\ell^s}\]
+\[\sup_{\substack{\text{$I$ half-open interval}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}\]
+
+A simple observation about the origin is that any $b$-ary interval is either to the right or to the left of the origin, but no interval touches both sides. As such, we can consider our covering of the left side to be independent of our covering of the right side, leading quickly to the conclusion that, if $I = \left[ a, b \right[$ with $a \leq 0 \leq b$, we have:
+
+\[\BB_{bs}^\delta(\left[a, b\right[) = \BB_{bs}^\delta(\left[a, 0\right[) + \BB_{bs}^\delta(\left[0, b\right[)\]
+
+For any $\delta \in \left]0, \infty \right]$.
+
+Another observation, which we will justify rigorously soon (see lemma \ref{sidedoesntmatter}), is that $\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)$. This has interesting consequences, in that, if we define for $t \geq 0$ the function $g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[)$, our problem becomes one of optimization:
+
+\[ \sup_{a,b \in \R^+_0} \frac{g_{bs}(a) + g_{bs}(b)}{(a + b)^s} \]
+
+And so, we proceed to study the function $g_{bs}$, (we will often suppress the subscript when it is obvious from context and not particularly relevant) which has a surprising connection to the theory of $b$-ary expansions of real numbers. Before going into details, however, the promised lemma:
+
+\begin{lemma}
+\[\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)\]
+\end{lemma}
+
+\begin{proof}
+Fix any $b$-ary $\delta$-covering of $\left[a, 0\right[$. Suppose it is $\{\left[x_i, y_i\right[\}$. Consider the collection $\{\left[-y_i, -x_i\right[\}$. 
+
+It is easy to see that this collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$, but one may easily augment our collection of intervals with things of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, and so we reach the conclusion that $\BB_{bs}^\delta(\left[a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. The same argument works to get the other inequality, and thus, for $s \neq 0$ we get the desired equality.
+\end{proof}
 
 
 \begin{thebibliography}{1}
