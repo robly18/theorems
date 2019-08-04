@@ -6,6 +6,9 @@
 
 \usepackage{showlabels}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
 \usepackage{lipsum}
 
 \newcommand{\R}{\mathbb{R}}
@@ -24,7 +27,7 @@
 
 \newtheorem{conjecture}{Conjecture}
 
-\newtheorem*{remark}{Remark}
+\newtheorem{remark}{Remark}
 
 \title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Binary (and $b$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
 
@@ -255,7 +258,7 @@ And so $\lvert J_{ij} \rvert \leq C^{1/s} \delta$, as desired.
 The argument now goes much like the previous one, except we can only show that $\BB_s^{C^{1/s} \delta} \leq C \HH_s^\delta$. This turns out to be enough, however, as taking $\delta \to 0$ also yields $C^{1/s} \delta \to 0$, and so both sides of this inequality converge to $\BB_s$ and $\HH_s$, respectively.
 \end{proof}
 
-\begin{remark}
+\begin{remark} \label{dimnotzero}
 It should be noted that we had to exclude the case $s = 0$ from consideration in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, as the reader should verify, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on the reals.
 
 As such, in all that follows, unless said otherwise, \textbf{it should be assumed that $s \neq 0$}.
@@ -406,7 +409,7 @@ Another observation, which we will justify rigorously soon (see lemma \ref{sided
 
 And so, we proceed to study the function $g_{bs}$, (we will often suppress the subscript when it is obvious from context and not particularly relevant) which has a surprising connection to the theory of $b$-ary expansions of real numbers. Before going into details, however, the promised lemma:
 
-\begin{lemma}
+\begin{lemma} \label{sidedoesntmatter}
 \[\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)\]
 \end{lemma}
 
@@ -415,6 +418,84 @@ Fix any $b$-ary $\delta$-covering of $\left[a, 0\right[$. Suppose it is $\{\left
 
 It is easy to see that this collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$, but one may easily augment our collection of intervals with things of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, and so we reach the conclusion that $\BB_{bs}^\delta(\left[a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. The same argument works to get the other inequality, and thus, for $s \neq 0$ we get the desired equality.
 \end{proof}
+
+\section{$b$-ary digit expansions}
+
+In the previous section we showed that a possible approach to our problem goes through investigating the optimization problem:
+
+\[ \sup_{a,b \in \R^+_0} \frac{g_{bs}(a) + g_{bs}(b)}{(a + b)^s} \]
+
+In an of itself, this reduction wouldn't be much help, but as it turns out one can draw a connection between this function $g$ and the theory of noninteger base expansions.
+
+\begin{remark}
+In remark \ref{dimnotzero} we mentioned that we will be tacitly assuming $s \neq 0$. We will outline here another such assumption.
+
+It is not hard to see that $\R$ has Hausdorff dimension 1. From there, one can easily see that, for $s > 1$, both the binary and the Hausdorff measre of \emph{any} set in $\R$ will be zero. As such, the question of the relationship between these two is trivial and uninteresting. Therefore, we add another tacit assumption:
+
+\textbf{From now on, we always assume $s \leq 1$.}
+\end{remark}
+
+Let's fix some $t > 0$, and investigate how one might go about calculating $g(t)$ fixed a dimension $s$ and a base $b$. (The case $t = 0$ is trivial, and thus unconsidered.) We remind the reader of the definition of $g$:
+
+\[g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[)\]
+
+First, fix $b^k$ as the least power of $b$ that is $\geq t$. Then, a possible covering of $\left[0, t \right[$ would be the interval $\left[0, b^k\right[$. Hence, $g(t) \leq b^{ks}$.
+
+Now, consider that $b^{k-1} < t$, and so there is a maximal integer, which we will call $d_1$, such that $d_1 b^{k-1} \leq t$. As such, this gives us another possible covering of our interval: consider the sequence of intervals formed by
+
+\[\left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[d_1 b^{k-1}, (d_1 + 1) b^{k-1} \right[ \]
+
+This gives us another upper bound for $g(t)$: $g(t) \leq (d_1 + 1) b^{k-1}$.
+
+We can continue this process: let $d_2$ be maximal such that $d_1 b^{k-1} + d_2 + b^{k-2} \leq t$. The following sequence of intervals will cover $\left[0, t \right[$:
+
+\begin{multline*}
+\left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[(d_1 - 1) b^{k-1}, d_1 b^{k-1} \right[ \\
+\left[d_1 b^{k-1}, d_1 b^{k-1} + b^{k-1} \right[, , \cdots, \left[d_1 b^{k-1} + d_2 b^{k-2}, d_1 b^{k-1} + (d_2 + 1) b^{k-2} \right[
+\end{multline*}
+
+Giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$.
+
+We will make this process more rigorous shortly. Below is a diagram exemplifying it for $b = 3$ and $t = 0.86$.
+
+
+\begin{tikzpicture}
+\draw[thick, {|-|}] (0,0) node[above]{0} -- (10,0) node[above]{1};
+\draw[thick, {->}] (10,0) -- (12, 0) node[above]{$x$};
+
+%The following was automatically generated with the help of the code at binary.py
+\draw[thick, gray, {[-)}] (0, -1.0) -- (10, -1.0);
+\draw[thick, red, {[-)}] (0, -1.5) -- (3.333333333333333, -1.5);
+\draw[thick, red, {[-)}] (3.333333333333333, -1.5) -- (6.666666666666666, -1.5);
+\draw[thick, red, {[-)}] (6.666666666666666, -1.5) -- (10.0, -1.5);
+\draw[thick, red, {[-)}] (0, -2.0) -- (3.333333333333333, -2.0);
+\draw[thick, red, {[-)}] (3.333333333333333, -2.0) -- (6.666666666666666, -2.0);
+\draw[thick, orange, {[-)}] (6.666666666666666, -2.0) -- (7.777777777777777, -2.0);
+\draw[thick, orange, {[-)}] (7.777777777777777, -2.0) -- (8.88888888888889, -2.0);
+\draw[thick, red, {[-)}] (0, -2.5) -- (3.333333333333333, -2.5);
+\draw[thick, red, {[-)}] (3.333333333333333, -2.5) -- (6.666666666666666, -2.5);
+\draw[thick, orange, {[-)}] (6.666666666666666, -2.5) -- (7.777777777777777, -2.5);
+\draw[thick, yellow, {[-)}] (7.777777777777777, -2.5) -- (8.148148148148147, -2.5);
+\draw[thick, yellow, {[-)}] (8.148148148148147, -2.5) -- (8.518518518518515, -2.5);
+\draw[thick, yellow, {[-)}] (8.518518518518515, -2.5) -- (8.888888888888886, -2.5);
+\draw[thick, red, {[-)}] (0, -3.0) -- (3.333333333333333, -3.0);
+\draw[thick, red, {[-)}] (3.333333333333333, -3.0) -- (6.666666666666666, -3.0);
+\draw[thick, orange, {[-)}] (6.666666666666666, -3.0) -- (7.777777777777777, -3.0);
+\draw[thick, yellow, {[-)}] (7.777777777777777, -3.0) -- (8.148148148148147, -3.0);
+\draw[thick, yellow, {[-)}] (8.148148148148147, -3.0) -- (8.518518518518515, -3.0);
+\draw[thick, lime, {[-)}] (8.518518518518515, -3.0) -- (8.641975308641975, -3.0);
+
+
+\draw[thick] (8.6, 0.1) node[above]{0.86} -- (8.6, -3.1);
+ 
+\end{tikzpicture}
+
+\bigskip
+
+Notice the structure of how we would find the $d_i$ in the previous argument: already knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the $b$-ary digits of $t$.
+
+
+
 
 
 \begin{thebibliography}{1}
