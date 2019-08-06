@@ -11,6 +11,10 @@
 
 \usepackage{lipsum}
 
+\usepackage{listings}
+
+\lstset{basicstyle=\ttfamily, mathescape=true}
+
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -494,9 +498,39 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 
 Notice the structure of how we would find the $d_i$ in the previous argument: already knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the $b$-ary digits of $t$.
 
+So, let us consider the algorithm to calculate $g(t)$:
+
+Let $b^k$ be the least power of $b$ greater than $t$ for $t > 0$.
+
+\begin{lstlisting}
+$rem \leftarrow t$
+$i \leftarrow 0$
+Loop:
+  $i \leftarrow i-1$
+  Put $d_i$ be the greatest integer $k$ such that $k \cdot b^{k-i} \leq rem$
+  $rem \leftarrow rem - d_i b^{k-1}$
+\end{lstlisting}
+
+The preceding algorithm will calculate the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
+
+\[b_1 b_2 \cdots b_k \, . \, b_{k+1} \cdots\]
 
 
+The reader may easily verify that all the $d_i$ are members of the set $\{ 0, \cdots, b-1\}$, and furthermore we have:
 
+\[\sum_{i = 1}^\infty d_i b^{k-i} = t\]
+
+Finally, it is easy to notice that, for any $N \geq 0$:
+
+\[(\sum_{i=1}^N d_i b^{k-i}) + b^{k-N} \geq t\]
+
+As such, we may consider the following sequence of intervals:
+
+\begin{multline*}
+\{\, \left[ x , x + b^{k-N} \right[ \mid x = (\sum_{i=1}^N d_i b^{k-i}) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\}\\
+\cup\\
+\{\left[ (\sum_{i=1}^M d_i b^{k-i}) ,(\sum_{i=1}^M d_i b^{k-i}) + b^{k-M} \right[\}
+\end{multline*}
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
