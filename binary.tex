@@ -513,7 +513,11 @@ Loop:
 
 The preceding algorithm will calculate the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
 
-\[b_1 b_2 \cdots b_k \, . \, b_{k+1} \cdots\]
+\[d_1 d_2 \cdots d_k \, . \, d_{k+1} \cdots\]
+
+Or, in scientific notation:
+
+\[0.d_1 d_2 d_3 \dots \times b^k\]
 
 
 The reader may easily verify that all the $d_i$ are members of the set $\{ 0, \cdots, b-1\}$, and furthermore we have:
@@ -526,11 +530,35 @@ Finally, it is easy to notice that, for any $N \geq 0$:
 
 As such, we may consider the following sequence of intervals:
 
-\begin{multline*}
+\begin{gather*}
 \{\, \left[ x , x + b^{k-N} \right[ \mid x = (\sum_{i=1}^N d_i b^{k-i}) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\}\\
 \cup\\
 \{\left[ (\sum_{i=1}^M d_i b^{k-i}) ,(\sum_{i=1}^M d_i b^{k-i}) + b^{k-M} \right[\}
-\end{multline*}
+\end{gather*}
+
+The notation has become extremely burdensome, so we make the following definitions:
+
+\begin{definition}
+First, we will use the notation $\left[ x, +\delta \right[$ to mean $\left[x, x+\delta \right[$.
+
+Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Define the collection of intervals denoted by:
+
+\[ b^k [d_0 d_1 d_2 \dots] \]
+
+As follows:
+
+First, define it inductively for finite sequences:
+
+\begin{gather*}
+b^k [] = \emptyset\\
+b^k [d_0 \cdots d_n d_{n+1}] = b_n [d_0 \cdots d_n] \cup \{\,\left[d_0 . d_1 \cdots d_n j \times b^k, +b^{k-(n+1)} \right[ \mid 0 \leq j < d_{n+1} \,\}
+\end{gather*}
+
+And, for infinite sequences, simply take the crescent union:
+
+\[ b^k[d_0 d_1 \dots] = \bigcup_{i = 0}^\infty b^k[d_0 \cdots d_i] \]
+
+\end{definition}
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
