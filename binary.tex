@@ -610,15 +610,58 @@ We have already shown $LHS \leq RHS$, so we will focus on showing the other ineq
 
 We will do this in two parts: first, we will show that the infimum to calculate $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that these $a_i$ can be taken to be only those of the above form.
 
-Fix an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$. First, note that we can assume without loss of generality that all $I_i$ are disjoint from one another.
+Fix an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$.
 
-We may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality.
+We may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. In fact, assume $A$ is wholly contained in $\left[0, b^k \right[$.
 
+Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows:
+
+For all $n \in \N$, defined $a_0 \cdots a_{n-1}$, let $a_n$ be the greatest natural such that $b^k [a_0 \cdots a_n] \subseteq \bigcup I_i$. Let $A'$ be the covering given by $b^k [a_0 a_1 \dots]$. We wish to show that this covering not only covers $\left[0, t \right[$, but also has Hausdorff sum less than or equal to that of $A$.
+
+First, we show it covers the desired interval. We know $A'$ covers the interval from 0 up to $a = b^k \times a_0 . a_1 a_2 \dots$, so suppose for the sake of arguent that $a < t = b^k \times d_0 . d_1 d_2 \dots$. It is easy to verify that if $a < t$ then the following happens:
+
+There exists $n$ such that for $i < n$ we have $a_i = d_i$, and $a_n < d_n$.
+
+But if this is the case, we have a contradiction with our definition of $a_n$ by maximality, as it means $b^k \times a_0 . a_1 \cdots a_{n-1} (a_n + 1)$ would be $\leq t$ and so $b^k [a_0 \cdots a_{n-1} (a_n + 1)] \subseteq \bigcup I_i$.
+
+So, we have established that $A'$ covers $\left[0, t\right[$. We will now show its Hausdorff sum is $\leq$ that of $A$.
+
+First, suppose without loss of generality that $A$ does not contain any interval that does not intersect $A'$. Done this, we show that any interval $I$ in $A$ is contained in one of the intervals in $A'$.
+
+Fix, then $I \in A$. Let it intersect $J \in A'$. By nature of the $b$-ary intervals, either $I \subseteq J$ (as desired), or $J \subseteq I$. But, if the latter, we proceed to conclude that $J = I$:
+
+Suppose $I$ is of the form $\left[ i b^{k-n}, +b^{k-n} \right[$. By the maximality of $a_n$, we have the following:
+
+\[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n} \]
+
+And therefore, $J$ is present in $b^k [a_0 \cdots a_n]$. Hence, the length of $J$ is $\geq b^{k-n}$, and so if $J \subseteq I$ we have $J = I$, as desired.
+
+We can now finish the argument as follows:
+
+For each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. We will show that each of these collections can be replaced by $J$ without raising the Hausdorff sum, which allows us to conclude, then, that the Hausdorff sum of $A'$ is $\leq$ that of $A$.
+
+By elementary properties of the Lebesgue measure, we have:
+
+\[ \sum \lvert I \rvert \geq \lvert J \rvert \]
+
+From whence follows, by convexity and elementary calculus, that for $s \leq 1$ we have, as desired,
+
+\[ \sum \lvert I \rvert^s \geq \lvert J \rvert^s \]
+
+This concludes the first part of the proof. Fortunately, the second part is a lot more expedite.
+
+We have already concluded we need only consider coverings of the form $b^k [a_0 a_1 a_2 \dots]. We will now show that we may restrict our attention to those sequences of the form $d_0 d_1 \cdots d_{n-1} (d_n + 1)$.
+
+Fix any arbitrary sequence $\{a_n\}$ such that $b^k \times a_0 . a_1 a_2 \dots \geq b^k \times d_0 . d_1 d_2 \dots$. Either these two sequences are the same, or there exists a first index $j$ where they differ.
+
+
+\iffalse
 Now, to show we can assume all intervals to be disjoint: fix any point $a$ in $\cup I_i$. Define $J_a$ to be \emph{the biggest interval in $A$ containing $a$}. We propose, now, that the covering $A' = \{ J_a \}$ covers exactly the same points as $A$, while having a Hausdorff sum less than or equal to that of $A$, as well as having all its intervals be disjoint.
 
 The first two properties are trivial, so we devote our attention only to the third one: suppose, for the sake of argument, that $J_a$ and $J_b$ are not disjoint. The structure of the $b$-ary intervals mandates that either $J_a \subseteq J_b$ or $J_b \subseteq J_a$; suppose the former for the sake of argument. Then, $a \in J_b$, which implies $J_a$ is of length greater than or equal to that of $J_b$ (by definition), and so, in fact, $J_a = J_b$.
 
 This digression completed, we may go back to the problem at hand.
+\fi
 \end{proof}
 
 \begin{thebibliography}{1}
