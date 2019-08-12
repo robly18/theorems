@@ -600,15 +600,19 @@ Any of these covers $t$, and so we can easily show that:
 It is not terribly surprising that this is, in fact, an equality.
 
 \begin{prop}
-Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, with $d_0 = 0$. Then:
+Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, with $d_0 = 0$.
 
-\[ g(t) = \inf \{\, b^{ks} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1) \mid n \in \N\,\}\]
+Define $s_n = b^{ks} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$ for $n \in \N$
+
+Then:
+
+\[ g(t) = \inf s_n\]
 \end{prop}
 
 \begin{proof}
 We have already shown $LHS \leq RHS$, so we will focus on showing the other inequality.
 
-We will do this in two parts: first, we will show that the infimum to calculate $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that these $a_i$ can be taken to be only those of the above form.
+We will do this in two parts: first, we will show that the infimum to calculate $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is $\geq \inf s_n$.
 
 Fix an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$.
 
@@ -638,7 +642,7 @@ And therefore, $J$ is present in $b^k [a_0 \cdots a_n]$. Hence, the length of $J
 
 We can now finish the argument as follows:
 
-For each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. We will show that each of these collections can be replaced by $J$ without raising the Hausdorff sum, which allows us to conclude, then, that the Hausdorff sum of $A'$ is $\leq$ that of $A$.
+For each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. Note that, by construction, these cover $J$. We will show that each of these collections can be replaced by $J$ without raising the Hausdorff sum, which allows us to conclude, then, that the Hausdorff sum of $A'$ is $\leq$ that of $A$.
 
 By elementary properties of the Lebesgue measure, we have:
 
@@ -648,12 +652,19 @@ From whence follows, by convexity and elementary calculus, that for $s \leq 1$ w
 
 \[ \sum \lvert I \rvert^s \geq \lvert J \rvert^s \]
 
-This concludes the first part of the proof. Fortunately, the second part is a lot more expedite.
+This concludes the first part of the proof. Fortunately, the second part is slightly more expedite.
 
-We have already concluded we need only consider coverings of the form $b^k [a_0 a_1 a_2 \dots]. We will now show that we may restrict our attention to those sequences of the form $d_0 d_1 \cdots d_{n-1} (d_n + 1)$.
+We have already concluded we need only consider coverings of the form $b^k [a_0 a_1 a_2 \dots]$, and in fact we need only take into account those constructed as above. We will now show that we may further restrict our attention to those sequences of the form $d_0 d_1 \cdots d_{n-1} (d_n + 1)$.
 
-Fix any arbitrary sequence $\{a_n\}$ such that $b^k \times a_0 . a_1 a_2 \dots \geq b^k \times d_0 . d_1 d_2 \dots$. Either these two sequences are the same, or there exists a first index $j$ where they differ.
+Fix any arbitrary sequence $\{a_n\}$ constructed as above. We necessarily have $b^k \times a_0 . a_1 a_2 \dots \geq b^k \times d_0 . d_1 d_2 \dots$. Either these two sequences are the same, or there exists a first index $j$ where they differ.
 
+In the latter case, let $n$ be this index. That is, $a_i = d_i$ for $i < n$, $a_n \neq d_n$. It is necessarily the case that $a_n > d_n$, as if $a_n < d_n$ we would reach a contradiction with the maximality of $a_n$. In this case, as the reader may easily verify, we can safely assume our covering is of the desired form: indeed, the covering given by the sequence $d_0 d_1 \cdots d_{n-1} (d_n + 1) 0 0 0 \dots$ also covers $\left[0, t \right[$, and has Hausdorff sum $\leq$ than that of the covering given by $\{a_n\}$.
+
+As for the former case, consider the sequence $s_n$ we defined as $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. It is very easy to show that $\lim s_n = b^k \times d_0 . d_1 d_2 \dots$. This limit is, in fact, the Hausdorff sum of the covering in consideration (that is, $b^k [d_0 d_1 d_2 \dots]$), and it is elementary to notice that $\lim s_n \geq \inf s_n$, as desired.
+
+We have now, shown, then, that whatever the covering we choose, $\inf s_n$ will be $\leq$ than the Hausdorff sum of our covering, and therefore we have finally shown the result:
+
+\[ g(t) = \inf s_n \]
 
 \iffalse
 Now, to show we can assume all intervals to be disjoint: fix any point $a$ in $\cup I_i$. Define $J_a$ to be \emph{the biggest interval in $A$ containing $a$}. We propose, now, that the covering $A' = \{ J_a \}$ covers exactly the same points as $A$, while having a Hausdorff sum less than or equal to that of $A$, as well as having all its intervals be disjoint.
@@ -663,6 +674,8 @@ The first two properties are trivial, so we devote our attention only to the thi
 This digression completed, we may go back to the problem at hand.
 \fi
 \end{proof}
+
+This last proposition has a few consequences, one of which is the following: it gives us an algorithm to approximate or even calculate the value of $g(t)$.
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
