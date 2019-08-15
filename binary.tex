@@ -35,6 +35,9 @@
 
 \newtheorem{remark}{Remark}
 
+\DeclareMathOperator{\dig}{dig}
+\DeclareMathOperator{\intr}{int}
+
 \title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Binary (and $b$-ary) Nest Measures with the Hausdorff Measure on $\R$}}
 
 
@@ -514,6 +517,7 @@ Loop:
   Put $d_i$ be the greatest integer $k$ such that $k \cdot b^{k-i} \leq rem$
   $rem \leftarrow rem - d_i b^{k-1}$
 \end{lstlisting}
+\label{digalg}
 
 The preceding algorithm will calculate the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
 
@@ -676,7 +680,74 @@ This digression completed, we may go back to the problem at hand.
 \fi
 \end{proof}
 
-This last proposition has a few consequences, one of which is the following: it gives us an algorithm to approximate or even calculate the value of $g(t)$.
+This last proposition has a few consequences, one of which is the following: it gives us an algorithm to approximate or even calculate the value of $g(t)$, facilitating its study.
+
+\section{$b$-ary digit expansions}
+
+We will now use the preceding proposition to look at the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion.
+
+\begin{definition}
+We define a \emph{digit expansion} as a \emph{bounded} function $d : \Z \to \N$ satisfying the following property:
+
+\begin{center}
+There exists $k$ such that for $i < k$ we have $d_i = 0$
+\end{center}
+\end{definition}
+
+Fixed a base $b \in \left]1, \infty \right[$, to any digit expansion we can assign a real number. Indeed, by definition, the following sum, which we define as the `interpretation of $d$ in base $b$`, converges:
+
+\[ \sum_{i = -\infty}^\infty d_i b^{-i} \]
+
+Recall that any positive real number has a $b$-ary digit expansion. This expansion is not always unique, but the so-called `greedy expansion', the one obtained by the algorithm outlined in page \pageref{digalg}, is. This also happens to be the lexicographically smallest digit expansion whose interpretation is base $b$ is precisely the number we started with. In this expansion, all the digits are contained in the set $\N \cap \left[0, b \right[$. Of course, for natural $b$, this is the familiar set of digits $\{0, \cdots, b-1 \}$, and natural bases have the benefit of almost-uniqueness: indeed, any number is uniquely determined by, and determines uniquely, a decimal expansion, as long as we restrict ourselves to those with digits in the set $\{0, \cdots, b-1 \}$ and that don't end with an infinite sequence of $b-1$.
+
+We will use the notation $\dig_b t$ to mean the greedy digit expansion of $t$ in base $b$. In the other direction, given a digit expansion $d$ we use $\intr_b d$ to mean the interpretation of $d$ in base $b$.
+
+\begin{remark}
+It should be noted that there is a slight sloppiness when we say things like ``let $b^k \times d_0 . d_1 d_2 \dots$ be the $b$-ary expansion of $t$''. Indeed, what we are saying here is not that the sequence $d$ is the expansion of $t$, at least not in the sense above. Rather, the actual expansion would be something defined as follows:
+
+\[d'_i =
+\begin{cases}
+d_{i-k} & \text{for $i \geq k$}\\
+0 & \text{for $i < k$}
+\end{cases}
+\]
+
+Furthermore, we often use that same notation both to refer to extracting the digits from a number, as well as to interpret a sequence of digits. Hopefully, however, this should not cause any confusion.
+\end{remark}
+
+We now propose an alternate definition of the function $g$.
+
+As always, suppose fixed a base $b$ and a dimension $s$. We begin by defining, for $t \geq 0$:
+
+\[ i_{bs}(t) = \intr_{b^s} \dig_b t \]
+
+This function will appear regularly in the sequence.
+
+Now, we claim the following:
+
+\begin{theorem}
+\[g_{bs}(t) = \inf_{x \geq t} i(t)\]
+\end{theorem}
+
+\begin{proof}
+Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$.
+
+We have already established $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. It is easy to notice that we can restrict the $n$ to those such that $d_n \neq b-1$, and therefore those that are determined by their interpretation in base $b$. That is,
+
+\[g(t) = \inf_{n \mid d_n \neq b-1} i(t_n) \]
+
+Where $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+
+This, then, shows $LHS \geq RHS$.
+
+For the other inequality, fix any $x \geq t$. We already know that $i(t) \geq g(t)$, so we can assume $x > t$.
+
+We can, furthermore, assume $x < b^{k+1}$. Indeed, if $x \geq b^{k+1}$ we would have $i(x) \geq b^{(k+1)s}$, which is greater than $s_0 = b^{ks}$, and so any $x \geq b^{k+1}$ can be safely disregarded.
+
+We restrict our attention to $x$ between $t$ and $b^{k+1}$, then, and so we may assume $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$. We will now show we can restrict our attention to those of the form $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+
+Fix such an arbitrary $x > t$. We know
+\end{proof}
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
