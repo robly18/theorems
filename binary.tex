@@ -565,7 +565,7 @@ b^k [] = \emptyset\\
 b^k [d_0 \cdots d_n d_{n+1}] = b_n [d_0 \cdots d_n] \cup \{\,\left[d_0 . d_1 \cdots d_n j \times b^k, +b^{k-(n+1)} \right[ \mid 0 \leq j < d_{n+1} \,\}
 \end{gather*}
 
-And, for infinite sequences, simply take the crescent union:
+And, for infinite sequences, simply take the increasing union:
 
 \[ b^k[d_0 d_1 \dots] = \bigcup_{i = 0}^\infty b^k[d_0 \cdots d_i] \]
 
@@ -729,7 +729,7 @@ This function will appear regularly in the sequence.
 
 Now, we claim the following:
 
-\begin{theorem}
+\begin{theorem} \label{ginfi}
 \[g_{bs}(t) = \inf_{x \geq t} i(t)\]
 \end{theorem}
 
@@ -753,6 +753,20 @@ We restrict our attention to $x$ between $t$ and $b^{k+1}$, then, and so we may 
 Fix such an arbitrary $x > t$. Let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_i \neq x_i$. Then, it must be the case that $d_n < x_n$, and in that case we simply point out that the number $t_n$ given by $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$ (whose $b$-ary expansion really is this one because it must be the case that $d_n + 1 \leq b-1$) satisfies $i(t_n) \leq i(x)$, which concludes our proof.
 \end{proof}
 
+\section{$g$ as a function of $s$} \label{gfuncofs}
+
+We now present an application of theorem \ref{ginfi} which will be useful in the sequence.
+
+\begin{prop}
+Fix arbitrary $t > 0$ and a base $b$. Define $h(s) = g_{bs}(t)$.
+
+Then, $h$ is a continuous decreasing function $\left]0, 1 \right]$.
+\end{prop}
+
+\begin{proof}
+%todo
+\end{proof}
+
 \section{On notation}
 
 Now that the main ingredients are in place, we can give names to the objects of studies to help us refer to them.
@@ -767,7 +781,8 @@ We will call the solution to this optimization problem $K_{bs}$.
 
 Subscripts will be omitted when unnecessary when fixed or arbitrary $b$ and $s$ are implied.
 
-\section{On calculating $K$}
+\section{On calculating $K$} \label{calck}
+%This section could go before introducing the bases, maybe?
 
 In order to solve our optimization problem, we first make an observation about the function $g$: it is self-similar. Indeed, $g(b t) = b^s g(t)$. As such, it grows like $t^s$.
 
@@ -775,9 +790,7 @@ To be more rigorous, consider the interval $\left[ 1/b, 1 \right]$. The function
 
 Indeed, by convexity, $i(t) \geq t^s$, which, by the definition of $g$ using $i$, makes the inequality $g(t) \geq t^s$ evident. Equality is attained at, for example, $t = 1$.
 
-The maximum turns out to be much harder to pinpoint, but in fact it turns out to be very closely related to $K$. To see why, let us give it a name, $\Theta_{bs}$, and let, for the moment, $\theta$ be a maximizer.
-
-We get:
+The maximum turns out to be much harder to pinpoint, but in fact it turns out to be very closely related to $K$. To see why, let us give it a name, $\Theta_{bs}$, and let, for the moment, $\theta$ be a maximizer. It is clear that, while we took the maximum in $\left[ 1/b, 1 \right]$, the inequality $g(t) \leq \Theta t^s$ applies over all $\R^+_0$. As such, we get:
 
 \[\frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s} \leq \frac{\Theta \ell^s + \Theta r^s}{(\ell+r)^s}\]
 
@@ -785,7 +798,85 @@ The right hand side can be easily maximized with elementary calculus, giving us 
 
 \[ 2^{1-s} \Theta \geq K \]
 
-The other inequality can be shown by noticing that, for $\ell = r = \theta$ the quantity to be maximized amounts to precisely $2^{1-s} \Theta$. This shows, then, that to calculate an upper bound of $C$ we can focus on trying to bound $g$ from above as closely as possible by a function of the form $\Theta t^s$.
+The other inequality can be shown by noticing that, for $\ell = r = \theta$ the quantity to be maximized amounts to precisely $2^{1-s} \Theta$. This shows, then, that to calculate an upper bound of $C$ we can focus on trying to bound $g$ from above as closely as possible by a function of the form $\Theta t^s$. In other words, we are now interested in the optimization problem:
+
+\[ \max_{t \in \left[ 1/b, 1 \right]} \frac{g(t)}{t^s} \]
+
+Notice that the function being optimized is a quotient of two increasing functions. There exists an algorithm to approximate, to arbitrary precision, this class of functions. We present a naïve algorithm to this effect.
+%note: i have a less naïve algorithm. should i present that?
+
+\section{Optimization of increasing function quotients}
+
+Suppose fixed an interval $I = \left[ a, b \right]$ and two increasing functions $I \to \R^+$, call then $u$ and $v$. We focus on approximating the solution to the optimization problem:
+
+\[ \max_{t \in I} \frac{u(t)}{v(t)} \]
+
+For purposes of argument, let $S$ be the maximum we wish to find.
+
+Fix a partition $P$ given by $a = t_0 < t_1 < \cdots < t_n = b$ of $I$. For $i = 0, 1, \cdots, n-1$ define $M_i = \frac{u(t_{i+1})}{v(t_i)}$ and $m_i = \frac{u(t_i)}{v(t_{i+1})}$. Clearly, $M_i$ and $m_i$ are upper and lower bounds, respectively, of $u/v$ in the interval $\left[t_i, t_{i+1} \right]$. As such, if we put $M(P) = \max M_i$ and $m(P) = \max m_i$, we have the inequality:
+%meanwhile i realized the choice for m_i is dumb. should i mention that?
+%would be more efficient to just do u(t_i)/v(t_i), as thats a lower bound of the max, and a slightly tighter one at that
+
+\[m(P) \leq S \leq M(P)\]
+
+Of course, as is usual with this type of argument, refining the partition will get us tighter bounds. Indeed, if $P_n$ is a sequence of partitions whose diameter converges to zero, $M(P_n) - m(P_n) \to 0$, and so each of these sequences will converge to $S$. This concludes this section on this kind of optimization problem.
+
+\section{On the continuity of $K$}
+
+In this section, we present the following result:
+
+\begin{theorem}
+As a function of $s \in \left]0, 1\right]$, the quantity $K_{bs}$ is continuous.
+\end{theorem}
+
+To this effect, we use the result of section \ref{calck} to reduce the matter to showing the following proposition:
+
+\begin{prop}
+As a function of $s \in \left]0, 1\right]$, the quantity $\Theta_{bs}$ is continuous.
+\end{prop}
+
+Notice that we defined $\Theta$ as follows:
+
+\[ \Theta_{bs} = \max_{t \in \left[ 1/b, 1 \right]} \frac{g(t)}{t^s} \]
+
+As such, assuming $g_{bs}(t)$ is continuous as a function of $(s, t) \in \left]0, 1\right] \times \left[1/b, 1\right]$, which we will do shortly, we need only prove the following lemma:
+
+\begin{lemma}
+Let $X$ and $J$ be subsets of $\R$, and suppose $J$ is compact. Let $f$ be a continuous function $X \times J \to \R$.
+
+We can define a function $u(x) : X \to \R$ defined as:
+
+\[ u(x) = \max_y f(x,y) \]
+
+This function is continuous.
+\end{lemma}
+
+\begin{proof}
+We prove this lemma by supposing fixed arbitrary $x_0 \in X$ and a sequence of $x_n \in X$ converging to $x_0$. We will show $u(x_n)$ converges to $u(x_0)$.
+
+Fix arbitrary $\varepsilon > 0$, and let $y_0$ be a maximizer of $f(x_0, y)$. There exists a neighbourhood, let's say $B_{\delta_1}(x_0) \times B_{\delta_2}(y_0)$ such that, for $(x,y)$ in this neighbourhood, $f(x,y)$ is within $\varepsilon$ of $f(x_0, y_0) = u(x_0)$. As such, for $x \in B_{\delta_1}(x_0)$ we have $u(x) \geq u(x_0) - \varepsilon$.
+
+On the other hand, consider the succession $u(x_n)$. We can, without loss of generality, pass to a converging subsequence with limit $L$. The preceding argument shows $L \geq u(x_0)$; we now show the reverse inequality.
+
+Let $y_n$ be a sequence of maximizers, that is, suppose it satisfies $f(x_n, y_n) = u(x_n)$. Suppose, again without loss of generality, that $y_n$ converges, to a limit $y_L$.
+
+It is a fact that $L = \lim f(x_n, y_n) = f(x_0, y_L)$ by continuity. But, furthermore, $f(x_0, y_L) \leq u(x_0)$, which finishes our argument.
+\end{proof}
+
+To conclude the section, we tie the following loose end:
+
+\begin{prop}
+Let $f : \left]0, 1\right] \times \left[1/b, 1\right] \to \R$ be defined as
+
+\[f(s, t) = g_{bs}(t)\]
+
+Then, $f$ is continuous.
+\end{prop}
+
+\begin{proof}
+Notice that, fixed $s$, $f$ is a continuous increasing function of $t$. Furthermore, as per proposition \ref{gfuncofs}, it is also, fixed $t$, a continuous decreasing function of $s$. Elementary arguments show that, under these hypotheses, $f$ is continuous. %maybe i should be a bit less lazy here, huh?
+\end{proof}
+
 
 \begin{thebibliography}{1}
 \bibitem{falconer}
