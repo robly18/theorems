@@ -895,15 +895,52 @@ Notice that, fixed $s$, $f$ is a continuous increasing function of $t$. Furtherm
 
 \section{A lower bound for $C$}
 
-In the previous sections, we have constructed an upper bound for $C$. Namely, $C \leq K$. We do not, however, have any nontrivial lower bounds yet. We seek now to remedy that.
+In the previous sections, we have constructed an upper bound for $C$. Namely, $C \leq K$. We do not, however, have any nontrivial lower bounds yet. We seek to remedy that.
 
 First, a few definitions.
 
 Notice that $g$ is a continuous increasing function, surjective from $\R^+_0$ to $\R^+_0$. This means that, for any $y$, there is a least $x$ such that $g(x) = y$. We will denote this by $x = \len_{bs}(y)$.
 
-A quantity that will be useful to us is $\len_{bs}(1)$, which we will denote by $\gamma_{bs}$.
+A quantity that will be useful to us is $\len_{bs}(1)$, which we will denote by $\gamma_{bs}$. It is obvious that $\gamma \in \left] 1/b, 1 \right]$.
 
-This quantity is useful because of the following: consider the interval $\left[0, \gamma \right[$. There are many ways to cover it using binary intervals, but we can, without loss of generality, assume it is covered by the single interval $\left[0, 1 \right[$.
+This quantity is useful because of the following: consider the interval $\left[0, \gamma \right[$. There are many ways to cover it using binary intervals, but we can, without loss of generality, assume it is covered by the single interval $\left[0, 1 \right[$. Of course, this holds up to scaling by powers of $b$, which allows us to make certain constructions. In particular, we will use it to make a construction with the intent of maximizing the discrepancy between the Hausdorff and $b$-ary measure.
+
+Fix an arbitrary dimension $s \in \left]0, 1 \right[$ and base $b$. Build, inductively, $S_n$ as follows:
+
+Put $S_0 = \left]-\gamma, \gamma\right[$.
+
+Now, to construct $S_1$, we begin by looking at $S_0$ as a countable union of $b$-ary intervals. Divide each of these into $b^\alpha$ equal intervals. Then apply the following transformation to each of them:
+
+If $I$ is a $b$-ary interval, divide it into $b^\beta$ intervals of equal size, and let $\left[c - b^\eta, c\right[$ and $\left[c, c + b^\eta\right[$ be the first two.
+
+Then, the transform of $I$ is given by $\left] c - b^\eta \gamma, c + b^\eta \gamma \right[$.
+
+Notice that this interval can be decomposed into countably many disjoint $b$-ary intervals, as per the $b$-ary expansion of $\gamma$.
+%todo show that gamma is nonterminating
+
+Now, inductively, suppose $S_n$ is a countable disjoint union of $b$-ary intervals. To each of these, do the same as  we did to $S_0$: divide it into $b^\alpha$ parts, and transform each of these parts as indicated above. This will net us $S_{n+1}$.
+
+This process will give us a decreasing sequence of sets, whose intersection we call $S$. Notice that $S$ depends on a few factors we left implicit: namely, $\alpha$, $\beta$ and $s$.
+
+We wish to manipulate these parameters to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
+
+Note that all of the $S_i$, taken as unions of intervals, are Hausdorff covers of $S$. Let $\sigma_i$ be the Hausdorff sum of $S_i$.
+
+Clearly, $\sigma_0 = 2 \gamma$. Furthermore, by the recursive definition of $S_n$, $\sigma_n$ is a geometric series, whose ratio between successive terms is simply $\frac{\sigma_1}{2 \gamma}$.
+
+The only way for the limit to be nontrivial is for this series to be the constant one, and so for $\sigma_1$ to be $2 \gamma$. As such, let us calculate $\sigma_1$.
+
+First, calculate the Hausdorff sum of what the transformation would do to $\left[0, 1 \right[$. It would be turned into $\left[ (1-\gamma)/b, (1+\gamma)/b \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s}$. Now, if this transformation was applied to an interval of length $\ell$, then by rescaling the result would have length $(2 \gamma)^s b^{-s} \ell^s$.
+
+Now, notice that we are not merely taking intervals and applying the transformation to them. First, we are splitting said intervals into $b^{\alpha+\beta}$ sub-intervals and keeping only $b^\alpha$ of them. Hence, from an interval of length 1, the result actually has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s} b^{-(\alpha + \beta) s} \ell^s = (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s}$.
+
+Finally, if we have a set of intervals with Hausdorff sum $H$ and apply this to all of them, the resulting Hausdorff sum is given by:
+
+\begin{align*}
+\sum (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s} &=
+(2 \gamma)^s b^{\alpha - s - (\alpha + \beta) s} \sum \ell^s\\
+&= (2 \gamma)^s b^{\alpha - s - (\alpha + \beta) s} \cdot H
+\end{align*}
 
 
 \begin{thebibliography}{1}
