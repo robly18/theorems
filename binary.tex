@@ -926,20 +926,56 @@ We wish to manipulate these parameters to maximize the difference between the Ha
 
 Note that all of the $S_i$, taken as unions of intervals, are Hausdorff covers of $S$. Let $\sigma_i$ be the Hausdorff sum of $S_i$.
 
-Clearly, $\sigma_0 = 2 \gamma$. Furthermore, by the recursive definition of $S_n$, $\sigma_n$ is a geometric series, whose ratio between successive terms is simply $\frac{\sigma_1}{2 \gamma}$.
+Clearly, $\sigma_0 = (2 \gamma)^s$. Furthermore, by the recursive definition of $S_n$, $\sigma_n$ is a geometric series, whose ratio between successive terms is simply $\frac{\sigma_1}{(2 \gamma)^s}$.
 
-The only way for the limit to be nontrivial is for this series to be the constant one, and so for $\sigma_1$ to be $2 \gamma$. As such, let us calculate $\sigma_1$.
+The only way for the limit to be nontrivial is for this series to be the constant one, and so for $\sigma_1$ to be $(2 \gamma)^s$. As such, let us calculate $\sigma_1$.
 
 First, calculate the Hausdorff sum of what the transformation would do to $\left[0, 1 \right[$. It would be turned into $\left[ (1-\gamma)/b, (1+\gamma)/b \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s}$. Now, if this transformation was applied to an interval of length $\ell$, then by rescaling the result would have length $(2 \gamma)^s b^{-s} \ell^s$.
 
 Now, notice that we are not merely taking intervals and applying the transformation to them. First, we are splitting said intervals into $b^{\alpha+\beta}$ sub-intervals and keeping only $b^\alpha$ of them. Hence, from an interval of length 1, the result actually has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s} b^{-(\alpha + \beta) s} \ell^s = (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s}$.
 
-Finally, if we have a set of intervals with Hausdorff sum $H$ and apply this to all of them, the resulting Hausdorff sum is given by:
+If we have a set of intervals with Hausdorff sum $H$ and apply this to all of them, the resulting Hausdorff sum is given by:
 
 \begin{align*}
 \sum (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s} &=
 (2 \gamma)^s b^{\alpha - s - (\alpha + \beta) s} \sum \ell^s\\
-&= (2 \gamma)^s b^{\alpha - s - (\alpha + \beta) s} \cdot H
+&= (2 \gamma)^s b^{\alpha - (\alpha + \beta + 1) s} \cdot H
+\end{align*}
+
+But we are not doing something as direct as that. First, we are splitting our intervals into $b$-ary ones. The effect of this is it tampers with the value of $H$.
+
+All the intervals created in this construction are of the form $\left] c - b^\eta \gamma, c + b^\eta \gamma \right[$. As such, splitting it into $b$-ary intervals yields a collection of intervals with Hausdorff sum equal to $2 b^{\eta s}$. Hence, splitting this into $b$-ary intervals and applying the above to it, we get a final result of:
+
+\[\sigma_1 = (2 \gamma)^s b^{\alpha - (\alpha + \beta + 1) s} \cdot 2 \]
+
+We need this to be equal to $\sigma_0 = (2 \gamma)^s$, and so we mess with the parameters in order to make this true. In particular, we solve the equation:
+
+\[ 2 b^{\alpha - (\alpha + \beta + 1) s} = 1 \]
+
+Yielding the result
+
+\[s = \frac{\alpha + \log_b 2}{\alpha + \beta + 1}\]
+
+For this particular dimension, we have shown $S$ has Hausdorff measure \emph{at most} $(2 \gamma)^s$. We will now bound from below the binary measure.
+
+todo: show that any b-ary covering of S can be assumed wlog to be finite. in general this whole section needs a lot of work.
+
+Suppose, now, that we have a finite covering of $S$. We will concern ourselves only with the part to the right of the origin, as by symmetry the left side can be assumed to be the same.
+
+todo: be better at writing symmetry. make an example to make it clear maybe
+
+todo: this is all partially wrong. fix it.
+
+Now, there are two cases. Either we cover the whole with the interval $\left[0, 1 \right[$, yielding total Hausdorff sum of $2$, or we can split our covering into a part that covers $\left[0, 1/b \right[$, one that covers $\left[1/b, 2/b\right[$ and so on. We focus only on $\left[0, 1/b \right[$, as the others can be assumed to be equal.
+
+Now, notice that (if $\alpha > 1$) there are elements of $S$ in $\left[0, 1/b^2 \right[$, $\left[1/b^2, 2/b^s \right[$, and so on. Therefore, either we cover the whole of $\left[0, 1/b \right[$ (which we assume wlog we won't do) or we have a separate (but assumed to be equal) covering of each of these.
+
+Apply this descending argument until we reach $\left[0, 1/b^\alpha \right[$. We now have a rescaled copy of $S$ contained within $\left[0, 2/b^{\alpha + \beta}\right[$. We may either cover it with separate coverings of $\left[0, 1/b^{\alpha + \beta}\right[$ and $\left[1/b^{\alpha + \beta}, 2/b^{\alpha + \beta}\right[$, or we can cover the whole $\left[0, 1/b^{\alpha + \beta + 1}\right[$.
+
+In the latter case, the total Hausdorff sum becomes:
+
+\begin{align*}
+2 b^\alpha \cdot
 \end{align*}
 
 
