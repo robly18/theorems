@@ -930,14 +930,14 @@ Clearly, $\sigma_0 = (2 \gamma)^s$. Furthermore, by the recursive definition of 
 
 The only way for the limit to be nontrivial is for this series to be the constant one, and so for $\sigma_1$ to be $(2 \gamma)^s$. As such, let us calculate $\sigma_1$.
 
-First, calculate the Hausdorff sum of what the transformation would do to $\left[0, 1 \right[$. It would be turned into $\left[ (1-\gamma)/b, (1+\gamma)/b \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s}$. Now, if this transformation was applied to an interval of length $\ell$, then by rescaling the result would have length $(2 \gamma)^s b^{-s} \ell^s$.
+First, calculate the Hausdorff sum of what the transformation would do to $\left[0, 1 \right[$. It would be turned into $\left] (1-\gamma)/b, (1+\gamma)/b \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s}$. Now, if this transformation was applied to an interval of length $\ell$, then by rescaling the result would have Hausdorff sum $(2 \gamma)^s b^{-s} \ell^s$.
 
-Now, notice that we are not merely taking intervals and applying the transformation to them. First, we are splitting said intervals into $b^{\alpha+\beta}$ sub-intervals and keeping only $b^\alpha$ of them. Hence, from an interval of length 1, the result actually has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s} b^{-(\alpha + \beta) s} \ell^s = (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s}$.
+Now, notice that we are not merely taking intervals and applying the transformation to them. First, we are splitting said intervals into $b^{\alpha+\beta}$ sub-intervals and keeping only $b^\alpha$ of them. (todo: this line needs work) Hence, from an interval of length $\ell$, the result actually has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s} b^{-(\alpha + \beta) s} \ell^s = (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s}$.
 
 If we have a set of intervals with Hausdorff sum $H$ and apply this to all of them, the resulting Hausdorff sum is given by:
 
 \begin{align*}
-\sum (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s} &=
+\sum_\ell (2 \gamma)^s \ell^s b^{\alpha - s - (\alpha + \beta) s} &=
 (2 \gamma)^s b^{\alpha - s - (\alpha + \beta) s} \sum \ell^s\\
 &= (2 \gamma)^s b^{\alpha - (\alpha + \beta + 1) s} \cdot H
 \end{align*}
@@ -956,6 +956,8 @@ Yielding the result
 
 \[s = \frac{\alpha + \log_b 2}{\alpha + \beta + 1}\]
 
+(todo: review that the above works for alpha = beta = 0)
+
 For this particular dimension, we have shown $S$ has Hausdorff measure \emph{at most} $(2 \gamma)^s$. We will now bound from below the binary measure.
 
 todo: show that any b-ary covering of S can be assumed wlog to be finite. in general this whole section needs a lot of work.
@@ -968,9 +970,13 @@ Suppose, now, that we have a finite covering of $S_n$. We will show by induction
 
 If $n = 0$ the result is a mere consequence of the definition of $\gamma$. We will now suppose the result to be true for some $n$, and show it for $n+1$.
 
-Focus on the part of $S_{n+1}$ that is to the right of the origin. Let $0.d_1 d_2 \dots$ be the digits of $\gamma$, and let $\{I_i\}$ be the intervals of $b^0 [0 d_1 d_2 \dots]$. Within each $I_i$ are $b^\alpha$ copies of $S_n$, scaled down by a factor of $\text{[Length of $I_i$]} \times b^{-(\alpha + \beta)}$. If we show we can assume any covering of $S_{n+1} \cap I_i$ covers the entirety of $I_i$, then we may suppose any covering of $S_{n+1}$ covers the entirety of $\left]-\gamma, \gamma\right[ = S_0$, concluding the argument.
+Focus on the part of $S_{n+1}$ that is to the right of the origin. Let $0.d_1 d_2 \dots$ be the digits of $\gamma$, and let $\{I_i\}$ be the intervals of $b^0 [0 d_1 d_2 \dots]$. Within each $I_i$ are $b^\alpha$ copies of $S_n$, scaled down by a factor of $\text{[Length of $I_i$]} \times b^{-(\alpha + \beta + 1)}$. If we show we can assume any covering of $S_{n+1} \cap I_i$ covers the entirety of $I_i$, then we may suppose any covering of $S_{n+1}$ covers the entirety of $\left]-\gamma, \gamma\right[ = S_0$, concluding the argument.
 
 The only missing piece of the puzzle, then, is to show that we can suppose that $I_i$ is completely covered. To simplify the argument, we assume $I_i$ to be the unit interval; it is a mere matter of scaling it down to make it work for arbitary $b$-ary intervals.
+
+There are two cases: either we cover the whole of our interval $I$ (which is the desired case) or we have a separate cover for each of its $b$ sub-intervals. By symmetry, we may assume all of these covers to be the same. Repeating the argument (if $\alpha > 1$), we can assume we have equal covers for the $b^2$ sub-intervals of $I$. Repeat $\alpha$ times to get that, either we cover the entire interval, or we find some covering of one of the scaled down copies of $S_n$. There are $b^\alpha$ such copies; if we show any covering of one of them has Hausdorff sum at least $b^{-\alpha}$ the argument is complete.
+
+This is not difficult, however. Indeed, consider such a scaled down copy. If we cover it with an interval of size $b^{-(\alpha + \beta)}$
 
 
 
