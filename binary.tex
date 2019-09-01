@@ -15,6 +15,8 @@
 
 \usepackage{enumerate}
 
+\usepackage{tabu}
+
 \lstset{basicstyle=\ttfamily, mathescape=true}
 
 \newcommand{\R}{\mathbb{R}}
@@ -608,7 +610,7 @@ Any of these covers $t$, and so we have:
 
 This is, in fact, an equality.
 
-\begin{prop}
+\begin{prop} \label{ginfs}
 Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, with $d_0 = 0$.
 
 Define $s_n = b^{ks} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$ for $n \in \N$
@@ -821,7 +823,7 @@ The other inequality can be shown by noticing that, for $\ell = r = \theta$ the 
 Notice that the function being optimized is a quotient of two increasing functions. There exists an algorithm to approximate, to arbitrary precision, this class of functions. We present a naïve algorithm to this effect.
 %note: i have a less naïve algorithm. should i present that?
 
-\section{Optimization of increasing function quotients}
+\section{Optimization of increasing function quotients} \label{optimization}
 
 Suppose fixed an interval $I = \left[ a, b \right]$ and two increasing functions $I \to \R^+$, call then $u$ and $v$. We focus on approximating the solution to the optimization problem:
 
@@ -926,7 +928,7 @@ An important property of this transformation is as follows: \emph{The smallest $
 
 Now, inductively, suppose $S_n$ is a countable disjoint union of $b$-ary intervals. To each of these, do the same as  we did to $S_0$: divide it into $b^\alpha$ parts, and transform each of these parts as indicated above. This will net us $S_{n+1}$.
 
-This process will give us a decreasing sequence of sets, whose intersection we call $S$. Notice that $S$ depends on a few factors we left implicit: namely, $\alpha$, $\beta$ and $s$.
+This process will give us a decreasing sequence of sets, whose intersection we call $S$. Notice that $S$ depends on a few factors we left implicit: namely, $\alpha$, $\beta$, $b$ and $s$.
 
 We wish to manipulate these parameters to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
 
@@ -1022,6 +1024,72 @@ We have, then, a partial bound. If we define $\Gamma_{bs} = \gamma_{bs}^{-s}$, w
 \[ 2^{1-s} \Gamma_{bs} \leq C_{bs} \leq 2^{1-s} \Theta_{bs} \]
 
 Where we have seen the right inequality always holds, and the left equality holds in a dense subset of $\left[0, 1 \right]$.
+
+\section{Application}
+
+We use the results from the preceding section to construct a set $S$ satisfying the following property:
+
+\[ \BB_{5s}(S) < \BB_{4s}(S) \]
+
+For some dimension $s$.
+
+This is useful because it disproves the conjecture that, as $b$ increases, so does $\BB_{bs}$.
+
+In view of what we have already done, the set $S$ is not difficult to construct. Indeed, simply replicate the construction done above for $b = 4$, $\alpha = 0$  and $\beta = 1$, getting $s = 1/2$.
+
+For this $S$ we already know $\BB_{4s}(S) \geq 2^{1-s} \Gamma_{4s} \HH_s(S)$.
+
+We know, furthermore, that $\BB_{5s}(S) \leq K_{5s} \HH_s(S) = 2^{1-s} \Theta_{5s} \HH_s(S)$. We need only show, now, that  $\Theta_{5s} \leq \Gamma_{4s}$.
+
+We begin by calculating $\gamma_{4s}$. We assert it is given by $4^0 \times 0.111\dots$, which amounts to $1/3$.
+
+To show this, we begin by noticing that for any $t > 1/3$ we have $i(t) \geq 1$, which, joined with the fact that $i(1/3) = 1$ shows that $g(1/3) = 1$.
+
+Indeed, if $1 > t > 1/3$ (the case $t \geq 1$ is trivial), its ternary digits will agree with those of $1/2$ until some $n$-th digit, which will be a $2$ or a $3$. We have, then,
+
+\begin{align*}
+i(t) &\geq \frac 1 {4^s} + \frac 1 {4^{2s}} + \cdots + \frac 1 {4^{(n-1)s}} + \frac 2 {4^{ns}} \\
+&= \frac 1 {2} + \frac 1 {2^2} + \cdots + \frac 1 {2^{n-1}} + \frac 2 {2^n} \\
+&= 1
+\end{align*}
+
+Now, notice that the numbers given by $t_n = \frac 1 2 - 4^{-n}$ converge to $1/2$, and $i(t_n)$ is always $< 1$, implying that for any $t < 1/3$ we have $g(t) < 1$.
+
+We conclude, then, $\gamma_{4s} = 1/3$, whence $\Gamma_{4s} = \sqrt 3$.
+
+We need now bound $\Theta_{5s}$ from above. To this effect, we use the strategies outlined in section \ref{optimization}
+
+Consider the following partition of $\left[1/5, 1 \right]$:
+
+\emph{Digit expansions should from now on be assumed to be in base 5}
+
+\begin{center}
+\begin{tabular}{| c | @{\qquad\qquad} | c | @{\qquad\qquad} | c | @{\qquad\qquad} | c |}
+\hline
+0.1 & 0.11 & 0.12 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+Using the methods of section \ref{optimization}, and using proposition \ref{ginfs} to calculate $g(t)$, we construct the following table:
+
+\begin{center}
+\tabulinesep=1.2mm
+\begin{tabu}{| c | | c | @{\qquad\qquad} | c | @{\qquad\qquad} | c | @{\qquad\qquad} | c |}
+\hline
+& 0.1 & 0.11 & 0.12 & 1 \\
+\hline
+$g(t)$ & & $\frac 1 {\sqrt{5}} + \frac 1 5$ & $\frac 1 {\sqrt{5}} + \frac 2 5$ & $1$ \\
+$t^{-s}$ & $\sqrt 5$ & $\frac 5 {\sqrt 6}$ & $\frac 5 {\sqrt 7}$ & \\
+\hline
+\end{tabu}
+\end{center}
+
+And we then conclude that $\Theta_{5s}$ is bounded from above by
+
+\[ \max \{ (\frac 1 {\sqrt{5}} + \frac 1 5) \sqrt 5, (\frac 1 {\sqrt{5}} + \frac 2 5) \frac 5 {\sqrt 6}, \frac 5 {\sqrt 7} \}\]
+
+Since all of these are strictly less than $\sqrt 3$, we conclude the desired result. \qed
 
 
 \begin{thebibliography}{1}
