@@ -1,4 +1,4 @@
-\documentclass[11pt]{amsart}
+\documentclass[11pt, reqno]{amsart}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -74,39 +74,34 @@
 
 \section{Introduction}
 
-Hausdorff Measure is a central topic in Fractal Geometry. It is a generalization of the concept of length, area and volume for arbitrary Metric spaces and possibly nonintegral dimensions.
+Hausdorff Measure is a central topic in Fractal Geometry. It is a generalization of the concept of length, area and volume for arbitrary Metric spaces and possibly nonintegral dimensions. It was introduced by Felix Hausdorff (1919) as a generalization of a construction by Carathéodory (1914), and has since found applications in diverse areas, such as Brownian motion \cite{brownian} and Harmonic Analysis \cite{fefferman}.
 
-More concretely, fixed a metric space $X$ there exists a family of functions $\HH_s : P(X) \to \left[0, \infty \right]$, for $s \in \R^+_0$, representing the `$s$-dimensional Hausdorff measure'. So $\HH_1$ would correspond to `length', $\HH_2$ corresponds to `area', and so on.
+The Hausdorff measure is a family of outer measures, denoted $\HH_s$ where $s$ is a nonnegative real parameter. For integral $s$, these coincide (modulo a constant factor) with the usual Lebesgue measure on $\R^n$. We refer to $\HH_s$ as \emph{the $s$-dimensional Hausdorff measure}.
 
-Fixed a set $E \subseteq X$ there exists some $s \in \R^+_0$, called \emph{the dimension of $E$}, such that:
+If one were to fix a set $E$ and graph $\HH_s(E)$ as a function of $s$, one would find that this graph has a very simple appearance. Indeed, $\HH_s(E)$ would, for small enough $s$, be equal to $\infty$, followed by a sudden and sharp drop to 0. There exists at most one $s$ between these two regions, and it is this value we call the \emph{Hausdorff dimension of $E$}. It measures roughly how `space-filling' $E$ is. So, for example, a square occupies 2-dimensional space, a sphere occupies 3-dimensional space, and, for a slightly more exotic example, the standard Cantor `middle thirds' set `occupies $\log_3 2$-dimensional space'.
 
-\begin{itemize}
-\item For $t < s$ we have $\HH_t(E) = \infty$,
+To aid in the study of Hausdorff dimension, Besicovitch (1952) introduced the notion of \emph{binary measure}, which is a modification of Hausdorff measure that, while not exactly equivalent, preserves dimension. That is, the dimension of a set from the perspective of the Hausdorff measure and the binary measure is the same. The reason for this is an inequality of the form
+\begin{equation}\label{hbineq1}
+\text{Hausdorff measure} \leq \text{Binary measure} \leq C \times \text{Hausdorff measure},
+\end{equation}
 
-\item For $t > s$ we have $\HH_t(E) = 0$.
-\end{itemize}
+which ensures that these agree on the points where the measure is zero or infinity.
 
-This concept has wide applications. For example, the Kakeya conjecture, which regards the Hausdorff dimension of a specific set, has far reaching applications in harmonic analysis.
+In this article, we intend to investigate inequality \ref{hbineq1}.
 
-An important tool for calculating dimensions of sets in $\R^n$ is the so-called \emph{binary measure}, denoted $\BB_s : P(X) \to \left[0, \infty \right]$. It is an estimate of the Hausdorff measure.
+We begin in section \ref{sectgenbmeasures} by generalizing the notion of binary measures to something more general, which we call the $b$-ary measures, where $b$ represents a natural number greater than one. We denote the $s$-dimensional $b$-ary measure by $\BB_{bs}$, and show an inequality similar to \ref{hbineq1}. In particular, we show that, for any set $E$,
 
-To calculate the Hausdorff measure of a set $E$, one must take the infimum of a certain sum over coverings of $E$ by arbitrary sets. In defining the binary measure one simply restricts such coverings to allow only the so-called binary intervals, which form a net, allowing some minimality arguments that would otherwise not be possible.
+\begin{equation}\label{hbineq2}
+\HH_s(E) \leq \BB_{bs}(E) \leq (b+1) \HH_s(E).
+\end{equation}
 
-The reason these measures allow us to calculate dimensions of sets is the following inequality, which is true for any $s$ and $E \subseteq \R^n$:
+In section \ref{sec5} we investigate tools to tighten this bound, and in sections \ref{sec6} and \ref{sec7} use these tools to draw a connection between the $b$-ary measures and the theory of non-integral digit expansions. In particular, we show that we can replace the $b+1$ in inequality \ref{hbineq2} by a constant $K$, defined as the smallest constant such that a certain function $g(t)$ can be bounded from above by something of the form $K t^s$.
 
-\[ \HH_s(E) \leq \BB_s(E) \leq C_n \HH_s(E)\],
+In sections \ref{calck} and \ref{optimization} we introduce a method to estimate to arbitrary precision the numerical value of this $K$.
 
-For some $C_n$.
+Turning to lower bounds, in section \ref{seclowerbound} we find a lower bound to the value by which $b+1$ may be replaced in equation \ref{hbineq2}. In other words, we construct an example of a set where the binary and the Hausdorff measure differ significatively, again using the tools of non-integral digit expansions.
 
-The constant $C_n$ found in \cite{falconer} is $2^{n^2} 3^n$. For $n = 1$ this equates to 6. In this article, we seek to decrease this constant for this particular $n$, in order to find sharper bounds.
-
-We also generalize the concept of binary measure, creating the so-called $b$-ary measures, for $b \in \N_{\geq 2}$. Likewise, these measures, denoted $\BB_{bs}$, also obey a similar inequality.
-
-In the search for sharper bounds, we find a connection between the theory of $b$-ary measures and non-integer base digit expansions, and with it find an upper and a lower bound for the optimal constant as a function of the base $b$ and dimension $s$, as well as methods to compute these.
-
-To conclude, we use these methods to investigate the relation between the $b$-ary measures for different $b$.
-
-It should be expected that, in general, as $b$ increases the estimate of $\HH_s$ through $\BB_{bs}$ gets increasingly worse. This is, in fact, true for multiples. That is, if $b$ is a multiple of $c$, the estimate given by $\BB_{bs}$ is never better than that given by $\BB_{cs}$. However, the possible conjecture `as $b$ increases the estimate gets worse' is not always the case, as we show at the end of the article, by constructing a set $E$ and a dimension $s$ such that $\BB_{5s}(E) < \BB_{4s}(E)$.
+Finally, in section \ref{secfinal} we use these upper and lower bounds to construct a set $E$ satisfying, for $s = 1/2$, $\BB_{5s}(E) < \BB_{4s}(E)$. Stronger yet: if we let $G = \frac{\BB_{4s}(E)}{\HH_s(E)}$, there exsts $k < G$ such that for all $F$ we have $\BB_{5s}(F) \leq k \times \HH_s(F)$. This shows that there exist dimensions $s$ such that $\BB_{5s}(F)$ is a better estimate for the Hausdorff measure of $F$ than $\BB_{4s}(F)$, which, in light of inequality \ref{hbineq2}, is somewhat unintuitive, as one would expect the inequality to get less and less sharp as $b$ increases.
 
 
 \section{Hausdorff and Binary measures: a review}
@@ -310,7 +305,7 @@ As such, in all that follows, unless said otherwise, \textbf{it should be assume
 
 This previous lemma will be central in what follows. Indeed, our strategy to find a bound $C$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before moving on, a few remarks are in order.
 
-\section{$b$-ary measures}
+\section{$b$-ary measures}\label{sectgenbmeasures}
 
 As mentioned before, for the purposes of dimensional analysis, the binary measures are more than sufficient. However, for the purposes of estimating the Hausdorff measure, it might be worth looking into something slightly more general than binary intervals.
 
@@ -366,7 +361,7 @@ If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.
 
 The counterexample to this possible conjecture is found closer to the end of this document.
 
-\section{Minimal interval coverings}
+\section{Minimal interval coverings}\label{sec5}
 
 We focus now on the problem of, fixed a dimension $s$ and given an interval $I$, finding a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume $I$ to be of the form $\left[ a, b \right[$ with $a < b$, as we can always assume our Hausdorff coverings are composed of intervals of this kind. The reason we are assuming this is so that this plays well with our binary intervals, which are also half-open.
 
@@ -469,7 +464,7 @@ Fix any $b$-ary $\delta$-covering of $\left[a, 0\right[$. Suppose it is $\{\left
 This collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$, but one may easily augment our collection of intervals with things of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, concluding that $\BB_{bs}^\delta(\left[a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. The same argument works to get the other inequality, and thus we get the desired equality.
 \end{proof}
 
-\section{$b$-ary digit expansions}
+\section{$b$-ary digit expansions}\label{sec6}
 
 In the previous section we showed that a possible approach to our problem goes through investigating the optimization problem:
 
@@ -721,7 +716,7 @@ This digression completed, we may go back to the problem at hand.
 
 This last proposition has a few consequences, one of which is the following: it gives us an algorithm to approximate or even calculate the value of $g(t)$, facilitating its study.
 
-\section{$b$-ary digit expansions}
+\section{$b$-ary digit expansions}\label{sec7}
 
 We will now use the preceding proposition to look at the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion.
 
@@ -928,7 +923,7 @@ Then, $f$ is continuous.
 Notice that, fixed $s$, $f$ is a continuous increasing function of $t$. Furthermore, as per proposition \ref{gfuncofs}, it is also, fixed $t \in \left[1/b, 1 \right]$, a continuous decreasing function of $s$. Elementary arguments show that, under these hypotheses, $f$ is continuous. %maybe i should be a bit less lazy here, huh?
 \end{proof}
 
-\section{A lower bound for $C$}
+\section{A lower bound for $C$}\label{seclowerbound}
 
 In the previous sections, we have constructed an upper bound for $C$. Namely, $C \leq K$. We do not, however, have any nontrivial lower bounds yet. We seek to remedy that.
 
@@ -1058,7 +1053,7 @@ We have, then, a partial bound. If we define $\Gamma_{bs} = \gamma_{bs}^{-s}$, w
 
 Where we have seen the right inequality always holds, and the left equality holds in a dense subset of $\left[0, 1 \right]$.
 
-\section{Application}
+\section{Application}\label{secfinal}
 
 We use the results from the preceding section to construct a set $S$ satisfying the following property:
 
@@ -1131,6 +1126,12 @@ K. J. Falconer, \textit{The Geometry of Fractal Sets}
 
 \bibitem{rogers}
 C. A. Rogers, \textit{Hausdorff Measures}
+
+\bibitem{brownian}
+Shah, Jay. \textit{Hausdorff dimension and its applications.}
+
+\bibitem{fefferman}
+Fefferman, Charles. \textit{The multiplier problem for the ball.}
 
 \end{thebibliography}
 
