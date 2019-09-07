@@ -254,14 +254,12 @@ To prove this fact, we will show that for any $E$ and $\delta$ we have the inequ
 
 Fix, then, a $\delta$-covering $\{U_i\}$ of $E$, which we suppose without loss of generality to be composed of intervals with diameter strictly greater than zero. Define, for each $i$, $j_i$ to be the greatest integer such that $2^{j_i} < \lvert U_i \rvert$, and hence $2^{j_i} < \delta$ for all $i$.
 
-Notice that at least one interval of the form $\left[ k_i 2^{j_i}, (k_i + 1) 2^{j_i} \right[$ is wholly contained within $U_i$. Furthermore, this interval, united with the intervals of its size immediately to its left and immediately to its right, cover $U_i$ entirely.
+Consider how many intervals of the form $\left[ k 2^{j_i}, (k + 1) 2^{j_i} \right[$ intersect $U_i$. There are at most three, and their union definitely covers $U_i$.
 
-Now, consider the covering $\{I_i\}$ obtained from $\{U_i\}$ by replacing each $U_i$ by the three intervals mentioned above. We now have a binary $\delta$-covering of $E$, with Hausdorff sum:
+Now, consider the covering $\{I_i\}$ obtained from $\{U_i\}$ by replacing each $U_i$ by the intervals mentioned above. We now have a binary $\delta$-covering of $E$, with Hausdorff sum equal to
+\[\sum \lvert I_i \rvert^s \leq 3 \sum \lvert U_i \rvert^s.\]
 
-\[\sum \lvert I_i \rvert^s \leq 3 \sum \lvert U_i \rvert^s\]
-
-This inequality because for every $U_i$ we assign its three corresponding intervals, each with diameter less than $\lvert U_i \rvert$. This completes our proof, since:
-
+With this inequality holding because for every $U_i$ we assign its three corresponding intervals, each with diameter less than $\lvert U_i \rvert$. This completes our proof, since
 \begin{align*}
 3 \HH_s^\delta &= 3 \times \inf \text{over $U_i$}\\
 &\geq \inf \text{over the corresponding $I_i$}\\
@@ -271,14 +269,11 @@ This inequality because for every $U_i$ we assign its three corresponding interv
 
 \end{proof}
 
-This bound, while twice as sharp as the one mentioned in theorem \ref{badbound}, can still be significantly improved. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a binary $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by binary intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these binary intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
+This bound, while twice as sharp as the one mentioned in theorem \ref{badbound}, can still be significantly improved. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a binary $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound on $\frac \BB \HH$ we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by binary intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these binary intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
 
 \begin{lemma}
-Fix a dimension $s \in \R^+$.
-
-Suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable binary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
-
-\[\sum m_i^s \leq C \ell^s\]
+Fix a dimension $s \in \R^+$ and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable binary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
+\[\sum m_i^s \leq C \ell^s.\]
 
 Then $\BB_s \leq C \HH_s$.
 \end{lemma}
@@ -286,65 +281,56 @@ Then $\BB_s \leq C \HH_s$.
 \begin{proof}
 This proof proceeds much like the previous one, with one caveat.
 
-Fixed some $E$, let $I_i$ be any $\delta$-covering of $E$ by intervals. For each $I_i$, let $\{J_{ij}\}_{j \in \N}$ be a collection of binary intervals such that  $\sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s$.
+Given some $E$, let $I_i$ be any $\delta$-covering of $E$ by intervals. For each $I_i$, let $\{J_{ij}\}_{j \in \N}$ be a collection of binary intervals such that  $\sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s$.
 
 First, notice that, while it is \emph{not} necessarily true that the collection $\{J_{ij}\}_{i,j \in \N}$ forms a $\delta$-covering, we can be assured that it forms at most a $C^{1/s}\delta$-covering, as, for any $i, j$ we have
+\[ \lvert J_{ij} \rvert^s \leq \sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s \leq C \delta^s,\]
+and so $\lvert J_{ij} \rvert \leq C^{1/s} \delta$, as desired.
 
-\[ \lvert J_{ij} \rvert^s \leq \sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s \leq C \delta^s\]
-
-And so $\lvert J_{ij} \rvert \leq C^{1/s} \delta$, as desired.
-
-The argument now goes much like the previous one, except we can only show that $\BB_s^{C^{1/s} \delta} \leq C \HH_s^\delta$. This turns out to be enough, however, as taking $\delta \to 0$ also yields $C^{1/s} \delta \to 0$, and so both sides of this inequality converge to $\BB_s$ and $\HH_s$, respectively.
+The argument now follows much like the previous one, except we can only show that $\BB_s^{C^{1/s} \delta} \leq C \HH_s^\delta$. This turns out to be enough, however, as taking $\delta \to 0$ also yields $C^{1/s} \delta \to 0$, and so both sides of this inequality converge to $\BB_s$ and $\HH_s$, respectively.
 \end{proof}
 
 \begin{remark} \label{dimnotzero}
-We had to exclude the case $s = 0$ from consideration in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on the reals.
+We had to exclude from consideration the case $s = 0$ in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on $\R$.
 
-As such, in all that follows, unless said otherwise, \textbf{it should be assumed that $s \neq 0$}.
+As such, in all that follows, unless otherwise specified, \textbf{it should be assumed that $s \neq 0$}.
 \end{remark}
 
-This previous lemma will be central in what follows. Indeed, our strategy to find a bound $C$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before moving on, a few remarks are in order.
+This previous lemma will be central in what follows. Indeed, our strategy to find a bound of the form $\BB_s \leq C \HH_s$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before further pursuing this idea, we introduce a generalization of the binary measure.
 
 \section{$b$-ary measures}\label{sectgenbmeasures}
 
-As mentioned before, for the purposes of dimensional analysis, the binary measures are more than sufficient. However, for the purposes of estimating the Hausdorff measure, it might be worth looking into something slightly more general than binary intervals.
+As mentioned before, for the purposes of dimensional analysis, the binary measures are enough. However, for the purposes of estimating the Hausdorff measure, it might be worth looking into something slightly more general than binary intervals.
 
 \begin{definition}
-Define the $b$-ary intervals, where $b \in \N_{\geq 2}$, as those of the form:
-
-\[\left[k b^j, (k+1) b^j \right[, \;k, j \in \Z\]
+Define the $b$-ary intervals, where $b \in \N_{\geq 2}$, as those of the form
+\[\left[k b^j, (k+1) b^j \right[, \;k, j \in \Z.\]
 
 The definition for the $s$-dimensional $b$-ary measure, denoted $\BB_{bs}$, and the corresponding $\delta$-measures $\BB_{bs}^\delta$, should be evident by comparison to the definition of the binary one, using the $b$-ary intervals instead of the binary ones.
 \end{definition}
 
-The results of the last section can be translated into this slightly more generic context without much added effort. We leave the results here without proof.
+The results of the last section can be translated into this slightly more general context without much added effort. We state the results here without proof.
 
 \begin{lemma}
-Fix a dimension $s \in \R^+$ and a base $b \in \N_{\geq 2}$.
-
-Suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable $b$-ary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
-
-\[\sum m_i^s \leq C \ell^s\]
+Fix a dimension $s \in \R^+$, a base $b \in \N_{\geq 2}$, and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable $b$-ary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
+\[\sum m_i^s \leq C \ell^s.\]
 
 Then $\BB_{bs} \leq C \HH_s$.
 
-In particular, one can easily show the premise is true for $C = b+1$, whence one gets the bound:
-
-\[\HH_s \leq \BB_{bs} \leq (b+1) \HH_s\]
+In particular, one can easily show the premise is true for $C = b+1$, whence one gets the bound
+\[\HH_s \leq \BB_{bs} \leq (b+1) \HH_s.\]
 \end{lemma}
 
-This last bound hints at something we will study: it appears that, the bigger the $b$ (that is, the more pieces we divide our intervals in) the worse the estimate. This makes sense: the bigger the $b$, the less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
+This last bound hints at something we will study: it appears that, the bigger $b$ is (that is, the more pieces we divide our intervals in as $j$ decreases) the worse the estimate. This makes sense, since as $b$ increases there is less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
 
 This intuition proves to be partially correct, as the following proposition shows:
 
 \begin{prop}
-Let $b, c \in \N_{\geq 2}$ and suppose $c$ is a power of $b$.
-
-Then, $\BB_{bs} \leq \BB_{cs}$
+Let $b, c \in \N_{\geq 2}$ and suppose $c$ is a power of $b$. Then, $\BB_{bs} \leq \BB_{cs}$.
 \end{prop}
 
 \begin{proof}
-This proof is trivial: simply notice that, if $c$ is a power of $b$, any $c$-ary interval is also a $b$-ary one. As such, when taking the infima for $\BB_{bs}^\delta$ one has more sets than in $\BB_{cs}^\delta$, whence $\BB_{bs}^\delta \leq \BB_{cs}^\delta$ and the result follows.
+This proof is trivial. Simply notice that, if $c$ is a power of $b$, any $c$-ary interval is also a $b$-ary one. As such, when taking the infima for $\BB_{bs}^\delta$ one has more sets than in $\BB_{cs}^\delta$, whence $\BB_{bs}^\delta \leq \BB_{cs}^\delta$ and the result follows.
 \end{proof}
 
 We would like to find an criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. Unfortunately, we have, as of yet, been unable to find one. We do, however, have some evidence that shows that the following proposition is \textbf{false}: 
@@ -353,117 +339,110 @@ We would like to find an criterion to, given two numbers $c, b \in \N_{\geq 2}$,
 If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.
 \end{conjecture}
 
-The counterexample to this possible conjecture is found closer to the end of this document.
+The counterexample to this possible conjecture is found closer to the end of this article.
 
 \section{Minimal interval coverings}\label{sec5}
 
-We focus now on the problem of, fixed a dimension $s$ and given an interval $I$, finding a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume $I$ to be of the form $\left[ a, b \right[$ with $a < b$, as we can always assume our Hausdorff coverings are composed of intervals of this kind. The reason we are assuming this is so that this plays well with our binary intervals, which are also half-open.
+We focus now on the following problem: given a dimension $s$ and an interval $I$, find a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume $I$ to be of the form $\left[ a, b \right[$ with $a < b$, as we can always assume our Hausdorff coverings are composed of intervals of this kind. The reason we are assuming this is so that this plays well with our $b$-ary intervals, which are also half-open.
 
-In truth, what we are actually concerned about is, as a function of the length of the interval $I$, let's call it $\ell$, how small a $b$-ary covering of it can we make? In particular, we want to find out the smallest $C$ such that we can always find a binary covering with Hausdorff sum less than or equal to $C \ell^s$. Symbolically this can be written as:
+In truth, what we are actually concerned about is finding as small a $b$-ary covering of an interval $I$ as possible. In particular, we want to determine the smallest $C$ such that for any interval of length $\ell$ we can find a binary covering with Hausdorff sum less than or equal to $C \ell^s$. This can be written as
+\begin{equation}\label{defc}
+C = \sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}
+\end{equation}
+where the supremum is taken over the half-open nonempty intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any $b$-ary covering is admissible.
 
-\[\sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}\]
-
-Where the supremum is taken over the half-open nonempty intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any binary covering is admissible.
-
-Notice, now, that an interval is uniquely determined by its length and its position. We can, then, write that supremum as:
-
-\[\sup_\ell \sup_\text{$I$ of length $\ell$} \frac{\BB_{bs}^\infty(I)}{\ell^s}\]
-
-Which is the same as:
-
-\[\sup_\ell \frac{\sup_I \BB_{bs}^\infty(I)}{\ell^s}\]
+Notice, now, that an interval is uniquely determined by its length and its position. We can, then, write \eqref{defc} as
+\[\sup_\ell \sup_\text{$I$ of length $\ell$} \frac{\BB_{bs}^\infty(I)}{\ell^s},\]
+which is the same as
+\[\sup_\ell \frac{\sup_I \BB_{bs}^\infty(I)}{\ell^s}.\]
 
 We investigate, then, $\sup \BB_{bs}^\infty(I)$, where the supremum is taken over intervals of a fixed length $\ell$.
 
-We will now show the following: we can assume, in addition, that our interval contains the origin. To this effect, given any interval $I$ we will construct an interval $I'$ of same length containing the origin, such that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
+We will now show that we can assume, in addition, that our interval contains the origin. To this effect, given any interval $I$ we will construct an interval $I'$ of same length containing the origin, such that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
 
 This construction requires splitting into cases:
 
 Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
 \begin{enumerate}[label=\textbf{Case \arabic*: }]
-\item work
+\item There exists a number of the form $k b^{j+1}$ contained in $I$;
 
-\item in
+\item $I$ is contained within a $b$-ary interval of length $b^{j+1}$
 
-\item progress
+\begin{enumerate}[label=\textbf{Subcase \alph*: }]
+\item There exists a number of the form $k b^{j+1}$ contained in $I$;
+
+\item $I$ is contained within a $b$-ary interval of length $b^{j+1}$
+\end{enumerate}
 \end{enumerate}
 
-Does there exist a number of the form $k b^{j+1}$ contained in $I$?
+And within case 2, two separate subcases:
 
-\begin{enumerate}
 
-\item \textbf{If so,} let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order. Observation number one:
+\begin{enumerate}[label=\textbf{Case \arabic*:}]
 
-\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^{j+1}}(I')\]
+\item \textbf{There exists $k$ such that $k b^{j+1} \in I$.}
 
-This is clearly true because any covering of $I'$ using an interval of size greater than $b^{j+1}$ can be `improved' by replacing it with a smaller interval. Observation number two:
+In this event, let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order.
 
-\[\BB_{bs}^{b^{j+1}}(I') = \BB_{bs}^{b^{j+1}}(I)\]
+First, notice that
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^{j+1}}(I'),\]
+because any covering of $I'$ using an interval of size greater than $b^{j+1}$ can be `improved' by replacing it with a smaller interval. Furthermore, we have
+\begin{equation}\label{transinvariance}
+\BB_{bs}^{b^{j+1}}(I') = \BB_{bs}^{b^{j+1}}(I),
+\end{equation}
+because the translation done to turn $I$ into $I'$ preserves binary intervals of size $b^{j+1}$ or less.
 
-This is clearly true because the translation done to turn $I$ into $I'$ preserves binary intervals of size $b^{j+1}$ or less.
+These two, together with the fact that $\BB_{bs}^{b^{j+1}}(I) \geq \BB_{bs}^\infty(I)$, give us the desired inequality
+\[\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I).\]
 
-These two, joined with the fact that $\BB_{bs}^{b^{j+1}}(I) \geq \BB_{bs}^\infty(I)$, give us the desired inequality:
+\item \textbf{There exists an interval of length $b^{j+1}$ within which $I$ is contained.}
 
-\[\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)\]
-
-\item \textbf{If not,} then we have
-
-\[\BB_{bs}^\infty(I) = \min(\BB_{bs}^{b^j}(I), b^{(j+1)s})\]
+In this event, 
+\[\BB_{bs}^\infty(I) = \min(\BB_{bs}^{b^j}(I), b^{(j+1)s}).\]
 
 We know for sure there exists at least one point of the form $k b^j$ in $I$. Let $I'$ be given by translating $I$ by $-k b^j$. We proceed to compare $\BB_{bs}^\infty(I')$ and $\BB_{bs}^\infty(I)$.
 
-\begin{enumerate}
+\begin{enumerate}[label=\textbf{Subcase \alph*:}]
 
-\item \textbf{If} $\BB_{bs}^{b^j}(I) \leq b^{(j+1)s}$, then notice that, as above, we have
-
-\[\BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) \leq b^{(j+1)s}\]
-
-And thus, $\BB_{bs}^{b^j}(I') = \BB_{bs}^\infty(I')$, as any coverings containing intervals bigger then $b^j$ can be safely ignored. Finalizing, we get:
-
-\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) = \BB_{bs}^\infty(I)\]
+\item \textbf{If} $\BB_{bs}^{b^j}(I) \leq b^{(j+1)s}$, by the same argument used to deduce equation \eqref{transinvariance}, we have
+\[\BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) \leq b^{(j+1)s},\]
+and thus $\BB_{bs}^{b^j}(I') = \BB_{bs}^\infty(I')$, as any coverings containing intervals bigger then $b^j$ can be safely ignored. Finalizing, we get
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) = \BB_{bs}^\infty(I).\]
 
 \item \textbf{If} $\BB_{bs}^{b^j}(I) \geq b^{(j+1)s}$, simply observe that either
-
-\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I')\]
-
-In which case $\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I) \geq \BB_{bs}^\infty(I)$, as desired.
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I'),\]
+in which case $\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I) \geq \BB_{bs}^\infty(I)$, as desired.
 
 Or it could happen that
-
-\[\BB_{bs}^\infty(I') < \BB_{bs}^{b^j}(I')\]
-
-In which case we can safely assert $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{bs}^\infty(I)$ since we need only consider coverings that contain at least one interval of length $b^{j+1}$ and so have Hausdorff sum of at least $b^{(j+1)s}$.
+\[\BB_{bs}^\infty(I') < \BB_{bs}^{b^j}(I'),\]
+in which case we can safely assert $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{bs}^\infty(I)$ since we need only consider coverings that contain at least one interval of length $b^{j+1}$ and so have Hausdorff sum of at least $b^{(j+1)s}$.
 \end{enumerate}
 \end{enumerate}
 
 \qed
 
-This construction done, we have now shown that our problem can be reduced to
+With this construction done, we have now shown that our problem can be reduced to determining
+\[\sup_{\substack{\text{$I$ half-open interval}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}.\]
 
-
-\[\sup_{\substack{\text{$I$ half-open interval}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}\]
-
-A simple observation about the origin is that any $b$-ary interval is either to the right or to the left of the origin, but no interval touches both sides. As such, we can consider our covering of the left side to be independent of our covering of the right side, leading quickly to the conclusion that, if $I = \left[ a, b \right[$ with $a \leq 0 \leq b$, we have:
-
+A simple observation about the origin is that any $b$-ary interval is either to the right or to the left of the origin, but no interval touches both sides. Therefore, we can consider our covering of the left side to be independent of our covering of the right side, leading quickly to the conclusion that, if $I = \left[ a, b \right[$ with $a \leq 0 \leq b$, we have
 \[\BB_{bs}^\delta(\left[a, b\right[) = \BB_{bs}^\delta(\left[a, 0\right[) + \BB_{bs}^\delta(\left[0, b\right[)\]
+for any $\delta \in \left]0, \infty \right]$.
 
-For any $\delta \in \left]0, \infty \right]$.
-
-Another observation, which we will justify rigorously soon (see lemma \ref{sidedoesntmatter}), is that $\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)$. This has the following consequence: if we define for $t \geq 0$ the function $g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[)$, our problem becomes one of optimization:
+Another observation, which we will soon justify rigorously (see lemma \ref{sidedoesntmatter}), is that $\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)$. This has the following consequence: if we define for $t \geq 0$ the function $g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[)$, our problem becomes one of optimization:
 
 \[ \sup_{\substack{\ell,r \in \R^+_0\\\ell+r \neq 0}} \frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s} \]
 
-And so, we proceed to study the function $g_{bs}$, (we will often suppress the subscript when it is obvious from context and not particularly relevant) which has a connection to the theory of $b$-ary expansions of real numbers. Before going into details, however, the promised lemma:
+And so, we proceed to study the function $g_{bs}$, (we will often suppress the subscript when it is obvious from context and not particularly relevant) which has a connection to the theory of $b$-ary expansions of real numbers. Before getting into details, however, we prove the property mentioned above:
 
 \begin{lemma} \label{sidedoesntmatter}
 \[\BB_{bs}^\delta(\left[a, 0\right[) = \BB_{bs}^\delta(\left[0, a\right[)\]
 \end{lemma}
 
 \begin{proof}
-Fix any $b$-ary $\delta$-covering of $\left[a, 0\right[$. Suppose it is $\{\left[x_i, y_i\right[\}$. Consider the collection $\{\left[-y_i, -x_i\right[\}$. 
+Fix any $b$-ary $\delta$-covering of $\left[a, 0\right[$. Denote it by $\{\left[x_i, y_i\right[\}$. Consider now the collection $\{\left[-y_i, -x_i\right[\}$. 
 
-This collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$, but one may easily augment our collection of intervals with things of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, concluding that $\BB_{bs}^\delta(\left[a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. The same argument works to get the other inequality, and thus we get the desired equality.
+This collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$. This can, however, be remedied by augmenting our collection with intervals of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, concluding that $\BB_{bs}^\delta(\left[a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. A similar argument will show the opposite inequality.
 \end{proof}
 
 \section{$b$-ary digit expansions}\label{sec6}
@@ -472,36 +451,30 @@ In the previous section we showed that a possible approach to our problem goes t
 
 \[ \sup_{\substack{\ell,r \in \R^+_0\\\ell+r \neq 0}} \frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s} \]
 
-By itself, this reduction would not be much help, but as it turns out one can draw a connection between this function $g$ and the theory of noninteger base expansions.
+By itself, this reduction would not be much help. As it turns out, however, one can draw a connection between this function $g$ and the theory of noninteger base expansions.
 
 \begin{remark}
 In remark \ref{dimnotzero} we mentioned that we will be tacitly assuming $s \neq 0$. We will outline here another such assumption.
 
-$\R$ has Hausdorff dimension 1. As such, for $s > 1$, both the binary and the Hausdorff measre of \emph{any} set in $\R$ will be zero. Then, the question of the relationship between these two is trivial and uninteresting. Therefore, we add another tacit assumption:
-
-\textbf{From now on, we always assume $s \leq 1$.}
+As $\R$ has Hausdorff dimension 1, for $s > 1$, both the binary and the Hausdorff measre of \emph{any} set in $\R$ will be zero. Then, the question of the relationship between these two is trivial and uninteresting. Therefore,\textbf{from now on, we always assume $s \leq 1$.}
 \end{remark}
 
-Let us fix some $t > 0$, and investigate how one might go about calculating $g(t)$ fixed a dimension $s$ and a base $b$. (The case $t = 0$ is trivial, and thus unconsidered.) We remind the reader of the definition of $g$:
+Let us now fix some $t > 0$, and investigate how one might go about calculating $g(t)$ given a dimension $s$ and a base $b$. (The case $t = 0$ is trivial, and thus not considered.) We remind the reader of the definition of $g$:
 
 \[g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[)\]
 
-First, fix $b^k$ as the least power of $b$ that is $\geq t$. Then, a possible covering of $\left[0, t \right[$ would be the interval $\left[0, b^k\right[$. Hence, $g(t) \leq b^{ks}$.
+First, fix $b^k$ as the least integer power of $b$ that is $\geq t$. Then, a possible covering of $\left[0, t \right[$ would be the interval $\left[0, b^k\right[$. Hence, $g(t) \leq b^{ks}$.
 
-Now, consider that $b^{k-1} < t$, and so there is a maximal integer, which we will call $d_1$, such that $d_1 b^{k-1} \leq t$. As such, this gives us another possible covering of our interval: consider the sequence of intervals formed by
+Now, observe that $b^{k-1} < t$, and so there is a maximal integer, which we will call $d_1$, such that $d_1 b^{k-1} \leq t$. This gives us another possible covering of our interval, given by
+\[\left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[d_1 b^{k-1}, (d_1 + 1) b^{k-1} \right[,\]
+which yields another upper bound, $g(t) \leq (d_1 + 1) b^{k-1}$.
 
-\[\left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[d_1 b^{k-1}, (d_1 + 1) b^{k-1} \right[ \]
-
-This gives us another upper bound for $g(t)$: $g(t) \leq (d_1 + 1) b^{k-1}$.
-
-We can continue this process: let $d_2$ be maximal such that $d_1 b^{k-1} + d_2 b^{k-2} \leq t$. The following sequence of intervals will cover $\left[0, t \right[$:
-
+We can continue this process. If we let $d_2$ be maximal such that $d_1 b^{k-1} + d_2 b^{k-2} \leq t$. The following sequence of intervals will cover $\left[0, t \right[$:
 \begin{multline*}
 \left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[(d_1 - 1) b^{k-1}, d_1 b^{k-1} \right[ \\
-\left[d_1 b^{k-1}, d_1 b^{k-1} + b^{k-1} \right[, , \cdots, \left[d_1 b^{k-1} + d_2 b^{k-2}, d_1 b^{k-1} + (d_2 + 1) b^{k-2} \right[
+\left[d_1 b^{k-1}, d_1 b^{k-1} + b^{k-1} \right[, , \cdots, \left[d_1 b^{k-1} + d_2 b^{k-2}, d_1 b^{k-1} + (d_2 + 1) b^{k-2} \right[,
 \end{multline*}
-
-Giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$.
+giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$.
 
 We will make this process more rigorous shortly. Below is a diagram exemplifying it for $b = 3$ and $t = 0.86$.
 
@@ -512,15 +485,18 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 
 %The following was automatically generated with the help of the code at binary.py
 \draw[thick, gray, {[-)}] (0, -1.0) -- (10, -1.0);
+\draw (10, -1) node[right]{$3^0$};
 
 \draw[thick, red, {[-)}] (0, -1.5) -- (3.333333333333333, -1.5);
 \draw[thick, red, {[-)}] (3.333333333333333, -1.5) -- (6.666666666666666, -1.5);
 \draw[thick, red, {[-)}] (6.666666666666666, -1.5) -- (10.0, -1.5);
+\draw (10, -1.5) node[right]{$3 \times 3^{-1}$};
 
 \draw[thick, red, {[-)}] (0, -2.0) -- (3.333333333333333, -2.0);
 \draw[thick, red, {[-)}] (3.333333333333333, -2.0) -- (6.666666666666666, -2.0);
 \draw[thick, orange, {[-)}] (6.666666666666666, -2.0) -- (7.777777777777777, -2.0);
 \draw[thick, orange, {[-)}] (7.777777777777777, -2.0) -- (8.88888888888889, -2.0);
+\draw (8.89, -2) node[right]{$2 \times 3^{-1} + 2 \times 3^{-2}$};
 
 \draw[thick, red, {[-)}] (0, -2.5) -- (3.333333333333333, -2.5);
 \draw[thick, red, {[-)}] (3.333333333333333, -2.5) -- (6.666666666666666, -2.5);
@@ -528,6 +504,7 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 \draw[thick, blue, {[-)}] (7.777777777777777, -2.5) -- (8.148148148148147, -2.5);
 \draw[thick, blue, {[-)}] (8.148148148148147, -2.5) -- (8.518518518518515, -2.5);
 \draw[thick, blue, {[-)}] (8.518518518518515, -2.5) -- (8.888888888888886, -2.5);
+\draw (8.89, -2.5) node[right]{$2 \times 3^{-1} + 1 \times 3^{-2} + 3 \times 3^{-3}$};
 
 \draw[thick, red, {[-)}] (0, -3.0) -- (3.333333333333333, -3.0);
 \draw[thick, red, {[-)}] (3.333333333333333, -3.0) -- (6.666666666666666, -3.0);
@@ -535,6 +512,7 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 \draw[thick, blue, {[-)}] (7.777777777777777, -3.0) -- (8.148148148148147, -3.0);
 \draw[thick, blue, {[-)}] (8.148148148148147, -3.0) -- (8.518518518518515, -3.0);
 \draw[thick, black, {[-)}] (8.518518518518515, -3.0) -- (8.641975308641975, -3.0);
+\draw (8.64, -3) node[right]{$2 \times 3^{-1} + 1 \times 3^{-2} + 2 \times 3^{-3} + 1 \times 3^{-4}$};
 
 
 \draw[thick] (8.6, 0.1) node[above]{0.86} -- (8.6, -3.1);
@@ -543,9 +521,10 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 
 \bigskip
 
-Notice the structure of how we would find the $d_i$ in the previous argument: already knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the $b$-ary digits of $t$.
+Notice the structure of how we would find the $d_i$ in the previous argument: knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the digits of $t$ in base $b$.
 
 So, let us consider the following algorithm to calculate $g(t)$:
+%todo put into words
 
 Let $b^k$ be the least power of $b$ greater than $t$ for $t > 0$.
 
@@ -559,7 +538,7 @@ Loop:
 \end{lstlisting}
 \label{digalg}
 
-The preceding algorithm will calculate the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
+The preceding algorithm will compute the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
 
 \[d_1 d_2 \cdots d_k \, . \, d_{k+1} \cdots\]
 
@@ -578,27 +557,25 @@ Finally, for any $N \geq 0$:
 As such, we may consider the following sequence of intervals:
 
 \begin{gather*}
-\{\, \left[ x , x + b^{k-N} \right[ \mid x = (\sum_{i=1}^N d_i b^{k-i}) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\}\\
-\cup\\
-\{\left[ (\sum_{i=1}^M d_i b^{k-i}) ,(\sum_{i=1}^M d_i b^{k-i}) + b^{k-M} \right[\}
+\left\{\, \left[ x , x + b^{k-N} \right[ \;\middle|\; x = \left(\sum_{i=1}^N d_i b^{k-i}\right) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\right\}\\
+\bigcup\\
+\left\{\left[ \left(\sum_{i=1}^M d_i b^{k-i}\right) ,\left(\sum_{i=1}^M d_i b^{k-i}\right) + b^{k-M} \right[\right\}
 \end{gather*}
 
-The notation has become extremely burdensome, so we make the following definitions:
+To simplify the notation we make the following definitions:
 
 \begin{definition}
-First, we will use the notation $\left[ x \oplus \delta \right[$ to mean $\left[x, x+\delta \right[$.
+First, we define $R_\delta(x)$ to mean $\left[x, x+\delta \right[$.
 
-Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Define the collection of intervals denoted by:
-
+Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Define the collection of intervals denoted by
 \[ b^k [d_0 d_1 d_2 \dots] \]
-
-As follows:
+as follows:
 
 First, define it inductively for finite sequences:
 
 \begin{gather*}
 b^k [] = \emptyset\\
-b^k [d_0 \cdots d_n d_{n+1}] = b_n [d_0 \cdots d_n] \cup \{\,\left[d_0 . d_1 \cdots d_n j \times b^k \oplus b^{k-(n+1)} \right[ \mid 0 \leq j < d_{n+1} \,\}
+b^k [d_0 \cdots d_n d_{n+1}] = b_n [d_0 \cdots d_n] \cup \left\{\, R_{b^{k-(n+1)}}(d_0 . d_1 \cdots d_n j \times b^k) \;\middle|\; 0 \leq j < d_{n+1} \,\right\}
 \end{gather*}
 
 And, for infinite sequences, simply take the increasing union:
@@ -607,7 +584,7 @@ And, for infinite sequences, simply take the increasing union:
 
 \end{definition}
 
-The following propositions are left without proof.
+The following proposition is stated without proof.
 
 \begin{prop}
 Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Let $A = b^k [d_0 d_1 d_2 \dots]$. Then, $A$ satisfies the following properties:
@@ -630,13 +607,9 @@ Notice that the Hausdorff sum of $A$ can be easily written out as a $b^s$-ary ex
 It is left implied when writing things with scientific notation that the base in which the expansion should be interpreted is the base of the mantissa. In this case, $b^s$. In the future, however, in this particular case, we will abbreviate it to $b^{ks}$, but the expansion following should still be interpreted as base $b^s$.
 \end{remark}
 
-This done, we can now more easily write down the coverings mentioned above:
-
-Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$. Consider the coverings given by:
-
+Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$. Consider the coverings given by
 \[ b^k [d_0 \dots d_{n-1} (d_n + 1)] \]
-
-As $n$ ranges over $\N$.
+as $n$ ranges over $\N$.
 
 Any of these covers $t$, and so we have:
 
@@ -655,9 +628,9 @@ Then:
 \end{prop}
 
 \begin{proof}
-We already know $LHS \leq RHS$, so we will focus on showing the other inequality.
+We already know $LHS \leq RHS$, so we will focus on showing the opposite inequality.
 
-We will do this in two parts: first, we will show that the infimum to calculate $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is $\geq \inf s_n$.
+We will do this in two parts: first, we will show that the infimum required to compute $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is $\geq \inf s_n$.
 
 Fix an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$.
 
