@@ -465,8 +465,7 @@ giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$.
 
 We will make this process more rigorous shortly. Below is a diagram exemplifying it for $b = 3$ and $t = 0.86$.
 
-\noindent
-\resizebox{\linewidth}{!}{
+\noindent\resizebox{\linewidth}{!}{
 \begin{tikzpicture}
 \draw[thick, {|-|}] (0,0) node[above]{0} -- (10,0) node[above]{1};
 \draw[thick, {->}] (10,0) -- (12, 0) node[above]{$x$};
@@ -513,21 +512,15 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 Notice the structure of how we would find the $d_i$ in the previous argument: knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the digits of $t$ in base $b$.
 
 So, let us consider the following algorithm to calculate $g(t)$:
-%todo put into words
 
 Let $b^k$ be the least power of $b$ greater than $t$ for $t > 0$.
 
-\begin{lstlisting}
-$rem \leftarrow t$
-$i \leftarrow 0$
-Loop:
-  $i \leftarrow i-1$
-  Put $d_i$ be the greatest integer $k$ such that $k \cdot b^{k-i} \leq rem$
-  $rem \leftarrow rem - d_i b^{k-1}$
-\end{lstlisting}
+For $i = 0, 1, 2, \dots$, put $d_i$ the maximal integer $d$ such that
+
+\[ \left( \sum_{j = 0}^{i-1} d_j b^{k-j} \right) + d b^{k-i} \leq t \]
 \label{digalg}
 
-The preceding algorithm will compute the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
+Running this procedure for all natural $i$ in order, one will end with a sequence $\{d_i\}$ which corresponds to the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as:
 
 \[d_1 d_2 \cdots d_k \, . \, d_{k+1} \cdots\]
 
@@ -640,7 +633,7 @@ First, suppose without loss of generality that $A$ does not contain any interval
 
 Fix, then $I \in A$. Let it intersect $J \in A'$. By nature of the $b$-ary intervals, either $I \subseteq J$ (as desired), or $J \subseteq I$. But, if the latter, we proceed to conclude that $J = I$:
 
-Suppose $I$ is of the form $\left[ i b^{k-n} \oplus b^{k-n} \right[$. By the maximality of $a_n$, we have the following:
+Suppose $I$ is of the form $R_{b^{k-n}}(i b^{k-n})$. By the maximality of $a_n$, we have the following:
 
 \[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n} \]
 
@@ -910,7 +903,7 @@ Put $S_0 = \left]-\gamma, \gamma\right[$.
 
 Now, to construct $S_1$, we begin by looking at $S_0$ as a countable union of $b$-ary intervals. Divide each of these into $b^\alpha$ equal intervals ($\alpha \geq 0$). Then apply the following transformation to each of them:
 
-If $I = \left[a \oplus b^\eta \right[$ is a $b$-ary interval, its transform is given by:
+If $I = R_{b^\eta}(a)$ is a $b$-ary interval, its transform is given by:
 
 \[\left] c - b^{\eta - \beta} \gamma, c + b^{\eta - \beta} \gamma \right[\]
 
