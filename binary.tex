@@ -6,8 +6,6 @@
 
 \usepackage[utf8]{inputenc}
 
-\usepackage{showlabels}
-
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{backgrounds}
@@ -878,74 +876,66 @@ Notice that, fixed $s$, $f$ is a continuous increasing function of $t$. Furtherm
 
 \section{A lower bound for $C$}\label{seclowerbound}
 
-In the previous sections, we have constructed an upper bound for $C$. Namely, $C \leq K$. We do not, however, have any nontrivial lower bounds yet. We seek to remedy that.
+In the previous sections, we have constructed an upper bound for $C$. Namely, $C \leq K$. We do not, however, have any nontrivial lower bounds yet. We will now remedy that.
 
-First, a few definitions.
+Notice that $g$ is a continuous increasing function, surjective from $\R^+_0$ to $\R^+_0$. This means that, for any $y$, there is a least $x$ such that $g(x) = y$. In particular, this is true for $y = 1$, and so we define $\gamma_{bs}$ as the corresponding $x$. It is obvious that $\gamma_{bs} \in \left] 1/b, 1 \right]$.
 
-Notice that $g$ is a continuous increasing function, surjective from $\R^+_0$ to $\R^+_0$. This means that, for any $y$, there is a least $x$ such that $g(x) = y$. We will denote this by $x = \len_{bs}(y)$.
-
-A quantity that will be useful to us is $\len_{bs}(1)$, which we will denote by $\gamma_{bs}$. It is obvious that $\gamma \in \left] 1/b, 1 \right]$.
-
-This quantity is useful because of the following: consider the interval $\left[0, \gamma \right[$. There are many ways to cover it using binary intervals, but we can, without loss of generality, assume it is covered by the single interval $\left[0, 1 \right[$. Of course, this holds up to scaling by powers of $b$, which allows us to make certain constructions. In particular, we will use it to make a construction with the intent of maximizing the discrepancy between the Hausdorff and $b$-ary measure.
+This quantity is useful because of the following property: consider the interval $\left[0, \gamma \right[$. There are many ways to cover it using $b$-ary intervals, but we can, without loss of generality, assume it is covered by the single interval $\left[0, 1 \right[$. Of course, this holds up to scaling by powers of $b$, which allows us to make certain constructions. In particular, we will use it to make a construction with the intent of maximizing the discrepancy between the Hausdorff and $b$-ary measure.
 
 \textbf{In what follows, we assume $0 < s < 1$.}
 
-Fix an arbitrary dimension $s \in \left]0, 1 \right[$ and base $b$. Build, inductively, $S_n$ as follows:
+Fix an arbitrary dimension $s \in \left]0, 1 \right[$ and base $b$. We will build inductively a decreasing sequence of sets $S_n$, whose intersection, which we will call $S$, is the set we are looking for. To do this, we will define a transformation that, given $S_n$, will give us $S_{n+1}$.
 
-Put $S_0 = \left]-\gamma, \gamma\right[$.
+Given an interval of the form
 
-Now, to construct $S_1$, we begin by looking at $S_0$ as a countable union of $b$-ary intervals. Divide each of these into $b^\alpha$ equal intervals ($\alpha \geq 0$). Then apply the following transformation to each of them:
+\begin{equation}\label{gableinterval}
+I = \left] c b^\eta \pm \gamma b^\eta \right[
+\end{equation}
 
-If $I = R_{b^\eta}(a)$ is a $b$-ary interval, its transform is given by:
+we define the \emph{G-split of $I$} as the minimal collection of $b$-ary intervals whose reunion is $I$. For the interval $I_0 = \left]-\gamma, \gamma\right[$, this collection is simply given by all intervals in $b^0 [ d_0 . d_1 d_2 \dots ]$, where $d_i$ are the digits of $\gamma$, and their symmetric around the origin. For intervals $I$ of the more general form we can define their G-split by translating and rescaling $I$ to become $I_0$, taking its G-split, and doing the inverse translation and rescaling.
 
-\[\left] c - b^{\eta - \beta} \gamma, c + b^{\eta - \beta} \gamma \right[\]
+Now, given a $b$-ary interval $I$, define its \emph{A-split} by simply splitting $I$ into $b^\alpha$ congruent $b$-ary intervals. We have not yet specified $\alpha$; it is a free parameter, with only the restriction that it must be a nonnegative integer ($\alpha \geq 0$).
 
-Where $c = a + b^{\eta - 1}$.
+Finally, fixed a $b$-ary interval $I = R_{b^\eta}(a)$, we define its \emph{B-split} as the interval $]c \pm b^{\eta - \beta} \gamma[$, where $c = a + b^{\eta - 1}$. Again, $\beta$ is an unspecified parameter, with only the restriction of being a positive integer $(\beta > 0)$. Notice that this is an interval of the form \eqref{gableinterval}, and therefore, an interval to which we can do a G-split. Another important property of the B-split is that, for any $b$-ary interval $I$, \emph{the smallest $b$-ary interval covering the entire B-split of $I$ is $I$ itself.}
 
-Notice that this interval can be decomposed into countably many disjoint $b$-ary intervals, as per the $b$-ary expansion of $\gamma$.
+Our construction consists of starting with an interval of the form \eqref{gableinterval} and simply applying G-splits, A-splits and B-splits repeatedly. This will give us the decreasing sequence of sets we are looking for.
 
-An important property of this transformation is as follows: \emph{The smallest $b$-ary interval covering the entire transform of $I$ is $I$ itself.}
-%todo show that gamma is nonterminating
-
-Now, inductively, suppose $S_n$ is a countable disjoint union of $b$-ary intervals. To each of these, do the same as  we did to $S_0$: divide it into $b^\alpha$ parts, and transform each of these parts as indicated above. This will net us $S_{n+1}$.
-
-This process will give us a decreasing sequence of sets, whose intersection we call $S$. Notice that $S$ depends on a few factors we left implicit: namely, $\alpha$, $\beta$, $b$ and $s$.
-
-We wish to manipulate these parameters to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
+More concretely, put $S_0 = \left]-\gamma, \gamma\right[$, and define $S_{n+1}$ as \emph{the B-split of the A-split of the G-split of $S_n$}. This process will give us a decreasing sequence of sets that depends on four parameters: $\alpha$, $\beta$, $b$ and $s$. We wish to manipulate these parameters to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
 
 Note that all of the $S_i$, taken as unions of intervals, are Hausdorff covers of $S$. Let $\sigma_i$ be the Hausdorff sum of $S_i$.
 
-Clearly, $\sigma_0 = (2 \gamma)^s$. Furthermore, by the recursive definition of $S_n$, $\sigma_n$ is a geometric series, whose ratio between successive terms is simply $\frac{\sigma_1}{(2 \gamma)^s}$.
+Clearly, $\sigma_0 = (2 \gamma)^s$. Furthermore, by the recursive definition of $S_n$, which is invariant under rescaling, $\sigma_n$ is a geometric sequence, whose ratio between successive terms is simply $\frac{\sigma_1}{(2 \gamma)^s}$.
 
-The only way for the limit to be nontrivial is for this series to be the constant one, and so for $\sigma_1$ to be $(2 \gamma)^s$. Hence, let us calculate $\sigma_1$.
+The only way for the limit to be nontrivial is for this sequence to be the constant sequence equal to one, and so for $\sigma_1$ to be $(2 \gamma)^s$. Hence, let us calculate $\sigma_1$.
 
-First, calculate the Hausdorff sum of what the transformation would do to $\left[0, 1 \right[$. It would be turned into $\left] \frac 1 b - \frac \gamma{b^\beta}, \frac 1 b + \frac \gamma{b^\beta} \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s \beta}$. Now, if this transformation was applied to an interval of length $\ell$, then by rescaling the result would have Hausdorff sum $(2 \gamma)^s b^{-s \beta} \ell^s$.
+First, calculate the Hausdorff sum of what the B-split of $\left[0, 1 \right[$. This is $\left] \frac 1 b - \frac \gamma{b^\beta}, \frac 1 b + \frac \gamma{b^\beta} \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s \beta}$. By rescaling, the B-split of an interval of length $\ell$ would have Hausdorff sum $(2 \gamma)^s b^{-s \beta} \ell^s$.
 
-Now, notice that we are not merely taking intervals and applying the transformation to them. First, we split the interval into $b^\alpha$ many. Hence, from an interval of length $\ell$, the result actually has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s (\alpha + \beta)} \ell^s$.
+Now, notice that before doing a B-split we first do an A-split. This means that an interval of length $\ell$ is turned into $b^\alpha$ many, of length $\ell b^{-\alpha}$. Hence, the B-split of the A-split of an interval of length $\ell$ has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s (\alpha + \beta)} \ell^s$.
 
-If we have a set of intervals with Hausdorff sum $H$ and apply this to all of them, the resulting Hausdorff sum is given by:
+If we have a set of intervals with Hausdorff sum $H$ and take their A- and B-split the resulting Hausdorff sum is given by
 
 \begin{align*}
 \sum_\ell (2 \gamma)^s \ell^s b^{\alpha - (\alpha + \beta) s} &=
 (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \sum \ell^s\\
-&= (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \cdot H
+&= (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \cdot H.
 \end{align*}
 
-But we are not doing something as direct as that. First, we are splitting our intervals into $b$-ary ones. The effect of this is it tampers with the value of $H$.
+And therefore, finally, we look at the Hausdorff sum of the G-split of an interval. Again, we will look at the interval $I_0 = \left] -\gamma, \gamma \right[$ as what will be said holds for arbitrary intervals by rescaling.
 
-All the intervals created in this construction are of the form $\left] c - b^\eta \gamma, c + b^\eta \gamma \right[$. As such, splitting it into $b$-ary intervals yields a collection of intervals with Hausdorff sum equal to $2 b^{\eta s}$. Hence, splitting this into $b$-ary intervals and applying the above to it, we get a final result of:
+The G-split of $I_0$ is (half of it) given by $b^0 [ d_0 . d_1 d_2 \dots]$, whose Hausdorff sum is simply $b^{0s} \times d_0 . d_1 d_2 \dots$. Since $i(\gamma) = g(\gamma) = 1$, the Hausdorff sum of the G-split of $I_0$ is simply 2.
 
-\[\sigma_1 = (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \cdot 2 \]
+Composing the three transforms, the Hausdorff sum of $S_1$ is given by
 
-We need this to be equal to $\sigma_0 = (2 \gamma)^s$, and so we meddle with the parameters in order to make this true. In particular, we solve the equation:
+\[\sigma_1 = (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \cdot 2.\]
 
-\[ 2 b^{\alpha - (\alpha + \beta) s} = 1 \]
+We need this to be equal to $\sigma_0 = (2 \gamma)^s$, and so we solve the equations to find parameters that make this true. In particular, we solve the equation
 
-Yielding the result
+\[ 2 b^{\alpha - (\alpha + \beta) s} = 1,\]
+yielding the result
 
-\[s = \frac{\alpha + \log_b 2}{\alpha + \beta}\]
+\[s = \frac{\alpha + \log_b 2}{\alpha + \beta}.\]
 
-For this particular dimension, we have shown $S$ has Hausdorff measure \emph{at most} $(2 \gamma)^s$. We will now bound from below the binary measure.
+For this particular dimension, we have shown $S$ has Hausdorff measure \emph{at most} $(2 \gamma)^s$. We will now bound from below the $b$-ary measure.
 
 First, a technical lemma:
 
@@ -963,31 +953,25 @@ Now, consider the collection of intervals $\{ \left]x_i - \varepsilon_i, y_i \ri
 
 This lemma is useful because $S$ is compact.
 
-Indeed, it is trivial to see that the closure of $S_{n+1}$ is contained in $S_n$, which implies that $S$ can be written as the intersection of all $\overline{S_n}$, all of which are compact, hence $S$ itself is compact. Therefore, we may bound the $b$-ary measure of $S$ from below by minoring the Hausdorff sum of \emph{finite} $b$-ary coverings of $S$.
+Indeed, it is trivial to see that the closure of the G-split of an interval $I$ is contained in $I$, which means the closure of $S_{n+1}$ is contained in $S_n$. This means that $S$ can be written as the intersection of all $\overline{S_n}$, all of which are compact, hence $S$ itself is compact. Therefore, we may bound the $b$-ary measure of $S$ from below by minoring the Hausdorff sum of \emph{finite} $b$-ary coverings of $S$.
 
-We can actually go a step further, in fact. Notice that, for $n > 0$, $S_n$ contains no points of the form $k b^{-n}$. This implies that, fixed a finite $b$-ary covering of $S$, it actually covers some $S_n$.
+We can further strengthen our assumptions. Notice that, for $n > 0$, $S_n$ contains no points of the form $k b^{-n}$. This implies that, fixed a finite $b$-ary covering of $S$, there exists $n$ such that our covering covers $S_n$, as we will now show.
 
-To show this is so, fix any finite $b$-ary covering of $S$. Let $n$ be a natural number such that all intervals of this covering have length greater than $b^{-n}$. Consider $S_n$ as a countable collection of intervals.
-
-Notice that each of these intervals is either wholly contained in the covering we have fixed, or entirely outside it. Of course, if any of them were outside the covering, there would be at least one point of $S$ not being covered, which is a contradiction. Hence, $S_n$ is entirely covered.
+Fix any finite $b$-ary covering of $S$. Let $n$ be a positive natural number such that all intervals of this covering have length greater than $b^{-n}$. Consider $S_n$ as a countable collection of intervals. Each of these intervals is either wholly contained in the covering we have fixed, or entirely outside it. Of course, if any of them were outside the covering, there would be at least one point of $S$ not being covered, which is a contradiction. Hence, $S_n$ is entirely covered.
 
 Therefore, we now work with the following hypothesis: \textbf{Fix a \emph{finite} covering of some $S_n$}. If we can bound from below the Hausdorff sum of coverings of this kind, we have bound from below the $b$-ary measure of $S$, as desired.
 
-We will now show by induction on $n$ that this covering has Hasudorff sum at least two.
+We will now show by induction on $n$ that this covering has Hasudorff sum at least 2.
 
 If $n = 0$ the result is a mere consequence of the definition of $\gamma$. We will now suppose the result to be true for some $n$, and show it for $n+1$.
 
-Focus on the part of $S_{n+1}$ that is to the right of the origin. Let $0.d_1 d_2 \dots$ be the digits of $\gamma$, and let $\{I_i\}$ be the intervals of $b^0 [0 d_1 d_2 \dots]$. Within each $I_i$ are $b^\alpha$ copies of $S_n$, scaled down by a factor of $\text{[Length of $I_i$]} \times b^{-(\alpha + \beta + 1)}$. If we show we can assume any covering of $S_{n+1} \cap I_i$ covers the entirety of $I_i$, then we may suppose any covering of $S_{n+1}$ covers the entirety of $\left]-\gamma, \gamma\right[ = S_0$, concluding the argument.
+Note that $S_{n+1}$ can be described as follows: consider all intervals $I = R_{b^\eta}(a)$ composing the A-split of the G-split of $S_0$ and replace each interval with an appropriately rescaled and translated copy of $S_n$, made to fit inside the B-split of $I$, which we will call $J = ]a \pm b^{\eta - \beta} \gamma[$. This allows us to use the induction hypothesis to assume, without loss of generality, that any $b$-ary cover of each of these copies of $S_n$ covers the entire interval $J$.
 
-The only missing piece of the puzzle, then, is to show that we can suppose that $I_i$ is completely covered. To simplify the argument, we assume $I_i$ to be the unit interval; it is a mere matter of scaling it down to make it work for arbitary $b$-ary intervals.
+Any such cover is either a cover of $\left]-\gamma, \gamma \right[$ scaled down to the size of $J$, or contains an interval that covers $J$ entirely. Of course, in the latter case, because of a property of the B-split we mention above, we must actually cover $I$ entirely, yielding a Hausdorff sum of $b^{\eta s}$. In the former case, by rescaling, we have a Hausdorff sum of at least $2 b^{(\eta - \beta) s} = b^{\eta s} b^{\log_b 2 - \beta s}$. Since $\log_b 2 - \beta s = \alpha (s - 1) \leq 0$, at a minimum we have a Hausdorff sum of $b^{\eta s + \alpha (s - 1)}$.
 
-There are two cases: either we cover the whole of our interval $I$ (which is the desired case) or we have a separate cover for each of its $b$ sub-intervals. By symmetry, if $\alpha \geq 1$, we may assume all of these covers to be the same. Repeating the argument (if $\alpha \geq 2$), we can assume we have equal covers for the $b^2$ sub-intervals of $I$. Repeat $\alpha$ times to get that, either we cover the entire interval, or we find some covering of one of the scaled down copies of $S_n$. There are $b^\alpha$ such copies; if we show any covering of one of them has Hausdorff sum at least $b^{-\alpha}$ the argument is complete.
+What we have done refers to a single copy of $S_n$. Now, consider an interval $I = R_{b^\eta}(a)$ in the G-split of $S_0$. If we show that we can assume that $I$ is entirely covered, then we show that we can assume without loss of generality that we cover the entirety of $S_0$ and therefore that we have a Hausdorff sum of at least 2. Fix, then, an arbitrary $b$-ary covering of the copies of $S_n$ contained in the B-split of the A-split of $I$.
 
-Consider such a scaled down copy, let $c$ be its center, and fix an arbitrary $b$-ary covering of it. If this covering has an interval that crosses over $c$, this interval must have length at least $b^{-\alpha}$, and so its Hausdorff sum is at least $b^{- \alpha s} \geq b^{-\alpha}$. We may then suppose our covering does not pass through the center. But then, by rescaling and translation, we reduce the problem to finding a covering of $S_n$. We already know any such covering has Hausdorff sum at least two, and so any covering of our scaled down copy has Hausdorff sum at least
-
-\[ 2 b^{-(\alpha + \beta) s} = b^{-\alpha} \]
-
-Which concludes our proof. \qed
+The A-split of $I$ consists of splitting $I$ into $b^\alpha$ identical intervals. We can assume, without loss of generality, that, if we \emph{don't} cover the entirety of $I$, each of these identical intervals is covered separately, with no interval in our covering containing two different intervals of the A-split of $I$. This means that we cover each of our copies of $S_n$ independently. Each of them, as we have shown, requires a Hausdorff sum of at least $b^{(\eta - \alpha)s + \alpha(s - 1)} = b^{\eta s - \alpha}$, and since there are $b^\alpha$ many of these, our $b$-ary cover has Hausdorff sum at least $b^{\eta s}$. This is the same as the Hausdorff sum of the trivial cover $\{I\}$, which means that we may assume $I$ is completely covered. This concludes our proof. \qed
 
 To recap: our set $S$, built for any dimension of the form $s = \frac{\alpha + \log_b 2}{\alpha + \beta}$, has:
 
@@ -1081,8 +1065,8 @@ The author would like to thank Jorge Drumond Silva for the initial suggestion to
 \bibitem{falconer}
 Falconer, K. J. - \textit{The Geometry of Fractal Sets}, Cambridge University Press, Cambridge (1985).
 
-\bibitem{fefferman}
-Fefferman, C. - "The Multiplier Problem for the Ball", \textit{Annals of Mathematics}, \textbf{94}, 330-336 (1971).
+\bibitem{fefferman} %not fefferman anymore woops
+Tao, T. - ``From Rotating Needles to Stability of Waves:Emerging Connections between Combinatorics, Analysis, and PDE'', \textit{Notices of the AMS}, \textbf{48}, 294-303 (2001).
 
 \bibitem{rogers}
 Rogers, C. A. - \textit{Hausdorff Measures}, 2nd ed., Cambridge University Press, Cambridge (1998).
