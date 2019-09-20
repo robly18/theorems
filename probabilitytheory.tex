@@ -29,6 +29,9 @@
 
 \newcommand{\cc}{\mathsf{c}}
 
+\newcommand{\dd}{\mathrm{d}}
+
+
 \begin{document}
 	\maketitle
 	
@@ -105,9 +108,55 @@
 	
 	Furthermore, it is measurable functions that capture the concept of random variable. Indeed, a, let's say real-valued, random variable $X$ is no more than a measurable function from the sample space $(\Omega, \M)$ to the real line endowed with the Borel $\sigma$-algebra.
 	
+	It is semi-obvious that, if $f$ is a continuous function, the codomain is endowed with the Borel $\sigma$-algebra, and the domain with an extension of the Borel $\sigma$-algebra, then $f$ is measurable.
+	
 	\section{Integrability}
 	
-	Todo
+	Fix a function $f : \Omega \to \R$. We say $f$ is \emph{Borel measurable} if it is measurable as a function from $(\Omega, \M)$ to $(\R, \B)$.
+	
+	These are precisely the set of functions we can integrate over. We need these because we need preimages of intervals to be measurable, so that we can quantify `how much of the function is above a certain value'.
+	
+	For now, we will restrict ourselves to functions $f : \Omega \to \left[0, \infty\right]$. The set of these functions is called $L^+$.
+	
+	We say $f \in L^+$ is a \emph{simple function} if its image is finite. Fix such a function, with image set $\{a_0, \cdots, a_n\}$.
+	
+	We define the integral of $f$ with respect to the measure $\mu$ on $\Omega$ as
+	\[ \int f \dd \mu := \sum a_i \cdot \mu f^{-1}(a_i). \]
+	
+	This is always defined, even if infinite.
+	
+	Note that, as is defined, the integral is kind of linear. That is, $\int f+g = \int f + \int g$ and $\int cf = c \int f$ for $c \in \left[0, \infty\right]$.\footnote{If we adopt the convention that $\infty \times 0 = 0$, which is customary when working with measure theory.} It is also monotone, that is, if $f \leq g$ then $\int f \leq \int g$. Finally, the function $E \mapsto \int_E f$ is a measure on $\Omega$.
+
+	Now, define the integral of \emph{any} measurable function $f$ as
+	\[ \int f \dd \mu := \sup \int s \,\dd \mu\]
+	where the supremum is taken over all simple functions $s$ such that $s \leq f$.
+	
+	This is, in fact, an extension of the previous definition. It also satisfies monotony and induces a measure. To help us show kind-of-linearity, we first show the following proposition:
+	
+	\begin{prop}
+	Let $s_n$ be an increasing sequence of simple functions that converges pointwise to $f$. Then, $\int f = \lim \int s_n$.
+	
+	Furthermore, for any measurable $f$ we can find such a sequence.
+	\end{prop}
+	
+	\begin{proof}
+	To find the sequence there is a classical argument which I won't reproduce here because it takes too many words.
+	
+	The other statement is a simple application of the MCT.
+	\end{proof}
+	
+	\begin{prop} MCT
+	\end{prop}
+	
+	\begin{proof}
+	Suppose $f_n \nearrow f$.
+	
+	Since all $f_n$ are $\leq f$, clearly $\lim \int f_n \leq \int f$.
+	
+	On the other hand, we will now show $\lim \int f_n \geq \int f$. If the latter is 0 this is clear, so we suppose $\int f > 0$.
+	
+	Fix any $\alpha < 1$. Define $E_n$ as the set of points where $f_n \geq \alpha f$. Clearly $E_n \nearrow \Omega$. Since $E \mapsto \int_E f$ is a measure, $\lim \int_{E_n} \alpha f \rightarrow \alpha \int f$. I think this is trivial now.
+	\end{proof}
 	
 	\section{Product spaces}
 	
@@ -118,5 +167,8 @@
 	
 	The product of two sample spaces corresponds to running two experiments separately and independently of one another.
 	
+	If there for each $\alpha$ we have defined a measure on $\Omega_\alpha$, we can define a measure $\mu = \prod \mu_\alpha$ on $\bigotimes \M_\alpha$ as follows:
+	
+	TODO
 
 \end{document}
