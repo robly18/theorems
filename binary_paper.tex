@@ -46,7 +46,7 @@
 \DeclareMathOperator{\len}{le}
 \newcommand{\LE}{\mathbf{LE}}
 
-\title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Binary (and $b$-ary) Net Measures with the Hausdorff Measure on $\R$}}
+\title[\textbf{Optimal bounds for $b$-ary measures}]{\textbf{On optimal bounds for comparing Dyadic (and $b$-ary) Net Measures with the Hausdorff Measure on $\R$}}
 
 
 \author{Duarte Maia}
@@ -68,155 +68,112 @@
 
 
 \begin{abstract}
-Hausdorff measure and Hausdorff dimension are topics of great importance in geometric measure theory. Besicovitch (1952) introduced the so-called `binary net measures' on $\R^n$, which serve as an estimate for the Hausdorff measure, allowing for easier calculation of Hausdorff dimension. In this paper, we generalize this notion to so-called `$b$-ary measures' and, for $n = 1$, investigate how well these measures estimate the Hausdorff measure, improving the classical bounds, and drawing connections to the theory of non-integer base digit expansions. We also make some attempt to understand how these $b$-ary measures are ordered as a function of $b$, and conclude with a proposition that shows that this is \emph{not} the order induced by the natural numbers, by constructing a set whose $b$-ary measure is a worse estimate of its Hausdorff measure when $b = 4$ than when $b = 5$.
+Hausdorff measure and Hausdorff dimension are topics of great importance in geometric measure theory. Besicovitch (1952) introduced the so-called `dyadic net measures' on $\R^n$, which serve as an estimate for the Hausdorff measure, allowing for easier calculation of Hausdorff dimension. In this paper, we generalize this notion to so-called `$b$-ary measures' and, for $n = 1$, investigate how well these measures estimate the Hausdorff measure, improving the classical bounds, and drawing connections to the theory of non-integer base digit expansions. We also make some attempt to understand how these $b$-ary measures are ordered as a function of $b$, and conclude with a proposition that shows that this is \emph{not} the order induced by the natural numbers, by constructing a set whose $b$-ary measure is a worse estimate of its Hausdorff measure when $b = 4$ than when $b = 5$.
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
 
-Hausdorff measure is a central topic in geometric measure theory. It is a generalization of the concept of length, area and volume for arbitrary metric spaces and possibly nonintegral dimensions. It was introduced by Felix Hausdorff (1919) as a generalization of a construction by Carathéodory (1914), and important applications have since been found in diverse areas, such as fractal geometry, Brownian motion \cite{brownian} and harmonic analysis \cite{tao}.
-
-The Hausdorff measure is actually a family of outer measures, denoted by $\HH_s$ where $s$ is a nonnegative real parameter. For integral $s$, these coincide (modulo a constant factor) with the usual Lebesgue measure on $\R^n$. We refer to $\HH_s$ as \emph{the $s$-dimensional Hausdorff measure}.
-
-If one were to fix a set $E$ and plot the graph of $\HH_s(E)$ as a function of $s$, one would find that this graph has a very simple appearance. Indeed, $\HH_s(E)$ would, for small enough $s$, be constant and equal to $\infty$, up to a certain value of $s$ where it is followed by a sudden and sharp drop to 0. The value of $s$ where this drop occurs is called the \emph{Hausdorff dimension of $E$}. It measures roughly how `space-filling' $E$ is. So, for example, a square occupies 2-dimensional space, a sphere occupies 3-dimensional space, and, for a slightly more exotic example, the standard Cantor `middle thirds' set `occupies $\log_3 2$-dimensional space'.
-
-To aid in the study of Hausdorff dimension, Besicovitch (1952) introduced the notion of \emph{binary measure}, which is a modification of Hausdorff measure that, while not exactly equivalent, nevertheless preserves dimension. That is, the dimension of a set from the perspective of the Hausdorff measure and the binary measure is the same. The reason for this is an inequality of the form
+To aid in the study of Hausdorff dimension, Besicovitch (1952) introduced the notion of \emph{dyadic measure}, which is a modification of Hausdorff measure that, while not exactly equivalent, nevertheless preserves dimension. \cite{falconer} That is, the dimension of a set from the perspective of the Hausdorff measure and the dyadic measure is the same. The reason for this is an inequality of the form
 \begin{equation}\label{hbineq1}
-\text{Hausdorff measure} \leq \text{Binary measure} \leq C \times \text{Hausdorff measure},
+\text{Hausdorff measure} \leq \text{Dyadic measure} \leq C \times \text{Hausdorff measure},
 \end{equation}
 which ensures that both agree where they are either zero or infinity.
 
 In this article, we intend to investigate inequality \eqref{hbineq1}.
 
-We begin in section \ref{sectgenbmeasures} by generalizing the notion of binary measures to the so-called $b$-ary measures, where $b$ represents a natural number greater than one. We denote the $s$-dimensional $b$-ary measure by $\BB_{bs}$, and show an inequality similar to \eqref{hbineq1}. In particular, we show that, for any set $E$,
+We begin by generalizing the notion of dyadic measures in a natural way to what we have called $b$-ary measures, where $b$ represents a natural number greater than one. We denote the $s$-dimensional $b$-ary measure by $\BB_{bs}$, and show an inequality similar to \eqref{hbineq1}. In particular, we show that, for any set $E$,
 \begin{equation}\label{hbineq2}
 \HH_s(E) \leq \BB_{bs}(E) \leq (b+1) \HH_s(E).
 \end{equation}
 
-In section \ref{sec5} we investigate tools to sharpen this bound, and in sections \ref{sec6} and \ref{sec7} use these tools to draw a connection between the $b$-ary measures and the theory of non-integer digit expansions. In particular, we show that we can replace the $b+1$ in inequality \eqref{hbineq2} by a constant $K$, defined as the smallest constant such that a certain function $g(t)$ can be bounded from above by $K t^s$.
+Later in this paper, we show a sharper version of \eqref{hbineq2}, by drawing a connection to the theory of $b$-ary digit expansions, which we will now explan. 
 
-In sections \ref{calck} and \ref{optimization} we introduce a method to estimate the numerical value of this $K$ to arbitrary precision.
+Define the function
 
-Turning to lower bounds, in section \ref{seclowerbound} we find a lower bound to the value by which $b+1$ may be replaced in equation \eqref{hbineq2}. In other words, we construct an example of a set where the binary and the Hausdorff measure differ significatively, again using the tools of non-integer digit expansions.
+\[ g_{bs} (t) = \inf_{x \geq t}\;\left(\parbox{18em}{the number obtained by interpreting the $b$-ary expansion of $x$ in base $b^s$}\right).\]
+This function grows asymptotically like $t^s$. More concretely, it can be bound from below by $t^s$, and from above by $b t^s$.
 
-Finally, in section \ref{secfinal} we use these upper and lower bounds to construct a set $E$ satisfying, for $s = 1/2$, $\BB_{5s}(E) < \BB_{4s}(E)$. Stronger still: if we let $G = \frac{\BB_{4s}(E)}{\HH_s(E)}$, there exsts $k < G$ such that for all $F$ we have $\BB_{5s}(F) \leq k \times \HH_s(F)$. This shows that there exist dimensions $s$ such that $\BB_{5s}(F)$ is a better estimate for the Hausdorff measure of $F$ than $\BB_{4s}(F)$, which, in light of inequality \eqref{hbineq2}, is somewhat unintuitive, as one would expect the inequality to get less and less sharp as $b$ increases.
+The first of these bounds is sharp; the second is not. Indeed, we show that the problem of finding better bounds for \eqref{hbineq2} can be partially reduced to finding better bounds of the form $g_{bs}(t) \leq T t^s$. This leads us directly to our first main result:
 
+\begin{theorem}
+If $g_{bs}(t) \leq T t^s$, the following inequality is true:
 
-\section{Hausdorff and Binary measures: a review}
+\[\BB_{bs}(E) \leq 2^{1-s} T \HH_s(E).\]
 
-\subsection{Hausdorff}
+In particular,
 
-Let $X$ be a metric space, with distance $d$. We define the \emph{$s$-dimensional Hausdorff measure on $X$} as follows:
+\[\BB_{bs}(E) \leq 2^{1-s} \Theta \HH_s(E),\]
+where $\Theta$ is the smallest $T$ in these conditions.
+\end{theorem}
 
-First, for $E \subseteq X$, $s \in \R^+_0$ and $\delta > 0$, define $\HH_s^\delta(E) := \inf \sum_i \lvert U_i \rvert^s$, where:
+In the other direction, in an attempt to investigate the sharpness of these estimates, we attempt to construct a set with as big a discrepancy between Hausdorff and $b$-ary measure as possible, again using the tools of $b$-ary digit expansions.
 
-\begin{itemize}
+\begin{theorem}\label{clowerbound}
+For each $b$ and $s$, we there exists a set $E$ satisfying
 
-\item $\lvert E \rvert$ denotes the \emph{diameter of $E$}, defined by the $\sup$ of distances between elements of $E$;\footnote{We follow the convention that the diameter of the empty set is 0.}
+\[\BB_{bs}(E) \geq 2^{1-s} \gamma^{-s} \HH_s(E)\]
+where $\gamma$ is the smallest number whose $b$-ary digit expansion, when interpreted in base $b^s$, equals one.
+\end{theorem}
 
-\item The infimum is taken over countable coverings $\{U_i\}_{i \in \N}$ of $E$ such that the diameter of all $U_i$ is less than $\delta$. This is usually abbreviated to `$U$ is a \emph{$\delta$-covering} of $E$'.
+Putting these two results together, we end up with the following bound for the optimal constant to replace $(b+1)$ by in \eqref{hbineq2}:
 
-\end{itemize}
+\begin{theorem}\label{cbounds}
+Given $b$, $s$, let $C$ be the smallest real number such that the inequality
 
-As $\delta$ decreases this quantity increases. Hence, the limit $\lim_{\delta \to 0} \HH_s^\delta(E)$ exists in $\left[ 0, \infty \right]$. It is this quantity that is called the \emph{$s$-dimensional Hausdorff measure of $E$}:
+\[\BB_{bs}(E) \leq C \HH_s(E)\]
+is true for all sets $E$. We have the bound
 
-\begin{definition}(Hausdorff Measure) Let $E \subseteq X$ and $s \in \R^+_0$. Define the $s$-dimensional Hausdorff measure of $E$ as:
+\[2^{1-s} \gamma^{-s} \geq C \geq 2^{1-s} \Theta,\]
+where $\gamma$ and $\Theta$ are as defined above.
+\end{theorem}
 
- \[\HH_s(E) := \lim_{\delta \to 0} \HH_s^\delta(E).\]
-\end{definition}
+We conclude with an application of this result.
 
-It is a known fact, though it will be stated here without proof as it is of no consequence to us, that the Hausdorff measure is a \emph{metric outer measure}. In particular, this implies that its restriction to the Borel sets is a measure.
+Consider inequality \eqref{hbineq2}. \emph{A priori}, it seems to suggest that, as $b$ increases, the $b$-ary measures become increasingly worse estimates for the Hausdorff measure. This intuition is wrong, however, as evidenced by the following theorem, which shows that, for $s = 1/2$, the 5-ary measure is actually a \emph{better} estimate than the 4-ary measure.
 
-\subsection{Dimension}
+\begin{theorem}
+Fix $s = 1/2$. If $C$ is the optimal constant defined above, we have
 
-Given a subset $E$ of a metric space $X$, there exists $\sigma \in \left[0, \infty\right]$ such that:
+\[C_{b = 5} < C_{b = 4}.\]
+\end{theorem}
 
-\begin{itemize}
-\item For $s < \sigma$, $\HH_s(E) = \infty$;
+To this effect, we simply compute $\gamma_{b = 4}$ and $\Theta_{b = 5}$ to enough precision to allow us to show
 
-\item For $s > \sigma$, $\HH_s(E) = 0$.
-\end{itemize}
+\[\Theta_{b = 5} < \frac 1 {\sqrt{\gamma_{b = 4}}}\]
+which, upon application of theorem \ref{cbounds}, shows the desired result.
 
-To prove this, we first show the following lemma:
+\section{Net measures}
 
-\begin{lemma}\label{helperdimension}
-Let $t < s$ be real nonnegative numbers. Then, if $\HH_t(E) < \infty$ we have $\HH_s(E) = 0$.
-\end{lemma}
-
-\begin{proof}
-Suppose $t < s$ and $\HH_t(E) < \infty$. Put $M = \HH_t(E) + 1$. Then, for any $\delta > 0$ we may find a $\delta$-covering $\{U_i\}$ of $E$ such that $\sum \lvert U_i \rvert^t < M$. Hence, 
-
-\begin{align*}
-\sum \lvert U_i \rvert^s &= \sum \lvert U_i \rvert^t \lvert U_i \rvert^{s - t}\\
-&\leq \sum \lvert U_i \rvert^t \delta^{s-t}\\
-&\leq \delta^{s-t} M.
-\end{align*}
-
-Therefore, $\HH_s^\delta(E) \leq \delta^{s-t} M$, and so making $\delta \to 0$ we get $\HH_s(E) = 0$, as desired.
-\end{proof}
-
-We can now define the dimension of a set $E$.
-
-\begin{definition} (Hausdorff dimension of a set) Let $E \subseteq X$. We define the dimension of $E$ as
-\[\sigma_E := \inf \{\, s \mid \HH_s(E) < \infty \,\}.\]
-\end{definition}
-
-\begin{prop}
-Let $E \subseteq X$, where $X$ is a metric space. Then, the dimension of $E$ is such that the Hausdorff measure of $E$ is null for dimensions higher than it, and infinite for dimensions lower than it. Symbolically:
-
-\begin{itemize}
-\item For $s < \sigma_E$, $\HH_s(E) = \infty$;
-
-\item For $s > \sigma_E$, $\HH_s(E) = 0$.
-\end{itemize}
-
-\end{prop}
-
-\begin{proof}
-The first inequality is trivial by definition of $\sigma_E$.
-
-To show the second inequality, notice that if $s > \sigma_E$ then there exists $t < s$ such that $\HH_t(E) < \infty$. By lemma \ref{helperdimension}, we have $\HH_s(E) = 0$, as desired.
-\end{proof}
-
-This shows that the Hausdorff dimension of a set is the only dimension for which its corresponding Hausdorff measure may be nontrivial, that is, different from $0$ or $\infty$.
-
-\subsection{Net measures}
+[todo: define hausdorff measure]
 
 Hausdorff measure, and by extension Hausdorff dimension, is often very difficult to compute precisely since its definition requires one to look at all possible $\delta$-coverings. As such, there is interest in finding definitions that would allow simpler methods of computing, or at least estimating, these quantities.   
 
-We will restrict our attention to $\R^n$, and later on to $\R$, as a lot of what follows is not immediately generalizable to other metric spaces.
+The notion of net measure arises from the idea of redefining the Hausdorff measure with a more manageable collection of sets to use for coverings. In the context of $\R^n$, Besicovitch (1952) used the so-called dyadic cubes, a construction we will generalize in a natural way to what we will call $b$-ary cubes. More extensive treatments can be found in \cite{falconer, rogers}.
 
-First, notice that it is not uncommon to restrict one's attention to specific coverings. Indeed, if in the definition of $\HH_s^\delta$ one takes the infimum over $\delta$-coverings \emph{by open sets} instead of arbitrary ones, the value of $\HH_s^\delta$ may change, but the limit as $\delta \to 0$ remains the same. Hence, one could consider the Hausdorff measure defined by using only open $\delta$-coverings with no loss of generality.
-
-The notion of net measure arises from the idea of redefining the Hausdorff measure with a more manageable collection of sets to use for coverings. In the context of $\R^n$, Besicovitch (1952) used the so-called binary cubes, which is a construction we will make solely for the case of $n = 1$, but more exhaustive treatments can be found in \cite{falconer, rogers}.
-
-Since we wiil be working on the real line, we will use the nomenclature `binary intervals' instead of cubes.
+We will be working solely on the real line. As a consequence, we will use the nomenclature `dyadic intervals' instead of cubes.
 
 \begin{definition}
-Define the so-called \emph{binary intervals} in $\R$ as the set of intervals of the form $\left[ k 2^j, (k+1) 2^j \right[$, for $k, j \in \Z$.
+Define the \emph{dyadic intervals} in $\R$ as the set of intervals of the form $\left[ k 2^j, (k+1) 2^j \right[$, for $k, j \in \Z$.
 
-The binary measure is defined analogously to the Hausdorff measure, except that, instead of arbitrary coverings, we consider only $\delta$-coverings by binary intervals. It is denoted by $\BB_s(E) = \lim_{\delta \to 0} \BB_s^\delta(E)$.
+The dyadic measure is defined analogously to the Hausdorff measure, except that, instead of arbitrary coverings, we consider only $\delta$-coverings by dyadic intervals. It is denoted by $\BB_s(E) = \lim_{\delta \to 0} \BB_s^\delta(E)$.
 \end{definition}
 
 The usefulness of this definition lies in that, even though these measures do \emph{not} coincide in general with the Hausdorff measure, one can find bounds between them.
 
-The following theorem is found in \cite{falconer, rogers} and is stated here without proof, though in the sequence of this document we will prove stronger results for the particular case of $n = 1$.
+The following theorem is found in \cite{falconer, rogers} and is stated here without proof, though in the sequence of this article we will prove stronger results for the particular case of $n = 1$.
 
 \begin{theorem}\label{badbound}
-Consider the Hausdorff and Binary measures defined on $\R^n$. For any set $E$, we have
+Consider the Hausdorff and dyadic measures defined on $\R^n$. For any set $E$, we have
 \begin{equation}\label{badboundeq}
 \HH_s(E) \leq \BB_s(E) \leq 3^n 2^{n^2} \HH_s(E).
 \end{equation}
 \end{theorem}
 
-\begin{remark}
-Even though Theorem \ref{badbound} will not be proved here, it should be noticed that one of the inequalities is trivial. Indeed, for any $\delta$ we have $\HH_s^\delta(E) \leq \BB_s^\delta(E)$, since both are infima taken over coverings of $E$, but the set of coverings considered in the definition of the Hausdorff measure contains all of those considered in the binary measure. Making $\delta \to 0$, we have inequality $\HH_s(E) \leq \BB_s(E)$.
-\end{remark}
+Theorem \ref{badbound} has the following consequence: defining the ``dyadic dimension'' of a set analogously to how the Hausdorff dimension is defined, these two concepts would coincide. Indeed, the Hausdorff measure of a set is zero iff the dyadic measure is zero, and the same holds for when this measure is infinite.
 
-Theorem \ref{badbound} has the following consequence: defining the ``binary dimension'' of a set analogously to how we defined the Hausdorff dimension, these two concepts would coincide. Indeed, the Hausdorff measure of a set is zero iff the binary measure is zero, and the same holds for when this measure is infinite.
-
-Hence, if we are interested in the Hausdorff dimension of a set, we may begin by investigating its binary measure.
+Hence, if we are interested in the Hausdorff dimension of a set, we may begin by investigating its dyadic measure.
 
 Notice, however, that the provided bound is not very sharp. Indeed, for $n = 1$ the constant given in inequality \eqref{badboundeq} amounts to 6, but we will see below that it can be significantly lowered without much effort. (And then lowered even more, with significantly more effort.)
 
@@ -224,91 +181,65 @@ Of course, this is of no consequence for dimensional considerations. However, th
 
 \subsection{Hausdorff Coverings}
 
-As mentioned above, it is sometimes convenient for one to only consider open coverings of sets instead of allowing for the full generality of any possible covering. This is not the only simplification that will be useful for us to do.
-
 Notice that any monotone operation (that is, $f(E) \supseteq E$) that can be done on a set without increasing its diameter can be assumed without loss of generality.
 
-To use an example: taking the closure of a set $U$ does not increase its diameter. As such, given any $\delta$-covering $\{U_i\}$ of a set $E$, the collection $\{ \overline{U_i} \}$ is also a $\delta$-covering of $E$, with all sets closed, and with all diameters the same, whence the Hausdorff sum is also the same. This shows, then, that we can assume without loss of generality that the infimum in the definition of $\HH_s^\delta$ can be taken over coverings by closed sets.
-
-A more specific example, useful for our purposes, is (in $\R^n$) the operation of taking the convex hull, which satisfies the condition of monotony without increasing diameters. This shows, then, that we may take infima over convex sets with no loss of generality.
-
-In the particular case of $\R$, what this shows is that we can assume that the sets we are using for coverings are intervals. Sometimes we will additionally assume that these intervals are closed, and sometimes we will instead assume them to be open. In any case, these hypotheses harm in no way the generality of the results obtained.
-
-As a final remark, it is often useful to exclude, in our coverings, cases where the sets have diameter 0. Indeed, many authors explicitly exclude the case of 0-diameter sets in the definition of $\delta$-coverings.
+In the particular case of $\R$, we can assume that the sets we are using for coverings are intervals. Sometimes we will additionally assume that these intervals are closed, and sometimes we will instead assume them to be open. In any case, these hypotheses harm in no way the generality of the results obtained.
 
 \section{Better elementary bounds}
 
-We have already shown that, in $\R$, $\HH_s \leq \BB_s$. We will now proceed to establish a bound in the opposite direction, beginning our journey to find optimal bounds.
+The inequality $\HH_s \leq \BB_s$ is trivial. We will now proceed to establish a bound in the opposite direction.
 
-Everything that follows will be done in the context of $\R$.
-
-\begin{theorem} For all $s \in \R^+_0$ the binary measure and Hausdorff measure obey the inequality
-\begin{equation}\label{easybound}
+\begin{prop}\label{easybound} For all $s \in \R^+_0$ the dyadic measure and Hausdorff measure obey the inequality
+\begin{equation}\label{easyboundeq}
 \BB_s \leq 3 \HH_s
 \end{equation}
-\end{theorem}
+\end{prop}
 
 \begin{proof}
-To prove this fact, we will show that for any $E$ and $\delta$ we have the inequality $\BB_s^\delta(E) \leq 3 \HH_s^\delta(E)$. To this effect, we will show that given any $\delta$-covering of $E$ we can construct a binary $\delta$-covering of $E$ such that its `Hausdorff sum' is at most three times bigger than the original's.
+We will show that given any $\delta$-covering of $E$ we can construct a dyadic $\delta$-covering of $E$ such that its `Hausdorff sum' is at most three times bigger than the original's.
 
-Fix, then, a $\delta$-covering $\{U_i\}$ of $E$, which we suppose without loss of generality to be composed of intervals with diameter strictly greater than zero. Define, for each $i$, $j_i$ to be the greatest integer such that $2^{j_i} < \lvert U_i \rvert$, and hence $2^{j_i} < \delta$ for all $i$.
+Fixed any $\delta$-covering $\{U_i\}$ of $E$, define, for each $i$, $j_i$ to be the greatest integer such that $2^{j_i} < \lvert U_i \rvert$.
 
-Consider how many intervals of the form $\left[ k 2^{j_i}, (k + 1) 2^{j_i} \right[$ intersect $U_i$. There are at most three, and their union definitely covers $U_i$.
+At most three intervals of the form $\left[ k 2^{j_i}, (k + 1) 2^{j_i} \right[$ intersect $U_i$, and their union covers $U_i$. Hence, we might consider the covering $\{I_i\}$ obtained from $\{U_i\}$ by replacing each $U_i$ by the intervals mentioned above. It is easy to verify this is also a $\delta$-covering of $E$, and it is trivial to check
 
-Now, consider the covering $\{I_i\}$ obtained from $\{U_i\}$ by replacing each $U_i$ by the intervals mentioned above. We now have a binary $\delta$-covering of $E$, with Hausdorff sum equal to
 \[\sum \lvert I_i \rvert^s \leq 3 \sum \lvert U_i \rvert^s.\]
 
-With this inequality holding because for every $U_i$ we assign its three corresponding intervals, each with diameter less than $\lvert U_i \rvert$. This completes our proof, since
-\begin{align*}
-3 \HH_s^\delta &= 3 \times \inf \text{over $U_i$}\\
-&\geq \inf \text{over the corresponding $I_i$}\\
-&\geq \inf \text{over all binary $\delta$-coverings}\\
-&= \BB_s^\delta
-\end{align*}
-
+Which concludes our proof.
 \end{proof}
 
-This bound, while twice as sharp as the one mentioned in theorem \ref{badbound}, can still be significantly improved. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a binary $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound on $\frac \BB \HH$ we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by binary intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these binary intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
+This bound, while twice as sharp as the one mentioned in equation \eqref{badboundeq}, can still be significantly improved. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a dyadic $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound on $\frac \BB \HH$ we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by dyadic intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these dyadic intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
 
 \begin{lemma}
-Fix a dimension $s \in \R^+$ and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable binary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
+Fix a dimension $s \in \R^+$ and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable dyadic covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
 \[\sum m_i^s \leq C \ell^s.\]
 
 Then $\BB_s \leq C \HH_s$.
 \end{lemma}
 
 \begin{proof}
-This proof proceeds much like the previous one, with one caveat.
+This proof proceeds much like the proof of proposition \ref{easybound}, with one caveat.
 
-Given some $E$, let $I_i$ be any $\delta$-covering of $E$ by intervals. For each $I_i$, let $\{J_{ij}\}_{j \in \N}$ be a collection of binary intervals such that  $\sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s$.
+Given some $E$, let $I_i$ be any $\delta$-covering of $E$ by intervals. For each $I_i$, let $\{J_{ij}\}_{j \in \N}$ be a collection of dyadic intervals such that  $\sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s$.
 
-First, notice that, while it is \emph{not} necessarily true that the collection $\{J_{ij}\}_{i,j \in \N}$ forms a $\delta$-covering, we can be assured that it forms at most a $C^{1/s}\delta$-covering, as, for any $i, j$ we have
-\[ \lvert J_{ij} \rvert^s \leq \sum_j \lvert J_{ij} \rvert^s \leq C \lvert I_i \rvert^s \leq C \delta^s,\]
-and so $\lvert J_{ij} \rvert \leq C^{1/s} \delta$, as desired.
-
-The argument now follows much like the previous one, except we can only show that $\BB_s^{C^{1/s} \delta} \leq C \HH_s^\delta$. This turns out to be enough, however, as taking $\delta \to 0$ also yields $C^{1/s} \delta \to 0$, and so both sides of this inequality converge to $\BB_s$ and $\HH_s$, respectively.
+It is \emph{not} necessarily true that the collection $\{J_{ij}\}_{i,j \in \N}$ forms a $\delta$-covering, but it is easy to check that it forms at least a $C^{1/s} \delta$-covering, which shows $\BB^{C^{1/s} \delta}_s \leq C \HH^\delta_s$. Taking the limit as $\delta$ goes to zero, we get the desired result.
 \end{proof}
 
 \begin{remark} \label{dimnotzero}
-We had to exclude from consideration the case $s = 0$ in this last proposition, as we will have to in a lot of what follows. This is a nonissue, however, as this particular case is extremely easy to examine. Indeed, for this dimension both the Hausdorff and the binary measure turn out to be simply the counting measure on $\R$.
-
-As such, in all that follows, unless otherwise specified, \textbf{it should be assumed that $s \neq 0$}.
+We had to exclude from consideration the case $s = 0$ in this last proposition. Indeed, in all that follows, unless otherwise specified, \textbf{it should be assumed that $s \neq 0$}.
 \end{remark}
-
-This previous lemma will be central in what follows. Indeed, our strategy to find a bound of the form $\BB_s \leq C \HH_s$ will be to, given any interval $I$, find a binary covering $\{J_i\}$ of $I$ such that $\sum \lvert J_i \rvert^s \leq C \lvert I \rvert^s$. But before further pursuing this idea, we introduce a generalization of the binary measure.
 
 \section{$b$-ary measures}\label{sectgenbmeasures}
 
-As mentioned before, for the purposes of dimensional analysis, the binary measures are enough. However, for the purposes of estimating the Hausdorff measure, it might be worth looking into something slightly more general than binary intervals.
+In this section, we generalize the notion of dyadic measures in a natural way, by using powers of $b$ in place of powers of 2.
 
 \begin{definition}
 Define the $b$-ary intervals, where $b \in \N_{\geq 2}$, as those of the form
 \[\left[k b^j, (k+1) b^j \right[, \;k, j \in \Z.\]
 
-The definition for the $s$-dimensional $b$-ary measure, denoted $\BB_{bs}$, and the corresponding $\delta$-measures $\BB_{bs}^\delta$, should be evident by comparison to the definition of the binary one, using the $b$-ary intervals instead of the binary ones.
+The definition for the $s$-dimensional $b$-ary measure, denoted $\BB_{bs}$, and the corresponding $\delta$-measures $\BB_{bs}^\delta$, should be evident by comparison to the definition of the dyadic one, using the $b$-ary intervals instead of the dyadic ones.
 \end{definition}
 
-The results of the last section can be translated into this slightly more general context without much added effort. We state the results here without proof.
+The results of the last section can be translated into this slightly more general context without much added effort. We state the results without proof.
 
 \begin{lemma}
 Fix a dimension $s \in \R^+$, a base $b \in \N_{\geq 2}$, and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable $b$-ary covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
@@ -320,30 +251,21 @@ In particular, one can easily show the premise is true for $C = b+1$, whence one
 \[\HH_s \leq \BB_{bs} \leq (b+1) \HH_s.\]
 \end{lemma}
 
-This last bound hints at something we will study: it appears that, the bigger $b$ is (that is, the more pieces we divide our intervals in as $j$ decreases) the worse the estimate. This makes sense, since as $b$ increases there is less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
+As mentioned in the introduction, it appears that, the bigger $b$ is (that is, the more pieces we divide our intervals in as $j$ decreases) the bigger the difference between $\HH_s$ and $\BB_{bs}$. This makes sense, since as $b$ increases there is less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
 
-This intuition proves to be partially correct, as the following proposition shows:
+This intuition proves to be partially correct. Indeed, if $b$ and $c$ such that $c$ is a power of $b$, it is easy to check that any $b$-ary interval is also a $c$-ary interval, which implies the inequality $\BB_{bs} \leq \BB_{cs}$. This argument, however, is not generalizable.
 
-\begin{prop}
-Let $b, c \in \N_{\geq 2}$ and suppose $c$ is of the form $b^n$, for $n \in \N$. Then, $\BB_{bs} \leq \BB_{cs}$.
-\end{prop}
+It would be nice to have a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. One might bodly venture that the $b$-ary measures are, in a sense, monotone as a function of $b$, but this turns out not to be the case, we we show at the end of this article. In other words, the following statement is \textbf{false}:
 
-\begin{proof}
-This proof is trivial. Simply notice that, if $c$ is a power of $b$, any $c$-ary interval is also a $b$-ary one. As such, when taking the infima for $\BB_{bs}^\delta$ one has more sets than in $\BB_{cs}^\delta$, whence $\BB_{bs}^\delta \leq \BB_{cs}^\delta$ and the result follows.
-\end{proof}
-
-We would like to find a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. Unfortunately, we have, as of yet, been unable to find one. We do, however, have some evidence that shows that the following proposition is \textbf{false}:
 \begin{equation}\label{falseconjecture}
 \text{If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.}
 \end{equation}
 
-The counterexample to \ref{falseconjecture} is found closer to the end of this article.
-
 \section{Minimal interval coverings}\label{sec5}
 
-We focus now on the following problem: given a dimension $s$ and an interval $I$, find a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume $I$ to be of the form $\left[ a, b \right[$ with $a < b$, as we can always assume our Hausdorff coverings are composed of intervals of this kind. The reason we are assuming this is so that this plays well with our $b$-ary intervals, which are also half-open.
+We focus now on the following problem: given a dimension $s$ and an interval $I$, find a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume without loss of generality $I$ to be of the form $\left[ a, b \right[$ with $a < b$.
 
-In truth, what we are actually concerned about is finding as small a $b$-ary covering of an interval $I$ as possible. In particular, we want to determine the smallest $C$ such that for any interval of length $\ell$ we can find a binary covering with Hausdorff sum less than or equal to $C \ell^s$. This can be written as
+We want to determine the smallest $C$ such that for any interval of length $\ell$ we can find a dyadic covering with Hausdorff sum less than or equal to $C \ell^s$. This can be written as
 \begin{equation}\label{defc}
 C = \sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}
 \end{equation}
@@ -366,7 +288,7 @@ Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
 \item \textbf{There exists $k$ such that $k b^{j+1} \in I$.}
 
-In this event, let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order.
+In this case, let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order.
 
 First, notice that
 \[\BB_{bs}^\infty(I') = \BB_{bs}^{b^{j+1}}(I'),\]
@@ -374,17 +296,17 @@ because any covering of $I'$ using an interval of size greater than $b^{j+1}$ ca
 \begin{equation}\label{transinvariance}
 \BB_{bs}^{b^{j+1}}(I') = \BB_{bs}^{b^{j+1}}(I),
 \end{equation}
-because the translation done to turn $I$ into $I'$ preserves binary intervals of size $b^{j+1}$ or less.
+because the translation done to turn $I$ into $I'$ preserves dyadic intervals of size $b^{j+1}$ or less.
 
 These two, together with the fact that $\BB_{bs}^{b^{j+1}}(I) \geq \BB_{bs}^\infty(I)$, give us the desired inequality
 \[\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I).\]
 
 \item \textbf{There exists an interval of length $b^{j+1}$ within which $I$ is contained.}
 
-In this event, 
+In this case, 
 \[\BB_{bs}^\infty(I) = \min(\BB_{bs}^{b^j}(I), b^{(j+1)s}).\]
 
-We know for sure there exists at least one point of the form $k b^j$ in $I$. Let $I'$ be given by translating $I$ by $-k b^j$. We proceed to compare $\BB_{bs}^\infty(I')$ and $\BB_{bs}^\infty(I)$.
+There exists at least one point of the form $k b^j$ in $I$. Let $I'$ be given by translating $I$ by $-k b^j$. We proceed to compare $\BB_{bs}^\infty(I')$ and $\BB_{bs}^\infty(I)$.
 
 \begin{enumerate}[label=\textbf{Subcase \alph*:}]
 
@@ -438,7 +360,7 @@ By itself, this reduction would not be much help. As it turns out, however, one 
 \begin{remark}
 In remark \ref{dimnotzero} we mentioned that we will be assuming $s \neq 0$. We will outline here another such assumption.
 
-As $\R$ has Hausdorff dimension 1, for $s > 1$, both the binary and the Hausdorff measure of \emph{any} set in $\R$ will be zero. Then, the question of the relationship between these two is trivial and uninteresting. Therefore, \textbf{from now on, we always assume $s \leq 1$.}
+As $\R$ has Hausdorff dimension 1, for $s > 1$, both the dyadic and the Hausdorff measure of \emph{any} set in $\R$ will be zero. Then, the question of the relationship between these two is trivial and uninteresting. Therefore, \textbf{from now on, we always assume $s \leq 1$.}
 \end{remark}
 
 Let us now fix some $t > 0$, and investigate how one might go about calculating $g(t)$ given a dimension $s$ and a base $b$. (The case $t = 0$ is trivial, and thus not considered.) We remind the reader of the definition of $g$:
