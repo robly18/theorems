@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\title{Introdução à Lógica}
+\author{}
+\date{}
+
+\theoremstyle{definition}
+\newtheorem{definicao}{Definição}
+
+\theoremstyle{remark}
+\newtheorem{obs}{Observação}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\newcommand{\V}{\mathbf{V}}
+\newcommand{\F}{\mathbf{F}}
+
+\begin{document}
+	\maketitle
+
+	\section{Introdução}
+
+	A lógica é, entre outras coisas, o estudo de linguagens e demonstrações. Normalmente, ao fazer matemática, usamos linguagem natural (português, inglês, etc.), mas vários paradoxos descobertos no início do século passado fizeram-nos entender que linguagem natural não serve de fundamento adequado. Eis alguns exemplos de paradoxos para ilustrar o que se quer dizer:
+	
+	\begin{itemize}
+	\item (Paradoxo do mentiroso, antiguidade) Um homem diz a frase ``Esta frase é falsa''. Ele está a mentir ou a dizer a verdade?
+	
+	\item (Paradoxo de Russel, 1901) Seja $S$ o conjunto de todos os conjuntos $x$ tal que $x \not \in x$. Será que $S \in S$?
+	
+	\item (Paradoxo de Berry, c. 1900) Seja $n$ o menor número que não pode ser descrito em menos que 20 palavras. (Acabámos de descrever $n$ em 15 palavras.)
+	\end{itemize}
+	
+	Estes paradoxos tormentaram filósofos e matemáticos durante alguns anos, e foi para os evitar que os matemáticos começaram a pensar em linguagens feitas para o propósito de fazer matemática, nas quais não se conseguisse expressar estes paradoxos. Na prática, continua-se a usar linguagem natural, mas de forma que possa ser traduzida para estas linguagens.
+	
+	Hoje vamos falar sobre uma destas linguagens. É uma das mais simples, mas tem utilidade em aplicações, por exemplo, em ciência de computadores, e chama-se \textit{lógica proposicional}.
+	
+	\section{Proposições}
+	
+	Na linguagem de lógica proposicional, as frases são construídas a partir de
+	
+	\begin{itemize}
+	\item Variáveis ($p$, $q$, $a$, $b$, $c$, $x$, $y$, $z$, ...)
+	
+	\item Conectivos ($\land$, $\lor$, $\neg$, ...)
+	
+	\item Parênteses
+	\end{itemize}
+	
+	Normalmente, referimo-nos a frases por nome de letras gregas. Por exemplo, podemos considerar a frase $\varphi$ (fi): $a \lor \neg(b \land c)$.
+	
+	Cada variável é suposto representar uma afirmação, que pode ser verdadeira ou falsa. Os conectivos significam, respetivamente, `e', `ou' e `não'. Em breve introduziremos o `implica' e `equivalente'.
+	
+	Esta linguagem não é muito expressiva. Por exemplo, não podemos expressar frases como `A soma dos ângulos internos de um triângulo é $180^\circ$'. Podemos, no entanto, expressar relações entre afirmações.
+	
+	Por exemplo, se $C$ representa a afirmação `Está a chover' e $S$ a afirmação `Saí de casa', posso expressar `Saí de casa e não está a chover' como $S \land \neg C$.
+	
+	\section{Semântica}
+	
+	Dada uma frase $\varphi$, podemos tentar averiguar se (conhecendo o valor de verdade das variáveis) $\varphi$ é verdadeira ou falsa. Por exemplo, se sabemos que a afirmação $a$ é verdadeira mas $b$ é falsa, então a afirmação $a \lor b$ é verdadeira, mas $a \land b$ é falsa.
+	
+	O interesse disto, no entanto, não é no caso em que sabemos o valor de verdade das variáveis, mas sim ver todos os casos possíveis. Para formalizarmos isso, vamos establecer notação.
+	
+	\begin{definicao}
+	Uma \emph{valoração} é uma atribuição de valores de verdade a variáveis. Ou seja, associamos a cada variável o valor `verdadeiro' ou `falso'.
+	\end{definicao}
+	
+	\begin{obs}
+	Escrever `verdadeiro' e `falso' constantemente é inconveniente, e como tal estes termos são normalmente abreviados. Escritores em português normalmente abreviam-nos para $\V$ e $\F$; em inglês isto é normalmente mudado para $\mathbf{T}$ e $\mathbf{F}$ (\textit{true} e \textit{false}), e alguns autores usam notação independente de linguagem, por exemplo $\top$ para verdadeiro e $\bot$ para falso, ou $1$ e $0$.
+	
+	A partir de agora, usaremos a notação $\V$ $\F$.
+	\end{obs}
+	
+	Normalmente usamos o nome $\rho$ (ró) para nos referirmos a valorações.
+	
+	Por exemplo, seja $\varphi$ a frase $(a \land b) \lor \neg (b \lor c)$. Podemos considerar a valoração $\rho$ que atribui os valores $\V$ a $a, c$ e $\F$ a $b$.
+	
+	Uma valoração corresponde, intuitivamente, a um `universo', onde algumas coisas são verdadeiras e outras são falsas. Fixa, então, uma valoração, faz sentido perguntar se uma certa frase complexa é verdadeira.
+	
+	Por exemplo, averiguemos se $\varphi$ é verdade sob a valoração $\rho$. Para o fazer, substituimos cada variável pelo seu valor de verdade. Neste caso:
+	\[(\V \land \F) \lor \neg (\F \lor \V).\]
+	
+	Depois, avaliamos a expressão resultante, tendo em conta o nosso conhecimento dos operadores $\land$, $\lor$ e $\neg$:
+	
+	\begin{itemize}
+	\item (`e') A afirmação $x \land y$ é verdade quando são ambos verdade
+	
+	\item (`ou') A afirmação $x \lor y$ é verdade quando pelo menos um destes dois é verdade
+	
+	\item (`não') A aformação $\neg x$ é verdade quando $x$ é falso
+	\end{itemize}
+	
+	Assim sendo, a expressão acima pode ser simplificada para $\F \lor \neg \V$, que por sua vez é simplificado para $\F \lor \F = \F$. Ou seja, sob a valoração $\rho$, a frase $\varphi$ é falsa.
+	
+	\textbf{Exercício 0:} Tenta encontrar uma valoração que faça com que $\varphi$ fique verdadeira.
+	
+	\begin{definicao}
+	Se, sob a valoração $\rho$, a frase $\varphi$ é verdadeira, dizemos que $\rho$ satisfaz $\varphi$. Simbolicamente:
+	\[\rho \Vdash \varphi.\]
+	\end{definicao}
+	
+	\textbf{Exercício 1:} Averigua para que valorações são verdadeiras as seguintes proposições:
+	
+	\begin{enumerate}
+	\item $a \land b \land c$
+	
+	\item $a \land (b \lor c)$
+	
+	\item $(a \land b) \lor \neg (b \lor c)$
+	
+	\item $(a \land \neg b) \lor (\neg a \lor b)$
+	
+	\item $((a \lor b) \land \neg (a \land c)) \lor (d \lor b \lor \neg d)$
+	
+	\item $(a \lor b) \land (\neg a \lor c \lor d) \land (\neg c) \land (\neg d \lor b) \land (\neg b \lor (a \land \neg d))$
+	\end{enumerate}
+	
+	(Sugestão: podes resolver estes exercícios tentando todos os casos possíveis. No entanto, isto é mesmo chato com mais do que três variáveis! Em particular, é altamente desrecomendado fazer o último desta forma. Assim sendo, tenta encontrar formas mais fáceis de os fazer.)
+	
+	\section{Tautologias}
+	
+	Se tiveres feito o exercício 1, hás-de ter reparado que algumas das proposições são verdadeiras independentemente da valoração que escolhas. Estas afirmações são verdadeiras em qualquer universo, e têm um nome especial: tautologias.
+	
+	\begin{definicao}
+	Dada uma proposição $\varphi$, dizemos que $\varphi$ é uma tautologia se $\rho \Vdash \varphi$ para toda a valoração $\rho$. Simbolicamente:
+	\[\vDash \varphi.\]
+	\end{definicao}
+
+\end{document}
