@@ -90,14 +90,30 @@
 	Depois, avaliamos a expressão resultante, tendo em conta o nosso conhecimento dos operadores $\land$, $\lor$ e $\neg$:
 	
 	\begin{itemize}
-	\item (`e') A afirmação $x \land y$ é verdade quando são ambos verdade
+	\item (`e') A afirmação $x \land y$ é verdade quando são ambos verdade. Isto é:
+	\begin{align*}
+	\V \land \V &\text{ é } \V\\
+	\V \land \F &\text{ é } \F\\
+	\F \land \V &\text{ é } \F\\
+	\F \land \F &\text{ é } \F
+	\end{align*}
 	
-	\item (`ou') A afirmação $x \lor y$ é verdade quando pelo menos um destes dois é verdade
+	\item (`ou') A afirmação $x \lor y$ é verdade quando pelo menos um destes dois é verdade. Isto é:
+	\begin{align*}
+	\V \lor \V &\text{ é } \V\\
+	\V \lor \F &\text{ é } \V\\
+	\F \lor \V &\text{ é } \V\\
+	\F \lor \F &\text{ é } \F
+	\end{align*}
 	
-	\item (`não') A aformação $\neg x$ é verdade quando $x$ é falso
+	\item (`não') A aformação $\neg x$ é verdade quando $x$ é falso. Isto é:
+	\begin{align*}
+	\neg \V &\text{ é } \F\\
+	\neg \F &\text{ é } \V
+	\end{align*}
 	\end{itemize}
 	
-	Assim sendo, a expressão acima pode ser simplificada para $\F \lor \neg \V$, que por sua vez é simplificado para $\F \lor \F = \F$. Ou seja, sob a valoração $\rho$, a frase $\varphi$ é falsa.
+	Assim sendo, a expressão acima pode ser simplificada para $\F \lor \neg \V$, que por sua vez é simplificado para $\F \lor \F$, ou seja, $\F$. Ou seja, sob a valoração $\rho$, a frase $\varphi$ é falsa.
 	
 	\textbf{Exercício 0:} Tenta encontrar uma valoração que faça com que $\varphi$ fique verdadeira.
 	
@@ -105,6 +121,71 @@
 	Se, sob a valoração $\rho$, a frase $\varphi$ é verdadeira, dizemos que $\rho$ satisfaz $\varphi$. Simbolicamente:
 	\[\rho \Vdash \varphi.\]
 	\end{definicao}
+	
+	Vamos fazer mais um exemplo. Seja $\varphi$ a frase $(a \land b) \lor (\neg a \lor \neg c)$, e considere-se a valoração $\rho$ que faz:
+	\[
+	\begin{array}{c|c|c}
+	a & b & c\\
+	\hline
+	\V & \F & \F
+	\end{array}
+	\]
+	
+	Neste caso, para averiguar se $\rho \Vdash \varphi$. Substituindo as variáveis pelos seus valores de verdade, obtemos
+	\[(\V \land \F) \lor (\neg \V \lor \neg \F),\]
+	que, simplificando, dá
+	\begin{gather*}
+	\F \lor (\F \lor \V)\\
+	\F \lor \V\\
+	\V
+	\end{gather*}
+	
+	E concluímos, então, $\rho \Vdash \varphi$.
+	
+	\smallskip
+	
+	De vez em quando, é-nos dado uma fórmula $\varphi$ e queremos saber para que valorações é que ela é verdade.\footnote{Um dos problemas mais estudados de ciência de computadores é até mais `simples' do que isto: dada uma fórmula $\varphi$, será que existe \emph{pelo menos uma} valoração que a satisfaz? Este problema é chamado SAT (de `satisfiability') e descobrir algoritmos para o resolver eficientemente é uma área de pesquisa muito ativa.} Uma forma primita mas eficaz de fazer isso é simplesmente tentar todas as valorações possíveis.
+	
+	Para este efeito, é costume organizar a informação no que se chamam \emph{tabelas de verdade}. Para as construir, começamos por, nas primeiras $n$ colunas, organizar todos os valores possíveis das nossas variáveis. Por exemplo, para $\varphi: (a \lor b) \land \neg (a \land b)$, as variáveis são $a$ e $b$, e nas primeiras $2$ colunas descrevemos todas as 4 formas possíveis de lhes atribuir valores de verdade:
+	\[
+	\begin{array}{c|c}
+	a & b\\
+	\hline
+	\V & \V\\
+	\V & \F\\
+	\F & \V\\
+	\F & \F
+	\end{array}
+	\]
+	
+	Depois, nas colunas ao lado, escrevemos contas intermédias que nos sejam úteis no cálculo de $\varphi$. Neste caso, é-nos útil calcular $a \lor b$ e $\neg (a \land b)$, e para o cálculo deste último precisamos de $a \land b$.
+	\[
+	\begin{array}{c|c|c|c|c|c}
+	a & b & a \lor b & a \land b & \neg (a \land b) & (a \lor b) \land \neg (a \land b)\\
+	\hline
+	\V & \V &&&\\
+	\V & \F &&&\\
+	\F & \V &&&\\
+	\F & \F &&&
+	\end{array}
+	\]
+	
+	Depois vamos preenchendo a tabela da esquerda para a direita com a informação que já temos. Tenta preenchê-la sem olhar para a solução. No final deverás ficar com uma tabela igual à seguinte.
+	
+	\[
+	\begin{array}{c|c|c|c|c|c}
+	a & b & a \lor b & a \land b & \neg (a \land b) & (a \lor b) \land \neg (a \land b)\\
+	\hline
+	\V & \V &\V&\V&\F&\F\\
+	\V & \F &\V&\F&\V&\V\\
+	\F & \V &\V&\F&\V&\V\\
+	\F & \F &\F&\F&\V&\F
+	\end{array}
+	\]
+	
+	Concluímos, então, que as valorações que satisfazem $\varphi$ são precisamente aquelas que dão valores diferentes a $a$ e $b$.
+	
+	\medskip
 	
 	\textbf{Exercício 1:} Averigua para que valorações são verdadeiras as seguintes proposições:
 	
@@ -122,7 +203,7 @@
 	\item $(a \lor b) \land (\neg a \lor c \lor d) \land (\neg c) \land (\neg d \lor b) \land (\neg b \lor (a \land \neg d))$
 	\end{enumerate}
 	
-	(Sugestão: podes resolver estes exercícios tentando todos os casos possíveis. No entanto, isto é mesmo chato com mais do que três variáveis! Em particular, é altamente desrecomendado fazer o último desta forma. Assim sendo, tenta encontrar formas mais fáceis de os fazer.)
+	(Sugestão: podes resolver estes exercícios tentando todos os casos possíveis. No entanto, isto é mesmo chato com mais do que três variáveis! Em particular, é altamente desrecomendado fazer os últimos desta forma. Assim sendo, tenta encontrar formas mais fáceis de os fazer.)
 	
 	\section{Tautologias}
 	
@@ -176,6 +257,44 @@
 	Verifica ambas estas afirmações, e certifica-te que fazem sentido na tua cabeça.
 	\end{obs}
 	
+	Vamos fazer mais um exemplo. Vamos verificar que $a \lor b, \neg a \lor c \vDash b \lor c$.
+	
+	Vamos fazer isto de duas formas: a forma chata, que é verificar todos os casos possíveis; ou a forma fácil, por um raciocínio que nos poupa muito trabalho.
+	
+	\textbf{Forma chata:} Vamos fazer a tabela em que organizamos todos os valores possíveis de verdade de $a$, $b$ e $c$, vemos em quais destas valorações se verificam $a \lor b$ e $\neg a \lor c$, e verificamos que em todas essas temos $b \lor c$.
+	
+	\[
+	\begin{array}{c|c|c|c|c|c}
+	a&b&c&a\lor b&\neg a \lor c& b \lor c\\
+	\hline
+	\V&\V&\V&\V&\V&\V\\
+	\V&\V&\F&\V&\F&\\
+	\V&\F&\V&\V&\V&\V\\
+	\V&\F&\F&\V&\F&\\
+	\F&\V&\V&\V&\V&\V\\
+	\F&\V&\F&\V&\V&\V\\
+	\F&\F&\V&\F&\V&\\
+	\F&\F&\F&\F&\V&\\
+	\end{array}
+	\]
+	Na última coluna, só preenchemos os casos em que $a\lor b$ e $\neg a \lor c$ se verificam.
+	
+	Visto que em todas estas linhas verificam $b \lor c$, concluímos que $b \lor c$ é consequência semântica de $a\lor b$ e $\neg a \lor c$.
+	
+	\medskip
+	
+	\textbf{Forma simples:} Agora, em vez de fazermos a tabela com oito linhas, vamos pensar um bocadinho. Vamos imaginar que temos uma valoração $\rho$ que satisfaz $a\lor b$ e $\neg a \lor c$, e mostraremos que também satisfaz $b \lor c$.
+	
+	Bem, a nossa valoração $\rho$ tem que atribuir um valor de verdade a $a$. Ou seja, ou $a$ é $\V$, ou $a$ é $\F$.
+	
+	No caso em que $a$ é $\V$, como $\rho$ satisfaz $\neg a \lor c$, temos necessariamente que ter que $c$ é $\V$ (verifica). Como consequência, $b \lor c$ é $(\text{algo}) \lor \V$, que é $\V$.
+	
+	No caso em que $a$ é $\F$, como $\rho$ satisfaz $a \lor b$, temos necessáriamente que $b$ é $\V$. Pelo mesmo raciocínio, $b \lor c$ é $\V \lor (\text{algo})$, que é $\V$.
+	
+	Como, independentemente do caso, chegamos a que $\rho \Vdash b \lor c$, temos que qualquer $\rho$ que satisfaça $a\lor b$ e $\neg a \lor c$ também satisfaz $b \lor c$. Ou seja, esta última é consequência semântica das primeiras.
+	
+	\bigskip
+		
 	\textbf{Exercício 2:} Verifica quais das seguintes afirmações são verdadeiras.
 	
 	\begin{enumerate}
