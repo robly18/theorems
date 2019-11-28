@@ -346,7 +346,7 @@ Dados dois vetores $x,y \in \R^n$, dizemos $x \leq y$ se $x_i \leq y_i$ para tod
 	
 	Repare-se que a nossa função de tradução $f$ é linear. Isto vai ser relevante eventualmente. Dizemos que qualquer pol pode ser \emph{traduzido linearmente para um pol na forma canónica}.
 	
-	\subsubsection{Desigualdades para igualdades (Forma padrão)}
+	\subsubsection{Desigualdades para igualdades (Forma padrão)}\label{formapadrao}
 	
 	Outra forma útil de expressar um problema de otimização linear é a chamada forma padrão, da forma seguinte:
 	
@@ -2178,9 +2178,39 @@ Caso contrário:
 	Isto é, na realidade, uma trivialidade. Afinal, se houvesse um vetor básico degenerado $x$, $b$ poderia ser escrito como combinação linear das (menos que $m$) colunas de $A_{P_x}$, pois $b = A_{P_x} x_{P_x}$.
 	\end{proof}
 	
-	[O fim desta secção está ainda em construção]
+	Na prática, esta condição não é de particularidade utilidade. Tem, no entanto, uma interessante aplicação teórica.
 	
-	%todo show that x basic iff #Px = m
+	Abstratamente falando, é difícil categorizar o conjunto dos problemas não-degenerados no sentido lato. O conjunto dos problemas não-degenerados no sentido estrito, pelo outro lado, é muito mais fácil de manusear, visto que depende apenas de $A$. Por sua vez, isto permite-nos justificar em termos teóricos a afirmação `Problemas degenerados são raros': de facto, é possível mostrar que, escolhida uma matriz $A$ `ao calhas', esta é degenerada (no sentido estrito) com probabilidade 0, o que implica que ela é não-degenerada no sentido lato com probabilidade 1. A prova disto não é aqui feita, visto que não está no âmbito da cadeira (e o autor não a sabe).
+	
+	A maior utilidade que a vasta maioria dos leitores verão para este critério, no entanto, é a sua aplicação aos testes da Sernadas.
+	
+	\subsection{Problemas na forma canónica}
+	
+	Recorde-se que o primeiro passo do algoritmo do simplexo requer conhecer um vetor básico não-degenerado. Em geral, encontrar tal coisa é não-trivial. Existe, no entanto, um caso em que isto se mostra fácil.
+	
+	Suponha-se dado um pol na forma canónica, $P$:
+	
+	\[
+	\begin{cases}
+	\max\limits_x cx\\
+	Ax \leq b\\
+	x \geq 0
+	\end{cases}
+	\]
+	
+	Sabemos, devido aos resultados da secção \ref{formapadrao}, que podemos transformar $P$ num pol na forma padrão, digamos $Q$:
+	
+	\[
+	\begin{cases}
+	\min\limits_{(x,y)} -cx\\
+	Ax + y = b\\
+	x, y \geq 0
+	\end{cases}
+	\]
+	
+	Este é um problema na forma padrão, que, se assumirmos não-degenerado, sabemos resolver usando o algoritmo do simplexo; \emph{assumindo} que conseguimos arranjar um vetor básico não-degenerado.
+	
+	Mas, ora, se adicionarmos a hipótese $b \geq 0$, é fácil adivinhar o vetor $(x,y)$, com $x = 0$ e $y = b$. O leitor pode facilmente verificar que isto é de facto admissível e básico, pelo que podemos agora aplicar o algoritmo do simplexo e o problema fica resolvido.
 	
 	\appendix
 	
