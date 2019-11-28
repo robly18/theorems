@@ -22,6 +22,7 @@
 
 \newcommand{\V}{\mathbf{V}}
 \newcommand{\F}{\mathbf{F}}
+\newcommand*{\lneg}{\mathord{\sim}}
 
 \begin{document}
 	\maketitle
@@ -48,18 +49,18 @@
 	\begin{itemize}
 	\item Variáveis ($p$, $q$, $a$, $b$, $c$, $x$, $y$, $z$, ...)
 	
-	\item Conectivos ($\land$, $\lor$, $\neg$, ...)
+	\item Conectivos ($\land$, $\lor$, $\lneg$, ...)
 	
 	\item Parênteses
 	\end{itemize}
 	
-	Normalmente, referimo-nos a frases por nome de letras gregas. Por exemplo, podemos considerar a frase $\varphi$ (fi): $a \lor \neg(b \land c)$.
+	Normalmente, referimo-nos a frases por nome de letras gregas. Por exemplo, podemos considerar a frase $\varphi$ (fi): $a \lor \lneg(b \land c)$.
 	
 	Cada variável é suposto representar uma afirmação, que pode ser verdadeira ou falsa. Os conectivos significam, respetivamente, `e', `ou' e `não'. Em breve introduziremos o `implica' e `equivalente'.
 	
 	Esta linguagem não é muito expressiva. Por exemplo, não podemos expressar frases como `A soma dos ângulos internos de um triângulo é $180^\circ$'. Podemos, no entanto, expressar relações entre afirmações.
 	
-	Por exemplo, se $C$ representa a afirmação `Está a chover' e $S$ a afirmação `Saí de casa', posso expressar `Saí de casa e não está a chover' como $S \land \neg C$.
+	Por exemplo, se $C$ representa a afirmação `Está a chover' e $S$ a afirmação `Saí de casa', posso expressar `Saí de casa e não está a chover' como $S \land \lneg C$.
 	
 	\section{Semântica}
 	
@@ -81,14 +82,14 @@
 	
 	Normalmente usamos o nome $\rho$ (ró) para nos referirmos a valorações.
 	
-	Por exemplo, seja $\varphi$ a frase $(a \land b) \lor \neg (b \lor c)$. Podemos considerar a valoração $\rho$ que atribui os valores $a:\V$, $b:\F$ e $c:\V$.
+	Por exemplo, seja $\varphi$ a frase $(a \land b) \lor \lneg (b \lor c)$. Podemos considerar a valoração $\rho$ que atribui os valores $a:\V$, $b:\F$ e $c:\V$.
 	
 	Uma valoração corresponde, intuitivamente, a um `universo', onde algumas coisas são verdadeiras e outras são falsas. Fixa, então, uma valoração, faz sentido perguntar se uma certa frase complexa é verdadeira.
 	
 	Averiguemos se $\varphi$ é verdade sob a valoração $\rho$. Para o fazer, substituimos cada variável pelo seu valor de verdade. Neste caso:
-	\[(\V \land \F) \lor \neg (\F \lor \V).\]
+	\[(\V \land \F) \lor \lneg (\F \lor \V).\]
 	
-	Depois, avaliamos a expressão resultante, tendo em conta o nosso conhecimento dos operadores $\land$, $\lor$ e $\neg$:
+	Depois, avaliamos a expressão resultante, tendo em conta o nosso conhecimento dos operadores $\land$, $\lor$ e $\lneg$:
 	
 	\begin{itemize}
 	\item (`e') A afirmação $x \land y$ é verdade quando são ambos verdade. Isto é:
@@ -107,14 +108,14 @@
 	\F \lor \F &\text{ é } \F
 	\end{align*}
 	
-	\item (`não') A afirmação $\neg x$ é verdade quando $x$ é falso. Isto é:
+	\item (`não') A afirmação $\lneg x$ é verdade quando $x$ é falso. Isto é:
 	\begin{align*}
-	\neg \V &\text{ é } \F\\
-	\neg \F &\text{ é } \V
+	\lneg \V &\text{ é } \F\\
+	\lneg \F &\text{ é } \V
 	\end{align*}
 	\end{itemize}
 	
-	Assim sendo, a expressão acima pode ser simplificada para $\F \lor \neg \V$, que por sua vez é simplificado para $\F \lor \F$, ou seja, $\F$. Ou seja, sob a valoração $\rho$, a frase $\varphi$ é falsa.
+	Assim sendo, a expressão acima pode ser simplificada para $\F \lor \lneg \V$, que por sua vez é simplificado para $\F \lor \F$, ou seja, $\F$. Ou seja, sob a valoração $\rho$, a frase $\varphi$ é falsa.
 	
 	\textbf{Exercício 0:} Tenta encontrar uma valoração que faça com que $\varphi$ fique verdadeira.
 	
@@ -123,7 +124,7 @@
 	\[\rho \Vdash \varphi.\]
 	\end{definicao}
 	
-	Vamos fazer mais um exemplo. Seja $\varphi$ a frase $(a \land b) \lor (\neg a \lor \neg c)$, e considere-se a valoração $\rho$ que faz:
+	Vamos fazer mais um exemplo. Seja $\varphi$ a frase $(a \land b) \lor (\lneg a \lor \lneg c)$, e considere-se a valoração $\rho$ que faz:
 	\[
 	\begin{array}{c|c|c}
 	a & b & c\\
@@ -133,7 +134,7 @@
 	\]
 	
 	Vamos averiguar se $\rho \Vdash \varphi$. Substituindo as variáveis pelos seus valores de verdade, obtemos
-	\[(\V \land \F) \lor (\neg \V \lor \neg \F),\]
+	\[(\V \land \F) \lor (\lneg \V \lor \lneg \F),\]
 	que, simplificando, dá
 	\begin{gather*}
 	\F \lor (\F \lor \V)\\
@@ -147,7 +148,7 @@
 	
 	De vez em quando, é-nos dado uma fórmula $\varphi$ e queremos saber para que valorações é que ela é verdade.\footnote{Um dos problemas mais estudados de ciência de computadores é até mais `simples' do que isto: dada uma fórmula $\varphi$, será que existe \emph{pelo menos uma} valoração que a satisfaz? Este problema é chamado SAT (de `satisfiability') e descobrir algoritmos para o resolver eficientemente é uma área de pesquisa muito ativa.} Uma forma primitiva mas eficaz de fazer isso é simplesmente tentar todas as valorações possíveis.
 	
-	Para este efeito, é costume organizar a informação no que se chamam \emph{tabelas de verdade}. Para as construir, começamos por, nas primeiras $n$ colunas, organizar todos os valores possíveis das nossas variáveis. Por exemplo, para $\varphi: (a \lor b) \land \neg (a \land b)$, as variáveis são $a$ e $b$, e nas primeiras $2$ colunas descrevemos todas as 4 formas possíveis de lhes atribuir valores de verdade:
+	Para este efeito, é costume organizar a informação no que se chamam \emph{tabelas de verdade}. Para as construir, começamos por, nas primeiras $n$ colunas, organizar todos os valores possíveis das nossas variáveis. Por exemplo, para $\varphi: (a \lor b) \land \lneg (a \land b)$, as variáveis são $a$ e $b$, e nas primeiras $2$ colunas descrevemos todas as 4 formas possíveis de lhes atribuir valores de verdade:
 	\[
 	\begin{array}{c|c}
 	a & b\\
@@ -162,7 +163,7 @@
 	Depois, nas colunas ao lado, escrevemos contas intermédias que nos sejam úteis no cálculo de $\varphi$. Neste caso, é-nos útil calcular, por exemplo, $(a \lor b)$ e $(a \land b)$.
 	\[
 	\begin{array}{c|c|c|c|c|c}
-	a & b & a \lor b & a \land b & \neg (a \land b) & (a \lor b) \land \neg (a \land b)\\
+	a & b & a \lor b & a \land b & \lneg (a \land b) & (a \lor b) \land \lneg (a \land b)\\
 	\hline
 	\V & \V &&&\\
 	\V & \F &&&\\
@@ -175,7 +176,7 @@
 	
 	\[
 	\begin{array}{c|c|c|c|c|c}
-	a & b & a \lor b & a \land b & \neg (a \land b) & (a \lor b) \land \neg (a \land b)\\
+	a & b & a \lor b & a \land b & \lneg (a \land b) & (a \lor b) \land \lneg (a \land b)\\
 	\hline
 	\V & \V &\V&\V&\F&\F\\
 	\V & \F &\V&\F&\V&\V\\
@@ -195,13 +196,13 @@
 	
 	\item $a \land (b \lor c)$
 	
-	\item $(a \land b) \lor \neg (b \lor c)$
+	\item $(a \land b) \lor \lneg (b \lor c)$
 	
-	\item $(a \land \neg b) \lor (\neg a \lor b)$
+	\item $(a \land \lneg b) \lor (\lneg a \lor b)$
 	
-	\item $((a \lor b) \land \neg (a \land c)) \lor (d \lor b \lor \neg d)$
+	\item $((a \lor b) \land \lneg (a \land c)) \lor (d \lor b \lor \lneg d)$
 	
-	\item $(a \lor b) \land (\neg a \lor c \lor d) \land (\neg c) \land (\neg d \lor b) \land (\neg b \lor (a \land \neg d))$
+	\item $(a \lor b) \land (\lneg a \lor c \lor d) \land (\lneg c) \land (\lneg d \lor b) \land (\lneg b \lor (a \land \lneg d))$
 	\end{enumerate}
 	
 	(Sugestão: podes resolver estes exercícios tentando todos os casos possíveis. No entanto, isto é mesmo chato com mais do que três variáveis! Em particular, és desencorajado de fazer os últimos desta forma. Assim sendo, tenta encontrar formas mais fáceis de os fazer.)
@@ -215,13 +216,74 @@
 	\[\vDash \varphi.\]
 	\end{definicao}
 	
-	Às vezes, no entanto, estamos interessados em restringir a nossa atenção a um conjunto limitado de universos. Por exemplo, suponhamos que quero restringir a minha atenção aos universos onde está a chover, e onde sei que não saio de casa sem guarda-chuva. Se $C$ representa a afirmação `Está a chover' e $G$ a afirmação `Saio de casa sem guarda-chuva', posso averiguar o que é verdade num universo onde sei $C$ e $\neg (C \land G)$.
+	Vamos ver alguns exemplos de tautologias.
 	
-	Por exemplo, num tal universo, consigo de certeza concluir $\neg G$. Para justificar isto, vamos ver em que universos é que tanto $C$ como $\neg (C \land G)$ são verdadeiros:
+	O exemplo mais simples é uma afirmação da forma $\varphi : a \lor \lneg a$. Vamos verificar que ela é de facto uma tautologia.
+	
+	Para isto, vamos enumerar todas as valorações possíveis. Neste caso, a única variável é $a$, por isso só há dois casos: $a$ é $\V$ (chamemos a esta valoração $\rho$) ou $a$ é $\F$ (chamemos a esta $\rho'$).
+	
+	Sob a valoração $\rho$, $\varphi$ fica $\V \lor \lneg \V$, que é $\V$. Da mesma forma, sob a valoração $\rho'$, $\varphi$ fica $\F \lor \lneg \F$, que é $\V$. Assim sendo, todas as valorações satisfazem $\varphi$, ou seja, $\varphi$ é uma tautologia.
+	
+	Vamos fazer um exemplo mais complicado. Seja $\varphi$ a frase $(a \lor (b \lor \lneg a))$.
+	
+	Para verificar que esta frase é uma tautologia, vamos enumerar todas as valorações, e para cada uma delas avaliar o valor de verdade de $\varphi$.
+	
+	\[
+	\begin{array}{c|c|c}
+	a & b & a \lor (b \lor \lneg a)\\
+	\hline
+	\V & \V &\\
+	\V & \F &\\
+	\F & \V &\\
+	\F & \F &
+	\end{array}
+	\]
+	
+	\textbf{Exercício 2:} Preenche a tabela acima. (Adiciona mais colunas para cálculos intermédios se achares necessário.)
+	
+	\smallskip
+	
+	Após fazeres o exercício 2, deverás obter o resultado
+	
+	\[
+	\begin{array}{c|c|c}
+	a & b & a \lor (b \lor \lneg a)\\
+	\hline
+	\V & \V &\V\\
+	\V & \F &\V\\
+	\F & \V &\V\\
+	\F & \F &\V
+	\end{array}
+	\]
+	
+	Ou seja, para todas as valorações, $\varphi$ é verdadeira. Ou seja, $\varphi$ é uma tautologia.
+	
+	\smallskip
+	
+	\textbf{Exercício 3:} Verifica quais das seguintes afirmações são verdadeiras. (Recorda-te que `$\vDash \varphi$' significa `$\varphi$ é uma tautologia'.
+	
+	\begin{enumerate}
+	\item $\vDash (\lneg a \lor \lneg (\lneg a))$
+	
+	\item $\vDash \lneg a \lor \lneg b \lor (a \lor c) \land (b \lor c)$
+	
+	\item $\vDash a$
+	
+	\item $\vDash (a \lor \lneg a) \lor \lneg (a \land (c \lor \lneg c)) \lor (b \land (d \lor \lneg d))$
+	
+	\item $\vDash a \land b \land c \land d$
+	
+	\item $\vDash \lneg (a \land \lneg b) \lor \lneg(c \lor b) \lor (a \land c) \lor (a \land (b \lor \lneg c))$
+	\end{enumerate}
+	
+	
+	Às vezes, no entanto, estamos interessados em restringir a nossa atenção a um conjunto limitado de universos. Por exemplo, suponhamos que quero restringir a minha atenção aos universos onde está a chover, e onde sei que não saio de casa sem guarda-chuva. Se $C$ representa a afirmação `Está a chover' e $G$ a afirmação `Saio de casa sem guarda-chuva', posso averiguar o que é verdade num universo onde sei $C$ e $\lneg (C \land G)$.
+	
+	Por exemplo, num tal universo, consigo de certeza concluir $\lneg G$. Para justificar isto, vamos ver em que universos é que tanto $C$ como $\lneg (C \land G)$ são verdadeiros:
 	
 	\begin{tabular}{|c|c|c|c|}
 	\hline
-	$C$ & $G$ & $\neg(C \land G)$ & Conclusão \\
+	$C$ & $G$ & $\lneg(C \land G)$ & Conclusão \\
 	\hline
 	$\V$ & $\V$ & $\F$ & Não \\
 	$\V$ & $\F$ & $\V$ & Sim \\
@@ -242,17 +304,17 @@
 	\end{definicao}
 	
 	Sob esta notação, a conclusão de acima podia ter sido escrita como
-	\[\{\, C, \neg(C \land G) \,\} \vDash G.\]
+	\[\{\, C, \lneg(C \land G) \,\} \vDash G.\]
 	
 	É comum, ao escrever coisas desta forma, omitir a notação de conjunto e escrever só
-	\[C, \neg(C \land G) \vDash G.\]
+	\[C, \lneg(C \land G) \vDash G.\]
 	
 	\begin{obs}
 	Recorda-te que, na matemática, uma afirmação da forma `para todo $x$' é sempre verdadeira se não houver nenhum $x$. Neste caso, isto reflete-se de duas formas:
 	
 	\begin{enumerate}
 	\item Se $\Gamma$ é tal que nenhuma valoração satisfaz todas as suas fórmulas, $\Gamma \vDash \varphi$ é sempre verdade. (Dizemos que é verdade \emph{por vacuosidade}.) Por exemplo, verifica o seguinte:
-	\[ a, \neg a \vDash b.\]
+	\[ a, \lneg a \vDash b.\]
 	
 	\item Se $\Gamma$ é o conjunto vazio, \emph{qualquer valoração} satisfaz todas as fórmulas em $\Gamma$. Assim sendo, para qualquer proposição $\varphi$, temos $\emptyset \vDash \varphi$ se e só se $\vDash \varphi$.
 	\end{enumerate}
@@ -260,15 +322,15 @@
 	Verifica ambas estas afirmações, e certifica-te que fazem sentido na tua cabeça.
 	\end{obs}
 	
-	Vamos fazer mais um exemplo. Vamos verificar que $a \lor b, \neg a \lor c \vDash b \lor c$.
+	Vamos fazer mais um exemplo. Vamos verificar que $a \lor b, \lneg a \lor c \vDash b \lor c$.
 	
 	Vamos fazer isto de duas formas: a forma chata, que é verificar todos os casos possíveis; ou a forma fácil, por um raciocínio que nos poupa muito trabalho.
 	
-	\textbf{Forma chata:} Vamos fazer a tabela em que organizamos todos os valores possíveis de verdade de $a$, $b$ e $c$, vemos em quais destas valorações se verificam $a \lor b$ e $\neg a \lor c$, e verificamos que em todas essas temos $b \lor c$.
+	\textbf{Forma chata:} Vamos fazer a tabela em que organizamos todos os valores possíveis de verdade de $a$, $b$ e $c$, vemos em quais destas valorações se verificam $a \lor b$ e $\lneg a \lor c$, e verificamos que em todas essas temos $b \lor c$.
 	
 	\[
 	\begin{array}{c|c|c|c|c|c}
-	a&b&c&a\lor b&\neg a \lor c& b \lor c\\
+	a&b&c&a\lor b&\lneg a \lor c& b \lor c\\
 	\hline
 	\V&\V&\V&\V&\V&\V\\
 	\V&\V&\F&\V&\F&\\
@@ -280,21 +342,21 @@
 	\F&\F&\F&\F&\V&\\
 	\end{array}
 	\]
-	Na última coluna, só preenchemos os casos em que $a\lor b$ e $\neg a \lor c$ se verificam.
+	Na última coluna, só preenchemos os casos em que $a\lor b$ e $\lneg a \lor c$ se verificam.
 	
-	Visto que em todas estas linhas verificam $b \lor c$, concluímos que $b \lor c$ é consequência semântica de $a\lor b$ e $\neg a \lor c$.
+	Visto que em todas estas linhas verificam $b \lor c$, concluímos que $b \lor c$ é consequência semântica de $a\lor b$ e $\lneg a \lor c$.
 	
 	\medskip
 	
-	\textbf{Forma simples:} Agora, em vez de fazermos a tabela com oito linhas, vamos pensar um bocadinho. Vamos imaginar que temos uma valoração $\rho$ que satisfaz $a\lor b$ e $\neg a \lor c$, e mostraremos que também satisfaz $b \lor c$.
+	\textbf{Forma simples:} Agora, em vez de fazermos a tabela com oito linhas, vamos pensar um bocadinho. Vamos imaginar que temos uma valoração $\rho$ que satisfaz $a\lor b$ e $\lneg a \lor c$, e mostraremos que também satisfaz $b \lor c$.
 	
 	Bem, a nossa valoração $\rho$ tem que atribuir um valor de verdade a $a$. Ou seja, ou $a$ é $\V$, ou $a$ é $\F$.
 	
-	No caso em que $a$ é $\V$, como $\rho$ satisfaz $\neg a \lor c$, temos necessariamente que ter que $c$ é $\V$ (verifica). Como consequência, $b \lor c$ é $(\text{algo}) \lor \V$, que é $\V$.
+	No caso em que $a$ é $\V$, como $\rho$ satisfaz $\lneg a \lor c$, temos necessariamente que ter que $c$ é $\V$ (verifica). Como consequência, $b \lor c$ é $(\text{algo}) \lor \V$, que é $\V$.
 	
 	No caso em que $a$ é $\F$, como $\rho$ satisfaz $a \lor b$, temos necessáriamente que $b$ é $\V$. Pelo mesmo raciocínio, $b \lor c$ é $\V \lor (\text{algo})$, que é $\V$.
 	
-	Como, independentemente do caso, chegamos a que $\rho \Vdash b \lor c$, temos que qualquer $\rho$ que satisfaça $a\lor b$ e $\neg a \lor c$ também satisfaz $b \lor c$. Ou seja, esta última é consequência semântica das primeiras.
+	Como, independentemente do caso, chegamos a que $\rho \Vdash b \lor c$, temos que qualquer $\rho$ que satisfaça $a\lor b$ e $\lneg a \lor c$ também satisfaz $b \lor c$. Ou seja, esta última é consequência semântica das primeiras.
 	
 	\bigskip
 		
@@ -303,13 +365,13 @@
 	\begin{enumerate}
 	\item $a, b \vDash (a \lor c) \land (b \lor c)$
 	
-	\item $a \lor c, a \lor \neg c \vDash a$
+	\item $a \lor c, a \lor \lneg c \vDash a$
 	
-	\item $a \lor b, \neg( (a \land (b \lor \neg c)) \lor \neg d) \vDash (a \land (c \lor \neg c)) \lor (b \land (d \lor \neg d))$
+	\item $a \lor b, \lneg( (a \land (b \lor \lneg c)) \lor \lneg d) \vDash (a \land (c \lor \lneg c)) \lor (b \land (d \lor \lneg d))$
 	
 	\item $a, b, c \vDash a \land b \land c \land d$
 	
-	\item $a \land \neg b, c \lor b, \neg(a \land c) \vDash a \land (b \lor \neg c)$
+	\item $a \land \lneg b, c \lor b, \lneg(a \land c) \vDash a \land (b \lor \lneg c)$
 	\end{enumerate}
 	
 	\textbf{Exercício 3:} Mostra que, para qualquer proposição $\varphi$, temos $\varphi \vDash \varphi$.
