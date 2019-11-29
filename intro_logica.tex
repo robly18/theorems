@@ -56,7 +56,7 @@
 	
 	Normalmente, referimo-nos a frases por nome de letras gregas. Por exemplo, podemos considerar a frase $\varphi$ (fi): $a \lor \lneg(b \land c)$.
 	
-	Cada variável é suposto representar uma afirmação, que pode ser verdadeira ou falsa. Os conectivos significam, respetivamente, `e', `ou' e `não'. Em breve introduziremos o `implica' e `equivalente'.
+	Cada variável é suposto representar uma afirmação, que pode ser verdadeira ou falsa. Os conectivos significam, respetivamente, `e', `ou' e `não'. Mais tarde introduziremos o `implica' e `equivalente'.
 	
 	Esta linguagem não é muito expressiva. Por exemplo, não podemos expressar frases como `A soma dos ângulos internos de um triângulo é $180^\circ$'. Podemos, no entanto, expressar relações entre afirmações.
 	
@@ -276,111 +276,243 @@
 	\item $\vDash \lneg (a \land \lneg b) \lor \lneg(c \lor b) \lor (a \land c) \lor (a \land (b \lor \lneg c))$
 	\end{enumerate}
 	
+	\section{Consequência}
 	
-	Às vezes, no entanto, estamos interessados em restringir a nossa atenção a um conjunto limitado de universos. Por exemplo, suponhamos que quero restringir a minha atenção aos universos onde está a chover, e onde sei que não saio de casa sem guarda-chuva. Se $C$ representa a afirmação `Está a chover' e $G$ a afirmação `Saio de casa sem guarda-chuva', posso averiguar o que é verdade num universo onde sei $C$ e $\lneg (C \land G)$.
+	Às vezes, queremos expressar que algumas afirmações são consequência de outras.
 	
-	Por exemplo, num tal universo, consigo de certeza concluir $\lneg G$. Para justificar isto, vamos ver em que universos é que tanto $C$ como $\lneg (C \land G)$ são verdadeiros:
+	Por exemplo, sejam $a$ e $b$ afirmações. Se eu sei que uma $a$ é verdade, sei de certeza que $a \lor b$ é verdade. Dizemos, então que $a \lor b$ é consequência de $a$.
 	
-	\begin{tabular}{|c|c|c|c|}
-	\hline
-	$C$ & $G$ & $\lneg(C \land G)$ & Conclusão \\
-	\hline
-	$\V$ & $\V$ & $\F$ & Não \\
-	$\V$ & $\F$ & $\V$ & Sim \\
-	$\F$ & $\V$ & $\V$ & Não \\
-	$\F$ & $\F$ & $\V$ & Não \\
-	\hline
-	\end{tabular}
-	\smallskip
+	Vamos fazer um exemplo ligeiramente mais complicado. Considerem-se as afirmações:
 	
-	Portanto, neste caso, há apenas um universo em que ambas as premissas são verdadeiras, e de facto, neste universo, $G$ é falso.
+	\[ \varphi : (a \land b) \lor c \]
 	
-	\begin{definicao}
-	Seja $\Gamma$ (gama) um conjunto de proposições, $\varphi$ uma proposição. Dizemos que \emph{$\varphi$ é consequência semântica de $\Gamma$} se todas as valorações $\rho$ que satisfazem todos os elementos de $\Gamma$ também satisfazem $\varphi$. Simbolicamente:
+	\[ \psi : a \lor c \]
 	
-	\[\Gamma \vDash \varphi.\]
+	(Esta última letra grega chama-se psi.)
 	
-	Podes também ler isto como `Se $\Gamma$, então $\varphi$'.
-	\end{definicao}
-	
-	Sob esta notação, a conclusão de acima podia ter sido escrita como
-	\[\{\, C, \lneg(C \land G) \,\} \vDash G.\]
-	
-	É comum, ao escrever coisas desta forma, omitir a notação de conjunto e escrever só
-	\[C, \lneg(C \land G) \vDash G.\]
-	
-	\begin{obs}
-	Recorda-te que, na matemática, uma afirmação da forma `para todo $x$' é sempre verdadeira se não houver nenhum $x$. Neste caso, isto reflete-se de duas formas:
-	
-	\begin{enumerate}
-	\item Se $\Gamma$ é tal que nenhuma valoração satisfaz todas as suas fórmulas, $\Gamma \vDash \varphi$ é sempre verdade. (Dizemos que é verdade \emph{por vacuosidade}.) Por exemplo, verifica o seguinte:
-	\[ a, \lneg a \vDash b.\]
-	
-	\item Se $\Gamma$ é o conjunto vazio, \emph{qualquer valoração} satisfaz todas as fórmulas em $\Gamma$. Assim sendo, para qualquer proposição $\varphi$, temos $\emptyset \vDash \varphi$ se e só se $\vDash \varphi$.
-	\end{enumerate}
-	
-	Verifica ambas estas afirmações, e certifica-te que fazem sentido na tua cabeça.
-	\end{obs}
-	
-	Vamos fazer mais um exemplo. Vamos verificar que $a \lor b, \lneg a \lor c \vDash b \lor c$.
-	
-	Vamos fazer isto de duas formas: a forma chata, que é verificar todos os casos possíveis; ou a forma fácil, por um raciocínio que nos poupa muito trabalho.
-	
-	\textbf{Forma chata:} Vamos fazer a tabela em que organizamos todos os valores possíveis de verdade de $a$, $b$ e $c$, vemos em quais destas valorações se verificam $a \lor b$ e $\lneg a \lor c$, e verificamos que em todas essas temos $b \lor c$.
+	Então, o que podemos concluir sobre uma valoração $\rho$ se sabemos que $\rho \Vdash \varphi$? Para averiguarmos isto, vamos ver quais são estas valorações. Vamos enumerar as valorações todas, e vamos ver quais delas satisfazem $\varphi$.
 	
 	\[
-	\begin{array}{c|c|c|c|c|c}
-	a&b&c&a\lor b&\lneg a \lor c& b \lor c\\
+	\begin{array}{c|c|c|c}
+	a & b & c & \varphi \\
 	\hline
-	\V&\V&\V&\V&\V&\V\\
-	\V&\V&\F&\V&\F&\\
-	\V&\F&\V&\V&\V&\V\\
-	\V&\F&\F&\V&\F&\\
-	\F&\V&\V&\V&\V&\V\\
-	\F&\V&\F&\V&\V&\V\\
-	\F&\F&\V&\F&\V&\\
-	\F&\F&\F&\F&\V&\\
+	\V & \V & \V & \V\\
+	\V & \V & \F & \V\\
+	\V & \F & \V & \V\\
+	\V & \F & \F & \F\\
+	\F & \V & \V & \V\\
+	\F & \V & \F & \F\\
+	\F & \F & \V & \V\\
+	\F & \F & \F & \F
 	\end{array}
 	\]
-	Na última coluna, só preenchemos os casos em que $a\lor b$ e $\lneg a \lor c$ se verificam.
 	
-	Visto que em todas estas linhas verificam $b \lor c$, concluímos que $b \lor c$ é consequência semântica de $a\lor b$ e $\lneg a \lor c$.
+	Vemos que aquelas que satisfazem $\varphi$ são as seguintes:
+	
+	
+	\[
+	\begin{array}{c|c|c}
+	a & b & c \\
+	\hline
+	\V & \V & \V\\
+	\V & \V & \F\\
+	\V & \F & \V\\
+	\F & \V & \V\\
+	\F & \F & \V
+	\end{array}
+	\]
+	
+	Agora, vamos verificar se todas estas satisfazem $\psi$. E de facto, preenchendo a tabela, ficamos com
+	
+	\[
+	\begin{array}{c|c|c|c}
+	a & b & c & \psi \\
+	\hline
+	\V & \V & \V & \V\\
+	\V & \V & \F & \V\\
+	\V & \F & \V & \V\\
+	\F & \V & \V & \V\\
+	\F & \F & \V & \V
+	\end{array}
+	\]
+	
+	Ou seja: \textbf{todas as valorações que satisfazem $\varphi$ também satisfazem $\psi$}, isto é, \emph{$\psi$ é consequência de $\varphi$}.
+	
+	\begin{definicao}
+	Sejam $\varphi$ e $\psi$ afirmações. Dizemos que \emph{$\varphi$ é consequência de $\psi$} se, sempre que $\psi$ é verdade, $\varphi$ é verdade.
+	
+	Por outras palavras: para toda a valoração $\rho$, se $\rho \Vdash \psi$ então $\rho \Vdash \varphi$.
+	
+	Simbolicamente, isto pode ser representado como:
+	
+	\[\psi \vDash \varphi.\]
+	
+	Podes também ler isto como `de $\psi$ conclui-se $\varphi$'.
+	\end{definicao}
+	
+	\begin{obs}
+	Recorda-te que, na matemática, uma afirmação da forma `para todo $x$' é sempre verdadeira se não houver nenhum $x$. Assim sendo, se $\psi$ é tal que nenhuma valoração a satisfaz, $\psi \vDash \varphi$ é sempre verdade. (Dizemos que é verdade \emph{por vacuosidade}.) Por exemplo, verifica o seguinte:
+	\[ a \land \lneg a \vDash b.\]
+	
+	Por outras palavras: a partir de algo falso consegues concluir qualquer coisa. Isto tem também o nome de `princípio da explosão'.
+	\end{obs}
+	
+	Vamos fazer mais um exemplo. Vamos verificar que $(a \lor b) \land (\lneg a \lor c) \vDash b \lor c$.
+	
+	Vamos fazer isto de duas formas: a forma chata, que é verificar todos os casos possíveis; e uma forma mais expedita, por um raciocínio que nos poupa muito trabalho.
+	
+	\textbf{Forma chata:} Vamos fazer a tabela em que organizamos todos os valores possíveis de verdade de $a$, $b$ e $c$, vemos em quais destas valorações se verificam $(a \lor b) \land (\lneg a \lor c)$, e verificamos que em todas essas temos $b \lor c$.
+	
+	\[
+	\begin{array}{c|c|c|c|c|c|c}
+	a&b&c&a\lor b&\lneg a \lor c&(a \lor b) \land (\lneg a \lor c)& b \lor c\\
+	\hline
+	\V&\V&\V&\V&\V&\V&\V\\
+	\V&\V&\F&\V&\F&\F&\\
+	\V&\F&\V&\V&\V&\V&\V\\
+	\V&\F&\F&\V&\F&\F&\\
+	\F&\V&\V&\V&\V&\V&\V\\
+	\F&\V&\F&\V&\V&\V&\V\\
+	\F&\F&\V&\F&\V&\F&\\
+	\F&\F&\F&\F&\V&\F&
+	\end{array}
+	\]
+	
+	Em todas as linhas em que $(a \lor b) \land (\lneg a \lor c)$ é verdade, temos que $b \lor c$ é verdade. Logo, obtemos que $b \lor c$ é consequência de $(a \lor b) \land (\lneg a \lor c)$.
 	
 	\medskip
 	
-	\textbf{Forma simples:} Agora, em vez de fazermos a tabela com oito linhas, vamos pensar um bocadinho. Vamos imaginar que temos uma valoração $\rho$ que satisfaz $a\lor b$ e $\lneg a \lor c$, e mostraremos que também satisfaz $b \lor c$.
+	\textbf{Forma menos trabalhosa:} Agora, em vez de fazermos a tabela com oito linhas, vamos pensar um bocadinho. Vamos imaginar que temos uma valoração $\rho$ que satisfaz $(a\lor b) \land (\lneg a \lor c)$, e mostraremos que também satisfaz $b \lor c$.
 	
 	Bem, a nossa valoração $\rho$ tem que atribuir um valor de verdade a $a$. Ou seja, ou $a$ é $\V$, ou $a$ é $\F$.
 	
-	No caso em que $a$ é $\V$, como $\rho$ satisfaz $\lneg a \lor c$, temos necessariamente que ter que $c$ é $\V$ (verifica). Como consequência, $b \lor c$ é $(\text{algo}) \lor \V$, que é $\V$.
+	No caso em que $a$ é $\V$, como $\rho$ satisfaz $(a\lor b) \land (\lneg a \lor c)$, tem necessariamente que satisfazer $\lneg a \lor c$. Como $a$ é $\V$, temos necessariamente que ter que $c$ é $\V$ (verifica). Como consequência, $b \lor c$ é $(\text{algo}) \lor \V$, que é $\V$.
 	
-	No caso em que $a$ é $\F$, como $\rho$ satisfaz $a \lor b$, temos necessáriamente que $b$ é $\V$. Pelo mesmo raciocínio, $b \lor c$ é $\V \lor (\text{algo})$, que é $\V$.
+	No caso em que $a$ é $\F$, como $\rho$ satisfaz $(a\lor b) \land (\lneg a \lor c)$, tem também que satisfazer $a \lor b$. Como $a$ é $\F$, temos necessariamente que $b$ é $\V$. Pelo mesmo raciocínio, $b \lor c$ é $\V \lor (\text{algo})$, que é $\V$.
 	
 	Como, independentemente do caso, chegamos a que $\rho \Vdash b \lor c$, temos que qualquer $\rho$ que satisfaça $a\lor b$ e $\lneg a \lor c$ também satisfaz $b \lor c$. Ou seja, esta última é consequência semântica das primeiras.
 	
+	\smallskip
+	
+	Vamos, agora, fazer um exemplo falso. Ou seja, vamos dar um exemplo de \emph{não}-consequência.
+	
+	Seja $\psi : a \lor b$ e $\varphi : a \land b$. Será que $\psi \vDash \varphi$?
+	
+	Podemos sempre usar a estratégia de verificar todos os casos possíveis. Vamos ver quais são as valorações que satisfazem $\psi$.
+	
+	\[
+	\begin{array}{c|c|c}
+	a&b&a\lor b\\
+	\hline
+	\V&\V&\V\\
+	\V&\F&\V\\
+	\F&\V&\V\\
+	\F&\F&\F
+	\end{array}
+	\]
+	
+	Vemos que são as seguintes:
+	\[
+	\begin{array}{c|c}
+	a&b\\
+	\hline
+	\V&\V\\
+	\V&\F\\
+	\F&\V
+	\end{array}
+	\]
+	
+	Verificamos agora se todas elas satisfazem $\varphi$:
+	\[
+	\begin{array}{c|c|c}
+	a&b&a\land b\\
+	\hline
+	\V&\V&\V\\
+	\V&\F&\F\\
+	\F&\V&\F
+	\end{array}
+	\]
+	
+	E a resposta é \textbf{não}. Ou seja, $\varphi$ não é consequência de $\psi$, pois existem valorações tal que $\psi$ é verdade mas $\varphi$ não é. Por outras palavras, sabendo que $\psi$ é verdade não podemos necessariamente concluir que $\varphi$ é verdade.
+	
+	Repara que, tal como em todos os outros casos na matemática, para mostrar que uma afirmação é falsa, basta arranjar um contraexemplo. Como tal, se queres mostrar que $\psi \nvDash \varphi$, basta exibires uma valoração $\rho$ tal que $\rho \Vdash \psi$ mas $\rho \nVdash \varphi$.
+	
+	Portanto, neste caso, para mostrar que a afirmação `$\psi \vDash \varphi$' é falsa, bastava mostrar uma valoração que fizesse $\psi$ verdadeira mas $\varphi$ falsa. Por exemplo, a valoração $\rho$ que faz $a : \V$, $b : \F$ está nestas condições, e então $\psi \nvDash \varphi$'.
+	
 	\bigskip
 		
-	\textbf{Exercício 2:} Verifica quais das seguintes afirmações são verdadeiras.
+	\textbf{Exercício 4:} Verifica quais das seguintes afirmações são verdadeiras.
 	
 	\begin{enumerate}
-	\item $a, b \vDash (a \lor c) \land (b \lor c)$
+	\item $a \land b \vDash (a \lor c) \land (b \lor c)$
 	
-	\item $a \lor c, a \lor \lneg c \vDash a$
+	\item $(a \lor c) \land (a \lor \lneg c) \vDash a$
 	
-	\item $a \lor b, \lneg( (a \land (b \lor \lneg c)) \lor \lneg d) \vDash (a \land (c \lor \lneg c)) \lor (b \land (d \lor \lneg d))$
+	\item $(a \lor b) \land \lneg( (a \land (b \lor \lneg c)) \lor \lneg d) \vDash (a \land (c \lor \lneg c)) \lor (b \land (d \lor \lneg d))$
 	
-	\item $a, b, c \vDash a \land b \land c \land d$
+	\item $a \land b \land c \vDash a \land b \land c \land d$
 	
-	\item $a \land \lneg b, c \lor b, \lneg(a \land c) \vDash a \land (b \lor \lneg c)$
+	\item $(a \land \lneg b, c \lor b) \land \lneg(a \land c) \vDash a \land (b \lor \lneg c)$
 	\end{enumerate}
 	
-	\textbf{Exercício 3:} Mostra que, para qualquer proposição $\varphi$, temos $\varphi \vDash \varphi$.
+	(Sugestão: novamente, algumas destas são muito trabalhosas se planeares testar todos os casos possíveis. Procura formas simples de as fazer.)
+	
+	\textbf{Exercício 5:} Mostra que para qualquer proposição $\varphi$ temos $\varphi \vDash \varphi$.
 	
 	\smallskip
 	
-	\textbf{Exercício 4:} Sejam $\Gamma$ e $\Gamma'$ dois conjuntos de proposições tal que $\Gamma'$ contém todas as proposições que estão em $\Gamma$, e talvez algumas mais. Seja, também, $\varphi$ uma proposição. Será que, sabendo $\Gamma \vDash \varphi$, podes concluir $\Gamma' \vDash \varphi$? E ao contrário?
+	\textbf{Exercício 6:} Mostra que se $\alpha$, $\beta$ e $\gamma$ são proposições tal que $\alpha \vDash \beta$ e $\beta \vDash \gamma$, então $\alpha \vDash \gamma$.
+	
+	\smallskip
+	
+	\textbf{Exercício 7:} Mostra que para quaisquer afirmações $\varphi$ e $\psi$ temos $\varphi \land \psi \vDash \varphi$.
+	
+	\smallskip
+	
+	\textbf{Exercício 8:} Conclui que se $\varphi$, $\psi$ e $\gamma$ são afirmações tal que $\varphi \vDash \gamma$ então $\varphi \land \psi \vDash \gamma$.
+	
+	\smallskip
+	
+	\textbf{Exercício 9:} Mostra que se $\alpha$, $\beta$ e $\gamma$ são afirmações tal que $\alpha \vDash \gamma$ e $\beta \vDash \gamma$, então $\alpha \lor \beta \vDash \gamma$.
 
 	\smallskip
 	
+	\section{Implicação}
+	
+	Começamos esta secção com um exercício:
+	
+	\textbf{Exercício 10:} Sejam $\varphi$ e $\psi$ duas afirmações. Mostra que $\lneg \psi \lor \varphi$ é uma tautologia se e só se $\psi \vDash \varphi$.
+	
+	\smallskip
+	
+	(Tenta resolvê-lo por ti próprio antes de leres a solução.)
+	
+	\textbf{Solução:} Há duas coisas a justificar. Primeiro, que se $\lneg \psi \lor \varphi$ é uma tautologia, então $\psi \vDash \varphi$. De seguida, mostramos que se $\psi \vDash \varphi$ então $\lneg \psi \lor \varphi$ é uma tautologia.
+	
+	\smallskip
+	
+	Primeira parte: Suponha-se que $\lneg \psi \lor \varphi$ é uma tautologia. Pretendemos mostrar que $\psi \vDash \varphi$, ou seja, que todas as valorações que satisfazem $\psi$ também satisfazem $\varphi$.
+	
+	Fixemos, então, uma valoração arbitrária $\rho$ tal que $\rho \Vdash \psi$. Ou seja, sob $\rho$, $\psi$ é $\V$.
+	
+	Visto que $\lneg \psi \lor \varphi$ é uma tautologia, sob $\rho$ a frase $\lneg \psi \lor \varphi$ é $\V$. Visto que $\lneg \psi$ é $\F$, obrigatoriamente que $\varphi$ tem que ser $\V$.
+	
+	Mostrámos, então, que para qualquer valoração $\rho$ tal que $\rho \Vdash \psi$ temos $\rho \Vdash \varphi$, ou seja, $\psi \vDash \varphi$.
+	
+	\smallskip
+	
+	Segunda parte: Suponha-se que $\psi \vDash \varphi$. Mostremos que $\lneg \psi \lor \varphi$ é uma tautologia.
+	
+	Para isto, mostramos que qualquer valoração satisfaz $\lneg \psi \lor \varphi$.
+	
+	Seja $\rho$ uma valoração qualquer. Sob $\rho$, das duas uma: ou $\psi$ é $\V$ ou $\psi$ é $\F$.
+	
+	\begin{itemize}	
+	\item Se $\psi$ é $\F$, então $\lneg \psi$ é $\V$ e então $\lneg \psi \lor \varphi$ é $\V$.
+	
+	\item Se $\psi$ é $\V$, então, visto que $\psi \vDash \varphi$, temos que $\varphi$ é $\V$. Logo, $\lneg \psi \lor \varphi$ é $\V$.
+	\end{itemize}
+	
+	Independentemente do caso, temos sempre que $\lneg \psi \lor \varphi$ é $\V$, ou seja, $\lneg \psi \lor \varphi$ é uma tautologia.
 	
 \end{document}
