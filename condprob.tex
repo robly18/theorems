@@ -1,0 +1,175 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\let\mathbbalt\mathbb
+\usepackage{unicode-math}
+\let\mathbbu\mathbb
+\let\mathbb\mathbbalt
+
+\usepackage{eucal}
+
+
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\title{A different formalism for conditional expectation}
+\author{}
+\date{}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\E}{\mathcal{E}}
+
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\amp}{\mathbin{\&}}
+
+\newcommand{\ind}{\mathbbu{1}}
+
+\newtheorem{prop}{Prop}
+
+\begin{document}
+	\maketitle
+	
+	\section{Intuition}
+	
+	Let $(\Omega, \M, P)$ be a sample space. Suppose there is a process occurring in this space, over time, and we have already collected data giving us part of the information about the process.
+	
+	Let $X$ be a real random variable we are trying to predict, and let $O$ be a random variable denoting the data we have already collected. This last variable is not necessarily real; let it take values in a measure space $(V, \E)$.
+	
+	We would like to find some way to predict $X$ from the known data $O$. We will, then, define a measurable function $\tilde X : V \to \R$ such that, in some way, $\tilde X(O)\approx X$.
+	
+	Before we elaborate on what we want this `approximately equal' sign to mean, let us first look at the specific case where $X$ is an indicator variable of some event $E$. If this is the case, $\tilde X(O)$ would, intuitively, represent the probability that $E$ happens given that we know the value of $O$. Symbolically, ignoring for the sake of argument problems of division by zero, $\tilde X(o) = \frac{P(E \cap O = o)}{P(O = o)}$. Hence, $\tilde X(o) P(O = o) = P(E \cap O = o)$, which, integrating over some possible range of values of $O$, would yield
+	
+	\begin{equation}\label{def1}
+	\int_{O \in B} \tilde X(O) \dd P = P(E \amp (O \in B)).
+	\end{equation}
+	
+	There is no division by zero problem with this equation, and so we take it as the definition of $\tilde X$, with one minor observation before we fully commit to it.
+	
+	Note that $P(E \amp (O \in B)) = \int_{O \in B} X \dd P$, which leads to a more general version of equation \eqref{def1}:
+	
+	\begin{equation}\label{def2}
+	\int_{O \in B} \tilde X(O) \dd P = \int_{O \in B} X \dd P.
+	\end{equation}
+	
+	This last equation suffers no restriction that $X$ is an indicator variable, and so we seek to find $\tilde X$ in these conditions.
+	
+	\section{Definition}
+	
+	We now proceed to find $\tilde X$ satisfying \eqref{def2}.
+	
+	Define a measure $P_i$ on $(V, \E)$, induced by $O$. That is,
+	
+	\[P_i(B) = P(O \in B).\]
+	
+	Now, define a measure on $(V, \E)$ as
+	
+	\[\nu(B) = \int_{O \in B} X \dd P.\]
+	
+	Clearly, $\nu \ll P_i$, as if $P_i(B) = 0$ then
+	
+	\begin{align*}
+	\nu(B) &= \int_{O \in B} X \dd P\\
+	&= \int X \cdot \ind_{O \in B} \dd P
+	\end{align*}
+	
+	And this last function is zero almost everywhere, which means the integral equals zero.
+	
+	Hence, by Radon-Nikodym, \textbf{under the assumption that $\mu$ is finite}, that is, $X$ has finite first moment, there exists some function $f : V \to \R$ such that, for all $B \in \E$,
+	
+	\[\int_B f \dd P_i = \int_{O \in B} X \dd P.\]
+	
+	Finally, we make the observation that, for any measurable function $g$,
+	
+	\[\int g \dd P_i = \int g(O) \dd P,\]
+	and therefore
+	
+	\begin{align*}
+	\int_B f \dd P_i &= \int f(v) \cdot \ind_B(v) \dd P_i(v)\\
+	&= \int f(O(\omega)) \cdot \ind_B(O(\omega)) \dd P(\omega)\\
+	&= \int f(O) \cdot \ind_{O \in B} \dd P\\
+	&= \int_{O \in B} f(O) \dd P
+	\end{align*}
+	and we then conclude, finally, that for all $B \in \E$
+	
+	\[\int_{O \in B} f(O) \dd P = \int_{O \in B} X \dd P.\]
+	
+	Comparing with \eqref{def2}, we conclude $f$ is precisely the $\tilde X$ we were looking for, completing the proof of existence.
+	
+	We proceed to prove uniqueness.
+	
+	Let $\tilde X$ and $\hat X$ be two functions satisfying \eqref{def2}. We will show they are equal a.e.
+	
+	We know $\int_B \tilde X \dd P_i = \int_B \hat X \dd P_i$ for all $B \in \E$, which, by standard arguments, means $P_i(\tilde X \neq \hat X) = 0$. That is, $\tilde X = \hat X$ a.e. on $(V, \E, P_i)$. Furthermore, $P(\tilde X(O) \neq \hat X(O)) = 0$, that is, the estimate given by $\tilde X$ will almost always be the same as given by $\hat X$. 
+	
+	\section{Uniqueness}
+	
+	We have already shown that, under fixed observed data $O$, there is one and only one estimate for a random variable $X$, modulo a null set. We will now investigate what happens when there is more than one data point being observed.
+	
+	Let $O'$ be another random variable, also representing observed data, taking values in the measure space $(V', \E')$. We will say $O'$ is \emph{recoverable from $O$} if there is a measurable function $F$ such that $O' = F(O)$ almost surely. In other words, $O$ contains enough info to recover $O'$. This should imply that estimates built from $O$ are, in a sense, stronger than those built from $O'$.
+	
+	Consider the following diagram.
+	
+	\begin{center}
+	\begin{tikzcd}[column sep = 4em, row sep = 4em]
+\Omega \arrow[r, "O"] \arrow[rr, "O'", bend left] \arrow[rd, "X" description] & V \arrow[r, "F"] \arrow[d, "Y" description] & V' \arrow[ld, "Y'" description] \\
+                                                                  & \R                                      &                        
+	\end{tikzcd}
+	\end{center}
+	
+	In this diagram, $Y(O)$ represents the estimate of $X$ using data $O$, and $Y'(O')$ the estimate using data $O'$.
+	
+	We assert the following: consider the r.v. $Z = Y(O)$. It is the result of estimating $X$. This estimate can be itself estimated by using the information $O'$, to yield a r.v $\tilde Z(O')$. That is, we are using weaker information to estimate what we would estimate if we had stronger information.
+	
+	This turns out to yield the same result as estimating $X$ directly. That is:
+	
+	\[\tilde Z(O') = Y'(O') \text{ a.s.}\]
+	
+	Intuitively, to estimate an estimate of $X$ is to estimate $X$.
+	
+	The proof is not particularly difficult. Indeed, all we need to show is that $\tilde Z$ satisfies the condition defining $Y'$.
+	
+	Fix some $B' \in \E'$. Let us calculate $\int_{O' \in B'} \tilde Z(O') \dd P$.
+	
+	\begin{align*}
+	\int_{O' \in B'} \tilde Z(O') \dd P &= \int_{O' \in B'} Z \dd P\\
+	&= \int_{F(O) \in B'} Y(O) \dd P\\
+	&= \int_{O \in F^{-1}(B')} Y(O) \dd P\\
+	&= \int_{O \in F^{-1}(B')} X \dd P\\
+	&= \int_{O' \in B'} X \dd P
+	\end{align*}
+	
+	This concludes the proof.
+	
+	An active ingredient in this proof is something that is of theoretical use. Consider an r.v. $X$ and some observed data $O$. The function $\tilde X$ allows us to estimate $X$ from $O$, but for theoretical purposes it is useful for us to inspect the r.v. $\tilde X(O)$; that is, the r.v. `the result of estimating $X$'. This r.v. corresponds to the usual definition of conditioning over a variable, and we denote it $E[X \mid O]$. What we have just shown is a part of the tower law: if $O'$ is recoverable from $O$, then $E[ E[X \mid O] \mid O'] = E[X \mid O']$.
+	
+	The r.v. $E[X \mid O]$ actually turns out to be a particular case of the definition given in \eqref{def2}. Fixed $O$, consider the $\sigma$-algebra on $\Omega$ generated by $O$, that is, sets of the form $\{O \in B\}$ for $B \in \E$. Call it $\N$. Since $O$ is measurable, $\N \subseteq \M$.
+	
+	Consider the identity function $\id$ from the measure space $(\Omega, \M)$ to $(\Omega, \N)$. It is certainly measurable, and so we can apply our procedure to get an estimate for $X$ from $\id$. This nets us a random variable $\hat X$ that is $\N$-measurable (as is $E[X \mid O]$) and satisfies, for all $B \in \N$,
+	
+	\[\int_B \hat X \dd P = \int_B X \dd P.\]
+	
+	Note that $E[X \mid O]$ does as well, as
+	
+	\begin{align*}
+	\int_B E[X \mid O] \dd P &= \int_{O \in B'} \tilde X(O) \dd P\\
+	&= \int_{O \in B'} X \dd P\\
+	&= \int_B X \dd P,
+	\end{align*}
+	where $B'$ is the set such that $B = \{O \in B'}$ (exists by definition of $\N$) and $\tilde X$ is the estimate for $X$ obtained from $O$.
+	
+	Hence, by uniqueness of $\hat X$, it must be equal to $E[X \mid O]$ a.e.
+	
+	\section{Full generality}
+	
+	We will now show briefly that this point of view is no weaker than the usual one, in that the usual definition of conditional expectation is a particular case of this one. The main idea was already introduced, but we will make use of it again.
+	
+	Fix a $\sigma$-algebra $\N \subseteq \M$. Consider the identity function $\id$ from the measure space $(\Omega, \M)$ to $(\Omega, \N)$. The definition we have given of $E[X \mid \id]$ corresponds exactly with that of $E[X \mid \N]$. This shows that there is no loss in making use of this machinery.
+
+\end{document}
