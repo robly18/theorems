@@ -81,7 +81,7 @@
 	
 	And this last function is zero almost everywhere, which means the integral equals zero.
 	
-	Hence, by Radon-Nikodym, \textbf{under the assumption that $\mu$ is finite}, that is, $X$ has finite first moment, there exists some function $f : V \to \R$ such that, for all $B \in \E$,
+	Hence, by Radon-Nikodym, \textbf{under the assumption that $\nu$ is finite}, that is, $X$ has finite first moment, there exists some function $f : V \to \R$ such that, for all $B \in \E$,
 	
 	\[\int_B f \dd P_i = \int_{O \in B} X \dd P.\]
 	
@@ -90,12 +90,7 @@
 	\[\int g \dd P_i = \int g(O) \dd P,\]
 	and therefore
 	
-	\begin{align*}
-	\int_B f \dd P_i &= \int f(v) \cdot \ind_B(v) \dd P_i(v)\\
-	&= \int f(O(\omega)) \cdot \ind_B(O(\omega)) \dd P(\omega)\\
-	&= \int f(O) \cdot \ind_{O \in B} \dd P\\
-	&= \int_{O \in B} f(O) \dd P
-	\end{align*}
+	\[\int_B f \dd P_i = \int_{O \in B} f(O) \dd P\]
 	and we then conclude, finally, that for all $B \in \E$
 	
 	\[\int_{O \in B} f(O) \dd P = \int_{O \in B} X \dd P.\]
@@ -147,7 +142,7 @@
 	
 	This concludes the proof.
 	
-	An active ingredient in this proof is something that is of theoretical use. Consider an r.v. $X$ and some observed data $O$. The function $\tilde X$ allows us to estimate $X$ from $O$, but for theoretical purposes it is useful for us to inspect the r.v. $\tilde X(O)$; that is, the r.v. `the result of estimating $X$'. This r.v. corresponds to the usual definition of conditioning over a variable, and we denote it $E[X \mid O]$. What we have just shown is a part of the tower law: if $O'$ is recoverable from $O$, then $E[ E[X \mid O] \mid O'] = E[X \mid O']$.
+	An active ingredient in this proof is that which we refer to as the conditional expectation. Consider an r.v. $X$ and some observed data $O$. The function $\tilde X$ allows us to estimate $X$ from $O$, but for theoretical purposes it is useful for us to inspect the r.v. $\tilde X(O)$; that is, the r.v. `the result of estimating $X$'. This r.v. corresponds to the usual definition of conditioning over a variable, and we denote it $E[X \mid O]$. What we have just shown is a part of the tower law: if $O'$ is recoverable from $O$, then $E[ E[X \mid O] \mid O'] = E[X \mid O']$.
 	
 	We note that the other rest of the tower law is a triviality: Indeed, suppose we wish to estimate $E[X \mid O']$ using the data $O$. Well, if we know data $O$, then we can also recover $O'$, and so find exactly $E[X \mid O']$.
 	
@@ -177,12 +172,12 @@
 	\begin{proof}
 	Clearly, if $X = T(O)$ then $\{X \in B\} = \{O \in T^{-1}(B)\}$, which shows the right-implication.
 	
-	The left implication is slightly tricker, but doable through usual truncation methods. Indeed, split $X$ into its positive and negative parts, truncate it as in the construction of the Lebesgue integral, and take the limit. The only thing we need to show is that these truncations are a function of $O$. But if $X_n$ is such a truncation, $X_n = \sum v_i \ind_{v_i \leq X < v_{i+1}}$, where $v_i$ ranges over the values $X_n$ may take. However, $\{X \in \left[v_i, v_{i+1}\right]\}$ is, by hypothesis, of the form $\{O \in B_i\}$, and so $X_n = \sum v_i \ind_{B_i}(O)$, which is a function of $O$. Taking the limit in $n$, we get $X$ is a function of $O$, as desired.
+	The left implication is slightly tricker, but doable through usual truncation methods. Indeed, split $X$ into its positive and negative parts, truncate it as in the construction of the Lebesgue integral, and take the limit. The only thing we need to show is that these truncations are a function of $O$. But if $X_n$ is such a truncation, $X_n = \sum v_i \ind_{v_i \leq X < v_{i+1}}$, where $v_i$ ranges over the values $X_n$ may take. However, $\{X \in \left[v_i, v_{i+1}\right[\}$ is, by hypothesis, of the form $\{O \in B_i\}$, and so $X_n = \sum v_i \ind_{B_i}(O)$, which is a function of $O$. Taking the limit in $n$, we get $X$ is a function of $O$, as desired.
 	\end{proof}
 	
 	We conclude this section with a trivial but useful remark.
 	
-	Suppose $O$ and $O'$ are two pieces of partial information, each deducible from the other. Then, it stands to reason that estimating $X$ from one is the same as estimating it from the other. This is an easy consequence of the tower law, as
+	Suppose $O$ and $O'$ are two pieces of partial information, each deducible from the other. That is, they both hold the same information. Then, it stands to reason that estimating $X$ from one is the same as estimating it from the other. This is an easy consequence of the tower law, as
 	
 	\[ E[X \mid O] = E[E[X \mid O] \mid O'] = E[X \mid O'].\]
 	
