@@ -98,20 +98,20 @@ This function grows asymptotically like $t^s$. More concretely, it can be bound 
 The first of these bounds is sharp; the second is not. Indeed, we show that the problem of finding better bounds for \eqref{hbineq2} can be partially reduced to finding better bounds of the form $g_{bs}(t) \leq T t^s$. This leads us directly to our first main result:
 
 \begin{theorem}
-If $g_{bs}(t) \leq T t^s$, the following inequality is true:
+If $T$ is such that $g_{bs}(t) \leq T t^s$, the following inequality is true:
 
 \[\BB_{bs}(E) \leq 2^{1-s} T \HH_s(E).\]
 
 In particular,
 
 \[\BB_{bs}(E) \leq 2^{1-s} \Theta \HH_s(E),\]
-where $\Theta$ is the smallest $T$ in these conditions.
+where $\Theta$ is the smallest $T$ satisfying the hypothesis.
 \end{theorem}
 
 In the other direction, in an attempt to investigate the sharpness of these estimates, we attempt to construct a set with as big a discrepancy between Hausdorff and $b$-ary measure as possible, again using the tools of $b$-ary digit expansions.
 
 \begin{theorem}\label{clowerbound}
-For each $b$ and $s$, we there exists a set $E$ satisfying
+For each $b$ and $s$, there exists an $s$-set $E$ satisfying
 
 \[\BB_{bs}(E) \geq 2^{1-s} \gamma^{-s} \HH_s(E)\]
 where $\gamma$ is the smallest number whose $b$-ary digit expansion, when interpreted in base $b^s$, equals one.
@@ -134,7 +134,7 @@ We conclude with an application of this result.
 Consider inequality \eqref{hbineq2}. \emph{A priori}, it seems to suggest that, as $b$ increases, the $b$-ary measures become increasingly worse estimates for the Hausdorff measure. This intuition is wrong, however, as evidenced by the following theorem, which shows that, for $s = 1/2$, the 5-ary measure is actually a \emph{better} estimate than the 4-ary measure.
 
 \begin{theorem}
-Fix $s = 1/2$. If $C$ is the optimal constant defined above, we have
+Let $s = 1/2$. If $C$ is the optimal constant defined above, we have
 
 \[C_{b = 5} < C_{b = 4}.\]
 \end{theorem}
@@ -146,7 +146,26 @@ which, upon application of theorem \ref{cbounds}, shows the desired result.
 
 \section{Net measures}
 
-[todo: define hausdorff measure]
+We begin by recalling the definition of Hausdorff measure and Hausdorff dimension.
+
+Let $X$ be a metric space, with distance $d$. If $E \subseteq X$, we denote the diameter of $E$ by $\lvert E \rvert = \sup_{x, y \in E} d(x,y)$.
+
+Given $E \subseteq X$, a \emph{$\delta$-covering} of $E$ is a countable collection of sets $\{U_n\}$ whose union contains $E$ and such that the diameter of any $U_n$ is such that $0 < \lvert U_n \rvert \leq \delta$.
+
+For every set $E \subseteq X$ and $\delta > 0$, define
+\begin{equation}\label{hausdorffdeltadef}
+\HH_s^\delta(E) = \inf \sum \lvert U_n \rvert^s
+\end{equation}
+where the infimum is taken over all $\delta$-coverings of $E$. When $s$ is fixed, given a covering $\{U_n\}$ of $E$, we refer to the quantity $\sum \lvert U_n \rvert^s$ as the covering's \emph{Hausdorff sum}.
+
+Finally, define the Hausdorff measure of $E$ as
+\begin{equation}\label{hausdorffdef}
+\HH_s(E) = \lim_{\delta \to 0} \HH_s^\delta(E).
+\end{equation}
+
+Given a set $E$, the quantity $\HH_s(E)$ varies with $s$ in the following way: there exists an $s$ such that, for all $t > s$, $\HH_t(E) = 0$, and for all $t < s$, $\HH_t(E) = \infty$. This $s$ is what we refer to as the \emph{Hausdorff dimension of $E$.}
+
+\smallskip
 
 Hausdorff measure, and by extension Hausdorff dimension, is often very difficult to compute precisely since its definition requires one to look at all possible $\delta$-coverings. As such, there is interest in finding definitions that would allow simpler methods of computing, or at least estimating, these quantities.   
 
@@ -181,7 +200,7 @@ Of course, this is of no consequence for dimensional considerations. However, th
 
 \subsection{Hausdorff Coverings}
 
-Notice that any monotone operation (that is, $f(E) \supseteq E$) that can be done on a set without increasing its diameter can be assumed without loss of generality.
+Notice that any monotone operation (that is, $f(E) \supseteq E$) that can be done on a set without increasing its diameter, or that can be parametrized as to increase it by arbitrarily small $\varepsilon$, can be assumed without loss of generality.
 
 In the particular case of $\R$, we can assume that the sets we are using for coverings are intervals. Sometimes we will additionally assume that these intervals are closed, and sometimes we will instead assume them to be open. In any case, these hypotheses harm in no way the generality of the results obtained.
 
@@ -207,7 +226,7 @@ At most three intervals of the form $\left[ k 2^{j_i}, (k + 1) 2^{j_i} \right[$ 
 Which concludes our proof.
 \end{proof}
 
-This bound, while twice as sharp as the one mentioned in equation \eqref{badboundeq}, can still be significantly improved. The proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a dyadic $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound on $\frac \BB \HH$ we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by dyadic intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these dyadic intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
+This bound, while twice as sharp as the one mentioned in equation \eqref{badboundeq}, can still be significantly improved. This proof, however, touches on what will be our main tool to try to control the bound. The idea is to find a way to replace any $\delta$-covering with a dyadic $\delta$-covering such that, if the first covering has Hausdorff sum $A$, the latter has Hausdorff sum at most $CA$, where $C$ is the bound on $\frac \BB \HH$ we desire to prove. Taking this a step further, we can focus merely on finding a way to, given an interval of length $\ell$, covering it by dyadic intervals of lengths $m_i$ such that $\sum m_i^s \leq C \ell^s$. One might have concerns about making sure that these dyadic intervals still form a $\delta$-covering, but that is not an issue, as we will see in the following lemma:
 
 \begin{lemma}
 Fix a dimension $s \in \R^+$ and suppose $C \in \R^+$ is such that, for any interval $I$ of length $\ell$, we can find a countable dyadic covering of $I$ by intervals $\{J_i\}$ of lengths $m_i$ such that
@@ -251,32 +270,28 @@ In particular, one can easily show the premise is true for $C = b+1$, whence one
 \[\HH_s \leq \BB_{bs} \leq (b+1) \HH_s.\]
 \end{lemma}
 
-As mentioned in the introduction, it appears that, the bigger $b$ is (that is, the more pieces we divide our intervals in as $j$ decreases) the bigger the difference between $\HH_s$ and $\BB_{bs}$. This makes sense, since as $b$ increases there is less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
+As mentioned in the introduction, it appears that, the bigger $b$ is (that is, the more pieces we divide our intervals in as $j$ decreases) the bigger the difference between $\HH_s$ and $\BB_{bs}$. This makes sense: as $b$ increases there is less we can discern because since there is a larger discrepancy between the size of one layer and the next we lose the ability to gauge more precisely the intermediate sizes.
 
-This intuition proves to be partially correct. Indeed, if $b$ and $c$ such that $c$ is a power of $b$, it is easy to check that any $b$-ary interval is also a $c$-ary interval, which implies the inequality $\BB_{bs} \leq \BB_{cs}$. This argument, however, is not generalizable.
+This intuition proves to be partially correct. Indeed, if $b < c$ are both powers of a common integer, it is easy to check that any $b$-ary interval is also a $c$-ary interval, which implies the inequality $\BB_{bs} \leq \BB_{cs}$. This argument, however, is not generalizable.
 
-It would be nice to have a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. One might bodly venture that the $b$-ary measures are, in a sense, monotone as a function of $b$, but this turns out not to be the case, we we show at the end of this article. In other words, the following statement is \textbf{false}:
-
-\begin{equation}\label{falseconjecture}
-\text{If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.}
-\end{equation}
+It would be nice to have a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. One might conjecture that the $b$-ary measures are, in a sense, monotone as a function of $b$, but this turns out not to be the case, we we show at the end of this article. In other words, the following statement is \textbf{false}: If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.
 
 \section{Minimal interval coverings}\label{sec5}
 
 We focus now on the following problem: given a dimension $s$ and an interval $I$, find a $b$-ary covering of $I$ with as small a Hausdorff sum as possible. We assume without loss of generality $I$ to be of the form $\left[ a, b \right[$ with $a < b$.
 
-We want to determine the smallest $C$ such that for any interval of length $\ell$ we can find a dyadic covering with Hausdorff sum less than or equal to $C \ell^s$. This can be written as
+We want to determine the infimum possible $C$ such that for any interval of length $\ell$ we can find a $b$-ary covering with Hausdorff sum less than or equal to $C \ell^s$. This can be written as
 \begin{equation}\label{defc}
 C = \sup \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}
 \end{equation}
 where the supremum is taken over the half-open nonempty intervals $I$ and the usage of $\delta = \infty$ is intended to imply that any $b$-ary covering is admissible.
 
-Notice, now, that an interval is uniquely determined by its length and its position. We can, then, write \eqref{defc} as
+Notice, now, that an interval is uniquely determined by its length and its position. We can then write \eqref{defc} as
 \[\sup_\ell \sup_\text{$I$ of length $\ell$} \frac{\BB_{bs}^\infty(I)}{\ell^s},\]
 which is the same as
 \[\sup_\ell \frac{\sup_I \BB_{bs}^\infty(I)}{\ell^s}.\]
 
-We investigate, then, $\sup \BB_{bs}^\infty(I)$, where the supremum is taken over intervals of a fixed length $\ell$.
+Hence, we investigate $\sup \BB_{bs}^\infty(I)$, where the supremum is taken over intervals of a fixed length $\ell$.
 
 We will now show that we can assume, in addition, that our interval contains the origin. To this effect, given any interval $I$ we will construct an interval $I'$ of same length containing the origin, such that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
 
@@ -288,9 +303,7 @@ Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
 \item \textbf{There exists $k$ such that $k b^{j+1} \in I$.}
 
-In this case, let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Two easy observations are in order.
-
-First, notice that
+In this case, let $I'$ be the interval given by translating $I$ by $-k b^{j+1}$. Then, it is clear that
 \[\BB_{bs}^\infty(I') = \BB_{bs}^{b^{j+1}}(I'),\]
 because any covering of $I'$ using an interval of size greater than $b^{j+1}$ can be `improved' by replacing it with a smaller interval. Furthermore, we have
 \begin{equation}\label{transinvariance}
@@ -610,7 +623,7 @@ d_{i-k} & \text{for $i \geq k$}\\
 \end{cases}
 \]
 
-Furthermore, we often use that same notation to refer to both extracting the digits from a number, as well as to interpret a sequence of digits. Hopefully, however, this should not cause any confusion.
+Furthermore, we often use that same notation to refer to both extracting the digits from a number, as well as to interpret a sequence of digits. This should not cause any confusion, however, as the operation being done is usually clear from context.
 \end{remark}
 
 We now propose an alternate definition of the function $g$.
@@ -625,26 +638,36 @@ Now, we claim the following:
 \begin{theorem} \label{ginfi}
 For all $t \geq 0$,
 
-\[g_{bs}(t) = \inf_{x \geq t} i_{bs}(t).\]
+\[g_{bs}(t) = \inf_{x \geq t} i_{bs}(x).\]
 \end{theorem}
 
 \begin{proof}
-Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$.
+Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$. Let $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
 
-We have already established $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. It is easy to notice that we can restrict $n$ to the set $\{\,n \in \N\mid d_n \neq b-1\,\}$, and therefore tto $s_n$ that are determined by their interpretation in base $b$. That is,
+We have already established $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
 
-\[g(t) = \inf_{n \mid d_n \neq b-1} i(t_n) \]
-where $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+We would like to argue that $s_n = i(t_n)$. Indeed, this is true under the condition that $d_n \neq b-1$, by almost-uniqueness of the $b$-ary expansion.
 
-This, then, shows $LHS \geq RHS$.
+Of course, we can restrict ourselves to those $n$ such that $d_n \neq b-1$. Indeed, if $n$ satisfies this condition, it is trivial to check that $s_{n-1} \leq s_n$.
 
-For the other inequality, fix any $x \geq t$. We already know that $i(t) \geq g(t)$, so we can assume $x > t$.
+As a consequence, we conclude
+\[g(t) = \inf_{n \mid d_n \neq b-1} i(t_n).\]
 
-We can, furthermore, assume $x < b^{k+1}$. Indeed, if $x \geq b^{k+1}$ we would have $i(x) \geq b^{(k+1)s}$, which is greater than $s_0 = b^{ks}$, and so any $x \geq b^{k+1}$ can be safely disregarded.
+This shows $LHS \geq RHS$, as for all $n$ we have $t_n \geq t$.
 
-We restrict our attention to $x$ between $t$ and $b^{k+1}$, then, and so we may assume $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$. We will now show we can restrict our attention to $x$ of the form $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+For the other inequality, we will show $i(x) \geq g(t)$ for all $x \geq t$.
 
-Fix such an arbitrary $x > t$. Let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_i \neq x_i$. Then, it must be the case that $d_n < x_n$, and in that case we simply point out that the number $t_n$ given by $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$ (whose $b$-ary expansion really is this one because it must be the case that $d_n + 1 \leq b-1$) satisfies $i(t_n) \leq i(x)$, which concludes our proof.
+Consider the following three cases:
+
+
+\begin{enumerate}[label=\textbf{Case \arabic*:}]
+
+\item $x = t$. We already know that $i(t) \geq g(t)$, so this case is done.
+
+\item $x \geq b^{k+1}$. In this case $i(x) \geq b^{(k+1)s} > b^{ks} = s_0 \geq g(t)$.
+
+\item $t < x < b^{k+1}$. Suppose $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$ and let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_n \neq x_n$. Then, $d_n < x_n$, and therefore every digit of $t_n$ is $\leq$ its corresponding digit in $x$. Therefore, $i(x) \geq i(t_n) \geq g(t)$.
+\end{enumerate}
 \end{proof}
 
 \section{$g$ as a function of $s$}
@@ -656,17 +679,17 @@ Fix arbitrary $t > 0$ and a base $b$. Define $h(s) = g_{bs}(t)$. Then, $h$ is a 
 \end{prop}
 
 \begin{proof}
-We begin by showing $h(s)$ is decreasing. Fix dimensions $s \leq s'$.
+We begin by showing $h(s)$ is decreasing.
 
-Notice that for any $t \in \left[0, 1 \right]$ the function $t^s$ is a decreasing function. We will show, based on this, that $i_{bs}(t)$ is decreasing (as a function of $s$), and this clearly shows, since $g_{bs}(t) = \inf_{x \geq t} i_{bs}(t)$, that $g$ is decreasing as a function of $s$.
+Notice that for any $t \in \left[0, 1 \right]$ the function $t^s$ is a decreasing function. Therefore, for any $t \in \left[0, 1\right]$ we have $i_{bs}(t) = \sum d_i b^{-si} = \sum d_i (b^{-i})^s$, which is decreasing as a function of $s$.
 
-But this is a triviality, because if $t \in \left[0, 1\right]$ then it can be expressible with a $b$-ary expansion of the sort $d_0 . d_1 d_2 \dots$, and so $i_{bs}(t) = \sum d_i b^{-si}$, a sum of functions of the form $c t^s$ with $t < 1$. Each of these is decreasing, and so their sum is too, which concludes the first half of the proof.
+Since $g_{bs}(t) = \inf_{x \geq t} i_{bs}(x)$, we can without loss of generality suppose $x \leq 1$, and then each of these terms is decreasing with $s$, the value of $g_{bs}(t)$ must also be decreasing with $s$, which completes the first part of the proof.
 
 For the second half, we recall that $g$ can be defined as
 \[g(t) = \inf s_n(t),\]
 where, if we let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, $s_n(t)$ is defined as $b^{ks} \times d_0 . d_1 \cdots d_{n-1} (d_n + 1)$.
 
-To show $g_{bs}(t)$ is a continuous function of $s$, it is not quite enough to show all $s_n(t)$ are continuous functions of $s$. It is, however, enough to show they are all Lipschitz with respect to a fixed constant $c$.
+To show $g_{bs}(t)$ is a continuous function of $s$, it is not quite enough to show all $s_n(t)$ are continuous functions of $s$. It is, however, sufficient to show they are all Lipschitz with respect to a fixed constant $c$.
 
 Indeed, notice that for any $n$ and $t$ the function $s_n(t)$ (of $s$) is a finite sum of terms of the form $\sum k_i b^{-is}$.  We can, then, take the derivative with respect to $s$, getting derivatives of the form $\sum - i k_i \log b \cdot b^{-is}$. Since all $k_i$ are $\leq b$, this sum is, in absolute value, less than $b \log b \sum i b^{-is}$, which converges to $\frac{b^{s+1} \log b}{(b^s + 1)^2}$ for $s > 0$.
 
@@ -709,18 +732,16 @@ Notice that the function being optimized is a quotient of two increasing functio
 
 \section{Optimization of increasing function quotients} \label{optimization}
 
-Suppose that we have fixed an interval $I = \left[ a, b \right]$ and two increasing functions $I \to \R^+$, call then $u$ and $v$. We focus on approximating the solution to the optimization problem
+Suppose that we have fixed an interval $I = \left[ a, b \right]$ and two continuous increasing functions $I \to \R^+$, call then $u$ and $v$. We focus on approximating the solution to the optimization problem
 
 \[ \max_{t \in I} \frac{u(t)}{v(t)}.\]
 
 Denote this maximum by $S$.
 
 Fix a partition $P$ given by $a = t_0 < t_1 < \cdots < t_n = b$ of $I$. For $i = 0, 1, \cdots, n-1$ define $M_i = \frac{u(t_{i+1})}{v(t_i)}$ and $m_i = \frac{u(t_i)}{v(t_{i+1})}$. Clearly, $M_i$ and $m_i$ are upper and lower bounds, respectively, of $u/v$ in the interval $\left[t_i, t_{i+1} \right]$. As such, if we put $M(P) = \max M_i$ and $m(P) = \max m_i$, we have the inequality
-%meanwhile i realized the choice for m_i is dumb. should i mention that?
-%would be more efficient to just do u(t_i)/v(t_i), as thats a lower bound of the max, and a slightly tighter one at that
 \[m(P) \leq S \leq M(P).\]
 
-Of course, as is usual with this type of argument, refining the partition will get us sharper bounds. Indeed, if $P_n$ is a sequence of partitions whose diameter converges to zero, $M(P_n) - m(P_n) \to 0$, and so each of these sequences will converge to $S$. This concludes this section on this kind of optimization problem.
+Of course, as is usual with this type of argument, refining the partition will get us sharper bounds. Indeed, if $P_n$ is a sequence of partitions whose diameter converges to zero, $M(P_n) - m(P_n) \to 0$ by uniform continuity, and so each of these sequences will converge to $S$. This concludes this section on this kind of optimization problem.
 
 \section{On the continuity of $K$}
 
