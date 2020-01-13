@@ -69,115 +69,52 @@
 	
 	\subsection{Noções básicas (Preliminar)}
 	
-	Esta subsecção tem o sufixo `Preliminar' porque não é final. Isto é, algumas das definições e demonstrações aqui dadas não correspondem às definições que serão usadas no resto do livro. No entanto, as definições `refinadas' poderão ser um pouco confusas e mal motivadas quando vistas pela primeira vez, pelo que aqui nos focamos em dar uma ideia intuitiva e `em bruto' das noções em jogo.
+	Esta subsecção tem o sufixo `Preliminar' porque não é final. Isto é, o propósito desta subsecção é apenas dar intuição para o significado das coisas, antes de avançar para as definições secas e rigorosas.
 	
 	\bigskip
 	
-	De modo a conseguirmos raciocinar sobre afirmações, precisamos de saber o que é uma fórmula. Intuitivamente, uma fórmula é uma sequência de variáveis, operadores e parênteses. Por exemplo, a expressão $(a \land b) \lor \neg (b \lor \neg c)$ é um exemplo de uma fórmula.
+	Começamos por introduzir a noção de fórmula. Para os nossos propósitos, uma fórmula é uma expressão composta por variáveis, operadores lógicos, e parênteses. Por exemplo, a expressão $(a \land b) \lor \neg (b \lor \neg c)$ é um exemplo de uma fórmula. Fórmulas são normalmente denotadas por letras gregas minúsculas, e.g. `A fórmula $\varphi$'.
 	
-	Claro que esta `definição' deixa muito a desejar. Apresentamos agora uma definição mais rigorosa.
+	As variáveis (neste caso, $a$, $b$ e $c$) podem tomar os valores de verdade `verdadeiro' e `falso', que aqui denotamos por $\lt$ e $\lf$.
 	
-	Fixe-se, primeiro, um conjunto, que usaremos em tudo o que se segue, chamado o conjunto das variáveis. Isto é apenas um conjunto infinito contável\footnote{Algo estranhamente, a cardinalidade exata deste conjunto é relevante. Bastantes argumentos que faremos de futuro necessitam explicitamente da contabilidade de $X$!} de símbolos $X$. Normalmente usamos variáveis como $x$, $y$, $p$, $q$, e permitimos a modificação de símbolos como a adição de apóstrofos ou asteriscos. Os símbolos $c$, $c'$, $c^*$ são considerados distintos. Usaremos a convenção que variáveis serão representadas por letras romanas minúsculas.
+	Existem diversos operadores lógicos conhecidos, mas no que se segue usaremos os operadores existentes no Python: $\pnot$, $\pand$ e $\por$. O leitor já deverá estar familiar com o comportamento destes, mas para evitar qualquer confusão, apresentamos as respetivas tabelas de verdade.
 	
-	\begin{obs}
-	Há a necessidade de distinguir uma variável de uma `meta-variável'. Isto é: se falamos na variável $x$, poderá ser ambíguo se nos referimos ao elemento $x \in X$ ou se a letra $x$ é uma incógnita que pode significar uma variável arbitrária.
+	\[
+	\begin{array}{|c|c||c|c|c|}
+	\hline
+	a & b & \pnot a & a \pand b & a \por b\\
+	\hline
+	\lt & \lt & \lf & \lt & \lt\\
+	\lf & \lt & \lt & \lf & \lt\\
+	\lt & \lf &     & \lf & \lt\\
+	\lf & \lf &     & \lf & \lf\\
+	\hline
+	\end{array}
+	\]
 	
-	Para evitar esta ambíguidade, representamos meta-variáveis a negrito: $\bf{x}$. Ou seja: $x$ é o elemento de $X$, enquanto que $\bf x$ é uma incógnita que pode ser substituída por qualquer variável: $x$, $y$, $z$, \dots
-	\end{obs}
+	Dada uma fórmula $\varphi$, podemos tentar `interpretá-la'. Isto é, se atribuirmos valores de verdade às variáveis podemos `substituir esses valores na fórmula' e avaliá-la.
 	
-	Há quem defina, agora, fórmulas como sequências de símbolos. Isto parece ser uma definição intuitiva, visto que é assim que representamos fórmulas: sequências de caracteres. No entanto, visto que no futuro teremos que escrever programas que lêm e interpretam estas fórmulas, é mais conveniente definirmos fórmulas pelas respetivas árvores semânticas.
+	A título de exemplo, consideremos a fórmula $\varphi$ descrita acima.
+	\[\varphi : (a \land b) \lor \neg (b \lor \neg c).\]
 	
-	Para esclarecer o que se entende por isto, considere-se a expressão $a \lor b$. Isto consiste de um operador (o operador `ou') aplicado a duas variáveis. Podemos representar isto como uma árvore na seguinte forma:
-	
-	\begin{center}
-	\Tree [.\texttt{or} $a$ $b$ ]
-	\end{center}
-	
-	Podemos, no entanto, considerar expressões mais complexas. Por exemplo, considere-se a expressão $(a \land b) \lor \neg (b \lor \neg c)$. Interpretada como uma árvore, esta expressão fica
-	
-	\begin{center}
-	\Tree [.\texttt{or} [.\texttt{and} $a$ $b$ ] [.\texttt{not} [.\texttt{or} $b$ [.\texttt{not} $c$ ] ] ] ]
-	\end{center}
-	
-	Para os nossos propósitos, é mais fácil manipular àrvores do que sequências de caracteres.
-	
-	Estamos agora prontos para dar uma definição preliminar de fórmula.
-	
-	\begin{definicao*}
-	\textbf{Nota: Esta não é a definição final e está aqui para o propósito de motivar o que se segue.} Um leitor que queira ver a definição final poderá saltar para a página \pageref{def:formulaproposicional}
-	
-	Definimos o conjunto das fórmulas booleanas $\F_b$ (sobre o conjunto $X$, que deixamos implícito) indutivamente.
-	
-	Qualquer variável $\bf x$ é uma fórmula.
-	
-	Se $\alpha$ e $\beta$ são fórmulas, todos os seguintes são fórmulas:
-	
-	\begin{center}
-	\Tree [.\texttt{not} $\alpha$ ]
-	\hspace{3em}
-	\Tree [.\texttt{and} $\alpha$ $\beta$ ]
-	\hspace{3em}
-	\Tree [.\texttt{or} $\alpha$ $\beta$ ]
-	\hspace{3em}
-	\scalebox{2}{$\dots$}
-	\end{center}
-	\end{definicao*}
-	
-	O leitor poderia adicionar mais operadores se assim o desejasse. Pelo momento, trabalharemos apenas com estes três.
-	
-	Apesar de, neste texto, definirmos fórmulas como árvores sintáticas, este formato não é prático para efeitos tipográficos. Assim sendo, continuaremos a escrever fórmulas de forma linear, tendo sempre em mente que as nossas sequências de caracteres representam uma árvore sintática.
-	
-	Fórmulas são normalmente denotadas por letras gregas minúsculas.
-	
-	\bigskip
-	
-	Há vários conceitos naturais que gostaríamos de definir relacionados com fórmulas, o primeiro dos quais será, dada uma fórmula $\varphi$, \emph{o conjunto das variáveis em $\varphi$}. Denotamos isto por $\var \varphi$, e usamos este conceito para exemplificar a noção de \emph{definição indutiva}.
-	
-	De facto, visto que definimos as fórmulas de forma indutiva, muitas das definições e demonstrações que se seguem vão tomar a forma:
-	
-	\begin{itemize}
-	\item Provar/definir algo para as fórmulas base ($\bf x$);
-	
-	\item Tendo este algo definido/provado para um par de fórmulas $\alpha$ e $\beta$, defini-lo/prová-lo para $\neg \alpha$, $\alpha \land \beta$ e $\alpha \lor \beta$.
-	\end{itemize}
-	
-	No caso da noção $\var \varphi$, definimos simplesmente:
-	
+	Suponha-se que establecemos $a = \lt$ e $b = c = \lf$. Então, substituindo na fórmula (e escrevendo os operadores \textit{a la} Python), ficamos com
 	\begin{gather*}
-	\var \bf x = \{\bf x\}\\
-	\var \neg \alpha = \var \alpha\\
-	\var (\alpha \land \beta) = \var (\alpha \lor \beta) = \var \alpha \cup \var \beta
+	(\lt \pand \lf) \por \pnot (\lf \por \pnot \lf)\\
+	\lf \por \pnot (\lf \por \lt)\\
+	\lf \por \pnot \lt\\
+	\lf \por \lf\\
+	\lf.
 	\end{gather*}
 	
-	Dada uma fórmula $\varphi$ com variáveis $a$, $b$, $c$, \dots, queremos, dada uma associação entre as variáveis e valores de verdade, `interpretar a fórmula $\varphi$'. Isto corresponde a substituir cada variável pelo seu valor de verdade, seguido de `fazer as contas'.
+	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
 	
-	Para tornar esta noção mais rigorosa, é primeiro necessário formalizar a noção de `associar valores de verdade a variáveis'.
+	Existe uma classe de fórmulas que tem particular interesse, que são as chamadas tautologias.
 	
-	Uma valoração é uma função $\rho : X \to \{\lt, \lf\}$, onde $\lt$ e $\lf$ são símbolos que representam os valores de verdade `verdadeiro' e `falso'. Ou seja, $\rho$ associa a cada $\bf x \in X$ um valor de verdade $\rho(\bf x)$.
+	Uma fórmula $\varphi$ diz-se uma tautologia se para qualquer valoração $\rho$ temos $\rho(\varphi) = \lt$. Isto é, $\rho$ é sempre verdadeira.
 	
-	Existem operações que podem ser feitas a valores de verdade. Usemos o exemplo dos operadores na linguagem Python: $\pnot$, $\pand$ e $\por$. Estes são funções que pegam em um ou dois valores de verdade e devolvem outro valor de verdade. Mais concretamente:
+	Parte do objetivo deste capítulo é caracterizar as tautologias, de modo a podermos indentificá-las em tempo finito. Claro que, no caso de lógica proposicional, isto já está feito: dada uma fórmula $\varphi$, para determinar se esta é uma tautologia, basta listar todas as valorações possíveis nas variáveis de $\varphi$ (há aqui um detalhe escondido, mas já voltamos a ele) e fazer as contas para todas elas. Se todas elas derem $\lt$, então $\varphi$ é uma tautologia. Caso contrário, não é!
 	
-	\begin{itemize}
-	\item $\pnot \lt = \lf$; $\pnot \lf = \lt$;
-	
-	\item $x \pand y$ é $\lt$ se $x = y = \lt$; caso contrário é $\lf$.
-	
-	\item $x \por y$ é $\lf$ se $x = y = \lf$; caso contrário é $\lt$.
-	\end{itemize}
-	
-	Fixos uma fórmula $\varphi$ e uma valoração $\rho$, definimos a interpretação de $\varphi$ por $\rho$ da seguinte forma:
-	
-	\begin{itemize}
-	\item Se $\varphi$ é uma fórmula do tipo $\bf x$, $\rho(\varphi)$ já está definido (como $\rho(\bf x)$).
-	
-	\item Se $\varphi$ é da forma $\neg \alpha$, $\alpha \land \beta$ ou $\alpha \lor \beta$, $\rho(\varphi)$ é definido como $\pnot \rho(\alpha)$, $\rho(\alpha) \pand \rho(\beta)$ e $\rho(\alpha) \por \rho(\beta)$, respetivamente.
-	\end{itemize}
-	
-	\pagebreak
-	
-	\begin{definicao}\label{def:formulaproposicional}
-	inserir def a serio
-	\end{definicao}
+	A razão pela qual procuramos outra forma de caracterizar estas fórmulas é porque eventualmente atacaremos o problema mais geral, onde as variáveis, em vez de serem só $\lt$ e $\lf$, podem ser elementos de um universo qualquer arbitrário: naturais, reais, grupos... Assim sendo, deixa de ser possível testar todos os casos possíveis. Como tal, passa a ser necessário um método `sintático', isto é, que manipule as afirmações sem as tentar interpretar. É daí que nasce a formalização de `demonstração', com fim a esclarecer a relação entre o que é verdade e o que é demonstrável.
 	
 	\subsection{Regras de dedução}
 	
