@@ -38,6 +38,16 @@
 
 \newcommand{\F}{\mathrm{F}}
 
+\newcommand{\lt}{\mathrm{T}}
+\newcommand{\lf}{\mathrm{F}}
+
+\DeclareMathOperator{\var}{Var}
+
+
+\DeclareMathOperator{\pnot}{\texttt{not}}
+\newcommand{\pand}{\mathbin{\texttt{and}}}
+\newcommand{\por}{\mathbin{\texttt{or}}}
+
 \begin{document}
 	\maketitle
 	\newpage
@@ -57,7 +67,11 @@
 	
 	Formalizaremos e estudaremos este sistema, usando-o como `caixa de areia' para nos preparar para a lógica de primeira ordem, que apesar de semelhante, é significativamente mais complexa.
 	
-	\subsection{Fórmulas (Preliminar)}
+	\subsection{Noções básicas (Preliminar)}
+	
+	Esta subsecção tem o sufixo `Preliminar' porque não é final. Isto é, algumas das definições e demonstrações aqui dadas não correspondem às definições que serão usadas no resto do livro. No entanto, as definições `refinadas' poderão ser um pouco confusas e mal motivadas quando vistas pela primeira vez, pelo que aqui nos focamos em dar uma ideia intuitiva e `em bruto' das noções em jogo.
+	
+	\bigskip
 	
 	De modo a conseguirmos raciocinar sobre afirmações, precisamos de saber o que é uma fórmula. Intuitivamente, uma fórmula é uma sequência de variáveis, operações e parênteses. Por exemplo, a expressão $(a \land b) \lor \neg (b \lor \neg c)$ é um exemplo de uma fórmula.
 	
@@ -113,7 +127,51 @@
 	
 	Apesar de, neste texto, definirmos fórmulas como árvores sintáticas, este formato não é prático para efeitos tipográficos. Assim sendo, continuaremos a escrever fórmulas de forma linear, tendo sempre em mente que as nossas sequências de caracteres representam uma árvore sintática.
 	
-	\subsection{Interpretação}
+	Fórmulas são normalmente denotadas por letras gregas minúsculas.
+	
+	\bigskip
+	
+	Há vários conceitos naturais que gostaríamos de definir relacionados com fórmulas, o primeiro dos quais será, dada uma fórmula $\varphi$, \emph{o conjunto das variáveis em $\varphi$}. Denotamos isto por $\var \varphi$, e usamos este conceito para exemplificar a noção de \emph{definição indutiva}.
+	
+	De facto, visto que definimos as fórmulas de forma indutiva, muitas das definições e demonstrações que se seguem vão tomar a forma:
+	
+	\begin{itemize}
+	\item Provar/definir algo para as fórmulas base ($\bf x$);
+	
+	\item Tendo este algo definido/provado para um par de fórmulas $\alpha$ e $\beta$, defini-lo/prová-lo para $\neg \alpha$, $\alpha \land \beta$ e $\alpha \lor \beta$.
+	\end{itemize}
+	
+	No caso da noção $\var \varphi$, definimos simplesmente:
+	
+	\begin{gather*}
+	\var \bf x = \{\bf x\}\\
+	\var \neg \alpha = \var \alpha\\
+	\var (\alpha \land \beta) = \var (\alpha \lor \beta) = \var \alpha \cup \var \beta
+	\end{gather*}
+	
+	Dada uma fórmula $\varphi$ com variáveis $a$, $b$, $c$, \dots, queremos, dada uma associação entre as variáveis e valores de verdade, `interpretar a fórmula $\varphi$'. Isto corresponde a substituir cada variável pelo seu valor de verdade, seguido de `fazer as contas'.
+	
+	Para tornar esta noção mais rigorosa, é primeiro necessário formalizar a noção de `associar valores de verdade a variáveis'.
+	
+	Uma valoração é uma função $\rho : X \to \{\lt, \lf\}$, onde $\lt$ e $\lf$ são símbolos que representam os valores de verdade `verdadeiro' e `falso'. Ou seja, $\rho$ associa a cada $\bf x \in X$ um valor de verdade $\rho(\bf x)$.
+	
+	Existem operações que podem ser feitas a valores de verdade. Usemos o exemplo dos operadores na linguagem Python: $\pnot$, $\pand$ e $\por$. Estes são funções que pegam em um ou dois valores de verdade e devolvem outro valor de verdade. Mais concretamente:
+	
+	\begin{itemize}
+	\item $\pnot \lt = \lf$; $\pnot \lf = \lt$;
+	
+	\item $x \pand y$ é $\lt$ se $x = y = \lt$; caso contrário é $\lf$.
+	
+	\item $x \por y$ é $\lf$ se $x = y = \lf$; caso contrário é $\lt$.
+	\end{itemize}
+	
+	Fixos uma fórmula $\varphi$ e uma valoração $\rho$, definimos a interpretação de $\varphi$ por $\rho$ da seguinte forma:
+	
+	\begin{itemize}
+	\item Se $\varphi$ é uma fórmula do tipo $\bf x$, $\rho(\varphi)$ já está definido (como $\rho(\bf x)$).
+	
+	\item Se $\varphi$ é da forma $\neg \alpha$, $\alpha \land \beta$ ou $\alpha \lor \beta$, $\rho(\varphi)$ é definido como $\pnot \rho(\alpha)$, $\rho(\alpha) \pand \rho(\beta)$ e $\rho(\alpha) \por \rho(\beta)$, respetivamente.
+	\end{itemize}
 	
 	\pagebreak
 	
