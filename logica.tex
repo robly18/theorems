@@ -22,6 +22,7 @@
 \date{}
 
 \newtheorem{prop}{Proposição}
+\newtheorem*{prop*}{Proposição}
 
 \theoremstyle{definition}
 \newtheorem{definicao}{Definição}
@@ -59,9 +60,7 @@
 	
 	\section{Semântica}
 	
-	A lógica proposicional é um sistema que nos permite expressar raciocínios sobre afirmações e relações entre elas.
-	
-	Mais concretamente, é um sistema no qual as variáveis representam afirmações, que tomam o valor `verdadeiro' e `falso', juntamente com um conjunto de operações lógicas com as quais o leitor já estará familiar, por exemplo o `ou' e o `não'.
+	A lógica proposicional é um sistema que nos permite expressar raciocínios sobre afirmações e relações entre elas. Mais concretamente, é um sistema no qual as variáveis representam afirmações, que tomam o valor `verdadeiro' e `falso', juntamente com um conjunto de operações lógicas com as quais o leitor já estará familiar, por exemplo o `ou' e o `não'.
 	
 	Não é preciso procurar muito para descobrir que este sistema tem interesse e aplicações práticas. Qualquer linguagem de programação em uso regular terá este sistema contido no seu funcionamento. Tome-se o exemplo da linguagem Python. Nesta linguagem, as variáveis podem ser do tipo \texttt{bool}. Uma variável deste tipo toma um de dois valores: \texttt{True} e \texttt{False}. Existem também os operadores \texttt{and}, \texttt{or} e \texttt{not}, que recebem valores booleanos e retornam valores booleanos. O uso de parênteses permite-nos agrupar expressões, de modo a formar expressões mais complexas. Por exemplo, \texttt{(a and b) or not (b or not c)} é uma expressão válida em Python (assumindo que as variáveis \texttt{a}, \texttt{b} e \texttt{c} estão definidas e são do tipo \texttt{bool}.)
 	
@@ -106,7 +105,7 @@
 	\lf.
 	\end{gather*}
 	
-	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
+	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Afirmamos que qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
 	
 	Existe uma classe de fórmulas que tem particular interesse, que são as chamadas tautologias.
 	
@@ -120,7 +119,40 @@
 	
 	Claro que, na prática, isto é uma parvoíce. Fixa uma fórmula $\varphi$, só existe um número finito de variáveis a considerar, visto que apenas um número finito de variáveis consta em $\varphi$, e o valor dado a variáveis que não estas é irrelevante. Estamos habituados a tomar estes princípios como garantidos, mas aproveitá-los-emos como veículo para introduzir a noção de indução na estrutura.
 	
-	A observação essencial é que podemos decompôr uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução
+	A observação essencial é que podemos decompôr uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução corresponde a separar uma fórmula como $\varphi_1 \lor \varphi_2$, $\varphi_1 \land \varphi_2$ ou $\neg \varphi_1$. Este processo para nas fórmulas que não podem ser simplificadas mais: chamamos a estas de fórmulas atómicas, e são aquelas compostas por apenas uma variável. Por exemplo, $x$, ou $a$.
+	
+	Exemplificaremos o princípio, começando por definir indutivamente a noção de `variáveis em fórmula', e demonstrando, com base nesta definição, que, se $\rho$ é uma valoração e $\varphi$ é uma fórmula, $\overline\rho(\varphi)$ depende apenas do valor de $\rho$ nas variáveis em $\varphi$.
+	
+	\begin{definicao*}
+	Seja $\varphi$ uma fórmula. Definimos $\var \varphi$ indutivamente da seguinte forma:
+	\begin{itemize}
+	\item Se $\varphi$ é da forma `$x$', então $\var \varphi = \{x\}$.
+	
+	\item Se $\varphi$ é da forma $\neg \varphi_1$, então $\var \varphi = \var \varphi_1$.
+	
+	\item Se $\varphi$ é da forma $\varphi_1 \lor \varphi_2$ ou $\varphi_1 \land \varphi_2$, então $\var \varphi = \var \varphi_1 \cup \var \varphi_2$.
+	\end{itemize}
+	\end{definicao*}
+	
+	\begin{prop*}
+	Seja $\varphi$ uma fórmula, $\rho$ uma valoração. Então, $\overline \rho(\varphi)$ depende apenas de $\rho|_{\var \varphi}$. Por outras palavras, se $\rho$ e $\rho'$ são duas valorações tal que para todo $x \in \var \varphi$ se tem $\rho(x) = \rho'(x)$, então $\overline \rho(\varphi) = \overline \rho'(\varphi)$.
+	\end{prop*}
+	
+	\begin{proof}
+	Como dito antes, usaremos esta demonstração para exemplificar o conceito de indução em estrutura.
+	
+	O caso base são as fórmulas atómicas, $\varphi : x$. Como $\overline\rho(\varphi) = \rho(x)$ neste caso, de facto $\overline\rho(\varphi)$ depende apenas de $\rho(x)$, isto é, o valor que $\rho$ toma nos elementos de $\var \varphi = \{x\}$. A demonstração do caso base está terminada.
+	
+	Fazemos agora o passo de indução. Seja $\varphi$ uma fórmula não-atómica, e suponha-se que o enunciado é verdadeiro para todas as fórmulas mais pequenas do que $\varphi$. Então, partimos do princípio que $\varphi$ é da forma $\neg \varphi_1$, $\varphi_1 \lor \varphi_2$ ou $\varphi_1 \land \varphi_2$. Em qualquer um destes casos, as fórmulas nas quais decompômos $\varphi$ são estritamente mais pequenas do que $\varphi$, pelo que podemos usar nelas a hipótese de indução.
+	
+	Usemos o caso $\varphi_1 \lor \varphi_2$ como exemplo, sabendo que os outros dois casos são idênticos.
+	
+	Por hipótese de indução, $\overline\rho(\varphi_1)$ depende apenas de $\rho$ aplicado a $\var \varphi_1$. Da mesma forma, $\overline\rho(\varphi_2)$ depende apenas de $\rho$ aplicado a $\var \varphi_2$. Logo, $\overline\rho(\varphi) = \overline\rho(\varphi_1) \por \overline\rho(\varphi_2)$ depende apenas de $\rho$ aplicado a $\var \varphi_1 \cup \var \varphi_2 = \var \varphi$, o que conclui a demonstração.
+	\end{proof}
+	
+	Voltemos ao problema de identificar tautologias. Existe um conceito ligeiramente mais geral, que é o conceito de `consequência semântica'. A ideia é que às vezes é possível afirmar, \emph{sob certas condições}, que uma fórmula é sempre verdadeira.
+	
+	Por exemplo, considere-se $\varphi : (a \land c) \lor b \lor (a \land \neg c)$. Esta fórmula não é uma tautologia: por exemplo, a valoração que leva tudo em $\lf$ faz com que esta fórmula fique falsa. No entanto, se uma valoração $\rho$ satisfaz $\overline\rho(a \lor b) = \lt$, então é fácil verificar que de certeza que $\overline\rho(\varphi)$.
 	
 	\subsection{Regras de dedução}
 	
