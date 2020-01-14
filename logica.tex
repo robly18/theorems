@@ -1,6 +1,7 @@
 \documentclass{report}
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{comment}
@@ -150,9 +151,30 @@
 	Por hipótese de indução, $\overline\rho(\varphi_1)$ depende apenas de $\rho$ aplicado a $\var \varphi_1$. Da mesma forma, $\overline\rho(\varphi_2)$ depende apenas de $\rho$ aplicado a $\var \varphi_2$. Logo, $\overline\rho(\varphi) = \overline\rho(\varphi_1) \por \overline\rho(\varphi_2)$ depende apenas de $\rho$ aplicado a $\var \varphi_1 \cup \var \varphi_2 = \var \varphi$, o que conclui a demonstração.
 	\end{proof}
 	
-	Voltemos ao problema de identificar tautologias. Existe um conceito ligeiramente mais geral, que é o conceito de `consequência semântica'. A ideia é que às vezes é possível afirmar, \emph{sob certas condições}, que uma fórmula é sempre verdadeira.
+	Voltemos ao problema de identificar tautologias. Existe um conceito mais geral, que é o conceito de `consequência semântica'. A ideia é que às vezes é possível afirmar, \emph{sob certas condições}, que uma fórmula é sempre verdadeira.
 	
-	Por exemplo, considere-se $\varphi : (a \land c) \lor b \lor (a \land \neg c)$. Esta fórmula não é uma tautologia: por exemplo, a valoração que leva tudo em $\lf$ faz com que esta fórmula fique falsa. No entanto, se uma valoração $\rho$ satisfaz $\overline\rho(a \lor b) = \lt$, então é fácil verificar que de certeza que $\overline\rho(\varphi)$.
+	Por exemplo, considere-se $\varphi : (a \land c) \lor b \lor (a \land \neg c)$. Esta fórmula não é uma tautologia: por exemplo, a valoração que leva tudo em $\lf$ faz com que esta fórmula fique falsa. No entanto, se uma valoração $\rho$ satisfaz $\overline\rho(a \lor b) = \lt$, então é fácil verificar que de certeza que $\overline\rho(\varphi)$. Dito de outra forma: sabendo que ($\rho$ dá o valor $\lt$ a) $a \lor b$, concluímos que ($\rho$ dá o valor $\lt$ a) $\varphi$.
+	
+	Antes de generalizarmos este conceito, introduzimos alguma linguagem para nos ajudar a expressar.
+	
+	\begin{definicao*}
+	Seja $\gamma$ uma fórmula, $\rho$ uma valoração. Dizemos que $\rho$ satisfaz $\gamma$, denotado $\rho \Vdash \gamma$, se $\overline\rho(\gamma) = \lt$.
+	
+	Se em vez de uma fórmula tivermos um conjunto de fórmulas $\Gamma$ (normalmente usamos letras gregas maiúsculas para conjuntos de fórmulas) dizemos que $\rho$ satisfaz $\Gamma$ se $\rho$ satisfizer todas as fórmulas de $\Gamma$. Isto é, simbolicamente,
+	\[\rho \Vdash \Gamma \text{ se para todo $\gamma \in \Gamma$ temos } \rho \Vdash \gamma.\]
+	\end{definicao*}
+	
+	\begin{definicao*}
+	Seja $\varphi$ uma fórmula e $\Gamma$ um conjunto de fórmulas. Então, dizemos que \emph{$\varphi$ é consequência semântica de $\Gamma$}, representado simbolicamente como
+	\[\Gamma \vDash \varphi\]
+	se para todas as valorações $\rho$ tal que $\rho \Vdash \Gamma$ temos $\rho \Vdash \varphi$.
+	
+	Por outras palavras, `se todas as afirmações em $\Gamma$ são verdade, concluímos que $\varphi$ é verdade'.
+	
+	Normalmente, quando $\Gamma$ é um conjunto finito, abreviamos a notação, omitindo chavetas. Por exemplo, se $\Gamma = \{\gamma_1, \gamma_2, \gamma_3\}$, escreveríamos $\gamma_1, \gamma_2, \gamma_3 \vDash \varphi$.
+	
+	Isto sugere uma notação para tautologia. De facto, $\varphi$ é uma tautologia sse $\emptyset \vDash \varphi$. Escrevendo $\emptyset = \{\}$ e usando a convenção de omitir chavetas, chegamos à notação para tautologias: $\vDash \varphi$.
+	\end{definicao*}
 	
 	\subsection{Regras de dedução}
 	
