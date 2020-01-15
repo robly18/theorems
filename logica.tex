@@ -59,15 +59,13 @@
 	
 	\chapter{Lógica Proposicional}
 	
-	\section{Semântica}
-	
 	A lógica proposicional é um sistema que nos permite expressar raciocínios sobre afirmações e relações entre elas. Mais concretamente, é um sistema no qual as variáveis representam afirmações, que tomam o valor `verdadeiro' e `falso', juntamente com um conjunto de operações lógicas com as quais o leitor já estará familiar, por exemplo o `ou' e o `não'.
 	
 	Não é preciso procurar muito para descobrir que este sistema tem interesse e aplicações práticas. Qualquer linguagem de programação em uso regular terá este sistema contido no seu funcionamento. Tome-se o exemplo da linguagem Python. Nesta linguagem, as variáveis podem ser do tipo \texttt{bool}. Uma variável deste tipo toma um de dois valores: \texttt{True} e \texttt{False}. Existem também os operadores \texttt{and}, \texttt{or} e \texttt{not}, que recebem valores booleanos e retornam valores booleanos. O uso de parênteses permite-nos agrupar expressões, de modo a formar expressões mais complexas. Por exemplo, \texttt{(a and b) or not (b or not c)} é uma expressão válida em Python (assumindo que as variáveis \texttt{a}, \texttt{b} e \texttt{c} estão definidas e são do tipo \texttt{bool}.)
 	
 	Formalizaremos e estudaremos este sistema, usando-o como `caixa de areia' para nos preparar para a lógica de primeira ordem, que apesar de semelhante, é significativamente mais complexa.
 	
-	\subsection{Noções básicas (Preliminar)}
+	\section{Noções básicas (Preliminar)}
 	
 	Esta subsecção tem o sufixo `Preliminar' porque não é final. Isto é, o propósito desta subsecção é apenas dar intuição para o significado das coisas, antes de avançar para as definições secas e rigorosas.
 	
@@ -217,9 +215,69 @@
 	
 	Este metateorema marca a primeira ocasião em que a nossa linguagem diz algo sobre si mesma. Frases autorreferenciais terão um papel central quando falarmos dos teoremas de incompletude de Gödel, mas isso terá que esperar até ao terceiro capítulo.
 	
-	\subsection{Regras de dedução}
+	\section{Semântica}
 	
-	Expôr regras que nos permitem concluir que certas coisas são consequências de outras sem ter de verificar todos os casos possíveis.
+	O que se segue assume parcialmente que o leitor já leu a secção anterior. Não que haja alguma precedência explícita ou implícita, mas algumas das ideias essenciais, que já foram explicadas anteriormente, não serão detalhadas novamente.
+	
+	\bigskip
+	
+	Começamos por definir o conceito de fórmula proposicional.
+	
+	Fixe-se, primeiro, um conjunto, que usaremos em tudo o que se segue, chamado o conjunto das variáveis. Isto é apenas um conjunto infinito contável\footnote{Algo estranhamente, a cardinalidade exata deste conjunto é relevante. Bastantes argumentos que faremos de futuro necessitam explicitamente da contabilidade de $X$!} de símbolos $X$. Normalmente usamos variáveis como $x$, $y$, $p$, $q$, e permitimos a modificação de símbolos como a adição de apóstrofos ou asteriscos. Os símbolos $c$, $c'$, $c^*$ são considerados distintos. Usaremos a convenção que variáveis serão representadas por letras romanas minúsculas.
+	
+	\begin{obs}
+	Há a necessidade de distinguir uma variável de uma `meta-variável'. Isto é: se falamos na variável $x$, poderá ser ambíguo se nos referimos ao elemento $x \in X$ ou se a letra $x$ é uma incógnita que pode significar uma variável arbitrária.
+	
+	Para evitar esta ambíguidade, representamos meta-variáveis a negrito: $\bf{x}$. Ou seja: $x$ é o elemento de $X$, enquanto que $\bf x$ é uma incógnita que pode ser substituída por qualquer variável: $x$, $y$, $z$, \dots
+	\end{obs}
+	
+	Há quem defina, agora, fórmulas como sequências de símbolos. Isto parece ser uma definição intuitiva, visto que é assim que representamos fórmulas: sequências de caracteres. No entanto, visto que no futuro teremos que escrever programas que lêm e interpretam estas fórmulas, é mais conveniente definirmos fórmulas pelas respetivas árvores semânticas.
+	
+	Para esclarecer o que se entende por isto, considere-se a expressão $a \lor b$. Isto consiste de um operador (o operador `ou') aplicado a duas variáveis. Podemos representar isto como uma árvore na seguinte forma:
+	
+	\begin{center}
+	\Tree [.\texttt{or} $a$ $b$ ]
+	\end{center}
+	
+	Podemos, no entanto, considerar expressões mais complexas. Por exemplo, considere-se a expressão $(a \land b) \lor \neg (b \lor \neg c)$. Interpretada como uma árvore, esta expressão fica
+	
+	\begin{center}
+	\Tree [.\texttt{or} [.\texttt{and} $a$ $b$ ] [.\texttt{not} [.\texttt{or} $b$ [.\texttt{not} $c$ ] ] ] ]
+	\end{center}
+	
+	Para os nossos propósitos, é mais fácil manipular àrvores do que sequências de caracteres. Assim sendo, é com base nesta perspetiva que definimos o conjunto das fórmulas proposicionais.
+	
+	\begin{definicao}
+	Definimos o conjunto das fórmulas booleanas $\F_b$ (sobre o conjunto $X$, que deixamos implícito) indutivamente.
+	
+	Qualquer variável $\bf x$ é uma fórmula.
+	
+	Se $\alpha$ e $\beta$ são fórmulas, ambos os seguintes são fórmulas:
+	
+	\begin{center}
+	\Tree [.\texttt{not} $\alpha$ ]
+	\hspace{3em}
+	\Tree [.\texttt{implies} $\alpha$ $\beta$ ]
+	\end{center}
+	
+	Esta forma de representar fórmulas não é particularmente eficiente tipográficamente, pelo que, no que se segue, continuaremos a representá-las com a notação linear $\neg \alpha$ e $\alpha \Rightarrow \beta$.
+	\end{definicao}
+	
+	\begin{definicao}
+	Definimos uma valoração $\rho$ como uma função $\rho : X \to \{\lt,\lf\}$.
+	
+	Dada uma valoração $\rho$, definimos uma função $\overline\rho : \F_b \to \{\lt, \lf\}$ indutivamente:
+	
+	\begin{itemize}
+	\item Se $\varphi : \bf x$, definimos $\overline\rho(\varphi) = \rho(\bf x)$.
+	
+	\item Se $\varphi : \neg \alpha$, definimos $\overline\rho(\varphi) = \pnot \overline\rho(\alpha)$.
+	
+	\item Se $\varphi : \alpha \Rightarrow \beta$, definimos $\overline\rho(\varphi) = (\pnot \overline\rho(\alpha)) \por \overline\rho(\beta)$.
+	\end{itemize}
+	
+	Dada uma valoração $\rho$, dizemos que $\rho \Vdash \varphi$ ($\rho$ satisfaz $\varphi$) se $\overline\rho(\varphi) = \lt$.
+	\end{definicao}
 	
 	\section{Sintática}
 	
