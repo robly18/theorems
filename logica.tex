@@ -174,7 +174,48 @@
 	Normalmente, quando $\Gamma$ é um conjunto finito, abreviamos a notação, omitindo chavetas. Por exemplo, se $\Gamma = \{\gamma_1, \gamma_2, \gamma_3\}$, escreveríamos $\gamma_1, \gamma_2, \gamma_3 \vDash \varphi$.
 	
 	Isto sugere uma notação para tautologia. De facto, $\varphi$ é uma tautologia sse $\emptyset \vDash \varphi$ (verifique). Escrevendo $\emptyset = \{\}$ e usando a convenção de omitir chavetas, chegamos à notação para tautologias: $\vDash \varphi$.
+	
+	Outra convenção que seguiremos será abreviar uniões usando vírgulas. Por exemplo, escrever $\Gamma, \alpha, \beta \vDash \varphi$ em vez de $\Gamma \cup \{\alpha, \beta\} \vDash \varphi$.
 	\end{definicao*}
+	
+	A noção de consequência semântica é útil porque, juntamente com uma regra básica que iremos discutir agora, nos permite deduzir verdades novas a partir de verdades conhecidas.
+	
+	Suponhamos que temos uma afirmação da forma $a \lor b$. Isto significa que pelo menos um dos termos é verdadeiro. Assim sendo, se nos for dito que uma destas duas afirmações é falsa, concluímos que a outra é necessariamente verdadeira, isto é, $a$ falso implica $b$ verdadeiro. Por outras palavras, $a \lor b, \neg a \vDash b$.
+	
+	Substituindo $a$ por $\neg a$ e partindo do princípio que $\neg \neg a$ é a mesma coisa que $a$, chegamos à conclusão
+	\[\neg a \lor b, a \vDash b.\]
+	
+	Assim sendo, a afirmação $\neg a \lor b$ representa, de alguma forma, `$a$ implica $b$'. Como tal, definimos o símbolo `$a \Rightarrow b$' como sinónimo de $\neg a \lor b$, e concluímos a chamada regra de \textit{modus ponens}:
+	\[a \Rightarrow b, a \vDash b.\]
+	
+	Esta regra será a fundação do nosso cálculo dedutivo. De facto, veremos que existe um conjunto razoavelmente pequeno de tautologias $T$ tal que qualquer outra tautologia pode ser obtida a partir de aplicação repetida de \textit{modus ponens} a tautologias em $T$. A implicação tem um papel tão central, de facto, que quando definirmos fórmulas rigorosamente usaremos como base os operadores `não' e `implica'.
+	
+	\smallskip
+	
+	Terminamos esta secção preliminar com uma introdução ao conceito de metateorema.
+	
+	A noção de implicação e consequência semântica estão intrinsicamente ligadas. De facto, mostraremos que, em certo sentido, `$a \Rightarrow b$ sse $a \vDash b$'. Isto diz-se um metateorema porque relaciona duas `camadas' de verdade: relaciona uma verdade `dentro do sistema' ($a \Rightarrow b$) com uma verdade `sobre o sistema' ($a \vDash b$).
+	
+	\begin{prop*}
+	(Metateorema da dedução) Seja $\Gamma$ um conjunto de fórmulas, $a$ e $b$ proposições. Então,
+	\[\Gamma, a \vDash b \text{ sse } \Gamma \vDash a \Rightarrow b.\]
+	\end{prop*}
+	
+	\begin{proof}
+	($\rightarrow$) Suponha-se que $\Gamma, a \vDash b$. Desejamos mostrar $\Gamma \vDash a \Rightarrow b$, isto é, $\Gamma \vDash \neg a \lor b$. Assim sendo, vamos supor que $\rho$ é uma valoração tal que $\rho \Vdash \Gamma$ e mostraremos que $\rho \Vdash \neg a \lor b$.
+	
+	Existem dois casos: ou $\rho(a) = \lt$ ou $\rho(a) = \lf$.
+	
+	Se $\rho(a) = \lf$, então $\overline\rho(\neg a \lor b) = (\pnot \lf) \por \rho(b) = \lt \por \rho(b) = \lt$.
+	
+	Se $\rho(a) = \lt$, então temos que $\rho \Vdash \Gamma \cup \{a\}$, donde, como $\Gamma, a \vDash b$ por hipótese, concluímos que $\rho(b) = \lt$. Concluímos então que $\overline\rho(\neg a \lor b) = (\pnot \lt) \por \lt = \lt$, como desejado.
+	
+	($\leftarrow$) Suponha-se que $\Gamma \vDash a \Rightarrow b$. Seja $\rho$ uma valoração tal que $\rho \Vdash \Gamma \cup \{a\}$. Então, em particular, $\rho \Vdash \Gamma$, donde $\rho \Vdash a \Rightarrow b$. Sabemos também que $\rho \Vdash a$, pelo que concluímos $\rho \Vdash \{a \Rightarrow b, a\}$. Pela regra de \textit{modus ponens}, como $a \Rightarrow b, a \vDash b$, concluímos que $\rho \Vdash b$.
+	
+	Como partimos do princípio que $\rho$ era uma valoração arbitrária tal que $\rho \Vdash \Gamma \cup \{a\}$ e concluímos $\rho \Vdash b$, temos que $\Gamma \cup \{a\} \vDash b$.
+	\end{proof}
+	
+	Este metateorema marca a primeira ocasião em que a nossa linguagem diz algo sobre si mesma. Frases autorreferenciais terão um papel central quando falarmos dos teoremas de incompletude de Gödel, mas isso terá que esperar até ao terceiro capítulo.
 	
 	\subsection{Regras de dedução}
 	
