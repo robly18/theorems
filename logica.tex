@@ -50,6 +50,8 @@
 \newcommand{\pand}{\mathbin{\texttt{and}}}
 \newcommand{\por}{\mathbin{\texttt{or}}}
 \newcommand{\imply}{\mathbin{\Rightarrow}}
+\newcommand{\implied}{\mathbin{\Leftarrow}}
+\newcommand{\eqv}{\mathbin{\Leftrightarrow}}
 
 \begin{document}
 	\maketitle
@@ -333,7 +335,49 @@
 	Juntando as afirmações \eqref{eq:mtd:1} e \eqref{eq:mtd:2}, obtemos que $\Gamma, \alpha \vDash \{\alpha \imply \beta, \alpha\}$. A regra de \textit{modus ponens} diz-nos que $\{\alpha \imply \beta, \alpha\} \vDash \beta$, pelo que, por transitividade, $\Gamma, \alpha \vDash \beta$, como desejado.
 	\end{proof}
 	
-	O leitor poderá ter reparado que os símbolos $a \land b$ e $a \lor b$ não foram definidos, visto que na nossa definição de fórmula englobámos apenas as operações $\neg a$ e $a \imply b$.
+	O leitor poderá ter reparado que os símbolos $a \land b$ e $a \lor b$ não foram definidos, visto que na nossa definição de fórmula englobámos apenas as operações $\neg a$ e $a \imply b$. Visto que o uso dos operadores $\land$ e $\lor$ são convenientes, definimo-los por abreviatura. Ou seja, escrevemo-los em termos de `não's e `implica's, e sempre que escrevemos `ou' ou `e' substituimos mentalmente pela abreviatura establecida.
+	
+	Recordamos o leitor que $\overline\rho(\alpha \imply \beta) = (\pnot \overline\rho(\alpha)) \por \overline\rho(\beta)$, pelo que desejamos escrever os operadores $\por$ e $\pand$ como uma expressão semelhante a esta forma.
+	
+	Afirmamos que
+	\begin{gather*}
+	a \por b = (\pnot (\pnot a)) \por b\\
+	a \pand b = \pnot ((\pnot a) \por (\pnot b)).
+	\end{gather*}
+	
+	Pelo que establecemos as seguintes abreviaturas:
+	
+	\begin{itemize}
+	\item Quando escrevemos $\alpha \lor \beta$, substituimos mentalmente por $\neg \alpha \imply \beta$.
+	
+	\item Quando escrevemos $\alpha \land \beta$, substituimos mentalmente por $\neg (\alpha \imply \neg \beta)$.
+	
+	\item Establecemos também a abreviatura $a \eqv b$ como $(a \imply b) \land (b \imply a)$ (que por sua vez é abreviatura de outra expressão, mas achamos por bem não expandir por completo).
+	\end{itemize}
+	
+	Considere-se a noção de equivalência. Estamos habituados a que afirmações equivalentes sejam `a mesma coisa', na medida em que podemos substituir uma afirmação pela outra. Por exemplo, suponha-se que provamos que $\vDash \neg \neg \alpha \eqv \alpha$. (Faremos os detalhes mais tarde.) Agora, suponhamos que se deseja provar uma afirmação na qual aparece $\neg \neg \alpha$, por exemplo, $\beta \imply \neg \neg \alpha$. Seria agradável reduzir isto a mostrar que $\beta \imply \alpha$. Felizmente, verifica-se que este tipo de atalhos é admissível. É nisto que consiste o \emph{metateorema da dedução}.
+	
+	Antes de estudarmos a relação de equivalência, no entanto, vale a pena investigar o símbolo $\land$, visto que este consta na definição de $\eqv$.
+	
+	\begin{prop}
+	Sejam $\alpha, \beta \in \F_p$. Então, $\alpha, \beta \vDash \alpha \land \beta$ e $\alpha \land \beta \vDash \{\alpha, \beta\}$.
+	\end{prop}
+	
+	\begin{proof}
+	Para mostrar isto, basta mostrar que, se $\rho$ é uma valoração arbitrária, $\rho \Vdash \alpha \land \beta$ sse $\rho \Vdash \{\alpha, \beta\}$.
+	
+	De facto, $\rho \Vdash \alpha \land \beta$ sse $\overline\rho(\neg(\alpha \imply \neg \beta)) = \lt$ sse $\pnot ((\pnot \overline\rho(\alpha)) \por (\pnot \overline\rho(\beta))) = \lt$. É fácil verificar que isto acontece sse $\overline\rho(\alpha) = \overline\rho(\beta) = \lt$, ou seja, $\rho \Vdash \{\alpha, \beta\}$. Isto conclui a demonstração.
+	\end{proof}
+	
+	Com a informação que já temos até agora, podemos começar a fazer demonstrações sem pensar tanto sobre valorações e casos possíveis. Exemplificamos demonstrando que $\alpha \eqv \neg \neg \alpha$.
+	
+	\begin{prop}
+	Para qualquer $\alpha \in \F_p$, $\vDash \alpha \eqv \neg \neg \alpha$.
+	\end{prop}
+	
+	\begin{proof}
+	Primeiro que tudo, é preciso observar a `meta-equivalência' trivial: $\pnot \pnot x = x$. Usando isto, é trivial verificar que $\alpha \vDash \neg \neg \alpha$ e $\neg \neg \alpha \vDash \alpha$. Aplicando o metateorema da dedução a cada um destes, obtemos $\vDash \{\alpha \imply \neg \neg \alpha, \neg \neg \alpha \imply \alpha\}$.
+	\end{proof}
 	
 	\section{Sintática}
 	
