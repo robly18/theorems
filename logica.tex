@@ -49,6 +49,7 @@
 \DeclareMathOperator{\pnot}{\texttt{not}}
 \newcommand{\pand}{\mathbin{\texttt{and}}}
 \newcommand{\por}{\mathbin{\texttt{or}}}
+\newcommand{\imply}{\mathbin{\Rightarrow}}
 
 \begin{document}
 	\maketitle
@@ -169,7 +170,7 @@
 	
 	Por outras palavras, `se todas as afirmações em $\Gamma$ são verdade, concluímos que $\varphi$ é verdade'.
 	
-	Normalmente, quando $\Gamma$ é um conjunto finito, abreviamos a notação, omitindo chavetas. Por exemplo, se $\Gamma = \{\gamma_1, \gamma_2, \gamma_3\}$, escreveríamos $\gamma_1, \gamma_2, \gamma_3 \vDash \varphi$.
+	Normalmente, quando $\Gamma$ é um conjunto finito, abreviamos a notação, omitindo chavetas. Por exemplo, se $\Gamma = \{\gamma_1, \gamma_2, \gamma_3\}$, escreveríamos $\gamma_1, \gamma_2, \gamma_3 \vDash \varphi$.\label{convencao:consequencia}
 	
 	Isto sugere uma notação para tautologia. De facto, $\varphi$ é uma tautologia sse $\emptyset \vDash \varphi$ (verifique). Escrevendo $\emptyset = \{\}$ e usando a convenção de omitir chavetas, chegamos à notação para tautologias: $\vDash \varphi$.
 	
@@ -282,8 +283,32 @@
 	\end{definicao}
 	
 	\begin{definicao}
-	Seja $\varphi \in \F_p$, $\Gamma \subseteq \F_p$. Dizemos que $\Gamma \vDash \varphi$ se todas as valorações que satisfazem $\Gamma$ também satisfazem $\varphi$. Por outras palavras, se para todas as valorações $\rho$ tal que $\rho \Vdash \Gamma$ temos $\rho \Vdash \varphi$.
+	Seja $\varphi \in \F_p$, $\Gamma \subseteq \F_p$. Dizemos que $\Gamma \vDash \varphi$ (pronunciado `$\varphi$ é consequência semântica de $\Gamma$') se todas as valorações que satisfazem $\Gamma$ também satisfazem $\varphi$. Por outras palavras, se para todas as valorações $\rho$ tal que $\rho \Vdash \Gamma$ temos $\rho \Vdash \varphi$.
+	
+	Para abreviar a notação, seguimos algumas convenções, detalhadas na página \pageref{convencao:consequencia}, relacionadas com omissão de chavetas em expressões do género $\{a, b\} \vDash c$.
+	
+	Dizemos que $\varphi$ é uma tautologia se $\emptyset \vDash \varphi$. Isto pode ser representado como $\vDash \varphi$.
 	\end{definicao}
+	
+	Começamos por apresentar algumas regras de decução que nos ajudarão a mostrar que certas coisas são consequência semântica de outras.
+	
+	\begin{prop}
+	A relação $\vDash$ é transitiva. Isto é:
+	
+	Sejam $\Gamma, \Phi \subseteq \F_p$ e $\psi \in \F_p$. Suponha-se que $\Gamma \vDash \varphi$ para todo $\varphi \in \Phi$ (Podemos representar isto como $\Gamma \vDash \Phi$) e que $\Phi \vDash \psi$. Então $\Gamma \vDash \psi$.
+	\end{prop}
+	
+	\begin{proof} Suponha-se $\Gamma \vDash \Phi$ e $\Phi \vDash \psi$. Então, para mostrar $\Gamma \vDash \psi$ começamos por supor que $\rho$ é uma valoração tal que $\rho \Vdash \Gamma$. Então, por definição de $\Gamma \vDash \Phi$, temos que $\Gamma \vDash \varphi$ para todo $\varphi \in \Phi$. Como $\rho \Vdash \Gamma$, obtemos que $\rho \Vdash \varphi$ para todo $\varphi \in \Phi$, ou seja, que $\rho \Vdash \Phi$. Finalmente, por definição de $\Phi \vDash \psi$, concluímos que $\rho \Vdash \psi$, terminando a demonstração.
+	\end{proof}
+	
+	\begin{prop} (\textit{Modus ponens}) 
+	
+	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então, $\alpha \Rightarrow \beta, \alpha \vDash \beta$.
+	\end{prop}
+	
+	\begin{proof}
+	Suponha-se que $\rho \Vdash (\alpha \Rightarrow \beta)$ e $\rho \Vdash \alpha$. Então, $(\pnot\overline\rho(\alpha))\por\overline\rho(\beta) = \lt$ e $\overline\rho(\alpha) = \lt$. Substituindo $\overline\rho(\alpha)$ por $\lt$ na primeira afirmação, ficamos com $(\pnot\lt)\por\overline\rho(\beta) = \lt$, isto é, $\lf \por \overline\rho(\beta) = \lt$. Para isto acontecer, é necessário que $\overline\rho(\beta) = \lt$, ou seja, $\rho \Vdash \beta$.
+	\end{proof}
 	
 	\begin{prop}
 	(Metateorema da dedução)
@@ -293,8 +318,22 @@
 	\end{prop}
 	
 	\begin{proof}
-	A demonstração é semelhante à demonstração feita na página \pageref{dem:mtd}, com um pequeno detalhe. Essa demonstração foi feita para variáveis $a, b$ em vez de fórmulas $\alpha, \beta$. No entanto, substituindo $\rho(a)$ por $\overline\rho(\alpha)$ e $\rho(b)$ por $\overline\rho(\beta)$, a demonstração funciona sem modificações.
+	Uma possível demonstração é semelhante à demonstração feita na página \pageref{dem:mtd}, com um pequeno detalhe. Essa demonstração foi feita para variáveis $a, b$ em vez de fórmulas $\alpha, \beta$. No entanto, substituindo $\rho(a)$ por $\overline\rho(\alpha)$ e $\rho(b)$ por $\overline\rho(\beta)$, a demonstração funciona sem modificações. Apresentamos, no entanto, uma demonstração ligeiramente diferente de ($\leftarrow$), que exemplifica as proposições acima.
+	
+	Suponha-se que $\Gamma \vDash \alpha \Rightarrow \beta$. É trivial reparar que $\Gamma, \alpha \vDash \Gamma$ (verifique). Por transitividade,
+	\begin{equation}\label{eq:mtd:1}
+	\Gamma, \alpha \vDash \alpha \Rightarrow \beta.
+	\end{equation}
+	
+	Sabemos também que
+	\begin{equation}\label{eq:mtd:2}
+	\Gamma, \alpha \vDash \alpha.
+	\end{equation}
+	
+	Juntando as afirmações \eqref{eq:mtd:1} e \eqref{eq:mtd:2}, obtemos que $\Gamma, \alpha \vDash \{\alpha \Rightarrow \beta, \alpha\}$. A regra de \textit{modus ponens} diz-nos que $\{\alpha \Rightarrow \beta, \alpha\} \vDash \beta$, pelo que, por transitividade, $\Gamma, \alpha \vDash \beta$, como desejado.
 	\end{proof}
+	
+	O leitor poderá ter reparado que os símbolos $a \land b$ e $a \lor b$ não foram definidos, visto que na nossa definição de fórmula englobámos apenas as operações $\neg a$ e $a \Rightarrow b$.
 	
 	\section{Sintática}
 	
