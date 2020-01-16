@@ -22,7 +22,7 @@
 \author{}
 \date{}
 
-\newtheorem{prop}{Proposição}
+\newtheorem{prop}{Proposição}	
 \newtheorem*{prop*}{Proposição}
 
 \theoremstyle{definition}
@@ -77,7 +77,7 @@
 	
 	Existem diversos operadores lógicos conhecidos, mas no que se segue usaremos os operadores existentes no Python: $\pnot$, $\pand$ e $\por$. O leitor já deverá estar familiar com o comportamento destes, mas para evitar qualquer confusão, apresentamos as respetivas tabelas de verdade.
 	
-	\[
+	\[\label{tabela:operadores}
 	\begin{array}{|c|c||c|c|c|}
 	\hline
 	a & b & \pnot a & a \pand b & a \por b\\
@@ -199,7 +199,7 @@
 	\[\Gamma, a \vDash b \text{ sse } \Gamma \vDash a \Rightarrow b.\]
 	\end{prop*}
 	
-	\begin{proof}
+	\begin{proof}\label{dem:mtd}
 	($\rightarrow$) Suponha-se que $\Gamma, a \vDash b$. Desejamos mostrar $\Gamma \vDash a \Rightarrow b$, isto é, $\Gamma \vDash \neg a \lor b$. Assim sendo, vamos supor que $\rho$ é uma valoração tal que $\rho \Vdash \Gamma$ e mostraremos que $\rho \Vdash \neg a \lor b$.
 	
 	Existem dois casos: ou $\rho(a) = \lt$ ou $\rho(a) = \lf$.
@@ -217,9 +217,9 @@
 	
 	\section{Semântica}
 	
-	O que se segue assume parcialmente que o leitor já leu a secção anterior. Não que haja alguma precedência explícita ou implícita, mas algumas das ideias essenciais, que já foram explicadas anteriormente, não serão detalhadas novamente.
+	O que se segue assume parcialmente que o leitor já leu a secção anterior. Apesar de não haver precedência explícita ou implícita, algumas das ideias essenciais já foram explicadas, e como tal não serão detalhadas novamente. Por outras palavras, o leitor poderá ler esta secção sem ter lido a anterior, mas se der por si perdido nas definições sem entender o seu significado poderá querer voltar atrás e ler a secção introdutória.
 	
-	\bigskip
+	\medskip
 	
 	Começamos por definir o conceito de fórmula proposicional.
 	
@@ -261,6 +261,8 @@
 	\end{center}
 	
 	Esta forma de representar fórmulas não é particularmente eficiente tipográficamente, pelo que, no que se segue, continuaremos a representá-las com a notação linear $\neg \alpha$ e $\alpha \Rightarrow \beta$.
+	
+	Ao darmos nomes a fórmulas, associaremos o nome ao conteúdo usando dois pontos. Por exemplo, para associar o nome $\varphi$ à fórmula $a \lor b$, escreveremos $\varphi : a \lor b$.
 	\end{definicao}
 	
 	\begin{definicao}
@@ -271,13 +273,28 @@
 	\begin{itemize}
 	\item Se $\varphi : \bf x$, definimos $\overline\rho(\varphi) = \rho(\bf x)$.
 	
-	\item Se $\varphi : \neg \alpha$, definimos $\overline\rho(\varphi) = \pnot \overline\rho(\alpha)$.
+	\item Se $\varphi : \neg \alpha$, definimos $\overline\rho(\varphi) = \pnot \overline\rho(\alpha)$.\footnote{Se o leitor não perceber o uso dos operadores $\pnot$ e $\por$, ver página \pageref{tabela:operadores}.}
 	
 	\item Se $\varphi : \alpha \Rightarrow \beta$, definimos $\overline\rho(\varphi) = (\pnot \overline\rho(\alpha)) \por \overline\rho(\beta)$.
 	\end{itemize}
 	
-	Dada uma valoração $\rho$, dizemos que $\rho \Vdash \varphi$ ($\rho$ satisfaz $\varphi$) se $\overline\rho(\varphi) = \lt$.
+	Dada uma valoração $\rho$, dizemos que $\rho \Vdash \varphi$ ($\rho$ satisfaz $\varphi$) se $\overline\rho(\varphi) = \lt$. Se em vez de uma fórmula $\varphi$ tivermos um conjunto de fórmulas $\Gamma$, dizemos que $\rho \Vdash \Gamma$ se $\rho \Vdash \gamma$ para todo $\gamma \in \Gamma$.
 	\end{definicao}
+	
+	\begin{definicao}
+	Seja $\varphi \in \F_b$, $\Gamma \subseteq \F_b$. Dizemos que $\Gamma \vDash \varphi$ se todas as valorações que satisfazem $\Gamma$ também satisfazem $\varphi$. Por outras palavras, se para todas as valorações $\rho$ tal que $\rho \Vdash \Gamma$ temos $\rho \Vdash \varphi$.
+	\end{definicao}
+	
+	\begin{prop}
+	(Metateorema da dedução)
+	
+	Sejam $\alpha, \beta \in \F_b$, $\Gamma \subseteq \F_b$. Então
+	\[\Gamma, \alpha \vDash \beta \text{ sse } \Gamma \vDash \alpha \Rightarrow \beta.\]
+	\end{prop}
+	
+	\begin{proof}
+	A demonstração é semelhante à demonstração feita na página \pageref{dem:mtd}, com um pequeno detalhe. Essa demonstração foi feita para variáveis $a, b$ em vez de fórmulas $\alpha, \beta$. No entanto, substituindo $\rho(a)$ por $\overline\rho(\alpha)$ e $\rho(b)$ por $\overline\rho(\beta)$, a demonstração funciona sem modificações.
+	\end{proof}
 	
 	\section{Sintática}
 	
