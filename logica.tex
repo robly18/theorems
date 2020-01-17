@@ -98,7 +98,7 @@
 	A título de exemplo, consideremos a fórmula $\varphi$ descrita acima.
 	\[\varphi : (a \land b) \lor \neg (b \lor \neg c).\]
 	
-	Suponha-se que establecemos $a = \lt$ e $b = c = \lf$. Então, substituindo na fórmula (e escrevendo os operadores \textit{a la} Python), ficamos com
+	Suponha-se que estabelecemos $a = \lt$ e $b = c = \lf$. Então, substituindo na fórmula (e escrevendo os operadores \textit{a la} Python), ficamos com
 	\begin{gather*}
 	(\lt \pand \lf) \por \pnot (\lf \por \pnot \lf)\\
 	\lf \por \pnot (\lf \por \lt)\\
@@ -345,21 +345,21 @@
 	a \pand b = \pnot ((\pnot a) \por (\pnot b)).
 	\end{gather*}
 	
-	Pelo que establecemos as seguintes abreviaturas:
+	Pelo que estabelecemos as seguintes abreviaturas:
 	
 	\begin{itemize}
 	\item Quando escrevemos $\alpha \lor \beta$, substituimos mentalmente por $\neg \alpha \imply \beta$.
 	
 	\item Quando escrevemos $\alpha \land \beta$, substituimos mentalmente por $\neg (\alpha \imply \neg \beta)$.
 	
-	\item Establecemos também a abreviatura $a \eqv b$ como $(a \imply b) \land (b \imply a)$ (que por sua vez é abreviatura de outra expressão, mas achamos por bem não expandir por completo).
+	\item Estabelecemos também a abreviatura $a \eqv b$ como $(a \imply b) \land (b \imply a)$ (que por sua vez é abreviatura de outra expressão, mas achamos por bem não expandir por completo).
 	\end{itemize}
 	
-	Considere-se a noção de equivalência. Estamos habituados a que afirmações equivalentes sejam `a mesma coisa', na medida em que podemos substituir uma afirmação pela outra. Por exemplo, suponha-se que provamos que $\vDash \neg \neg \alpha \eqv \alpha$. (Faremos os detalhes mais tarde.) Agora, suponhamos que se deseja provar uma afirmação na qual aparece $\neg \neg \alpha$, por exemplo, $\beta \imply \neg \neg \alpha$. Seria agradável reduzir isto a mostrar que $\beta \imply \alpha$. Felizmente, verifica-se que este tipo de atalhos é admissível. É nisto que consiste o \emph{metateorema da dedução}.
+	Considere-se a noção de equivalência. Estamos habituados a que afirmações equivalentes sejam `a mesma coisa', na medida em que podemos substituir uma afirmação pela outra. Por exemplo, suponha-se que provamos que $\vDash \neg \neg \alpha \eqv \alpha$. (Faremos os detalhes mais tarde.) Agora, suponhamos que se deseja provar uma afirmação na qual aparece $\neg \neg \alpha$, por exemplo, $\beta \imply \neg \neg \alpha$. Seria agradável reduzir isto a mostrar que $\beta \imply \alpha$. Felizmente, verifica-se que este tipo de atalhos é admissível. É nisto que consiste o \emph{metateorema da substituição de equivalentes}.
 	
 	Antes de estudarmos a relação de equivalência, no entanto, vale a pena investigar o símbolo $\land$, visto que este consta na definição de $\eqv$.
 	
-	\begin{prop}
+	\begin{prop}\label{prop:conj:prop:sem}
 	Sejam $\alpha, \beta \in \F_p$. Então, $\alpha, \beta \vDash \alpha \land \beta$ e $\alpha \land \beta \vDash \{\alpha, \beta\}$.
 	\end{prop}
 	
@@ -376,7 +376,54 @@
 	\end{prop}
 	
 	\begin{proof}
-	Primeiro que tudo, é preciso observar a `meta-equivalência' trivial: $\pnot \pnot x = x$. Usando isto, é trivial verificar que $\alpha \vDash \neg \neg \alpha$ e $\neg \neg \alpha \vDash \alpha$. Aplicando o metateorema da dedução a cada um destes, obtemos $\vDash \{\alpha \imply \neg \neg \alpha, \neg \neg \alpha \imply \alpha\}$.
+	Primeiro que tudo, é preciso observar a `meta-equivalência' trivial: $\pnot \pnot x = x$. Usando isto, concluímos que $\alpha \vDash \neg \neg \alpha$ e $\neg \neg \alpha \vDash \alpha$. Aplicando o metateorema da dedução a cada um destes, obtemos $\vDash \{\alpha \imply \neg \neg \alpha, \neg \neg \alpha \imply \alpha\}$. Usando a proposição \ref{prop:conj:prop:sem}  temos que $\{\alpha \imply \neg \neg \alpha, \neg \neg \alpha \imply \alpha\} \vDash (\alpha \eqv \neg \neg \alpha)$ (recorde-se da definição de equivalência por abreviatura), e por transitividade, como $\emptyset \vDash \{\alpha \imply \neg \neg \alpha, \neg \neg \alpha \imply \alpha\} \vDash (\alpha \eqv \neg \neg \alpha)$, temos $\emptyset \vDash \alpha \eqv \neg \neg \alpha$.
+	\end{proof}
+	
+	Repare-se que a maior parte da demonstração que acabámos de fazer consistiu em passar de `$\alpha \vDash \beta$ e $\beta \vDash \alpha$' para `$\vDash \alpha \eqv \beta$'. Agora que sabemos que este tipo de raciocínios é válido, abreviaremos as nossas demonstrações na medida em que deixamos esta passagem para o leitor. Por exemplo:
+	
+	\begin{prop}
+	Para qualquer $\alpha \in \F_p$, $\vDash (\alpha \land \beta) \eqv (\beta \land \alpha)$.
+	\end{prop}
+	
+	\begin{proof}
+	Sabemos que $\alpha \land \beta \vDash \{\alpha, \beta\}$. Como $\{\alpha, \beta\} = \{\beta, \alpha\}$, obtemos que $\{\alpha, \beta\} \vDash \beta \land \alpha$. Por transitividade, conclui-se $(\alpha \land \beta) \vDash (\beta \land \alpha)$. Reproduzindo a demonstração com o papel de $\alpha$ e $\beta$ trocado, damos a prova por concluída.
+	\end{proof}
+	
+	Visto que já temos ferramentas para mostrar equivalências, passamos agora à proposição que nos permite fazer uso de equivalências. Antes de o podermos fazer, no entanto, precisamos de formalizar o que significa `substituir'.
+	
+	A ideia essencial é que pretendemos, numa fórmula $\varphi$, substituir certas instâncias de uma expressão $\alpha$ por uma outra expressão (presumivelmente equivalente) $\beta$. Por exemplo, passar de $\varphi : a \land \neg \neg (b \imply c)$ para $\psi : a \land (b \imply c)$, e depois possívelmente para $\theta : (b \imply c) \land a$. Para podermos manipular o conceito de substituição e demonstrar coisas sobre ele, precisamos de o definir de forma rigorosa. Como o leitor poderá estar à espera, fá-lo-emos de forma indutiva.
+	
+	\begin{definicao}
+	Sejam $\varphi, \psi, \alpha, \beta \in \F_p$. Dizemos que \emph{$\psi$ é obtido de $\varphi$ por substituição de $\alpha$ por $\beta$} se:
+	
+	\begin{itemize}
+	\item Caso base: Se $\varphi$ e $\psi$ são a mesma fórmula.
+	
+	\item Substituição: Se $\varphi : \alpha$ e $\psi : \beta$.
+	
+	\item Passo de indução (negação): Se $\varphi : \neg \varphi_1$, $\psi : \neg \psi_1$ e $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$.
+	
+	\item Passo de indução (implicação): Se $\varphi : \varphi_1 \imply \varphi_2$, $\psi : \psi_1 \imply \psi_2$, $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$ e $\psi_2$ é obtido de $\varphi_2$ por substituição de $\alpha$ por $\beta$.
+	\end{itemize}
+	\end{definicao}
+	
+	Note-se que esta definição é particularmente complexa, e aplicá-la na prática é chato. Claro que isto corresponde simplesmente à noção intuitiva de `pegar nalguns $\alpha$, apagá-los, e escrever $\beta$ no seu lugar', pelo que, ao afirmar que duas fórmulas são obtidas uma da outra por substituição, não nos daremos ao trabalho de fazer uma inteira justificação com base nestes casos todos. No entanto, se o leitor estiver confuso com a definição é recomendado tentar aplicá-la a alguns exemplos de substituição de fórmulas.
+	
+	Podemos finalmente passar à demonstração de:
+	
+	\begin{prop}
+	(Metateorema de substituição de equivalentes) Sejam $\varphi, \psi, \alpha, \beta \in \F_p$ e $\Gamma \subseteq \F_p$. Suponha-se que $\Gamma \vDash \alpha \eqv \beta$ e que $\psi$ é obtido de $\varphi$ por substituição de $\alpha$ por $\beta$. Então,
+	\[\Gamma \vDash \varphi \eqv \psi.\]
+	\end{prop}
+	
+	\begin{proof}
+	Como esperado, usamos a definição indutiva de $\psi$ ser obtido de $\varphi$ por substituição.
+	
+	Se $\varphi$ e $\psi$ são a mesma fórmula, então basta reparar que $\varphi \eqv \varphi$ é uma tautologia (deixamos a demonstração disto para o leitor).
+	
+	Se $\varphi : \alpha$ e $\psi : \beta$, a afirmação $\Gamma \vDash \varphi \eqv \psi$ é dada como hipótese.
+	
+	Se $\varphi : \neg \varphi_1$ e $\psi : \neg \psi_1$, onde $\psi_1$ é obtido de $\varphi_1$ por substituição, usamos a hipótese de indução para afirmar que $\Gamma : \varphi_1 \eqv \psi_1$. Basta agora mostrar que $\varphi_1 \eqv \psi_1 \vDash (\neg \varphi_1) \eqv (\neg \psi_1)$. todo:verificar  
 	\end{proof}
 	
 	\section{Sintática}
