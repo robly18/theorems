@@ -9,6 +9,7 @@
 \usepackage[portuguese]{babel}
 \usepackage{hyperref}
 \usepackage{indentfirst}
+\usepackage{changepage}
 
 %para desenhar árvores sintáticas
 \usepackage{tikz}
@@ -35,6 +36,9 @@
 \addto\captionsportuguese{
 	\renewcommand{\proofname}{Dem}
 }
+
+
+\newcommand{\N}{\mathbb{N}}
 
 \renewcommand{\bf}[1]{\mathbf{#1}}
 
@@ -449,6 +453,79 @@
 	\section{Sintática}
 	
 	Como explicado na secção preliminar, o nosso objetivo final será arranjar uma forma sistemática de descobrir que afirmações são tautologias. Um pouco mais geralmente, dado um conjunto de afirmações $\Gamma$ (`hipóteses'), queremos arranjar um método para decidir, dada uma fórmula $\varphi$, se $\Gamma \vDash \varphi$. Para mais, queremos fazer isto sem recorrer a valorações, visto que, quando estivermos a trabalhar num contexto mais geral do que o cálculo proposicional, não teremos a vantagem de universos finitos.
+	
+	Para o fazer, formalizaremos a noção de demonstração. Para o fazer, baseamo-nos na nossa experiência a escrever provas.
+	
+	Ao redigirmos provas geralmente escrevemos coisas linearmente (uma sequência de afirmações), em que novas afirmações são justificadas com base em conhecimento prévio. Algumas afirmações são hipóteses (1) do teorema que estamos a tentar provar, algumas delas são afirmações que são simplesmente logicamente válidas (2), e algumas são consequências de afirmações anteriores (3). Para exemplificar, considere-se a seguinte demonstração em linguagem natural. Os passos estão anotados consoante a qual destes tipos de afirmação correspondem.
+	
+	\medskip
+	
+	\textbf{Proposição:} Sejam $a$ e $b$ valores de verdade tal que $a \por b = \lt$ e $b = \lf$. Então, $a = \lt$.
+	
+	\begin{adjustwidth}{1cm}{}
+	1: Hipótese: $a \por b = \lt$ (1)\\
+	2: Axioma: Se $a \por b = \lt$ então $a = \lt$ ou $b = \lt$ (2)\\
+	3: Como consequência das linhas 1 e 2: $a = \lt$ ou $b = \lt$. (3)\\
+	4: Hipótese: $b = \lf$ (1)\\
+	5: Axioma: Se sabemos $a = \lt$ ou $b = \lt$, mas $b \neq \lt$, então $a = \lt$ (2)\\
+	6: Como consequência das linhas 3 e 4: $a = \lt$. (3)
+	\end{adjustwidth}
+	
+	\medskip
+	
+	Claro que isto pressupõe uma noção de `axiomas', ou pelo menos, afirmações tomadas como verdadeiras sem justificação. Uma escolha óbvia para o nosso caso seria tomar como axiomas todas as tautologias, mas é precisamente o problema de encontrar as tautologias que estamos a tentar resolver! Assim sendo, deixamos por agora, como incógnita, um conjunto $A \subseteq \F_p$ de \emph{axiomas do cálculo proposicional}. Mais tarde preocupar-nos-emos com o seu conteúdo, mas a intuição necessária é que este conjunto será razoávelmente pequeno e poderá conter afirmações óbvias como $\neg \neg \alpha \imply \alpha$ ou $(\alpha \land \beta) \imply \alpha$.
+	
+	\textbf{A partir deste ponto}, consideramos sempre implícito o conjunto $A$, de conteúdo de momento desconhecido. 
+	
+	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{def:prop:ax}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas. No entanto, esta está escrita como se os axiomas não fossem conhecidos. Ao longo do texto, haverá diversos parágrafos, como o parágrafo anterior, que descrevem hipóteses tomadas por necessidade sobre o conjunto $A$, com o intuito de, no final, `descobrir' o que o conjunto tem que ser. Da perspetiva do leitor que já os sabe, poderá interpretar estas hipóteses, em vez disso, como lembretes quanto ao seu conteúdo.
+	
+	\begin{definicao}
+	Seja $\Gamma \subseteq \F_p$. Este conjunto representa o conjunto de hipóteses da nossa demonstração.
+	
+	Uma demonstração com base em $\Gamma$, ou demonstração que tem $\Gamma$ como hipóteses, é uma sequência finita
+	\[(\varphi_1, j_1), (\varphi_2, j_2), \dots, (\varphi_n, j_n)\]
+	onde cada $\varphi_i$ é uma fórmula proposicional, e o respetivo $j_i$ (que simboliza a justificação de $\varphi_i$) satisfaz as seguintes regras:
+	
+	\begin{itemize}
+	\item Cada $j_i$ é um símbolo da forma \texttt{Ax}, \texttt{Hip} ou $\texttt{MP}_{ab}$, com $a,b \in \N$
+	
+	\item Se $j_i = \texttt{Ax}$ é necessário que $\varphi_i \in A$
+	
+	\item Se $j_i = \texttt{Hip}$ é necessário que $\varphi_i \in \Gamma$
+	
+	\item Se $j_i = \texttt{MP}_{ab}$, então $a, b < i$ e $\varphi_a$ é a fórmula $\varphi_b \imply \varphi_i$.
+	
+	Por outras palavras, se $\varphi_a$ é da forma $\alpha \imply \beta$ e $\varphi_b$ é a fórmula $\alpha$, então podemos concluír a fórmula $\beta$, com a justificação $\texttt{MP}_{ab}$ (\textit{Modus ponens}, com hipóteses $a$ e $b$).
+	\end{itemize}
+	\end{definicao}
+	
+	\begin{definicao}
+	Dizemos que $\varphi \in \F_p$ é um teorema de $\Gamma \subseteq \F_p$, denotado
+	\[\Gamma \vdash \varphi\]
+	se existe uma demonstração com base em $\Gamma$ cuja última afirmação seja $\varphi$.
+	\end{definicao}
+	
+	Como mencionado anteriormente, ainda não fixámos o conjunto de axiomas. No entanto, é certo que todos os axiomas serão logicamente válidos, na medida em que serão todos tautologias. Com base nisto, podemos afirmar (sob esta hipótese) que o nosso cálculo será certamente \emph{correto}, isto é, só mostra afirmações verdadeiras.
+	
+	\textbf{A partir deste ponto}, assumiremos sempre que todas as fórmulas $\alpha \in A$ são tautologias.
+	
+	\begin{prop}
+	Seja $\Gamma \subseteq \F_p$, $\varphi \in \F_p$. Suponha-se que $\Gamma \vdash \varphi$. Então, $\Gamma \vDash \varphi$.
+	\end{prop}
+	
+	\begin{proof}
+	Se $\Gamma \vdash \varphi$, existe uma demonstração de $\varphi$ com base em $\Gamma$. Seja $(\varphi_1, j_1), \dots, (\varphi_n, j_n)$ esta demonstração. Mostraremos por indução que todos os $\varphi_i$ são consequência semântica de $\Gamma$, e portanto, em particular, $\Gamma \vDash \varphi_n = \varphi$.
+	
+	Seja $i$ um índice tal que para todo $i' < i$ se tem $\Gamma \vDash \varphi_{i'}$. Então, mostramos que $\Gamma \vDash \varphi_i$. A prova consiste em examinar a justificação de $\varphi_i$, isto é, $j_i$.
+	
+	\begin{itemize}
+	\item Se $j_i = \texttt{Hip}$, então $\varphi_i \in \Gamma$, donde $\Gamma \vDash \varphi_i$ trivialmente.
+	
+	\item Se $j_i = \texttt{Ax}$, então $\varphi_i \in A$, donde $\varphi_i$ é uma tautologia. Isto claramente implica $\Gamma\vDash\varphi_i$.
+	
+	\item Se $j_i = \texttt{MP}_{ab}$, basta usar a transitividade da consequência semântica. Por hipótese, $\Gamma \vDash \{\varphi_a, \varphi_b\}$. Por definição de demonstração, $\varphi_a$ é a fórmula $\varphi_b \imply \varphi_i$. Pela regra de \textit{modus ponens}, $\{\varphi_b \imply \varphi_i, \varphi_b\} \vDash \varphi_i$, pelo que, por transitividade, $\Gamma \vDash \varphi_i$, como desejado.
+	\end{itemize}
+	\end{proof}
 	
 	\subsection{Definições básicas}
 	
