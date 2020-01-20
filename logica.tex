@@ -473,11 +473,17 @@
 	
 	\medskip
 	
-	Claro que isto pressupõe uma noção de `axiomas', ou pelo menos, afirmações tomadas como verdadeiras sem justificação. Uma escolha óbvia para o nosso caso seria tomar como axiomas todas as tautologias, mas é precisamente o problema de encontrar as tautologias que estamos a tentar resolver! Assim sendo, deixamos por agora, como incógnita, um conjunto $A \subseteq \F_p$ de \emph{axiomas do cálculo proposicional}. Mais tarde preocupar-nos-emos com o seu conteúdo, mas a intuição necessária é que este conjunto será razoávelmente pequeno e poderá conter afirmações óbvias como $\neg \neg \alpha \imply \alpha$ ou $(\alpha \land \beta) \imply \alpha$.
+	Claro que isto pressupõe uma noção de `axiomas', ou pelo menos, afirmações tomadas como verdadeiras sem justificação. Uma escolha óbvia para o nosso caso seria tomar como axiomas todas as tautologias, mas é precisamente o problema de encontrar as tautologias que estamos a tentar resolver! No entanto, o seu uso é instrutivo e não totalmente inútil, visto que, apesar de tudo, o problema de encontrar consequências semânticas não fica trivializado. Isto é, a seguinte questão ainda requer algum trabalho:
 	
-	\textbf{A partir deste ponto}, consideramos sempre implícito o conjunto $A$, de conteúdo de momento desconhecido. 
+	\begin{center}
+	Sejam $\Gamma \subseteq \F_p$ e $\varphi \in \F_p$. Será possível construir uma demonstração cuja conclusão seja $\varphi$, usando como axiomas as tautologias e como hipóteses as fórmulas em $\Gamma$?
+	\end{center}
 	
-	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{def:prop:ax}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas. No entanto, esta está escrita como se os axiomas não fossem conhecidos. Ao longo do texto, haverá diversos parágrafos, como o parágrafo anterior, que descrevem hipóteses tomadas por necessidade sobre o conjunto $A$, com o intuito de, no final, `descobrir' o que o conjunto tem que ser. Da perspetiva do leitor que já os sabe, poderá interpretar estas hipóteses, em vez disso, como lembretes quanto ao seu conteúdo.
+	Em breve formalizaremos a noção de demonstração, mas a ideia principal é que criaremos um sistema em que algumas afirmações podem ser demonstradas e outras não. O objetivo é que as afirmações que podem ser demonstradas são exatamente aquelas que são verdadeiras. Ou seja, se demonstramos uma afirmação, ela tem que ser verdadeira (chamamos a isto correção), e se uma afirmação é verdadeira terá que existir uma prova dela (chamamos a isto completude). Em lógica, é normalmente bastante fácil assegurar correção de sistemas de demonstração --- basta certificarmo-nos que todos os passos individuais estão corretos ---, mas provar que qualquer afirmação verdadeira pode ser demonstrada é uma história completamente diferente!
+	
+	De agora em diante, tomaremos como conjunto de axiomas (chamamos a este conjunto $A$) as tautologias. De futuro, veremos que este conjunto pode ser drásticamente reduzido.
+	
+	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{def:prop:ax}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas, tendo conhecimento que em qualquer momento que invocamos uma tautologia como axioma, podemos substituir essa invocação por uma demonstração (com base nos axiomas finais) da fórmula em questão.
 	
 	\begin{definicao}
 	Seja $\Gamma \subseteq \F_p$. Este conjunto representa o conjunto de hipóteses da nossa demonstração.
@@ -489,7 +495,7 @@
 	\begin{itemize}
 	\item Cada $j_i$ é um símbolo da forma \texttt{Ax}, \texttt{Hip} ou $\texttt{MP}_{ab}$, com $a,b \in \N$
 	
-	\item Se $j_i = \texttt{Ax}$ é necessário que $\varphi_i \in A$
+	\item Se $j_i = \texttt{Ax}$ é necessário que $\varphi_i \in A$, onde $A$ é o conjunto de axiomas. Recordamos que, neste momento, $A$ é para nós o conjunto das tautologias.
 	
 	\item Se $j_i = \texttt{Hip}$ é necessário que $\varphi_i \in \Gamma$
 	
@@ -505,9 +511,7 @@
 	se existe uma demonstração com base em $\Gamma$ cuja última afirmação seja $\varphi$.
 	\end{definicao}
 	
-	Como mencionado anteriormente, ainda não fixámos o conjunto de axiomas. No entanto, é certo que todos os axiomas serão logicamente válidos, na medida em que serão todos tautologias. Com base nisto, podemos afirmar (sob esta hipótese) que o nosso cálculo será certamente \emph{correto}, isto é, só mostra afirmações verdadeiras.
-	
-	\textbf{A partir deste ponto}, assumiremos sempre que todas as fórmulas $\alpha \in A$ são tautologias.
+	Como mencionado anteriormente, há duas coisas que queremos que a nossa relação $\vdash$ satisfaça. Queremos que se $\Gamma \vdash \varphi$ então $\Gamma \vDash \varphi$ (correção), e queremos que se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$ (completude). Mencionámos anteriormente que a primeira propriedade é a mais fácil de verificar. Como tal, será a primeira coisa que vamos provar.
 	
 	\begin{prop}
 	Seja $\Gamma \subseteq \F_p$, $\varphi \in \F_p$. Suponha-se que $\Gamma \vdash \varphi$. Então, $\Gamma \vDash \varphi$.
@@ -533,48 +537,30 @@
 	\end{itemize}
 	\end{proof}
 	
-	A proposição anterior mostra que, sob as hipóteses já acumuladas, qualquer afirmação demonstrada é verdadeira. Desejamos algo mais forte, no entanto: queremos que qualquer afirmação verdadeira seja demonstrável. A esta última propriedade chamamos \emph{completude} do cálculo. Para a assegurarmos, é necessário termos uma quantidade suficientemente grande de axiomas. Para descobrir que axiomas precisamos, podemos olhar para os metateoremas demonstrados na secção anterior. Para o nosso cálculo ser completo, é necessário que todos os metateoremas se verifiquem quando substituimos $\vDash$ por $\vdash$ no seu enunciado.
-	
-	Exemplificamos o raciocínio com o metateorema da dedução:
+	Iniciamos agora a demonstração da completude do cálculo. Fazemos primeiro notas que, sob certas condições, esta é uma trivialidade:
 	
 	\begin{prop}
-	(Metateorema da dedução, versão sintática)
-	
-	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então
-	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
+	Sejam $\Gamma \subseteq \F_p$ e $\varphi \in \F_p$ tal que $\Gamma \vDash \varphi$. Suponha-se, em adição, que $\Gamma = \{\gamma_1, \dots, \gamma_n\}$ é finito. Então, $\Gamma \vdash \varphi$.
 	\end{prop}
 	
 	\begin{proof}
-	Um dos lados não requer hipóteses. ($\leftarrow$) Suponha-se que $\Gamma \vdash \alpha \imply \beta$. Então, isso implica a existência de uma prova com base em $\Gamma$:
-	\[
-	(\varphi_1, j_i), \dots, (\varphi_n, j_n)
-	\]
-	com $\varphi_n$ sendo a fórmula $\alpha \imply \beta$. Basta agora considerar a demonstração
-	\[
-	(\varphi_1, j_i), \dots, (\varphi_n, j_n), (\alpha, \texttt{Hip}), (\beta, \texttt{MP}_{n,(n+1)}).
-	\]
-	É fácil ver que isto é uma demonstração com base em $\Gamma \cup \{\alpha\}$: todas as justificações $j_1, \dots, j_n$ continuam válidas (um axioma continua a ser um axioma, qualquer hipótese $\varphi \in \Gamma$ é também uma hipótese em $\Gamma \cup \{\alpha\}$, e visto que a estrutura não foi modificada quaisquer aplicações de \textit{modus ponens} continuam a ser válidas) e é fácil verificar que as duas linhas adicionadas à demonstração estão também devidamente justificadas. Temos, então, uma demonstração com base em $\Gamma \cup \{\alpha\}$ cuja última afirmação é $\beta$, pelo que, como desejado, $\Gamma, \alpha \vdash \beta$.
+	Por aplicação repetida do metateorema de dedução, sabendo que $\Gamma \vDash \varphi$ obtemos que $\vDash \gamma_1 \imply (\gamma_2 \imply \dots (\gamma_n \imply \varphi) \dots )$. Assim sendo, esta última fórmula é uma tautologia, e então um axioma. Como tal, considere-se a seguinte demonstração, com base em $\Gamma$:
+	\begin{align*}
+	&\gamma_1 \imply (\gamma_2 \imply (\gamma_3 \imply \dots (\gamma_n \imply \varphi) \dots )) &&\texttt{Ax}\\
+	&\gamma_1 &&\texttt{Hip}\\
+	&\gamma_2 \imply (\gamma_3 \imply \dots (\gamma_n \imply \varphi) \dots ) &&\texttt{MP}_{12}\\
+	&\gamma_2 &&\texttt{Hip}\\
+	&\gamma_3 \imply ( \dots (\gamma_n \imply \varphi) \dots)  &&\texttt{MP}_{34}\\
+	&\vdots&&\vdots\\
+	&\gamma_n \imply \varphi &&\texttt{MP}_{\dots}\\
+	&\gamma_n &&\texttt{Hip}\\
+	&\varphi &&\texttt{MP}_{\dots}
+	\end{align*}
 	
-	A demonstração da implicação oposta ($\rightarrow$) é ligeiramente mais elaborada, mas a ideia principal é a mesma: pegar numa demonstração de $\Gamma, \alpha \vdash \beta$ e transformá-la numa demonstração de $\Gamma \vdash \alpha \imply \beta$. Assim sendo, seja
-	\[
-	(\varphi_1, j_i), \dots, (\varphi_n, j_n)
-	\]
-	uma demonstração de $\beta$ com base em $\Gamma \cup \{\alpha\}$. Construiremos indutivamente uma demonstração com base em $\Gamma$, digamos
-	\[
-	(\psi_1, j'_1), (\psi_2, j'_2), \dots, (\psi_N, j'_N)
-	\]
-	em que algum $\psi_{m_1}$ é $\alpha \imply \varphi_1$, algum $\psi_{m_2}$ é $\alpha \imply \varphi_2$, \dots, e algum $\psi_{m_n}$ ($m_n = N$) é $\alpha \imply \varphi_n$. A ideia por trás disto é que estamos a modificar a demonstração que já tinhamos, transformando todas as conclusões da forma $\varphi$ em $\alpha \imply \varphi$. Isto reflete-se na nossa conclusão na medida em que acabamos por demonstrar $\alpha \imply \varphi_n$, isto é, $\alpha \imply \beta$, como desejado.
-	
-	Assim sendo, suponha-se, pelo princípio de indução, que já temos a demonstração construída até $(\psi_1, j'_1), \dots, (\psi_{m_k}, j'_{m_k})$, com $k < n$. Construiremos mais uma secção da prova, $(\psi_{m_k + 1}, j'_{m_k + 1}), \dots, (\psi_{m_{k+1}}, j'_{m_{k+1}})$. Faremos isto por casos, dependendo de $(\varphi_{k+1}, j_{k+1})$.
-	
-	\begin{itemize}
-	\item Se $j_{k+1} = \texttt{Ax}$, então $\varphi_{k+1}$ é um axioma. Precisamos de mostrar $\alpha \imply \varphi_{k+1}$. Ora, não é necessário que $\alpha \imply \varphi_{k+1}$ seja um axioma, e ainda não temos hipóteses suficientes para construir uma prova desta fórmula, mas guardaremos a sua necessidade para futura consideração.
-	
-	\textbf{O conjunto $A$ terá que satisfazer} a propriedade que, se $\varphi \in A$, então para qualquer $\alpha \in \F_p$ temos $\vdash \alpha \imply \varphi$.
-	
-	\item Se $j_{k+1} = \texttt{Hip}$, então
-	\end{itemize}
+	Isto é uma demonstração com todas as suas hipóteses em $\Gamma$, cuja conclusão é $\varphi$, pelo que $\Gamma \vdash \varphi$ como desejado.
 	\end{proof}
+	
+	Isto mostra que o maior obstáculo para a completude é a possibilidade de haver infinitas hipóteses.
 	
 	\chapter{Lógica de primeira ordem}
 	
