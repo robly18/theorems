@@ -533,21 +533,48 @@
 	\end{itemize}
 	\end{proof}
 	
-	\subsection{Definições básicas}
+	A proposição anterior mostra que, sob as hipóteses já acumuladas, qualquer afirmação demonstrada é verdadeira. Desejamos algo mais forte, no entanto: queremos que qualquer afirmação verdadeira seja demonstrável. A esta última propriedade chamamos \emph{completude} do cálculo. Para a assegurarmos, é necessário termos uma quantidade suficientemente grande de axiomas. Para descobrir que axiomas precisamos, podemos olhar para os metateoremas demonstrados na secção anterior. Para o nosso cálculo ser completo, é necessário que todos os metateoremas se verifiquem quando substituimos $\vDash$ por $\vdash$ no seu enunciado.
 	
-	Expôr as definições de: demonstração, teorema, teoria. Introduzir a ideia de indução em fórmulas. Demonstrar a correção do cálculo.
+	Exemplificamos o raciocínio com o metateorema da dedução:
 	
-	\subsection{Intuição}
+	\begin{prop}
+	(Metateorema da dedução, versão sintática)
 	
-	Secção opcional que discute os axiomas escolhidos e o porquê da sua escolha, elaborando como um matemático curioso poderia ter a eles chegado por si mesmo.
+	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então
+	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
+	\end{prop}
 	
-	\subsection{Metateoremas}
+	\begin{proof}
+	Um dos lados não requer hipóteses. ($\leftarrow$) Suponha-se que $\Gamma \vdash \alpha \imply \beta$. Então, isso implica a existência de uma prova com base em $\Gamma$:
+	\[
+	(\varphi_1, j_i), \dots, (\varphi_n, j_n)
+	\]
+	com $\varphi_n$ sendo a fórmula $\alpha \imply \beta$. Basta agora considerar a demonstração
+	\[
+	(\varphi_1, j_i), \dots, (\varphi_n, j_n), (\alpha, \texttt{Hip}), (\beta, \texttt{MP}_{n,(n+1)}).
+	\]
+	É fácil ver que isto é uma demonstração com base em $\Gamma \cup \{\alpha\}$: todas as justificações $j_1, \dots, j_n$ continuam válidas (um axioma continua a ser um axioma, qualquer hipótese $\varphi \in \Gamma$ é também uma hipótese em $\Gamma \cup \{\alpha\}$, e visto que a estrutura não foi modificada quaisquer aplicações de \textit{modus ponens} continuam a ser válidas) e é fácil verificar que as duas linhas adicionadas à demonstração estão também devidamente justificadas. Temos, então, uma demonstração com base em $\Gamma \cup \{\alpha\}$ cuja última afirmação é $\beta$, pelo que, como desejado, $\Gamma, \alpha \vdash \beta$.
 	
-	Traduzir as regras de dedução feitas anteriormente para o contexto de sintaxe.
+	A demonstração da implicação oposta ($\rightarrow$) é ligeiramente mais elaborada, mas a ideia principal é a mesma: pegar numa demonstração de $\Gamma, \alpha \vdash \beta$ e transformá-la numa demonstração de $\Gamma \vdash \alpha \imply \beta$. Assim sendo, seja
+	\[
+	(\varphi_1, j_i), \dots, (\varphi_n, j_n)
+	\]
+	uma demonstração de $\beta$ com base em $\Gamma \cup \{\alpha\}$. Construiremos indutivamente uma demonstração com base em $\Gamma$, digamos
+	\[
+	(\psi_1, j'_1), (\psi_2, j'_2), \dots, (\psi_N, j'_N)
+	\]
+	em que algum $\psi_{m_1}$ é $\alpha \imply \varphi_1$, algum $\psi_{m_2}$ é $\alpha \imply \varphi_2$, \dots, e algum $\psi_{m_n}$ ($m_n = N$) é $\alpha \imply \varphi_n$. A ideia por trás disto é que estamos a modificar a demonstração que já tinhamos, transformando todas as conclusões da forma $\varphi$ em $\alpha \imply \varphi$. Isto reflete-se na nossa conclusão na medida em que acabamos por demonstrar $\alpha \imply \varphi_n$, isto é, $\alpha \imply \beta$, como desejado.
 	
-	\subsection{Completude}
+	Assim sendo, suponha-se, pelo princípio de indução, que já temos a demonstração construída até $(\psi_1, j'_1), \dots, (\psi_{m_k}, j'_{m_k})$, com $k < n$. Construiremos mais uma secção da prova, $(\psi_{m_k + 1}, j'_{m_k + 1}), \dots, (\psi_{m_{k+1}}, j'_{m_{k+1}})$. Faremos isto por casos, dependendo de $(\varphi_{k+1}, j_{k+1})$.
 	
-	Demonstrar a completude do cálculo, dados os axiomas apropriados.
+	\begin{itemize}
+	\item Se $j_{k+1} = \texttt{Ax}$, então $\varphi_{k+1}$ é um axioma. Precisamos de mostrar $\alpha \imply \varphi_{k+1}$. Ora, não é necessário que $\alpha \imply \varphi_{k+1}$ seja um axioma, e ainda não temos hipóteses suficientes para construir uma prova desta fórmula, mas guardaremos a sua necessidade para futura consideração.
+	
+	\textbf{O conjunto $A$ terá que satisfazer} a propriedade que, se $\varphi \in A$, então para qualquer $\alpha \in \F_p$ temos $\vdash \alpha \imply \varphi$.
+	
+	\item Se $j_{k+1} = \texttt{Hip}$, então
+	\end{itemize}
+	\end{proof}
 	
 	\chapter{Lógica de primeira ordem}
 	
