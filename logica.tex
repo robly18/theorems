@@ -23,9 +23,10 @@
 \author{}
 \date{}
 
-\newtheorem{prop}{Proposição}	
+\newtheorem{prop}{Proposição}
 \newtheorem*{prop*}{Proposição}
-\newtheorem{teorema}{Teorema}	
+\newtheorem{teorema}{Teorema}
+\newtheorem{lema}{Lema}
 
 \theoremstyle{definition}
 \newtheorem{definicao}{Definição}
@@ -376,7 +377,7 @@
 	
 	Com a informação que já temos até agora, podemos começar a fazer demonstrações sem pensar tanto sobre valorações e casos possíveis. Exemplificamos demonstrando que $\alpha \eqv \neg \neg \alpha$.
 	
-	\begin{prop}
+	\begin{prop}\label{alphaeqvnegnegalpha}
 	Para qualquer $\alpha \in \F_p$, $\vDash \alpha \eqv \neg \neg \alpha$.
 	\end{prop}
 	
@@ -510,14 +511,46 @@
 	se existe uma demonstração com base em $\Gamma$ cuja última afirmação seja $\varphi$.
 	\end{definicao}
 	
-	Como mencionado anteriormente, há duas coisas que queremos que a nossa relação $\vdash$ satisfaça. Queremos que se $\Gamma \vdash \varphi$ então $\Gamma \vDash \varphi$ (correção), e queremos que se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$ (completude). Mencionámos anteriormente que a primeira propriedade é a mais fácil de verificar. Como tal, será a primeira coisa que vamos provar.
+	Antes de começarmos a mostrar propriedades deste sistema, vamos ver algumas demonstrações para entender como é que o sistema funciona.
+	
+	\begin{prop*}
+	Se $\alpha \in \F_p$ então $\vdash \alpha \eqv \neg \neg \alpha$.
+	\end{prop*}
+	\begin{proof}
+	Recordamos primeiro o leitor da convenção de omissão de chavetas, segundo a qual a afirmação $\vdash \alpha \eqv \neg \neg \alpha$ é abreviatura de $\{\} \vdash \alpha \eqv \neg \neg \alpha$, ou seja, `$\alpha \eqv \neg \neg \alpha$ pode ser provado sem hipóteses'.
+	
+	Pela proposição \ref{alphaeqvnegnegalpha}, a afirmação $\alpha \eqv \neg \neg \alpha$ é uma tautologia. Assim sendo, temos uma demonstração particularmente concisa:
+	\[(\alpha \eqv \neg \neg \alpha, \texttt{Ax}).\]
+	\end{proof}
+	
+	\begin{prop*}
+	Se $\alpha, \beta, \gamma \in \F_p$ então $\alpha \imply (\beta \imply \gamma), \alpha \land \beta \vdash \gamma$.
+	\end{prop*}
+	\begin{proof}
+	Apresentamos a seguinte demonstração, que não é a mais direta. De facto, como veremos em breve, qualquer demonstração com um número finito $n$ de hipóteses pode ser feito de forma extremamente expedita em apenas $2n+1$ passos. No entanto, as tautologias necessárias para o fazer podem ser complicadas, pelo que apresentamos uma prova que usa apenas tautologias evidentes.
+	
+	\begin{align*}
+	&\alpha \imply (\beta \imply \gamma) &\texttt{Hip}\\
+	&\alpha \land \beta &\texttt{Hip}\\
+	&\alpha \land \beta \imply \alpha &\texttt{Ax}&&\text{Aplicar MTD à prop \ref{prop:conj:prop:sem}}\\
+	&\alpha &\texttt{MP}_{3,2}\\
+	&\beta \imply \gamma &\texttt{MP}_{1, 4}\\
+	&\alpha \land \beta \imply \beta &\texttt{Ax}&&\text{Aplicar MTD à prop \ref{prop:conj:prop:sem}}\\
+	&\beta &\texttt{MP}_{6,2}\\
+	&\gamma &\texttt{MP}_{5,7}
+	\end{align*}
+	\end{proof}
+	
+	\bigskip
+	
+	Como mencionado anteriormente, há duas coisas que queremos que a nossa relação $\vdash$ satisfaça. Queremos que se $\Gamma \vdash \varphi$ então $\Gamma \vDash \varphi$ (correção), e queremos que se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$ (completude). A primeira propriedade é a mais fácil de verificar, e como tal, será a primeira que vamos provar.
 	
 	\begin{prop}
 	Seja $\Gamma \subseteq \F_p$, $\varphi \in \F_p$. Suponha-se que $\Gamma \vdash \varphi$. Então, $\Gamma \vDash \varphi$.
 	\end{prop}
 	
 	\begin{proof}
-	Se $\Gamma \vdash \varphi$, existe uma demonstração de $\varphi$ com base em $\Gamma$. Seja $(\varphi_1, j_1), \dots, (\varphi_n, j_n)$ esta demonstração. Mostraremos por indução que todos os $\varphi_i$ são consequência semântica de $\Gamma$, e portanto, em particular, $\Gamma \vDash \varphi_n = \varphi$.
+	Se $\Gamma \vdash \varphi$, existe uma demonstração de $\varphi$ com base em $\Gamma$. Suponha-se que esta é dada por $(\varphi_1, j_1), \dots, (\varphi_n, j_n)$. Mostraremos por indução que todos os $\varphi_i$ são consequência semântica de $\Gamma$, e portanto, em particular, $\Gamma \vDash \varphi_n$, ou seja, $\Gamma \vDash \varphi$.
 	
 	Faremos esta prova usando o princípio de indução forte:
 	
@@ -563,7 +596,7 @@
 	
 	Para demonstrar a completude no caso geral, uma demonstração direta não é um bom plano de ataque. De facto, para mostrar que $\Gamma \vDash \varphi$ implica $\Gamma \vdash \varphi$ seria necessário partir de uma hipótese sobre o conjunto das valorações, e, a partir disso, construír uma demonstração. O problema é que as valorações não nos dizem grande coisa sobre como poderíamos construir a demonstração.
 	
-	Recorremos então ao princípio do contrarrecíproco. Isto é, provaremos a afirmação equivalente: $\Gamma \nvdash \varphi$ implica $\Gamma \nvDash \varphi$. Partimos do princípio que não existe uma demonstração de $\varphi$ a partir de $\Gamma$ e pretendemos construír uma valoração $\rho$ tal que $\rho \Vdash \Gamma$ mas $\rho \nVdash \varphi$. Felizmente, a construção de valorações é um processo razoávelmente simples, visto que é como resolver equações. Cada $\gamma \in \Gamma$ dá-nos uma `equação que $\rho$ tem que satisfazer', e juntando a estas a condição que $\rho$ satisfaça $\neg \varphi$, ficamos com um `sistema com infinitas incógnitas' ($\rho(x)$, $\rho(y)$, \dots), e a nossa esperança seria usar, de alguma forma, a hipótese que não há demonstrações de $\Gamma \vdash \varphi$ para concluír que este sistema é possível, e, aliás, construir a valoração $\rho$.
+	Recorremos então ao princípio do contrarrecíproco. Isto é, provaremos a afirmação equivalente: $\Gamma \nvdash \varphi$ implica $\Gamma \nvDash \varphi$. Partimos do princípio que não existe uma demonstração de $\varphi$ a partir de $\Gamma$ e pretendemos construír uma valoração $\rho$ tal que $\rho \Vdash \Gamma$ mas $\rho \nVdash \varphi$. Felizmente, a construção de valorações é um processo razoávelmente simples, visto que é como resolver equações. Cada $\gamma \in \Gamma$ dá-nos uma `equação que $\rho$ tem que satisfazer', e juntando a estas a condição que $\rho$ satisfaça $\neg \varphi$, ficamos com um `sistema com infinitas incógnitas' ($\rho(x)$, $\rho(y)$, \dots), e a nossa esperança seria que, de alguma forma, a hipótese que não há demonstrações de $\Gamma \vdash \varphi$ fosse em algum sentido equivalente a `este sistema é não-singular'.
 	
 	A ideia será construir $\rho$ de forma gananciosa, atribuindo valores às variáveis sequencialmente. Cada variável nova que atribuímos `adiciona uma condição a $\Gamma$', e se nos certificarmos a cada passo que não quebramos a condição $\Gamma \nvdash \varphi$, no final acabaremos com a valoração desejada.
 	
@@ -621,7 +654,9 @@
 	
 	\item Suponha-se verdade para algum $N$, mostre-se verdade para $N+1$. Há dois casos.
 	
-	Se $\rho(\bf x_{N+1}) = \lt$, então por construção isso significa que $\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \nvdash \varphi$, que, como neste caso $r(\bf x_{N+1})$ é $\bf x_{N+1}$, mostra o desejado.
+	Se $\rho(\bf x_{N+1}) = \lt$, então por construção isso significa que
+	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \nvdash \varphi,\]
+	que, como neste caso $r(\bf x_{N+1})$ é $\bf x_{N+1}$, mostra o desejado.
 	
 	Se $\rho(\bf x_{N+1}) = \lf$, então, por construção, temos que
 	\begin{equation}\label{eq:comp:prop:1}
@@ -635,7 +670,7 @@
 	ter-se-ia, juntando \eqref{eq:comp:prop:1} e \eqref{eq:comp:prop:2},
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \lor \neg \bf x_{N+1} \vdash \varphi.\]
 	
-	Sabendo que a hipótese $\bf x_{N+1} \lor \neg \bf x_{N+1}$ é uma tautologia, pode ser retirada das hipóteses (ver lema \ref{lemma:2}), pelo que concluímos
+	Sabendo que a hipótese $\bf x_{N+1} \lor \neg \bf x_{N+1}$ é uma tautologia, pode ser retirada das hipóteses (basta substituir qualquer sua invocação como \texttt{Hip} por uma invocação por \texttt{Ax}), pelo que concluímos
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N) \vdash \varphi,\]
 	uma contradição com a hipótese de indução. Conclui-se então que
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \neg \bf x_{N+1} \nvdash \varphi,\]
@@ -663,7 +698,35 @@
 	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \varphi
 	\]
 	que é uma contradição com \eqref{eq:comp:prop:-1}.
+	
+	Isto termina a demonstração de $\rho \Vdash \Gamma$ e $\rho \nVdash \varphi$, pelo que $\Gamma \nvDash \varphi$, como desejado.
 	\end{proof}
+	
+	Falta agora preencher alguns buracos tomados por garantidos nesta demonstração. Antes de o fazermos, mostramos que o cálculo proposicional satisfaz o metateorema da dedução, que nos será muito útil no que se segue.
+	
+	\begin{prop}
+	(Metateorema da dedução, versão sintática)
+	
+	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então
+	
+	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
+	\end{prop}
+	\begin{proof}
+	Uma das implicações é trivial. ($\leftarrow$) De facto, se $\Gamma \vdash \alpha \imply \beta$, então existe uma demonstração $D$ (de comprimento, digamos, $N$) de $\alpha \imply \beta$ partindo apenas de hipóteses em $\Gamma$. Considere-se então a seguinte demonstração com hipóteses em $\Gamma \cup \{\alpha\}$:
+	
+	\[[\dots D \dots], (\alpha, \texttt{Hip}), (\beta, \texttt{MP}_{N, N+1})\]
+	
+	Esta demonstração mostra, então, que $\Gamma, \alpha \vdash \beta$, como desejado.
+	\smallskip
+	A implicação no outro sentido é um pouco mais elaborada, e introduz a ideia de prova que é construção de demonstrações. (todo)
+	\end{proof}
+	
+	Começamos por mostrar um facto elementar sobre o comportamento do operador `ou'.
+	
+	\begin{lema}
+	Seja $\Gamma \subseteq \F_p$ e $\alpha, \beta, \varphi \in \F_p$. Suponha-se que $\Gamma, \alpha \vdash \varphi$ e $\Gamma, \beta \vdash \varphi$. Então,
+	\[\Gamma, \alpha \lor \beta \vdash \varphi.\]
+	\end{lema}
 	
 	\chapter{Lógica de primeira ordem}
 	
