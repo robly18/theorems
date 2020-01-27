@@ -716,17 +716,71 @@
 	
 	\[[\dots D \dots], (\alpha, \texttt{Hip}), (\beta, \texttt{MP}_{N, N+1})\]
 	
+	(A invocação de \textit{modus ponens} é justificada porque a $N$-ésima afirmação da prova, isto é, a última afirmação de $D$, é $\alpha \imply \beta$ por hipótese.)
+	
 	Esta demonstração mostra, então, que $\Gamma, \alpha \vdash \beta$, como desejado.
 	\smallskip
-	A implicação no outro sentido é um pouco mais elaborada, e introduz a ideia de prova que é construção de demonstrações. (todo)
+	A implicação no outro sentido é um pouco mais elaborada, e introduz a ideia de prova que é construção de demonstrações.
+	
+	Vamos partir do princípio que temos uma demonstração de $\Gamma, \alpha \vdash \beta$:
+	\[(\varphi_1, j_1), \dots, (\varphi_n, j_n)\]
+	e vamos, a partir desta, construir uma demonstração de $\Gamma \vdash \alpha \imply \beta$. Mais concretamente, construiremos uma demonstração (de hipóteses em $\Gamma$)
+	\[(\psi_1, j'_1), \dots, (\psi_N, j'_N)\]
+	em que alguns dos $\psi$, digamos $\psi_{i_1}, \dots, \psi_{i_n}$ (este último coincidindo com $\psi_N$) correspondem respetivamente a $\alpha \imply \varphi_1, \dots, \alpha \imply \varphi_n$.
+	
+	Exemplificamos o processo com os primeiros três passos. Considere-se $(\varphi_1, j_1)$.
+	
+	\begin{itemize}
+	\item Se $j_1$ é \texttt{Ax}, isso significa que $\varphi_1$ é uma tautologia. Assim sendo, (por transitividade de $\vDash$ e usando a versão semântica do MTD) temos que $\alpha \imply \varphi_1$ é também uma tautologia, pelo que a nossa prova modificada pode simplesmente começar com
+	\[(\alpha \imply \varphi_1, \texttt{Ax}).\]
+	
+	\item Se $j_1$ é \texttt{Hip}, temos que $\varphi_1 \in \Gamma \cup \{\alpha\}$, pelo que há dois casos a considerar.
+	\begin{itemize}
+	\item Se $\varphi_1$ é $\alpha$, então basta reparar que a afirmação $\alpha \imply \alpha$ é uma tautologia, pelo que podemos começar a prova modificada com
+	\[(\alpha \imply \varphi_1, \texttt{Ax}).\]
+	
+	\item Se $\varphi_1 \in \Gamma$, é preciso provar, com apenas hipóteses em $\Gamma$, que $\alpha \imply \varphi_1$. Para isto, usamos o facto que a seguinte afirmação é uma tautologia: (Como pode ser demonstrado através de dois usos do MTD)
+	\[(\varphi_1 \imply (\alpha \imply \varphi_1), \texttt{Ax})\]
+	e continuamos a demonsração modificada com
+	\begin{gather*}
+	(\varphi_1, \texttt{Hip})\\
+	(\alpha \imply \varphi_1, \texttt{MP}_{12})
+	\end{gather*}
+	\end{itemize}
+	
+	\item Não consideramos aqui o caso de $j_1 = \texttt{MP}$ por razões óbvias.
+	\end{itemize}
+	
+	O mesmo raciocínio funciona para o segundo passo, e aliás qualquer passo cuja justificação seja \texttt{Ax} ou \texttt{Hip}. Falta agora considerar o caso de \texttt{MP}.
+	
+	Para propósitos ilustrativos, suponha-se que $j_3 = \texttt{MP}_{12}$. A prova modificada construida até agora terá sido
+	\[\dots, (\alpha \imply (\varphi_2 \imply \varphi_3), j_{i_1}), \dots (\alpha \imply \varphi_2, j_{i_2}).\]
+	
+	Para completar a prova, precisamos de justificar que de $\alpha \imply (\varphi_2 \imply \varphi_3)$ e $\alpha \imply \varphi_2$ conseguimos concluir $\alpha \imply \varphi_3$.  Para tal, é necessário usar o facto que a seguinte afirmação é uma tautologia:
+	
+	\[[\alpha \imply (\varphi_2 \imply \varphi_3)] \imply [(\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3)]\]
+	coisa esta que pode ser demonstrada semânticamente através de uso generoso do MTD.
+	
+	Sabendo este facto, é fácil continuar a demonstração modificada, adicionando as linhas:
+	\begin{gather*}
+	([\alpha \imply (\varphi_2 \imply \varphi_3)] \imply [(\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3)], \texttt{Ax})\\
+	((\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3), \texttt{MP}_{i_2 + 1, i_1})\\
+	(\alpha \imply \varphi_3, \texttt{MP}_{i_2 + 2, i_2})
+	\end{gather*}
+	
+	Note-se que neste raciocínio focámo-nos nos primeiro, segundo e terceiro passos, mas é evidente que este raciocínio poderá ser aplicado a todos os passos. Continuando o processo até o $n$-ésimo passo, obtem-se a demonstração modificada desejada, o que conclui a prova.
 	\end{proof}
 	
-	Começamos por mostrar um facto elementar sobre o comportamento do operador `ou'.
+	Tal como a sua correspondente versão semântica, a versão sintática do metateorema da dedução é instrumental para simplificar imensas provas. Exemplificamos com o seguinte lema, que foi usado na demonstração de completude.
 	
 	\begin{lema}
 	Seja $\Gamma \subseteq \F_p$ e $\alpha, \beta, \varphi \in \F_p$. Suponha-se que $\Gamma, \alpha \vdash \varphi$ e $\Gamma, \beta \vdash \varphi$. Então,
 	\[\Gamma, \alpha \lor \beta \vdash \varphi.\]
 	\end{lema}
+	
+	\begin{proof}
+	
+	\end{proof}
 	
 	\chapter{Lógica de primeira ordem}
 	
