@@ -580,10 +580,10 @@
 	
 	Construiremos indutivamente uma valoração $\rho$ tal que $\rho \Vdash \Gamma$ e $\rho \nVdash \varphi$. Para o fazer, pressupomos uma enumeração $\bf x_1, \bf x_2, \dots$ de $X$. (Usamos aqui que o conjunto das variáveis, $X$, é contável!)
 	
-	Para definir $\rho(\bf x_1)$, averigue-se se $\Gamma, \bf x_1 \vdash \varphi$.
+	Para definir $\rho(\bf x_1)$, averigue-se se $\Gamma, \bf x_1 \vdash \varphi$. Isto é: será que adicionando a afirmação `$\bf x_1$ é verdadeiro' às nossas hipóteses conseguimos demonstrar $\varphi$?
 	
 	\begin{itemize}
-	\item Em caso afirmativo, o nosso $\rho$ não poderá atribuir $\rho(\bf x_1) = \lt$, ou então o `sistema' a resolver ficava impossível! Assim sendo, definimos $\rho(\bf x_1) = \lf$. 
+	\item Em caso afirmativo, o nosso $\rho$ não poderá atribuir $\rho(\bf x_1) = \lt$, ou então o `sistema' a resolver ($\rho \nVdash \varphi$) ficava impossível! Assim sendo, definimos $\rho(\bf x_1) = \lf$. 
 	
 	\item Em caso negativo, não haverá problema em definir $\rho(\bf x_1) = \lt$.
 	\end{itemize}
@@ -623,24 +623,24 @@
 	
 	\item Suponha-se verdade para algum $N$, mostre-se verdade para $N+1$. Há dois casos.
 	
-	Se $\rho(\bf x_N) = \lt$, então por construção isso significa que $\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}), \bf x_N \nvdash \varphi$, que, como neste caso $r(\bf x_N)$ é $\bf x_N$, mostra o desejado.
+	Se $\rho(\bf x_{N+1}) = \lt$, então por construção isso significa que $\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \nvdash \varphi$, que, como neste caso $r(\bf x_{N+1})$ é $\bf x_{N+1}$, mostra o desejado.
 	
-	Se $\rho(\bf x_N) = \lf$, então, por construção, temos que
+	Se $\rho(\bf x_{N+1}) = \lf$, então, por construção, temos que
 	\begin{equation}\label{eq:comp:prop:1}
-	\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}), \bf x_N \vdash \varphi.
+	\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \vdash \varphi.
 	\end{equation}
 	
 	Faremos os detalhes mais tarde (ver lema \ref{lemma:1}), mas a ideia é a seguinte: supondo, por absurdo, que
 	\begin{equation}\label{eq:comp:prop:2}
-	\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}), \neg \bf x_N \vdash \varphi,
+	\Gamma, r(\bf x_1), \dots, r(\bf x_N), \neg \bf x_{N+1} \vdash \varphi,
 	\end{equation}
 	ter-se-ia, juntando \eqref{eq:comp:prop:1} e \eqref{eq:comp:prop:2},
-	\[\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}), \bf x_N \lor \neg \bf x_N \vdash \varphi.\]
+	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \lor \neg \bf x_{N+1} \vdash \varphi.\]
 	
-	Sabendo que a hipótese $\bf x_N \lor \neg \bf x_N$ é uma tautologia, pode ser retirada das hipóteses (ver lema \ref{lemma:2}), pelo que concluímos
-	\[\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}) \vdash \varphi,\]
+	Sabendo que a hipótese $\bf x_{N+1} \lor \neg \bf x_{N+1}$ é uma tautologia, pode ser retirada das hipóteses (ver lema \ref{lemma:2}), pelo que concluímos
+	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N) \vdash \varphi,\]
 	uma contradição com a hipótese de indução. Conclui-se então que
-	\[\Gamma, r(\bf x_1), \dots, r(\bf x_{N-1}), \neg \bf x_N \nvdash \varphi,\]
+	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \neg \bf x_{N+1} \nvdash \varphi,\]
 	como desejado.
 	\end{itemize}
 	
