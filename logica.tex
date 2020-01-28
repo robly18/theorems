@@ -722,11 +722,13 @@
 	\smallskip
 	A implicação no outro sentido é um pouco mais elaborada, e introduz a ideia de prova que é construção de demonstrações.
 	
+	No que se segue, usaremos a sigla MTD com o significado de `metateorema da dedução, versão semântica'.
+	
 	Vamos partir do princípio que temos uma demonstração de $\Gamma, \alpha \vdash \beta$:
 	\[(\varphi_1, j_1), \dots, (\varphi_n, j_n)\]
 	e vamos, a partir desta, construir uma demonstração de $\Gamma \vdash \alpha \imply \beta$. Mais concretamente, construiremos uma demonstração (de hipóteses em $\Gamma$)
 	\[(\psi_1, j'_1), \dots, (\psi_N, j'_N)\]
-	em que alguns dos $\psi$, digamos $\psi_{i_1}, \dots, \psi_{i_n}$ (este último coincidindo com $\psi_N$) correspondem respetivamente a $\alpha \imply \varphi_1, \dots, \alpha \imply \varphi_n$.
+	em que alguns dos $\psi$, digamos $\psi_{i_1}, \dots, \psi_{i_n}$ (este último coincidindo com $\psi_N$) correspondem respetivamente a $\alpha \imply \varphi_1, \dots, \alpha \imply \varphi_n$. Esta prova terminará então com $\alpha \imply \beta$ (visto que $\varphi_n$ é $\beta$), pelo que teremos a demonstração desejada de $\Gamma \vdash \alpha \imply \beta$.
 	
 	Exemplificamos o processo com os primeiros três passos. Considere-se $(\varphi_1, j_1)$.
 	
@@ -754,12 +756,12 @@
 	O mesmo raciocínio funciona para o segundo passo, e aliás qualquer passo cuja justificação seja \texttt{Ax} ou \texttt{Hip}. Falta agora considerar o caso de \texttt{MP}.
 	
 	Para propósitos ilustrativos, suponha-se que $j_3 = \texttt{MP}_{12}$. A prova modificada construida até agora terá sido
-	\[\dots, (\alpha \imply (\varphi_2 \imply \varphi_3), j_{i_1}), \dots (\alpha \imply \varphi_2, j_{i_2}).\]
+	\[\dots, (\alpha \imply (\varphi_2 \imply \varphi_3), j_{i_1}), \dots, (\alpha \imply \varphi_2, j_{i_2}).\]
 	
 	Para completar a prova, precisamos de justificar que de $\alpha \imply (\varphi_2 \imply \varphi_3)$ e $\alpha \imply \varphi_2$ conseguimos concluir $\alpha \imply \varphi_3$.  Para tal, é necessário usar o facto que a seguinte afirmação é uma tautologia:
 	
 	\[[\alpha \imply (\varphi_2 \imply \varphi_3)] \imply [(\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3)]\]
-	coisa esta que pode ser demonstrada semânticamente através de uso generoso do MTD.
+	coisa esta que pode ser demonstrada semânticamente através de uso generoso do MTD e MP.
 	
 	Sabendo este facto, é fácil continuar a demonstração modificada, adicionando as linhas:
 	\begin{gather*}
@@ -779,7 +781,13 @@
 	\end{lema}
 	
 	\begin{proof}
+	Sabendo que $\Gamma, \alpha \vdash \varphi$, concluímos, pelo metateorema da dedução sintático, que $\Gamma \vdash \alpha \imply \varphi$. Idênticamente, temos que $\Gamma \vdash \beta \imply \varphi$.
 	
+	Sejam $(\varphi_1, j_1), \dots, (\varphi_n, j_n)$ e $(\psi_1, j'_1), \dots, (\psi_m, j'_m)$ as respetivas provas. Concatenando as duas (e ajustando índices de \texttt{MP}'s quando necessário) obtemos uma prova cuja $n$-ésima entrada é $\alpha \imply \varphi$ e cuja $(n+m)$-ésima entrada é $\beta \imply \varphi$.
+	
+	Adicionando a esta prova a linha
+	\[((\alpha \imply \varphi) \imply [(\beta \imply \varphi) \imply ((\alpha \lor \beta) \imply \varphi)], \texttt{Ax})\]
+	seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$, como desejado.
 	\end{proof}
 	
 	\chapter{Lógica de primeira ordem}
