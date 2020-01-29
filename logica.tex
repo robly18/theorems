@@ -763,23 +763,34 @@
 	como desejado.
 	\end{itemize}
 	
-	Podemos agora mostrar $\rho \nVdash \varphi$. Para o fazer, repare-se que se $\rho \Vdash \varphi$ ter-se-ia (ver lema \ref{lemma:3})
-	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
-	o que implicaria (visto que não há problema em adicionar hipóteses) que
+	Podemos agora mostrar $\rho \nVdash \varphi$. Para o fazer, usaremos um facto que terá que ser provado em detalhe mais tarde (ver lema \ref{lema:3}).
+	
+	A ideia é que, supondo que $\rho \Vdash \varphi$, das hipóteses $r(\bf x_1), r(\bf x_2), \dots$ consegue-se concluir $\varphi$. Simbolicamente,
+	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi.\]
+	
+	Intuitivamente, isto é verdade porque as nossas hipóteses permitem-nos `substituir cada variável pelo seu valor de verdade dado por $\rho$', e a informação $\rho \Vdash \varphi$ permite-nos concluir que `ao avaliar a expressão resultante, obtemos $\lt$'. Claro que isto não é uma demonstração, mas será talvez suficiente para o leitor aceitar o facto como plausível.
+	
+	Este facto é útil porque, sob esta hipótese, ter-se-ia (visto que não há problema em adicionar hipóteses) que
 	\[\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
 	o que entra em contradição com \eqref{eq:comp:prop:0}.
 	
-	Mostre-se, agora, que para todo $\gamma \in \Gamma$ se tem $\rho \Vdash \gamma$. Usando, novamente, o lema \ref{lemma:3}, temos que, assumindo por absurdo $\rho \nVdash \gamma$, ter-se-ia $\rho \Vdash \neg \gamma$ e como tal
+	Mostre-se, agora, que para todo $\gamma \in \Gamma$ se tem $\rho \Vdash \gamma$. Usando novamente o lema \ref{lema:3}, temos que, assumindo por absurdo $\rho \nVdash \gamma$, ter-se-ia $\rho \Vdash \neg \gamma$ e como tal
 	\begin{equation}\label{eq:comp:prop:3}
 	r(\bf x_1), r(\bf x_2), \dots \vdash \neg \gamma.
 	\end{equation}
 	
 	Assim sendo, chegamos às seguintes duas conclusões:
 	\begin{gather}
-	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \neg \gamma\\
-	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \gamma
+	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \neg \gamma\label{shownotgamma}\\
+	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \gamma\label{showgamma}
 	\end{gather}
-	a primeira por \eqref{eq:comp:prop:3}, e a segunda porque $\gamma \in \Gamma$. Usando o princípio da explosão (lema \ref{lemma:4}), concluímos
+	a primeira por \eqref{eq:comp:prop:3}, e a segunda porque $\gamma \in \Gamma$. Recorremos agora ao chamado \emph{princípio da explosão}.
+	
+	Concatenando as demonstrações de \eqref{shownotgamma} e \eqref{showgamma} e ajustando índices consoante necessário, temos uma demonstração que tem $\Gamma, r(\bf x_1), r(\bf x_2), \dots$ como hipóteses e que mostra, em algum momento, $\gamma$ e $\neg \gamma$.
+	
+	No fim desta demonstração, adicione-se a linha
+	\[(\gamma \imply (\neg \gamma \imply \neg \varphi), \texttt{Ax}\footnote{A verificação de que a fórmula invocada é de facto uma tautologia é deixada ao leitor.}),\]
+	seguida de duas aplicações de \textit{modus ponens}, de modo a construir uma prova de
 	\[
 	\Gamma, r(\bf x_1), r(\bf x_2), \dots \vdash \varphi
 	\]
@@ -788,7 +799,7 @@
 	Isto termina a demonstração de $\rho \Vdash \Gamma$ e $\rho \nVdash \varphi$, pelo que $\Gamma \nvDash \varphi$, como desejado.
 	\end{proof}
 	
-	Falta agora preencher alguns buracos tomados por garantidos nesta demonstração. Antes de o fazermos, mostramos que o cálculo proposicional satisfaz o metateorema da dedução, que nos será muito útil no que se segue.
+	Falta agora preencher alguns buracos tomados por garantidos nesta demonstração. Antes de o fazermos, mostramos que o cálculo proposicional satisfaz o metateorema da dedução, que nos será muito útil no que se segue. Note-se que, até menção em contrário, não usaremos a completude do cálculo proposicional, visto que, em rigor, ainda não acabámos a sua demonstração!
 	
 	\begin{prop}
 	(Metateorema da dedução, versão sintática)
@@ -874,6 +885,50 @@
 	Adicionando a esta prova a linha
 	\[((\alpha \imply \varphi) \imply [(\beta \imply \varphi) \imply ((\alpha \lor \beta) \imply \varphi)], \texttt{Ax})\]
 	(ver lema \ref{lemaou} para justificar que esta é uma tautologia) seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$, como desejado.
+	\end{proof}
+	
+	Mostramos agora a versão sintática do metateorema de substituição de equivalentes. Visto que temos ao nosso dispor todas as tautologias como axiomas, juntamente com a versão semântica metateorema de substituição, esta demonstração acaba por ser algo trivial.
+	
+	\begin{prop}
+	(Metateorema de substituição de equivalentes, versão sintática) Sejam $\varphi, \psi, \alpha, \beta \in \F_p$ e $\Gamma \subseteq \F_p$. Suponha-se que $\Gamma \vdash \alpha \eqv \beta$ e que $\psi$ é obtido de $\varphi$ por substituição de $\alpha$ por $\beta$. Então,
+	\[\Gamma \vdash \varphi \eqv \psi.\]
+	\end{prop}
+	
+	\begin{proof}
+	A primeira observação é que o problema já está resolvido para $\Gamma$ finito. De facto, aplicando a completude do cálculo proposicional para conjuntos de hipóteses finitos, basta recorrer diretamente à versão semântica deste metateorema, visto que, neste caso, $\vdash$ e $\vDash$ são equivalentes.
+	
+	A segunda observação é que qualquer conjunto de hipóteses pode ser reduzido a um conjunto finito. De facto, sabendo que $\Gamma \vdash \alpha \eqv \beta$, visto que demonstrações são finitas, existe um subconjunto \emph{finito} $\Gamma' \subseteq \Gamma$ tal que $\Gamma' \vdash \alpha \eqv \beta$. Aplicando o metateorema de substituição de equivalentes, que já justificámos para o caso finito, obtemos que $\Gamma' \vdash \varphi \eqv \psi$, que obviamente implica que $\Gamma \vdash \varphi \eqv \psi$, como desejado.
+	\end{proof}
+	
+	Estamos agora em posição de mostrar um lema que foi usado na demonstração da completude do cálculo proposicional, que nos permite fazer uma ponte entre valorações e demonstrações.
+	
+	\begin{lema}\label{lema:3}
+	Seja $\bf x_1, \bf x_2, \dots$ uma enumeração das variáveis, $\rho$ uma valoração e $\varphi$ uma fórmula. Defina-se, para $i = 1, 2, \dots$, $r(\bf x_i)$ como sendo a fórmula $\bf x_i$ se $\rho(\bf x_i) = \lt$ e $\neg \bf x_i$ se $\rho(\bf x_i) = \lf$. Sob estas hipóteses,
+	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi.\]
+	\end{lema}
+	
+	\begin{proof}
+	($\leftarrow$) Pela correção do cálculo proposicional, se
+	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi\]
+	então
+	\[r(\bf x_1), r(\bf x_2), \dots \vDash \varphi.\]
+	
+	É fácil verificar que $\rho \Vdash r(\bf x_i)$ para todo $i \in \N^+$, pelo que, por definição de consequência semântica, $\rho \Vdash \varphi$, como desejado.
+	
+	\medskip
+	
+	($\rightarrow$) Para provar esta implicação, começamos por reparar que o valor de $\overline\rho(\varphi)$ depende apenas do valor de $\rho(\bf x)$ para um número finito de variáveis $\bf x$. Isto pode ser provado diretamente por indução na estrutura da fórmula, ou pode ser feito usando o facto que $\overline\rho(\varphi)$ depende apenas de $\rho|_{\var \varphi}$ e que o conjunto $\var \varphi$ é finito (ambos estes factos justificados por indução na estrutura da fórmula). Assim sendo, existe algum $N$ tal que $\overline\rho(\varphi)$ depende apenas de $\rho(\bf x_1), \dots, \rho(\bf x_N)$. Como tal, partindo do princípio que $\rho \Vdash \varphi$, qualquer valoração $\rho'$ que concorde com $\rho$ nestas variáveis também satisfará $\rho' \Vdash \varphi$.
+	
+	Repare-se agora que qualquer valoração $\rho'$ que satisfaz
+	\[\rho' \Vdash r(\bf x_1), \dots, r(\bf x_N)\]
+	está precisamente nestas condições, pelo que $\rho' \Vdash \varphi$. Assim sendo, conclui-se que
+	\[r(\bf x_1), \dots, r(\bf x_N) \vDash \varphi.\]
+	
+	Pela completude do cálculo proposicional no caso finito, obtem-se
+	\[r(\bf x_1), \dots, r(\bf x_N) \vdash \varphi,\]
+	e visto que não há problema em adicionar hipóteses, temos
+	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi\]
+	como desejado.
 	\end{proof}
 	
 	\chapter{Lógica de primeira ordem}
