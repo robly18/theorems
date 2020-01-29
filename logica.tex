@@ -452,6 +452,83 @@
 	\]
 	\end{proof}
 	
+	Mostramos agora um conjunto de aplicações do metateorema de substituição de equivalentes que nos será útil no futuro, quando precisarmos do operador $\lor$.
+	
+	Começamos por realçar duas propriedade com a qual o leitor já estará familiar: o princípio do contrarrecíproco e as leis de deMorgan.
+	
+	\begin{prop}
+	(Contrarrecíproco)
+	
+	Se $\alpha$ e $\beta$ são fórmulas, temos a seguinte equivalência:
+	
+	\begin{equation}
+	\vDash (\alpha \imply \beta) \eqv (\neg \beta \imply \neg \alpha)
+	\end{equation}
+	\end{prop}
+	
+	\begin{proof}
+	Faremos esta demonstração `à bruta', usando o nosso conhecimento dos operadores $\pnot$ e $\por$.
+	
+	Sabemos que, se $\rho$ é uma valoração,
+	\begin{align*}
+	\rho \Vdash (\alpha \imply \beta) &\text{ sse } (\pnot \overline\rho(\alpha)) \por \overline\rho(\beta) = \lt\\
+	&\text{ sse } (\pnot \pnot \overline\rho(\beta)) \por (\pnot \overline\rho(\alpha)) = \lt\\
+	&\text{ sse } (\pnot \overline\rho(\neg \beta)) \por \overline\rho(\neg \alpha) = \lt\\
+	&\text{ sse } \rho \Vdash (\neg \beta \imply \neg \alpha).
+	\end{align*}
+	
+	Isto mostra que $\alpha \imply \beta \vDash \neg \beta \imply \neg \alpha$ e vice-versa, o que, através de duas aplicações do metateorema da dedução e uso de propriedades do operador $\land$, nos permite chegar à conclusão que
+	
+	\begin{equation*}
+	\vDash (\alpha \imply \beta) \eqv (\neg \beta \imply \neg \alpha),
+	\end{equation*}
+	como desejado.
+	\end{proof}
+	
+	\begin{prop}\label{demorgan}
+	(Leis de deMorgan)
+	
+	Se $\alpha$ e $\beta$ são fórmulas, temos as seguintes equivalências:
+	
+	\begin{gather}
+	\vDash \neg (\alpha \land \beta) \eqv (\neg \alpha \lor \neg \beta)\label{demorgan1}\\
+	\vDash \neg (\alpha \lor \beta) \eqv (\neg \alpha \land \neg \beta)\label{demorgan2}
+	\end{gather}
+	\end{prop}
+	
+	\begin{proof}
+	Recordemo-nos das definições por abreviatura de $\lor$ e $\land$.
+	
+	\begin{gather}
+	\alpha \land \beta \text{ é o mesmo que } \neg (\alpha \imply \neg \beta)\\
+	\alpha \lor \beta \text{ é o mesmo que } (\neg \alpha \imply \beta)
+	\end{gather}
+	
+	Substituindo nas expressões \eqref{demorgan1} e \eqref{demorgan2}, fica claro que a demonstração é uma mera aplicação do metateorema da substituição de equivalentes usando a equivalência $\alpha \eqv \neg \neg \alpha$.
+	\end{proof}
+	
+	As leis de deMorgan encontram alguma utilidade em provar coisas sobre o operador $\lor$, visto que neste momento só temos informação sobre $\land$.
+	
+	\begin{lema}\label{lemaou}
+	Se $\alpha, \beta$ e $\varphi$ são fórmulas, a seguinte fórmula é uma tautologia:
+	\begin{equation}\label{eq:lemaou}
+	\vDash (\alpha \imply \varphi) \imply ((\beta \imply \varphi) \imply ((\alpha \lor \beta) \imply \varphi))
+	\end{equation}
+	\end{lema}
+	
+	\begin{proof}
+	Usando o princípio do contrarrecíproco e o metateorema da equivalência, conclui-se que para provar \eqref{eq:lemaou} é necessário e suficiente mostrar
+	\begin{equation}
+	\vDash (\neg \varphi \imply \neg \alpha) \imply ((\neg \varphi \imply \neg \beta) \imply (\neg \varphi \imply \neg (\alpha \lor \beta))),
+	\end{equation}
+	e uma aplicação das leis de deMorgan diz-nos que isto é equivalente a mostrar
+	\begin{equation}
+	\vDash (\neg \varphi \imply \neg \alpha) \imply ((\neg \varphi \imply \neg \beta) \imply (\neg \varphi \imply (\neg \alpha \land \neg \beta))).
+	\end{equation}
+	
+	O problema está agora reduzido a aplicação generosa do metateorema da dedução, \textit{modus ponens} e propriedades elementares (proposição \ref{prop:conj:prop:sem}) do operador $\land$.
+	\end{proof}
+	
 	\section{Sintática}
 	
 	Como explicado na secção preliminar, o nosso objetivo final será arranjar uma forma sistemática de descobrir que afirmações são tautologias. Um pouco mais geralmente, dado um conjunto de afirmações $\Gamma$ (`hipóteses'), queremos arranjar um método para decidir, dada uma fórmula $\varphi$, se $\Gamma \vDash \varphi$. Para mais, queremos fazer isto sem recorrer a valorações, visto que, quando estivermos a trabalhar num contexto mais geral do que o cálculo proposicional, não teremos a vantagem de universos finitos.
@@ -787,7 +864,7 @@
 	
 	Adicionando a esta prova a linha
 	\[((\alpha \imply \varphi) \imply [(\beta \imply \varphi) \imply ((\alpha \lor \beta) \imply \varphi)], \texttt{Ax})\]
-	seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$, como desejado.
+	(ver lema \ref{lemaou}) seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$, como desejado.
 	\end{proof}
 	
 	\chapter{Lógica de primeira ordem}
