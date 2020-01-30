@@ -631,7 +631,7 @@
 	
 	Como mencionado anteriormente, há duas coisas que queremos que a nossa relação $\vdash$ satisfaça. Queremos que se $\Gamma \vdash \varphi$ então $\Gamma \vDash \varphi$ (correção), e queremos que se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$ (completude). A primeira propriedade é a mais fácil de verificar, e como tal, será a primeira que vamos provar.
 	
-	\begin{prop} (Completude do cálculo proposicional)
+	\begin{prop}\label{prop:correcao} (Correção do cálculo proposicional)
 	Seja $\Gamma \subseteq \F_p$, $\varphi \in \F_p$. Suponha-se que $\Gamma \vdash \varphi$. Então, $\Gamma \vDash \varphi$.
 	\end{prop}
 	
@@ -930,6 +930,60 @@
 	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi\]
 	como desejado.
 	\end{proof}
+	
+	\section{Axiomática}
+	
+	Tivemos até agora bastante sucesso com o cálculo proposicional. Mostrámos que, partindo apenas do nosso conhecimento de tautologias e \textit{modus ponens}, é possível caracterizar completamente a relação de consequência semântica. Nesta secção, reduziremos o conjunto dos axiomas.
+	
+	Começamos por mostrar que para um conjunto de axiomas nos dar um cálculo correto e completo é necessário e suficiente que, em certo sentido, chegam para descrever as tautologias todas.
+	
+	\begin{prop}
+	Seja $A$ um conjunto de axiomas. Então, o cálculo proposicional usando $A$ como axiomas é
+	
+	\begin{itemize}
+	\item Correto sse todos os elementos de $A$ são tautologias
+	
+	\item Completo sse para qualquer tautologia $\varphi$ existe uma demonstração (sem hipóteses) de $\varphi$ com os axiomas de $A$.
+	\end{itemize} 
+	\end{prop}
+	
+	\begin{proof}
+	Há quatro implicações a provar.
+	
+	(Correção $\imply$ Todos os elementos de $A$ são tautologias) Esta implicação é trivial.
+	
+	(Todos os elementos de $A$ são tautologias $\imply$ Correção) A demonstração de correção feita em \ref{prop:correcao} aplica-se sem modificação.
+	
+	(Completude $\imply$ Qualquer tautologia é possível de provar) Esta implicação é trivial.
+	
+	(Qualquer tautologia é possível de provar $\imply$ Completude) Já mostrámos que sempre que $\Gamma \vDash \varphi$ existe uma demonstração de $\varphi$ com hipóteses em $\Gamma$ \emph{que usa as tautologias como axiomas}. Basta então mostrar que, sob estas hipóteses, é sempre possível substituir uma invocação de uma tautologia por uma `mini-demonstração' desta.
+	
+	Considere-se uma prova (no sentido de $A$ = tautologias) no meio da qual se invoca uma tautologia $\varphi$ que não esteja em $A$. Digamos que esta prova é da forma
+	\[ [\dots D_1 \dots], (\varphi, \texttt{Ax}), [\dots D_2 \dots].\]
+	
+	Suponha-se que $[\dots C \dots]$ é uma demonstração de $\varphi$ com axiomas em $A$. Esta demonstração existe por hipótese. Então, concatenando demonstrações e ajustando índices, temos que
+	\[ [\dots D_1 \dots] [\dots C \dots] [\dots D_2 \dots] \]
+	é uma demonstração, com a mesma conclusão que a original, da qual foi removida uma invocação de um axioma que não está em $A$. O processo pode ser repetido até todas as tais invocações serem removidas. No final, a demonstração obtida é uma demonstração com a mesma conclusão que a original mas que só usa axiomas em $A$.
+	\end{proof}
+	
+	O nosso problema fica então reduzido a arranjar um conjunto $A$ de tautologias, se possível `razoávelmente pequeno', a partir do qual se consiga demonstrar todas as tautologias. Para investigar este problema é razoável investigar as ferramentas que usámos para mostrar tautologias. De facto, uma ferramenta que nos foi útil em muitos casos é o metateorema da dedução. Como tal, é de esperar que o nosso conjunto $A$ tenha axiomas suficientes para o mostrar. Por inspeção da demonstração da versão sintática do MTD, vemos que as únicas tautologias que são realmente necessárias são:
+	
+	\begin{enumerate}
+	\item Se $\varphi_1$ é um axioma, é necessário $\alpha \imply \varphi$
+	
+	\item $\alpha \imply \alpha$
+	
+	\item $\varphi_1 \imply (\alpha \imply \varphi_1)$
+	
+	\item $[\alpha \imply (\varphi_2 \imply \varphi_3)] \imply [(\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3)]$.
+	\end{enumerate}
+	
+	Note-se que a condição 1 é trivialmente possível de demonstrar a partir de 3. Assim sendo, basta assegurar as tautologias
+	\begin{gather*}
+	\alpha \imply \alpha\\
+	\alpha \imply (\beta \imply \alpha)\\
+	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)].
+	\end{gather*}
 	
 	\chapter{Lógica de primeira ordem}
 	
