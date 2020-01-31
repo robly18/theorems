@@ -935,7 +935,7 @@
 	
 	Tivemos até agora bastante sucesso com o cálculo proposicional. Mostrámos que, partindo apenas do nosso conhecimento de tautologias e \textit{modus ponens}, é possível caracterizar completamente a relação de consequência semântica. Nesta secção, reduziremos o conjunto dos axiomas.
 	
-	Começamos por mostrar que para um conjunto de axiomas nos dar um cálculo correto e completo é necessário e suficiente que, em certo sentido, chegam para descrever as tautologias todas.
+	Começamos por mostrar que para um conjunto de axiomas nos dar um cálculo correto e completo é necessário e suficiente que, em certo sentido, chegue para descrever as tautologias todas.
 	
 	\begin{prop}
 	Seja $A$ um conjunto de axiomas. Então, o cálculo proposicional usando $A$ como axiomas é
@@ -969,7 +969,7 @@
 	O nosso problema fica então reduzido a arranjar um conjunto $A$ de tautologias, se possível `razoávelmente pequeno', a partir do qual se consiga demonstrar todas as tautologias. Para investigar este problema é razoável investigar as ferramentas que usámos para mostrar tautologias. De facto, uma ferramenta que nos foi útil em muitos casos é o metateorema da dedução. Como tal, é de esperar que o nosso conjunto $A$ tenha axiomas suficientes para o mostrar. Por inspeção da demonstração da versão sintática do MTD, vemos que as únicas tautologias que são realmente necessárias são:
 	
 	\begin{enumerate}
-	\item Se $\varphi_1$ é um axioma, é necessário $\alpha \imply \varphi$
+	\item Se $\varphi_1$ é um axioma, é necessário $\alpha \imply \varphi_1$
 	
 	\item $\alpha \imply \alpha$
 	
@@ -979,11 +979,75 @@
 	\end{enumerate}
 	
 	Note-se que a condição 1 é trivialmente possível de demonstrar a partir de 3. Assim sendo, basta assegurar as tautologias
-	\begin{gather*}
-	\alpha \imply \alpha\\
-	\alpha \imply (\beta \imply \alpha)\\
-	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)].
-	\end{gather*}
+	\begin{gather}
+	\alpha \imply \alpha\label{ax0}\\
+	\alpha \imply (\beta \imply \alpha)\label{ax1}\\
+	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)]\label{ax2}
+	\end{gather}
+	para todas as fórmulas $\alpha, \beta, \gamma$.
+	
+	Mostramos agora que só as últimas duas é que são necessárias.
+	
+	\begin{prop}
+	A partir dos axiomas \eqref{ax1} e \eqref{ax2} é possível mostrar \eqref{ax0}.
+	\end{prop}
+	
+	\begin{proof}
+	Usamos esta oportunidade para exemplificar uma estratégia útil para construir demonstrações usando o cálculo proposicional, que é a ideia de `construir demonstrações a partir do fim'.
+	
+	No nosso caso, queremos construir uma demonstração de $\alpha \imply \alpha$. Não parece óbvio que seja possível chegar a esta afirmação aplicando o axioma \eqref{ax1}, pelo que tentamos aplicar \eqref{ax2}. Para a conclusão ser $\alpha \imply \alpha$, faz sentido considerar o caso particular de $\gamma$ igual a $\alpha$. Ficamos com a seguinte instância:
+	\[[\alpha \imply (\beta \imply \alpha)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \alpha)].\]
+	
+	A afirmação $\alpha \imply (\beta \imply \alpha)$ é um dos axiomas que estamos a considerar, pelo que basta escolher $\beta$ adequadamente de modo a que a afirmação $\alpha \imply \beta$ seja verdadeira. Novamente, aplicamos o axioma \eqref{ax1}, escolhendo $\beta$ igual a, digamos $\alpha \imply \alpha$, que faz com que $\alpha \imply \beta$, isto é, $\alpha \imply (\alpha \imply \alpha)$, seja uma instância de \eqref{ax1}.
+	
+	Chegamos então à seguinte demonstração:
+	\begin{align*}
+	&[\alpha \imply ((\alpha \imply \alpha) \imply \alpha)] \imply [(\alpha \imply (\alpha \imply \alpha)) \imply (\alpha \imply \alpha)]&&\texttt{Ax}\\
+	&\alpha \imply ((\alpha \imply \alpha) \imply \alpha)&&\texttt{Ax}\\
+	&(\alpha \imply (\alpha \imply \alpha)) \imply (\alpha \imply \alpha)&&\texttt{MP}_{1,2}\\
+	&\alpha \imply (\alpha \imply \alpha)&&\texttt{Ax}\\
+	&\alpha \imply \alpha&&\texttt{MP}_{3,4}
+	\end{align*}
+	\end{proof}
+	
+	Temos então um conjunto de apenas dois (!) axiomas\footnote{Tecnicamente, é um número contável infinito de axiomas, e não apenas dois.} a partir dos quais obtemos o metateorema da dedução. Repare-se, no entanto, que os nossos axiomas não falam do operador `não'. Assim sendo, não há muita esperança de conseguir demonstrar todas as tautologias; em particular aquelas que usam este operador.
+	
+	De modo a tentar determinar quais serão os axiomas que faltam, tentaremos determinar um algoritmo geral para demonstrar tautologias. Um aspeto principal a saber é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
+	
+	Recordando o enunciado: supomos fixa uma enumeração $\bf x_1, \bf x_2, \dots$ das variáveis e uma valoração $\rho$. Pretendemos mostrar que, se $\varphi$ é uma fórmula,
+	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
+	onde $r(\bf x_i)$ é $\bf x_i$ ou $\neg \bf x_i$ consoante $\rho(\bf x_i)$ é $\lt$ ou $\lf$. Visto que não temos ao nosso dispor a capacidade de fazer uma demonstração direta, podemos tentar fazer uma prova por indução na estrutura da fórmula. Para nos ajudar a fazer o passo de indução, provamos aliás uma coisa algo mais forte.
+	
+	Extendemos a definição de $r$ como $r(\varphi)$ sendo $\varphi$ ou $\neg \varphi$ consoante o valor de $\overline\rho(\varphi)$. Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$. Pretendemos mostrar que
+	\[\Gamma_\rho \vdash r(\varphi).\]
+	
+	Esta afirmação implica a anterior por completude. Esboçamos aqui a demonstração para entender que axiomas novos precisaremos.
+	
+	\begin{itemize}
+	\item O caso base é trivial.
+	
+	\item Se a afirmação é verdadeira para $\varphi$, vejamos o que é necessário para ser verdade para $\neg \varphi$. Deseamos mostrar $\Gamma_\rho \vdash r(\neg \varphi)$. O caso em que $\rho \nVdash \varphi$ é trivial, visto que, nesse caso, $r(\neg \varphi)$ é $\neg \varphi$, que equivale, neste caso, a $r(\varphi)$. Assim sendo, $\Gamma_\rho \vdash r(\neg \varphi)$ diretamente pela hipótese de indução.
+	
+	No outro caso, em que $\rho \Vdash \varphi$, sabemos $\Gamma_\rho \vdash \varphi$ e desejamos provar $\Gamma_\rho \vdash \neg \neg \varphi$. Assim sendo, para este caso, é necessário a tautologia
+	\[\alpha \imply \neg \neg \alpha.\]
+	
+	\item Se a afirmação é verdade para as afirmações $\varphi_1$ e $\varphi_2$, mostramos que é verdade para $\varphi_1 \imply \varphi_2$. Ou seja, desejamos mostrar que $\Gamma_\rho \vdash r(\varphi_1 \imply \varphi_2)$. Há dois casos.
+	
+	\begin{itemize}
+	\item Se $\rho \Vdash \varphi_1 \imply \varphi_2$, então ou $\overline\rho(\varphi_1) = \lf$ ou $\overline\rho(\varphi_2) = \lt$.
+	\begin{itemize}
+	\item Se $\overline\rho(\varphi_1) = \lf$ então, por hipótese de indução, $\Gamma_\rho \vdash \neg \varphi_1$ por hipótese de indução. Precisamos, então, que a seguinte tautologia seja um axioma:
+	\[\neg \varphi_1 \imply (\varphi_1 \imply \varphi_2).\]
+	
+	\item Se $\overline\rho(\varphi_2) = \lt$ então, por hipótese de indução, $\Gamma_\rho \vdash \varphi_2$. Neste caso, $\Gamma_\rho \vdash \varphi_1 \imply \varphi_2$ visto que $\varphi_2 \imply (\varphi_1 \imply \varphi_2)$ é um axioma.
+	\end{itemize}
+	
+	\item Se $\rho \Vdash \neg (\varphi_1 \imply \varphi_2)$, então $\overline\rho(\varphi_1) = \lt$ e $\overline\rho(\varphi_2) = \lf$. Assim sendo, por hipótese de indução, $\Gamma_\rho \vdash \varphi_1$ e $\Gamma_\rho \vdash \neg \varphi_2$. Precisamos então do axioma
+	\[\varphi_1 \imply (\neg \varphi_2 \imply \neg (\varphi_1 \imply \varphi_2)).\]
+	\end{itemize}
+	\end{itemize}
+	
+	
 	
 	\chapter{Lógica de primeira ordem}
 	
