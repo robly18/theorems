@@ -937,7 +937,7 @@
 	
 	Começamos por mostrar que para um conjunto de axiomas nos dar um cálculo correto e completo é necessário e suficiente que, em certo sentido, chegue para descrever as tautologias todas.
 	
-	\begin{prop}
+	\begin{prop}\label{axiomconditions}
 	Seja $A$ um conjunto de axiomas. Então, o cálculo proposicional usando $A$ como axiomas é
 	
 	\begin{itemize}
@@ -1012,13 +1012,13 @@
 	
 	Temos então um conjunto de apenas dois (!) axiomas\footnote{Tecnicamente, é um número contável infinito de axiomas, e não apenas dois.} a partir dos quais obtemos o metateorema da dedução. Repare-se, no entanto, que os nossos axiomas não falam do operador `não'. Assim sendo, não há muita esperança de conseguir demonstrar todas as tautologias; em particular aquelas que usam este operador.
 	
-	De modo a tentar determinar quais serão os axiomas que faltam, tentaremos determinar um algoritmo geral para demonstrar tautologias. Um aspeto principal a saber é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
+	De modo a tentar determinar quais serão os axiomas que faltam, tentaremos determinar um algoritmo geral para demonstrar tautologias. Um aspeto principal a considerar é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
 	
 	Recordando o enunciado: supomos fixa uma enumeração $\bf x_1, \bf x_2, \dots$ das variáveis e uma valoração $\rho$. Pretendemos mostrar que, se $\varphi$ é uma fórmula,
 	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
 	onde $r(\bf x_i)$ é $\bf x_i$ ou $\neg \bf x_i$ consoante $\rho(\bf x_i)$ é $\lt$ ou $\lf$. Visto que não temos ao nosso dispor a capacidade de fazer uma demonstração direta, podemos tentar fazer uma prova por indução na estrutura da fórmula. Para nos ajudar a fazer o passo de indução, provamos aliás uma coisa algo mais forte.
 	
-	Extendemos a definição de $r$ como $r(\varphi)$ sendo $\varphi$ ou $\neg \varphi$ consoante o valor de $\overline\rho(\varphi)$. Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$. Pretendemos mostrar que
+	Extendemos a definição de $r$ como $r(\varphi)$ sendo $\varphi$ ou $\neg \varphi$ consoante o valor de $\overline\rho(\varphi)$. Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$ para abreviar a notação. Pretendemos mostrar que
 	\[\Gamma_\rho \vdash r(\varphi).\]
 	
 	Esta afirmação implica a anterior por correção. Esboçamos aqui a demonstração para entender que axiomas novos precisaremos.
@@ -1026,7 +1026,7 @@
 	\begin{itemize}
 	\item O caso base é trivial.
 	
-	\item Se a afirmação é verdadeira para $\varphi$, vejamos o que é necessário para ser verdade para $\neg \varphi$. Deseamos mostrar $\Gamma_\rho \vdash r(\neg \varphi)$. O caso em que $\rho \nVdash \varphi$ é trivial, visto que, nesse caso, $r(\neg \varphi)$ é $\neg \varphi$, que equivale, neste caso, a $r(\varphi)$. Assim sendo, $\Gamma_\rho \vdash r(\neg \varphi)$ diretamente pela hipótese de indução.
+	\item Se a afirmação é verdadeira para $\varphi$, vejamos o que é necessário para ser verdade para $\neg \varphi$. Desejamos mostrar $\Gamma_\rho \vdash r(\neg \varphi)$. O caso em que $\rho \nVdash \varphi$ é trivial, visto que, nesse caso, $r(\neg \varphi)$ é $\neg \varphi$, que equivale, neste caso, a $r(\varphi)$. Assim sendo, $\Gamma_\rho \vdash r(\neg \varphi)$ diretamente pela hipótese de indução.
 	
 	No outro caso, em que $\rho \Vdash \varphi$, sabemos $\Gamma_\rho \vdash \varphi$ e desejamos provar $\Gamma_\rho \vdash \neg \neg \varphi$. Assim sendo, para este caso, é necessário a tautologia
 	\[\alpha \imply \neg \neg \alpha.\]
@@ -1047,7 +1047,7 @@
 	\end{itemize}
 	\end{itemize}
 	
-	Necessitamos, então, de mostrar as seguintes três tautologias, todas usando o operador `não':
+	Necessitamos portanto de mostrar as seguintes três tautologias, todas usando o operador `não':
 	\begin{gather}
 	\alpha \imply \neg \neg \alpha\label{ax3}\\
 	\neg \alpha \imply (\alpha \imply \beta)\label{ax4}\\
@@ -1069,13 +1069,91 @@
 	&\alpha \imply \beta&&\texttt{MP}.
 	\end{align*}
 	
-	Usando \eqref{cr1} como axioma, a fórmula \eqref{ax5} pode também ser demonstrada de forma semelhante. Isto sugere então a adição de \eqref{ax3}, \eqref{cr1} e \eqref{cr2} como axiomas. Acontece, no entanto, que todos exceto \eqref{cr2} são redundantes. Justificaremos isto lentamente, começando por justificar o complementar de \eqref{ax3}. Isto é, vamos mostrar que $\neg \neg \alpha \imply \alpha$.
+	Usando \eqref{cr1} como axioma, a fórmula \eqref{ax5} pode também ser demonstrada de forma semelhante. Isto sugere então o uso dos axiomas
+	\begin{gather}
+	\alpha \imply (\beta \imply \alpha) \tag{\ref{ax1}}\\
+	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)]\tag{\ref{ax2}}\\
+	\alpha \imply \neg \neg \alpha \tag{\ref{ax3}}\\
+	(\alpha \imply \beta) \imply (\neg \beta \imply \neg \alpha)\tag{\ref{cr1}}\\
+	(\neg \alpha \imply \neg \beta) \imply (\beta \imply \alpha).\tag{\ref{cr2}}
+	\end{gather}
 	
-	Visto que a conclusão é uma implicação que não tem negações no seu lado direito, não é razoável esperar resolver isto usando \eqref{ax3} ou \eqref{cr1}, pelo que teria que ser através de \eqref{cr2}. Examinando este axioma, conclui-se que seria necessário provar a implicação $\neg \alpha \imply \neg \neg \neg \alpha$, ou, aplicando este axioma mais uma vez (!!), $\neg \neg \neg \neg \alpha \imply \neg \neg \alpha$.\footnote{Lamento sinceramente o exagero de negações. Se algum dia descobrir uma demonstração menos esotérica, a primeira coisa que faço é substituir esta.} Ora, partindo da hipótese $\neg \neg \alpha$ isto é uma aplicação direta do axioma $\neg\neg\alpha \imply (\neg\neg\neg\neg\alpha \imply \neg\neg\alpha)$,\footnote{Se o leitor conhecer alguma prova mais direta, por favor informe-me. A sério.}, pelo que chegamos à conclusão que
-	\[\neg \neg \alpha \vdash (\neg \neg \alpha \imply \alpha).\]
+	Acontece, no entanto, que, entre os últimos três, todos exceto \eqref{cr2} são redundantes. A justificação é elaborada, por isso, antes de a apresentarmos, tentamos apresentar alguma intuição para a justificação por trás da sua necessidade e suficiência.
 	
-	Aplicando MP seguido do MTD, chegamos à conclusão desejada:
-	\[\neg\neg\alpha \imply \alpha.\]
+	Suponha-se que se deseja mostrar a afirmação $\neg \neg \alpha \imply \alpha$. De todos os cinco axiomas que temos até agora (os três acima, mais \eqref{ax1} e \eqref{ax2}), o único que nos permite concluir algo sem negações a partir de hipóteses com negações é precisamente \eqref{cr2}.\footnote{Esta afirmação não é uma afirmação matemática, mas sim uma observação `empírica'.} Como tal, tentemos `des-aplicar \eqref{cr2}' de modo a descobrir o que é preciso mostrar para justificar $\neg\neg\alpha \imply \alpha$.
+	\begin{gather*}
+	(\neg\alpha \imply \neg\neg\neg\alpha) \imply (\neg\neg\alpha \imply \alpha)\\
+	(\neg\neg\neg\neg\alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha).
+	\end{gather*}
+	
+	A primeira aplicação não nos dá algo em que se possa imediatamente mexer, mas após uma segunda aplicação, obtemos uma afirmação da forma $\beta \imply \neg\neg\alpha$. Nesta afirmação já é possível pegar, visto que, invocando o axioma \eqref{ax1}, temos $\neg\neg\alpha \imply (\beta \imply \neg\neg\alpha)$. Temos então material para construir a seguinte prova, que usa apenas os três axiomas \eqref{ax1} e \eqref{cr2} e a hipótese $\neg\neg\alpha$.
+	
+	\begin{align*}
+	&\neg\neg\alpha&&\texttt{Hip}\\
+	&\neg\neg\alpha \imply (\neg^4 \alpha \imply \neg\neg\alpha)&&\texttt{Ax}\\
+	&\neg^4 \alpha \imply \neg\neg\alpha&&\texttt{MP}\\
+	&(\neg^4 \alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha)&&\texttt{Ax}\\
+	&\neg\alpha \imply \neg\neg\neg\alpha&&\texttt{MP}\\
+	&(\neg\alpha \imply \neg\neg\neg\alpha)\imply(\neg\neg\alpha \imply \alpha)&&\texttt{Ax}\\
+	&\neg\neg\alpha \imply \alpha&&\texttt{MP}\\
+	&\alpha&&\texttt{MP}_{7,1}.
+	\end{align*}
+	
+	Usando o MTD, é possível transformar isto numa demonstração de $\neg\neg\alpha \imply \alpha$.
+	
+	Estamos agora em posição de mostrar a redundância de \eqref{ax3} e \eqref{cr1}. Começamos primeiro por establecer uma proposição que temos andado a utilizar implicitamente.
+	
+	\begin{prop}
+	Se a afirmação $\varphi$ é possível de demonstrar a partir do conjunto de axiomas $A$, então qualquer prova que use $\varphi$ como hipótese pode ser transformada numa prova que use apenas axiomas em $A$.
+	\end{prop}
+	
+	\begin{proof}
+	O raciocínio é idêntico ao usado no final da proposição \ref{axiomconditions}
+	\end{proof}
+	
+	Como consequência desta proposição, dar-nos-emos ao luxo de, ao escrever algumas demonstrações, invocar teoremas já mostrados. Neste caso, invocá-los-emos com a justificação \texttt{Teo}. É de reparar, no entanto, que, tal como definições por abreviatura, uma demonstração em que usamos um teorema é suposto ser interpretada como uma demonstração usando apenas axiomas, hipóteses e \textit{modus ponens}!
+	
+	\begin{prop}
+	Dados os cinco axiomas descritos acima, \eqref{ax3} e \eqref{cr1} são redundantes. Isto é, são ambos teoremas dos três restantes.
+	\end{prop}
+	
+	\begin{proof}
+	Comecemos por mostrar que a fórmula $\alpha \imply \neg\neg\alpha$ é um teorema dos três restantes. Infelizmente, não temos ao nosso imediato dispor ferramentas para `adicionar negações'. No entanto, o axioma \eqref{cr2} permite-nos trocar a ordem de implicações. `Des-aplicando' este axioma a $\alpha \imply \neg\neg\alpha$, obtemos
+	\[(\neg\neg\neg\alpha \imply \neg\alpha) \imply (\alpha \imply \neg\neg\alpha).\]
+	
+	Note-se que $\neg\neg\neg\alpha \imply \neg\alpha$ é uma instância do teorema $\neg\neg\varphi \imply \varphi$, com $\varphi$ igual a $\neg \alpha$. Assim sendo, temos a seguinte prova:
+	\begin{align*}
+	&\neg\neg\neg\alpha \imply \neg\alpha&&\texttt{Teo}\\
+	&(\neg\neg\neg\alpha \imply \neg\alpha) \imply (\alpha \imply \neg\neg\alpha)&&\texttt{Ax}\\
+	&\alpha \imply \neg\neg\alpha&&\texttt{MP}.
+	\end{align*}
+	
+	Isto mostra que \eqref{ax3} é redundante, pelo que basta agora mostrar que \eqref{cr1} também o é.
+	
+	A ideia é, partindo de $\alpha \imply \beta$, concluir $\neg \neg \alpha \imply \neg \neg \beta$, e depois, usando $\eqref{cr2}$, remover uma das negações. Começamos por mostrar $(\alpha \imply \beta) \imply (\neg\neg\alpha \imply \neg\neg\beta)$. Considere-se a seguinte demonstração:
+	
+	\begin{align*}
+	&\alpha \imply \beta&&\texttt{Hip}\\
+	&\neg\neg\alpha&&\texttt{Hip}\\
+	&\neg\neg\alpha \imply \alpha&&\texttt{Teo}\\
+	&\alpha&&\texttt{MP}\\
+	&\beta&&\texttt{MP}\\
+	&\beta \imply \neg\neg\beta&&\texttt{Teo}\\
+	&\neg\neg\beta&&\texttt{MP}
+	\end{align*}
+	
+	Através de duas aplicações do metateorema da dedução, obtemos que
+	\[(\alpha \imply \beta) \imply (\neg\neg\alpha \imply \neg\neg\beta)\]
+	é um teorema.
+	
+	O axioma \eqref{cr2} diz-nos
+	\[
+	(\neg\neg\alpha \imply \neg\neg\beta) \imply (\neg \beta \imply \neg \alpha)
+	\]
+	pelo que é fácil construir, através do MTD, uma demonstração de
+	\[(\alpha \imply \beta) \imply (\neg \beta \imply \neg \alpha),\]
+	como desejado. (Deixamos esta última parte como exercício.)
+	\end{proof}
 	
 	
 	\chapter{Lógica de primeira ordem}
