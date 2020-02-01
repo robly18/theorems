@@ -1021,7 +1021,7 @@
 	Extendemos a definição de $r$ como $r(\varphi)$ sendo $\varphi$ ou $\neg \varphi$ consoante o valor de $\overline\rho(\varphi)$. Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$. Pretendemos mostrar que
 	\[\Gamma_\rho \vdash r(\varphi).\]
 	
-	Esta afirmação implica a anterior por completude. Esboçamos aqui a demonstração para entender que axiomas novos precisaremos.
+	Esta afirmação implica a anterior por correção. Esboçamos aqui a demonstração para entender que axiomas novos precisaremos.
 	
 	\begin{itemize}
 	\item O caso base é trivial.
@@ -1036,7 +1036,7 @@
 	\begin{itemize}
 	\item Se $\rho \Vdash \varphi_1 \imply \varphi_2$, então ou $\overline\rho(\varphi_1) = \lf$ ou $\overline\rho(\varphi_2) = \lt$.
 	\begin{itemize}
-	\item Se $\overline\rho(\varphi_1) = \lf$ então, por hipótese de indução, $\Gamma_\rho \vdash \neg \varphi_1$ por hipótese de indução. Precisamos, então, que a seguinte tautologia seja um axioma:
+	\item Se $\overline\rho(\varphi_1) = \lf$ então $\Gamma_\rho \vdash \neg \varphi_1$ por hipótese de indução. Precisamos, então, que a seguinte tautologia seja um axioma:
 	\[\neg \varphi_1 \imply (\varphi_1 \imply \varphi_2).\]
 	
 	\item Se $\overline\rho(\varphi_2) = \lt$ então, por hipótese de indução, $\Gamma_\rho \vdash \varphi_2$. Neste caso, $\Gamma_\rho \vdash \varphi_1 \imply \varphi_2$ visto que $\varphi_2 \imply (\varphi_1 \imply \varphi_2)$ é um axioma.
@@ -1047,6 +1047,35 @@
 	\end{itemize}
 	\end{itemize}
 	
+	Necessitamos, então, de mostrar as seguintes três tautologias, todas usando o operador `não':
+	\begin{gather}
+	\alpha \imply \neg \neg \alpha\label{ax3}\\
+	\neg \alpha \imply (\alpha \imply \beta)\label{ax4}\\
+	\alpha \imply (\neg \beta \imply \neg (\alpha \imply \beta))\label{ax5}
+	\end{gather}
+	
+	Repare-se que as fórmulas \eqref{ax4} e \eqref{ax5} podem facilmente ser reduzidas, usando o princípio do contrarrecíproco, a casos que já conseguimos mostrar. Isto é, suponha-se que temos ao nosso dispor os seguintes dois axiomas:
+	\begin{gather}
+	(\alpha \imply \beta) \imply (\neg \beta \imply \neg \alpha)\label{cr1}\\
+	(\neg \alpha \imply \neg \beta) \imply (\beta \imply \alpha)\label{cr2}
+	\end{gather}
+	
+	Então, \eqref{ax4} pode ser demonstrado facilmente, por uso do metateorema da dedução. Assumindo como hipótese $\neg \alpha$: (E supondo dado o axioma \eqref{cr2})
+	\begin{align*}
+	&\neg \alpha&&\texttt{Hip}\\
+	&\neg \alpha \imply (\neg \beta \imply \neg \alpha)&&\texttt{Ax}\\
+	&\neg \beta \imply \neg \alpha&&\texttt{MP}\\
+	&(\neg \beta \imply \neg \alpha) \imply (\alpha \imply \beta)&&\texttt{Ax}\\
+	&\alpha \imply \beta&&\texttt{MP}.
+	\end{align*}
+	
+	Usando \eqref{cr1} como axioma, a fórmula \eqref{ax5} pode também ser demonstrada de forma semelhante. Isto sugere então a adição de \eqref{ax3}, \eqref{cr1} e \eqref{cr2} como axiomas. Acontece, no entanto, que todos exceto \eqref{cr2} são redundantes. Justificaremos isto lentamente, começando por justificar o complementar de \eqref{ax3}. Isto é, vamos mostrar que $\neg \neg \alpha \imply \alpha$.
+	
+	Visto que a conclusão é uma implicação que não tem negações no seu lado direito, não é razoável esperar resolver isto usando \eqref{ax3} ou \eqref{cr1}, pelo que teria que ser através de \eqref{cr2}. Examinando este axioma, conclui-se que seria necessário provar a implicação $\neg \alpha \imply \neg \neg \neg \alpha$, ou, aplicando este axioma mais uma vez (!!), $\neg \neg \neg \neg \alpha \imply \neg \neg \alpha$.\footnote{Lamento sinceramente o exagero de negações. Se algum dia descobrir uma demonstração menos esotérica, a primeira coisa que faço é substituir esta.} Ora, partindo da hipótese $\neg \neg \alpha$ isto é uma aplicação direta do axioma $\neg\neg\alpha \imply (\neg\neg\neg\neg\alpha \imply \neg\neg\alpha)$,\footnote{Se o leitor conhecer alguma prova mais direta, por favor informe-me. A sério.}, pelo que chegamos à conclusão que
+	\[\neg \neg \alpha \vdash (\neg \neg \alpha \imply \alpha).\]
+	
+	Aplicando MP seguido do MTD, chegamos à conclusão desejada:
+	\[\neg\neg\alpha \imply \alpha.\]
 	
 	
 	\chapter{Lógica de primeira ordem}
