@@ -571,7 +571,7 @@
 	
 	De agora em diante, tomaremos como conjunto de axiomas (chamamos a este conjunto $A$) as tautologias. De futuro, veremos que este conjunto pode ser drásticamente reduzido.
 	
-	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{def:prop:ax}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas, tendo conhecimento que em qualquer momento que invocamos uma tautologia como axioma, podemos substituir essa invocação por uma demonstração (com base nos axiomas finais) da fórmula em questão.
+	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{prop:axiomasfinais}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas, tendo conhecimento que em qualquer momento que invocamos uma tautologia como axioma, podemos substituir essa invocação por uma demonstração (com base nos axiomas finais) da fórmula em questão.
 	
 	\begin{definicao}
 	Seja $\Gamma \subseteq \F_p$. Uma demonstração com base em $\Gamma$, ou demonstração que tem $\Gamma$ como hipóteses, é uma sequência finita
@@ -1012,26 +1012,47 @@
 	
 	Temos então um conjunto de apenas dois (!) axiomas\footnote{Tecnicamente, é um número contável infinito de axiomas, e não apenas dois.} a partir dos quais obtemos o metateorema da dedução. Repare-se, no entanto, que os nossos axiomas não falam do operador `não'. Assim sendo, não há muita esperança de conseguir demonstrar todas as tautologias; em particular aquelas que usam este operador.
 	
-	De modo a tentar determinar quais serão os axiomas que faltam, tentaremos determinar um algoritmo geral para demonstrar tautologias. Um aspeto principal a considerar é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
+	Um aspeto principal a considerar para conseguir mostrar todas as tautologias é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
 	
 	Recordando o enunciado: supomos fixa uma enumeração $\bf x_1, \bf x_2, \dots$ das variáveis e uma valoração $\rho$. Pretendemos mostrar que, se $\varphi$ é uma fórmula,
 	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
 	onde $r(\bf x_i)$ é $\bf x_i$ ou $\neg \bf x_i$ consoante $\rho(\bf x_i)$ é $\lt$ ou $\lf$. Visto que não temos ao nosso dispor a capacidade de fazer uma demonstração direta, podemos tentar fazer uma prova por indução na estrutura da fórmula. Para nos ajudar a fazer o passo de indução, provamos aliás uma coisa algo mais forte.
 	
-	Extendemos a definição de $r$ como $r(\varphi)$ sendo $\varphi$ ou $\neg \varphi$ consoante o valor de $\overline\rho(\varphi)$. Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$ para abreviar a notação. Pretendemos mostrar que
+	\begin{lema}\label{ligacao:rho:vdash}
+	Seja $\rho$ uma valoração, e defina-se $r : \F_p \to \F_p$ como 
+	\[r(\varphi) =
+	\begin{cases}
+	\varphi&\rho\Vdash\varphi\\
+	\neg\varphi&\rho\nVdash\varphi
+	\end{cases}
+	\]
+	
+	Definimos também $\Gamma_\rho = \{r(\bf x_1), r(\bf x_2), \dots\}$ para abreviar a notação. Então, para qualquer fórmula $\varphi$,
 	\[\Gamma_\rho \vdash r(\varphi).\]
 	
-	Esta afirmação implica a anterior por correção. Esboçamos aqui a demonstração para entender que axiomas novos precisaremos.
+	Para mais, as únicas hipóteses necessárias são as da forma $r(\bf x)$ para $\bf x \in \var \varphi$.
+	\end{lema}
+	
+	\begin{proof}
+	Apesar de nos referirmos a isto como `um lema' e `uma demonstração', não é precisamente isso que se está a passar, visto que precisaremos de usar alguns axiomas que ainda não adicionámos a $A$. O propósito desta `demonstração' é, então, determinar precisamente de que axiomas novos precisaremos.
+	
+	A demonstração é feita por indução na estrutura da fórmula $\varphi$.
 	
 	\begin{itemize}
 	\item O caso base é trivial.
 	
-	\item Se a afirmação é verdadeira para $\varphi$, vejamos o que é necessário para ser verdade para $\neg \varphi$. Desejamos mostrar $\Gamma_\rho \vdash r(\neg \varphi)$. O caso em que $\rho \nVdash \varphi$ é trivial, visto que, nesse caso, $r(\neg \varphi)$ é $\neg \varphi$, que equivale, neste caso, a $r(\varphi)$. Assim sendo, $\Gamma_\rho \vdash r(\neg \varphi)$ diretamente pela hipótese de indução.
+	\item Se a afirmação é verdadeira para $\varphi$, mostramos que é verdade para $\neg \varphi$.
 	
-	No outro caso, em que $\rho \Vdash \varphi$, sabemos $\Gamma_\rho \vdash \varphi$ e desejamos provar $\Gamma_\rho \vdash \neg \neg \varphi$. Assim sendo, para este caso, é necessário a tautologia
+	\begin{itemize}
+	\item Se $\rho \Vdash \neg \varphi$, então temos que $\rho \nVdash \varphi$. Pela hipótese de indução, temos que $\Gamma_\rho \vdash \neg \varphi$, que é precisamente a conclusão desejada.
+	
+	\item Se $\rho \nVdash \neg \varphi$, então $\rho \Vdash \varphi$, pelo que, por hipótese de indução, existe uma demonstração de $\varphi$. Para a transformar numa demonstração de $r(\neg \varphi)$, isto é, $\neg \neg \varphi$, é necessário que o seguinte seja um teorema:
 	\[\alpha \imply \neg \neg \alpha.\]
+	\end{itemize}
 	
-	\item Se a afirmação é verdade para as afirmações $\varphi_1$ e $\varphi_2$, mostramos que é verdade para $\varphi_1 \imply \varphi_2$. Ou seja, desejamos mostrar que $\Gamma_\rho \vdash r(\varphi_1 \imply \varphi_2)$. Há dois casos.
+	Note-se que em ambos os casos não foram adicionadas hipóteses, pelo que as únicas hipóteses necessárias são, por hipótese de indução, aquelas em que $\bf x \in \var \varphi = \var(\neg \varphi)$.
+	
+	\item Se a afirmação é verdade para as afirmações $\varphi_1$ e $\varphi_2$, mostramos que é verdade para $\varphi_1 \imply \varphi_2$. Há dois casos a considerar.
 	
 	\begin{itemize}
 	\item Se $\rho \Vdash \varphi_1 \imply \varphi_2$, então ou $\overline\rho(\varphi_1) = \lf$ ou $\overline\rho(\varphi_2) = \lt$.
@@ -1053,6 +1074,8 @@
 	\neg \alpha \imply (\alpha \imply \beta)\label{ax4}\\
 	\alpha \imply (\neg \beta \imply \neg (\alpha \imply \beta))\label{ax5}
 	\end{gather}
+	
+	\end{proof}
 	
 	Repare-se que as fórmulas \eqref{ax4} e \eqref{ax5} podem facilmente ser reduzidas, usando o princípio do contrarrecíproco, a casos que já conseguimos mostrar. Isto é, suponha-se que temos ao nosso dispor os seguintes dois axiomas:
 	\begin{gather}
@@ -1078,9 +1101,9 @@
 	(\neg \alpha \imply \neg \beta) \imply (\beta \imply \alpha).\tag{\ref{cr2}}
 	\end{gather}
 	
-	Acontece, no entanto, que, entre os últimos três, todos exceto \eqref{cr2} são redundantes. A justificação é elaborada, por isso, antes de a apresentarmos, tentamos apresentar alguma intuição para a justificação por trás da sua necessidade e suficiência.
+	Acontece, no entanto, que, entre os últimos três, todos exceto \eqref{cr2} são redundantes. A justificação é elaborada, pelo que começamos por mostrar algo que parece, à primeira vista, apenas tangencial.
 	
-	Suponha-se que se deseja mostrar a afirmação $\neg \neg \alpha \imply \alpha$. De todos os cinco axiomas que temos até agora (os três acima, mais \eqref{ax1} e \eqref{ax2}), o único que nos permite concluir algo sem negações a partir de hipóteses com negações é precisamente \eqref{cr2}.\footnote{Esta afirmação não é uma afirmação matemática, mas sim uma observação `empírica'.} Como tal, tentemos `des-aplicar \eqref{cr2}' de modo a descobrir o que é preciso mostrar para justificar $\neg\neg\alpha \imply \alpha$.
+	Suponha-se que se deseja mostrar a afirmação $\neg \neg \alpha \imply \alpha$. De todos os cinco axiomas que temos até agora, o único que nos permite concluir algo sem negações a partir de hipóteses com negações é precisamente \eqref{cr2}.\footnote{Esta afirmação não é uma afirmação matemática, mas sim uma observação `empírica'.} Como tal, tentemos `des-aplicar \eqref{cr2}' de modo a descobrir o que é preciso mostrar para justificar $\neg\neg\alpha \imply \alpha$.
 	\begin{gather*}
 	(\neg\alpha \imply \neg\neg\neg\alpha) \imply (\neg\neg\alpha \imply \alpha)\\
 	(\neg\neg\neg\neg\alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha).
@@ -1111,7 +1134,7 @@
 	O raciocínio é idêntico ao usado no final da proposição \ref{axiomconditions}
 	\end{proof}
 	
-	Como consequência desta proposição, dar-nos-emos ao luxo de, ao escrever algumas demonstrações, invocar teoremas já mostrados. Neste caso, invocá-los-emos com a justificação \texttt{Teo}. É de reparar, no entanto, que, tal como definições por abreviatura, uma demonstração em que usamos um teorema é suposto ser interpretada como uma demonstração usando apenas axiomas, hipóteses e \textit{modus ponens}!
+	Como consequência desta proposição, dar-nos-emos ao luxo de, ao escrever algumas demonstrações, invocar teoremas já mostrados. Neste caso, invocá-los-emos com a justificação \texttt{Teo}. É de reparar, no entanto, que, tal como definições por abreviatura, uma demonstração em que usamos um teorema é suposto ser interpretada como uma \emph{abreviação de uma demonstração} usando apenas axiomas, hipóteses e \textit{modus ponens}!
 	
 	\begin{prop}
 	Dados os cinco axiomas descritos acima, \eqref{ax3} e \eqref{cr1} são redundantes. Isto é, são ambos teoremas dos três restantes.
@@ -1153,6 +1176,85 @@
 	pelo que é fácil construir, através do MTD, uma demonstração de
 	\[(\alpha \imply \beta) \imply (\neg \beta \imply \neg \alpha),\]
 	como desejado. (Deixamos esta última parte como exercício.)
+	\end{proof}
+	
+	Chegamos então à nossa lista \textbf{final} de axiomas $A$:
+	
+	\begin{gather}\label{prop:axiomasfinais}
+	\alpha \imply (\beta \imply \alpha) \tag{\ref{ax1}}\\
+	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)]\tag{\ref{ax2}}\\
+	(\neg \alpha \imply \neg \beta) \imply (\beta \imply \alpha).\tag{\ref{cr2}}
+	\end{gather}
+	
+	Ainda não mostrámos, claro, que estes são suficientes. É nisso que consiste a seguinte proposição.
+	
+	\begin{teorema}
+	A lista de axiomas $A$ acima é suficiente para mostrar qualquer tautologia. Como tal, visto que todos eles são tautologias, o cálculo proposicional que tem a lista $A$ como axiomas é correto e completo, pela proposição \ref{axiomconditions}.
+	\end{teorema}
+	
+	\begin{proof}
+	Seja $\varphi$ uma tautologia, e sejam $\bf x_1, \dots, \bf x_n$ as suas variáveis. Então, o lema \ref{ligacao:rho:vdash} diz-nos que, para qualquer valoração $\rho$, definindo $r$ como neste lema,
+	\[r(\bf x_1), \dots, r(\bf x_n) \vdash \varphi,\]
+	pois $r(\varphi)$ é sempre $\varphi$. Isto implica, por aplicação repetida do MTD,
+	\[\vdash r(\bf x_1) \imply ( \dots (r(\bf x_n) \imply \varphi) \dots ).\]
+	
+	Como isto é para qualquer valoração $\rho$, temos os dois seguintes teoremas:
+	\begin{gather*}
+	\bf x_1 \imply ( r(\bf x_2) \imply (\dots (r(\bf x_n) \imply \varphi) \dots ))\\
+	\neg \bf x_1 \imply ( r(\bf x_2) \imply (\dots (r(\bf x_n) \imply \varphi) \dots ))
+	\end{gather*}
+	
+	Afirmamos que a seguinte fórmula é um teorema:
+	\begin{equation}\label{eq:aornota}
+	(\alpha \imply \psi) \imply ((\neg \alpha \imply \psi) \imply \psi).
+	\end{equation}
+	
+	Esta afirmação é deixada como lema (lema \ref{lema:aornota}) de modo a não quebrar a prova.
+	
+	O teorema \eqref{eq:aornota} é-nos útil porque nos permite eliminar hipóteses. Considere-se a seguinte prova, onde $r(\bf x_2) \imply (\dots (r(\bf x_n) \imply \varphi) \dots )$ é abreviado a $\psi$.
+	\begin{align*}
+	&\bf x_1 \imply \psi&&\texttt{Teo}\\
+	&\neg \bf x_1 \imply \psi&&\texttt{Teo}\\
+	&(\bf x_1 \imply \psi) \imply ((\neg \bf x_1 \imply \psi) \imply \psi)&&\texttt{Teo}\\
+	&(\neg \bf x_1 \imply \psi) \imply \psi&&\texttt{MP}\\
+	&\psi&&\texttt{MP}.
+	\end{align*}
+	
+	Logo, para qualquer valoração $\rho$, a fórmula
+	\[r(\bf x_2) \imply (\dots (r(\bf x_n) \imply \varphi) \dots )\]
+	é um teorema. Ora, o mesmo raciocínio pode agora ser aplicado para eliminar a hipótese $r(\bf x_2)$, e assim por diante, para concluir, como desejado, que a tautologia $\varphi$ é também um teorema. Isto conclui a demonstração.
+	\end{proof}
+	
+	Isto quase conclui a nossa exploração do sistema proposicional, faltando apenas provar o seguinte lema:
+	
+	\begin{lema}\label{lema:aornota}
+	A seguinte fórmula é um teorema:
+	\[(\alpha \imply \psi) \imply ((\neg \alpha \imply \psi) \imply \psi)\]
+	\end{lema}
+	
+	\begin{proof}
+	Comecemos com as hipóteses $\alpha \imply \psi$ e $\neg \alpha \imply \psi$. A partir da primeira, usando o princípio do contrarrecíproco, obtemos $\neg \psi \imply \neg \alpha$. Da segunda, conclui-se $\neg \psi \imply \neg \neg \alpha$. Logo, adicionando a hipótese $\neg \psi$, concluímos $\neg \alpha$ e $\neg\neg\alpha$.
+	
+	É razoávelmente intuitivo que a partir de factos contraditórios seja possível concluir qualquer de coisa. E de facto, aplicando o princípio do contrarrecíproco ao axioma
+	\[\neg \alpha \imply (\beta \imply \neg \alpha)\]
+	é possível concluir que, para qualquer $\beta$,
+	\[\neg \alpha \imply (\neg \neg \alpha \imply \neg \beta).\]
+	
+	Assim sendo, juntando os ingredientes que já temos, a partir das hipóteses
+	\begin{gather*}
+	\alpha \imply \psi\\
+	\neg \alpha \imply \psi\\
+	\neg \psi
+	\end{gather*}
+	é possível concluir $\neg \beta$, onde $\beta$ é uma fórmula arbitrária. Aplicando o MTD, obtemos
+	\[\alpha \imply \psi, \neg \alpha \imply \psi \vdash \neg \psi \imply \neg \beta,\]
+	e aplicando o princípio do contrarrecíproco mais uma vez
+	\[\alpha \imply \psi, \neg \alpha \imply \psi \vdash \beta \imply \psi.\]
+	
+	Note-se que $\beta$ permanece uma fórmula arbitrária. Se escolhermos $\beta$ igual a, digamos, um axioma, é claro que de $\beta \imply \psi$ se conclui $\psi$, pelo que, finalmente,
+	\[\alpha \imply \psi, \neg \alpha \imply \psi \vdash \psi.\]
+	
+	Duas aplicações do MTD permitem-nos concluir o teorema desejado.
 	\end{proof}
 	
 	
