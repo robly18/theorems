@@ -113,11 +113,11 @@
 	\lf.
 	\end{gather*}
 	
-	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Afirmamos que qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
+	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
 	
 	Existe uma classe de fórmulas que tem particular interesse, que são as chamadas tautologias.
 	
-	Uma fórmula $\varphi$ diz-se uma tautologia se para qualquer valoração $\rho$ temos $\rho(\varphi) = \lt$. Isto é, $\rho$ é sempre verdadeira.
+	Uma fórmula $\varphi$ diz-se uma tautologia se para qualquer valoração $\rho$ temos $\overline\rho(\varphi) = \lt$. Isto é, $\varphi$ é sempre verdadeira.
 	
 	Parte do objetivo deste capítulo é caracterizar as tautologias, de modo a podermos indentificá-las em tempo finito. Claro que, no caso de lógica proposicional, isto já está feito: dada uma fórmula $\varphi$, para determinar se esta é uma tautologia, basta listar todas as valorações possíveis nas variáveis de $\varphi$ (há aqui um detalhe escondido, mas já voltamos a ele) e fazer as contas para todas elas. Se todas elas derem $\lt$, então $\varphi$ é uma tautologia. Caso contrário, não é!
 	
@@ -125,9 +125,9 @@
 	
 	Voltando a lógica proposicional, consideremos o problema de `testar todos os casos possíveis' para valores das variáveis numa fórmula. Ao fazermos isto estamos a assumir implícitamente que existe um número finito de casos, mas repare-se que, da forma que o definímos, existe um número potencialmente infinito de valorações! De facto, existe um número infinito de variáveis (por exemplo, $x_1$, $x_2$, \dots) pelo que haverá também um número (não-contável!) infinito de valorações. Assim sendo, é impossível testá-las todas.
 	
-	Claro que, na prática, isto é uma parvoíce. Fixa uma fórmula $\varphi$, só existe um número finito de variáveis a considerar, visto que apenas um número finito de variáveis consta em $\varphi$, e o valor dado a variáveis que não estas é irrelevante. Estamos habituados a tomar estes princípios como garantidos, mas aproveitá-los-emos como veículo para introduzir a noção de indução na estrutura.
+	Claro que, na prática, isso não é um problema. Fixa uma fórmula $\varphi$, só existe um número finito de variáveis a considerar, visto que apenas um número finito de variáveis consta em $\varphi$, e o valor dado a variáveis que não estas é irrelevante. Estamos habituados a tomar estes princípios como garantidos, mas aproveitá-los-emos como veículo para introduzir a noção de indução na estrutura.
 	
-	A observação essencial é que podemos decompôr uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução corresponde a separar uma fórmula como $\varphi_1 \lor \varphi_2$, $\varphi_1 \land \varphi_2$ ou $\neg \varphi_1$. Este processo para nas fórmulas que não podem ser simplificadas mais: chamamos a estas de fórmulas atómicas, e são aquelas compostas por apenas uma variável. Por exemplo, $x$, ou $a$.
+	A observação essencial é que podemos decompôr uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução corresponde a separar uma fórmula como $\varphi_1 \lor \varphi_2$, $\varphi_1 \land \varphi_2$ ou $\neg \varphi_1$. Este processo pára nas fórmulas que não podem ser simplificadas mais: chamamos a estas de fórmulas atómicas, e são aquelas compostas por apenas uma variável. Por exemplo, $x$, ou $a$.
 	
 	Exemplificaremos o princípio, começando por definir indutivamente a noção de `variáveis em fórmula', e demonstrando, com base nesta definição, que, se $\rho$ é uma valoração e $\varphi$ é uma fórmula, $\overline\rho(\varphi)$ depende apenas do valor de $\rho$ nas variáveis em $\varphi$.
 	
@@ -213,9 +213,9 @@
 	
 	Existem dois casos: ou $\rho(a) = \lt$ ou $\rho(a) = \lf$.
 	
-	Se $\rho(a) = \lf$, então $\overline\rho(\neg a \lor b) = (\pnot \lf) \por \rho(b) = \lt \por \rho(b) = \lt$.
+	Se $\rho(a) = \lf$, então $\overline\rho(\neg a \lor b) = [(\pnot \lf) \por \rho(b)] = [\lt \por \rho(b)] = \lt$.
 	
-	Se $\rho(a) = \lt$, então temos que $\rho \Vdash \Gamma \cup \{a\}$, donde, como $\Gamma, a \vDash b$ por hipótese, concluímos que $\rho(b) = \lt$. Concluímos então que $\overline\rho(\neg a \lor b) = (\pnot \lt) \por \lt = \lt$, como desejado.
+	Se $\rho(a) = \lt$, então temos que $\rho \Vdash \Gamma \cup \{a\}$, donde, como $\Gamma, a \vDash b$ por hipótese, concluímos que $\rho(b) = \lt$. Temos então que $\overline\rho(\neg a \lor b) = (\pnot \lt) \por \lt = \lt$, como desejado.
 	
 	($\leftarrow$) Suponha-se que $\Gamma \vDash a \imply b$. Seja $\rho$ uma valoração tal que $\rho \Vdash \Gamma \cup \{a\}$. Então, em particular, $\rho \Vdash \Gamma$, donde $\rho \Vdash a \imply b$. Sabemos também que $\rho \Vdash a$, pelo que concluímos $\rho \Vdash \{a \imply b, a\}$. Pela regra de \textit{modus ponens}, como $a \imply b, a \vDash b$, concluímos que $\rho \Vdash b$.
 	
@@ -410,9 +410,25 @@
 	
 	\item Substituição: Se $\varphi : \alpha$ e $\psi : \beta$.
 	
-	\item Passo de indução (negação): Se $\varphi : \neg \varphi_1$, $\psi : \neg \psi_1$ e $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$.
+	\item Passo de indução (negação): Se todos as seguintes afirmações se verificarem:
+	\begin{itemize}
+	\item $\varphi$ é da forma $\neg \varphi_1$
 	
-	\item Passo de indução (implicação): Se $\varphi : \varphi_1 \imply \varphi_2$, $\psi : \psi_1 \imply \psi_2$, $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$ e $\psi_2$ é obtido de $\varphi_2$ por substituição de $\alpha$ por $\beta$.
+	\item $\psi$ é da forma $\neg \psi_1$
+	
+	\item $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$.
+	\end{itemize}
+	
+	\item Passo de indução (implicação): Se todas as seguintes afirmações se verificarem:
+	\begin{itemize}
+	\item $\varphi$ é da forma $\varphi_1 \imply \varphi_2$
+	
+	\item $\psi$ é da forma $\psi_1 \imply \psi_2$
+	
+	\item $\psi_1$ é obtido de $\varphi_1$ por substituição de $\alpha$ por $\beta$
+	
+	\item $\psi_2$ é obtido de $\varphi_2$ por substituição de $\alpha$ por $\beta$.
+	\end{itemize}
 	\end{itemize}
 	\end{definicao}
 	
@@ -561,7 +577,7 @@
 	
 	\medskip
 	
-	Claro que isto pressupõe uma noção de `axiomas', ou pelo menos, afirmações tomadas como verdadeiras sem justificação. Uma escolha óbvia para o nosso caso seria tomar como axiomas todas as tautologias, mas é precisamente o problema de encontrar as tautologias que estamos a tentar resolver! No entanto, o seu uso é instrutivo e não totalmente inútil, visto que, apesar de tudo, o problema de encontrar consequências semânticas não fica trivializado. Isto é, a seguinte questão ainda requer algum trabalho:
+	Claro que isto pressupõe uma noção de `axiomas', ou pelo menos, afirmações tomadas como verdadeiras sem justificação. Uma escolha óbvia para o nosso caso seria tomar como axiomas todas as tautologias, mas é precisamente o problema de encontrar as tautologias que estamos a tentar resolver! No entanto, o seu uso é instrutivo visto que, apesar de tudo, o problema de encontrar consequências semânticas não fica trivializado. Isto é, a seguinte questão ainda requer algum trabalho:
 	
 	\begin{center}
 	Sejam $\Gamma \subseteq \F_p$ e $\varphi \in \F_p$. Será possível construir uma demonstração cuja conclusão seja $\varphi$, usando como axiomas as tautologias e como hipóteses as fórmulas em $\Gamma$?
@@ -641,7 +657,11 @@
 	Faremos esta prova usando o princípio de indução forte:
 	
 	\begin{center}
-	Seja $S$ um subconjunto dos naturais. Suponha-se que para todo $n \in \N$ o conjunto $\N \cap \left[0,n\right[$ está contido em $S$. Então, o princípio de indução forte diz que $S = \N$.\footnote{Para justificar este princípio: suponha-se que $S \neq \N$. Então, $\N \setminus S$ é não-vazio. Qualquer subconjunto não-vazio dos naturais tem mínimo; seja, então, $n$ o mínimo de $\N \setminus S$. Por definição de mínimo, temos que $\N \cap \left[0, n\right[ \subseteq S$, e, por hipótese, isto implica que $n \in S$. Contradição, pelo que $\N \setminus S$ tem que ser vazio e portanto $S = \N$.} Note-se que não é necessário provar caso base.
+	Seja $S$ um subconjunto dos naturais. Suponha-se que se prova a seguinte afirmação para todo $n \in \N$:
+	
+	Se o conjunto $\N \cap \left[0,n\right[$ está contido em $S$, então $n \in S$.
+	
+	O princípio de indução forte diz-nos que, neste caso, $S = \N$.\footnote{Para justificar este princípio: suponha-se que $S \neq \N$. Então, $\N \setminus S$ é não-vazio. Qualquer subconjunto não-vazio dos naturais tem mínimo; seja, então, $n$ o mínimo de $\N \setminus S$. Por definição de mínimo, temos que $\N \cap \left[0, n\right[ \subseteq S$, e, por hipótese, isto implica que $n \in S$. Contradição, pelo que $\N \setminus S$ tem que ser vazio e portanto $S = \N$.} Note-se que não é necessário provar caso base.
 	\end{center}
 	
 	Seja $i$ um índice tal que para todo $i' < i$ se tem $\Gamma \vDash \varphi_{i'}$. Então, mostramos que $\Gamma \vDash \varphi_i$. A prova consiste em examinar a justificação de $\varphi_i$, isto é, $j_i$.
@@ -655,7 +675,7 @@
 	\end{itemize}
 	\end{proof}
 	
-	Iniciamos agora a demonstração da completude do cálculo. Fazemos primeiro notas que, sob certas condições, esta é uma trivialidade:
+	Iniciamos agora a demonstração da completude do cálculo. Fazemos primeiro notar que, sob certas condições, esta é uma trivialidade:
 	
 	\begin{prop}
 	Sejam $\Gamma \subseteq \F_p$ e $\varphi \in \F_p$ tal que $\Gamma \vDash \varphi$. Suponha-se, em adição, que $\Gamma = \{\gamma_1, \dots, \gamma_n\}$ é finito. Então, $\Gamma \vdash \varphi$.
@@ -756,7 +776,7 @@
 	ter-se-ia, juntando \eqref{eq:comp:prop:1} e \eqref{eq:comp:prop:2},
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \bf x_{N+1} \lor \neg \bf x_{N+1} \vdash \varphi.\]
 	
-	Sabendo que a hipótese $\bf x_{N+1} \lor \neg \bf x_{N+1}$ é uma tautologia, pode ser retirada das hipóteses (basta substituir qualquer sua invocação como \texttt{Hip} por uma invocação por \texttt{Ax}), pelo que concluímos
+	Sabendo que a hipótese $\bf x_{N+1} \lor \neg \bf x_{N+1}$ é uma tautologia (verifique), pode ser retirada das hipóteses (basta substituir qualquer sua invocação como \texttt{Hip} por uma invocação por \texttt{Ax}), pelo que concluímos
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N) \vdash \varphi,\]
 	uma contradição com a hipótese de indução. Conclui-se então que
 	\[\Gamma, r(\bf x_1), \dots, r(\bf x_N), \neg \bf x_{N+1} \nvdash \varphi,\]
@@ -840,7 +860,7 @@
 	
 	\item Se $\varphi_1 \in \Gamma$, é preciso provar, com apenas hipóteses em $\Gamma$, que $\alpha \imply \varphi_1$. Para isto, usamos o facto que a seguinte afirmação é uma tautologia: (Como pode ser demonstrado através de dois usos do MTD)
 	\[(\varphi_1 \imply (\alpha \imply \varphi_1), \texttt{Ax})\]
-	e continuamos a demonsração modificada com
+	e continuamos a demonstração modificada com
 	\begin{gather*}
 	(\varphi_1, \texttt{Hip})\\
 	(\alpha \imply \varphi_1, \texttt{MP}_{12})
@@ -884,23 +904,10 @@
 	
 	Adicionando a esta prova a linha
 	\[((\alpha \imply \varphi) \imply [(\beta \imply \varphi) \imply ((\alpha \lor \beta) \imply \varphi)], \texttt{Ax})\]
-	(ver lema \ref{lemaou} para justificar que esta é uma tautologia) seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$, como desejado.
+	(ver lema \ref{lemaou} para justificar que esta é uma tautologia) seguida de duas aplicações de MP, obtemos uma demonstração, com hipóteses em $\Gamma$, de $(\alpha \lor \beta) \imply \varphi$. Mais uma aplicação do MTD sintático dá-nos
+	\[\Gamma, \alpha \lor \beta \vdash \varphi,\]
+	como desejado.
 	\end{proof}
-	
-	Mostramos agora a versão sintática do metateorema de substituição de equivalentes. Visto que temos ao nosso dispor todas as tautologias como axiomas, juntamente com a versão semântica metateorema de substituição, esta demonstração acaba por ser algo trivial.
-	
-	\begin{prop}
-	(Metateorema de substituição de equivalentes, versão sintática) Sejam $\varphi, \psi, \alpha, \beta \in \F_p$ e $\Gamma \subseteq \F_p$. Suponha-se que $\Gamma \vdash \alpha \eqv \beta$ e que $\psi$ é obtido de $\varphi$ por substituição de $\alpha$ por $\beta$. Então,
-	\[\Gamma \vdash \varphi \eqv \psi.\]
-	\end{prop}
-	
-	\begin{proof}
-	A primeira observação é que o problema já está resolvido para $\Gamma$ finito. De facto, aplicando a completude do cálculo proposicional para conjuntos de hipóteses finitos, basta recorrer diretamente à versão semântica deste metateorema, visto que, neste caso, $\vdash$ e $\vDash$ são equivalentes.
-	
-	A segunda observação é que qualquer conjunto de hipóteses pode ser reduzido a um conjunto finito. De facto, sabendo que $\Gamma \vdash \alpha \eqv \beta$, visto que demonstrações são finitas, existe um subconjunto \emph{finito} $\Gamma' \subseteq \Gamma$ tal que $\Gamma' \vdash \alpha \eqv \beta$. Aplicando o metateorema de substituição de equivalentes, que já justificámos para o caso finito, obtemos que $\Gamma' \vdash \varphi \eqv \psi$, que obviamente implica que $\Gamma \vdash \varphi \eqv \psi$, como desejado.
-	\end{proof}
-	
-	Estamos agora em posição de mostrar um lema que foi usado na demonstração da completude do cálculo proposicional, que nos permite fazer uma ponte entre valorações e demonstrações.
 	
 	\begin{lema}\label{lema:3}
 	Seja $\bf x_1, \bf x_2, \dots$ uma enumeração das variáveis, $\rho$ uma valoração e $\varphi$ uma fórmula. Defina-se, para $i = 1, 2, \dots$, $r(\bf x_i)$ como sendo a fórmula $\bf x_i$ se $\rho(\bf x_i) = \lt$ e $\neg \bf x_i$ se $\rho(\bf x_i) = \lf$. Sob estas hipóteses,
@@ -931,6 +938,22 @@
 	como desejado.
 	\end{proof}
 	
+	Concluidas as demonstrações dos lemas necessários, damos por terminada a demonstração da completude do cálculo. Isto é: a partir de tautologias e \textit{modus ponens}, é possível demonstrar sintáticamente qualquer afirmação da forma $\Gamma \vDash \varphi$!
+	
+	Isto tem uma consequência interessante, que não tem demonstração fácil que não passe pela noção de sintática.
+	
+	\begin{prop}
+	Seja $\Gamma \subseteq \F_p$ e $\varphi \in \F_p$. Então, se $\Gamma \vDash \varphi$ existe um subconjunto finito $\Gamma'$ de $\Gamma$ tal que $\Gamma' \vDash \varphi$.
+	
+	Por outras palavras, se $\varphi$ é consequência semântica das hipóteses em $\Gamma$, é possível arranjar um conjunto finito de hipóteses a partir dos quais ainda se conclui $\varphi$.
+	\end{prop}
+	
+	\begin{proof}
+	Suponha-se que $\Gamma \vDash \varphi$. Então, pela completude do cálculo proposicional, $\Gamma \vdash \varphi$, ou seja, existe uma demonstração de $\varphi$ com hipóteses em $\Gamma$. Como demonstrações são finitas, é possível apenas invocar um número finito de hipóteses. Assim sendo, se $\Gamma' \subseteq \Gamma$ é o conjunto de hipóteses invocadas nesta demonstração, temos $\Gamma' \vdash \varphi$, pelo que, por correção, $\Gamma' \vDash \varphi$.
+	\end{proof}
+	
+	Note-se que o enunciado da proposição anterior não menciona o cálculo proposicional nem a noção de provabilidade.
+	
 	\section{Axiomática}
 	
 	Tivemos até agora bastante sucesso com o cálculo proposicional. Mostrámos que, partindo apenas do nosso conhecimento de tautologias e \textit{modus ponens}, é possível caracterizar completamente a relação de consequência semântica. Nesta secção, reduziremos o conjunto dos axiomas.
@@ -938,7 +961,7 @@
 	Começamos por mostrar que para um conjunto de axiomas nos dar um cálculo correto e completo é necessário e suficiente que, em certo sentido, chegue para descrever as tautologias todas.
 	
 	\begin{prop}\label{axiomconditions}
-	Seja $A$ um conjunto de axiomas. Então, o cálculo proposicional usando $A$ como axiomas é
+	Seja $A$ um conjunto de fórmulas. Então, o cálculo proposicional usando $A$ como axiomas é
 	
 	\begin{itemize}
 	\item Correto sse todos os elementos de $A$ são tautologias
@@ -1012,7 +1035,7 @@
 	
 	Temos então um conjunto de apenas dois (!) axiomas\footnote{Tecnicamente, é um número contável infinito de axiomas, e não apenas dois.} a partir dos quais obtemos o metateorema da dedução. Repare-se, no entanto, que os nossos axiomas não falam do operador `não'. Assim sendo, não há muita esperança de conseguir demonstrar todas as tautologias; em particular aquelas que usam este operador.
 	
-	Um aspeto principal a considerar para conseguir mostrar todas as tautologias é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Temos, então, de tentar descobrir uma forma de demonstrar este lema de forma mais construtiva.
+	Um aspeto principal a considerar para conseguir mostrar todas as tautologias é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Assim sendo, é necessário uma forma mais construtiva de demonstrar este lema.
 	
 	Recordando o enunciado: supomos fixa uma enumeração $\bf x_1, \bf x_2, \dots$ das variáveis e uma valoração $\rho$. Pretendemos mostrar que, se $\varphi$ é uma fórmula,
 	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
@@ -1066,6 +1089,8 @@
 	\item Se $\rho \Vdash \neg (\varphi_1 \imply \varphi_2)$, então $\overline\rho(\varphi_1) = \lt$ e $\overline\rho(\varphi_2) = \lf$. Assim sendo, por hipótese de indução, $\Gamma_\rho \vdash \varphi_1$ e $\Gamma_\rho \vdash \neg \varphi_2$. Precisamos então do axioma
 	\[\varphi_1 \imply (\neg \varphi_2 \imply \neg (\varphi_1 \imply \varphi_2)).\]
 	\end{itemize}
+	
+	Novamente, não foram adicionadas hipóteses, pelo que as únicas hipóteses necessárias são, por indução, aquelas em $\var \varphi_1 \cup \var \varphi_2 = \var \varphi$.
 	\end{itemize}
 	
 	Necessitamos portanto de mostrar as seguintes três tautologias, todas usando o operador `não':
@@ -1109,7 +1134,7 @@
 	(\neg\neg\neg\neg\alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha).
 	\end{gather*}
 	
-	A primeira aplicação não nos dá algo em que se possa imediatamente mexer, mas após uma segunda aplicação, obtemos uma afirmação da forma $\beta \imply \neg\neg\alpha$. Nesta afirmação já é possível pegar, visto que, invocando o axioma \eqref{ax1}, temos $\neg\neg\alpha \imply (\beta \imply \neg\neg\alpha)$. Temos então material para construir a seguinte prova, que usa apenas os três axiomas \eqref{ax1} e \eqref{cr2} e a hipótese $\neg\neg\alpha$.
+	A primeira aplicação não nos dá algo em que se possa imediatamente mexer, mas após uma segunda aplicação, obtemos uma afirmação da forma $\beta \imply \neg\neg\alpha$. Nesta afirmação já é possível pegar, visto que, invocando o axioma \eqref{ax1}, temos $\neg\neg\alpha \imply (\beta \imply \neg\neg\alpha)$. Temos então material para construir a seguinte prova, que usa apenas os três axiomas \eqref{ax1}, \eqref{ax2} e \eqref{cr2}, juntamente com a hipótese $\neg\neg\alpha$.
 	
 	\begin{align*}
 	&\neg\neg\alpha&&\texttt{Hip}\\
@@ -1235,7 +1260,7 @@
 	\begin{proof}
 	Comecemos com as hipóteses $\alpha \imply \psi$ e $\neg \alpha \imply \psi$. A partir da primeira, usando o princípio do contrarrecíproco, obtemos $\neg \psi \imply \neg \alpha$. Da segunda, conclui-se $\neg \psi \imply \neg \neg \alpha$. Logo, adicionando a hipótese $\neg \psi$, concluímos $\neg \alpha$ e $\neg\neg\alpha$.
 	
-	É razoávelmente intuitivo que a partir de factos contraditórios seja possível concluir qualquer de coisa. E de facto, aplicando o princípio do contrarrecíproco ao axioma
+	É razoavelmente intuitivo que a partir de factos contraditórios seja possível concluir qualquer coisa. E de facto, aplicando o princípio do contrarrecíproco ao axioma
 	\[\neg \alpha \imply (\beta \imply \neg \alpha)\]
 	é possível concluir que, para qualquer $\beta$,
 	\[\neg \alpha \imply (\neg \neg \alpha \imply \neg \beta).\]
