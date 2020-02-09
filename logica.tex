@@ -119,7 +119,7 @@
 	\lf.
 	\end{gather*}
 	
-	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Qualquer valoração pode ser extendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
+	Podemos tornar o processo mais rigoroso descrevendo-o da seguinte forma: definimos uma \emph{valoração} como sendo uma função $\rho : \{\text{Variáveis}\} \to \{\lt, \lf\}$. Qualquer valoração pode ser estendida de forma natural para uma função ${\overline\rho : \{\text{Fórmulas}\} \to \{\lt, \lf\}}$, da forma que descrevemos: substitui-se cada variável $x$ pelo valor de $\rho(x)$ e `faz-se as contas'.
 	
 	Existe uma classe de fórmulas que tem particular interesse, que são as chamadas tautologias.
 	
@@ -129,11 +129,11 @@
 	
 	A razão pela qual procuramos outra forma de caracterizar estas fórmulas é porque eventualmente atacaremos o problema mais geral, onde as variáveis, em vez de serem só $\lt$ e $\lf$, podem ser elementos de um universo qualquer arbitrário: naturais, reais, grupos... Assim sendo, deixa de ser possível testar todos os casos possíveis. Como tal, passa a ser necessário um método `sintático', isto é, que manipule as afirmações sem as tentar interpretar. É daí que nasce a formalização de `demonstração', com fim a esclarecer a relação entre o que é verdade e o que é demonstrável.
 	
-	Voltando a lógica proposicional, consideremos o problema de `testar todos os casos possíveis' para valores das variáveis numa fórmula. Ao fazermos isto estamos a assumir implícitamente que existe um número finito de casos, mas repare-se que, da forma que o definímos, existe um número potencialmente infinito de valorações! De facto, existe um número infinito de variáveis (por exemplo, $x_1$, $x_2$, \dots) pelo que haverá também um número (não-contável!) infinito de valorações. Assim sendo, é impossível testá-las todas.
+	Voltando a lógica proposicional, consideremos o problema de `testar todos os casos possíveis' para valores das variáveis numa fórmula. Ao fazermos isto estamos a assumir implicitamente que existe um número finito de casos, mas repare-se que, da forma que o definimos, existe um número potencialmente infinito de valorações! De facto, existe um número infinito de variáveis (por exemplo, $x_1$, $x_2$, \dots) pelo que haverá também um número (não-contável!) infinito de valorações. Assim sendo, é impossível testá-las todas.
 	
 	Claro que, na prática, isso não é um problema. Fixa uma fórmula $\varphi$, só existe um número finito de variáveis a considerar, visto que apenas um número finito de variáveis consta em $\varphi$, e o valor dado a variáveis que não estas é irrelevante. Estamos habituados a tomar estes princípios como garantidos, mas aproveitá-los-emos como veículo para introduzir a noção de indução na estrutura.
 	
-	A observação essencial é que podemos decompôr uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução corresponde a separar uma fórmula como $\varphi_1 \lor \varphi_2$, $\varphi_1 \land \varphi_2$ ou $\neg \varphi_1$. Este processo pára nas fórmulas que não podem ser simplificadas mais: chamamos a estas de fórmulas atómicas, e são aquelas compostas por apenas uma variável. Por exemplo, $x$, ou $a$.
+	A observação essencial é que podemos decompor uma fórmula arbitrária em fórmulas mais pequenas. Por exemplo, a fórmula $\varphi : (a \land b) \lor \neg (b \lor \neg c)$ pode ser decomposta como $\varphi_1 \lor \varphi_2$, onde $\varphi_1$ e $\varphi_2$ são fórmulas mais pequenas do que a inicial. Isto permite-nos usar o princípio de indução (forte) no tamanho de uma fórmula, em que o passo de indução corresponde a separar uma fórmula como $\varphi_1 \lor \varphi_2$, $\varphi_1 \land \varphi_2$ ou $\neg \varphi_1$. Este processo pára nas fórmulas que não podem ser simplificadas mais: chamamos a estas de fórmulas atómicas, e são aquelas compostas por apenas uma variável. Por exemplo, $x$, ou $a$.
 	
 	Exemplificaremos o princípio, começando por definir indutivamente a noção de `variáveis em fórmula', e demonstrando, com base nesta definição, que, se $\rho$ é uma valoração e $\varphi$ é uma fórmula, $\overline\rho(\varphi)$ depende apenas do valor de $\rho$ nas variáveis em $\varphi$.
 	
@@ -157,7 +157,7 @@
 	
 	O caso base são as fórmulas atómicas, $\varphi : x$. Como $\overline\rho(\varphi) = \rho(x)$ neste caso, de facto $\overline\rho(\varphi)$ depende apenas de $\rho(x)$, isto é, o valor que $\rho$ toma nos elementos de $\var \varphi = \{x\}$. A demonstração do caso base está terminada.
 	
-	Fazemos agora o passo de indução. Seja $\varphi$ uma fórmula não-atómica, e suponha-se que o enunciado é verdadeiro para todas as fórmulas mais pequenas do que $\varphi$. Então, partimos do princípio que $\varphi$ é da forma $\neg \varphi_1$, $\varphi_1 \lor \varphi_2$ ou $\varphi_1 \land \varphi_2$. Em qualquer um destes casos, as fórmulas nas quais decompômos $\varphi$ são estritamente mais pequenas do que $\varphi$, pelo que podemos usar nelas a hipótese de indução.
+	Fazemos agora o passo de indução. Seja $\varphi$ uma fórmula não-atómica, e suponha-se que o enunciado é verdadeiro para todas as fórmulas mais pequenas do que $\varphi$. Então, partimos do princípio que $\varphi$ é da forma $\neg \varphi_1$, $\varphi_1 \lor \varphi_2$ ou $\varphi_1 \land \varphi_2$. Em qualquer um destes casos, as fórmulas nas quais decompomos $\varphi$ são estritamente mais pequenas do que $\varphi$, pelo que podemos usar nelas a hipótese de indução.
 	
 	Usemos o caso $\varphi_1 \lor \varphi_2$ como exemplo, sabendo que os outros dois casos são idênticos.
 	
@@ -207,7 +207,7 @@
 	
 	Terminamos esta secção preliminar com uma introdução ao conceito de metateorema.
 	
-	A noção de implicação e consequência semântica estão intrinsicamente ligadas. De facto, mostraremos que, em certo sentido, `$a \imply b$ sse $a \vDash b$'. Isto diz-se um metateorema porque relaciona duas `camadas' de verdade: relaciona uma verdade `dentro do sistema' ($a \imply b$) com uma verdade `sobre o sistema' ($a \vDash b$).
+	A noção de implicação e consequência semântica estão intrinsecamente ligadas. De facto, mostraremos que, em certo sentido, `$a \imply b$ sse $a \vDash b$'. Isto diz-se um metateorema porque relaciona duas `camadas' de verdade: relaciona uma verdade `dentro do sistema' ($a \imply b$) com uma verdade `sobre o sistema' ($a \vDash b$).
 	
 	\begin{prop*}
 	(Metateorema da dedução) Seja $\Gamma$ um conjunto de fórmulas, $a$ e $b$ proposições. Então,
@@ -228,7 +228,7 @@
 	Como partimos do princípio que $\rho$ era uma valoração arbitrária tal que $\rho \Vdash \Gamma \cup \{a\}$ e concluímos $\rho \Vdash b$, temos que $\Gamma \cup \{a\} \vDash b$.
 	\end{proof}
 	
-	Este metateorema marca a primeira ocasião em que a nossa linguagem diz algo sobre si mesma. Frases autorreferenciais terão um papel central quando falarmos dos teoremas de incompletude de Gödel, mas isso terá que esperar até ao terceiro capítulo.
+	Este metateorema marca a primeira ocasião em que a nossa linguagem diz algo sobre si mesma. Frases auto-referenciais terão um papel central quando falarmos dos teoremas de incompletude de Gödel, mas isso terá que esperar até ao terceiro capítulo.
 	
 	\section{Semântica}
 	
@@ -243,7 +243,7 @@
 	\begin{obs}
 	Há a necessidade de distinguir uma variável de uma `meta-variável'. Isto é: se falamos na variável $x$, poderá ser ambíguo se nos referimos ao elemento $x \in X$ ou se a letra $x$ é uma incógnita que pode significar uma variável arbitrária.
 	
-	Para evitar esta ambíguidade, representamos meta-variáveis a negrito: $\bf{x}$. Ou seja: $x$ é o elemento de $X$, enquanto que $\bf x$ é uma incógnita que pode ser substituída por qualquer variável: $x$, $y$, $z$, \dots
+	Para evitar esta ambiguidade, representamos meta-variáveis a negrito: $\bf{x}$. Ou seja: $x$ é o elemento de $X$, enquanto que $\bf x$ é uma incógnita que pode ser substituída por qualquer variável: $x$, $y$, $z$, \dots
 	\end{obs}
 	
 	Há quem defina, agora, fórmulas como sequências de símbolos. Isto parece ser uma definição intuitiva, visto que é assim que representamos fórmulas: sequências de caracteres. No entanto, visto que no futuro teremos que escrever programas que lêm e interpretam estas fórmulas, é mais conveniente definirmos fórmulas pelas respetivas árvores semânticas.
@@ -260,7 +260,7 @@
 	\Tree [.\texttt{or} [.\texttt{and} $a$ $b$ ] [.\texttt{not} [.\texttt{or} $b$ [.\texttt{not} $c$ ] ] ] ]
 	\end{center}
 	
-	Para os nossos propósitos, é mais fácil manipular àrvores do que sequências de caracteres. Assim sendo, é com base nesta perspetiva que definimos o conjunto das fórmulas proposicionais.
+	Para os nossos propósitos, é mais fácil manipular árvores do que sequências de caracteres. Assim sendo, é com base nesta perspetiva que definimos o conjunto das fórmulas proposicionais.
 	
 	\begin{definicao}
 	Definimos o conjunto das fórmulas proposicionais $\F_p$ (sobre o conjunto $X$, que deixamos implícito) indutivamente.
@@ -304,7 +304,7 @@
 	Dizemos que $\varphi$ é uma tautologia se $\emptyset \vDash \varphi$. Isto pode ser representado como $\vDash \varphi$.
 	\end{definicao}
 	
-	Começamos por apresentar algumas regras de decução que nos ajudarão a mostrar que certas coisas são consequência semântica de outras.
+	Começamos por apresentar algumas regras de dedução que nos ajudarão a mostrar que certas coisas são consequência semântica de outras.
 	
 	\begin{prop}
 	A relação $\vDash$ é transitiva. Isto é:
@@ -347,7 +347,7 @@
 	Juntando as afirmações \eqref{eq:mtd:1} e \eqref{eq:mtd:2}, obtemos que $\Gamma, \alpha \vDash \{\alpha \imply \beta, \alpha\}$. A regra de \textit{modus ponens} diz-nos que $\{\alpha \imply \beta, \alpha\} \vDash \beta$, pelo que, por transitividade, $\Gamma, \alpha \vDash \beta$, como desejado.
 	\end{proof}
 	
-	O leitor poderá ter reparado que os símbolos $a \land b$ e $a \lor b$ não foram definidos, visto que na nossa definição de fórmula englobámos apenas as operações $\neg a$ e $a \imply b$. Visto que o uso dos operadores $\land$ e $\lor$ são convenientes, definimo-los por abreviatura. Ou seja, escrevemo-los em termos de `não's e `implica's, e sempre que escrevemos `ou' ou `e' substituimos mentalmente pela abreviatura establecida.
+	O leitor poderá ter reparado que os símbolos $a \land b$ e $a \lor b$ não foram definidos, visto que na nossa definição de fórmula englobámos apenas as operações $\neg a$ e $a \imply b$. Visto que o uso dos operadores $\land$ e $\lor$ são convenientes, definimo-los por abreviatura. Ou seja, escrevemo-los em termos de `não's e `implica's, e sempre que escrevemos `ou' ou `e' substituímos mentalmente pela abreviatura estabelecida.
 	
 	Recordamos o leitor que $\overline\rho(\alpha \imply \beta) = (\pnot \overline\rho(\alpha)) \por \overline\rho(\beta)$, pelo que desejamos escrever os operadores $\por$ e $\pand$ como uma expressão semelhante a esta forma.
 	
@@ -360,9 +360,9 @@
 	Pelo que estabelecemos as seguintes abreviaturas:
 	
 	\begin{itemize}
-	\item Quando escrevemos $\alpha \lor \beta$, substituimos mentalmente por $\neg \alpha \imply \beta$.
+	\item Quando escrevemos $\alpha \lor \beta$, substituímos mentalmente por $\neg \alpha \imply \beta$.
 	
-	\item Quando escrevemos $\alpha \land \beta$, substituimos mentalmente por $\neg (\alpha \imply \neg \beta)$.
+	\item Quando escrevemos $\alpha \land \beta$, substituímos mentalmente por $\neg (\alpha \imply \neg \beta)$.
 	
 	\item Estabelecemos também a abreviatura $a \eqv b$ como $(a \imply b) \land (b \imply a)$ (que por sua vez é abreviatura de outra expressão, mas achamos por bem não expandir por completo).
 	\end{itemize}
@@ -406,7 +406,7 @@
 	
 	Visto que já temos ferramentas para mostrar equivalências, passamos agora à proposição que nos permite fazer uso de equivalências. Antes de o podermos fazer, no entanto, precisamos de formalizar o que significa `substituir'.
 	
-	A ideia essencial é que pretendemos, numa fórmula $\varphi$, substituir certas instâncias de uma expressão $\alpha$ por uma outra expressão (presumivelmente equivalente) $\beta$. Por exemplo, passar de $\varphi : a \land \neg \neg (b \imply c)$ para $\psi : a \land (b \imply c)$, e depois possívelmente para $\theta : (b \imply c) \land a$. Para podermos manipular o conceito de substituição e demonstrar coisas sobre ele, precisamos de o definir de forma rigorosa. Como o leitor poderá estar à espera, fá-lo-emos de forma indutiva.
+	A ideia essencial é que pretendemos, numa fórmula $\varphi$, substituir certas instâncias de uma expressão $\alpha$ por uma outra expressão (presumivelmente equivalente) $\beta$. Por exemplo, passar de $\varphi : a \land \neg \neg (b \imply c)$ para $\psi : a \land (b \imply c)$, e depois possivelmente para $\theta : (b \imply c) \land a$. Para podermos manipular o conceito de substituição e demonstrar coisas sobre ele, precisamos de o definir de forma rigorosa. Como o leitor poderá estar à espera, fá-lo-emos de forma indutiva.
 	
 	\begin{definicao}
 	Sejam $\varphi, \psi, \alpha, \beta \in \F_p$. Dizemos que \emph{$\psi$ é obtido de $\varphi$ por substituição de $\alpha$ por $\beta$} se:
@@ -591,7 +591,7 @@
 	
 	Em breve formalizaremos a noção de demonstração, mas a ideia principal é que criaremos um sistema em que algumas afirmações podem ser demonstradas e outras não. O objetivo é que as afirmações que podem ser demonstradas são exatamente aquelas que são verdadeiras. Ou seja, se demonstramos uma afirmação, ela tem que ser verdadeira (chamamos a isto correção), e se uma afirmação é verdadeira terá que existir uma prova dela (chamamos a isto completude). Em lógica, é normalmente bastante fácil assegurar correção de sistemas de demonstração --- basta certificarmo-nos que todos os passos individuais estão corretos ---, mas provar que qualquer afirmação verdadeira pode ser demonstrada é uma história completamente diferente!
 	
-	De agora em diante, tomaremos como conjunto de axiomas (chamamos a este conjunto $A$) as tautologias. De futuro, veremos que este conjunto pode ser drásticamente reduzido.
+	De agora em diante, tomaremos como conjunto de axiomas (chamamos a este conjunto $A$) as tautologias. De futuro, veremos que este conjunto pode ser drasticamente reduzido.
 	
 	\textbf{Se o leitor deseja ver os axiomas finais,} poderá avançar para a página \pageref{prop:axiomasfinais}. Não há perda de continuidade em ler esta secção mesmo sabendo os axiomas, tendo conhecimento que em qualquer momento que invocamos uma tautologia como axioma, podemos substituir essa invocação por uma demonstração (com base nos axiomas finais) da fórmula em questão.
 	
@@ -609,7 +609,7 @@
 	
 	\item Se $j_i = \texttt{MP}_{ab}$, então $a, b < i$ e $\varphi_a$ é a fórmula $\varphi_b \imply \varphi_i$.
 	
-	Por outras palavras, se $\varphi_a$ é da forma $\alpha \imply \beta$ e $\varphi_b$ é a fórmula $\alpha$, então podemos concluír a fórmula $\beta$, com a justificação $\texttt{MP}_{ab}$ (\textit{Modus ponens}, com hipóteses $a$ e $b$).
+	Por outras palavras, se $\varphi_a$ é da forma $\alpha \imply \beta$ e $\varphi_b$ é a fórmula $\alpha$, então podemos concluir a fórmula $\beta$, com a justificação $\texttt{MP}_{ab}$ (\textit{Modus ponens}, com hipóteses $a$ e $b$).
 	\end{itemize}
 	\end{definicao}
 	
@@ -706,9 +706,9 @@
 	
 	Isto mostra que o maior obstáculo para a completude é a possibilidade de haver infinitas hipóteses.
 	
-	Para demonstrar a completude no caso geral, uma demonstração direta não é um bom plano de ataque. De facto, para mostrar que $\Gamma \vDash \varphi$ implica $\Gamma \vdash \varphi$ seria necessário partir de uma hipótese sobre o conjunto das valorações, e, a partir disso, construír uma demonstração. O problema é que as valorações não nos dizem grande coisa sobre como poderíamos construir a demonstração.
+	Para demonstrar a completude no caso geral, uma demonstração direta não é um bom plano de ataque. De facto, para mostrar que $\Gamma \vDash \varphi$ implica $\Gamma \vdash \varphi$ seria necessário partir de uma hipótese sobre o conjunto das valorações, e, a partir disso, construir uma demonstração. O problema é que as valorações não nos dizem grande coisa sobre como poderíamos construir a demonstração.
 	
-	Recorremos então ao princípio do contrarrecíproco. Isto é, provaremos a afirmação equivalente: $\Gamma \nvdash \varphi$ implica $\Gamma \nvDash \varphi$. Partimos do princípio que não existe uma demonstração de $\varphi$ a partir de $\Gamma$ e pretendemos construír uma valoração $\rho$ tal que $\rho \Vdash \Gamma$ mas $\rho \nVdash \varphi$. Felizmente, a construção de valorações é um processo razoávelmente simples, visto que é como resolver equações. Cada $\gamma \in \Gamma$ dá-nos uma `equação que $\rho$ tem que satisfazer', e juntando a estas a condição que $\rho$ satisfaça $\neg \varphi$, ficamos com um `sistema com infinitas incógnitas' ($\rho(x)$, $\rho(y)$, \dots), e a nossa esperança seria que, de alguma forma, a hipótese que não há demonstrações de $\Gamma \vdash \varphi$ fosse em algum sentido equivalente a `este sistema é não-singular'.
+	Recorremos então ao princípio do contrarrecíproco. Isto é, provaremos a afirmação equivalente: $\Gamma \nvdash \varphi$ implica $\Gamma \nvDash \varphi$. Partimos do princípio que não existe uma demonstração de $\varphi$ a partir de $\Gamma$ e pretendemos construir uma valoração $\rho$ tal que $\rho \Vdash \Gamma$ mas $\rho \nVdash \varphi$. Felizmente, a construção de valorações é um processo razoavelmente simples, visto que é como resolver equações. Cada $\gamma \in \Gamma$ dá-nos uma `equação que $\rho$ tem que satisfazer', e juntando a estas a condição que $\rho$ satisfaça $\neg \varphi$, ficamos com um `sistema com infinitas incógnitas' ($\rho(x)$, $\rho(y)$, \dots), e a nossa esperança seria que, de alguma forma, a hipótese que não há demonstrações de $\Gamma \vdash \varphi$ fosse em algum sentido equivalente a `este sistema é não-singular'.
 	
 	A ideia será construir $\rho$ de forma gananciosa, atribuindo valores às variáveis sequencialmente. Cada variável nova que atribuímos `adiciona uma condição a $\Gamma$', e se nos certificarmos a cada passo que não quebramos a condição $\Gamma \nvdash \varphi$, no final acabaremos com a valoração desejada.
 	
@@ -884,7 +884,7 @@
 	Para completar a prova, precisamos de justificar que de $\alpha \imply (\varphi_2 \imply \varphi_3)$ e $\alpha \imply \varphi_2$ conseguimos concluir $\alpha \imply \varphi_3$.  Para tal, é necessário usar o facto que a seguinte afirmação é uma tautologia:
 	
 	\[[\alpha \imply (\varphi_2 \imply \varphi_3)] \imply [(\alpha \imply \varphi_2) \imply (\alpha \imply \varphi_3)]\]
-	coisa esta que pode ser demonstrada semânticamente através de uso generoso do MTD e MP.
+	coisa esta que pode ser demonstrada semanticamente através de uso generoso do MTD e MP.
 	
 	Sabendo este facto, é fácil continuar a demonstração modificada, adicionando as linhas:
 	\begin{gather*}
@@ -893,7 +893,7 @@
 	(\alpha \imply \varphi_3, \texttt{MP}_{i_2 + 2, i_2})
 	\end{gather*}
 	
-	Note-se que neste raciocínio focámo-nos nos primeiro, segundo e terceiro passos, mas é evidente que este argumento poderá ser aplicado a todos os passos. Continuando o processo até o $n$-ésimo passo, obtem-se a demonstração modificada desejada, o que conclui a prova.
+	Note-se que neste raciocínio focámo-nos nos primeiro, segundo e terceiro passos, mas é evidente que este argumento poderá ser aplicado a todos os passos. Continuando o processo até o $n$-ésimo passo, obtém-se a demonstração modificada desejada, o que conclui a prova.
 	\end{proof}
 	
 	Tal como a sua correspondente versão semântica, a versão sintática do metateorema da dedução é instrumental para simplificar imensas provas. Exemplificamos com o seguinte lema, que foi usado na demonstração de completude.
@@ -904,7 +904,7 @@
 	\end{lema}
 	
 	\begin{proof}
-	Sabendo que $\Gamma, \alpha \vdash \varphi$, concluímos, pelo metateorema da dedução sintático, que $\Gamma \vdash \alpha \imply \varphi$. Idênticamente, temos que $\Gamma \vdash \beta \imply \varphi$.
+	Sabendo que $\Gamma, \alpha \vdash \varphi$, concluímos, pelo metateorema da dedução sintático, que $\Gamma \vdash \alpha \imply \varphi$. Identicamente, temos que $\Gamma \vdash \beta \imply \varphi$.
 	
 	Sejam $(\varphi_1, j_1), \dots, (\varphi_n, j_n)$ e $(\psi_1, j'_1), \dots, (\psi_m, j'_m)$ as respetivas provas. Concatenando as duas (e ajustando índices de \texttt{MP}'s quando necessário) obtemos uma prova cuja $n$-ésima entrada é $\alpha \imply \varphi$ e cuja $(n+m)$-ésima entrada é $\beta \imply \varphi$.
 	
@@ -937,14 +937,14 @@
 	está precisamente nestas condições, pelo que $\rho' \Vdash \varphi$. Assim sendo, conclui-se que
 	\[r(\bf x_1), \dots, r(\bf x_N) \vDash \varphi.\]
 	
-	Pela completude do cálculo proposicional no caso finito, obtem-se
+	Pela completude do cálculo proposicional no caso finito, obtém-se
 	\[r(\bf x_1), \dots, r(\bf x_N) \vdash \varphi,\]
 	e visto que não há problema em adicionar hipóteses, temos
 	\[r(\bf x_1), r(\bf x_2), \dots \vdash \varphi\]
 	como desejado.
 	\end{proof}
 	
-	Concluidas as demonstrações dos lemas necessários, damos por terminada a demonstração da completude do cálculo. Isto é: a partir de tautologias e \textit{modus ponens}, é possível demonstrar sintáticamente qualquer afirmação da forma $\Gamma \vDash \varphi$!
+	Concluídas as demonstrações dos lemas necessários, damos por terminada a demonstração da completude do cálculo. Isto é: a partir de tautologias e \textit{modus ponens}, é possível demonstrar sintaticamente qualquer afirmação da forma $\Gamma \vDash \varphi$!
 	
 	Isto tem uma consequência interessante, que não tem demonstração fácil que não passe pela noção de sintática.
 	
@@ -995,7 +995,7 @@
 	é uma demonstração, com a mesma conclusão que a original, da qual foi removida uma invocação de um axioma que não está em $A$. O processo pode ser repetido até todas as tais invocações serem removidas. No final, a demonstração obtida é uma demonstração com a mesma conclusão que a original mas que só usa axiomas em $A$.
 	\end{proof}
 	
-	O nosso problema fica então reduzido a arranjar um conjunto $A$ de tautologias, se possível `razoávelmente pequeno', a partir do qual se consiga demonstrar todas as tautologias. Para investigar este problema é razoável investigar as ferramentas que usámos para mostrar tautologias. De facto, uma ferramenta que nos foi útil em muitos casos é o metateorema da dedução. Como tal, é de esperar que o nosso conjunto $A$ tenha axiomas suficientes para o mostrar. Por inspeção da demonstração da versão sintática do MTD, vemos que as únicas tautologias que são realmente necessárias são:
+	O nosso problema fica então reduzido a arranjar um conjunto $A$ de tautologias, se possível `razoavelmente pequeno', a partir do qual se consiga demonstrar todas as tautologias. Para investigar este problema é razoável investigar as ferramentas que usámos para mostrar tautologias. De facto, uma ferramenta que nos foi útil em muitos casos é o metateorema da dedução. Como tal, é de esperar que o nosso conjunto $A$ tenha axiomas suficientes para o mostrar. Por inspeção da demonstração da versão sintática do MTD, vemos que as únicas tautologias que são realmente necessárias são:
 	
 	\begin{enumerate}
 	\item Se $\varphi_1$ é um axioma, é necessário $\alpha \imply \varphi_1$
@@ -1041,7 +1041,7 @@
 	
 	Temos então um conjunto de apenas dois (!) axiomas\footnote{Tecnicamente, é um número contável infinito de axiomas, e não apenas dois.} a partir dos quais obtemos o metateorema da dedução. Repare-se, no entanto, que os nossos axiomas não falam do operador `não'. Assim sendo, não há muita esperança de conseguir demonstrar todas as tautologias; em particular aquelas que usam este operador.
 	
-	Um aspeto principal a considerar para conseguir mostrar todas as tautologias é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requeriu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Assim sendo, é necessário uma forma mais construtiva de demonstrar este lema.
+	Um aspeto principal a considerar para conseguir mostrar todas as tautologias é que \emph{algo} tem que fazer a ligação entre valorações e demonstrações. Na nossa demonstração de completude, este papel coube ao lema \ref{lema:3}. No entanto, a sua demonstração requereu o uso da completude no caso finito, que por sua vez requer o conhecimento que é possível mostrar qualquer tautologia. Assim sendo, é necessário uma forma mais construtiva de demonstrar este lema.
 	
 	Recordando o enunciado: supomos fixa uma enumeração $\bf x_1, \bf x_2, \dots$ das variáveis e uma valoração $\rho$. Pretendemos mostrar que, se $\varphi$ é uma fórmula,
 	\[\rho \Vdash \varphi \text{ sse } r(\bf x_1), r(\bf x_2), \dots \vdash \varphi,\]
@@ -1155,7 +1155,7 @@
 	
 	Usando o MTD, é possível transformar isto numa demonstração de $\neg\neg\alpha \imply \alpha$.
 	
-	Estamos agora em posição de mostrar a redundância de \eqref{ax3} e \eqref{cr1}. Começamos primeiro por establecer uma proposição que temos andado a utilizar implicitamente.
+	Estamos agora em posição de mostrar a redundância de \eqref{ax3} e \eqref{cr1}. Começamos primeiro por estabelecer uma proposição que temos andado a utilizar implicitamente.
 	
 	\begin{prop}
 	Se a afirmação $\varphi$ é possível de demonstrar a partir do conjunto de axiomas $A$, então qualquer prova que use $\varphi$ como hipótese pode ser transformada numa prova que use apenas axiomas em $A$.
@@ -1295,7 +1295,7 @@
 	
 	É neste contexto que surge a lógica de primeira ordem, que se aproxima mais do tipo de raciocínios que estamos habituados a fazer. Para além de manipular afirmações, temos a capacidade de manipular valores. Isto é, uma variável $x$, em vez de representar uma afirmação, representa agora um elemento do universo. Neste contexto, as hipóteses representam axiomas do universo de discurso (por exemplo, os axiomas de grupo para falar sobre grupos, ou os axiomas de Peano (ver adiante) para falar sobre números naturais).
 	
-	O poder expressivo adicional vem ao custo que o sistema é razoávelmente mais complexo. Por exemplo, em lógica de primeira ordem há dois tipos de expressões: expressões que simbolizam valores (e.g. $x + f(y)$, chamamos a estas termos) e expressões que simbolizam afirmações (e.g. $x = y \lor x < y$, chamamos a estas fórmulas). Para além disto, é necessário surgir a noção de assinatura, para identificar que símbolos e operações temos ao nosso dispor (na teoria dos naturais temos $+$ e $\times$, mas em teoria de grupos temos apenas uma operação $\cdot$) e a noção de valoração tem de ser alargada para permitir universos diversos. Pelo lado positivo, a lógica de primeira ordem é suficiente para expressar os axiomas de teoria de conjuntos, na qual é possível construir maior parte da matemática. Assim sendo, para estudar o raciocínio matemático em geral, é muito satisfatório estudar esta lógica.
+	O poder expressivo adicional vem ao custo que o sistema é razoavelmente mais complexo. Por exemplo, em lógica de primeira ordem há dois tipos de expressões: expressões que simbolizam valores (e.g. $x + f(y)$, chamamos a estas termos) e expressões que simbolizam afirmações (e.g. $x = y \lor x < y$, chamamos a estas fórmulas). Para além disto, é necessário surgir a noção de assinatura, para identificar que símbolos e operações temos ao nosso dispor (na teoria dos naturais temos $+$ e $\times$, mas em teoria de grupos temos apenas uma operação $\cdot$) e a noção de valoração tem de ser alargada para permitir universos diversos. Pelo lado positivo, a lógica de primeira ordem é suficiente para expressar os axiomas de teoria de conjuntos, na qual é possível construir maior parte da matemática. Assim sendo, para estudar o raciocínio matemático em geral, é muito satisfatório estudar esta lógica.
 	
 	Um par de observações antes de iniciar a teoria:
 	
