@@ -56,6 +56,7 @@
 \newcommand{\lf}{\mathrm{F}}
 
 \DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\ar}{Ar}
 
 
 \DeclareMathOperator{\pnot}{\texttt{not}}
@@ -246,7 +247,7 @@
 	Para evitar esta ambiguidade, representamos meta-variáveis a negrito: $\bf{x}$. Ou seja: $x$ é o elemento de $X$, enquanto que $\bf x$ é uma incógnita que pode ser substituída por qualquer variável: $x$, $y$, $z$, \dots
 	\end{obs}
 	
-	Há quem defina, agora, fórmulas como sequências de símbolos. Isto parece ser uma definição intuitiva, visto que é assim que representamos fórmulas: sequências de caracteres. No entanto, visto que no futuro teremos que escrever programas que lêm e interpretam estas fórmulas, é mais conveniente definirmos fórmulas pelas respetivas árvores semânticas.
+	Há quem defina, agora, fórmulas como sequências de símbolos. Isto parece ser uma definição intuitiva, visto que é assim que representamos fórmulas: sequências de caracteres. No entanto, visto que no futuro teremos que escrever programas que lêm e interpretam estas fórmulas, é mais conveniente definirmos fórmulas pelas respetivas árvores semânticas.\label{intro_syntatic_trees}
 	
 	Para esclarecer o que se entende por isto, considere-se a expressão $a \lor b$. Isto consiste de um operador (o operador `ou') aplicado a duas variáveis. Podemos representar isto como uma árvore na seguinte forma:
 	
@@ -1314,6 +1315,32 @@
 	\begin{obs}
 	Note-se que as nossas variáveis representam sempre objetos do universo de discurso, e este universo é único. Isto não permite, por exemplo, expressar os axiomas de espaços vetoriais, visto que nestes espaços há dois `tipos de objetos': vetores e escalares. Existem lógicas que permitem lidar com isto, mas estas não estão no âmbito da cadeira de Lógica.
 	\end{obs}
+	
+	\section{Semântica}
+	
+	Antes de podermos definir as expressões que vamos eventualmente manipular, é preciso estabelecer que operações temos ao nosso dispor.
+	
+	Novamente, consideramos fixo o conjunto $X$ das variáveis. Suponha-se dado um conjunto $F$ de \emph{símbolos de funções}, e associado a cada símbolo $f \in F$ uma \emph{aridade}, isto é, quantos argumentos a função $f$ toma. A aridade de um símbolo de função é um número $\ar(f) \in \N_0$. Observe-se a possibilidade de um símbolo de função ter aridade zero. Isto corresponde a ser uma função sem argumentos. Em linguagens de programação, este tipo de funções aparece na forma $f()$. Para os nossos propósitos, funções de aridade zero correspondem a constantes, por exemplo, \textbf{0}, \textbf{1} ou a matriz identidade $\mathbf{I}$.
+	
+	Estamos agora em condições de definir o conjunto dos termos. Isto é, o conjunto das expressões que representam valores.
+	
+	\begin{definicao}
+	O conjunto dos \emph{termos em $F$}, onde $F$ é um conjunto de símbolos de funções com aridades associadas, é definido indutivamente como:
+	
+	\begin{enumerate}
+	\item Se $\bf x$ é uma variável, $\bf x$ é um termo
+	
+	\item Se $f \in F$ é um símbolo de função com aridade $n$ e $t_1,\dots,t_n$ são termos, a seguinte expressão é um termo:\footnote{Recordamos o leitor que adotamos a convenção de interpretar expressões como sendo árvores sintáticas. Ver página \pageref{intro_syntatic_trees}.}
+	
+	\begin{center}
+	\Tree [.$f$ $t_1$ $\dots$ $t_n$ ]
+	\end{center}
+	\end{enumerate}
+	
+	Normalmente, esta expressão é representada como $f(t_1, \dots, t_n)$. Apontamos o caso particular de $n = 0$, no qual temos um símbolo de função constante. Em rigor, deveríamos representar este caso como $f()$, mas por conveniência e hábito omitimos os parênteses neste caso.
+	
+	Termos são normalmente representados pela letra $t$.
+	\end{definicao}
 	
 	\chapter{Introdução à computação}
 	
