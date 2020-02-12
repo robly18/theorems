@@ -51,6 +51,7 @@
 \renewcommand{\bf}[1]{\mathbf{#1}}
 
 \newcommand{\F}{\mathrm{F}}
+\newcommand{\T}{\mathrm{T}}
 
 \newcommand{\lt}{\mathrm{T}}
 \newcommand{\lf}{\mathrm{F}}
@@ -1320,15 +1321,15 @@
 	
 	Antes de podermos definir as expressões que vamos eventualmente manipular, é preciso estabelecer que operações temos ao nosso dispor.
 	
-	Novamente, consideramos fixo o conjunto $X$ das variáveis. Suponha-se dado um conjunto $F$ de \emph{símbolos de funções}, e associado a cada símbolo $f \in F$ uma \emph{aridade}, isto é, quantos argumentos a função $f$ toma. A aridade de um símbolo de função é um número $\ar(f) \in \N_0$. Observe-se a possibilidade de um símbolo de função ter aridade zero. Isto corresponde a ser uma função sem argumentos. Em linguagens de programação, este tipo de funções aparece na forma $f()$. Para os nossos propósitos, funções de aridade zero correspondem a constantes, por exemplo, \textbf{0}, \textbf{1} ou a matriz identidade $\mathbf{I}$.
+	Novamente, consideramos fixo o conjunto $X$ das variáveis. Suponha-se dado um conjunto $F$ de \emph{símbolos de funções}. Isto são apenas símbolos sem significado, que usaremos para escrever expressões do género $f(x)$. Associamos também a cada símbolo $f \in F$ uma \emph{aridade}, isto é, quantos argumentos a função que será denotada por $f$ toma. A aridade de um símbolo de função é um número $\ar(f) \in \N_0$. Observe-se a possibilidade de um símbolo de função ter aridade zero. Isto corresponde a ser uma função sem argumentos. Em linguagens de programação, este tipo de funções aparece na forma $f()$. Para os nossos propósitos, funções de aridade zero correspondem a constantes, por exemplo, \textbf{0}, \textbf{1} ou a matriz identidade $\mathbf{I}$.
 	
 	Estamos agora em condições de definir o conjunto dos termos. Isto é, o conjunto das expressões que representam valores.
 	
 	\begin{definicao}
-	O conjunto dos \emph{termos em $F$}, onde $F$ é um conjunto de símbolos de funções com aridades associadas, é definido indutivamente como:
+	O conjunto dos \emph{termos em $F$}, onde $F$ é um conjunto de símbolos de funções com aridades associadas, é representado como $\T_F$ e é definido indutivamente como:
 	
 	\begin{enumerate}
-	\item Se $\bf x$ é uma variável, $\bf x$ é um termo
+	\item Se $\bf x$ é uma variável, $\bf x$ é um termo. (Chamamos a estes termos atómicos.)
 	
 	\item Se $f \in F$ é um símbolo de função com aridade $n$ e $t_1,\dots,t_n$ são termos, a seguinte expressão é um termo:\footnote{Recordamos o leitor que adotamos a convenção de interpretar expressões como sendo árvores sintáticas. Ver página \pageref{intro_syntatic_trees}.}
 	
@@ -1339,8 +1340,48 @@
 	
 	Normalmente, esta expressão é representada como $f(t_1, \dots, t_n)$. Apontamos o caso particular de $n = 0$, no qual temos um símbolo de função constante. Em rigor, deveríamos representar este caso como $f()$, mas por conveniência e hábito omitimos os parênteses neste caso.
 	
+	Outra notação muito comum é no caso de símbolos de funções de aridade 2 que normalmente estamos habituados a escrever com notação \textit{infix}. Por exemplo, se estamos a escrever os axiomas dos números naturais, provavelmente escreveremos $x + y$ em vez de $+(x, y)$.
+	
 	Termos são normalmente representados pela letra $t$.
 	\end{definicao}
+	
+	Antes de podermos construir expressões que comparam termos, é necessário estabelecer que comparações temos ao nosso dispor.
+	
+	Suponha-se dado um conjunto $P$ de \emph{símbolos de predicado}. Novamente, estes são símbolos sem significado, com uma aridade em $\N_0$ associada. Ao passo que os símbolos de função representavam aplicação de funções a termos, os símbolos de predicado representam, em certo sentido, `inspeção'. Exemplos de símbolos de predicado seriam o $=$ ou o $\leq$, ambos de aridade 2. Um exemplo de um símbolo de predicado de ordem 1 seria uma afirmação $p(n) : \text{`$n$ é par'}$, e um exemplo mais exótico seria um predicado $q(x, y, z)$ que diz se três números estão em progressão aritmética.
+	
+	\begin{definicao}
+	Fixos um conjunto $F$ de símbolos de funções e um conjunto $P$ de símbolos de predicado, definimos o conjunto das \emph{fórmulas em $F$ e $P$}, representado como $\F_{FP}$, indutivamente da seguinte forma:
+	
+	\begin{enumerate}
+	\item Se $p \in P$ é um símbolo de predicado com aridade $n$ e $t_1,\dots,t_n$ são termos em $F$, a seguinte expressão é uma fórmula:
+	
+	\begin{center}
+	\Tree [.$p$ $t_1$ $\dots$ $t_n$ ]
+	\end{center}
+	
+	Chamamos a estas fórmulas \emph{atómicas}.
+	
+	\item Se $\alpha$ e $\beta$ são fórmulas e $\bf x$ é uma variável, as três seguintes são fórmulas:
+	\begin{center}
+	\Tree [.\texttt{not} $\alpha$ ]
+	\qquad
+	\Tree [.\texttt{implies} $\alpha$ $\beta$ ]
+	\qquad
+	\Tree [.\texttt{forall} $\bf x$ $\alpha$ ]
+	\end{center}
+	\end{enumerate}
+	
+	Estes quatro tipos de fórmulas são normalmente representados em notação linear, respetivamente, como
+	
+	\[p(t_1, \dots, t_n) \qquad \neg \alpha \qquad \alpha \imply \beta \qquad \forall_{\bf x} \alpha.\]
+	\end{definicao}
+	
+	Para não termos de levar o conjunto $F$ e $P$ para todo o lado, é normal juntá-los num único objeto ao qual chamamos assinatura,
+	\[\Sigma = (F, P, \ar).\]
+	
+	Assim sendo, normalmente falaremos do conjunto de termos em $\Sigma$ ($\T_\Sigma = \T_F$) e conjunto de fórmulas em $\Sigma$ ($\F_\Sigma = \F_{FP}$). Frequentemente consideraremos a assinatura $\Sigma$ fixa e omitiremos o subscrito, escrevendo apenas $\T$ e $\F$.
+	
+	Para além da distinção entre termos e fórmulas, há uma grande novidade na lógica de primeira ordem em relação ao cálculo proposicional: quantificação de variáveis. Note-se, no entanto, que nem todas as variáveis de uma fórmula precisam de estar quantificadas. Por exemplo, no contexto dos naturais, $\forall_x (x = y)$ é uma fórmula legítima, apesar de a variável $y$ não estar quantificada. (Dizemos que $y$ é uma variável livre; ver adiante.)
 	
 	\chapter{Introdução à computação}
 	
