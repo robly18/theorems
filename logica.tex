@@ -308,7 +308,7 @@
 	Dada uma valoração $\rho$, dizemos que $\rho \Vdash \varphi$ ($\rho$ satisfaz $\varphi$) se $\overline\rho(\varphi) = \lt$. Se em vez de uma fórmula $\varphi$ tivermos um conjunto de fórmulas $\Gamma$, dizemos que $\rho \Vdash \Gamma$ se $\rho \Vdash \gamma$ para todo $\gamma \in \Gamma$.
 	\end{definicao}
 	
-	\begin{definicao}
+	\begin{definicao}\label{def:prop:consequenciasemantica}
 	Seja $\varphi \in \F_p$, $\Gamma \subseteq \F_p$. Dizemos que $\Gamma \vDash \varphi$ (pronunciado `$\varphi$ é consequência semântica de $\Gamma$') se todas as valorações que satisfazem $\Gamma$ também satisfazem $\varphi$. Por outras palavras, se para todas as valorações $\rho$ tal que $\rho \Vdash \Gamma$ temos $\rho \Vdash \varphi$.
 	
 	Para abreviar a notação, seguimos algumas convenções, detalhadas na página \pageref{convencao:consequencia}, relacionadas com omissão de chavetas em expressões do género $\{a, b\} \vDash c$.
@@ -1460,9 +1460,9 @@ def f(x):
 	\end{lstlisting}
 	Suponha-se agora que se escreve a expressão \texttt{f(4)}. O que acontece? Sabemos que \texttt{f} imprimirá o valor de \texttt{x}, mas há dois \texttt{x} em jogo: o valor global de \texttt{x = 2} e o \texttt{x} que foi dado à função que tem o valor de \texttt{4}.
 	
-	O leitor poderá experimentar este exemplo por si próprio, mas o que se verifica é que o valor impresso é \texttt{4}. O que acontece é que o \texttt{x} de dentro da função `esconde' o \texttt{x} global. Em geral, a expressão \texttt{x} refere-se à variável \texttt{x} definida no contexto mais interior possível. É esta a estratégia que tomaremos na nossa formalização de lógica. Assim sendo, a expressão $\forall_{\bf x} \forall_{\bf x} (\bf x = \bf x)$ terá o mesmo significado que $\forall_{\bf x} \forall_{\bf x'} (\bf x' = \bf x')$.
+	O leitor poderá experimentar este exemplo por si próprio, mas o que se verifica é que o valor impresso é \texttt{4}. O que acontece é que o \texttt{x} de dentro da função `esconde' o \texttt{x} global, isto é, qualquer referência a \texttt{x} em que estão os dois \texttt{x} definidos é interpretada como referindo-se ao \texttt{x} da função. Em geral, a expressão \texttt{x} refere-se à variável \texttt{x} definida no contexto mais interior possível. É esta a estratégia que tomaremos na nossa formalização de lógica. Assim sendo, a expressão $\forall_{\bf x} \forall_{\bf x} (\bf x = \bf x)$ terá o mesmo significado que $\forall_{\bf x} \forall_{\bf x'} (\bf x' = \bf x')$, pois como a variável $\bf x$ está contida em dois quantificadores, o objeto a que se refere é àquele quantificado pelo quantificador mais interior.
 	
-	Assim sendo, podemos completar a nossa definição de $\rho_\F(\forall_{\bf x} \alpha)$:
+	Podemos agora completar a nossa definição de $\rho_\F(\forall_{\bf x} \alpha)$:
 	
 	\begin{itemize}
 	\item Establecemos a seguinte definição: se $\rho : X \to U_I$ é uma valoração, $\bf x$ é uma variável e $u \in U_I$, definimos o símbolo $\rho\!\downarrow^{\bf x}_u$ como a valoração:
@@ -1477,7 +1477,29 @@ def f(x):
 	\[(\rho\!\downarrow^{\bf x}_u)_\F(\alpha) = \lt.\]
 	\end{itemize}
 	
+	Estamos agora em condições de definir o conceito de consequência semântica no contexto de lógica de primeira ordem. A definição é muito parecida com aquela dada para o cálculo proposicional (definição \ref{def:prop:consequenciasemantica}), mas repare-se que aqui há dois `níveis' diferentes a ter em conta: o nível de estrutura de interpretação e o nível de valoração.
 	
+	\begin{definicao}
+	Seja $\varphi$ uma fórmula e $I$ uma estrutura de interpretação, ambas sobre uma assinatura comum $\Sigma$.
+	
+	Se $\rho$ é uma valoração sobre $I$, dizemos que $\rho$ satisfaz $\varphi$, denotado $\rho \Vdash \varphi$, se $\rho_\F(\varphi) = \lt$. Isto é: substituindo cada variável $\bf x$ pelo seu valor $\rho(\bf x)$, a afirmação $\varphi$ fica verdadeira.
+	
+	Dizemos que $I$ satisfaz $\varphi$ se, para \emph{todas} as valorações $\rho$ sobre $I$, $\rho \Vdash \varphi$. Por outras palavras, `$\varphi$ é sempre verdade no universo $I$'.
+	
+	De forma análoga à definição \ref{def:prop:consequenciasemantica}, uma afirmação da forma $I \Vdash \Gamma$ (onde $\Gamma$ é um conjunto de fórmulas) equivale a dizer $I \Vdash \gamma$ para todo $\gamma \in \Gamma$.
+	\end{definicao}
+	
+	Note-se que esta distinção entre uma fórmula ser satisfeita por um universo ou por uma valoração não existia no cálculo proposicional, visto que havia apenas um universo: $\{\lt, \lf\}$.
+	
+	Estas duas noções de satisfação dão azo a duas noções ligeiramente diferentes de consequência semântica: local e global.
+	
+	\begin{definicao}
+	Fixa uma assinatura $\Sigma$, sejam $\Gamma \subseteq \F_\Sigma$ e $\varphi \in \F_\sigma$. Dizemos que \emph{$\varphi$ é consequência semântica} (global) de $\Gamma$, denotado $\Gamma \vDash \varphi$, se para toda a estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ temos que $I \Vdash \varphi$. Em particular, dizemos que $\varphi$ é uma afirmação verdadeira se $\emptyset \Vdash \varphi$.
+	
+	Dizemos que \emph{$\varphi$ é consequência semântica} (local) de $\Gamma$, denotado $\Gamma \vDash_L \varphi$, se para toda a estrutura de interpretação $I$ e valoração $\rho$ sobre $I$ tal que $\rho \Vdash \Gamma$ temos que $\rho \Vdash \varphi$. Podemos definir uma afirmação como sendo localmente verdadeira se $\emptyset \vDash_L \varphi$, mas é fácil reparar que uma afirmaºção é verdadeira sse é localmente verdadeira, o que faz desta última definição desnecessária.
+	\end{definicao}
+	
+	No que se segue, a noção de consequência semântica global estará em destaque. Como tal, quando nos referirmos a `consequência semântica', sem menção a local ou global, é pressuposto que nos referimos a consequência semântica global.
 	
 	\chapter{Introdução à computação}
 	
