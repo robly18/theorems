@@ -16,6 +16,10 @@
 \usepackage{tikz-qtree}
 \tikzset{level distance=2em}
 
+%para escrever pseudocódigo
+\usepackage{listings}
+\lstset{mathescape=true, basicstyle=\ttfamily}
+
 \usepackage{graphicx}
 
 \usepackage{cite}
@@ -1416,6 +1420,62 @@
 	\end{definicao}
 	
 	Para evitar sobrecarregar a notação, frequentemente omitiremos `sobre $I$' e `sobre $\Sigma$'s quando óbvio de contexto. Por exemplo, a afirmação `Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração' deverá ser entendida como `Seja $\Sigma$ uma assinatura (se não estiver já uma implícita), $I$ uma estrutura de interpretação sobre $\Sigma$ e $\rho$ uma valoração sobre $I$'.
+	
+	Fixa uma estrutura de interpretação $I$ e uma valoração $\rho$, tal como no caso do cálculo propositcional, é possível extender $\rho$ a uma função $\T \to U_I$, `substituindo cada variável $\bf x$ por $\rho(\bf x)$ e fazendo as contas'. Concretizamos novamente esta noção usando uma definição por indução nas fórmulas:
+	
+	\begin{definicao}
+	Fixo $\rho : X \to U_I$, definimos $\rho_\T : \T \to U_I$ indutivamente como:
+	
+	\begin{itemize}
+	\item Se $t$ é um termo da forma $\bf x$, define-se $\rho_T(t) = \rho(\bf x)$
+	
+	\item Se $t$ é um termo da forma $f(t_1, \dots, t_n)$, define-se
+	\[\rho_\T(t) = f_I(\rho_\T(t_1), \dots, \rho_\T(t_n)).\]
+	\end{itemize}
+	
+	Podemos também extender a função para se aplicar a fórmulas, dizendo se a fórmula é verdadeira ou falsa. Isto é, definimos $\rho_\F : \F \to \{\lt, \lf\}$ como:
+	
+	\begin{itemize}
+	\item Se $\varphi$ é uma fórmula atómica da forma $p(t_1, \dots, t_n)$, definimos
+	\[\rho_\F(\varphi) = p_I(\rho_\T(t_1), \dots, \rho_\T(t_n))\]
+	
+	\item Se $\varphi$ é da forma $\neg \alpha$, definimos $\rho_\F(\varphi) = \pnot \rho_\F(\alpha)$
+	
+	\item Se $\varphi$ é da forma $\alpha \imply \beta$, definimos $\rho_\F(\varphi) = (\pnot \rho_\F(\alpha)) \por \rho_\F(\beta)$
+	
+	\item Deixamos o caso em que $\varphi$ é da forma $\forall_{\bf x} \alpha$ para adiante, visto que este caso requer alguma explicação.
+	\end{itemize}
+	\end{definicao}
+	
+	Para averiguar a definição de $\rho_\F(\forall_{\bf x} \alpha)$, é preciso averiguar o significado intuitivo do símbolo $\forall_{\bf x}$, particularmente em casos `esquisitos'.
+	
+	Por exemplo, não há nada a proibir a construção de uma fórmula da forma $\forall_{\bf x} \forall_{\bf x} (\bf x = \bf x)$. À primeira vista, no entanto, é difícil perceber o que esta fórmula significa. A solução é semelhante ao que é feito nalgumas linguagens de programação, que nestas tem o nome de `local scoping'.
+	
+	Considere-se o seguinte programa em Python:
+	
+	\begin{lstlisting}
+x = 2
+def f(x):
+    print(x)
+	\end{lstlisting}
+	Suponha-se agora que se escreve a expressão \texttt{f(4)}. O que acontece? Sabemos que \texttt{f} imprimirá o valor de \texttt{x}, mas há dois \texttt{x} em jogo: o valor global de \texttt{x = 2} e o \texttt{x} que foi dado à função que tem o valor de \texttt{4}.
+	
+	O leitor poderá experimentar este exemplo por si próprio, mas o que se verifica é que o valor impresso é \texttt{4}. O que acontece é que o \texttt{x} de dentro da função `esconde' o \texttt{x} global. Em geral, a expressão \texttt{x} refere-se à variável \texttt{x} definida no contexto mais interior possível. É esta a estratégia que tomaremos na nossa formalização de lógica. Assim sendo, a expressão $\forall_{\bf x} \forall_{\bf x} (\bf x = \bf x)$ terá o mesmo significado que $\forall_{\bf x} \forall_{\bf x'} (\bf x' = \bf x')$.
+	
+	Assim sendo, podemos completar a nossa definição de $\rho_\F(\forall_{\bf x} \alpha)$:
+	
+	\begin{itemize}
+	\item Establecemos a seguinte definição: se $\rho : X \to U_I$ é uma valoração, $\bf x$ é uma variável e $u \in U_I$, definimos o símbolo $\rho\!\downarrow^{\bf x}_u$ como a valoração:
+	
+	\[\rho\!\downarrow^{\bf x}_u (\bf y) = \begin{cases}
+	\rho(\bf y) & \text{se $\bf y$ não é $\bf x$}\\
+	u & \text{se $\bf y$ é $\bf x$}
+	\end{cases}\]
+	
+	Então, dizemos que $\rho_\F(\forall_{\bf x} \alpha) = \lt$ sse, para todo $u \in U_I$,
+	
+	\[(\rho\!\downarrow^{\bf x}_u)_\F(\alpha) = \lt.\]
+	\end{itemize}
 	
 	
 	
