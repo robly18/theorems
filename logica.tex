@@ -23,6 +23,10 @@
 \makeindex
 \usepackage[nottoc]{tocbibind}
 
+%para ter [[ ]]
+\usepackage{stmaryrd}
+\newcommand{\bbracket}[1]{\left\llbracket #1 \right\rrbracket}
+
 
 \title{Lógica}
 \author{}
@@ -1317,7 +1321,7 @@
 	Note-se que as nossas variáveis representam sempre objetos do universo de discurso, e este universo é único. Isto não permite, por exemplo, expressar os axiomas de espaços vetoriais, visto que nestes espaços há dois `tipos de objetos': vetores e escalares. Existem lógicas que permitem lidar com isto, mas estas não estão no âmbito da cadeira de Lógica.
 	\end{obs}
 	
-	\section{Semântica}
+	\section{Fórmulas}
 	
 	Antes de podermos definir as expressões que vamos eventualmente manipular, é preciso estabelecer que operações temos ao nosso dispor.
 	
@@ -1381,7 +1385,35 @@
 	
 	Assim sendo, normalmente falaremos do conjunto de termos em $\Sigma$ ($\T_\Sigma = \T_F$) e conjunto de fórmulas em $\Sigma$ ($\F_\Sigma = \F_{FP}$). Frequentemente consideraremos a assinatura $\Sigma$ fixa e omitiremos o subscrito, escrevendo apenas $\T$ e $\F$.
 	
-	Para além da distinção entre termos e fórmulas, há uma grande novidade na lógica de primeira ordem em relação ao cálculo proposicional: quantificação de variáveis. Note-se, no entanto, que nem todas as variáveis de uma fórmula precisam de estar quantificadas. Por exemplo, no contexto dos naturais, $\forall_x (x = y)$ é uma fórmula legítima, apesar de a variável $y$ não estar quantificada. (Dizemos que $y$ é uma variável livre; ver adiante.)
+	Para além da distinção entre termos e fórmulas, há uma grande novidade na lógica de primeira ordem em relação ao cálculo proposicional: quantificação de variáveis. Note-se, no entanto, que nem todas as variáveis de uma fórmula precisam de estar quantificadas. Por exemplo, no contexto dos naturais, $\forall_x (x = y)$ é uma fórmula legítima (mas não verdadeira), apesar de a variável $y$ não estar quantificada. (Dizemos que $y$ é uma variável livre; ver adiante.)
+	
+	Para interpretar estas fórmulas com variáveis livres, basta pensar no contexto do cálculo proposicional. Neste, as fórmulas não eram quantificadas, mas dizíamos que uma fórmula era uma tautologia se fosse verdade para \emph{qualquer} atribuição das variáveis. Da mesma forma, na lógica de primeira ordem dizemos que uma fórmula é verdadeira se for verdade `em qualquer universo, para qualquer atribuição das variáveis'. (Ver abaixo.)
+	
+	\section{Semântica}
+	
+	Introduzimos agora o conceito de estrutura de interpretação.
+	
+	No cálculo proposicional, interpretar fórmulas era muito fácil, visto que o universo estava fixo: cada variável ou era $\lt$ ou $\lf$. No contexto de primeira ordem, no entanto, há muitos universos plausíveis, pelo que, para além de dizer os valores que as variáveis tomam, é necessário especificar em que universo é que estas vivem.
+	
+	\begin{definicao}	
+	Fixe-se uma assinatura $\Sigma = (F, P, \ar)$. Uma \emph{estrutura de interpretação} $I$ em $\Sigma$ consiste em:
+	
+	\begin{itemize}
+	\item Um conjunto não-vazio(!) $U_I$, que representa o universo;
+	
+	\item Para cada símbolo $f \in F$, uma função $f_I : U^{\ar f} \to U$;\footnote{Novamente, chamamos atenção para o caso específico de $\ar f = 0$. Neste caso, $U^{\ar f} = U^0$. Isto é o conjunto que contém apenas o `zero-uplo' $()$. Ou seja, uma função $U^0 \to U$ é definida univocamente pela imagem do elemento único do seu domínio, e portanto podemos identificar as funções $U^0 \to U$ com os elementos de $U$. Dito por outras palavras: de acordo com o que foi dito antes, se $\ar f = 0$ então $f_I$ corresponde a um elemento constante de U.}
+	
+	\item Para cada símbolo $p \in P$, uma função $p_I : U^{\ar p} \to \{\lt, \lf\}$.
+	\end{itemize}
+	\end{definicao}
+	
+	Agora que podemos definir os universos nos quais os nossos objetos vivem, podemos definir valoração:
+	
+	\begin{definicao}
+	Fixe-se uma assinatura $\Sigma$ e uma estrutura de interpretação $I$ (sobre $\Sigma$). Uma \emph{valoração em $I$} é uma função $\rho : X \to U_I$.
+	\end{definicao}
+	
+	Para evitar sobrecarregar a notação, frequentemente omitiremos `sobre $I$' e `sobre $\Sigma$'s quando óbvio de contexto. Por exemplo, a afirmação `Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração' deverá ser entendida como `Seja $\Sigma$ uma assinatura (se não estiver já uma implícita), $I$ uma estrutura de interpretação sobre $\Sigma$ e $\rho$ uma valoração sobre $I$'.
 	
 	\chapter{Introdução à computação}
 	
