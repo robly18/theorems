@@ -1494,12 +1494,34 @@ def f(x):
 	Estas duas noções de satisfação dão azo a duas noções ligeiramente diferentes de consequência semântica: local e global.
 	
 	\begin{definicao}
-	Fixa uma assinatura $\Sigma$, sejam $\Gamma \subseteq \F_\Sigma$ e $\varphi \in \F_\sigma$. Dizemos que \emph{$\varphi$ é consequência semântica} (global) de $\Gamma$, denotado $\Gamma \vDash \varphi$, se para toda a estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ temos que $I \Vdash \varphi$. Em particular, dizemos que $\varphi$ é uma afirmação verdadeira se $\emptyset \Vdash \varphi$.
+	Fixa uma assinatura $\Sigma$, sejam $\Gamma \subseteq \F_\Sigma$ e $\varphi \in \F_\Sigma$. Dizemos que $\varphi$ é \emph{consequência semântica} (global) de $\Gamma$, denotado $\Gamma \vDash \varphi$, se para toda a estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ temos que $I \Vdash \varphi$. Em particular, dizemos que $\varphi$ é uma afirmação verdadeira se $\emptyset \vDash \varphi$.
 	
-	Dizemos que \emph{$\varphi$ é consequência semântica} (local) de $\Gamma$, denotado $\Gamma \vDash_L \varphi$, se para toda a estrutura de interpretação $I$ e valoração $\rho$ sobre $I$ tal que $\rho \Vdash \Gamma$ temos que $\rho \Vdash \varphi$. Podemos definir uma afirmação como sendo localmente verdadeira se $\emptyset \vDash_L \varphi$, mas é fácil reparar que uma afirmação é verdadeira sse é localmente verdadeira, o que faz desta última definição desnecessária.
+	Dizemos que $\varphi$ é \emph{consequência semântica} (local) de $\Gamma$, denotado $\Gamma \vDash_L \varphi$, se para toda a estrutura de interpretação $I$ e valoração $\rho$ sobre $I$ tal que $\rho \Vdash \Gamma$ temos que $\rho \Vdash \varphi$. Podemos definir uma afirmação como sendo localmente verdadeira se $\emptyset \vDash_L \varphi$, mas é fácil reparar que uma afirmação é verdadeira sse é localmente verdadeira, o que faz desta última definição desnecessária.
 	\end{definicao}
 	
 	No que se segue, a noção de consequência semântica global estará em destaque. Como tal, quando nos referirmos a `consequência semântica', sem menção a local ou global, é pressuposto que nos referimos a consequência semântica global.
+	
+	Para entender a distinção entre estes dois conceitos, consideremos um exemplo. Seja $\mathbf{Gr}$ o conjunto dos axiomas de grupo, assumindo-se subjacente uma assinatura apropriada. Não entraremos nos detalhes técnicos, visto que não é esse o propósito da exposição atual. Por exemplo, para estes propósitos, os axiomas de grupo deveriam incluir axiomas para a igualdade. No entanto, no que se segue, assumiremos que o símbolo $=$ funciona como esperado.
+	
+	Neste caso, temos que $\varphi$ é consequência semântica global de $\mathbf{Gr} \cup \Gamma$ se em todos grupos $G$ que satisfazem $\Gamma$ também satisfazem $\varphi$. Por exemplo, considere-se $\Gamma = \{x = y\}$ e averigue-se que grupos o satisfazem.
+	
+	Note-se que um grupo $G$ satisfaz $x = y$ sse, para qualquer valoração das variáveis $\rho$, $\rho(x) = \rho(y)$. Note-se que a única forma possível de isto acontecer é se $G$ é o grupo trivial com um só elemento $e$, a identidade. Assim sendo, todos os grupos que satisfazem $\Gamma$ também satisfazem, por exemplo, $\varphi : (z \cdot w) = (w \cdot z)$, visto que o grupo trivial é comutativo. Como tal, concluímos a seguinte consequência semântica global:
+	\[\mathbf{Gr}, (x = y) \vDash (z \cdot w) = (w \cdot z).\]
+	
+	Vamos agora ver que a correspondente afirmação \emph{local} não é verdade. De facto, a afirmação
+	\[\mathbf{Gr}, (x = y) \vDash_L (z \cdot w) = (w \cdot z)\]
+	corresponde ao seguinte: Se $G$ é um grupo e $\rho : X \to G$ é uma valoração tal que $\rho \Vdash (x = y)$, então $\rho \Vdash (z \cdot w) = (w \cdot z)$. É então fácil arranjar um contraexemplo. Seja $G$ é um grupo não-comutativo e sejam $a, b \in G$ elementos que não comutam. Então, se $\rho$ satisfaz
+	\begin{gather*}
+	\rho(x) = \rho(y) = \rho(z) = a\\
+	\rho(w) = b
+	\end{gather*}
+	temos que $\rho$ satisfaz todas as premissas ($x = y$) mas não satisfaz a conclusão ($z\cdot w = w\cdot z$), donde concluímos, finalmente,
+	\[\mathbf{Gr}, (x = y) \nvDash_L (z \cdot w) = (w \cdot z).\]
+	
+	Isto foi um exemplo que mostra que consequência semântica global não implica consequência semântica local. No entanto, o converso é verdade, isto é:
+	\[\text{Se } \Gamma \vDash_L \varphi \text{ então } \Gamma \vDash \varphi.\]
+	
+	Deixamos a demonstração deste facto como exercício para o leitor.
 	
 	\chapter{Introdução à computação}
 	
