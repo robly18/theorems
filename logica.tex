@@ -336,7 +336,7 @@
 	Suponha-se que $\rho \Vdash \alpha \imply \beta$ e $\rho \Vdash \alpha$. Então, $(\pnot\overline\rho(\alpha))\por\overline\rho(\beta) = \lt$ e $\overline\rho(\alpha) = \lt$. Substituindo $\overline\rho(\alpha)$ por $\lt$ na primeira afirmação, ficamos com $(\pnot\lt)\por\overline\rho(\beta) = \lt$, isto é, $\lf \por \overline\rho(\beta) = \lt$. Para isto acontecer, é necessário que $\overline\rho(\beta) = \lt$, ou seja, $\rho \Vdash \beta$.
 	\end{proof}
 	
-	\begin{prop}
+	\begin{prop}\label{prop:mtd}
 	(Metateorema da dedução)
 	
 	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então
@@ -1507,7 +1507,7 @@ def f(x):
 	
 	Neste caso, temos que $\varphi$ é consequência semântica global de $\mathbf{Gr} \cup \Gamma$ se em todos grupos $G$ que satisfazem $\Gamma$ também satisfazem $\varphi$. Por exemplo, considere-se $\Gamma = \{x = y\}$ e averigue-se que grupos o satisfazem.
 	
-	Note-se que um grupo $G$ satisfaz $x = y$ sse, para qualquer valoração das variáveis $\rho$, $\rho(x) = \rho(y)$. Note-se que a única forma possível de isto acontecer é se $G$ é o grupo trivial com um só elemento $e$, a identidade. Assim sendo, todos os grupos que satisfazem $\Gamma$ também satisfazem, por exemplo, $\varphi : (z \cdot w) = (w \cdot z)$, visto que o grupo trivial é comutativo. Como tal, concluímos a seguinte consequência semântica global:
+	Note-se que um grupo $G$ satisfaz $x = y$ sse, para qualquer valoração das variáveis $\rho$, $\rho(x) = \rho(y)$. Note-se que a única forma possível de isto acontecer é se $G$ é o grupo trivial com um só elemento \textbf{id}, a identidade. Assim sendo, todos os grupos que satisfazem $\Gamma$ também satisfazem, por exemplo, $\varphi : (z \cdot w) = (w \cdot z)$, visto que o grupo trivial é comutativo. Como tal, concluímos a seguinte consequência semântica global:
 	\[\mathbf{Gr}, (x = y) \vDash (z \cdot w) = (w \cdot z).\]
 	
 	Vamos agora ver que a correspondente afirmação \emph{local} não é verdade. De facto, a afirmação
@@ -1576,6 +1576,83 @@ def f(x):
 	\end{equation}
 	
 	O leitor interessado poderá fazer os detalhes, e deixamos como exercício a seguinte questão: será que o símbolo $\vDash$ em \eqref{fol:tautoistheo:eq2} poderia ser substituído por $\vDash_L$?
+	
+	\smallskip
+	
+	Outra ferramenta muito útil no cálculo proposicional era o metateorema da dedução. Veremos que este também se aplica no contexto de lógica de primeira ordem, apesar de ser preciso algum cuidado. Em particular, é este um caso em que consequência semântica local acaba por ser mais bem-comportada do que consequência semântica global.
+	
+	\begin{prop}(Metateorema da dedução, versão semântica, primeira ordem)
+	
+	Sejam $\Gamma \subseteq \F$ e $\alpha, \beta \in \F$. Então,
+	\[\Gamma, \alpha \vDash_L \beta \text{ sse } \Gamma \vDash_L (\alpha \imply \beta).\]
+	\end{prop}
+	
+	\begin{proof}
+	A demonstração é muito semelhante à demonstração da proposição \ref{prop:mtd}.
+	
+	($\leftarrow$) Suponha-se que $\Gamma \vDash_L (\alpha \imply \beta)$. Seja $\rho$ uma valoração tal que $\rho \Vdash \Gamma \cup \{\alpha\}$. Então, $\rho \Vdash (\alpha \imply \beta)$, por definição de consequência semântica local. Temos também $\rho \Vdash \alpha$, por razões óbvias. Como tal, por \textit{modus ponens}, temos $\rho \Vdash \beta$. Como $\rho$ é uma valoração arbitrária tal que $\rho \Vdash \Gamma \cup \{\alpha\}$, concluímos, como desejado,
+	\[\Gamma, \alpha \vDash_L \beta.\]
+	
+	($\rightarrow$) Suponha-se $\Gamma, \alpha \vDash_L \beta$. Seja $\rho$ uma valoração tal que $\rho \Vdash \Gamma$. Mostraremos que $\rho \Vdash (\alpha \imply \beta)$.
+	
+	Há dois casos a considerar: $\rho_\F(\alpha) = \lt$ ou $\rho_\F(\alpha) = \lf$.
+	
+	\begin{itemize}
+	\item Se $\rho_\F(\alpha) = \lt$, então, sabendo que $\rho \Vdash \Gamma$ e  $\Gamma, \alpha \vDash_L \beta$, temos que $\rho \Vdash \beta$. Assim sendo, temos, como desejado,
+	\begin{align*}
+	\rho_\F(\alpha \imply \beta) &= (\pnot \rho_\F(\alpha)) \por \rho_\F(\beta)\\
+	&= (\pnot \lf) \por \lt\\
+	&= \lt.
+	\end{align*}
+	
+	\item Se $\rho_\F(\alpha) = \lf$ então, como desejado,
+	\begin{align*}
+	\rho_\F(\alpha \imply \beta) &= (\pnot \rho_\F(\alpha)) \por \rho_\F(\beta)\\
+	&= (\pnot \lf) \por \rho_\F(\beta)\\
+	&= \lt \por \rho_\F(\beta)\\
+	&= \lt.
+	\end{align*}
+	\end{itemize}
+	
+	Independentemente do caso temos $\rho \Vdash (\alpha \imply \beta)$. Isto conclui a demonstração.
+	\end{proof}
+	
+	Mostramos agora um exemplo para exemplificar onde é que este metateorema falha para consequência semântica global. Obviamente o contraexemplo terá que ser no sentido ($\rightarrow$), visto que a implicação ($\leftarrow$), que é uma consequência direta de \textit{modus ponens}, também é verdade para consequência semântica global.
+	
+	Novamente, considere-se o exemplo dos axiomas de grupo $\Gamma = \textbf{Gr}$. Consideremos as fórmulas
+	\begin{gather*}
+	\alpha : x = \mathbf{id}\\
+	\beta : y = \mathbf{id}
+	\end{gather*}
+	
+	Então, é certamente verdade que
+	\begin{equation}\label{mtd:contraex1}
+	\Gamma, \alpha \vDash \beta,
+	\end{equation}
+	visto que se $I$ é um grupo que satisfaz $\alpha$, temos que $I$ é necessariamente o grupo trivial, visto que para qualquer valoração $\rho$ temos $\rho(x) = \mathbf{id}_I$. O grupo trivial satisfaz também $\beta$, pelo que a afirmação \eqref{mtd:contraex1} é verdadeira.
+	
+	No entanto, a conclusão que seria dada pelo MTD é falsa. Isto é:
+	\begin{equation}\label{mtd:contraex2}
+	\Gamma \nvDash (\alpha \imply \beta).
+	\end{equation}
+	
+	Para justificar esta afirmação, seja $I$ um grupo com pelo menos dois elementos, digamos $a = \mathbf{id}_I$ e $b \neq \mathbf{id}_I$. Como $I$ é um grupo, decerto que $I \Vdash \Gamma$. No entanto, $I \nVdash (\alpha \imply \beta)$. De facto, considere-se uma valoração $\rho$ que atribui
+	\begin{gather*}
+	\rho(x) = a\\
+	\rho(y) = b.
+	\end{gather*}
+	
+	Então, temos que
+	\begin{align*}
+	\rho_\F(\alpha \imply \beta) &= \rho_\F((x = \mathbf{id}) \imply (y = \mathbf{id}))\\
+	&= (\pnot \rho_\F((x = \mathbf{id})) \por \rho_\F(y = \mathbf{id}))\\
+	&= (\pnot \mathbf{eq}(\rho(x), \mathbf{id}_I)) \por \mathbf{eq}(\rho(y), \mathbf{id}_I)
+	\end{align*}
+	onde \textbf{eq} é a função que corresponde a $=_I$, que devolve $\lt$ sse ambos os seus argumentos são iguais.
+	
+	Sabendo que atribuímos $\rho(x) = \mathbf{id}_I$ e $\rho(y) \neq \mathbf{id}_I$, isto dá igual a
+	\[(\pnot \lt) \por \lf = \lf,\]
+	o que mostra que $\rho \nVdash (\alpha \imply \beta)$, e então, como consequência, $I \nVdash (\alpha \imply \beta)$. Isto termina a demonstração de \eqref{mtd:contraex2}
 	
 	\chapter{Introdução à computação}
 	
