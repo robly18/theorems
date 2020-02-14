@@ -327,7 +327,7 @@
 	\begin{proof} Suponha-se $\Gamma \vDash \Phi$ e $\Phi \vDash \psi$. Então, para mostrar $\Gamma \vDash \psi$ começamos por supor que $\rho$ é uma valoração tal que $\rho \Vdash \Gamma$. Então, por definição de $\Gamma \vDash \Phi$, temos que $\Gamma \vDash \varphi$ para todo $\varphi \in \Phi$. Como $\rho \Vdash \Gamma$, obtemos que $\rho \Vdash \varphi$ para todo $\varphi \in \Phi$, ou seja, que $\rho \Vdash \Phi$. Finalmente, por definição de $\Phi \vDash \psi$, concluímos que $\rho \Vdash \psi$, terminando a demonstração.
 	\end{proof}
 	
-	\begin{prop} (\textit{Modus ponens}) 
+	\begin{prop}\label{prop:mp} (\textit{Modus ponens}) 
 	
 	Sejam $\alpha, \beta \in \F_p$, $\Gamma \subseteq \F_p$. Então, $\alpha \imply \beta, \alpha \vDash \beta$.
 	\end{prop}
@@ -1309,6 +1309,8 @@
 	
 	O poder expressivo adicional vem ao custo que o sistema é razoavelmente mais complexo. Por exemplo, em lógica de primeira ordem há dois tipos de expressões: expressões que simbolizam valores (e.g. $x + f(y)$, chamamos a estas termos) e expressões que simbolizam afirmações (e.g. $x = y \lor x < y$, chamamos a estas fórmulas). Para além disto, é necessário surgir a noção de assinatura, para identificar que símbolos e operações temos ao nosso dispor (na teoria dos naturais temos $+$ e $\times$, mas em teoria de grupos temos apenas uma operação $\cdot$) e a noção de valoração tem de ser alargada para permitir universos diversos. Pelo lado positivo, a lógica de primeira ordem é suficiente para expressar os axiomas de teoria de conjuntos, na qual é possível construir maior parte da matemática. Assim sendo, para estudar o raciocínio matemático em geral, é muito satisfatório estudar esta lógica.
 	
+	O objetivo deste capítulo é generalizar os resultados do capítulo anterior para este novo contexto. Por outras palavras, pretendemos descobrir um conjunto de regras de dedução que nos permita provar afirmações de primeira ordem de forma correta e completa. Isto é, queremos um conjunto de regras que nos permita concluir apenas afirmações verdadeiras, mas que nos deixe concluir \emph{todas} as afirmações verdadeiras.
+	
 	Um par de observações antes de iniciar a teoria:
 	
 	\begin{obs}
@@ -1484,7 +1486,7 @@ def f(x):
 	
 	Se $\rho$ é uma valoração sobre $I$, dizemos que $\rho$ satisfaz $\varphi$, denotado $\rho \Vdash \varphi$, se $\rho_\F(\varphi) = \lt$. Isto é: substituindo cada variável $\bf x$ pelo seu valor $\rho(\bf x)$, a afirmação $\varphi$ fica verdadeira.
 	
-	Dizemos que $I$ satisfaz $\varphi$ se, para \emph{todas} as valorações $\rho$ sobre $I$, $\rho \Vdash \varphi$. Por outras palavras, `$\varphi$ é sempre verdade no universo $I$'.
+	Dizemos que $I$ satisfaz $\varphi$, escrito $I \Vdash \varphi$, se, para \emph{todas} as valorações $\rho$ sobre $I$, $\rho \Vdash \varphi$. Por outras palavras, `$\varphi$ é sempre verdade no universo $I$'.
 	
 	De forma análoga à definição \ref{def:prop:consequenciasemantica}, uma afirmação da forma $I \Vdash \Gamma$ (onde $\Gamma$ é um conjunto de fórmulas) equivale a dizer $I \Vdash \gamma$ para todo $\gamma \in \Gamma$.
 	\end{definicao}
@@ -1522,6 +1524,58 @@ def f(x):
 	\[\text{Se } \Gamma \vDash_L \varphi \text{ então } \Gamma \vDash \varphi.\]
 	
 	Deixamos a demonstração deste facto como exercício para o leitor.
+	
+	\section{Regras de dedução}
+	
+	Recordamos que o objetivo deste capítulo é arranjar um conjunto de regras a partir das quais é possível concluir afirmações verdadeiras. No contexto do cálculo proposicional, a primeira e mais importante tal regra era a regra de \textit{modus ponens}. Esta regra também se aplica a este novo contexto.
+	
+	Em tudo o que se segue, $\Sigma$ é uma assinatura fixa que deixamos implícita.
+	
+	\begin{prop}
+	Sejam $\alpha, \beta \in \F$. Então,
+	\[(\alpha \imply \beta), \alpha \vDash_L \beta.\]
+	\end{prop}
+	
+	\begin{proof}
+	A demonstração é completamente idêntica à da proposição \ref{prop:mp}.
+	\end{proof}
+	
+	Note-se que enunciámos esta propriedade usando consequência semântica local. Implícito está, claro, que a mesma propriedade também é verdade para consequência semântica global, visto que uma implica a outra.
+	
+	A regra de \emph{modus ponens} não é a única propriedade do cálculo proposicional que se transpõe para a lógica de primeira ordem. De facto, em certo sentido, qualquer tautologia é verdadeira.
+	
+	Note-se que esta afirmação, por si só, não faz perfeito sentido: as tautologias são fórmulas proposicionais, enquanto que estamos no contexto de fórmulas de primeira ordem. É então preciso fazer um ligeiro esforço para clarificar o significado.
+	
+	\begin{definicao}
+	Seja $\varphi$ uma fórmula proposicional. Suponha-se que a cada variável $\bf x \in X$ se atribui uma fórmula (de primeira ordem) $\psi(\bf x) \in \F_\Sigma$. Então, definimos $\overline\psi(\varphi)$ como a fórmula (de primeira ordem) obtida de substituir cada variável $\bf x$ por $\psi(\bf x)$.
+	
+	Deixamos a formalização (por indução em $\varphi$) desta definição ao leitor.
+	\end{definicao}
+	
+	\begin{prop}\label{fol:tautoistheo}
+	Seja $\varphi \in \F_p$ uma tautologia e seja $\psi : X \to \F_\Sigma$. Então, $\overline\psi(\varphi)$ é uma fórmula verdadeira.
+	\end{prop}
+	
+	\begin{proof}
+	Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração em $I$. Pretendemos mostrar que $\rho_\F(\overline\psi(\varphi)) = \lt$. Para o fazer, construimos, a partir de $\rho$, uma valoração (proposicional) $\rho_p$ tal que, para qualquer fórmula proposicional $\gamma$,
+	\begin{equation}\label{fol:tautoistheo:eq1}
+	\rho_\F(\overline\psi(\gamma)) = \overline \rho_p (\gamma).
+	\end{equation}
+	
+	Defina-se simplesmente $\rho_p(\bf x) = \rho_\F(\psi(\bf x))$. É fácil provar por indução na estrutura da fórmula que para qualquer fórmula proposicional $\gamma$ a equação \eqref{fol:tautoistheo:eq1} é verdadeira.
+	
+	Em particular, isto é verdade para a nossa tautologia $\varphi$, donde, por definição de tautologia, temos que, para qualquer valoração $\rho$,
+	\[\rho_\F(\overline\psi(\varphi)) = \overline \rho_p (\varphi) = \lt.\]
+	
+	Como tal, a fórmula $\overline\psi(\varphi)$ é verdadeira.
+	\end{proof}
+	
+	Note-se que a proposição anterior poderia ser fortalecida: é possível pegar numa afirmação da forma $\Gamma \vDash \varphi$ (fórmulas proposicionais) e concluir algo da forma
+	\begin{equation}\label{fol:tautoistheo:eq2}
+	\overline\psi(\Gamma) \vDash \overline\psi(\varphi).
+	\end{equation}
+	
+	O leitor interessado poderá fazer os detalhes, e deixamos como exercício a seguinte questão: será que o símbolo $\vDash$ em \eqref{fol:tautoistheo:eq2} poderia ser substituído por $\vDash_L$?
 	
 	\chapter{Introdução à computação}
 	
