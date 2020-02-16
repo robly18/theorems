@@ -1544,10 +1544,16 @@ def f(x):
 	
 	A regra de \emph{modus ponens} não é a única propriedade do cálculo proposicional que se transpõe para a lógica de primeira ordem. De facto, em certo sentido, qualquer tautologia é verdadeira.
 	
-	Note-se que esta afirmação, por si só, não faz perfeito sentido: as tautologias são fórmulas proposicionais, enquanto que estamos no contexto de fórmulas de primeira ordem. É então preciso fazer um ligeiro esforço para clarificar o significado.
+	Por exemplo, considere-se uma fórmula da forma $\varphi : \alpha \lor \neg \alpha$. Desejamos mostrar que esta fórmula é verdadeira. A prova não é particularmente difícil: basta considerar que, se $\rho$ é uma valoração sobre alguma estrutura de interpretação $I$, $\rho_\F(\alpha)$ é $\lt$ ou $\lf$. Verificando os dois casos, vemos que $\rho_\F(\varphi)$ é, respetivamente $\lt \lor \lf$ ou $\lf \lor \lt$. Em ambos os casos a expressão é avaliada para $\lt$, pelo que para qualquer valoração $\rho$ temos $\rho \Vdash \varphi$, que é a definição de fórmula verdadeira.
+	
+	Na realidade, há uma justificação que se aproxima mais do cerne da questão. A observação essencial é que a fórmula (proposicional!) $a \lor \neg a$ é uma tautologia e que, de alguma forma, isto implica que qualquer fórmula com essa forma é uma tautologia. De forma semelhante, por exemplo, sabendo que $a \imply (b \imply a)$ é uma tautologia conseguiríamos concluir que uma fórmula da forma $\varphi \imply (\psi \imply \varphi)$ é verdadeira.
+	
+	Para conseguirmos formalizar esta noção, formalizamos o que significa `uma fórmula de primeira ordem vir de uma fórmula proposicional'.
 	
 	\begin{definicao}
 	Seja $\varphi$ uma fórmula proposicional. Suponha-se que a cada variável $\bf x \in X$ se atribui uma fórmula (de primeira ordem) $\psi(\bf x) \in \F_\Sigma$. Então, definimos $\overline\psi(\varphi)$ como a fórmula (de primeira ordem) obtida de substituir cada variável $\bf x$ por $\psi(\bf x)$.
+	
+	Por exemplo, a fórmula $\alpha \lor \neg \alpha$ vem de substituição de $a \lor \neg a$, substituindo a letra $a$ pela fórmula $\alpha$, isto é, $\psi(a) = \alpha$.
 	
 	Deixamos a formalização (por indução em $\varphi$) desta definição ao leitor.
 	\end{definicao}
@@ -1601,7 +1607,7 @@ def f(x):
 	\item Se $\rho_\F(\alpha) = \lt$, então, sabendo que $\rho \Vdash \Gamma$ e  $\Gamma, \alpha \vDash_L \beta$, temos que $\rho \Vdash \beta$. Assim sendo, temos, como desejado,
 	\begin{align*}
 	\rho_\F(\alpha \imply \beta) &= (\pnot \rho_\F(\alpha)) \por \rho_\F(\beta)\\
-	&= (\pnot \lf) \por \lt\\
+	&= (\pnot \lt) \por \lt\\
 	&= \lt.
 	\end{align*}
 	
@@ -1683,6 +1689,7 @@ def f(x):
 	\end{proof}
 	
 	Esta nova regra ($\varphi \vDash \forall_{\bf x} \varphi$) tem o nome de \emph{Generalização}. A generalização e \textit{modus ponens} formarão as regras de dedução do chamado \emph{cálculo de Hilbert}, o sistema de demonstração que, como provaremos, engloba completamente a noção de consequência semântica global.
+	
 	
 	\chapter{Introdução à computação}
 	
