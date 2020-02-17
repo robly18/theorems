@@ -1156,9 +1156,9 @@
 	
 	\begin{align*}
 	&\neg\neg\alpha&&\texttt{Hip}\\
-	&\neg\neg\alpha \imply (\neg^4 \alpha \imply \neg\neg\alpha)&&\texttt{Ax}\\
-	&\neg^4 \alpha \imply \neg\neg\alpha&&\texttt{MP}\\
-	&(\neg^4 \alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha)&&\texttt{Ax}\\
+	&\neg\neg\alpha \imply (\neg\neg\neg\neg \alpha \imply \neg\neg\alpha)&&\texttt{Ax}\\
+	&\neg\neg\neg\neg \alpha \imply \neg\neg\alpha&&\texttt{MP}\\
+	&(\neg\neg\neg\neg \alpha \imply \neg\neg\alpha) \imply (\neg\alpha \imply \neg\neg\neg\alpha)&&\texttt{Ax}\\
 	&\neg\alpha \imply \neg\neg\neg\alpha&&\texttt{MP}\\
 	&(\neg\alpha \imply \neg\neg\neg\alpha)\imply(\neg\neg\alpha \imply \alpha)&&\texttt{Ax}\\
 	&\neg\neg\alpha \imply \alpha&&\texttt{MP}\\
@@ -1689,6 +1689,34 @@ def f(x):
 	\end{proof}
 	
 	Esta nova regra ($\varphi \vDash \forall_{\bf x} \varphi$) tem o nome de \emph{Generalização}. A generalização e \textit{modus ponens} formarão as regras de dedução do chamado \emph{cálculo de Hilbert}, o sistema de demonstração que, como provaremos, engloba completamente a noção de consequência semântica global.
+	
+	\section{Sintática}
+	
+	Definimos agora um sistema de demonstração, à semelhança do que foi feito no caso do cálculo proposicional.
+	
+	\begin{definicao}
+	Suponha-se fixa uma assinatura $\Sigma$ e um conjunto de axiomas $A \subseteq \F_\Sigma$.
+	
+	Se $\Gamma \subseteq \F_\Sigma$, uma \emph{demonstração com base em $\Gamma$} é uma sequência
+	\[(\varphi_1, j_1), \dots, (\varphi_n, j_n),\]
+	em que cada $\varphi_i \in \F_\Sigma$ e $j_i$, que representa a justificação de $\varphi_i$, satisfaz as seguintes regras:
+	
+	\begin{itemize}
+	\item Cada $j_i$ é um símbolo da forma \texttt{Ax}, \texttt{Hip}, $\texttt{MP}_{ab}$ com $a, b \in \N$ ou $\texttt{Gen}_a$ com $a \in \N$
+	
+	\item Se $j_i = \texttt{Ax}$ é necessário que $\varphi_i \in A$
+	
+	\item Se $j_i = \texttt{Hip}$ é necessário que $\varphi_i \in \Gamma$
+	
+	\item Se $j_i = \texttt{MP}_{ab}$, então $a, b < i$ e $\varphi_a$ é a fórmula $\varphi_b \imply \varphi_i$
+	
+	\item Se $j_i = \texttt{Gen}_a$, então $a < i$ e $\varphi_i$ é da forma $\forall_{\bf x} \varphi_a$ para alguma variável $\bf x$.
+	\end{itemize}
+	\end{definicao}
+	
+	À semelhança do que foi feito com o cálculo proposicional, supomos por agora que que qualquer afirmação verdadeira é um axioma. Mais tarde, identificaremos um conjunto mais pequeno de axiomas que se mostrará ser suficiente para justificar qualquer afirmação verdadeira.
+	
+	Começamos por exemplificar algumas demonstrações em lógica de primeira ordem.
 	
 	
 	\chapter{Introdução à computação}
