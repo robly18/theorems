@@ -1717,7 +1717,7 @@ def f(x):
 	
 	À semelhança do que foi feito com o cálculo proposicional, supomos por agora que que qualquer afirmação verdadeira é um axioma. Mais tarde, identificaremos um conjunto mais pequeno de axiomas que se mostrará ser suficiente para justificar qualquer afirmação verdadeira.
 	
-	Seria desejado exemplificar agora uma demonstração em lógica de primeira ordem, mas infelizmente o cálculo de Hilbert é particularmente inadequado para uso humano. De facto, para provar algo tão simples como `Num grupo, se $e \cdot x = x$ para todo o $x$, temos $e = \textbf{id}$' requer uma página inteira de demonstração, apesar de a ideia de prova ser simplesmente reparar que $\textbf{id} = e \cdot \textbf{id} = e$. Para nos permitir manusear e fabricar demonstrações em espaço útil, é necessário o uso de metateoremas.
+	Seria desejado exemplificar agora uma demonstração em lógica de primeira ordem, mas infelizmente o cálculo de Hilbert é particularmente inadequado para uso humano. De facto, a prova de algo tão simples como `Num grupo, se $e \cdot x = x$ para todo o $x$, temos $e = \textbf{id}$' requer uma página inteira de demonstração, apesar de a ideia de prova ser simplesmente reparar que $\textbf{id} = e \cdot \textbf{id} = e$. Para nos permitir manusear e fabricar demonstrações em espaço útil, é necessário o uso de metateoremas.
 	
 	Um dos metateoremas mais úteis é o metateorema da dedução. No entanto, como visto anteriormente, este não pode ser usado tão livremente como no cálculo proposicional. Em particular, é preciso ter cuidado com a generalização. De facto, a demonstração do metateorema da dedução do cálculo proposicional pode facilmente ser adaptada para demonstrar:
 	
@@ -1732,9 +1732,11 @@ def f(x):
 	(\forall_{\bf x} (\alpha \imply \varphi)) \imply (\alpha \imply \forall_{\bf x} \varphi).
 	\end{equation}
 	
-	Infelizmente, isto nem sempre é uma afirmação verdadeira. Por exemplo, no contexto dos naturais, se $\alpha : x = 0$ e $\varphi : x = 0$ obtemos que $\forall_x (\alpha \imply \varphi)$ é uma afirmação verdadeira, mas $\alpha \imply \forall_x \varphi$ não é (basta considerar uma valoração que atribui $\rho(x) = 0$). É, no entanto, suficiente exigir que $\alpha$ não dependa de $\bf x$. Para formalizar isto, surge a noção de variável livre.
+	Infelizmente, isto nem sempre é uma afirmação verdadeira. Por exemplo, no contexto dos naturais, se $\alpha : x = 0$ e $\varphi : x = 0$ obtemos que $\forall_x (\alpha \imply \varphi)$ é uma afirmação verdadeira, mas $\alpha \imply \forall_x \varphi$ não é (basta considerar uma valoração que atribui $\rho(x) = 0$). É, no entanto, suficiente exigir que $\alpha$ não dependa de $\bf x$. Intuitivamente, se $\alpha$ não depender de $\bf x$, se soubermos $\forall_{\bf x} (\alpha \imply \varphi)$ e $\alpha$, fixo um $\bf x$ arbitrário, temos que $\alpha \imply \varphi$ (porque se algo é verdade para todos os $\bf x$ é verdade para este em particular), temos $\alpha$, e portanto temos, para este $\bf x$ particular, $\varphi$. Como $\bf x$ é arbitrário, $\varphi$ é verdade para todo o $\bf x$.
 	
-	Dada uma fórmula $\varphi$, o valor de verdade desta poderá depender da valoração usada. Em particular, poderá depender do valor de certas variáveis. Por exemplo, no contexto dos naturais, a fórmula $\forall_x (x \geq y)$ é verdadeira para $y = 0$ mas falsa caso contrário. Por outras palavras, a variável $y$ é um parâmetro que pode ser modificado para mudar o valor de verdade da fórmula. Note-se que o mesmo não pode ser dito de $x$, visto que, como essa variável está quantificada, o valor de verdade da fórmula não depende do valor de $x$.
+	Claro que este argumento não é de todo rigoroso. Para o formalizar, é primeiro entender o que significa $\alpha$ depender de $\bf x$. Daí surge a noção de variável livre.
+	
+	Dada uma fórmula $\varphi$, o valor de verdade desta poderá depender da valoração usada. Em particular, poderá depender do valor de certas variáveis. Por exemplo, no contexto dos naturais, a fórmula $\forall_x (x \geq y)$ é verdadeira para $y = 0$ mas falsa caso contrário. Por outras palavras, a variável $y$ é um parâmetro que pode ser modificado para mudar o valor de verdade da fórmula. Note-se que o mesmo não pode ser dito de $x$, visto que, como essa variável está quantificada, o valor de verdade da fórmula não depende do valor que uma valoração atribui a $x$.
 	
 	\begin{definicao}
 	Dada uma fórmula $\varphi$, define-se o conjunto das variáveis livres de $\varphi$, denotado $\fv \varphi$ (free variables) como as variáveis em $\varphi$ que são `visíveis do exterior', isto é, que não estão quantificadas. Isto pode ser formalizado indutivamente como:
@@ -1760,7 +1762,7 @@ def f(x):
 	
 	Note-se o caso algo patológico em que algumas instâncias de uma variável estão quantificadas e outras não. Por exemplo, na fórmula $\varphi : p(x) \imply \forall_x p(x)$, a variável $x$ é livre, porque existe pelo menos uma instância de $x$ que é visível no exterior, apesar de haver também outra instância que está quantificada e como tal não conta como livre.
 	
-	Variáveis livres têm a particularidade que correspondem às variáveis do cálculo proposicional, na medida em que o valor atribuido a uma fórmula $\varphi$ por uma valoração $\rho$ depende apenas do valor das variáveis livres.
+	Variáveis livres têm a particularidade que, tal como as variáveis do cálculo proposicional, o valor atribuido a uma fórmula $\varphi$ por uma valoração $\rho$ depende apenas do valor das variáveis livres.
 	
 	\begin{prop} (Lema das variáveis omissas) No que se segue, considere-se fixa uma estrutura de interpretação $I$.
 	
@@ -1773,22 +1775,27 @@ def f(x):
 	Esta demonstração é feita por indução. Exemplificamos com a primeira parte (referente aos termos):
 	
 	\begin{enumerate}
-	\item Se $t$ é da forma $\bf x$, então $\rho_\T(t) = \rho(\bf x)$ depende apenas de $\rho(\bf x)$, ou seja, das variáveis em $\var t$.
+	\item Se $t$ é da forma $\bf x$, então $\rho_\T(t) = \rho(\bf x)$ depende apenas de $\rho(\bf x)$, ou seja, do valor que $\rho$ atribui às variáveis em $\var t$.
 	
 	\item Se $t$ é da forma $f(t_1, \dots, t_n)$ então $\rho_\T(t)$ é igual a $f_I(\rho_T(t_1), \dots, \rho_T(t_n))$, que depende apenas dos valores de $\rho_\T(t_1), \dots, \rho_\T(t_n)$. Por sua vez, estes dependem apenas de $\var t_1, \dots, \var t_n$ respetivamente, pelo que a sequencia total, e então $\rho_\T(t)$, depende apenas de $\var t_1 \cup \dots \cup \var t_n = \var t$.
 	\end{enumerate}
 	
-	A demonstração para a versão para fórmulas é semelhante, excetuando o caso de quantificadores no passo de indução. É este o caso que fazemos no que se segue, deixando os três outros casos para o leitor.
+	A demonstração da a versão para fórmulas é semelhante, excetuando o caso de quantificadores no passo de indução. É este o caso que fazemos no que se segue, deixando os três outros casos para o leitor.
 	
 	Suponha-se, por hipótese de indução, que $\rho_\F(\varphi)$ depende apenas de $\rho|_{\fv \varphi}$. Então, mostramos que $\rho_\F(\forall_{\bf x} \varphi)$ depende apenas de $\rho|_{\fv \varphi \setminus \{\bf x\}}$.
 	
-	Sejam $\rho$ e $\rho'$ duas valorações que concordam em $\fv \varphi \setminus \{\bf x\}$. Então, por hipótese de indução, $(\rho\!\downarrow^{\bf x}_u)_\F(\varphi) = (\rho'\!\downarrow^{\bf x}_u)_\F(\varphi)$, visto que ambas estas valorações concordam em $\fv \varphi$. Como tal, existe $u$ tal que $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$ sse existe $u$ tal que $\rho'\!\downarrow^{\bf x}_u \Vdash \varphi$, pelo que $\rho_\F(\varphi) = \rho'_\F(\varphi)$, como desejado.
+	Sejam $\rho$ e $\rho'$ duas valorações que concordam em $\fv \varphi \setminus \{\bf x\}$. Então, por hipótese de indução, $(\rho\!\downarrow^{\bf x}_u)_\F(\varphi) = (\rho'\!\downarrow^{\bf x}_u)_\F(\varphi)$, visto que ambas estas valorações concordam em $\fv \varphi$. Como tal,
+	\[\rho\!\downarrow^{\bf x}_u \Vdash \varphi \text{ para todo o $u \in U_I$}\]
+	sse
+	\[\rho'\!\downarrow^{\bf x}_u \Vdash \varphi \text{ para todo o $u \in U_I$.}\]
+	
+	Logo, $\rho_\F(\varphi) = \rho'_\F(\varphi)$, como desejado.
 	\end{proof}
 	
 	Estamos agora prontos para provar que, se $\alpha$ não depende de $\bf x$, a fórmula \eqref{folax4} é verdadeira.
 	
 	\begin{prop}
-	Sejam $\alpha$ e $\varphi$ duas fórmulas e $\bf x$ uma variável tal que $\bf x \not \in \varphi$. Então, a fórmula
+	Sejam $\alpha$ e $\varphi$ duas fórmulas e $\bf x$ uma variável tal que $\bf x \not \in \fv\alpha$. Então, a fórmula
 	\begin{equation}\tag{\ref{folax4}}
 	\psi : (\forall_{\bf x} (\alpha \imply \varphi)) \imply (\alpha \imply \forall_{\bf x} \varphi)
 	\end{equation}
@@ -1796,14 +1803,14 @@ def f(x):
 	\end{prop}
 	
 	\begin{proof}
-	Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração arbitrária sobre esta estrutura. Então, averigue-se $\rho_\F(\psi)$. Há três casos a considerar, dependendo de $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi)$ e $\rho_\F(\alpha)$:
+	Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração arbitrária sobre esta estrutura. Então, averigue-se $\rho_\F(\psi)$. Há três casos a considerar, dependendo de $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi))$ e $\rho_\F(\alpha)$:
 	
 	\begin{enumerate}
-	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi) = \lf$, então $\rho_\F(\psi)$ é da forma $(\pnot \lf) \lor \text{(algo)}$, que é garantidamente $\lt$;
+	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi)) = \lf$, então $\rho_\F(\psi)$ é da forma $(\pnot \lf) \lor \text{(algo)}$, que é garantidamente $\lt$;
 	
-	\item Se $\rho_\F(\alpha) = \lf$, então $\rho_\F(\alpha \imply \forall_{\bf x} \varphi)$ é garantidamente $\lt$, pelo que $\rho_\F(\psi$ é necessariamente $\lt$;
+	\item Se $\rho_\F(\alpha) = \lf$, então $\rho_\F(\alpha \imply \forall_{\bf x} \varphi)$ é garantidamente $\lt$, pelo que $\rho_\F(\psi)$ é necessariamente $\lt$;
 	
-	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi) = \rho_\F(\alpha) = \lt$, então, para qualquer $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash (\alpha \imply \varphi)$. Pelo lema das variáveis omissas, como $\bf x \not \in \fv \alpha$, temos também $\rho\!\downarrow^{\bf x}_u \Vdash \alpha$. Pela versão local do \emph{modus ponens}, temos, para todo $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$. Como tal, temos $\rho \Vdash \forall_{\bf x} \varphi$, o que implica, como o leitor poderá verificar, que $\rho_\F(\psi) = \lt$.
+	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi)) = \rho_\F(\alpha) = \lt$, então, para qualquer $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash (\alpha \imply \varphi)$. Pelo lema das variáveis omissas, como $\bf x \not \in \fv \alpha$ e $\rho \Vdash \alpha$, temos também $\rho\!\downarrow^{\bf x}_u \Vdash \alpha$. Pela versão local do \emph{modus ponens}, temos, para todo $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$. Como tal, temos $\rho \Vdash \forall_{\bf x} \varphi$, o que implica, como o leitor poderá verificar, que $\rho_\F(\psi) = \lt$.
 	\end{enumerate}
 	
 	Como em qualquer dos casos temos $\rho \Vdash \psi$, a fórmula $\psi$ é verdadeira, como desejado.
