@@ -1341,7 +1341,7 @@
 	\begin{definicao}
 	O conjunto dos \emph{termos em $F$}, onde $F$ é um conjunto de símbolos de funções com aridades associadas, é representado como $\T_F$ e é definido indutivamente como:
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item Se $\bf x$ é uma variável, $\bf x$ é um termo. (Chamamos a estes termos atómicos.)
 	
 	\item Se $f \in F$ é um símbolo de função com aridade $n$ e $t_1,\dots,t_n$ são termos, a seguinte expressão é um termo:\footnote{Recordamos o leitor que adotamos a convenção de interpretar expressões como sendo árvores sintáticas. Ver página \pageref{intro_syntatic_trees}.}
@@ -1349,7 +1349,7 @@
 	\begin{center}
 	\Tree [.$f$ $t_1$ $\dots$ $t_n$ ]
 	\end{center}
-	\end{enumerate}
+	\end{itemize}
 	
 	Normalmente, esta expressão é representada como $f(t_1, \dots, t_n)$. Apontamos o caso particular de $n = 0$, no qual temos um símbolo de função constante. Em rigor, deveríamos representar este caso como $f()$, mas por conveniência e hábito omitimos os parênteses neste caso.
 	
@@ -1365,7 +1365,7 @@
 	\begin{definicao}
 	Fixos um conjunto $F$ de símbolos de funções e um conjunto $P$ de símbolos de predicado, definimos o conjunto das \emph{fórmulas em $F$ e $P$}, representado como $\F_{FP}$, indutivamente da seguinte forma:
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item Se $p \in P$ é um símbolo de predicado com aridade $n$ e $t_1,\dots,t_n$ são termos em $F$, a seguinte expressão é uma fórmula:
 	
 	\begin{center}
@@ -1382,7 +1382,7 @@
 	\qquad
 	\Tree [.\texttt{forall} $\bf x$ $\alpha$ ]
 	\end{center}
-	\end{enumerate}
+	\end{itemize}
 	
 	Estes quatro tipos de fórmulas são normalmente representados em notação linear, respetivamente, como
 	
@@ -1722,7 +1722,7 @@ def f(x):
 	Um dos metateoremas mais úteis é o metateorema da dedução. No entanto, como visto anteriormente, este não pode ser usado tão livremente como no cálculo proposicional. Em particular, é preciso ter cuidado com a generalização. De facto, a demonstração do metateorema da dedução do cálculo proposicional pode facilmente ser adaptada para demonstrar:
 	
 	\begin{prop*}
-	(Metateorema da dedução, versão semântica fraca, primeira ordem)
+	(Metateorema da dedução, versão sintática fraca, primeira ordem)
 	
 	Sejam $\Gamma \subseteq \F$ e $\alpha, \beta \in \F$. Suponha-se que existe uma demonstração de $\Gamma, \alpha \vdash \beta$ que não utiliza generalização. Então, $\Gamma \vdash \alpha \imply \beta$.
 	\end{prop*}
@@ -1741,7 +1741,7 @@ def f(x):
 	\begin{definicao}
 	Dada uma fórmula $\varphi$, define-se o conjunto das variáveis livres de $\varphi$, denotado $\fv \varphi$ (free variables) como as variáveis em $\varphi$ que são `visíveis do exterior', isto é, que não estão quantificadas. Isto pode ser formalizado indutivamente como:
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item Se $\varphi : p(t_1,\dots,t_n)$ então $\fv \varphi = \var t_1 \cup \dots \cup \var t_n$ (ver abaixo)
 	
 	\item Se $\varphi : \alpha \imply \beta$ então $\fv \varphi = \fv \alpha \cup \fv \beta$
@@ -1749,15 +1749,15 @@ def f(x):
 	\item Se $\varphi : \neg \alpha$ então $\fv \varphi = \fv \alpha$
 	
 	\item Se $\varphi : \forall_{\bf x} \alpha$ então $\fv \varphi = \fv \alpha \setminus \{\bf x\}$.
-	\end{enumerate}
+	\end{itemize}
 	
 	Por sua vez, esta definição requer definir $\var t$ para $t \in \T$. Por sua vez, isto também é definido indutivamente:
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item $\var \bf x = \{\bf x\}$
 	
 	\item $\var f(t_1, \dots, t_n) = \var t_1 \cup \dots \var t_n$.
-	\end{enumerate}
+	\end{itemize}
 	\end{definicao}
 	
 	Note-se o caso algo patológico em que algumas instâncias de uma variável estão quantificadas e outras não. Por exemplo, na fórmula $\varphi : p(x) \imply \forall_x p(x)$, a variável $x$ é livre, porque existe pelo menos uma instância de $x$ que é visível no exterior, apesar de haver também outra instância que está quantificada e como tal não conta como livre.
@@ -1774,11 +1774,11 @@ def f(x):
 	\begin{proof}
 	Esta demonstração é feita por indução. Exemplificamos com a primeira parte (referente aos termos):
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item Se $t$ é da forma $\bf x$, então $\rho_\T(t) = \rho(\bf x)$ depende apenas de $\rho(\bf x)$, ou seja, do valor que $\rho$ atribui às variáveis em $\var t$.
 	
 	\item Se $t$ é da forma $f(t_1, \dots, t_n)$ então $\rho_\T(t)$ é igual a $f_I(\rho_T(t_1), \dots, \rho_T(t_n))$, que depende apenas dos valores de $\rho_\T(t_1), \dots, \rho_\T(t_n)$. Por sua vez, estes dependem apenas de $\var t_1, \dots, \var t_n$ respetivamente, pelo que a sequencia total, e então $\rho_\T(t)$, depende apenas de $\var t_1 \cup \dots \cup \var t_n = \var t$.
-	\end{enumerate}
+	\end{itemize}
 	
 	A demonstração da a versão para fórmulas é semelhante, excetuando o caso de quantificadores no passo de indução. É este o caso que fazemos no que se segue, deixando os três outros casos para o leitor.
 	
@@ -1794,7 +1794,7 @@ def f(x):
 	
 	Estamos agora prontos para provar que, se $\alpha$ não depende de $\bf x$, a fórmula \eqref{folax4} é verdadeira.
 	
-	\begin{prop}
+	\begin{prop}\label{fol:folax4verdadeira}
 	Sejam $\alpha$ e $\varphi$ duas fórmulas e $\bf x$ uma variável tal que $\bf x \not \in \fv\alpha$. Então, a fórmula
 	\begin{equation}\tag{\ref{folax4}}
 	\psi : (\forall_{\bf x} (\alpha \imply \varphi)) \imply (\alpha \imply \forall_{\bf x} \varphi)
@@ -1805,17 +1805,94 @@ def f(x):
 	\begin{proof}
 	Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração arbitrária sobre esta estrutura. Então, averigue-se $\rho_\F(\psi)$. Há três casos a considerar, dependendo de $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi))$ e $\rho_\F(\alpha)$:
 	
-	\begin{enumerate}
+	\begin{itemize}
 	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi)) = \lf$, então $\rho_\F(\psi)$ é da forma $(\pnot \lf) \lor \text{(algo)}$, que é garantidamente $\lt$;
 	
 	\item Se $\rho_\F(\alpha) = \lf$, então $\rho_\F(\alpha \imply \forall_{\bf x} \varphi)$ é garantidamente $\lt$, pelo que $\rho_\F(\psi)$ é necessariamente $\lt$;
 	
 	\item Se $\rho_\F(\forall_{\bf x}(\alpha \imply \varphi)) = \rho_\F(\alpha) = \lt$, então, para qualquer $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash (\alpha \imply \varphi)$. Pelo lema das variáveis omissas, como $\bf x \not \in \fv \alpha$ e $\rho \Vdash \alpha$, temos também $\rho\!\downarrow^{\bf x}_u \Vdash \alpha$. Pela versão local do \emph{modus ponens}, temos, para todo $u \in U_I$, $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$. Como tal, temos $\rho \Vdash \forall_{\bf x} \varphi$, o que implica, como o leitor poderá verificar, que $\rho_\F(\psi) = \lt$.
-	\end{enumerate}
+	\end{itemize}
 	
 	Como em qualquer dos casos temos $\rho \Vdash \psi$, a fórmula $\psi$ é verdadeira, como desejado.
 	\end{proof}
 	
+	Estamos agora em condições de deduzir o
+	
+	\begin{prop}
+	(Metateorema da dedução, versão sintática, primeira ordem)
+	
+	Seja $\Gamma \subseteq \F$, $\alpha, \beta \in \F$ e suponha-se que existe uma demonstração de
+	\[\Gamma, \alpha \vdash \beta\]
+	tal que em nenhum passo é feita uma generalização sobre uma variável livre de $\alpha$. Então,
+	\[\Gamma \vdash (\alpha \imply \beta).\]
+	\end{prop}
+	
+	\begin{proof}
+	A demonstração é idêntica à do caso proposicional, diferindo apenas no caso em que o passo da demonstração é feito por generalização. Para ser completos, no entanto, apresentaremos a demonstração completa.
+	
+	Suponha-se que a prova dada no enunciado é
+	\[(\varphi_1, j_1), \dots, (\varphi_n, j_n).\]
+	Apresentamos, indutivamente, um método de construir, a partir desta, uma demonstração de $\Gamma \vdash (\alpha \imply \varphi)$. Concretamente, construiremos uma sequência de prova
+	\[(\psi_1, j'_1), \dots, (\psi_N, j'_N),\]
+	assegurando que existem $i_1, \dots, i_n$ ($i_n = N$) tal que $\psi_{i_1} = (\alpha \imply \varphi_1)$, \dots, $\psi_{i_n} = (\alpha \imply \varphi_n)$.
+	
+	Suponha-se, por hipótese de indução, que a prova modificada já está construida até
+	\[(\psi_1, j'_1), \dots, (\psi_{i_{p-1}}, j'_{i_{p-1}}),\]
+	para algum $p \in \{1, \dots, n\}$ ($i_0 = 0$). Construimos agora a secção da prova seguinte,
+	\[(\psi_{i_{p-1}+1}, j'_{i_{p-1}+1}), \dots, (\psi_{i_p}, j'_{i_p}).\]
+	
+	Esta construção é feita por casos, dependendo de $j_p$:
+	
+	\begin{itemize}
+	\item Se $j_p = \mathtt{Ax}$, usamos o facto de que, como $\varphi_p$ é uma afirmação verdadeira, $\alpha \imply \varphi_p$ também é uma afirmação verdadeira. Assim sendo, a continuação da prova modificada pode ser construida simplesmente como
+	\[(\psi_{i_{p-1}+1}, j'_{i_{p-1}+1}) = (\alpha \imply \varphi_p, \mathtt{Ax}).\]
+	
+	\item Se $j_p = \mathtt{Hip}$, temos que ou $\varphi_p = \alpha$ ou $\varphi_p \in \Gamma$.
+	
+	\begin{itemize}
+	\item Se $\varphi_p = \alpha$, basta reparar que $\alpha \imply \alpha$ é uma afirmação verdadeira, e como tal o argumento acima pode ser realizado.
+	
+	\item Se $\varphi_p \in \Gamma$, usamos o facto que $\varphi_p \imply (\alpha \imply \varphi_p)$ é uma afirmação verdadeira, o que nos permite construir a seguinte (secção de) prova:
+	
+	\[(\varphi_p \imply (\alpha \imply \varphi_p), \mathtt{Ax}), (\varphi_p, \mathtt{Hip}), (\alpha \imply \varphi_p, \mathtt{MP}).\]
+	\end{itemize}
+	
+	\item Se $j_p = \mathtt{MP}_{ab}$, começamos por invocar o primeiro axioma do cálculo proposicional (que, pela proposição \ref{fol:tautoistheo}, é uma afirmação verdadeira):
+	\[([\alpha \imply (\varphi_b \imply \varphi_p)] \imply [(\alpha \imply \varphi_b) \imply (\alpha \imply \varphi_p)], \texttt{Ax})\]
+	ou, por outras palavras (pela hipótese sobre a parte da demonstração já construída),
+	\[(\psi_{i_a} \imply (\psi_{i_b} \imply (\alpha \imply \varphi_p)), \texttt{Ax}).\]
+	
+	De seguida, invocamos $\mathtt{MP}_{i_a, (i_{p-1}+1)}$ para concluir
+	\[(\psi_{i_b} \imply (\alpha \imply \varphi_p), \texttt{MP}),\]
+	e uma última aplicação de $\mathtt{MP}_{i_b, (i_{p-1}+2)}$ dá-nos, como desejado,
+	\[(\alpha \imply \varphi_p, \texttt{MP}).\]
+	
+	\item Se $j_p = \mathtt{Gen}_a$, sabemos que $\varphi_p$ é da forma $\forall_{\bf x} \varphi_a$. Por hipótese sobre a demonstração, sabemos que $\bf x \not \in \fv \alpha$, que nos permite invocar a afirmação verdadeira (pela proposição \ref{fol:folax4verdadeira}):
+	\[([\forall_{\bf x} (\alpha \imply \varphi_a)] \imply [\alpha \imply \forall_{\bf x} \varphi_a], \mathtt{Ax}),\]
+	ou, por outras palavras,
+	\[([\forall_{\bf x} \psi_{i_a}] \imply [\alpha \imply \varphi_p], \mathtt{Ax}).\]
+	
+	A secção de prova pode agora ser completada da seguinte forma:
+	\begin{gather*}
+	(\forall_{\bf x} \psi_{i_a}, \mathtt{Gen}_{i_a})\\
+	(\alpha \imply \varphi_p, \mathtt{MP}).
+	\end{gather*}
+	\end{itemize}
+	\end{proof}
+	
+	O metateorema da dedução pode ser interpretado em termos de provas em linguagem natural. A ideia básica é que se partirmos de um objeto $\bf x$ arbitrário que satisfaz uma propriedade $\alpha$ e mostrarmos que então ele satisfaz uma propriedade $\beta$ então `$x$ satisfaz $\alpha$ implica $x$ satisfaz $\beta$'. No entanto, isto pode falhar se em algum momento pararmos de nos referir ao mesmo $x$. Isto é, se em algum momento dissermos `como $x$ é arbitrário, esta propriedade intermédia é verdadeira para todo o $x$...' já não estamos a assumir que um $x$ particular satisfaz $\alpha$, mas sim que qualquer $x$ satisfaz $\alpha$.
+	
+	Na realidade, a hipótese de não haver generalizações em variáveis livres de $\alpha$ pode ser enfraquecida. No entanto, o caso por nós demonstrado é suficiente para a vasta maioria das aplicações práticas. Para uma versão ligeiramente mais forte do metateorema da dedução, ver \cite{fltc}, p. 86.
+	
+	Um caso particular do metateorema da dedução acima provado vê muita utilidade na prática.
+	
+	\begin{prop*}
+	Dizemos que uma fórmula $\alpha$ é \emph{fechada} se $\fv \alpha = \emptyset$.
+	
+	Se $\Gamma \subseteq \F$, $\alpha, \beta \in \F$ e $\alpha$ é uma fórmula fechada então
+	
+	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
+	\end{prop*}
 	
 	
 	\chapter{Introdução à computação}
