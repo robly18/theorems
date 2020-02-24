@@ -41,12 +41,12 @@
 \newtheorem{teorema}{Teorema}
 \newtheorem{lema}{Lema}
 
-\newtheorem{ideia}{Ideia}
-\newtheorem{obstaculo}{Obstáculo}
-
 \theoremstyle{definition}
 \newtheorem{definicao}{Definição}
 \newtheorem*{definicao*}{Definição}
+
+\newtheorem{ideia}{Ideia}
+\newtheorem{obstaculo}{Obstáculo}
 
 \theoremstyle{remark}
 \newtheorem{obs}{Obs}
@@ -1497,6 +1497,10 @@ def f(x):
 	
 	Note-se que esta distinção entre uma fórmula ser satisfeita por um universo ou por uma valoração não existia no cálculo proposicional, visto que havia apenas um universo: $\{\lt, \lf\}$.
 	
+	\begin{obs}\label{structuresatisfactionnotnice}
+	Cuidado! Alguns passos lógicos que estamos habituados a que sejam verdade no contexto de valorações não o são no contexto de estruturas de interpretação. Por exemplo, enquanto que é decerto verdade que $\rho \Vdash \neg \varphi$ sse $\rho \nVdash \varphi$, o mesmo não se pode dizer de estruturas de interpretação. Isto é, é certamente possível que $I \nVdash \varphi$ e, ao mesmo tempo, $I \nVdash \neg \varphi$: basta algumas valorações atribuírem o valor $lt$ a $\varphi$ e outras $\lf$.
+	\end{obs}
+	
 	Estas duas noções de satisfação dão azo a duas noções ligeiramente diferentes de consequência semântica: local e global.
 	
 	\begin{definicao}
@@ -1908,6 +1912,19 @@ def f(x):
 	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
 	\end{prop*}
 	
+	As fórmulas fechadas são, em alguns sentidos, muito mais simpáticas do que fórmulas gerais. Exemplificamos outra propriedade destas, que nos será útil no futuro.
+	
+	\begin{prop}\label{fol:closednegnvdash}
+	Recordamos o leitor (Observação \ref{structuresatisfactionnotnice}) que, em geral, se $\varphi$ é uma fórmula e $I$ uma estrutura de interpretação, não é necessário que $I \Vdash \neg \varphi$ sse $I \nVdash \varphi$. No entanto, isto é verdade se adicionarmos a restrição de $\varphi$ ser fechada. Isto é, se $\varphi$ é uma fórmula fechada,
+	\[I \Vdash \neg \varphi \text{ sse } I \nVdash \varphi.\]
+	\end{prop}
+	
+	\begin{proof}
+	($\leftarrow$) Se $I \nVdash \varphi$ então existe pelo menos uma valoração $\rho$ sobre $I$ tal que $\rho_F(\varphi) = \lf$, isto é, $\rho_F(\neg \varphi) = \lt$. Pelo lema das variáveis omissas, como $\neg \varphi$ não tem variáveis livres, $\rho'_F(\neg \varphi) = \lt$ para qualquer valoração $\rho'$, donde $I \Vdash \neg \varphi$.
+	
+	($\rightarrow$) Suponha-se que $I \Vdash \neg \varphi$. Então, para qualquer valoração $\rho$ sobre $I$ temos $\rho_F(\neg \varphi) = \lt$. Se $\rho$ for uma valoração qualquer particular (é aqui necessária a hipótese de o universo $U_I$ ser não-vazio, para haver pelo menos uma valoração!) então $\rho_F(\neg \varphi) = \lt$ donde $\rho_F(\varphi) = \lf$ e então $I \nVdash \varphi$.
+	\end{proof}
+	
 	\section{Completude}
 	
 	Começamos a esboçar a demonstração da completude do cálculo de Hilbert, isto é: Se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$. Este teorema tem o nome de `Teorema da completude de Gödel'. Nesta secção, estabelecemos algumas simplificações e proposições que serão necessárias para o mostrar.
@@ -1935,8 +1952,50 @@ def f(x):
 	\end{ideia}
 	
 	\begin{obstaculo}
-	Poderá não haver termos fechados de todo, em particular se não houver nenhum símbolo de função de aridade zero. No entanto, numa estrutura de interpretação é necessário o universo ser não-vazio. Como tal, será necessário adicionar alguns termos novos para servir de semente, para criar mais termos.
+	Poderá não haver termos fechados de todo, em particular se não houver nenhum símbolo de função de aridade zero. No entanto, numa estrutura de interpretação é necessário o universo ser não-vazio. Como tal, poderá ser necessário adicionar alguns termos novos para servir de semente, para criar mais termos.
 	\end{obstaculo}
+	
+	Voltaremos a este problema mais tarde, mas primeiro apresentaremos algumas simplificações que não foram feitas no caso proposicional. Começamos por supor, sem perda de generalidade, que $\varphi$ é uma fórmula fechada. Fazemos isto porque fórmulas fechadas são mais fáceis de mexer. Em particular, é possível aplicar nelas o metateorema da dedução com impunidade. Para mostrar que podemos trabalhar sob esta hipótese, sejam $\bf x_1, \dots, \bf x_n$ as variáveis livres de $\varphi$ (deixamos a verificação de que há um número finito destas para o leitor). Então, se definirmos
+	\[\forall \varphi \text{ como } \forall_{\bf x_1} \dots \forall_{\bf x_n} \varphi,\]
+	temos que $\varphi \vdash \forall \varphi$ por aplicação repetida de generalização, e $\forall \varphi \vdash \varphi$ por aplicação repetida do axioma $\forall_{\bf x} \alpha \imply \alpha$ (verifique que esta fórmula é de facto verdadeira. Sugestão: ver casos em $\rho_F(\alpha)$). Como tal,
+	\[\Gamma \vdash \varphi \text{ sse } \Gamma \vdash \forall \varphi,\]
+	e o mesmo se verifica para a relação de consequência global. Assim sendo, \textbf{não há perda de generalidade em supor que $\varphi$ é fechada.}
+	
+	Supor que $\varphi$ é fechada permite-nos aplicar o metateorema da contradição (que estamos prestes a provar) para, em certo sentido, juntar $\varphi$ às fórmulas de $\Gamma$. Por exemplo, para mostrar $\Gamma \nvDash \varphi$, pretendemos encontrar uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ e $I \nVdash \varphi$. Devido a $\varphi$ ser fechada (ver acima!) este último é equivalente a $I \Vdash \neg \varphi$ (ver proposição \ref{fol:closednegnvdash}) pelo que uma estrutura de interpretação $I$ satisfaz o desejado sse $I \Vdash \Gamma \cup \{\neg \varphi\}$. A condição que tal estrutura exista pode ser expressa em termos de $\vDash$, e algo semelhante pode ser feito em termos sintáticos, como a proposição seguinte mostra:
+	
+	\begin{prop}
+	Se $\Gamma \subseteq \F$, $\varphi$ é uma fórmula fechada e $\tau$ é uma fórmula verdadeira (por exemplo, $\varphi \imply \varphi$), então
+	\[\Gamma \vDash \varphi \text{ sse } \Gamma, \neg \varphi \vDash \neg \tau\]
+	e também (Metateorema da contradição)
+	\[\Gamma \vdash \varphi \text{ sse } \Gamma, \neg \varphi \vdash \neg \tau.\]
+	\end{prop}
+	
+	\begin{proof}
+	Com base no raciocínio que já foi feito, a primeira equivalência consiste apenas em reparar que $\Gamma, \neg \varphi \vDash \neg \tau$ sse não existe nenhuma estrutura de interpretação $I$ tal que $I \Vdash \Gamma \cup \{\neg \varphi\}$.
+	
+	Demonstramos agora o metateorema da contradição. ($\rightarrow$) Suponha-se que $\Gamma \vdash \varphi$. Então, como a seguinte fórmula é uma tautologia (verifique)
+	\[\varphi \imply (\neg \varphi \imply \neg \tau)\]
+	é fácil construir a demonstração de $\Gamma, \neg \varphi \vdash \neg \tau$ da seguinte forma:
+	
+	\begin{align*}
+	&\text{...(Demonstração de $\Gamma \vdash \varphi$)...}\\
+	&\varphi \imply (\neg \varphi \imply \neg \tau)&&\texttt{Ax}\\
+	&\neg \varphi \imply \neg \tau&&\texttt{MP}\\
+	&\neg \varphi&&\texttt{Hip}\\
+	&\neg \tau&&\texttt{MP}.
+	\end{align*}
+	
+	($\leftarrow$) Suponha-se agora que $\Gamma, \neg \varphi \vdash \neg \tau$. Pelo metateorema da dedução temos (como $\neg \varphi$ é fechado)
+	\[\Gamma \vdash \neg \varphi \imply \neg \tau.\]
+	Concatenando à prova disto as linhas:
+	\begin{align*}
+	&(\neg \varphi \imply \neg \tau) \imply (\tau \imply \varphi)&&\texttt{Tauto}\\
+	&\tau \imply \varphi&&\texttt{MP}\\
+	&\tau&&\texttt{Tauto}\\
+	&\varphi&&\texttt{MP}
+	\end{align*}
+	obtemos uma demonstração com base em $\Gamma$ de $\varphi$, como desejado.
+	\end{proof}
 	
 	
 	\chapter{Introdução à computação}
