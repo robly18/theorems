@@ -1932,30 +1932,9 @@ def f(x):
 	Tal como no caso do cálculo proposicional, é conveniente passar o problema ao contrarrecíproco. Isto é, mostrar
 	\[\text{Se } \Gamma \nvdash \varphi \text{ então } \Gamma \nvDash \varphi.\]
 	
-	A razão é idêntica: é mais fácil construir valorações `resolvendo equações' do que construir demonstrações. No entanto, no caso da lógica de primeira ordem, encontra-se um problema: para além de valorações, é preciso construir um universo onde os valores se encontram. Para este objetivo, usaremos aquilo que temos à mão: símbolos.
+	A razão é idêntica: é mais fácil construir valorações `resolvendo equações' do que construir demonstrações.
 	
-	\setcounter{ideia}{0}
-	\setcounter{obstaculo}{0}
-	\begin{ideia}
-	Para definir uma estrutura de interpretação $I$, podemos usar como universo $U_I$ o conjunto dos termos, $\T_\Sigma$. Para evitar ambiguidades, não permitimos variáveis nos nossos termos. Por outras palavras, restringimo-nos ao conjunto dos termos fechados, isto é,
-	\[\T^f_\Sigma = \{\, t \in \T_\Sigma \mid \var t = \emptyset\,\}.\]
-	
-	Para cada símbolo de função $f \in F_\Sigma$, definimos simplesmente $f_I(t_1, \dots, t_n)$ como sendo a fórmula
-	
-	\begin{center}
-	\Tree [.$f$ $t_1$ $\dots$ $t_n$ ]
-	\end{center}
-	
-	Por outras palavras, a função é aplicada `simbolicamente'.
-	
-	Finalmente, para cada símbolo de predicado $p \in P_\Sigma$, podemos tentar definir $p(t_1, \dots, t_n)$ com base num critério que tem a ver com demonstrações, à semelhança do que foi feito no caso do cálculo proposicional.
-	\end{ideia}
-	
-	\begin{obstaculo}
-	Poderá não haver termos fechados de todo, em particular se não houver nenhum símbolo de função de aridade zero. No entanto, numa estrutura de interpretação é necessário o universo ser não-vazio. Como tal, poderá ser necessário adicionar alguns termos novos para servir de semente, para criar mais termos.
-	\end{obstaculo}
-	
-	Voltaremos a este problema mais tarde, mas primeiro apresentaremos algumas simplificações que não foram feitas no caso proposicional. Começamos por supor, sem perda de generalidade, que $\varphi$ é uma fórmula fechada. Fazemos isto porque fórmulas fechadas são mais fáceis de mexer. Em particular, é possível aplicar nelas o metateorema da dedução com impunidade. Para mostrar que podemos trabalhar sob esta hipótese, sejam $\bf x_1, \dots, \bf x_n$ as variáveis livres de $\varphi$ (deixamos a verificação de que há um número finito destas para o leitor). Então, se definirmos
+	Apresentaremos algumas simplificações que não foram feitas no caso proposicional. Começamos por supor, sem perda de generalidade, que $\varphi$ é uma fórmula fechada. Fazemos isto porque fórmulas fechadas são mais fáceis de mexer. Em particular, é possível aplicar nelas o metateorema da dedução com impunidade. Para mostrar que podemos trabalhar sob esta hipótese, sejam $\bf x_1, \dots, \bf x_n$ as variáveis livres de $\varphi$ (deixamos a verificação de que há um número finito destas para o leitor). Então, se definirmos
 	\[\forall \varphi \text{ como } \forall_{\bf x_1} \dots \forall_{\bf x_n} \varphi,\]
 	temos que $\varphi \vdash \forall \varphi$ por aplicação repetida de generalização, e $\forall \varphi \vdash \varphi$ por aplicação repetida do axioma $\forall_{\bf x} \alpha \imply \alpha$ (verifique que esta fórmula é de facto verdadeira. Sugestão: ver casos em $\rho_F(\alpha)$). Como tal,
 	\[\Gamma \vdash \varphi \text{ sse } \Gamma \vdash \forall \varphi,\]
@@ -1997,6 +1976,44 @@ def f(x):
 	obtemos uma demonstração com base em $\Gamma$ de $\varphi$, como desejado.
 	\end{proof}
 	
+	Com base nesta proposição, passando a usar $\Gamma$ para nos referirmos a $\Gamma \cup \{\neg \varphi\}$, reduzimos a questão de mostrar completude a mostrar a seguinte afirmação:
+	
+	\begin{definicao}
+	Dizemos que um conjunto de fórmulas $\Gamma$ é \emph{incoerente} se $\Gamma \vdash \neg \tau$, onde $\tau$ é um axioma.
+	\end{definicao}
+	
+	Então, para provar o teorema da completude é suficiente mostrar que, se $\Gamma$ é um conjunto de fórmulas coerente (i.e. $\Gamma \nvdash \neg \tau$) então existe uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ (i.e. $\Gamma \nvDash \neg \tau$). É este o ponto de vista que tomaremos para mostrar o teorema da completude. Por outras palavras, começaremos com um conjunto coerente $\Gamma$ e construiremos um \emph{modelo do conjunto}, isto é, uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$.
+	
+	 Note-se que está aqui subjacente uma dificuldade que não aparecia no caso proposicional. Enquanto que no caso do cálculo proposicional, o universo onde as variáveis viviam já nos era conhecido ($\{\lt, \lf\}$), em lógica de primeira ordem é preciso criar este conjunto. Para este objetivo, na falta de alternativa mais sugestiva, usaremos aquilo que temos à mão: símbolos.
+	
+	\setcounter{ideia}{0}
+	\setcounter{obstaculo}{0}
+	\begin{ideia}
+	Para definir uma estrutura de interpretação $I$, podemos usar como universo $U_I$ o conjunto dos termos, $\T_\Sigma$. Para evitar ambiguidades, não permitimos variáveis nos nossos termos. Por outras palavras, restringimo-nos ao conjunto dos termos fechados, isto é,
+	\[\T^f_\Sigma = \{\, t \in \T_\Sigma \mid \var t = \emptyset\,\}.\]
+	
+	Para cada símbolo de função $f \in F_\Sigma$, definimos simplesmente $f_I(t_1, \dots, t_n)$ como sendo a fórmula
+	
+	\begin{center}
+	\Tree [.$f$ $t_1$ $\dots$ $t_n$ ]
+	\end{center}
+	
+	Por outras palavras, a função é aplicada `simbolicamente'.
+	
+	Finalmente, para cada símbolo de predicado $p \in P_\Sigma$, podemos tentar definir $p_I(t_1, \dots, t_n)$ como $\lt$ se $\Gamma \vdash p(t_1, \dots, t_n)$.
+	\end{ideia}
+	
+	\begin{obstaculo}
+	Poderá não haver termos fechados de todo, em particular se não houver nenhum símbolo de função de aridade zero. No entanto, numa estrutura de interpretação é necessário o universo ser não-vazio. Como tal, poderá ser necessário adicionar alguns termos novos para servir de semente, para criar mais termos.
+	\end{obstaculo}
+	
+	\begin{obstaculo}
+	A definição dada de $p_I$ não funciona, porque é possível acontecer uma situação das seguintes:
+	
+	Suponha-se haver dois símbolos unários de predicado, $p$ e $q$. Seja $\Gamma = \{p(x) \eqv \neg q(x)\}$. Então, sob a construção dada, $p_I(x) = q_I(x) = \lf$, mas isto não satisfaz $\Gamma$.
+	
+	É possível adaptar um raciocínio `incremental' como o que foi feito para o caso proposicional (onde íamos adicionando condições à medida que estabelecíamos valores para variáveis) mas no que se segue tomamos uma abordagem diferente.
+	\end{obstaculo}
 	
 	\chapter{Introdução à computação}
 	
