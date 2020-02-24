@@ -41,6 +41,9 @@
 \newtheorem{teorema}{Teorema}
 \newtheorem{lema}{Lema}
 
+\newtheorem{ideia}{Ideia}
+\newtheorem{obstaculo}{Obstáculo}
+
 \theoremstyle{definition}
 \newtheorem{definicao}{Definição}
 \newtheorem*{definicao*}{Definição}
@@ -1713,9 +1716,20 @@ def f(x):
 	
 	\item Se $j_i = \texttt{Gen}_a$, então $a < i$ e $\varphi_i$ é da forma $\forall_{\bf x} \varphi_a$ para alguma variável $\bf x$.
 	\end{itemize}
+	
+	Dizemos que $\Gamma \vdash \varphi$ se existe uma demonstração com base em $\Gamma$ cuja conclusão é $\varphi$.
+	
+	Este sistema de demonstração tem o nome de \emph{cálculo de Hilbert}.\footnote{Na realidade, o cálculo de Hilbert corresponde ao caso particular dos axiomas finais (ver página \pageref{fol:finalaxioms}). No entanto, por conveniência, referir-nos-emos a esta versão modificada pelo mesmo nome.}
 	\end{definicao}
 	
 	À semelhança do que foi feito com o cálculo proposicional, supomos por agora que que qualquer afirmação verdadeira é um axioma. Mais tarde, identificaremos um conjunto mais pequeno de axiomas que se mostrará ser suficiente para justificar qualquer afirmação verdadeira.
+	
+	Mostraremos que o cálculo de Hilbert corresponde exatamente à noção de consequência semântica global. Recordamos que isto corresponde a mostrar duas coisas: a \emph{correção} do sistema, e a sua \emph{completude}. À semelhança do caso proposicional, a correção é de fácil demonstração, pelo que a deixamos ao leitor:
+	
+	\begin{prop}
+	O cálculo de Hilbert é completo. Isto é,
+	\[\text{Se } \Gamma \vdash \varphi \text{ então } \Gamma \vDash \varphi.\]
+	\end{prop}
 	
 	Seria desejado exemplificar agora uma demonstração em lógica de primeira ordem, mas infelizmente o cálculo de Hilbert é particularmente inadequado para uso humano. De facto, a prova de algo tão simples como `Num grupo, se $e \cdot x = x$ para todo o $x$, temos $e = \textbf{id}$' requer uma página inteira de demonstração, apesar de a ideia de prova ser simplesmente reparar que $\textbf{id} = e \cdot \textbf{id} = e$. Para nos permitir manusear e fabricar demonstrações em espaço útil, é necessário o uso de metateoremas.
 	
@@ -1893,6 +1907,36 @@ def f(x):
 	
 	\[\Gamma, \alpha \vdash \beta \text{ sse } \Gamma \vdash \alpha \imply \beta.\]
 	\end{prop*}
+	
+	\section{Completude}
+	
+	Começamos a esboçar a demonstração da completude do cálculo de Hilbert, isto é: Se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$. Este teorema tem o nome de `Teorema da completude de Gödel'. Nesta secção, estabelecemos algumas simplificações e proposições que serão necessárias para o mostrar.
+	
+	Tal como no caso do cálculo proposicional, é conveniente passar o problema ao contrarrecíproco. Isto é, mostrar
+	\[\text{Se } \Gamma \nvdash \varphi \text{ então } \Gamma \nvDash \varphi.\]
+	
+	A razão é idêntica: é mais fácil construir valorações `resolvendo equações' do que construir demonstrações. No entanto, no caso da lógica de primeira ordem, encontra-se um problema: para além de valorações, é preciso construir um universo onde os valores se encontram. Para este objetivo, usaremos aquilo que temos à mão: símbolos.
+	
+	\setcounter{ideia}{0}
+	\setcounter{obstaculo}{0}
+	\begin{ideia}
+	Para definir uma estrutura de interpretação $I$, podemos usar como universo $U_I$ o conjunto dos termos, $\T_\Sigma$. Para evitar ambiguidades, não permitimos variáveis nos nossos termos. Por outras palavras, restringimo-nos ao conjunto dos termos fechados, isto é,
+	\[\T^f_\Sigma = \{\, t \in \T_\Sigma \mid \var t = \emptyset\,\}.\]
+	
+	Para cada símbolo de função $f \in F_\Sigma$, definimos simplesmente $f_I(t_1, \dots, t_n)$ como sendo a fórmula
+	
+	\begin{center}
+	\Tree [.$f$ $t_1$ $\dots$ $t_n$ ]
+	\end{center}
+	
+	Por outras palavras, a função é aplicada `simbolicamente'.
+	
+	Finalmente, para cada símbolo de predicado $p \in P_\Sigma$, podemos tentar definir $p(t_1, \dots, t_n)$ com base num critério que tem a ver com demonstrações, à semelhança do que foi feito no caso do cálculo proposicional.
+	\end{ideia}
+	
+	\begin{obstaculo}
+	Poderá não haver termos fechados de todo, em particular se não houver nenhum símbolo de função de aridade zero. No entanto, numa estrutura de interpretação é necessário o universo ser não-vazio. Como tal, será necessário adicionar alguns termos novos para servir de semente, para criar mais termos.
+	\end{obstaculo}
 	
 	
 	\chapter{Introdução à computação}
