@@ -1898,7 +1898,7 @@ def f(x):
 	\end{itemize}
 	\end{proof}
 	
-	O metateorema da dedução pode ser interpretado em termos de provas em linguagem natural. A ideia básica é que se partirmos de um objeto $\bf x$ arbitrário que satisfaz uma propriedade $\alpha$ e mostrarmos que então ele satisfaz uma propriedade $\beta$ então `$x$ satisfaz $\alpha$ implica $x$ satisfaz $\beta$'. No entanto, isto pode falhar se em algum momento pararmos de nos referir ao mesmo $x$. Isto é, se em algum momento dissermos `como $x$ é arbitrário, esta propriedade intermédia é verdadeira para todo o $x$...' já não estamos a assumir que um $x$ particular satisfaz $\alpha$, mas sim que qualquer $x$ satisfaz $\alpha$.
+	O metateorema da dedução pode ser interpretado em termos de provas em linguagem natural. A ideia básica é que se partirmos de um objeto $x$ arbitrário que satisfaz uma propriedade $\alpha$ e mostrarmos que então ele satisfaz uma propriedade $\beta$ então `$x$ satisfaz $\alpha$ implica $x$ satisfaz $\beta$'. No entanto, isto pode falhar se em algum momento pararmos de nos referir ao mesmo $x$. Isto é, se em algum momento dissermos `como $x$ é arbitrário, esta propriedade intermédia é verdadeira para todo o $x$...' já não estamos a assumir que um $x$ particular satisfaz $\alpha$, mas sim que qualquer $x$ satisfaz $\alpha$.
 	
 	Na realidade, a hipótese de não haver generalizações em variáveis livres de $\alpha$ pode ser enfraquecida. No entanto, o caso por nós demonstrado é suficiente para a vasta maioria das aplicações práticas. Para uma versão ligeiramente mais forte do metateorema da dedução, ver \cite{fltc}, p. 86.
 	
@@ -1926,6 +1926,8 @@ def f(x):
 	\end{proof}
 	
 	\section{Completude}
+	\setcounter{ideia}{0}
+	\setcounter{obstaculo}{0}
 	
 	Começamos a esboçar a demonstração da completude do cálculo de Hilbert, isto é: Se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$. Este teorema tem o nome de `Teorema da completude de Gödel'. Nesta secção, estabelecemos algumas simplificações e proposições que serão necessárias para o mostrar.
 	
@@ -1976,18 +1978,22 @@ def f(x):
 	obtemos uma demonstração com base em $\Gamma$ de $\varphi$, como desejado.
 	\end{proof}
 	
-	Com base nesta proposição, passando a usar $\Gamma$ para nos referirmos a $\Gamma \cup \{\neg \varphi\}$, reduzimos a questão de mostrar completude a mostrar a seguinte afirmação:
+	Com base nesta proposição, passando a usar $\Gamma$ para nos referirmos a $\Gamma \cup \{\neg \varphi\}$, reduzimos a questão de mostrar completude ao seguinte:
 	
 	\begin{definicao}
-	Dizemos que um conjunto de fórmulas $\Gamma$ é \emph{incoerente} se $\Gamma \vdash \neg \tau$, onde $\tau$ é um axioma.
+	Em tudo o que se segue, considera-se fixa uma afirmação verdadeira $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir afirmações verdadeiras, desde que haja pelo menos uma fórmula. Por exemplo, a partir de uma fórmula qualquer em $\F_\Sigma$ é possível construir uma tautologia. Mas para isto é necessário que $\F_\Sigma \neq \emptyset$. Assim sendo, ao dizer isto, estamos implicitamente a assumir que o conjunto de símbolos de proposição, $P_\Sigma$, é não-vazio. Claro que o caso contrário é inútil, visto que nesse não há fórmulas de todo.}
+	
+	Dizemos que um conjunto de fórmulas $\Gamma$ é \emph{incoerente} se $\Gamma \vdash \neg \tau$.
 	\end{definicao}
 	
-	Então, para provar o teorema da completude é suficiente mostrar que, se $\Gamma$ é um conjunto de fórmulas coerente (i.e. $\Gamma \nvdash \neg \tau$) então existe uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ (i.e. $\Gamma \nvDash \neg \tau$). É este o ponto de vista que tomaremos para mostrar o teorema da completude. Por outras palavras, começaremos com um conjunto coerente $\Gamma$ e construiremos um \emph{modelo do conjunto}, isto é, uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$.
+	\begin{ideia}
+	Para provar o teorema da completude é suficiente mostrar que, se $\Gamma$ é um conjunto de fórmulas coerente (i.e. $\Gamma \nvdash \neg \tau$) então existe uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$ (i.e. $\Gamma \nvDash \neg \tau$). É este o ponto de vista que tomaremos para mostrar o teorema da completude. Por outras palavras, começaremos com um conjunto coerente $\Gamma$ e construiremos um \emph{modelo do conjunto}, isto é, uma estrutura de interpretação $I$ tal que $I \Vdash \Gamma$.
+	\end{ideia}
 	
-	 Note-se que está aqui subjacente uma dificuldade que não aparecia no caso proposicional. Enquanto que no caso do cálculo proposicional, o universo onde as variáveis viviam já nos era conhecido ($\{\lt, \lf\}$), em lógica de primeira ordem é preciso criar este conjunto. Para este objetivo, na falta de alternativa mais sugestiva, usaremos aquilo que temos à mão: símbolos.
+	\begin{obstaculo}
+	Note-se que está aqui subjacente uma dificuldade que não aparecia no caso proposicional. Enquanto que no caso do cálculo proposicional, o universo onde as variáveis viviam já nos era conhecido ($\{\lt, \lf\}$), em lógica de primeira ordem é preciso criar este conjunto. Para este objetivo, na falta de alternativa mais sugestiva, usaremos aquilo que temos à mão: símbolos.
+	\end{obstaculo}
 	
-	\setcounter{ideia}{0}
-	\setcounter{obstaculo}{0}
 	\begin{ideia}
 	Para definir uma estrutura de interpretação $I$, podemos usar como universo $U_I$ o conjunto dos termos, $\T_\Sigma$. Para evitar ambiguidades, não permitimos variáveis nos nossos termos. Por outras palavras, restringimo-nos ao conjunto dos termos fechados, isto é,
 	\[\T^f_\Sigma = \{\, t \in \T_\Sigma \mid \var t = \emptyset\,\}.\]
