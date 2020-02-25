@@ -1401,6 +1401,35 @@
 	
 	Para interpretar estas fórmulas com variáveis livres, basta pensar no contexto do cálculo proposicional. Neste, as fórmulas não eram quantificadas, mas dizíamos que uma fórmula era uma tautologia se fosse verdade para \emph{qualquer} atribuição das variáveis. Da mesma forma, na lógica de primeira ordem dizemos que uma fórmula é verdadeira se for verdade `em qualquer universo, para qualquer atribuição das variáveis'. (Ver abaixo.)
 	
+	\textbf{O que se segue não se aplica para qualquer assinatura.} Em particular, há duas restrições no tamanho das assinaturas que vamos exigir. Primeiro que tudo, é desejável que haja pelo menos uma fórmula. Assim sendo, \textbf{Exigimos que o conjunto dos símbolos de proposição, $P$, seja não-vazio.} Em adição, também nos será necessário (ver lema de Lindenbaum) que haja um número contável de fórmulas. Assim sendo, exigimos que \textbf{tanto $F$ como $P$ sejam contáveis.} Isto é suficiente para que o conjunto de \emph{todas} as fórmulas seja contável, como mostramos agora:
+	
+	\begin{prop}\label{fol:size}
+	Sob as hipóteses acima, há pelo menos uma fórmula em $\F_\Sigma$, e tanto $\F_\Sigma$ como $\T_\Sigma$ são contáveis.
+	\end{prop}
+	
+	\begin{proof}
+	A prova de que há pelo menos uma fórmula é trivial. Sabendo que há pelo menos um símbolo de proposição $p$ e uma variável $x$, basta considerar a fórmula
+	\[p(x, \dots, x).\]
+	
+	Para justificar que há um número contável de termos e fórmulas, formulamos um argumento por indução no tamanho da expressão.
+	
+	Recordamos o leitor que os termos foram definidos indutivamente. Podemos pensar nessa definição como sendo um processo contável de criação de expressões:
+	
+	Definimos $T_0$ como o conjunto dos termos `de geração zero', isto é, as variáveis. De seguida, definido $T_n$, definimos $T_{n+1}$ como sendo os termos `um nível acima dos de $T_n$', isto é, os termos da forma
+	\[f(t_1, \dots, t_a)\]
+	com $t_1, \dots, t_a \in T_n$.
+	
+	É possível provar por indução que qualquer termo $t \in \T_\Sigma$ está nalgum $T_n$, ou seja, $\T_\Sigma = \bigcup_{i = 0}^\infty T_n$. O valor minimal de $n$ tal que $t \in T_n$ será chamado de \emph{geração de $t$}, e um processo semelhante pode ser feito para o conjunto das fórmulas $\F_\Sigma$. Isto permite-nos fazer uma forma mais forte de indução na estrutura da fórmula (indução na geração da fórmula), que nos será útil em particular nesta proposição, e mais uma vez no futuro (ver proposição \ref{fol:removerconsts}).
+	
+	Usamos indução na geração para mostrar que o conjunto de termos é contável. O mesmo argumento pode ser adaptado para mostrar o mesmo do conjunto de fórmulas.
+	
+	Repare-se que $T_0$ é contável, sendo a união do conjunto das variáveis $X$, contável por hipótese, e de um subconjunto dos símbolos de função, que são também contáveis por hipótese.
+	
+	Supondo que $T_n$ é contável para algum $n$, é possível mostrar que $T_{n+1}$ é contável reparando que há um número contável de símbolos de função, e cada símbolo de função $f$ adiciona apenas $(\# T_n)^{\ar f}$ termos novos. Visto que uma potência finita de um contável é contável, e soma contável de contáveis é contável, temos que $T_{n+1}$ é contável.
+	
+	Como $\T_\Sigma$ é a união de todos os $T_n$, havendo um número contável destes e cada um deles sendo contável, temos que $\T_\Sigma$ é ele próprio contável, terminando a demonstração.
+	\end{proof}
+	
 	\section{Semântica}
 	
 	Introduzimos agora o conceito de estrutura de interpretação.
@@ -1498,7 +1527,7 @@ def f(x):
 	Note-se que esta distinção entre uma fórmula ser satisfeita por um universo ou por uma valoração não existia no cálculo proposicional, visto que havia apenas um universo: $\{\lt, \lf\}$.
 	
 	\begin{obs}\label{structuresatisfactionnotnice}
-	Cuidado! Alguns passos lógicos que estamos habituados a que sejam verdade no contexto de valorações não o são no contexto de estruturas de interpretação. Por exemplo, enquanto que é decerto verdade que $\rho \Vdash \neg \varphi$ sse $\rho \nVdash \varphi$, o mesmo não se pode dizer de estruturas de interpretação. Isto é, é certamente possível que $I \nVdash \varphi$ e, ao mesmo tempo, $I \nVdash \neg \varphi$: basta algumas valorações atribuírem o valor $lt$ a $\varphi$ e outras $\lf$.
+	Cuidado! Alguns passos lógicos que estamos habituados a que sejam verdade no contexto de valorações não o são no contexto de estruturas de interpretação. Por exemplo, enquanto que é decerto verdade que $\rho \Vdash \neg \varphi$ sse $\rho \nVdash \varphi$, o mesmo não se pode dizer de estruturas de interpretação. Isto é, é certamente possível que $I \nVdash \varphi$ e, ao mesmo tempo, $I \nVdash \neg \varphi$: basta algumas valorações atribuírem o valor $\lt$ a $\varphi$ e outras $\lf$.
 	\end{obs}
 	
 	Estas duas noções de satisfação dão azo a duas noções ligeiramente diferentes de consequência semântica: local e global.
@@ -1981,7 +2010,7 @@ def f(x):
 	Com base nesta proposição, passando a usar $\Gamma$ para nos referirmos a $\Gamma \cup \{\neg \varphi\}$, reduzimos a questão de mostrar completude ao seguinte:
 	
 	\begin{definicao}
-	Em tudo o que se segue, considera-se fixa uma afirmação verdadeira $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir afirmações verdadeiras, desde que haja pelo menos uma fórmula. Por exemplo, a partir de uma fórmula qualquer em $\F_\Sigma$ é possível construir uma tautologia. Mas para isto é necessário que $\F_\Sigma \neq \emptyset$. Assim sendo, ao dizer isto, estamos implicitamente a assumir que o conjunto de símbolos de proposição, $P_\Sigma$, é não-vazio. Claro que o caso contrário é inútil, visto que nesse não há fórmulas de todo.}
+	Em tudo o que se segue, considera-se fixa uma afirmação verdadeira $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir afirmações verdadeiras, sabendo que (proposição \ref{fol:size}) existe pelo menos uma fórmula $\alpha$, pode-se considerar $\tau$ como sendo $\alpha \imply \alpha$.}
 	
 	Dizemos que um conjunto de fórmulas $\Gamma$ é \emph{incoerente} se $\Gamma \vdash \neg \tau$.
 	\end{definicao}
@@ -2018,8 +2047,56 @@ def f(x):
 	
 	Suponha-se haver dois símbolos unários de predicado, $p$ e $q$. Seja $\Gamma = \{p(x) \eqv \neg q(x)\}$. Então, sob a construção dada, $p_I(x) = q_I(x) = \lf$, mas isto não satisfaz $\Gamma$.
 	
-	É possível adaptar um raciocínio `incremental' como o que foi feito para o caso proposicional (onde íamos adicionando condições à medida que estabelecíamos valores para variáveis) mas no que se segue tomamos uma abordagem diferente.
+	É possível adaptar um raciocínio `incremental' como o que foi feito para o caso proposicional (onde íamos adicionando condições à medida que estabelecíamos valores para variáveis) mas tomaremos uma abordagem diferente.
 	\end{obstaculo}
+	
+	Uma ideia algo comum na matemática é a seguinte: é mais fácil resolver sistemas determinados do que sistemas indeterminados. Isto pois, em sistemas determinados, é possível fazer escolhas `localmente' sem medo de haver conflitos por escolhas mal-feitas, como acima. Assim sendo, podemos considerar `adicionar equações ao sistema até ele ficar determinado', tendo apenas que ter cuidado de em nenhum momento o transformar num sistema singular.
+	
+	É esta a ideia subjacente ao \emph{Lema de Lindenbaum}. A noção de sistema `singular', isto é, sem soluções, corresponde a um conjunto incoerente de fórmulas. Para formalizar a noção de sistema determinado, é necessária a noção de exaustividade:
+	
+	\begin{definicao}
+	Um conjunto $\Gamma \subseteq \F_\Sigma$ de fórmulas diz-se \emph{exaustivo} se, para qualquer fórmula $\varphi \in \F_\Sigma$ \emph{fechada}, ou $\Gamma \vdash \varphi$ ou $\Gamma \vdash \neg \varphi$.
+	\end{definicao}
+	
+	Por outras palavras, para qualquer fórmula fechada $\varphi$, $\Gamma$ consegue-nos dizer com certezas se $\varphi$ é verdadeira ou falsa, sem haver ambiguidade.
+	
+	Note-se a hipótese de $\varphi$ ser uma fórmula fechada. Isto é necessário, pois há fórmulas abertas tal que nem ela nem a sua negação são verdadeiras. Por exemplo, `$n$ é par' não é uma fórmula verdadeira no contexto dos naturais (porque é falsa para, por exemplo, $n = 1$), mas a sua negação, `$n$ é ímpar' também não é verdadeira.
+	
+	\begin{prop}
+	(Lema de Lindenbaum)
+	
+	Seja $\Gamma$ um conjunto coerente de fórmulas. Então, existe um conjunto $\Gamma^e$ coerente e exaustivo de fórmulas tal que $\Gamma \subseteq \Gamma^e$.
+	\end{prop}
+	
+	\begin{proof}
+	Para mostrar esta proposição, construímos $\Gamma^e$ incrementalmente, adicionando fórmulas uma a uma, exceto se elas causam incoerência.
+	
+	Primeiro que tudo, recordamos o leitor (proposição \ref{fol:size}) que há um número contável de fórmulas. Seja $\varphi_1, \varphi_2, \dots$ uma enumeração de todas as fórmulas.
+	
+	Defina-se $\Gamma_0 = \Gamma$, e estando definido $\Gamma_n$, construímos $\Gamma_{n+1}$ como:
+	
+	\[\Gamma_{n+1} = \begin{cases}
+	\Gamma_n \cup \{\varphi_n\}&\text{Se $\Gamma_n \cup \{\varphi_n\}$ é coerente}\\
+	\Gamma_n&\text{Caso contrário}
+	\end{cases}\]
+	
+	Defina-se $\Gamma^e = \bigcup_{i=0}^\infty \Gamma_n$. Desejamos mostrar que $\Gamma^e$ é coerente e exaustivo.
+	
+	Para mostrar que é coerente, suponha-se, por absurdo, que $\Gamma^e \vdash \neg \tau$. Então, existe uma demonstração de $\neg \tau$ usando hipóteses em $\Gamma^e$. Mas uma demonstração usa apenas um número finito, $\psi_1, \dots, \psi_n$ de hipóteses. Visto que cada hipótese pertence a algum $\Gamma_N$, tomando o máximo dos $N$ correspondentes a cada $\psi$, temos que $\Gamma_N \vdash \neg \tau$. Assim sendo, algum $\Gamma_N$ é incoerente.
+	
+	Mostramos agora por indução que isto não pode acontecer. $\Gamma_0$ é coerente por hipótese. Se $\Gamma_n$ é coerente, examinando a construção, é fácil mostrar que $\Gamma_{n+1}$ é coerente. Assim sendo, todos os $\Gamma_n$ são coerentes, que é uma contradição, e portanto $\Gamma^e$ é também coerente.
+	
+	Justificamos agora que $\Gamma^e$ é exaustivo. Fixe-se uma fórmula \emph{fechada} $\varphi$. Esta fórmula consta na enumeração das fórmulas. Suponha-se $\varphi = \varphi_n$. Então, há dois casos:
+	
+	\begin{itemize}
+	\item Se $\Gamma_n \cup \{\varphi_n\}$ é coerente, então $\varphi \in \Gamma_{n+1}$, pelo que $\Gamma_{n+1} \vdash \varphi$ e então $\Gamma^e \vdash \varphi$.
+	
+	\item Caso contrário, $\Gamma_n, \varphi \vdash \neg \tau$. Assim sendo, como $\varphi$ é fechada, podemos aplicar o metateorema da contradição\footnote{É preciso fazer uma ligeira adaptação, pois o metateorema diz, em rigor, que de $\Gamma_n, \neg \neg \varphi \vdash \neg \tau$ se conclui $\Gamma_n \vdash \neg \varphi$. No entanto, usando o facto que $\varphi \imply \neg \neg \varphi$ é uma tautologia, é possível adaptar a demonstração para justificar o desejado.} para deduzir $\Gamma_n \vdash \neg \varphi$, e então $\Gamma^e \vdash \neg \varphi$.
+	\end{itemize}
+	
+	Em qualquer dos casos, ou $\Gamma^e \vdash \varphi$ ou $\Gamma^e \vdash \neg \varphi$, o que mostra que $\Gamma^e$ é exaustivo.
+	\end{proof}
+	
 	
 	\chapter{Introdução à computação}
 	
