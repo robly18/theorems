@@ -2007,15 +2007,15 @@ def f(x):
 	\[\Gamma \vdash \neg \varphi \imply \neg \tau.\]
 	Concatenando à prova disto as linhas:
 	\begin{align*}
-	&(\neg \varphi \imply \neg \tau) \imply (\tau \imply \varphi)&&\texttt{Tauto}\\
+	&(\neg \varphi \imply \neg \tau) \imply (\tau \imply \varphi)&&\texttt{Ax}\\
 	&\tau \imply \varphi&&\texttt{MP}\\
-	&\tau&&\texttt{Tauto}\\
+	&\tau&&\texttt{Ax}\\
 	&\varphi&&\texttt{MP}
 	\end{align*}
 	obtemos uma demonstração com base em $\Gamma$ de $\varphi$, como desejado.
 	\end{proof}
 	
-	Com base nesta proposição, passando a usar $\Gamma$ para nos referirmos a $\Gamma \cup \{\neg \varphi\}$, reduzimos a questão de mostrar completude ao seguinte:
+	Com base nesta proposição, reduzimos a questão de mostrar completude a mostrar que se $\Gamma \cup \{\neg \varphi\} \nvdash \neg \tau$ então $\Gamma \cup \{\neg \varphi\} \nvDash \neg \tau$. Por sua vez, esta questão pode ser ligeiramente generalizada.
 	
 	\begin{definicao}
 	Em tudo o que se segue, considera-se fixa uma afirmação verdadeira $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir afirmações verdadeiras, sabendo que (proposição \ref{fol:size}) existe pelo menos uma fórmula $\alpha$, pode-se considerar $\tau$ como sendo $\alpha \imply \alpha$.}
@@ -2031,7 +2031,7 @@ def f(x):
 	Note-se que está aqui subjacente uma dificuldade que não aparecia no caso proposicional. Enquanto que no caso do cálculo proposicional, o universo onde as variáveis viviam já nos era conhecido ($\{\lt, \lf\}$), em lógica de primeira ordem é preciso criar este conjunto. Para este objetivo, na falta de alternativa mais sugestiva, usaremos aquilo que temos à mão: símbolos.
 	\end{obstaculo}
 	
-	\begin{ideia}
+	\begin{ideia}\label{ideia:simb}
 	Para definir uma estrutura de interpretação $I$, podemos usar como universo $U_I$ o conjunto dos termos, $\T_\Sigma$. Para evitar ambiguidades, não permitimos variáveis nos nossos termos. Por outras palavras, restringimo-nos ao conjunto dos termos fechados, isto é,
 	\[\T^f_\Sigma = \{\, t \in \T_\Sigma \mid \var t = \emptyset\,\}.\]
 	
@@ -2088,7 +2088,7 @@ def f(x):
 	\Gamma_n&\text{Caso contrário}
 	\end{cases}\]
 	
-	Defina-se $\Gamma^e = \bigcup_{i=0}^\infty \Gamma_n$. Desejamos mostrar que $\Gamma^e$ é coerente e exaustivo.
+	Defina-se $\Gamma^e = \bigcup_{n=0}^\infty \Gamma_n$. Desejamos mostrar que $\Gamma^e$ é coerente e exaustivo.
 	
 	Para mostrar que é coerente, suponha-se, por absurdo, que $\Gamma^e \vdash \neg \tau$. Então, existe uma demonstração de $\neg \tau$ usando hipóteses em $\Gamma^e$. Mas uma demonstração usa apenas um número finito, $\psi_1, \dots, \psi_n$ de hipóteses. Visto que cada hipótese pertence a algum $\Gamma_N$, tomando o máximo dos $N$ correspondentes a cada $\psi$, temos que $\Gamma_N \vdash \neg \tau$. Assim sendo, algum $\Gamma_N$ é incoerente.
 	
@@ -2104,6 +2104,24 @@ def f(x):
 	
 	Em qualquer dos casos, ou $\Gamma^e \vdash \varphi$ ou $\Gamma^e \vdash \neg \varphi$, o que mostra que $\Gamma^e$ é exaustivo.
 	\end{proof}
+	
+	\begin{ideia}
+	No seguimento da ideia \ref{ideia:simb}, definir $p_I$ como sugerido após aplicar o lema de Lindenbaum. A definição fica, aliás, ligeiramente mais específica:
+	\[p_I(t_1, \dots, t_n) = \begin{cases}
+	\lt &\text{se $\Gamma^e \vdash p(t_1, \dots, t_n)$}\\
+	\lf &\text{se $\Gamma^e \vdash \neg p(t_1, \dots, t_n)$}
+	\end{cases}\]
+	
+	A exaustividade terá (esperamos) forçado as nossas escolhas de modo a não permitir escolhas incoerentes. A nossa esperança continua a ser que (ignorando por agora a possíbilidade de o universo ser vazio) a estrutura de interpretação $I$ assim definida satisfará $\Gamma$. A forma mais direta de tentar mostrar isto é aliás mostrar algo ligeiramente mais forte: se $\varphi$ é uma fórmula, então $\Gamma^e \vdash \varphi$ sse $I \Vdash \varphi$.
+	
+	Não faremos a demonstração completa aqui, mas faremos um esboço, visto que há um obstáculo importante do qual é preciso tomar nota. Suponha-se sem perda de generalidade que $\varphi$ é fechada (pois caso contrário considere-se $\forall \varphi$) e examine-se os casos para indução na estrutura de $\varphi$.
+	
+	Se $\varphi$ é da forma $p(t_1, \dots, t_n)$, todos os $t_i$ têm que ser fechados (por $\varphi$ ser fechada) e como tal, por definição de $p_I$, temos que %todo explain a bit better?
+	\[I \Vdash p(t_1, \dots, t_n) \text{ sse } \Gamma^e \vdash p(t_1, \dots, t_n),\]
+	como desejado.
+	
+	%todo other steps
+	\end{ideia}
 	
 	
 	\chapter{Introdução à computação}
