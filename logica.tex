@@ -57,6 +57,7 @@
 
 
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 
 \renewcommand{\bf}[1]{\mathbf{#1}}
@@ -1962,7 +1963,7 @@ def f(x):
 	($\rightarrow$) Suponha-se que $I \Vdash \neg \varphi$. Então, para qualquer valoração $\rho$ sobre $I$ temos $\rho_F(\neg \varphi) = \lt$. Se $\rho$ for uma valoração qualquer particular (é aqui necessária a hipótese de o universo $U_I$ ser não-vazio, para haver pelo menos uma valoração!) então $\rho_F(\neg \varphi) = \lt$ donde $\rho_F(\varphi) = \lf$ e então $I \nVdash \varphi$.
 	\end{proof}
 	
-	\section{Completude}
+	\section{Completude (Preliminar)}
 	\setcounter{ideia}{0}
 	\setcounter{obstaculo}{0}
 	
@@ -2090,7 +2091,7 @@ def f(x):
 	
 	Defina-se $\Gamma^e = \bigcup_{n=0}^\infty \Gamma_n$. Desejamos mostrar que $\Gamma^e$ é coerente e exaustivo.
 	
-	Para mostrar que é coerente, suponha-se, por absurdo, que $\Gamma^e \vdash \neg \tau$. Então, existe uma demonstração de $\neg \tau$ usando hipóteses em $\Gamma^e$. Mas uma demonstração usa apenas um número finito, $\psi_1, \dots, \psi_n$ de hipóteses. Visto que cada hipótese pertence a algum $\Gamma_N$, tomando o máximo dos $N$ correspondentes a cada $\psi$, temos que $\Gamma_N \vdash \neg \tau$. Assim sendo, algum $\Gamma_N$ é incoerente.
+	Para mostrar que é coerente, suponha-se, por absurdo, que $\Gamma^e \vdash \neg \tau$. Então, existe uma demonstração de $\neg \tau$ usando hipóteses em $\Gamma^e$. Mas uma demonstração usa apenas um conjunto finito $\psi_1, \dots, \psi_n$ de hipóteses. Visto que cada hipótese pertence a algum $\Gamma_N$, tomando o máximo dos $N$ correspondentes a cada $\psi$, temos que $\Gamma_N \vdash \neg \tau$. Assim sendo, algum $\Gamma_N$ é incoerente.
 	
 	Mostramos agora por indução que isto não pode acontecer. $\Gamma_0$ é coerente por hipótese. Se $\Gamma_n$ é coerente, examinando a construção, é fácil mostrar que $\Gamma_{n+1}$ é coerente. Assim sendo, todos os $\Gamma_n$ são coerentes, que é uma contradição, e portanto $\Gamma^e$ é também coerente.
 	
@@ -2106,7 +2107,7 @@ def f(x):
 	\end{proof}
 	
 	\begin{ideia}
-	No seguimento da ideia \ref{ideia:simb}, definir $p_I$ como sugerido após aplicar o lema de Lindenbaum. A definição fica, aliás, ligeiramente mais específica:
+	No seguimento da ideia \ref{ideia:simb}, podemos definir $p_I$ como sugerido após aplicar o lema de Lindenbaum. A definição fica, aliás, ligeiramente mais específica:
 	\[p_I(t_1, \dots, t_n) = \begin{cases}
 	\lt &\text{se $\Gamma^e \vdash p(t_1, \dots, t_n)$}\\
 	\lf &\text{se $\Gamma^e \vdash \neg p(t_1, \dots, t_n)$}
@@ -2114,14 +2115,43 @@ def f(x):
 	
 	A exaustividade terá (esperamos) forçado as nossas escolhas de modo a não permitir escolhas incoerentes. A nossa esperança continua a ser que (ignorando por agora a possíbilidade de o universo ser vazio) a estrutura de interpretação $I$ assim definida satisfará $\Gamma$. A forma mais direta de tentar mostrar isto é aliás mostrar algo ligeiramente mais forte: se $\varphi$ é uma fórmula, então $\Gamma^e \vdash \varphi$ sse $I \Vdash \varphi$.
 	
-	Não faremos a demonstração completa aqui, mas faremos um esboço, visto que há um obstáculo importante do qual é preciso tomar nota. Suponha-se sem perda de generalidade que $\varphi$ é fechada (pois caso contrário considere-se $\forall \varphi$) e examine-se os casos para indução na estrutura de $\varphi$.
+	Não faremos a demonstração completa agora, mas faremos um esboço, visto que há um obstáculo importante do qual é preciso tomar nota. Suponha-se sem perda de generalidade que $\varphi$ é fechada (pois caso contrário considere-se $\forall \varphi$) e examine-se os casos para indução na estrutura de $\varphi$.
 	
-	Se $\varphi$ é da forma $p(t_1, \dots, t_n)$, todos os $t_i$ têm que ser fechados (por $\varphi$ ser fechada) e como tal, por definição de $p_I$, temos que %todo explain a bit better?
-	\[I \Vdash p(t_1, \dots, t_n) \text{ sse } \Gamma^e \vdash p(t_1, \dots, t_n),\]
+	Se $\varphi$ é da forma $p(t_1, \dots, t_n)$, todos os $t_i$ têm que ser fechados (por $\varphi$ ser fechada) e como tal, por definição de $p_I$, temos que
+	\[p_I(t_1, \dots, t_n) = \lt \text{ sse } \Gamma^e \vdash p(t_1, \dots, t_n).\]
+	
+	No entanto, fixa uma valoração arbitrária $\rho$ (que existe sob a hipótese de existir pelo menos um termo fechado), $p_I(t_1, \dots, t_n) = \rho_F(p(t_1, \dots, t_n))$. Assim sendo,
+	\[p_I(t_1, \dots, t_n) = \lt \text{ sse } \rho \Vdash p(t_1, \dots, t_n),\]
+	e pelo lema das variáveis omissas, tendo em conta que esta fórmula não tem variáveis,
+	\[\rho \Vdash p(t_1, \dots, t_n) \text{ sse } I \Vdash p(t_1, \dots, t_n),\]
 	como desejado.
 	
-	%todo other steps
+	Considere-se agora o caso de a fórmula $\varphi$ ser da forma $\neg \psi$. Então, por $\varphi$ ser fechada, $\psi$ também o é, pelo que podemos aplicar a hipótese de indução. Isto é,
+	\[\Gamma^e \vdash \psi \text{ sse } I \Vdash \psi.\]
+	
+	Por $\psi$ ser fechada, sabemos que $I \Vdash \psi$ sse $I \nVdash \varphi$. Pelo outro lado, pela coerencia e exaustividade de $\Gamma^e$, temos que $\Gamma^e \vdash \psi$ sse $\Gamma^e \nvdash \varphi$. Isto conclui este passo de indução.
+	
+	O caso para $\varphi$ ser da forma $\alpha \imply \beta$ é muito semelhante, mas a parte complicada é aplicar o passo de indução com quantificadores.
 	\end{ideia}
+	
+	\begin{obstaculo}
+	A estrutura de interpretação sugerida até agora pode não jogar bem com quantificadores.
+	
+	Pela definição de interpretação de fórmulas com quantificadores, a condição necessária e suficiente para $I$ satisfazer uma fórmula da forma $\forall_{\bf x} \varphi$ é que, para qualquer $u$ no universo (isto é, para qualquer termo fechado) se tenha $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$. Por outras palavras, intuitivamente, substituindo a variável $\bf x$ por qualquer termo fechado $u$ em $\varphi$ se obtenha sempre uma fórmula verdadeira.
+	
+	Queremos que $I \Vdash \forall_{\bf x} \varphi$ sse $\Gamma^e \vdash \forall_{\bf x} \varphi$. Supondo que a hipótese de indução é aplicável, obtém-se uma condição algo forte no nosso universo de fórmulas para podermos fazer o passo de indução.
+	
+	Usemos a seguinte notação (que será definida rigorosamente mais tarde) para substituição de variáveis. Dada uma fórmula $\varphi$, uma variável $\bf x$ e um termo $t$, denotamos a fórmula obtida de $\varphi$ por substituição de $\bf x$ por $t$ como $\varphi_{\bf x}[t]$. Com esta linguagem o que precisamos é que $\Gamma^e \vdash \forall_{\bf x} \varphi$ sse, para qualquer termo fechado $u$, $\Gamma^e \vdash \varphi_{\bf x}[u]$.
+	
+	Uma das implicações ($\rightarrow$) é sempre verdade, como veremos mais tarde. De facto, a implicação $\forall_{\bf x} \varphi \imply \varphi_{\bf x}[t]$ é sempre uma fórmula verdadeira para termos $t$ fechados. A outra implicação é algo rara, e requer, em certo sentido, que hajam suficientes símbolos de constante no nosso universo.
+	
+	Vejamos um exemplo em que essa implicação falha. Considere-se um conjunto de axiomas $\Gamma_\Z$ que descreva os números inteiros, mas que tem apenas os símbolos de função $\{0, 1, +\}$. Isto é, excluímos o símbolo de função unário `$-$' que dá o simétrico de um elemento, e escrevemos o axioma que afirma a existência de simétrico na forma $\forall_x \exists_y (x + y = 0)$. Estes axiomas descreveriam os inteiros, mas o conjunto de termos expressíveis a partir da assinatura não engloba todos os inteiros possíveis. E de facto, para qualquer termo fechado $t$ temos que a fórmula $0 \leq t$ é verdadeira, visto que os únicos termos fechados representam números naturais, mas a fórmula $\forall_x (0 \leq x)$ é falsa nos inteiros. Por outras palavras, se $\varphi$ é a fórmula $0 \geq x$, temos que $\Gamma_\Z \vdash \varphi_x[t]$ para todo o termo fechado $t$, e no entanto $\Gamma_\Z \vdash \neg \forall_x \varphi$.
+	\end{obstaculo}
+	
+	Este último obstáculo mostra que será necessário adicionar termos fechados. Em particular, adicionaremos constantes suficientes para que a implicação `se $\Gamma \vdash \varphi_{\bf x}[t]$ para todo o $t$ então $\Gamma \vdash \forall_{\bf x} \varphi$' seja verdadeira.
+	
+	Note-se que através de aplicação criativa de contrarrecíproco e meta-contrarrecíproco, a afirmação acima é equivalente a dizer que, para qualquer $\varphi$, se $\Gamma \vdash \exists_{\bf x} \varphi$ então existe um termo fechado $t$ tal que $\Gamma \vdash \varphi_{\bf x}[t]$.\footnote{Oops, ainda não defini o símbolo $\exists_{\bf x}$. Bem, ele é definido por abreviatura como $\neg \forall_{\bf x} \neg$. Agradeço sugestões de onde enfiar a definição. Ah, e não me posso esquecer de remover esta footnote da versão final.} %todo delete this
+	
 	
 	
 	\chapter{Introdução à computação}
