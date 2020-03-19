@@ -2186,6 +2186,103 @@ def f(x):
 	\item Transpor este resultado para o contexto original de $\Sigma$, encontrando forma de eliminar os símbolos de constante em provas de $\widehat\Gamma \vdash \varphi$.
 	\end{itemize}
 	
+	\section{Completude}
+	
+	Para dar início à demonstração do teorema de completude de Gödel, começamos por descrever em mais detalhe a construção de Henkin.
+	
+	Recordemo-nos que, sob as nossas hipóteses, existe um número contável de fórmulas. Para a construção de Henkin, estamos interessados apenas naquelas que têm apenas uma variável livre.
+	
+	Seja $\pi_n$ uma enumeração das fórmulas em $F_\Sigma$ que têm apenas uma variável livre, e seja $\bf x_n$ a variável livre correspondente a $\pi_n$.
+	
+	Sejam $c_1, c_2, \dots$ um conjunto numerável de símbolos novos. Isto é, partimos do princípio que estes símbolos não são símbolos em $\Sigma$ nem variáveis. Definimos a assinatura $\Sigma^+$ como sendo $\Sigma$, com os símbolos $c_n$ adicionados como símbolos de função constantes.
+	
+	Para cada $n$, definimos a seguinte fórmula em $F_{\Sigma^+}$:
+	
+	\[\psi_n : (\exists_{\bf x_n} \pi_n) \imply \pi_n[c_n],\]
+	onde $\pi_n[c_n]$ representa a fórmula $\pi_n$ com a variável $\bf x_n$ substituída por $c_n$. Isto requer definir a noção de substituição.
+	
+	\begin{definicao}
+	Seja $\theta$ um termo, $\bf x$ uma variável e $t$ um termo. Definimos o termo $\theta_{\bf x}[t]$ indutivamente em $\theta$:
+	
+	\begin{itemize}
+	\item Se $\theta$ é $\bf x$, isto é $t$,
+	
+	\item Se $\theta$ é qualquer outra variável, isto é $\theta$,
+	
+	\item Se $\theta$ é da forma $f(\theta_1, \dots, \theta_n)$, definimos $\theta_{\bf x}[t]$ como
+	\[f(\theta_1[t], \dots, \theta_n[t]),\]
+	onde estas substituições são feitas sobre $\bf x$.
+	\end{itemize}
+	
+	Seja $\varphi$ uma fórmula, $\bf x$ uma variável e $t$ um termo. Definimos a fórmula $\varphi_{\bf x}[t]$ indutivamente em $\varphi$:
+	
+	\begin{itemize}
+	\item Se $\varphi$ é da forma $p(\theta_1, \dots, \theta_n)$, definimos $\varphi_{\bf x}[t]$ como
+	\[p(\theta_1[t], \dots, \theta_n[t]),\]
+	
+	\item Se $\varphi$ é da forma $\neg \psi$, definimos $\varphi[t]$ como $\neg \psi[t]$ e semelhante para o caso de implicação,
+	
+	\item Se $\varphi$ é da forma $\forall_{\bf y} \psi$, definimos $\varphi_{\bf x}[t]$ como:
+	
+	\begin{itemize}
+	\item $\forall_{\bf y} \psi_{\bf x}[t]$ se as variáveis $\bf x$ e $\bf y$ forem \textbf{diferentes},
+	
+	\item $\varphi$ se $\bf y$ e $\bf x$ são a mesma variável.
+	\end{itemize}
+	\end{itemize}
+	\end{definicao}
+	
+	A construção de Henkin consiste em pegar em $\Gamma \subseteq F_{\Sigma}$ e adicionar-lhe todas as fórmulas $\psi_n$, obtendo um novo conjunto $\Gamma^\exists \subseteq F_{\Sigma^+}$. Desejamos mostrar que se $\Gamma$ é coerente então $\Gamma^\exists$ é também coerente. A demonstração disto é feita em duas partes:
+	
+	\begin{itemize}
+	\item Mostrar que se $\Gamma$ é coerente como subconjunto de $F_\Sigma$ então também é coerente como subconjunto de $F_{\Sigma^+}$,
+	
+	\item Mostrar que se $\Gamma$ é coerente então $\Gamma^\exists$ é coerente.
+	\end{itemize}
+	
+	Começamos por justificar a primeira afirmação. Note-se que ela não é óbvia. De facto, se pensarmos em $\Gamma$ como subconjunto de $F_{\Sigma^+}$ temos ao nosso dispor mais símbolos, e como tal mais fórmulas e mais demonstrações. Como tal, não é totalmente descabido conceber que possa aparecer uma demonstração nova que justifique uma contradição. Felizmente, isto não sucede, como a próxima proposição demonstra.
+	
+	A ideia é que, sem nenhuns axiomas que se refiram a eles, os símbolos de constante novos funcionam efetivamente como variáveis. Como tal, se substituirmos os símbolos de constante por variáveis, a prova continuará igualmente válida.
+	
+	\begin{prop}
+	Seja $\Gamma \subseteq F_\Sigma$ e $\varphi \in F_\Sigma$. Suponha-se que $\Gamma \vdash \varphi$ como conjunto de fórmulas em $F_{\Sigma^+}$. Então, $\Gamma \vdash \varphi$ como conjunto de fórmulas em $F_\Sigma$.
+	
+	Em particular, se $\Gamma$ é incoerente em $\Sigma^+$ também o é em $\Sigma$.
+	\end{prop}
+	
+	\begin{proof}
+	Começamos por formalizar a noção de `substituir os símbolos de constante por variáveis'.
+	
+	Comecemos por supor que $\Gamma$ é finito. Podemos fazer isto porque numa demonstração é usado um número finito de hipóteses. Então, no decurso da demonstração é usado um número finito de variáveis, pelo que temos um número infinito de variáveis $\bf v_1, \bf v_2, \dots$ `novas' ao nosso dispor.
+	
+	Dada uma fórmula $\psi \in F_{\Sigma^+}$, definimos temporariamente $\psi'$ como sendo uma cópia de $\psi$ em que cada símbolo de constante $c_n$ é substituído por $\bf v_n$. Note-se que se $\psi \in F_\Sigma$ então $\psi' = \psi$, como é o caso para as fórmulas em $\Gamma$ e para $\varphi$. A ideia é substituir todas as fórmulas na demonstração pela sua versão modificada.
+	
+	Seja $(\varphi_1, j_1), \dots, (\varphi_N, j_N)$ a demonstração de $\Gamma \vdash \varphi$ em $\Sigma^+$. Justificamos que
+	\[(\varphi'_1, j_1), \dots, (\varphi'_N, j_N)\]
+	é também uma demonstração válida, mostrando que cada passo individualmente é válido.
+	
+	Como tal, seja $(\varphi_n, j_n)$ um passo da demonstração. Observemos os casos possíveis em $j_n$:
+	
+	\begin{enumerate}
+	\item Se $j_n = \mathtt{MP}$, claramente $(\varphi'_n, j_n)$ é um passo válido na demonstração nova, visto que terão havido passos anteriores da forma $\alpha' \imply \varphi'_n$ e $\alpha'$.
+	
+	\item Se $j_n = \mathtt{Gen}$, o mesmo raciocínio é válido.
+	
+	\item Se $j_n = \mathtt{Hip}$, $\varphi'_n = \varphi_n \in \Gamma$, pelo que $\varphi'_n$ pode também ser invocado como hipótese.
+	
+	\item Finalmente, o caso $j_n = \mathtt{Ax}$ é o mais complicado. Este é também um dos casos nos quais ter menos axiomas é melhor. De facto, com o conjunto limitado de axiomas que teremos eventualmente, este caso é tão trivial como os outros. No entanto, continuamos com a nossa axiomática mais forte.
+	
+	Suponha-se que $\varphi_n$ é uma afirmação verdadeira em $F_{\Sigma^+}$. Mostramos que $\varphi'_n$ é uma afirmação verdadeira em $F_\Sigma$.
+	
+	Seja $I$ uma estrutura de interpretação sobre $\Sigma$ e $\rho$ uma valoração arbitrária sobre $I$. Desejamos mostrar que $\rho \Vdash \varphi'_n$.
+	
+	Construa-se a estrutura de interpretação $\tilde I$ sobre $\Sigma^+$ como sendo uma cópia de $I$, com a adição dos símbolos de constante, que são interpretados como $(c_n)_I = \rho(\bf v)$. Seja $\tilde \rho$ uma valoração idêntica a $\rho$, mas esta interpretada como valoração sobre $\tilde I$.
+	
+	É fácil mas trabalhoso mostrar por indução que para qualquer fórmula $\psi \in F_{\Sigma^+}$ se tem $\rho_F(\psi') = \tilde\rho_F(\psi)$. Como tal, sabendo que $\varphi_n$ é verdadeira em $F_{\Sigma^+}$ temos que $\tilde\rho_F(\varphi_n) = \lt$. Como tal, temos também $\rho_F(\varphi'_n) = \lt$. Como $\rho$ é uma valoração arbitrária, $I \Vdash \varphi'_n$ e como $I$ é arbitrário temos $\vDash \varphi'_n$, pelo que esta última fórmula pode ser invocada como axioma. Isto conclui a demonstração.
+	\end{enumerate}
+	
+	Concluímos então que a prova modificada é uma prova válida com hipóteses em $\Gamma$, e a sua conclusão é $\varphi'_N$, que é igual a $\varphi'$ que por sua vez é $\varphi$. Assim sendo, $\Gamma \vdash \varphi$ em $\Sigma$ e a demonstração é dada por terminada.
+	\end{proof}
 	
 	
 	\chapter{Introdução à computação}
