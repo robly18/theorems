@@ -2244,7 +2244,7 @@ def f(x):
 	
 	A ideia é que, sem nenhuns axiomas que se refiram a eles, os símbolos de constante novos funcionam efetivamente como variáveis. Como tal, se substituirmos os símbolos de constante por variáveis, a prova continuará igualmente válida.
 	
-	\begin{prop}
+	\begin{prop}\label{coherenceinplus}
 	Seja $\Gamma \subseteq F_\Sigma$ e $\varphi \in F_\Sigma$. Suponha-se que $\Gamma \vdash \varphi$ como conjunto de fórmulas em $F_{\Sigma^+}$. Então, $\Gamma \vdash \varphi$ como conjunto de fórmulas em $F_\Sigma$.
 	
 	Em particular, se $\Gamma$ é incoerente em $\Sigma^+$ também o é em $\Sigma$.
@@ -2278,10 +2278,44 @@ def f(x):
 	
 	Construa-se a estrutura de interpretação $\tilde I$ sobre $\Sigma^+$ como sendo uma cópia de $I$, com a adição dos símbolos de constante, que são interpretados como $(c_n)_I = \rho(\bf v)$. Seja $\tilde \rho$ uma valoração idêntica a $\rho$, mas esta interpretada como valoração sobre $\tilde I$.
 	
-	É fácil mas trabalhoso mostrar por indução que para qualquer fórmula $\psi \in F_{\Sigma^+}$ se tem $\rho_F(\psi') = \tilde\rho_F(\psi)$. Como tal, sabendo que $\varphi_n$ é verdadeira em $F_{\Sigma^+}$ temos que $\tilde\rho_F(\varphi_n) = \lt$. Como tal, temos também $\rho_F(\varphi'_n) = \lt$. Como $\rho$ é uma valoração arbitrária, $I \Vdash \varphi'_n$ e como $I$ é arbitrário temos $\vDash \varphi'_n$, pelo que esta última fórmula pode ser invocada como axioma. Isto conclui a demonstração.
+	É fácil mas trabalhoso mostrar por indução que para qualquer fórmula $\psi \in F_{\Sigma^+}$ se tem $\rho_F(\psi') = \tilde\rho_F(\psi)$. Como tal, sabendo que $\varphi_n$ é verdadeira em $F_{\Sigma^+}$ temos que $\tilde\rho_F(\varphi_n) = \lt$. Assim sendo, temos também $\rho_F(\varphi'_n) = \lt$. Como $\rho$ é uma valoração arbitrária, $I \Vdash \varphi'_n$ e como $I$ é arbitrário temos $\vDash \varphi'_n$, pelo que esta última fórmula pode ser invocada como axioma. Isto conclui a demonstração.
 	\end{enumerate}
 	
 	Concluímos então que a prova modificada é uma prova válida com hipóteses em $\Gamma$, e a sua conclusão é $\varphi'_N$, que é igual a $\varphi'$ que por sua vez é $\varphi$. Assim sendo, $\Gamma \vdash \varphi$ em $\Sigma$ e a demonstração é dada por terminada.
+	\end{proof}
+	
+	\begin{prop}
+	Seja $\Gamma \subseteq F_\Sigma$. Usando a notação acima, se $\Gamma$ é coerente então $\Gamma^\exists$ é coerente.
+	\end{prop}
+	
+	\begin{proof}
+	Note-se que $\Gamma^\exists$ pode ser construido usando um processo indutivo. Em particular, defina-se $\Gamma_0 = \Gamma$ e, para cada $n$,
+	\[\Gamma_{n+1} = \Gamma_n \cup \{(\exists_{\bf x_n} \pi_n) \imply \pi_n[c_n]\}.\]
+	
+	Então, $\Gamma^\exists$ é a união de todos os $\Gamma_n$, e como tal, por finitude de demonstrações, se todos os $\Gamma_n$ forem coerentes como subconjunto de $F_{\Sigma^+}$ então $\Gamma^\exists$ é também coerente.
+	
+	Sabemos que $\Gamma_0$ é coerente, por hipótese. Provemos então que se $\Gamma_n$ é coerente então $\Gamma_{n+1}$ também o é.
+	
+	Suponha-se, por absurdo, que $\Gamma_{n+1}$ é incoerente. Então $\Gamma_{n+1} \vdash \neg \tau$ para algum $\tau$ verdadeiro em $F_{\Sigma^+}$. Aplicando o metateorema da dedução, obtemos
+	\[\Gamma_n \vdash ((\exists_{\bf x_n} \pi_n) \imply \pi_n[c_n]) \imply \neg \tau,\]
+	e aplicando a equivalência tautológica $(\varphi \imply \neg \tau) \eqv (\neg \varphi)$ concluimos
+	\[\Gamma_n \vdash \neg ((\exists_{\bf x_n} \pi_n) \imply \pi_n[c_n]).\]
+	
+	Por outras palavras, usando a definição por abreviatura do símbolo $\land$, a equivalência $\varphi \eqv \neg \neg \varphi$ e o metateorema de substituição de equivalentes do cálculo proposicional,
+	\[\Gamma_n \vdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n].\]
+	
+	Usando o raciocínio feito na proposição \ref{coherenceinplus}, se $\bf y$ é uma variável que não aparece em lado nenhum nesta demonstração, é possível adaptá-la para uma demonstração de
+	\[\Gamma_n \vdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y].\]
+	
+	Desejamos mostrar que esta afirmação é falsa, o que mostra que $\Gamma_n$ é incoerente e entra em contradição com a hipótese de indução. No entanto, isto pode não ser verdade, pelo que aplicamos generalização:
+	\[\Gamma_n \vdash \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y]).\]
+	
+	Basta agora mostrar que a negação desta afirmação é um axioma para obter uma demonstração de algo da forma $\varphi \land \neg \varphi$, o que, aplicando a definição de conjunto incoerente com $\tau = (\neg \varphi \lor \varphi)$, mostra que $\Gamma_n$ é incoerente, em contradição com a hipótese de indução.
+	
+	Mostramos agora que a fórmula
+	\[\neg \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y])\]
+	é um axioma. (todo)
+	
 	\end{proof}
 	
 	
