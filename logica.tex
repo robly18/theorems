@@ -2314,8 +2314,72 @@ def f(x):
 	
 	Mostramos agora que a fórmula
 	\[\neg \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y])\]
-	é um axioma. (todo)
+	é um axioma. Antes de o justificar formalmente, vale a pena dedicar um parágrafo a entender a fórmula em questão e intuir porque é que ela haveria de ser verdade.
 	
+	A fórmula que desejamos mostrar é equivalente a
+	\[\exists_{\bf y}((\forall_{\bf x_n} \neg \pi_n) \lor \pi_n[\bf y]),\]
+	por deMorgan e metateorema da equivalência. Esta afirmação tem um nome: o chamado `drinker's paradox', que pode ser enunciado em linguagem natural da seguinte forma: considere-se um bar não-vazio. Então, existe alguém neste bar tal que, se essa pessoa bebe álcool, toda a gente bebe álcool. Apesar do nome, esta afirmação não tem nada de paradoxical. A demonstração em linguagem natural é simples: ou toda a gente bebe álcool, e neste caso escolha-se uma pessoa arbitrária e a implicação é verdadeira, ou então nem toda a gente bebe. Neste caso, escolha-se uma pessoa que não beba. Então, a implicação `se esta pessoa bebe então toda a gente bebe' é verdadeira porque o antecedente é falso. Isto conclui a demonstração.
+	
+	Passamos agora de conversa sobre bares para uma demonstração formal. Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração sobre $I$. Pretendemos mostrar que
+	
+	\[\rho \Vdash \neg \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y]).\]
+	
+	Isto é equivalente a mostrar que
+	\[\rho_F(\forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y])) = \lf,\]
+	
+	o que acontece sse existe $u \in U_I$ tal que
+	
+	\begin{equation}\label{gammaexists:eq1}
+	\rho\!\downarrow^{\bf y}_u \nVdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y].
+	\end{equation}
+	
+	Neste momento, a demonstração reduz-se a dois casos, de forma análoga à demonstração intuitiva atrás. Ou $I \Vdash \exists_{\bf x_n} \pi_n$ ou $I \nVdash \exists_{\bf x_n} \pi_n$.
+	
+	No segundo caso, a afirmação \eqref{gammaexists:eq1} é verdadeira porque, como a fórmula $\exists_{\bf x_n} \pi_n$ é fechada, para qualquer valoração $\rho'$ temos $\rho'_F(\exists_{\bf x_n} \pi_n) = \lf$, e como tal
+	\[\rho' \nVdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y],\]
+	em particular, fixo um $u \in U_I$ qualquer, para a valoração $\rho\!\downarrow^{\bf y}_u$, como desejado.
+	
+	No primeiro caso, em que $I \Vdash \exists_{\bf x_n} \pi_n$, é possível provar que\footnote{Lembrete para eu introduzir o $\exists$ decentemente, e nessa altura provar isto.} existe $u \in U_I$ tal que para qualquer valoração $\rho'$ tal que $\rho'(\bf x_n) = u$ temos $\rho' \Vdash \pi_n$. Então\footnote{E talvez devesse também fazer um anexo ou secção dedicada à substituição para provar coisas destas. Para quem está a ler isto nestas condições: indução. Montes e montes de indução.} temos que se $\rho''$ é uma valoração tal que $\rho''(\bf y) = u$ e $\rho' = \rho''\!\downarrow^{\bf x_n}_u$ então
+	\[\rho''_F(\pi_n[\bf y]) = \rho'_F(\pi_n) = \lt.\]
+	
+	A partir daqui, é fácil justificar que para este $u$ particular a afirmação \eqref{gammaexists:eq1} é verdadeira, o que mostra o desejado. A prova está então terminada.
+	\end{proof}
+	
+	Agora que já demonstrámos que a construção de Henkin preserva coerência, visto que já demonstrámos também o lema de Lindenbaum, podemos começar a construir o modelo que será usado na demonstração do teorema da completude.
+	
+	Fixe-se $\Gamma \subseteq \F_\Sigma$ coerente. Então, começamos por aplicar a construção de Henkin para obter $\Gamma^\exists \subseteq \F_{\Sigma^+}$, que é também coerente. A este último, podemos aplicar o lema de Lindenbaum para obter $\widehat\Gamma \subseteq \F^{\Sigma^+}$ que satisfaz as seguintes condições:
+	
+	\begin{itemize}
+	\item $\widehat\Gamma$ é completo e coerente
+	
+	\item Para qualquer fórmula $\pi$ com apenas uma variável $\bf x$ livre, existe um símbolo de constante $c$ tal que $\widehat\Gamma \vdash (\exists_{\bf x} \pi) \imply \pi_{\bf x}[c]$.
+	\end{itemize}
+	
+	É neste $\widehat\Gamma$ que vamos basear a nossa construção.
+	
+	Seja $U$ o conjunto dos termos fechados em $\Sigma^+$. Note-se que $U$ não é vazio, visto que, por construção, $\Sigma^+$ tem um número infinito contável de termos de constante. Em particular, tem pelo menos um.
+	
+	Seja $f$ um símbolo de função de aridade $n$. Definimos a função $f_I : U^n \to U$ simbolicamente: se $t_1, \dots, t_n$ são termos fechados então definimos $f_I(t_1, \dots, t_n)$ como o termo fechado $f(t_1, \dots, t_n)$. (Note-se que este último $f$ é meramente um símbolo sintático, enquanto que $f_I$ é uma função `na meta-teoria'.
+	
+	Finalmente, seja $p$ um símbolo de predicado de aridade $n$. Definimos a função $p_I : U^n \to \{\lt, \lf\}$ da seguinte forma: para termos fechados $t_1, \dots, t_n$, a fórmula $\varphi : p(t_1, \dots, t_n)$ é também fechada. Como tal, pela coerência e exaustividade de $\widehat\Gamma$, ou $\widehat\Gamma \vdash \varphi$ ou $\widehat\Gamma \vdash \neg\varphi$, mas não os dois. Como tal, definimos $p_I(t_1, \dots, t_n)$ em cada caso como sendo, respetivamente, $\lt$ ou $\lf$.
+	
+	Tendo definido o universo e a interpretação dos símbolos de função e de predicado, temos nas nossas mãos uma estrutura de interpretação $I$. Mostramos agora a proposição principal relacionada com esta construção, que mostra essencialmente que $I$ representa fielmente $\widehat\Gamma$. Isto é:
+	
+	\begin{prop}
+	Tenham $\widehat\Gamma$ e $I$ o significado acima descrito. Então, para qualquer fórmula $\varphi \in \F_{\Sigma^+}$ temos que
+	\begin{equation}\label{gammahatsemantics}
+	\widehat\Gamma \vdash \varphi \text{ sse } I \Vdash \varphi.
+	\end{equation}
+	\end{prop}
+	
+	\begin{proof}
+	Esta demonstração é feita por indução na estrutura da fórmula $\varphi$. Para mais, assumimos sempre que $\varphi$ é fechada sem perda de generalidade.
+	
+	Assumimos isto para podermos fazer o passo inicial: de facto, no caso em que $\varphi$ é da forma $p(t_1, \dots, t_n)$ a proposição é verdade por definição de $p_I$, \textbf{apenas se todos os termos são fechados}. Assim sendo, para podermos sequer começar a demonstração, é preciso assumir que $\varphi$ é fechada.
+	
+	Esta hipótese pode ser feita sem perda de generalidade porque, em ambos os casos, a afirmação é verdade para $\varphi$ sse é verdade para o seu fecho sintático, $\forall \varphi$. Assim sendo, mostramos a seguinte proposição por indução: Se $\varphi$ é uma fórmula fechada então a afirmação \eqref{gammahatsemantics} verifica-se.
+	
+	(demonstração por terminar.)
 	\end{proof}
 	
 	
