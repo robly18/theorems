@@ -1769,7 +1769,7 @@ def f(x):
 	Mostraremos que o cálculo de Hilbert corresponde exatamente à noção de consequência semântica global. Recordamos que isto corresponde a mostrar duas coisas: a \emph{correção} do sistema, e a sua \emph{completude}. À semelhança do caso proposicional, a correção é de fácil demonstração, pelo que a deixamos ao leitor:
 	
 	\begin{prop}
-	O cálculo de Hilbert é completo. Isto é,
+	O cálculo de Hilbert é correto. Isto é,
 	\[\text{Se } \Gamma \vdash \varphi \text{ então } \Gamma \vDash \varphi.\]
 	\end{prop}
 	
@@ -2377,9 +2377,18 @@ def f(x):
 	
 	Assumimos isto para podermos fazer o passo inicial: de facto, no caso em que $\varphi$ é da forma $p(t_1, \dots, t_n)$ a proposição é verdade por definição de $p_I$, \textbf{apenas se todos os termos são fechados}. Assim sendo, para podermos sequer começar a demonstração, é preciso assumir que $\varphi$ é fechada.
 	
-	Esta hipótese pode ser feita sem perda de generalidade porque, em ambos os casos, a afirmação é verdade para $\varphi$ sse é verdade para o seu fecho sintático, $\forall \varphi$. Assim sendo, mostramos a seguinte proposição por indução: Se $\varphi$ é uma fórmula fechada então a afirmação \eqref{gammahatsemantics} verifica-se.
+	Esta hipótese pode ser feita sem perda de generalidade porque, em ambos os casos, a afirmação é verdade para $\varphi$ sse é verdade para o seu fecho sintático, $\forall \varphi$. Assim sendo, mostramos a seguinte proposição por indução: Se $\varphi$ é uma fórmula fechada então a afirmação \eqref{gammahatsemantics} verifica-se. Seguem-se as verificações dos casos:
 	
-	(demonstração por terminar.)
+	\begin{itemize}
+	\item Caso base: se $\varphi$ é da forma $p(t_1, \dots, t_n)$, então se ela for fechada todos os termos $t_i$ são fechados. Assim sendo, \eqref{gammahatsemantics} é verdade por definição de $p_I$.
+	
+	\item Casos $\imply$ e $\neg$: estes casos são triviais. Basta aplicar a hipótese de indução, o facto de que se uma fórmula é fechada as fórmulas componentes também são fechadas e a definição dos operadores lógicos.
+	
+	\item Caso $\varphi : \forall_{\bf x} \psi$. Este caso é o que requer mais atenção.
+	
+	Primeiro que tudo, note-se que, se $\varphi$ é uma fórmula fechada, ou $\psi$ também o é ou então $\fv \psi = \{\bf x\}$. O caso em que $\psi$ é uma fórmula fechada é o mais fácil, porque é fácil justificar que, tanto semanticamente como sintaticamente, $\forall_{\bf x} \psi$ é equivalente a $\psi$. Isto é:
+	\[\widehat\Gamma \vdash \forall_{\bf x}\psi \text{ sse } \widehat\Gamma \vdash \psi \text{ sse (H.I.) } I \Vdash \psi \text{ sse } I \Vdash \forall_{\bf x} \psi.\]
+	\end{itemize}
 	\end{proof}
 	
 	
