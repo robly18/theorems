@@ -2192,9 +2192,9 @@ def f(x):
 	
 	Recordemo-nos que, sob as nossas hipóteses, existe um número contável de fórmulas. Para a construção de Henkin, estamos interessados apenas naquelas que têm apenas uma variável livre.
 	
-	Seja $\pi_n$ uma enumeração das fórmulas em $F_\Sigma$ que têm apenas uma variável livre, e seja $\bf x_n$ a variável livre correspondente a $\pi_n$.
-	
 	Sejam $c_1, c_2, \dots$ um conjunto numerável de símbolos novos. Isto é, partimos do princípio que estes símbolos não são símbolos em $\Sigma$ nem variáveis. Definimos a assinatura $\Sigma^+$ como sendo $\Sigma$, com os símbolos $c_n$ adicionados como símbolos de função constantes.
+	
+	Seja $\pi_n$ uma enumeração das fórmulas em $F_{\Sigma^+}$\footnote{Repare-se que os $\pi_n$ percorrem todas as fórmulas de $F_{\Sigma^+}$, não só de $F_\Sigma$!} que têm apenas uma variável livre, e seja $\bf x_n$ a variável livre correspondente a $\pi_n$. Por razões técnicas, exigimos também que o símbolo de constante $c_n$ não conste em $\pi_n$. Isto é fácil de assegurar, se necessário reordenando a sequência.
 	
 	Para cada $n$, definimos a seguinte fórmula em $F_{\Sigma^+}$:
 	
@@ -2230,6 +2230,8 @@ def f(x):
 	\item $\varphi$ se $\bf y$ e $\bf x$ são a mesma variável.
 	\end{itemize}
 	\end{itemize}
+
+	Quando for claro de contexto a variável que estamos a substituir, escreveremos $\theta[t]$ em vez de $\theta_{\bf x}[t]$.
 	\end{definicao}
 	
 	A construção de Henkin consiste em pegar em $\Gamma \subseteq F_{\Sigma}$ e adicionar-lhe todas as fórmulas $\psi_n$, obtendo um novo conjunto $\Gamma^\exists \subseteq F_{\Sigma^+}$. Desejamos mostrar que se $\Gamma$ é coerente então $\Gamma^\exists$ é também coerente. A demonstração disto é feita em duas partes:
@@ -2270,7 +2272,7 @@ def f(x):
 	
 	\item Se $j_n = \mathtt{Hip}$, $\varphi'_n = \varphi_n \in \Gamma$, pelo que $\varphi'_n$ pode também ser invocado como hipótese.
 	
-	\item Finalmente, o caso $j_n = \mathtt{Ax}$ é o mais complicado. Este é também um dos casos nos quais ter menos axiomas é melhor. De facto, com o conjunto limitado de axiomas que teremos eventualmente, este caso é tão trivial como os outros. No entanto, continuamos com a nossa axiomática mais forte.
+	\item Finalmente, o caso $j_n = \mathtt{Ax}$ é o mais complicado. Este é também um dos casos nos quais ter menos axiomas é melhor. De facto, com o conjunto limitado de axiomas que teremos eventualmente, este caso é tão trivial como os outros. Assim sendo, um leitor que pretenda ler a secção de axiomática poderá ignorar o resto da demonstração. No entanto, para não deixar lacunas, prosseguimos com a demonstração partindo do princípio que qualquer afirmação verdadeira pode ser usada como axioma.
 	
 	Suponha-se que $\varphi_n$ é uma afirmação verdadeira em $F_{\Sigma^+}$. Mostramos que $\varphi'_n$ é uma afirmação verdadeira em $F_\Sigma$.
 	
@@ -2283,6 +2285,8 @@ def f(x):
 	
 	Concluímos então que a prova modificada é uma prova válida com hipóteses em $\Gamma$, e a sua conclusão é $\varphi'_N$, que é igual a $\varphi'$ que por sua vez é $\varphi$. Assim sendo, $\Gamma \vdash \varphi$ em $\Sigma$ e a demonstração é dada por terminada.
 	\end{proof}
+
+	Repare-se que $\Gamma$ é coerente em $F_\Sigma$ sse o é em $F_{\Sigma^+}$. Mostrámos agora apenas uma das implicações, mas a outra implicação é óbvia. Assim sendo, não haverá ambiguidade no significado de `$\Gamma$ é coerente'.
 	
 	\begin{prop}
 	Seja $\Gamma \subseteq F_\Sigma$. Usando a notação acima, se $\Gamma$ é coerente então $\Gamma^\exists$ é coerente.
@@ -2302,47 +2306,57 @@ def f(x):
 	\[\Gamma_n \vdash \neg ((\exists_{\bf x_n} \pi_n) \imply \pi_n[c_n]).\]
 	
 	Por outras palavras, usando a definição por abreviatura do símbolo $\land$, a equivalência $\varphi \eqv \neg \neg \varphi$ e o metateorema de substituição de equivalentes do cálculo proposicional,
-	\[\Gamma_n \vdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n].\]
+	\begin{equation}\label{eq:drinkersparadox}
+\Gamma_n \vdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n].
+	\end{equation}
 	
-	Usando o raciocínio feito na proposição \ref{coherenceinplus}, se $\bf y$ é uma variável que não aparece em lado nenhum nesta demonstração, é possível adaptá-la para uma demonstração de
-	\[\Gamma_n \vdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y].\]
+	Podemos aplicar a proposição de \ref{coherenceinplus} para obter uma demonstração de
+	\[\Gamma_n \vdash (\exists_{\bf x_n} \pi_n') \land \neg (\pi_n[c_n])'.\]
 	
-	Desejamos mostrar que esta afirmação é falsa, o que mostra que $\Gamma_n$ é incoerente e entra em contradição com a hipótese de indução. No entanto, isto pode não ser verdade, pelo que aplicamos generalização:
-	\[\Gamma_n \vdash \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y]).\]
+	Note-se que, como $\pi_n$ poderá conter vários símbolos de constante $c_k$, não nos basta substituir $c_n$ por uma variável nova $\bf y$... Seria necessário adicionar várias variáveis, $\bf y_1, \bf y_2$, e assim por diante. Para não sobrecarregar a notação, ignoraremos este problema e trabalharemos com os $c_k$ como se fossem variáveis em $X$, sabendo que na nossa cabeça estamos implicitamente a substitui-los por variáveis novas.
+
+	Desejamos mostrar que a afirmação $(\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n]$ é falsa, o que mostra que $\Gamma_n$ é incoerente e entra em contradição com a hipótese de indução. No entanto, isto pode não ser verdade, pelo que aplicamos generalização:
+	\[\Gamma_n \vdash \forall_{c_n}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n]).\]
+
+	Recordamos que estamos a trabalhar pelo momento com os $c_k$ como se fossem variáveis. De facto, se $c_n$ fosse um símbolo de constante, a quantificação $\forall_{c_n}$ não faria sentido.
 	
 	Basta agora mostrar que a negação desta afirmação é um axioma para obter uma demonstração de algo da forma $\varphi \land \neg \varphi$, o que, aplicando a definição de conjunto incoerente com $\tau = (\neg \varphi \lor \varphi)$, mostra que $\Gamma_n$ é incoerente, em contradição com a hipótese de indução.
 	
 	Mostramos agora que a fórmula
-	\[\neg \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y])\]
+	\[\neg \forall_{c_n}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n])\]
 	é um axioma. Antes de o justificar formalmente, vale a pena dedicar um parágrafo a entender a fórmula em questão e intuir porque é que ela haveria de ser verdade.
 	
 	A fórmula que desejamos mostrar é equivalente a
-	\[\exists_{\bf y}((\forall_{\bf x_n} \neg \pi_n) \lor \pi_n[\bf y]),\]
-	por deMorgan e metateorema da equivalência. Esta afirmação tem um nome: o chamado `drinker's paradox', que pode ser enunciado em linguagem natural da seguinte forma: considere-se um bar não-vazio. Então, existe alguém neste bar tal que, se essa pessoa bebe álcool, toda a gente bebe álcool. Apesar do nome, esta afirmação não tem nada de paradoxical. A demonstração em linguagem natural é simples: ou toda a gente bebe álcool, e neste caso escolha-se uma pessoa arbitrária e a implicação é verdadeira, ou então nem toda a gente bebe. Neste caso, escolha-se uma pessoa que não beba. Então, a implicação `se esta pessoa bebe então toda a gente bebe' é verdadeira porque o antecedente é falso. Isto conclui a demonstração.
+	\[\exists_{c_n}((\forall_{\bf x_n} \neg \pi_n) \lor \pi_n[c_n]),\]
+	por deMorgan e metateorema da equivalência. Expandindo a definição de $\lor$, podemos escrever isto como
+	\[\exists_{c_n}(\neg \pi_n[c_n] \imply \forall_{\bf x_n} \neg \pi_n).\]
+	
+	Esta afirmação tem um nome: o chamado `drinker's paradox', que pode ser enunciado em linguagem natural da seguinte forma: considere-se um bar não-vazio. Então, existe alguém neste bar tal que, se essa pessoa não está sóbria, ninguém está sóbrio. A afirmação acima pode ser interpretada como esta frase, em que `$\bf x$ está sóbrio' é representado como $\pi_n[\bf x]$.
+
+Apesar do nome, esta afirmação não tem nada de paradoxical. A demonstração em linguagem natural é simples: ou ninguém está sóbrio, e neste caso escolha-se uma pessoa arbitrária e a implicação é verdadeira, ou então pelo menos uma pessoa está sóbria. Neste caso, escolha-se uma tal pessoa. Então, a implicação `se esta pessoa não está sóbria então ninguém está' é verdadeira porque o antecedente é falso. Isto conclui a demonstração.
 	
 	Passamos agora de conversa sobre bares para uma demonstração formal. Seja $I$ uma estrutura de interpretação e $\rho$ uma valoração sobre $I$. Pretendemos mostrar que
 	
-	\[\rho \Vdash \neg \forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y]).\]
+	\[\rho \Vdash \neg \forall_{c_n}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n]).\]
 	
 	Isto é equivalente a mostrar que
-	\[\rho_F(\forall_{\bf y}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y])) = \lf,\]
+	\[\rho_F(\forall_{c_n}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n])) = \lf,\]
 	
 	o que acontece sse existe $u \in U_I$ tal que
 	
 	\begin{equation}\label{gammaexists:eq1}
-	\rho\!\downarrow^{\bf y}_u \nVdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y].
+	\rho\!\downarrow^{c_n}_u \nVdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n].
 	\end{equation}
 	
-	Neste momento, a demonstração reduz-se a dois casos, de forma análoga à demonstração intuitiva atrás. Ou $I \Vdash \exists_{\bf x_n} \pi_n$ ou $I \nVdash \exists_{\bf x_n} \pi_n$.
+	Neste momento, a demonstração reduz-se a dois casos, de forma análoga à demonstração intuitiva atrás. Ou $\rho \Vdash \exists_{\bf x_n} \pi_n$ ou $\rho \nVdash \exists_{\bf x_n} \pi_n$.
 	
-	No segundo caso, a afirmação \eqref{gammaexists:eq1} é verdadeira porque, como a fórmula $\exists_{\bf x_n} \pi_n$ é fechada, para qualquer valoração $\rho'$ temos $\rho'_F(\exists_{\bf x_n} \pi_n) = \lf$, e como tal
-	\[\rho' \nVdash (\exists_{\bf x_n} \pi_n) \land \neg \pi_n[\bf y],\]
-	em particular, fixo um $u \in U_I$ qualquer, para a valoração $\rho\!\downarrow^{\bf y}_u$, como desejado.
+	No segundo caso podemos aplicar o lema das variáveis omissas. Visto que $\bf x_n$ não é livre em $\exists_{\bf x_n} \pi_n$,
+	\[\rho \Vdash \exists_{\bf x_n} \pi_n \text{ sse } \rho\!\downarrow^{c_n}_u \Vdash \exists_{\bf x_n} \pi_n, \]
+	e como o antecedente é falso temos que $\rho\!\downarrow^{c_n}_u \nVdash (\exists_{\bf x_n} \pi_n)$ e portanto \eqref{gammaexists:eq1}.
 	
-	No primeiro caso, em que $I \Vdash \exists_{\bf x_n} \pi_n$, é possível provar que\footnote{Lembrete para eu introduzir o $\exists$ decentemente, e nessa altura provar isto.} existe $u \in U_I$ tal que para qualquer valoração $\rho'$ tal que $\rho'(\bf x_n) = u$ temos $\rho' \Vdash \pi_n$. Então\footnote{E talvez devesse também fazer um anexo ou secção dedicada à substituição para provar coisas destas. Para quem está a ler isto nestas condições: indução. Montes e montes de indução.} temos que se $\rho''$ é uma valoração tal que $\rho''(\bf y) = u$ e $\rho' = \rho''\!\downarrow^{\bf x_n}_u$ então
-	\[\rho''_F(\pi_n[\bf y]) = \rho'_F(\pi_n) = \lt.\]
-	
-	A partir daqui, é fácil justificar que para este $u$ particular a afirmação \eqref{gammaexists:eq1} é verdadeira, o que mostra o desejado. A prova está então terminada.
+	No primeiro caso, em que $\rho \Vdash \exists_{\bf x_n} \pi_n$, é possível provar que\footnote{Lembrete para eu introduzir o $\exists$ decentemente, e nessa altura provar isto.} existe $u \in U_I$ tal que $\rho\!\downarrow^{x_n}_u \Vdash \pi_n$. Então\footnote{E talvez devesse também fazer um anexo ou secção dedicada à substituição para provar coisas destas. Para quem está a ler isto nestas condições: indução. Montes e montes de indução.} é possível mostrar que, como a `variável' $c_n$ não consta em $\pi_n$,
+	\[\rho\!\downarrow^{c_n}_u \Vdash \pi_n[c_n],\]
+	donde se conclui facilmente \eqref{gammaexists:eq1}.
 	\end{proof}
 	
 	Agora que já demonstrámos que a construção de Henkin preserva coerência, visto que já demonstrámos também o lema de Lindenbaum, podemos começar a construir o modelo que será usado na demonstração do teorema da completude.
@@ -2359,7 +2373,7 @@ def f(x):
 	
 	Seja $U$ o conjunto dos termos fechados em $\Sigma^+$. Note-se que $U$ não é vazio, visto que, por construção, $\Sigma^+$ tem um número infinito contável de termos de constante. Em particular, tem pelo menos um.
 	
-	Seja $f$ um símbolo de função de aridade $n$. Definimos a função $f_I : U^n \to U$ simbolicamente: se $t_1, \dots, t_n$ são termos fechados então definimos $f_I(t_1, \dots, t_n)$ como o termo fechado $f(t_1, \dots, t_n)$. (Note-se que este último $f$ é meramente um símbolo sintático, enquanto que $f_I$ é uma função `na meta-teoria'.
+	Seja $f$ um símbolo de função de aridade $n$. Definimos a função $f_I : U^n \to U$ simbolicamente: se $t_1, \dots, t_n$ são termos fechados então definimos $f_I(t_1, \dots, t_n)$ como o termo fechado $f(t_1, \dots, t_n)$. (Note-se que este último $f$ é meramente um símbolo sintático, enquanto que $f_I$ é uma função `na meta-teoria').
 	
 	Finalmente, seja $p$ um símbolo de predicado de aridade $n$. Definimos a função $p_I : U^n \to \{\lt, \lf\}$ da seguinte forma: para termos fechados $t_1, \dots, t_n$, a fórmula $\varphi : p(t_1, \dots, t_n)$ é também fechada. Como tal, pela coerência e exaustividade de $\widehat\Gamma$, ou $\widehat\Gamma \vdash \varphi$ ou $\widehat\Gamma \vdash \neg\varphi$, mas não os dois. Como tal, definimos $p_I(t_1, \dots, t_n)$ em cada caso como sendo, respetivamente, $\lt$ ou $\lf$.
 	
@@ -2386,16 +2400,49 @@ def f(x):
 	
 	\item Caso $\varphi : \forall_{\bf x} \psi$. Este caso é o que requer mais atenção.
 	
-	Primeiro que tudo, note-se que, se $\varphi$ é uma fórmula fechada, ou $\psi$ também o é ou então $\fv \psi = \{\bf x\}$. O caso em que $\psi$ é uma fórmula fechada é o mais fácil, porque é fácil justificar que, tanto semanticamente como sintaticamente, $\forall_{\bf x} \psi$ é equivalente a $\psi$. Isto é:
-	\[\widehat\Gamma \vdash \forall_{\bf x}\psi \text{ sse } \widehat\Gamma \vdash \psi \text{ sse (H.I.) } I \Vdash \psi \text{ sse } I \Vdash \forall_{\bf x} \psi.\]
+	O ingrediente principal é que a nossa estrutura de interpretação é pequena o suficiente para poder ser representada fielmente na linguagem. Isto reflete-se nas seguintes afirmações:
+\begin{gather}
+I \Vdash \forall_{\bf x} \psi \text{ sse para qualquer termo fechado $t$ se tem } I \Vdash \psi[t],\label{eq:smallstructure1}\\
+\widehat\Gamma \vdash \forall_{\bf x} \psi \text{ sse para qualquer termo fechado $t$ se tem } \widehat\Gamma \vdash \psi[t].\label{eq:smallstructure2}
+\end{gather}
+
+	A demonstração de \eqref{eq:smallstructure1} é feita facilmente usando o facto que
+\[\rho_F(\psi) = \rho_F(\psi_{\bf x}[\rho(\bf x)]),\]
+	facto este que pode ser demonstrado por indução em $\psi$. Usando-o, temos que $I \Vdash \forall_{\bf x} \psi$ sse $I \Vdash \psi$ sse para qualquer valoração $\rho$ se tiver $\rho_F(\psi) = \lt$, sse para qualquer valoração $\rho$ se tiver $\rho_F(\psi_{\bf x}[\rho(\bf x)]) = \lt$. Como a fórmula $\psi_{\bf x}[\rho(\bf x)]$ é fechada, pelo lema das variáveis omissas, esta última igualdade acontece sse para qualquer valoração $\rho$ a fórmula $\psi_{\bf x}[\rho(\bf x)]$ for verdadeira em $I$. Visto que a única propriedade de $\rho$ que se está a usar é $\rho(\bf x)$, podemos mudar o nome desta quantidade para $t$ e dizer que, para qualquer termo fechado $t$, a fórmula $\psi[t]$ é verdadeira. Isto conclui a demonstração de \eqref{eq:smallstructure1}.
+
+	Pelo outro lado, \eqref{eq:smallstructure2} é consequência elementar das fórmulas adicionadas na construção de Henkin e da veracidade das fórmulas $\forall_{\bf x} \psi \imply \psi[t]$ para $t$ fechado.
+
+	O passo de indução pode agora ser feito sem dificuldade, pois $I \Vdash \forall_{\bf x} \psi$ sse $I \Vdash \psi[t]$ para todo o $t$, sse (por H.I.) $\widehat\Gamma \vdash \psi[t]$ para todo o $t$, sse $\widehat\Gamma \vdash \forall_{\bf x} \psi$.
 	\end{itemize}
 	\end{proof}
+
+	Como consequência trivial disto temos que $I$ (como estrutura de interpretação sobre $\Sigma$) satisfaz todas as fórmulas em $\Gamma$, o que mostra um teorema muito importante em teoria de modelos:
+
+	\begin{prop} (Teorema de Löwenheim) Se $\Gamma$ é um conjunto coerente de fórmulas existe uma estrutura de interpretação $I$, de universo contável, tal que $I \Vdash \Gamma$.
+	\end{prop}
+
+	O facto que o universo de $I$ é contável é irrelevante para os nossos propósitos (e trivial de mostrar porque $U_I \subseteq T_{\Sigma^+}$ que é contável), mas este teorema (e uma generalização, chamada teorema de Löwenheim-Skolem) encontram aplicação em teoria de conjuntos.
+
+	A partir do teorema de Löwenheim o teorema de completude de Gödel fica uma trivialidade.
+
+	\begin{prop} (Teorema da Completude de Gödel)
+	Se $\Gamma \vDash \varphi$ então $\Gamma \vdash \varphi$.
+	\end{prop}
+
+	\begin{proof}
+	Suponha-se que $\Gamma \nvdash \varphi$. Então $\Gamma \nvdash \forall \varphi$, pelo que o conjunto $\Gamma \cup \{\neg \forall \varphi\}$ é coerente e então tem um modelo $I$. Este modelo satisfaz $\Gamma$ mas não $\forall \varphi$, pelo que não satisfaz $\varphi$. Logo, $\Gamma \nvDash \varphi$.
+	\end{proof}
 	
-	
-	\chapter{Introdução à computação}
-	
-	Introdução à teoria das funções computáveis, ligando-a à lógica de primeira ordem, culminando nos teoremas de incompletude de Gödel.
-	
+
+	\section{Axiomática}
+
+	Nesta secção, mostraremos que os 5 axiomas do cálculo de Hilbert são suficientes para mostrar qualquer afirmação verdadeira.
+
+	\appendix
+
+	\chapter{Substituição}
+
+	Um apêndice para formalizar algumas questões de substituição e demonstrar algumas relações entre substituição e valorações que quebrariam o texto se estivessem nele inseridas.
 	
 	\nocite{fltc}
 	\nocite{shoenfield}
