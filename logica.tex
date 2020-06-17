@@ -1640,7 +1640,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	
 	Para conseguirmos formalizar esta noção, formalizamos o que significa `uma fórmula de primeira ordem vir de uma fórmula proposicional'.
 	
-	\begin{definicao}
+	\begin{definicao}\label{formulasfromtauto}
 	Seja $\varphi$ uma fórmula proposicional. Suponha-se que a cada variável $\bf x \in X$ se atribui uma fórmula (de primeira ordem) $\psi(\bf x) \in \F_\Sigma$. Então, definimos $\overline\psi(\varphi)$ como a fórmula (de primeira ordem) obtida de substituir cada variável $\bf x$ por $\psi(\bf x)$.
 	
 	Por exemplo, a fórmula $\alpha \lor \neg \alpha$ vem de substituição de $a \lor \neg a$, substituindo a letra $a$ pela fórmula $\alpha$, isto é, $\psi(a) = \alpha$.
@@ -1807,6 +1807,10 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	
 	Este sistema de demonstração tem o nome de \emph{cálculo de Hilbert}.\footnote{Na realidade, o cálculo de Hilbert corresponde ao caso particular dos axiomas finais (ver futura secção de Axiomática). No entanto, por conveniência, referir-nos-emos a esta versão modificada pelo mesmo nome.}
 	\end{definicao}
+
+	\begin{obs}
+	Ser-nos-á, no futuro, útil distinguir invocações de axiomas que provêm de tautologias (c.f. definição \ref{formulasfromtauto}) de outras invocações de axiomas. O propósito disto é facilitar a simplificação dos axiomas, sendo que (com as devidas adaptações) os três axiomas do cálculo proposicional são suficientes para provar quaisquer tautologias. Assim sendo, marcaremos invocações de axiomas tautológicos como \texttt{Tauto} em vez de \texttt{Ax}.
+	\end{obs}
 	
 	À semelhança do que foi feito com o cálculo proposicional, supomos por agora que que qualquer afirmação verdadeira é um axioma. Mais tarde, identificaremos um conjunto mais pequeno de axiomas que se mostrará ser suficiente para justificar qualquer afirmação verdadeira.
 	
@@ -1923,7 +1927,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	
 	Estamos agora em condições de deduzir o
 	
-	\begin{prop}
+	\begin{prop}\label{fol:mtd}
 	(Metateorema da dedução, versão sintática, primeira ordem)
 	
 	Seja $\Gamma \subseteq \F$, $\alpha, \beta \in \F$ e suponha-se que existe uma demonstração de
@@ -1957,15 +1961,15 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	\begin{itemize}
 	\item Se $\varphi_p = \alpha$, basta reparar que $\alpha \imply \alpha$ é uma afirmação verdadeira, e como tal o argumento acima pode ser realizado.
 	
-	\item Se $\varphi_p \in \Gamma$, usamos o facto que $\varphi_p \imply (\alpha \imply \varphi_p)$ é uma afirmação verdadeira, o que nos permite construir a seguinte (secção de) prova:
+	\item Se $\varphi_p \in \Gamma$, usamos o facto que $\varphi_p \imply (\alpha \imply \varphi_p)$ é uma tautologia, o que nos permite construir a seguinte (secção de) prova:
 	
-	\[(\varphi_p \imply (\alpha \imply \varphi_p), \mathtt{Ax}), (\varphi_p, \mathtt{Hip}), (\alpha \imply \varphi_p, \mathtt{MP}).\]
+	\[(\varphi_p \imply (\alpha \imply \varphi_p), \mathtt{Tauto}), (\varphi_p, \mathtt{Hip}), (\alpha \imply \varphi_p, \mathtt{MP}).\]
 	\end{itemize}
 	
 	\item Se $j_p = \mathtt{MP}_{ab}$, começamos por invocar o primeiro axioma do cálculo proposicional (que, pela proposição \ref{fol:tautoistheo}, é uma afirmação verdadeira):
-	\[([\alpha \imply (\varphi_b \imply \varphi_p)] \imply [(\alpha \imply \varphi_b) \imply (\alpha \imply \varphi_p)], \texttt{Ax})\]
+	\[([\alpha \imply (\varphi_b \imply \varphi_p)] \imply [(\alpha \imply \varphi_b) \imply (\alpha \imply \varphi_p)], \texttt{Tauto})\]
 	ou, por outras palavras (pela hipótese sobre a parte da demonstração já construída),
-	\[(\psi_{i_a} \imply (\psi_{i_b} \imply (\alpha \imply \varphi_p)), \texttt{Ax}).\]
+	\[(\psi_{i_a} \imply (\psi_{i_b} \imply (\alpha \imply \varphi_p)), \texttt{Tauto}).\]
 	
 	De seguida, invocamos $\mathtt{MP}_{i_a, (i_{p-1}+1)}$ para concluir
 	\[(\psi_{i_b} \imply (\alpha \imply \varphi_p), \texttt{MP}),\]
@@ -2070,7 +2074,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	\begin{prop}\label{fol:mtc}
 	Se $\Gamma \subseteq \F$, $\varphi$ é uma fórmula fechada e $\tau$ é uma fórmula verdadeira (por exemplo, $\varphi \imply \varphi$), então
 	\[\Gamma \vDash \varphi \text{ sse } \Gamma, \neg \varphi \vDash \neg \tau\]
-	e também (Metateorema da contradição)
+	e também, se $\tau$ é um teorema, (Metateorema da contradição)
 	\[\Gamma \vdash \varphi \text{ sse } \Gamma, \neg \varphi \vdash \neg \tau.\]
 	\end{prop}
 	
@@ -2087,7 +2091,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	
 	\begin{align*}
 	&\text{...(Demonstração de $\Gamma \vdash \varphi$)...}\\
-	&\varphi \imply (\neg \varphi \imply \neg \tau)&&\texttt{Ax}\\
+	&\varphi \imply (\neg \varphi \imply \neg \tau)&&\texttt{Tauto}\\
 	&\neg \varphi \imply \neg \tau&&\texttt{MP}\\
 	&\neg \varphi&&\texttt{Hip}\\
 	&\neg \tau&&\texttt{MP}.
@@ -2097,9 +2101,9 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	\[\Gamma \vdash \neg \varphi \imply \neg \tau.\]
 	Concatenando à prova disto as linhas:
 	\begin{align*}
-	&(\neg \varphi \imply \neg \tau) \imply (\tau \imply \varphi)&&\texttt{Ax}\\
+	&(\neg \varphi \imply \neg \tau) \imply (\tau \imply \varphi)&&\texttt{Tauto}\\
 	&\tau \imply \varphi&&\texttt{MP}\\
-	&\tau&&\texttt{Ax}\\
+	&\tau&&\texttt{Teo}\\
 	&\varphi&&\texttt{MP}
 	\end{align*}
 	obtemos uma demonstração com base em $\Gamma$ de $\varphi$, como desejado.
@@ -2108,7 +2112,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	Com base nesta proposição, reduzimos a questão de mostrar completude a mostrar que se $\Gamma \cup \{\neg \varphi\} \nvdash \neg \tau$ então $\Gamma \cup \{\neg \varphi\} \nvDash \neg \tau$. Por sua vez, esta questão pode ser ligeiramente generalizada.
 	
 	\begin{definicao}
-	Em tudo o que se segue, considera-se fixa uma afirmação verdadeira $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir afirmações verdadeiras, sabendo que (proposição \ref{fol:size}) existe pelo menos uma fórmula $\alpha$, pode-se considerar $\tau$ como sendo $\alpha \imply \alpha$.}
+	Em tudo o que se segue, considera-se fixo um teorema $\tau$ na assinatura $\Sigma$.\footnote{É fácil construir teoremas, sabendo que (proposição \ref{fol:size}) existe pelo menos uma fórmula $\alpha$, pode-se considerar $\tau$ como sendo $\alpha \imply \alpha$.}
 	
 	Dizemos que um conjunto de fórmulas $\Gamma$ é \emph{incoerente} se $\Gamma \vdash \neg \tau$.
 	\end{definicao}
@@ -2377,7 +2381,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 
 	Repare-se que $\Gamma$ é coerente em $F_\Sigma$ sse o é em $F_{\Sigma^+}$. Mostrámos agora apenas uma das implicações, mas a outra implicação é óbvia. Assim sendo, não haverá ambiguidade no significado de `$\Gamma$ é coerente'.
 	
-	\begin{prop}
+	\begin{prop}\label{henkincoherence}
 	Seja $\Gamma \subseteq F_\Sigma$. Usando a notação acima, se $\Gamma$ é coerente então $\Gamma^\exists$ é coerente.
 	\end{prop}
 	
@@ -2528,7 +2532,160 @@ I \Vdash \forall_{\bf x} \psi \text{ sse para qualquer termo fechado $t$ se tem 
 
 	\section{Axiomática}
 
-	Nesta secção, mostraremos que os 5 axiomas do cálculo de Hilbert são suficientes para mostrar qualquer afirmação verdadeira.
+	À semelhança do que foi feito com o cálculo proposicional, prosseguimos agora a reduzir drasticamente a lista de axiomas usados. Até agora, usámos como axiomas todas as afirmações verdadeiras. Reduziremos esta lista a cinco axiomas simples, e mostraremos que tudo o que foi feito até agora poderia ter sido feito apenas com estes.
+
+	\begin{prop}
+	Seja $A$ um conjunto de fórmulas. Então, o cálculo de Hilbert que usa $A$ como axiomas é
+
+	\begin{itemize}
+	\item Correto sse todos os elementos de $A$ são fórmulas verdadeiras
+
+	\item Completo sse para qualquer fórmula verdadeira $\varphi$ existe uma demonstração (sem hipóteses) de $\varphi$ com os axiomas de $A$.
+	\end{itemize}
+	\end{prop}
+
+	\begin{proof}
+	A demonstração é idêntica à da proposição \ref{axiomconditions}.
+	\end{proof}
+
+	Um subconjunto importante das fórmulas verdadeiras são as tautologias (ou, mais precisamente, as fórmulas que provêm de tautologias, c.f. definição \ref{formulasfromtauto}). Ao longo do texto, tivemos o cuidado de invocar estas fórmulas com a justificação \texttt{Tauto} em vez de \texttt{Ax}, pela simples razão que, graças à completude do cálculo proposicional, as conseguimos obter efetivamente de graça.
+
+	\begin{prop}
+	A partir dos três seguintes axiomas é possível provar qualquer tautologia:
+
+	\begin{gather}
+	\alpha \imply (\beta \imply \alpha)\label{fol:ax1}\\
+	[\alpha \imply (\beta \imply \gamma)] \imply [(\alpha \imply \beta) \imply (\alpha \imply \gamma)]\label{fol:ax2}\\
+	(\neg \alpha \imply \neg \beta) \imply (\beta \imply \alpha).\label{fol:ax3}
+	\end{gather}
+	\end{prop}
+
+	\begin{proof}
+	Sob a notação da definição \ref{formulasfromtauto}, seja $\varphi$ uma tautologia em primeira ordem. Isto é, suponha-se que existe uma tautologia $\tau \in \F_p$ e uma função $\psi : X \to \F$ tal que $\varphi = \overline \psi(\tau)$.
+
+	Então, pela completude do cálculo proposicional, existe uma demonstração $D$ de $\tau$ que usa apenas os três axiomas do cálculo proposicional. É fácil verificar que se aplicarmos $\overline \psi$ a todos os passos de $D$ ficamos com uma demonstração $\overline \psi(D)$, válida em primeira ordem, que usa apenas axiomas da forma \eqref{fol:ax1}, \eqref{fol:ax2} e \eqref{fol:ax3}. Como tal, estes três axiomas são suficientes para mostrar qualquer tautologia.
+	\end{proof}
+
+	No cálculo proposicional, um grande passo para deduzir a lista final de axiomas foi identificar que axiomas eram necessários para demonstrar o metateorema da dedução. Um processo semelhante em primeira ordem motiva a adição do primeiro axioma que envolve quantificadores.
+
+	Observe-se a demonstração do metateorema da dedução (proposição \ref{fol:mtd}). Para fazer o passo de indução, quando $j_p = \mathtt{Hip}$ ou $j_p = \mathtt{MP}$ foram apenas usadas tautologias, pelo que são precisos apenas os três axiomas acima. É também muito fácil modificar o caso $j_p = \mathtt{Ax}$ para usar apenas o axioma $\varphi_p \imply (\alpha \imply \varphi_p)$. O único caso novo é o caso de $j_p = \mathtt{Gen}$, para o qual precisamos do novo axioma
+\begin{equation}\label{fol:ax4}
+[\forall_{\bf x}(\alpha \imply \beta)] \imply [\alpha \imply \forall_{\bf x} \beta], \text{ se $x \not \in \fv \alpha$.}
+\end{equation}
+
+	É fácil deduzir então
+	\begin{prop} (Metateorema da dedução) 
+	Se $A$ é um conjunto de axiomas que contém pelo menos os axiomas \eqref{fol:ax1}, \eqref{fol:ax2} e \eqref{fol:ax4}, então se $\Gamma \subseteq \F$ e $\alpha, \beta \in \F$, qualquer demonstração de $\Gamma, \alpha \vdash \beta$ na qual não haja generalização sobre variáveis livres de $\alpha$ pode ser transformada numa demonstração de $\Gamma \vdash \alpha \imply \beta$.
+	\end{prop}
+
+	Outro metateorema desejável é o metateorema da substituição de equivalentes. Por inspeção da sua demonstração, este também usa maioritariamente tautologias, usando apenas o seguinte axioma não-tautológico:
+\begin{equation}\label{fol:ax5}
+\forall_{\bf x} \varphi \imply \varphi.
+\end{equation}
+
+	Veremos em breve que isto é na verdade um caso particular do axioma que expressa a propriedade fundamental do quantificador $\forall$: se uma afirmação é verdadeira para todo o $\bf x$, então é verdadeira quando se substitui $\bf x$ por uma outra expressão.
+
+	\begin{prop} (Metateorema da substituição de equivalentes)
+	Se $\psi$ é uma fórmula obtida de $\varphi$ a partir de substituição de $\alpha$ por $\beta$ então existe uma demonstração de
+	\[\alpha \eqv \beta \vdash \varphi \eqv \psi\]
+	que usa apenas os axiomas \eqref{fol:ax1}, \eqref{fol:ax2}, \eqref{fol:ax3}, \eqref{fol:ax4} e \eqref{fol:ax5}.
+	\end{prop}
+
+	É fácil ver por observação da demonstração do metateorema da contradição que esta usa apenas o metateorema da dedução e tautologias. Assim sendo, com o conjunto atual de axiomas conseguimos também concluir
+
+	\begin{prop} (Metateorema da contradição)
+	Seja $A$ um conjunto de axiomas que contém \eqref{fol:ax1}, \eqref{fol:ax2}, \eqref{fol:ax3} e \eqref{fol:ax4}. Seja $\tau$ um teorema a partir dos axiomas de $A$. Então, se $\Gamma \subseteq \F$ e $\varphi \in \F$ temos que
+\[\Gamma \vdash \varphi \text{ sse } \Gamma, \neg \varphi \vdash \neg \tau.\]
+	\end{prop}
+
+	A demonstração do lema de Lindenbaum prossegue sem dificuldades, havendo apenas três obstáculos finais à demonstração de completude: a proposição \ref{coherenceinplus}, a coerência da construção de Henkin e a proposição \ref{prop:gammahatsemantics}.
+
+	Foquemo-nos, primeiro, na proposição \ref{prop:gammahatsemantics}. A parte sintática que é preciso justificar é a veracidade das fórmulas da forma $\forall_{\bf x} \psi \imply \psi_{\bf x}[t]$ para $t$ termo fechado. Podemos então adicionar estas fórmulas como axiomas, mas vamos ver agora que, ao as adicionar, temos que adicionar também muitas outras.
+
+	Na demonstração da proposição \ref{coherenceinplus} é feita uma construção na qual se pega em fórmulas sobre a assinatura $\Sigma^+$ e se substituem as constantes $c_n$ por variáveis $\bf v_n$. Dada uma fórmula $\varphi$, chamámos a fórmula obtida por este processo de $\varphi'$. É necessário para o funcionamento da demonstração que se $\varphi$ é um axioma então $\varphi'$ também, e é fácil verificar que quase todos os axiomas que acumulámos até agora satisfazem isto. A operação `linha' não modifica a estrutura da fórmula, por isso axiomas que se baseiam completamente na sua forma (nomeadamente, os axiomas \eqref{fol:ax1}, \eqref{fol:ax2}, \eqref{fol:ax3} e \eqref{fol:ax5}) são preservados por este processo. Por exemplo, se $\varphi$ é uma instância do axioma \eqref{fol:ax1}, digamos $\varphi : \alpha \imply (\beta \imply \alpha)$, então $\varphi'$ também é uma instância deste axioma, nomeadamente $\alpha' \imply (\beta' \imply \alpha')$. Este argumento também funciona para \eqref{fol:ax4}, precisando apenas de um ligeiro ajuste: basta reparar que se $\bf x$ é livre em $\alpha$ então $\bf x$ também é livre em $\alpha'$, visto que as únicas variáveis adicionadas foram os $\bf v_n$, que foram explicitamente escolhidas para serem variáveis que não aparecem em mais lado nenhum. Em particular, nenhuma delas é $\bf x$, por isso não existem instâncias novas de $\bf x$ em $\alpha'$.
+
+	Estes argumentos já não funcionam para axiomas do tipo $\forall_{\bf x} \psi \imply \psi[t]$ para $t$ fechado. De facto, $t$ poderá eventualmente ter constantes $c_n$, que serão transformadas em variáveis $\bf v_n$, e portanto precisaremos de axiomas da forma $\forall_{\bf x} \psi' \imply \psi'[t']$, para $t'$ termos \emph{não necessariamente fechados}.
+
+	Infelizmente, tentar adicionar o axioma $\forall_{\bf x} \psi \imply \psi[t]$ para qualquer termo $t$ não funciona: fórmulas deste tipo podem não ser verdadeiras. Por exemplo, no contexto dos números reais, considere-se o `axioma':
+\[\forall_x (\exists_y (y>x)) \imply \exists_y (y > y).\]
+Isto é uma fórmula da forma $\forall_{\bf x} \psi \imply \psi[t]$, em que $\bf x$ é a variável $x$, $\psi$ é a fórmula $\exists_y (y>x)$ e $t$ é o termo atómico $y$. Esta fórmula não é verdadeira, porque é verdade que para todo o $x$ existe pelo menos um $y$ maior que $x$, mas não existe nenhum número maior que si mesmo.
+
+O que falhou aqui? O problema foi que a variável $x$ dentro de $\exists_y (y>x)$ passou a depender de $y$, enquanto que $y$ por sua vez dependia de $x$.\footnote{Lembrete para explicar isto melhor.}
+
+	Para reparar este problema, poderíamos adicionar a seguinte restrição: para cada $\bf x$, $\psi$ e $t$, adicionamos a fórmula
+\[\forall_{\bf x} \psi \imply \psi[t]\]
+	sempre que esta seja verdadeira. Isto trata dos nossos problemas (qualquer termo $t$ fechado funciona, e a demonstração da proposição \ref{coherenceinplus} assegura-nos que se $\gamma : \forall_{\bf x} \psi \imply \psi[t]$ é verdadeiro então $\gamma'$ também é. No entanto, este critério requer saber se uma fórmula é verdadeira ou não, e é precisamente esse tipo de coisa que estamos a tentar evitar. Procuremos então um critério mais fácil (e mecanicamente verificável) de averiguar se uma fórmula da forma $\forall_{\bf x} \psi \imply \psi[t]$ é verdadeira.
+
+	Seja $\rho$ uma valoração, e vejamos que condições sobre $t$ precisamos de impor para que a fórmula $\forall_{\bf x} \psi \imply \psi[t]$ seja verdadeira. A ideia da demonstração é que, se $\rho_\F(\forall_{\bf x} \psi) = \lt$ então para qualquer elemento $u \in U_I$ temos que $\rho\!\downarrow^{\bf x}_u \Vdash \psi$. Em particular, isto é verdade para $u = \rho_\T(t)$, e a nossa esperança é que
+\begin{equation}\label{hope}
+\rho_\F(\psi[t]) = \rho\!\downarrow^{\bf x}_{\rho_\T(t)}(\psi),
+\end{equation}
+visto que esta última expressão é $\lt$.
+
+	Podemos tentar demonstrar a equação \eqref{hope} por indução na estrutura de $\psi$:
+
+	\begin{itemize}
+	\item Caso base: $\psi$ é da forma $p(t_1, \dots, t_n)$. O que queremos demonstrar reduz-se a mostrar que, se $t_i$ é um termo então $\rho_\T(t_i) = \rho\!\downarrow^{\bf x}_{\rho_\T(t)}(t_i)$. Esta última expressão pode ser demonstrada por indução sobre a estrutura de $t_i$ sem dificuldades.
+
+	\item Passo de indução: $\imply$ e $\neg$. Estes passos são feitos sem dificuldade nenhuma.
+
+	\item Passo de indução: Suponha-se que $\psi$ é da forma $\forall_{\bf x} \psi_1$. É neste caso que é preciso ter cuidado.
+
+	Para aliviar a notação, seja $\rho^\circ = \rho\!\downarrow^{\bf x}_{\rho_\T(t)}$. Sabemos, por hipótese de indução, que para qualquer valoração $\rho$ temos $\rho_\F(\psi[t]) = \rho^\circ_\F(\psi)$. Queremos mostrar que $\rho_\F(\left(\forall_{\bf y} \psi\right)[t]) = \rho^\circ_\F(\forall_{\bf y} \psi)$. Há o caso em que $\bf x = \bf y$, mas não nos preocupemos com isso. Fixo um elemento $u \in U_I$, queremos mostrar que, se $\rho^* = \rho\!\downarrow^{\bf y}_u$ então $\rho^*(\psi[t]) = \rho^{\circ *}(\psi)$. Mas sabemos que $\rho^*(\psi[t]) = \rho^{* \circ}(\psi)$, por hipótese de indução. A questão essencial é então \textbf{precisarmos que $\rho^{*\circ} = \rho^{\circ *}$}. Assumindo que $\bf x \neq \bf y$, isto acontece se $\rho_\T(t) = \rho^*_\T(t)$. Por sua vez, para isto, é suficiente que \textbf{a variável $\bf y$ não conste em $t$}. Assim sendo, \textbf{o passo de indução funciona assumindo que não quantificamos sobre variáveis de $t$}.
+	\end{itemize}
+
+	É possível enfraquecer estas hipóteses ainda mais, mas para os nossos efeitos isto é suficiente:
+
+	Adicionamos à nossa lista os axiomas da forma
+
+	\begin{equation}\label{fol:ax6}
+	(\forall_{\bf x} \psi) \imply \psi_{\bf x}[t],
+	\end{equation}
+	\emph{se em $\psi$ não houver quantificações sobre variáveis de $t$, exceto possivelmente quantificações sobre $\bf x$}.
+
+	É fácil verificar que se temos uma fórmula $\varphi \in \F_{\Sigma^+}$ da forma \eqref{fol:ax6} então $\varphi'$ também é desta forma, visto que não estamos a mudar as quantificações que estão a ser feitas e as únicas variáveis que estamos a adicionar a $t$ não constam em $\psi$.
+
+	Note-se que o axioma \eqref{fol:ax5} é um caso particular de \eqref{fol:ax6}.
+
+	Basta agora verificar que a demonstração da coerência da construção de Henkin prossegue sem problemas. Para tal, a única peça que falta verificar é o drinker's paradox:
+	\[\neg \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]),\]
+	sabendo que a variável $\bf y$ não consta em $\pi$. Mostramos que esta fórmula é consequência de \eqref{fol:ax1}, \eqref{fol:ax2}, \eqref{fol:ax3}, \eqref{fol:ax4} e \eqref{fol:ax6}.
+
+	Tal como a verificação anterior, baseamo-nos na dicotomia $(\exists_{\bf x} \pi) \lor \neg (\exists_{\bf x} \pi)$. Sabemos do cálculo proposicional que se $\vdash A \imply C$ e $\vdash B \imply C$ então $\vdash (A \lor B) \imply C$. Como consequência, se $\vdash A \imply C$ e $\vdash \neg A \imply C$ então $\vdash C$. Assim sendo, mostraremos que isto é verdade, com $A = \exists_{\bf x} \pi$ e $C$ igual ao drinker's paradox. Assumindo que não são feitas quantificações descuidadas podemos aplicar o MTD.
+
+	\begin{itemize}
+	\item Demonstração de $\neg\exists_{\bf x} \pi, \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]) \vdash \neg \tau$:
+
+	\begin{align*}
+&\forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]) &&\mathtt{Hip}\\
+&\left(\forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y])\right) \imply ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]) &&\mathtt{Ax}\\
+&(\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y] &&\mathtt{MP}\\
+&((\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]) \imply (\exists_{\bf x} \pi) &&\mathtt{Tauto}\\
+&\exists_{\bf x} \pi &&\mathtt{MP}\\
+&\neg \exists_{\bf x} \pi &&\mathtt{Hip}\\
+&\text{(Mais alguns passos para obter contradição...)}
+	\end{align*}
+
+	Logo pelo MTC, $\neg\exists_{\bf x} \pi \vdash \neg \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y])$, e pelo MTD (há aqui tantos detalhes...)
+\[\vdash (\neg\exists_{\bf x} \pi) \imply \neg \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y]).\]
+
+	\item Demonstração de $\vdash \exists_{\bf x} \pi \imply \neg \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y])$:
+
+	Esta demonstração é algo mais elaborada, e é primeiro preciso estabelecer os seguintes teoremas:
+
+	\begin{itemize}
+	\item $A \imply B \vdash (\exists_{\bf x} A) \imply (\exists_{\bf x} B)$
+	
+	Demonstração: A partir de $A \imply B$ concluímos $\neg B \imply \neg A$. Sabemos que $\forall_{\bf x} \neg B \imply \neg A$. Logo, $\forall_{\bf x} \neg B \imply \neg A$. Podemos agora generalizar e aplicar \eqref{fol:ax5} para obter $\forall_{\bf x} \neg B \imply \forall_{\bf x} \neg A$. Uma última aplicação do contrarrecíproco dá-nos o desejado.
+
+	\item Se a variável $\bf y$ não consta em $\varphi$ então $\vdash \exists_{\bf x} \varphi \imply \exists_{\bf y} \varphi_{\bf x}[\bf y]$.
+
+	Demonstração: Através de duas aplicações do contrarrecíproco, basta-nos mostrar que para qualquer $\psi$ temos que $\vdash \forall_{\bf y} \psi_{\bf x}[\bf y] \imply \forall_{\bf x} \psi$. Para mostrar isto, começamos por reparar que, se $\gamma = \psi_{\bf x}[\bf y]$ então $\psi = \gamma_{\bf y}[\bf x]$. Assim sendo, desejamos mostrar que $\vdash \forall_{\bf y} \gamma \imply \forall_{\bf x} \gamma_{\bf y}[\bf x]$. Para provar isto, começamos por invocar o axioma \eqref{fol:ax6}, usando o facto que $\bf x$ não aparece em $\gamma$ e como tal não é quantificado neste. Logo, ficamos com a afirmação $\forall_{\bf y} \gamma \imply \gamma_{\bf y}[\bf x]$. Aplicando generalização e o axioma \eqref{fol:ax4} obtemos o resultado desejado.
+	\end{itemize}
+
+	Assim sendo, usando o segundo teorema sabemos que $\vdash \exists_{\bf x} \pi \imply \exists_{\bf y} \pi_{\bf x}[\bf y]$, aplicando o primeiro teorema e usando  o facto que $A \imply A \lor B$ é uma tautologia sabemos que $\vdash \exists_{\bf y} \pi_{\bf x}[\bf y] \imply \exists_{\bf y} (\neg \exists_{\bf x} \pi \lor \pi_{\bf x}[\bf y])$. Finalmente, uma aplicação do MTSE serve para remover duplas negações e mostrar que $\exists_{\bf y} (\neg \exists_{\bf x} \pi \lor \pi_{\bf x}[\bf y]) \imply \neg \forall_{\bf y} ( (\exists_{\bf x} \pi) \land \neg \pi_{\bf x}[\bf y])$. Encadeando as implicações, obtemos o resultado desejado.
+
+	\end{itemize}
 
 	\appendix
 
