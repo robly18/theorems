@@ -2443,16 +2443,28 @@ Apesar do nome, esta afirmação não tem nada de paradoxical. A demonstração 
 	
 	Neste momento, a demonstração reduz-se a dois casos, de forma análoga à demonstração intuitiva atrás. Ou $\rho \Vdash \exists_{\bf x_n} \pi_n$ ou $\rho \nVdash \exists_{\bf x_n} \pi_n$.
 	
-	No segundo caso podemos aplicar o lema das variáveis omissas. Escolha-se um $u \in U_I$ arbitrário. Visto que $\bf c_n$ não é livre em $\exists_{\bf x_n} \pi_n$ (é aqui que é preciso aquele requerimento técnico sobre os $\pi_n$)
+	No segundo caso podemos aplicar o lema das variáveis omissas. Escolha-se um $u \in U_I$ arbitrário. Visto que $c_n$ não é livre em $\exists_{\bf x_n} \pi_n$ (é aqui que é preciso aquele requerimento técnico sobre os $\pi_n$)
 	\[\rho \Vdash \exists_{\bf x_n} \pi_n \text{ sse } \rho\!\downarrow^{c_n}_u \Vdash \exists_{\bf x_n} \pi_n, \]
 	e como o antecedente é falso temos que $\rho\!\downarrow^{c_n}_u \nVdash (\exists_{\bf x_n} \pi_n)$ e portanto \eqref{gammaexists:eq1}.
 	
-	No primeiro caso, em que $\rho \Vdash \exists_{\bf x_n} \pi_n$, existe $u \in U_I$ tal que $\rho\!\downarrow^{x_n}_u \Vdash \pi_n$. Então\footnote{Isto é uma das coisas que planeio enfiar no anexo ainda não escrito sobre substituição.} é possível mostrar que, como a `variável' $c_n$ não consta em $\pi_n$,
+	No primeiro caso, em que $\rho \Vdash \exists_{\bf x_n} \pi_n$, existe $u \in U_I$ tal que $\rho\!\downarrow^{\bf x_n}_u \Vdash \pi_n$. Então, como mostraremos agora, visto que a `variável' $c_n$ não consta em $\pi_n$,
 	\[\rho\!\downarrow^{c_n}_u \Vdash \pi_n[c_n],\]
 	donde se conclui facilmente \eqref{gammaexists:eq1}.
 
-	Em conclusão, independentemente de $\rho$ concluimos que existe $u \in U_I$ tal que \eqref{gammaexists:eq1}. Como tal, como desejado,
-\[\rho \Vdash \neg \forall_{c_n}((\exists_{\bf x_n} \pi_n) \land \neg \pi_n[c_n]).\]
+	Justifiquemos este passo. Provemos por indução que, se $\varphi$ é uma fórmula na qual não consta a variável $\bf y$, $\rho$ é uma valoração e $u \in U_I$ então
+\[ \rho\!\downarrow^{\bf x}_u(\varphi) = \rho\!\downarrow^{\bf y}_u (\varphi_{\bf x}[\bf y]).\]
+
+	Começamos por verificar a afirmação semelhante para termos. Se $t$ é um termo atómico no qual não consta $\bf y$ então $t$ é $\bf x$ ou outra variável. Em ambos os casos a afirmação é trivial de verificar. Fazendo agora o passo de indução, supondo que $t$ é um termo composto da forma $f(t_1, \dots, t_n)$, temos que
+\begin{align*}
+\rho\!\downarrow^{\bf x}_u(f(t_1, \dots, t_n)) &= f_I(\rho\!\downarrow^{\bf x}_u(t_1), \dots)\\
+&= f_I(\rho\!\downarrow^{\bf y}_u(t_1[\bf y]), \dots) = \rho\!\downarrow^{\bf y}_u\left((f(t_1, \dots, t_n))_{\bf x}[\bf y]\right).
+\end{align*}
+
+	Provamos agora que a afirmação é verdade para fórmulas. Se $\varphi$ é uma fórmula atómica, basta aplicar um raciocínio semelhante ao acima, com $p$ em vez de $f$. O passo de indução se $\varphi$ é da forma $\neg \varphi_1$ ou $\varphi_1 \imply \varphi_2$ é igualmente trivial, bastando agora verificar o caso $\varphi : \forall_{\bf z} \varphi_1$.
+
+	Há dois casos a verificar. Se $\bf z$ é $\bf x$ então $\varphi_{\bf x}[\bf y]$ é igual a $\varphi$, e a proposição é uma simples aplicação do lema das variáveis omissas. Suponha-se, então, que $\bf z$ não é $\bf x$. Note-se que, como $\bf y$ não consta na nossa fórmula, $\bf z$ também não poderá ser $\bf y$.
+
+	Neste caso, $\varphi[\bf y]$ é $\forall_{\bf z} \varphi_1[\bf y]$. A valoração $\rho\!\downarrow^{\bf y}_u$ satisfaz isto sse, para qualquer $u' \in U_I$, $\rho\!\downarrow^{\bf y}_u\downarrow^{\bf z}_{u'}$ satisfaz $\varphi_1[\bf y]$. Podemos agora aplicar a hipótese de indução e trocar o $\bf y$ por $\bf x$ (note-se que a ordem das setas não importa), ficando com a afirmação que, para qualquer $u' \in U_I$, $\rho\!\downarrow^{\bf x}_u\downarrow^{\bf z}_{u'} \Vdash \varphi_1$. Isto equivale precisamente a afirmar $\rho\!\downarrow^{\bf x}_u \Vdash \forall_{\bf z} \varphi_1$, e o passo de indução está completo.	
 	\end{proof}
 	
 	Agora que já demonstrámos que a construção de Henkin preserva coerência, visto que já demonstrámos também o lema de Lindenbaum, podemos começar a construir o modelo que será usado na demonstração do teorema da completude.
@@ -2496,23 +2508,43 @@ Apesar do nome, esta afirmação não tem nada de paradoxical. A demonstração 
 	
 	\item Caso $\varphi : \forall_{\bf x} \psi$. Este caso é o que requer mais atenção.
 	
-	O ingrediente principal é que a nossa estrutura de interpretação é pequena o suficiente para poder ser representada fielmente na linguagem. Isto reflete-se nas seguintes afirmações:
+	O ingrediente principal é que a nossa estrutura de interpretação é pequena o suficiente para poder ser representada fielmente na linguagem. Isto reflete-se nas seguintes afirmações, que serão justificadas brevemente:
 \begin{gather}
 I \Vdash \forall_{\bf x} \psi \text{ sse para qualquer termo fechado $t$ se tem } I \Vdash \psi[t],\label{eq:smallstructure1}\\
 \widehat\Gamma \vdash \forall_{\bf x} \psi \text{ sse para qualquer termo fechado $t$ se tem } \widehat\Gamma \vdash \psi[t].\label{eq:smallstructure2}
 \end{gather}
 
-	A demonstração de \eqref{eq:smallstructure1} é feita facilmente usando o facto que
-\[\rho_\F(\psi) = \rho_\F(\psi_{\bf x}[\rho(\bf x)]),\]
-	facto este que pode ser demonstrado por indução em $\psi$.
+	Usando-as, é fácil completar o passo de indução, com um pequeno detalhe. O princípio de indução que temos vindo a usar é o seguinte: mostrando que uma afirmação é verdadeira para as fórmulas atómicas, e mostrando que se é verdadeira para as fórmulas constituintes de $\varphi$ então é verdadeira para $\varphi$ (passo de indução), mostramos que é verdade para qualquer fórmula. No entanto, aqui, a nossa hipótese de indução não será que a fórmula é verdade para $\psi$ (a fórmula constituinte de $\forall_{\bf x} \psi$), mas sim para uma classe algo mais vasta de fórmulas.
 
-	Pelo outro lado, \eqref{eq:smallstructure2} é consequência da exaustividade de $\widehat \Gamma$, das fórmulas adicionadas na construção de Henkin e da veracidade das fórmulas $\forall_{\bf x} \psi \imply \psi[t]$ para $t$ fechado.
+	Usaremos aqui um análogo de indução forte, que foi descrito na demonstração da proposição \ref{fol:size}: indução na geração de uma fórmula. Assim sendo, a nossa hipótese de indução não é que a afirmação seja verdadeira para $\psi$, mas sim para \emph{todas} as fórmulas `mais pequenas que $\forall_{\bf x} \psi$', isto é, de geração menor. Deixamos ao leitor a verificação que a geração da fórmula $\psi[t]$ é igual à geração de $\psi$, que é inferior à geração de $\forall_{\bf x} \psi$, pelo que podemos aplicar a hipótese de indução a todas as fórmulas da forma $\psi[t]$, completando-se o raciocínio da seguinte forma:
+	\begin{multline*}
+I \Vdash \forall_{\bf x} \psi \text{ sse } I \Vdash \psi[t] \text{ para todo o $t$,}\\
+\text{sse (por H.I.) } \widehat\Gamma \vdash \psi[t] \text{ para todo o $t$, sse } \widehat\Gamma \vdash \forall_{\bf x} \psi.
+	\end{multline*}
+	\end{itemize}
+	
 
-	O passo de indução pode agora ser feito sem dificuldade\footnote{Um detalhe que está aqui omisso é que esta indução não é indução direta como era feito antes. De facto, o princípio de indução usado até agora consiste em assumir algo para as fórmulas constituintes de $\varphi$, e prová-lo para $\varphi$. Mas $\psi[t]$ não é uma fórmula constituinte de $\forall_{\bf x} \psi$. Aqui usamos o princípio de indução na geração de uma fórmula (ver demonstração da proposição \ref{fol:size}), e está implícita a afirmação (que o leitor deverá verificar) que a geração de $\psi[t]$ é a mesma que a geração de $\psi$.}, pois $I \Vdash \forall_{\bf x} \psi$ sse $I \Vdash \psi[t]$ para todo o $t$, sse (por H.I.) $\widehat\Gamma \vdash \psi[t]$ para todo o $t$, sse $\widehat\Gamma \vdash \forall_{\bf x} \psi$.
+	Esboçamos agora a demonstração de \eqref{eq:smallstructure1} e \eqref{eq:smallstructure2}. 
+
+	\begin{itemize}
+
+	\item \eqref{eq:smallstructure1} ($\rightarrow$) Suponha-se que $I \Vdash \forall_{\bf x} \psi$. Então $I \Vdash \psi$. Como tal, para qualquer valoração $\rho$ temos que $\rho \Vdash \psi$. Seja $t$ um termo fechado. Então, $t \in U_I$, e como tal podemos escolher uma valoração $\rho$ tal que $\rho(\bf x) = t$. Sabemos que $\rho_\F(\psi) = \lt$, e agora basta mostrar (por indução, que deixaremos ao leitor) a afirmação
+\[\rho_\F(\psi) = \rho_\F(\psi_{\bf x}[\rho_\T(\bf x)]).\]
+
+Usando este facto, é fácil mostrar que
+\[\rho_\F(\psi[t]) = \rho_\F(\psi[\rho_\T(\bf x)]) = \rho_\F(\psi) = \lt.\]
+	
+	Note-se que $\rho$ é arbitrário, com exceção do valor que atribui a $\bf x$. Mas uma aplicação simples do lema das variáveis omissas (note-se que $\bf x$ não é livre em $\psi_{\bf x}[t]$) remove essa restrição, e como consequência $I \Vdash \psi[t]$.
+
+	\item \eqref{eq:smallstructure1} ($\leftarrow$) Usamos novamente o facto que $\rho_\F(\psi) = \rho_\F(\psi_{\bf x}[\rho_\T(\bf x)])$. De facto, supondo que para qualquer $t$ temos que $I \Vdash \psi[t]$ temos que, fixa uma valoração $\rho$ qualquer, $\rho_\F(\psi) = \rho_\F(\psi_{\bf x}[\rho_\T(\bf x)])$, e por hipótese este último valor é $\lt$. Como tal, $\rho \Vdash \psi$, por arbitrariedade temos $I \Vdash \psi$ e por generalização temos $I \Vdash \forall_{\bf x} \psi$.
+
+	\item \eqref{eq:smallstructure2} ($\rightarrow$) Esta implicação é consequência trivial da veracidade das fórmulas $\forall_{\bf x} \psi \imply \psi[t]$, com $t$ fechado. Uma demonstração mais ou menos detalhada deste facto é feita na secção de axiomática.
+
+	\item \eqref{eq:smallstructure2} ($\leftarrow$) Esta implicação é feita através do contrarrecíproco. Suponha-se que $\widehat\Gamma \nvdash \forall_{\bf x} \psi$. Então, como esta fórmula é fechada e $\widehat\Gamma$ é exaustivo, $\widehat\Gamma \vdash \neg \forall_{\bf x} \psi$. Uma aplicação direta do metateorema de substituição de equivalentes diz-nos que $\widehat\Gamma \vdash \exists_{\bf x} \neg \psi$. Note-se, agora, que $\neg \psi$ não tem variáveis livres com a possível exceção de $\bf x$, pelo que consta na enumeração $\pi_n$ usada na construção de Heniken. Assim sendo, $\widehat\Gamma$ contém uma fórmula da forma $\exists_{\bf x} \neg \psi \imply \neg \psi[c]$ para algum símbolo de constante $c$. Por \textit{modus ponens}, $\widehat\Gamma \vdash \neg \psi[c]$, e por coerência $\widehat\Gamma \nvdash \psi[c]$. Logo, existe um termo fechado $t = c$ tal que $\widehat\Gamma \nvdash \psi[t]$.
 	\end{itemize}
 	\end{proof}
 
-	Como consequência trivial disto temos que $I$ (como estrutura de interpretação sobre $\Sigma$) satisfaz todas as fórmulas em $\Gamma$, o que mostra um teorema muito importante em teoria de modelos:
+	Como consequência trivial da última proposição temos que $I$ (como estrutura de interpretação sobre $\Sigma$) satisfaz todas as fórmulas em $\Gamma$, o que mostra um teorema muito importante em teoria de modelos:
 
 	\begin{prop} (Teorema de Löwenheim) Se $\Gamma$ é um conjunto coerente de fórmulas existe uma estrutura de interpretação $I$, de universo contável, tal que $I \Vdash \Gamma$.
 	\end{prop}
@@ -2658,7 +2690,7 @@ visto que esta última expressão é $\lt$.
 	\end{equation}
 	\emph{se em $\psi$ não houver quantificações sobre variáveis de $t$, exceto possivelmente quantificações sobre $\bf x$ ou quantificações no interior das quais $\bf x$ não é livre}. Acabámos de provar que todas estas fórmulas são verdadeiras.
 
-	É fácil verificar que, sob a notação da proposição \ref{coherenceinplus}, dada uma fórmula $\varphi \in \F_{\Sigma^+}$ da forma \eqref{fol:ax6} então $\varphi'$ também é desta forma, visto que não estamos a mudar as quantificações que estão a ser feitas e as únicas variáveis que estamos a adicionar a $t$ não constam em $\psi$.\footnote{Ver anexo para demonstração mais bem-feita.} Os axiomas da forma \eqref{fol:ax6} englobam o caso em que $t$ é fechado, pelo que a demonstração da proposição \ref{prop:gammahatsemantics} pode ser feita sem problemas. Repare-se, também, que o axioma \eqref{fol:ax5} é um caso particular de \eqref{fol:ax6} quando $t$ é $\bf x$.
+	É fácil verificar que, sob a notação da proposição \ref{coherenceinplus}, dada uma fórmula $\varphi \in \F_{\Sigma^+}$ da forma \eqref{fol:ax6} então $\varphi'$ também é desta forma, visto que não estamos a mudar as quantificações que estão a ser feitas e as únicas variáveis que estamos a adicionar a $t$ não constam em $\psi$. Os axiomas da forma \eqref{fol:ax6} englobam o caso em que $t$ é fechado, pelo que a demonstração da proposição \ref{prop:gammahatsemantics} pode ser feita sem problemas. Repare-se, também, que o axioma \eqref{fol:ax5} é um caso particular de \eqref{fol:ax6} quando $t$ é $\bf x$.
 
 	Ficamos então com a lista (que veremos brevemente ser final) de axiomas:
 	\begin{gather}
@@ -2703,12 +2735,6 @@ visto que esta última expressão é $\lt$.
 	\end{itemize}
 
 	Isto termina a verificação do drinker's paradox, e como tal, a verificação de que os axiomas \eqref{fol:ax1}, \eqref{fol:ax2}, \eqref{fol:ax3}, \eqref{fol:ax4} e \eqref{fol:ax6} são suficientes para demonstrar o teorema de completude de Gödel, e portanto, em particular, são suficientes para demonstrar qualquer afirmação verdadeira. 
-
-	\appendix
-
-	\chapter{Substituição}
-
-	Um apêndice para formalizar algumas questões de substituição e demonstrar algumas relações entre substituição e valorações que quebrariam o texto se estivessem nele inseridas.
 	
 	\nocite{fltc}
 	\nocite{shoenfield}
