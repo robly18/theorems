@@ -20,6 +20,8 @@
 
 \newcommand{\R}{\mathbb{R}}
 
+\newcommand{\ps}{\mathcal{P}}
+
 \begin{document}
 \maketitle
 
@@ -92,6 +94,31 @@ and furthermore that $S_3$ satisfies the property $U$. Now, we are identifying s
 
 In retrospect, this is confusing. I need to establish notation to talk about this properly.
 \end{problem}
+
+\section{Underlying phase space}
+
+In this section I will try to establish notation to talk about what's happening `behind the scenes', which will allow me to speak more clearly about conceptual problems I have with this formalism of measurements.
+
+Suppose we have a physical system under our microscope. This system has some phase space, which will be referred to as $\Phi$. Elements of phase space will be called states, and will be referred to using the letter $S$. The system begins in some state, which we may assume is unknown to us and can take any value in phase space.
+
+Now, let us suppose we take some measurement $m$. There are two phenomena associated with this measurement-taking.
+
+\begin{itemize}
+\item It might be that the measurement is incompatible with the state we previously found ourselves in. For example, we might be in a state where the electron's spin is down; in this case performing a measurement that concludes its spin is up is nonsensical.
+
+\item In the case where a measurement is performable, it usually disturbs the system in some manner. The textbook example is making the system's state into an eigenstate of the observable, but this might also include destructible measurements.
+
+Furthermore, there's no reason why the disturbance should be deterministic. That is, it could happen that if the system starts in state $S_1$ and we perform a measurement $m$ it could be disturbed into either $S_2$ or $S_3$. Note that this nondeterminism is distinct from quantum nondeterminism in that a quantum superposition of two states is one state unto itself. An example where this might happen is the Schrödinger electron, where the measurement $\mathbf{z}$ can be considered as disturbing the state nondeterministically into either $Z^\uparrow$ or $Z^\downarrow$.
+\end{itemize}
+
+From the moment we allow nondeterminism, the case of nonsensical measurements becomes simple to handle: it is simply the case where the set of possible states after performing the measurement is empty. As such, it makes sense to consider nondeterminism even if we disregard Schrödinger-like experiments.
+
+This allows us now to think of a measurement as a function $m : \Phi \to \ps(\Phi)$. In order to make $m$ into an endomorphism, we will actually work with the `mapped function' $m^\sharp : \ps(\Phi) \to \ps(\Phi)$, defined as
+\[m^\sharp(P) = \bigcup_{S \in P} m(S).\]
+
+We are already in a position to rigorously define composition of measurements as $mn := n^\sharp \circ m$. Note the order reversal.
+
+Now, we don't know what the system looks like at the outset. We represent this by saying that the set of potential states at the start is the entirety of the phase space, $\Phi$. However, upon taking a measurement $m$, the set of potential states is now $m^\sharp(\Phi)$, which is usually a strict subset of $\Phi$.
 
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
