@@ -15,6 +15,10 @@
 
 \theoremstyle{definition}
 \newtheorem{problem}{Problem}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{prop}{Prop}
 
 \DeclareMathOperator{\Hom}{Hom}
 
@@ -134,9 +138,51 @@ and furthermore, $\sigma(a,b) \cup \{c\} \subseteq \sigma(a,b,c)$ and so associa
 
 So, to recap, I demand that $\sigma$ satisfies: idempotency, monotony, and is greater than identity. Note that the `closed span' operator on a Hilbert space satisfies all these things. This is as it should be, as it is the prototypical example of a superposition operator.
 
-Actually, I think this might be superfluous. Well, kind of. Anyway, let $\Sigma$ be the image of $\sigma$. It represents `the linear subspaces of $\Phi$'. I can probably show that the subset order on $\Sigma$ forms a sup-lattice. Actually, possibly a frame. File this away for further consideration.
+Actually, I think this might be superfluous. Well, kind of. Anyway, let $\Sigma$ be the image of $\sigma$. It represents `the linear subspaces of $\Phi$'. I can probably show that the subset order on $\Sigma$ forms a sup-lattice. Actually, possibly a frame. File this away for further consideration. [Post-scriptum: it does, but the sup is not given by union!]
 
 Anyhow, the point of the matter is that, if $m$ is a measurement and $S$ is a state, we ought to expect that $m(S)$ is a valid superposition of states, and thus that $m(S) \in \Sigma$. In particular, this means that in taking the supremum of two measurements $m$ and $n$ it is not necessarily the most natural idea to define $(m \vee n)(S) = m(S) \cup n(S)$, but rather $\sigma(\text{this})$. This might prove a worthy definition for a model of a complete measurement space.
+
+\begin{definition}
+A quantum phase space is a set $\Phi$ together with a function $\sigma : \ps(\Phi) \to \ps(\Phi)$ satisfying the four properties:
+\begin{itemize}
+\item For all $P \subseteq \Phi$, $P \subseteq \sigma(P)$,
+\item For all $P \subseteq Q \subseteq \Phi$, $\sigma(P) \subseteq \sigma(Q)$,
+\item $\sigma$ is idempotent,
+\item $\sigma(\emptyset) = \emptyset$ (because it makes sense that a superposition of no states has no states).
+\end{itemize}
+
+Furthermore, we will use the letter $\Sigma$ to refer to the image of $\sigma$.
+\end{definition}
+
+\begin{prop}
+Under the above notation, $\Sigma$ is a frame. The infimum is simply set intersection inherited from $\ps(\Phi)$, though suprema might not be set union.
+\end{prop}
+
+\begin{proof}
+We begin by showing $\Sigma$ is closed under finite intersections.
+
+The empty intersection, $\Phi$, is clearly in $\Sigma$, for $\sigma(\Phi) = \Phi$.
+
+Furthermore, let $P, Q \in \Sigma$. We wish to show $P \cap Q \in \Sigma$. In other words, that $\sigma(P \cap Q) = P \cap Q$. One property gives us $\supseteq$, while the other may be obtained as follows: since $P \cap Q \subseteq P$, we have $\sigma(P \cap Q) \subseteq \sigma(P) = P$. Likewise for $Q$, hence $\sigma(P \cap Q)$ is contained in both $P$ and $Q$ and hence in their intersection.
+
+Now we define the supremum on $\Sigma$ as $\bigvee P_\alpha = \sigma(\bigcup P_\alpha)$. We show that this is a supremum. It is easy to check that it is indeed bigger than all $P_\alpha$, and furthermore if $Q \supseteq P_\alpha$ for all $\alpha$ then $Q \supseteq \bigcup P_\alpha$. Taking $\sigma$ of both sides and assuming $Q \in \Sigma$, we get $Q \supseteq \bigvee P_\alpha$, which shows $\bigvee P_\alpha$ is indeed the supremum.
+\end{proof}
+
+\begin{definition}
+A measurement $m$ on a quantum phase space $\Phi$ is a function $\Phi \to \Sigma$. The set of measurements is denoted by $\mathcal{M}$. Given a measurement $m$, $m^\sharp$ denotes the function $\ps(\Phi) \to \ps(\Phi)$ given by $m^\sharp(P) = \bigcup_{S \in P} m(S)$ and $m'$ denotes the function $\Sigma \to \Sigma$ given by $\sigma \circ m^\sharp$. Equivalently,
+\[m'(P) = \bigvee_{S \in P} m(S).\]
+
+Given two measurements $m$ and $n$, we can compose them (do one after the other) as follows:
+\[mn = n' \circ m.\]
+
+This corresponds to composition of relations, if we see a measurement as a binary relation on $\Phi$.
+
+The set of measurements can be ordered. Indeed, the set of measurements is simply $\Sigma^\Phi$, which can be given the product order (inherited from $\Sigma$) and therefore inherits the suprema and infima from $\Sigma$; namely, pointwise $\vee$ and $\cap$. This means that the set of measurements forms a frame.
+
+A \emph{measurement device} $M$ is a subframe of $\mathcal{M}$ that is closed under composition.
+\end{definition}
+
+Even though the measurement device can take all measurements $M$, only finite amount of information can be recorded. As such, it is necessary \textit{a priori} to establish an information recording protocol. To do: do I want to define what I mean by this? It's an interesting question.
 
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
