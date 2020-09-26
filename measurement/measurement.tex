@@ -15,6 +15,10 @@
 
 \theoremstyle{definition}
 \newtheorem{problem}{Problem}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{prop}{Prop}
 
 \DeclareMathOperator{\Hom}{Hom}
 
@@ -120,7 +124,65 @@ We are already in a position to rigorously define composition of measurements as
 
 Now, we don't know what the system looks like at the outset. We represent this by saying that the set of potential states at the start is the entirety of the phase space, $\Phi$. However, upon taking a measurement $m$, the set of potential states is now $m^\sharp(\Phi)$, which is usually a strict subset of $\Phi$.
 
-We can now interpret the meaning of a measurement being compatible with a physical property. In abstract, a physical property is a predicate $p : \Phi \to \{\top, \bot\}$. We might demand that $p$ satisfies some more properties, especially with regard to quantum superposition, but let us not concern ourselves with that additional structure for now. To say that $p$ is compatible with a set of states $P$ is to say that it is not impossible, given that set of states, that $p$ is true. In other words, \emph{$p$ is compatible with $P$ iff there exists $S \in P$ such that $p(S) = \top$}. Consequently, we define that $p$ is compatible with a measurement $m$ iff $p$ is compatible with $m^\sharp(\Phi)$. The interpretation of this is (to do)
+We can now interpret the meaning of a measurement being compatible with a physical property. In abstract, a physical property is a predicate $p : \Phi \to \{\top, \bot\}$. We might demand that $p$ satisfies some more properties, especially with regard to quantum superposition, but let us not concern ourselves with that additional structure for now. To say that $p$ is compatible with a set of states $P$ is to say that it is not impossible, given that set of states, that $p$ is true. In other words, \emph{$p$ is compatible with $P$ iff there exists $S \in P$ such that $p(S) = \top$}. Consequently, we define that $p$ is compatible with a measurement $m$ iff $p$ is compatible with $m^\sharp(\Phi)$. The interpretation of this is that the measurement $m$ does not allow us to refute that the property $p$ is true.
+
+Note that a physical property $p$ is the same as a subset of $\Phi$. Furthermore, we probably have some protocol for recording observations, which will not allow us to record any possible predicate. As such, the set of predicates that can be recorded in finite time is a subset of $\ps(\Phi)$, and it is easy to reach the conclusion that it forms a topology on $\Phi$.
+
+So in conclusion, we have: a phase space $\Phi$, a topology $\Omega$ on $\Phi$ and a set of measurements $M$, where each measurement is a binary relation on $\Phi$. Furthermore, $M$ is closed under composition.
+
+We can establish an order on $M$ by saying that a measurement $m$ is \emph{more specific than} $n$ if $m$ always gives more information than $n$, that is, for all states $S$ we have $m(S) \subseteq n(S)$. In binary relation language, $m \subseteq n$.
+
+We are trying to make a presentation of complete measurement spaces, so we would want $M$ to be closed under suprema. The most natural supremum is the union of relations, but that is completely disregarding all possible structure on $\Phi$. Indeed, $\Phi$ represents the phase space of a quantum system. This gives it some structure which I have yet to identify precisely. However, for now let's try the following: I postulate that there exists a function $\sigma : \ps(\Phi) \to \ps(\Phi)$, $\sigma$ for `superposition'. For example, if $\lvert + \rangle$ and $\lvert - \rangle$ are the states for $z$ spin up and down respectively, their superposition consists of all possible linear combinations of them. The superposition function probably ought to satisfy some extra properties, but I don't know what. The only ones that stick out are monotony and $\sigma(P) \supset P$. Oh, and maybe some kind of associativity. And definitely idempotency. Idempotency probably solves all my problems. Indeed,
+\[\sigma(\sigma(a,b) \cup \{c\}) \supseteq \sigma(a,b,c) \text{ by monotony and increasingness}\]
+and furthermore, $\sigma(a,b) \cup \{c\} \subseteq \sigma(a,b,c)$ and so associativity-ish is true. Yeah this all works out fine.
+
+So, to recap, I demand that $\sigma$ satisfies: idempotency, monotony, and is greater than identity. Note that the `closed span' operator on a Hilbert space satisfies all these things. This is as it should be, as it is the prototypical example of a superposition operator.
+
+Actually, I think this might be superfluous. Well, kind of. Anyway, let $\Sigma$ be the image of $\sigma$. It represents `the linear subspaces of $\Phi$'. I can probably show that the subset order on $\Sigma$ forms a sup-lattice. Actually, possibly a frame. File this away for further consideration. [Post-scriptum: it does, but the sup is not given by union!]
+
+Anyhow, the point of the matter is that, if $m$ is a measurement and $S$ is a state, we ought to expect that $m(S)$ is a valid superposition of states, and thus that $m(S) \in \Sigma$. In particular, this means that in taking the supremum of two measurements $m$ and $n$ it is not necessarily the most natural idea to define $(m \vee n)(S) = m(S) \cup n(S)$, but rather $\sigma(\text{this})$. This might prove a worthy definition for a model of a complete measurement space.
+
+\begin{definition}
+A quantum phase space is a set $\Phi$ together with a function $\sigma : \ps(\Phi) \to \ps(\Phi)$ satisfying the four properties:
+\begin{itemize}
+\item For all $P \subseteq \Phi$, $P \subseteq \sigma(P)$,
+\item For all $P \subseteq Q \subseteq \Phi$, $\sigma(P) \subseteq \sigma(Q)$,
+\item $\sigma$ is idempotent,
+\item $\sigma(\emptyset) = \emptyset$ (because it makes sense that a superposition of no states has no states).
+\end{itemize}
+
+Furthermore, we will use the letter $\Sigma$ to refer to the image of $\sigma$.
+\end{definition}
+
+\begin{prop}
+Under the above notation, $\Sigma$ is a frame. The infimum is simply set intersection inherited from $\ps(\Phi)$, though suprema might not be set union.
+\end{prop}
+
+\begin{proof}
+We begin by showing $\Sigma$ is closed under finite intersections.
+
+The empty intersection, $\Phi$, is clearly in $\Sigma$, for $\sigma(\Phi) = \Phi$.
+
+Furthermore, let $P, Q \in \Sigma$. We wish to show $P \cap Q \in \Sigma$. In other words, that $\sigma(P \cap Q) = P \cap Q$. One property gives us $\supseteq$, while the other may be obtained as follows: since $P \cap Q \subseteq P$, we have $\sigma(P \cap Q) \subseteq \sigma(P) = P$. Likewise for $Q$, hence $\sigma(P \cap Q)$ is contained in both $P$ and $Q$ and hence in their intersection.
+
+Now we define the supremum on $\Sigma$ as $\bigvee P_\alpha = \sigma(\bigcup P_\alpha)$. We show that this is a supremum. It is easy to check that it is indeed bigger than all $P_\alpha$, and furthermore if $Q \supseteq P_\alpha$ for all $\alpha$ then $Q \supseteq \bigcup P_\alpha$. Taking $\sigma$ of both sides and assuming $Q \in \Sigma$, we get $Q \supseteq \bigvee P_\alpha$, which shows $\bigvee P_\alpha$ is indeed the supremum.
+\end{proof}
+
+\begin{definition}
+A measurement $m$ on a quantum phase space $\Phi$ is a function $\Phi \to \Sigma$. The set of measurements is denoted by $\mathcal{M}$. Given a measurement $m$, $m^\sharp$ denotes the function $\ps(\Phi) \to \ps(\Phi)$ given by $m^\sharp(P) = \bigcup_{S \in P} m(S)$ and $m'$ denotes the function $\Sigma \to \Sigma$ given by $\sigma \circ m^\sharp$. Equivalently,
+\[m'(P) = \bigvee_{S \in P} m(S).\]
+
+Given two measurements $m$ and $n$, we can compose them (do one after the other) as follows:
+\[mn = n' \circ m.\]
+
+This corresponds to composition of relations, if we see a measurement as a binary relation on $\Phi$.
+
+The set of measurements can be ordered. Indeed, the set of measurements is simply $\Sigma^\Phi$, which can be given the product order (inherited from $\Sigma$) and therefore inherits the suprema and infima from $\Sigma$; namely, pointwise $\vee$ and $\cap$. This means that the set of measurements forms a frame.
+
+A \emph{measurement device} $M$ is a subframe of $\mathcal{M}$ that is closed under composition.
+\end{definition}
+
+Even though the measurement device can take all measurements $M$, only finite amount of information can be recorded. As such, it is necessary \textit{a priori} to establish an information recording protocol. To do: do I want to define what I mean by this? It's an interesting question.
 
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
