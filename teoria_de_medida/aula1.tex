@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+
+\title{Currículo para Aulas de Teoria de Medida}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\DeclareMathOperator{\ps}{P}
+
+\begin{document}
+\maketitle
+
+\section{Resumo}
+
+\begin{itemize}
+\item Questão inicial: o que é, em abstrato, comprimento, área, volume, etc?
+\item Tentativa de resposta: uma função $m : \ps(\R^n) \to \left[0, \infty\right]$ que seja simpática o suficiente.
+\begin{enumerate}
+\item A medida de um retângulo é suposto ser o esperado,
+\item $c$ é invariante para translações e rotações,
+\item $c$ é aditivo, isto é: se $A$ e $B$ são disjuntos, queremos que $c(A \cup B) = c(A) + c(B)$.
+\end{enumerate}
+\item (Teorema difícil, devido a Banach) Existe uma função $c$ que satisfaz isto em $\R$, e uma $a$ que satisfaz isto em $\R^2$, mas devido ao paradoxo de Banach-Tarski isto não é possível para $n \geq 3$.
+\begin{enumerate}
+\item Banach-Tarski: existe um conjunto finito $A_1, \dots, A_k$ que forma uma decomposição da esfera unitária tal que os conjuntos $A_i$ podem ser rodados e transladados para obter uma decomposição de duas esferas distintas.
+\item Isto significa que não é possível atribuir volume às componentes $A_i$.
+\end{enumerate}
+\item Apesar de as funções $c$ e $a$ existirem, não são úteis para matemática do dia-a-dia, porque na prática queremos uma condição mais forte: somabilidade contável.
+\item Exemplo clássico: Pretendemos mostrar que o conjunto dos racionais tem `comprimento zero'. Para tal, enumere-se o conjunto dos racionais $q_n$. Vamos construir um intervalo $i_n$ à volta de $q_n$, tal que a soma dos comprimentos de $i_n$ seja pequena. Por exemplo, $i_n = \left]q_n - \varepsilon 2^{-n}, q_n + \varepsilon 2^{-n}\right[$. Neste caso, o conjunto dos racionais fica coberto pela união de todos os $i_n$, e $\sum c(i_n) = 4 \varepsilon$.
+\item Agora, seria muito agradável que pudéssemos concluir que $\bigcup i_n$ é igualmente pequeno. Por outras palavras, que $c(\bigcup i_n) \leq \sum c(i_n)$. Metemos esta propriedade como `propriedade talvez implausível mas que seria agradável'.
+\item Outro exemplo clássico: pretendemos descobrir a àrea sob um gráfico, por exemplo, $\e^{-x}$ para $x>0$. O procedimento usual é calcular a área sob o gráfico com $x$ entre $0$ e $t$, e depois tomar o limite quando $t$ vai para infinito. Ora, com a nossa definição de área, isto tem um problema.
+\item A única coisa que conseguimos concluir é que $\int_0^t \leq \int_0^\infty$ para todo o $t$, pelo que no limite esta desigualdade se mantém, ou seja $\lim_{t \to \infty} \int_0^t \leq \int_0^\infty$. De facto, a definição dada não é forte o suficiente para garantir a igualdade, apesar de esta parecer intuitivamente plausível.
+\item Isto pode ser dito de outra forma. Se tomarmos $t$ discreto igual a $n$, podemos pensar neste processo como cortar o conjunto de ordenadas em pedaços de largura 1. Conseguimos concluir que $\sum c \Omega_n \leq c \Omega$, e falta-nos a desigualdade oposta: $\sum c \Omega_n \geq c \bigcup \Omega_n$.
+\item Estes dois exemplos motivam a adição da condição de subaditividade contável para a nossa definição de medida.
+\item Este último exemplo pode ser adaptado para justificar que os axiomas que temos até agora + subaditividade contável chegam para provar aditividade contável.
+\item Questão: existe alguma função comprimento em $\R$ que satisfaça subaditividade contável?
+\item Isto é o chamado \textbf{Problema difícil de Borel}. Chama-se problema difícil porque é impossível.
+\item O exemplo de Vitali é o exemplo clássico de um conjunto (`nuvem difusa') ao qual não pode ser atribuída nenhuma medida sem quebrar estes axiomas.
+\item Isto significa que temos de moderar a nossa ambição. Todos estes quatro axiomas são extremamente importantes, pelo que o axioma que vai embora é aquele que nem sequer foi mencionado: a hipótese de que a medida tem que estar definida para qualquer conjunto.
+\item Isto não é uma ideia nova. Já em cálculo 1 foram todos expostos à ideia de que o integral de Riemann não está definido em qualquer conjunto. De facto, a ideia do Peano (que foi um dos primeiros bacanos a pensar nesta questão de como definir área) era aproximar conjuntos por retângulos, por fora e por dentro. Sob esta perspetiva, a área de um conjunto está bem-definida exatamente quando as estimativas por baixo e por fora coincidem.
+\item Isto funciona bem o suficiente para coisas tipo geometria, mas esta definição não é robusta o suficiente para com limites para efeitos de análise. Por exemplo, não é possível usar esta definição para definir o integral de conjuntos ilimitados, e.g. o conjunto de ordenadas de $\e^{-x}$, porque não é possível fazer estimativas exteriores.
+\item Vamos tentar descrever um conjunto mínimo simpático o suficiente. Seja $D \subseteq \R^n$ o domínio da função hipotética `comprimento/área/volume' $m : D \to \left[0,\infty\right]$.
+\begin{enumerate}
+\item Queremos que pelo menos os intervalos/retângulos estejam em $D$.
+\item Queremos que dada uma coleção contável $A_n$ de conjuntos em $D$, a sua união $\bigcup A_n$ também esteja em $D$ (para podermos depois assegurar que $m(\bigcup A_n) \leq \sum m A_n$).
+\item É também razoável desejar que se possa `apagar partes de conjuntos', ou seja, que se $A$ e $B$ estão em $D$ então $A \setminus B$ esteja em $D$.
+\end{enumerate}
+\item Uma coleção $D$ que satisfaça isto chamaremos, provisionalmente, uma coleção de Borel. Levanta-se então a questão de qual é a menor coleção de Borel possível, visto que isto é o conjunto em que a nossa medida hipotética certamente está definida, se existir.
+\item 
+\item Motivar $\sigma$-álgebra como sendo o conjunto no qual é razoável querer definir medidas
+\item Definir medida
+\item Justificar utilidade de medidas como coisas mais gerais do que `áreas'
+\begin{itemize}
+\item Distribuições de massa
+\item Medidas de probabilidade
+\item (Se permitirmos valores negativos) Distribuições de carga
+\end{itemize}
+\item Dar exemplos simples
+\item Motivar noção de construir medidas a partir de coisas mais simples
+\begin{itemize}
+\item Construir a medida de Lebesgue começando com comprimentos de intervalos
+\item Construir uma medida de probabilidade começando com uma função de distribuição
+\item Dados dois espaços $X$ e $Y$ com medidas $\mu$ e $\nu$, construir uma medida em $X \times Y$ a partir de retângulos
+\item ...Por exemplo, construir uma medida em $X \times \left[0,\infty\right]$ para depois poder definir integral
+\item ...Por exemplo, construir a medida de Lebesgue em $\R^n$
+\item ...Por exemplo, construir uma medida de probabilidade produto, que corresponde a fazer duas experiências independentes em paralelo.
+\end{itemize}
+\end{itemize}
+
+\end{document}
