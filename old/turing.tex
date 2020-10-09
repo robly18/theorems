@@ -1,0 +1,1035 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\title{Establishing with rigour and certainty the existance of Turing Machines that compute certain functions}
+\author{Duarte Maia}
+\date{}
+
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\B}{\mathbf{B}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Ha}{\mathbf{H}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\Nc}{\mathcal{N}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\prarrow}[1]{\overset{#1}{\rightarrow}}
+\newcommand{\plarrow}[1]{\overset{#1}{\leftarrow}}
+\DeclareMathOperator{\suc}{\mathbf{succ}}
+\DeclareMathOperator{\run}{\mathbf{run}}
+\DeclareMathOperator{\dom}{\mathrm{dom}}
+\DeclareMathOperator{\runtime}{\mathbf{runtime}}
+\DeclareMathOperator{\out}{\mathbf{out}}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclareMathOperator{\Nifat}{\mathbf{if\,at}}
+\DeclareMathOperator{\Nthen}{\mathbf{then}}
+\DeclareMathOperator{\Nelse}{\mathbf{else}}
+\DeclareMathOperator{\Nendif}{\mathbf{endif}}
+\DeclareMathOperator{\Nwhileon}{\mathbf{while\,on}}
+\DeclareMathOperator{\Ndo}{\mathbf{do}}
+\DeclareMathOperator{\Nendwhile}{\mathbf{endwhile}}
+\DeclareMathOperator{\Ncase}{\mathbf{case}}
+\DeclareMathOperator{\Nof}{\mathbf{of}}
+\DeclareMathOperator{\Nendcase}{\mathbf{endcase}}
+
+\newcommand{\NIL}{\mathbf{NIL}}
+\newcommand{\MR}{\mathbf{MR}}
+\newcommand{\ML}{\mathbf{ML}}
+\newcommand{\UNDEF}{\mathbf{UNDEF}}
+
+\newcommand{\W}{\mathbf{W}}
+
+\newcommand{\RT}{\mathbf{RT}}
+\newcommand{\LT}{\mathbf{LT}}
+
+
+\newcommand{\pull}{\mathbf{pull}}
+\newcommand{\pt}{\mathbf{pt}}
+\newcommand{\RS}{\mathbf{RS}}
+\newcommand{\LS}{\mathbf{LS}}
+\newcommand{\LSEL}{\mathbf{LSEL}}
+
+\newcommand{\Oright}{\mathbf{right}}
+\newcommand{\Oleft}{\mathbf{left}}
+
+
+\newcommand{\PREPEND}{\mathbf{PREPEND}}
+\newcommand{\POP}{\mathbf{POP}}
+\newcommand{\SAFEPOP}{\mathbf{SAFEPOP}}
+\newcommand{\STRICTPOP}{\mathbf{STRICTPOP}}
+\newcommand{\CASE}{\mathbf{CASE}}
+\newcommand{\WHILE}{\mathbf{WHILE}}
+
+
+\newcommand{\CLEAN}{\mathbf{CLEAN}}
+\newcommand{\RETURN}{\mathbf{RETURN}}
+
+
+\newcommand{\MOVR}{\mathbf{MOVR}}
+
+\newcommand{\COPY}{\mathbf{COPY}}
+
+\newcommand{\REMONE}{\mathbf{REMONE}}
+
+
+\newcommand{\PR}{\mathbf{P}}
+
+
+\begin{document}
+	\maketitle
+
+	\section{Introduction}
+
+	It is to my dismay that books on computability, even those that boast of care and rigour, often skimp on showing the computability of functions. That is, to show that a certain function is computable, a Turing Machine is given (or the sketch of how such would be written) and an appeal to intuition is made so that the reader will `clearly see' that the given machine will halt in finite time and output the desired result.
+	
+	In this document, we will establish with rigour the computability of a certain class of functions (namely, $\mu$-recursive functions), and we will show that any $\mu$-recursive function can be computed by a Turing Machine.
+	
+	\section{Roadmap}
+	
+	Before we begin, a note on what lies ahead of us.
+	
+	Turing Machines are hard to tame beasts. The rules they obey are seemingly simple, but a lot of complexity is hidden by them. They are, in general, wild and unpredictable, given that branching can and will occur at almost any moment. We will not try to tame these wild beasts, but will instead make tools to allow us to build structured programs whose termination and correction are more reasonably provable. Of course, the Halting Problem guarantees us that we won't be able to find a recipe for proving these things, but that doesn't stop us from doing it on a case-per-case basis.
+	
+	We will, on top of Turing Machines, build two languages, one on top of the other. %give them names?
+	The reason for this indirection is to make it easier to compile these languages to a Turing Machine, and to show that they have the semantics we wish them to have.
+	
+	Our goal is to make proving things easier, and so our final language will have as few `moving parts' as possible. For example, we will abolish the pointer position, giving us less state to keep track of.
+	
+	%how structured will this be?
+
+	\section{Turing Machines}
+
+	We start by giving a formal definition of Turing Machine. Ours will be a definition of a Turing Machine with a tape infinite only to the right. These definitions are an adaptation of the definition found in \cite{bridges}.
+	
+	We will consider fixed an alphabet $Y$, the \emph{tape alphabet}, containing at least one symbol, the `blank symbol', which we will denote by $\B$. We will consider another alphabet, $X \subseteq Y$, which is called the \emph{input alphabet}, that does not contain $\B$. These definitions will be as general as possible, but we will always assume in the following $X$ has at least two symbols: 0 and 1. That is, $\{0,1\} \subseteq X$.
+	
+	Given an alphabet $A$, the set of finite strings in $A$ (including the empty one, which we will denote by $\Lambda$) is denoted $A^*$. Given a string $s$, we will denote its length by $\lvert s \rvert$. The set of (countably infinite) sequences in $A$ will be denoted $A^\infty$:  these are, formally, functions from $\N^+$ to $A$.
+	
+	We will allow concatenation of finite strings $u, v$ by juxtaposition: $uv$. We will allow the usual abbreviations for building languages (sets of strings): if $L$ and $M$ are two languages, $LM$ represents the language containing strings of the form $\ell m$ where $\ell \in L, m \in M$. Union, in this context, is denoted by a +. When convenient, we will omit curly braces, for example using $1^*$ to represent all strings containing only 1, or $01^*0 + 0$ to represent all strings that start and end in zeros, with only ones in the middle.
+	
+	Given a string $s$ or language $A$, it will be useful to denote by $s \B^\infty$ or $A \B^\infty$ the sequence (or set of sequences) obtained by concatenating the string $s$ or language $A$ to the beginning of the sequence $\B\B\B\cdots$. A sequence of the form $s \B^\infty$ is said to be \emph{finitary}.
+	
+	Given a string or sequence $s$, we will use $s[i]$ to refer to the $i$-th character in $s$, and notations such as $s[i,j]$ or $s]i,j[$ or anything inbetween to refer to particular intervals. The question of whether the edges are included or not should be obvious by analogy with the notation for intervals. In the particular case of sequences, we also allow the notation $s[i, \infty[$.
+	
+	A \emph{Turing Machine} is a 4-uple $\M = (\Q, \delta, q_0, q_f)$, where:
+	
+	\begin{itemize}
+	\item $\Q$ is a set, the so-called \emph{set of states}
+	
+	\item $\delta$ is a partial function $\Q \times Y \rightharpoonup \Q \times Y \times \{L, \Lambda, R\}$
+	
+	\item $q_0, q_f \in \Q$ are the so-called start and end states, respectively.
+	
+	\item $\delta(q_f, y)$ is undefined for all $y \in Y$
+	\end{itemize}
+	
+	A \emph{tape state on $\M = (\Q, \delta, q_0, q_f)$} is a triple $T = (q, t, p)$ such that $q \in \Q$, $t \in Y^\infty$, $p \in \N^+$.
+	
+	Given a Turing Machine $\M = (\Q, \delta, q_0, q_f)$ and a tape state $T = (q, t, p)$, we will say $T' = (q', t', p')$ is the \emph{successor state of $T$} if:
+	
+	Let $\delta(q, t[p]) = (q', c, d)$ in
+	
+	\begin{itemize}
+	\item $t' = t[1, p[ \, c \, t]p, \infty[$
+	
+	\item If $d$ is $L, \Lambda, R$, then $p = p' + 1, p = p', p + 1 = p'$, respectively.
+	\end{itemize}
+	
+	The reader should have no trouble seeing that this state is unique (justifying calling it `the' successor rather than `a' successor), and it is not hard to see that it is not always defined. For example, if $p$ is $1$ and $d$ is $L$, the equation $p = p' + 1$ has no solution $p'$ in $\N^+$. Furthermore, this is obviously not defined if $\delta(q, t[p])$ is undefined, which it might very well be.
+	
+	We define the partial \emph{successor} function $\suc T = T'$.
+	
+	We say that the Turing Machine $\M = (\Q, \delta, q_0, q_f)$ \emph{halts on input $s$ with output $t$}, where $s, t \in X^*$, if there exists $n$ such that
+	
+	\[\suc^n (q_0, s \B^\infty, 1) = (q_f, t \B^\infty, 1)\]
+	
+	It is clear that given some input, the output on which $\M$ halts, if it exists, is unique, as this last state has no successor as $\delta(q_f, (t \B^\infty)[1])$ is undefined by definition.
+	
+	This allows us to define, for any Turing Machine $\M$, the partial function $\out_\M : X^* \rightharpoonup X^*$ that, given $s$, if $\M$ halts on input $s$ with some output $t$, returns $t$. It is otherwise undefined.
+	
+	In what follows, we will be interested in a more general meaning of `run' and `halt'. Namely, we will be interested in the behavior of machines that stop execution, even if they don't park on the left end of the tape, or with a tape of the form $X^* \B^\infty$, or if they don't necessarily start in these conditions.
+	
+	Suppose given a sequence $s$ and a position $p$, as well as a Turing Machine $\M$ with starting state $q_0$ and final state $q_f$. On the occasion that there exists $n$ such that $\suc^n (q_0, s, p) = (q_f, s', p')$ -- It is clear that this $n$ is unique due to the restriction enforced on the state change function -- we define the partial function $\runtime_\M (s,p) := n$, as well as $\run_\M (s, p) = (s', p')$. If these exist, we say $\M$ \emph{halts on the tape $(s,p)$ with the tape $(s', p')$ after $n$ steps}. Otherwise, we say $\M$ does not halt. Notice that this includes the case of undefined behavior, such as an undefined result for $\delta$, or trying to move $\L$ on position 0.
+	
+	\section{Computability}
+	
+	We have laid out the basic groundwork for defining what it means for a function to be Turing Computable:
+	
+	Given a partial function $f : X^* \supseteq A \rightharpoonup B \subseteq X^*$, we say $\M$ \emph{represents $f$ on $A$} if:
+	
+	\begin{itemize}
+	
+	\item For all $s \in \dom f$, $\out_\M s$ is defined and equals $f(s)$
+	
+	\item For all $s \in A \setminus \dom f$ either $\out_\M s$ is undefined, or it is not in $B$.
+	
+	\end{itemize}
+	
+	We wish to establish the computability or noncomputability of some functions. For example, we would like to show that the sum of natural numbers is computable. Of course, the sum is a function from $\N_0 \times \N_0$ to $\N_0$, neither of which are (unless you have a very odd notion of natural number and cartesian product) subsets of $X^*$, so we will have to adjust our definitions accordingly.
+	
+	As such, we will encode $n$-uples of natural numbers in a standard form: any natural number $n$ will be encoded in unary. The symbol $\ceil{n}$ will be used to denote the string composed of $n$ ones. That is:
+	
+	\[\ceil{n} = \underbrace{111\cdots1}_{n \text{ times}}\]
+	
+	Defining this inductively: $\ceil{0} = \Lambda$; $\ceil{n+1} = \ceil{n}1$.
+	
+	It is easy to see by induction that $\ceil{n+m} = \ceil{n}\ceil{m}$.
+	
+	We now move on to encoding $n$-uples of natural numbers. For our purposes, zero will serve as a comma. As such, the $n$-uple $(x_1, x_2, \cdots, x_n)$ is encoded as
+
+	\[ \ceil{(x_1, x_2, \cdots, x_n)} = \ceil{x_1}0\ceil{x_2}0\cdots0\ceil{x_n} \]
+	
+	For our purposes, when convenient, we will identify $\N_0$ with the set of strings of ones, i.e. we will pretend $\N_0 = 1^*$, and likewise, we will identify $\N_0^n$ with the strings of the above form. That is, we identify:
+	
+	\[\N_0^n = \underbrace{1^*\,0\,1^*\,0\,1^*\,0 \cdots 0\,1^*}_{n \text{ zeroes}}\]
+	
+	This leaves us with only one caveat: the zero-uple. I have yet to find a satisfying way to define these things in a satisfactory way.
+	
+	Our definition of computable function will stay the same, but our focus will be mostly on functions from $\N_0^n$ to $\N_0$, where $n$ is greater than zero.\footnote{We could focus on functions from $\N_0^n$ to $\N_0^m$, but any such function can just be represented by $m$ functions from $\N_0^n$ to $\N_0$, and so, we can restrict our study to this slightly easier class of functions without loss of generality.} It is a shame to be excluding the zeroary functions, but fortunately, these are just constants, and thus of little interest, as a function to compute these would simply erase the tape and write its own output, making all such functions trivially computable.
+	
+	So, we wish to investigate the set of Turing computable functions. Examples of functions we would love to show computable would be, for example, the function $+ : \N_0^2 \rightarrow \N_0$, or $\times$, or $- : \N_0^2 \rightharpoonup \N_0$. However, while writing out a program for each of these is not of extreme difficulty, showing formally that they terminate and that the output is what we expect it to be is tedious. So much so, in fact, that most books on the subject simply forego this verification for the most part.
+	
+	The main reason for this is that, on Turing Machines, there is a lot of global state to keep track of, and relatively few tools to keep track of it. Not only do we have both the tape and pointer position to keep track of, it is also very hard in general to modify arbitrary data, as, unless we are modifying something at the rightmost end of the written data, we will have to shuffle things over to make room, which, without being very careful about how we organize the data, might very well be an enormous headache. Add to it the fact that there are no limitations on control flow (you can jump from any state to any other state without restrictions) and it is extremely hard to show the correctness of a given program.
+	
+	As such, in this study, we will develop a sort of `compiled language', which will sit on Turing machines and which we will show can be compiled to one, with the semantics we will later establish, and about which it will be much easier to reason about, using techniques such as (a modified version of) Hoare calculus.
+	
+	The first step in this path is to develop a set of instructions (composed of possibly more than one state) whose behavior we can reason about in abstract. But before we do that, we will need a way to compose them.
+	
+	\section{Composition}
+	Our first special program is going to be composition.
+	
+	Given two Turing Machines, $\M_1$ and $\M_2$, their \emph{composition}, denoted $\M_1;\M_2$, is the machine $\M$ described as follows:
+	
+	Let 
+	
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
+	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
+	
+	Define
+	
+	\[ \M = \M_1 ; \M_2 \]
+	
+	As $\M = (\Q, \delta, (q_{10}, 1), (q_{2f}, 2))$ such that:
+	
+	\begin{itemize}
+	\item $\Q = \{\, (q, i) \mid q \in \Q_i, i = 1,2 \,\}$
+	
+	\item $\delta((q, i), y) = ((q', i), c, d)$ where $\delta_i(q,y) = (q', c, d)$ and $q \neq q_{if}$
+	
+	\item $\delta((q_{1f}, 1), y) = ((q_{20}, 2), y, \Lambda)$
+	\end{itemize}
+	
+	Predictably, we prove that this machine has the expected behavior: it's as though we ran $\M_1$ until it halts, followed by running $\M_2$ on the result.
+	
+	\begin{theorem}
+	Fix the Turing Machines:
+	
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})\]
+	\[\M_2 = (\Q_2, \delta_2, q_{20}, q_{2f})\]
+	
+	And some sequence $s$ and position $p$. Let $\M = (\Q, \delta, q_0, q_f) = \M_1 ; \M_2$. Then, we have
+	
+	\[\run_\M (s,p) = \run_{\M_2} \run_{\M_1} (s,p)\]
+	\[\runtime_\M (s,p) = \runtime_{\M_1} (s,p) + 1 + \runtime_{\M_2} \run_{\M_1} (s,p)\]
+	
+	(This includes the case of non-halting, as, in that case, both sides will be undefined).
+	\end{theorem}
+	
+	\begin{proof}
+	To simplify the exposition, we introduce the following notation:
+	
+	Given two triples $(q, c, d)$ and $(q', c', d')$, we say $(q, c, d) \prarrow{i} (q', c', d')$ if $c = c', d = d'$ and $q' = (q, i)$.
+	
+	Let $n_1 = \runtime_{\M_1} (s,p)$ and $n_2 = \runtime_{\M_2} \run_{\M_1} (s,p)$. We suppose for now that both of these exist.
+	
+	Now, we show by induction that for $i = 0, \cdots, n_1$ we have that
+	
+	\[\suc^{i}_{\M_1} (q_{10}, s, p) \prarrow{1} \suc^{i}_{\M} ((q_{10}, 1), s, p)\]
+	
+	
+	For $i = 0$ this is obvious. Suppose this is true for some $i < n_1$.
+	
+	That is, suppose 
+	
+	\[\suc^{i}_{\M_1} (q_{10}, s, p) = (q', s', p')\]
+	\[\suc^{i}_{\M} ((q_{10}, 1), s, p) = ((q', 1), s', p')\]
+	
+	Thus,
+	
+	\[\suc^{i+1}_{\M_1} (q_{10}, s, p) = \suc_{\M_1} (q', s', p')\]
+	\[\suc^{i+1}_{\M} (q_{10}, s, p) = \suc_{\M} ((q',1), s', p')\]
+	
+	Supposing $\delta_1(q', s'[p']) = (q'', c, d)$, we have that $\delta((q', 1), s'[p']) = ((q'', 1), c, d)$. The reader can now easily examine the three cases of the definition of successor to see that, indeed, if the former is $(q'', s'', p'')$, the latter will be $((q'', 1), s'', p'')$.
+	
+	(If $n_1$ does not exist, either you can continue this process indefinitely, thus showing that $\M$ never reaches the final state, or at some point the successor will be undefined, thus showing $\M$ does not halt because of undefined behavior.)
+	
+	Now, notice that if
+	
+	\[\suc^{n_1}_{\M_1} (q_{10}, s, p) = (q_{1f}, t, p_1)\]
+	
+	Then, by what we just showed,
+	
+	\[\suc^{n_1}_{\M} ((q_{10}, 1), s, p) = ((q_{1f}, 1), t, p_1)\]
+	
+	Taking the successor of the latter, we know that, for $i = 0$,
+	
+	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) = (q_{20}, t, p_1)\]
+	\[\suc^{n_1+1+i}_{\M} ((q_{10}, 1), s, p) = ((q_{20}, 2), t, p_1)\]
+	
+	We will show that for $i = 0, \cdots, n_2$ we have that, if
+	
+	\[\suc^{i}_{\M_2} (q_{20}, t, p_1) \prarrow{2} \suc^{n_1+1+i}_{\M} ((q_{10}, 1), s, p)\]
+	
+	We already saw it true for $i=0$, so we show it true for the rest by induction.
+	
+	Suppose $i < n_2$. Then assuming it true for $i$, we have,
+	
+	\[\suc^{i+1}_{\M_2} (q_{20}, t, p_1) = \suc_{\M_2} (q', t', p')\]
+	
+	\[\suc^{n_1+1+(i+1)}_{\M} ((q_{10}, 1), s, p) = \suc_{\M} ((q', 2), t', p')\]
+	
+	Repeating the same argument as before, we see that if $\delta_2(q', t'[p']) = (q'', c, d)$, then $\delta((q',2), t'[p']) = ((q'', 2), c, d)$ as $q' \neq q_{2f}$, and so, checking against the definition of successor, if the former is $(q'', t'', p'')$ then the latter will be $((q'', 2), t'', p'')$.
+	
+	(As with last time: if $n_12$ does not exist, either you can continue this process indefinitely, thus showing that $\M$ never reaches the final state, or at some point the successor will be undefined, thus showing $\M$ does not halt because of undefined behavior.)
+	
+	This culminates in $i = n_2$, where we have
+	
+	\[\suc^{n_2}_{\M_2} (q_{20}, t, p_1) = (q_{2f}, r, p_2)\]
+	
+	And so,
+	
+	\[\suc^{n_1 + 1 + n_2}_{\M} ((q_{10},1), s, p) = ((q_{2f},2), r, p_2)\]
+	
+	As we wished.
+	
+	We mostly dealt with the case where both machines halt, but the parenthical comments are enough to justify that the proposition is still true in the event of non-halting.
+	\end{proof}
+	
+	This last proposition tells us something very important, that will form the basis of most of what we will do from now on.
+	
+	Let $\phi, \psi, \omega$ be propositions of two free variables: a sequence $s$ and a positive integer $p$. Given a machine $\M$, the symbol $\phi\M\psi$ represents the proposition `if $\phi(s,p)$ is true and $\run_\M(s, p) = (s', p')$, then $\psi(s', p')$ is true.'
+	
+	Sometimes the juxtaposition notation will be inadequate. If this is the case, we also allow using curly braces to group propositions, as such: $\{\phi\}\M\{\psi\}$.
+	
+	
+	\begin{theorem}
+	If $\phi \M_1 \psi$ and $\psi \M_2 \omega$, then $\phi \M_1;\M_2 \omega$
+	\end{theorem}
+	
+	\begin{proof}
+	
+	We have already shown $\run_{\M_1;\M_2} (s,p) = \run_{\M_2} \run_{\M_1} (s,p)$. If any of this is undefined, the theorem is true by definition. Otherwise, we know that if $\phi$ is true applied to $(s,p)$, then $\psi$ is true applied to $\run_{\M_1} (s,p)$ and thus $\omega$ is true applied to $\run_{\M_1;\M_2} (s,p) = \run_{\M_2} \run_{\M_1} (s,p)$, as we wished to show.
+	\end{proof}
+	
+	We move on to our second special program: conditional branching.
+	
+	Fix a function $M : Y \rightarrow \{\text{Turing Machines}\}$. Define the Turing Machine:
+	
+	\[ \M = \Ncase M \Nendcase \]
+	
+	As $\M = (\Q, \delta, q_0, q_f)$ such that:
+	
+	\begin{itemize}
+	\item Let $\M_y = (\Q_y, \delta_y, q_{y0}, q_{yf}) = M(y)$
+	
+	\item $\Q = \{\,(q, y) \mid q \in \Q_y, y \in Y\,\} \cup \{q_0, q_f\}$
+	
+	\item $q_0$ and $q_f$ are distinct symbols
+	
+	\item $\delta(q_0, y) = ((q_{y0}, 2), y, \Lambda)$
+	
+	\item $\delta((q, y_0), y) = ((q', y_0), c, d)$ if $\delta_{y_0}(q, y) = (q', c, d)$
+	
+	\item $\delta((q_{y_0 f}, y_0), y) = (q_f, y, \Lambda)$
+	\end{itemize}
+	
+	This machine's behavior is the following: it detects the character the pointer is lying on, let's say $y_0$, and then runs $M(y_0)$.
+	
+	\begin{theorem}
+	Let $s$ be a sequence, $p$ a position, $M$ a function $Y \rightarrow \{\text{Turing Machines}\}$, and $y_0 = s[p]$. Let
+	
+	
+	\[\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f}) = M(y_0)\]
+	\[\M = (\Q, \delta, q_0, q_f) = \Ncase M \Nendcase \]
+	
+	Then, $\run_{\M_1} (s, p) = \run_\M(s,p)$ and $\runtime_{\M_1}(s,p) + 2 = \runtime_\M(s,p)$.
+	\end{theorem}
+	
+	\begin{proof}
+	First, notice we have $\suc_\M (q_0, s, p) = ((q_{10}, 1), s, p)$, as the reader may easily verify.
+	
+	From now on, we show by induction that, for $i = 0, \cdots, n$, if
+	
+	\[\suc^i_{\M_1} (q_{10}, s, p) = (q, s', p')\]
+	
+	Then
+	
+	\[\suc^{1+i}_\M (q_0, s, p) = ((q, 1), s', p')\]
+	
+	For $i = 0$ this has already been shown. Suppose, now, this is true for some $i < n$.
+	
+	Applying the definition of $\delta$ vs $\delta_1$, knowing that $q \neq q_{1f}$, one can easily see that if the state change for the former is given by $(q', c, d)$, the state change for the latter is given by $((q', 1), c, d)$, and so the successors will also obey this relation.
+	
+	Finally, now that we know that if $\suc^n_{\M_1} (q_{10}, s, p) = (q_{1f}, s', p')$ then $\suc^{1+n}_\M (q_0, s, p) = ((q_{1f}, 1), s', p')$, applying the successor function to the latter once more, we get $\suc^{n+2}_\M (q_0, s, p) = (q_f, s', p')$, as we wished to show.
+	\end{proof}
+	
+	This gives us the following corollary:
+	
+	\begin{theorem}
+	Suppose that $M$ is a function from $Y$ to the Turing Machines. If $\{\phi \land s[p] = y\} M(y) \{\psi\}$ for all $y \in Y$, then
+	
+	\[\{\phi\} \Ncase M \Nendcase \{\psi\}\]
+	\end{theorem}
+	
+	\begin{proof}
+	Let $\M = \Ncase M \Nendcase$. We wish to show $\{\phi\}\M\{\psi\}$.
+	
+	Suppose $\phi$ is true of $(s,p)$. Let $y_0 = s[p]$.
+	
+	Either $s[p] = y_0$, in which case $\run_\M(s,p) = \run_{M(y_0)}(s,p)$. Since $\phi(s,p)$ and $s[p] = y_0$ we have, by hypothesis on $M$, that $\psi$ is true applied to $\run_{M(y_0)}(s,p) = \run_\M(s,p)$.
+	\end{proof}
+	
+	As a note for notation: the syntax for case expressions is rather unwieldy, requiring the creation of a new function just for expressing them. To bypass this, we introduce the following notation:
+	
+	\[\Ncase \ell \Nof \text{(some expression involving $\ell$...)} \Nendcase\]
+	
+	Where this should be understood as Case applied to the function that takes $\ell$ to said expression, with $\ell$ replaced by its value.
+	
+	We finish this section with the last kind of composition we will need for sanely making Turing Machines.
+
+	Fixed some subset $S$ of $Y$ and a Turing Machine $\M_1 = (\Q_1, \delta_1, q_{10}, q_{1f})$, we define the following Turing Machine:
+	
+	\[ \M = \Nwhileon S \Ndo \M_1 \Nendwhile \]
+	
+	As $\M = (\Q, \delta, q_0, q_f)$ such that:
+	
+	\begin{itemize}
+	\item $\Q = \Q_1 \cup \{q_0, q_f\}$
+	
+	\item $q_0$ and $q_f$ are symbols not in $\Q$
+	
+	\item $\delta(q_0, y) = (q_{10}, y, \Lambda)$ for all $y \in S$
+	
+	\item $\delta(q_0, y) = (q_f, y, \Lambda)$ for all $y \not\in S$
+	
+	\item $\delta(q, y) = \delta_1(q, y)$ for all $q \in \Q_1$ if $q \neq q_{1f}$
+	
+	\item $\delta(q_{1f}, y) = (q_0, y, \Lambda)$
+	\end{itemize}
+	
+	The semantics of this machine are slightly harder to pinpoint than the rest, but it is doable.
+	
+	\begin{theorem}
+	Let $\M_1$ be a Turing Machine, $S \subseteq Y$, and $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$. Fix a tape $(s,p)$.
+
+	Suppose that, for some $k$, $\run_{\M_1}^k (s,p) = (s', p')$ is such that $s'[p'] \not \in S$. Consider the smallest such $k$. Then, $\run_\M (s,p) = \run_{\M_1}^k (s,p)$ and 
+	
+	\[\runtime_\M (s,p) = k + 1 + \sum_{i=1}^k \runtime_{\M_1} \run_{\M_1}^{k-1}(s,p)\]
+	
+	If such a $k$ does not exist, $\run_\M(s,p)$ is undefined.
+	\end{theorem}
+	
+	\begin{proof}
+	First, suppose such a $k$ exists. We will show that, for $i = 0, \cdots, k$, there exists $n$ such that
+	
+	\[\suc_\M^n (s,p) = (q_0,  \run_{\M_1}^i (s,p))\]
+	
+	For $i = 0$ this is obvious, with $n = 0$. Suppose now that this is true for some $i < k$, with some $n$, and we will show it true for $i+1$.
+	
+	Let $(s', p') = \run_{\M_1}^i (s,p)$, and so, by hypothesis, $\suc_\M^n (s,p) = (q_0, s', p')$.
+	
+	Suppose $(s'', p'') = \run_{\M_1}(s',p')$. Let $n_1$ be the runtime of this.
+	
+	We will show that $\suc_\M^{j+1} (q_0, s',p') = \suc_{\M_1}^j (q_{10}, s', p')$ for $j = 0, \cdots, n_1$.
+	
+	This is clearly true for $j = 0$, as the latter will be simply $(q_{10}, s', p')$ and the former, since $i < k$ and thus $s'[p'] \not \in S$, will be $(q_{10}, s', p')$, as $\delta(q_0, s'[p']) = (q_{10}, s'[p'], \Lambda)$. One can easily check that, if true for $j < n_1$, it is true for $j+1$, which shows what we desired.
+	
+	Finally, we get that $\suc_\M^{n_1+1} (q_0, s',p') = \suc_{\M_1}^{n_1} (q_{10}, s', p') = (q_{1f}, s'', p'')$ and so, taking the successor again, $\suc_\M^{n_1 + 2}(q_0, s', p') = (q_0, s'', p'')$.
+	
+	In other words, $\suc_\M^{n + n_1 + 2}(q_0, s, p) = (q_0, \run_{\M_1}^{i+1} (s, p))$, as we wished to show.
+	
+	Put $i = k$ to get that there exists $n$ such that $\suc_\M^n(q_0, s, p) = (q_0, \run_{\M_1}^k(s, p))$. Now, take the successor of the left hand side. Since, by definition of $k$, we have, if $(s', p') = \run_{\M_1}^k(s, p)$ then $y = s'[p'] \not \in S$. As such, $\delta(q_0, y) = (q_f, y, \Lambda)$, and thus $\suc_\M^{n+1}(q_0, s, p) = (q_f, \run_{\M_1}^k(s, p))$ and so $\run_\M(s, p) = \run_{\M_1}^k (s, p)$ as we wished to show.
+	
+	This deals with the case where such a $k$ exists. If it does not, then the induction step can be done \textit{ad infinum}. If there is undefined behavior at any point, then $\run_\M(s, p)$ is undefined as desired. On the other hand, if there is no undefined behavior but $(s', p') = \run_{\M_1}^i (s,p)$ is never such that $s'[p'] \not \in S$, $\M$ will never reach the final state (as the induction above shows) and so $\run_\M(s, p)$ is undefined. This concludes our demonstration.
+	\end{proof}
+	
+	\begin{theorem}
+	Fix $\M_1$, $S$, and suppose $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$. Then, if
+	
+	\[\{\phi \land s[p] \in S\}\M_1\{\phi\}\]
+	
+	We have
+	
+	\[\{\phi\}\M\{\phi \land s[p] \not \in S\}\]
+	\end{theorem}
+	
+	\begin{proof}
+	In the case that these machines do not halt, the result is trivial, so let's suppose they do. Let $k$ be as described in the previous theorem, and let $(s,p)$ obey $\phi$.
+	
+	We will show by induction that for $i = 0, \cdots, k$ we have $(s', p') = \run_{\M_1}^i (s, p)$ obeys $\phi$.
+	
+	For $i = 0$ this is trivial. Suppose, then, it is true for $i < k$.
+	
+	Since $i < k$, by definition of $k$ we have that $(s', p') = \run_{\M_1}^i (s, p)$ obeys $s'[p'] \in S$. Furthermore, by the induction hypothesis, it also obeys $\phi$. As such, $\run_{\M_1}(s', p') = \run_{\M_1}^{i+1}(s,p)$ obeys $\phi$, as we wished to show.
+	
+	Plug in $i = k$. We know $(s', p') = \run_{\M_1}^k (s, p) = \run_\M(s,p)$ obeys $\phi$, and also, by definition of $k$, $s'[p'] \not \in S$. As such, it obeys $\phi \land s'[p'] \not \in S$ as we wished to show.
+	\end{proof}
+	
+	\section{Total Correction}
+	
+	The previous results give us ways to manufacture programs and show their correction. That is, if they halt given correct input, they halt with correct output.
+	
+	This is not enough to show they actually compute a function, however. Indeed, we still need to show that they halt. For composition and branching, this is easy. As we showed in the respective propositions:
+	
+	If $\M_1$ halts on correct input, and $\M_2$ halts on $\M_1$'s correct output, then $\M_1;\M_2$ halts on correct input.
+	
+	If, for all $y$, $M(y)$ halts on input that obeys $\phi$ and $s[p] = y$, then $\Ncase M \Nendcase$ halts on input that obeys $\phi$.
+	
+	In fact, for these two cases we even gave a formula for the amount of time taken for halting.
+	
+	The case for While, however, is trickier. There is a direct condition for termination, but it turns out to be unwieldy at times. Regardless, we present it here.
+	
+	\begin{theorem}
+	Let $r = \run_{\M_1}$, $(s,p)$ be a tape, and suppose that if $r^i(s,p) = (s', p')$ is defined and $s'[p'] \in S$ then $r^{i+1}(s,p)$ is also defined. Suppose, also, that there exists $k$ such that $r^k(s,p) = (s', p')$ is defined and $s'[p'] \not \in S$. Suppose $k$ is minimal without loss of generality.
+	
+	Then, if $\M = \Nwhileon S \Ndo \M_1 \Nendwhile$, we have $\M$ halts on input $(s,p)$, with output $r^k(s,p)$.
+	\end{theorem}
+	
+	This is clearly not a wieldy condition to use to show termination! As such, we present a slightly more amenable condition, making use of the concept of \emph{monovariant}.
+	
+	\begin{theorem}
+	Let $r = \run_{\M_1}$, and suppose $r$ is defined for all tapes that obey $\phi \land s[p] \in S$, outputting a tape that obeys $\phi$ in this case. Suppose, furthermore, defined a function $f$ on the tapes that obey $\phi$ to $\N_0$ such that:
+	
+	\begin{itemize}
+	\item If $s[p] \in S$, $f(s,p) = 0$
+	\item Otherwise, $f(r(s,p)) < f(s,p)$
+	\end{itemize}
+	
+	In this case, the machine $\Nwhileon S \Ndo \M_1 \Nendwhile$ halts for any tape that obeys $\phi$.
+	\end{theorem}
+	
+	This is simple exercise in strong induction on the value of $f(s,p)$, and so the proof will be omitted.
+	
+	\section{Building Blocks}
+	
+	We begin by establishing some notation for handling tape states.
+	
+	As it happens, the notation $(s, p)$ can be cumbersome, especially when the position is something rather specific. As such, we will often use the following notation: If $s$ is a string, $t$ is a sequence, and $c$ is a character, we write $s \underline c t$ to mean the pair $(sct, \lvert s \rvert + 1)$. That is, the tape is $sct$, and the pointer is on the character $c$.
+	
+	Another notation that can be useful at times when we don't have a specific character to focus on, or don't care about it, is this: if $s$ is a string and $t$ is a sequence, $s |\rangle t$ represents the same as $(st, \rvert s \lvert + 1)$.
+	
+	That said, we establish four basic programs: $\NIL$, $\MR$, $\ML$, $\W(y)$.
+	
+	$\NIL$ is the program that does nothing. It is characterized by the trivial machine $(\{q_0\}, \delta, q_0, q_0)$, where $\delta$ is the undefined function. $\run_\NIL$ is the identity function.
+	
+	$\MR$ (Move Right) is the program that moves the pointer right. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y, R)$. $\ML$ (Move Left) is the same, but moves the pointer left. $\run_\MR(s,p) = (s, p+1)$ and $\run_\ML(s, p+1) = (s, p)$.
+	
+	$\UNDEF$ (Undefined) is the program that loops indefinitely. It will be used to make sure that undefined behavior stays undefined, even if we compose Machines in certain ways. It is the machine $(\{q_0\}, \delta, q_0, q_f)$, where $\delta$ is the undefined function.
+	
+	$\W(y_0)$ (Write $y_0$), where $y_0$ is a fixed parameter, is the program that writes $y_0$ on the tape. It is the machine $(\{q_0, q_f\}, \delta, q_0, q_f)$, where $\delta(q_0, y) = (q_f, y_0, \Lambda)$. $\run_{\W(y_0)}(s \underline y t) = (s \underline{y_0} t)$.
+	
+	We begin with our first composite program: Right Until.
+	
+	\begin{theorem}
+	Let $S \subseteq Y$. We define:
+	\begin{align*}
+	\RT(S) =& \Nwhileon (Y \setminus S) \Ndo \MR \Nendwhile
+	\end{align*}
+	
+	It has the following behavior: suppose it is given a tape $(s,p_0)$. Let $p'$ be the smallest number such that $p' \geq p_0$ and $s[p'] \in S$. If it doesn't exist, the behavior of this machine is undefined. If it does, the machine will return $(s,p')$.
+	\end{theorem}
+	
+	\begin{proof}
+	To see this, notice that, in the case where $p'$ does not exist, we have that the pointer position will always be $\geq p_0$. Since, for the machine to halt on a position $p'$, we would need to have $p' \geq p_0 \land s[p'] \not \in (Y \setminus S)$, that is, $p' \geq p_0 \land s[p'] \in S$. Since, by hypothesis, such $p'$ does not exist, the machine cannot halt.
+	
+	As for the latter case, consider the invariant condition: $p_0 \leq p \leq p'$. It is clearly true at the start, as $p_0 \leq p_0 \leq p'$, and if $p_0 \leq p \leq p' \land s[p] \in (Y \setminus S)$, then, since the pointer isn't on an element of $S$, it can't be in position $p'$. As such, it must be in a position $<p'$, and so, after moving right, we remain with the condition $p_0 \leq p \leq p'$. Since the only position $p$ in this interval that obeys $s[p] \not \in (Y \setminus S)$ is $p'$, because of the hypothesis that it was the smallest, if it does halt, it halts with $p = p'$, as we wished to show. We need only show that it does halt, but it is not hard to see that, after $p' - p_0$ runs of $\MR$, we are in position $p'$, which terminates our loop.
+	\end{proof} %pretty sure im complicating this proof.
+	
+	Notice that another way to state the behavior of this machine is the following: suppose that $s$ is a string of $S^*$, $q$ is any string, and $t$ is a sequence that begins with an element not in $S$. Then, $\RT(S)$ takes the tape state $q |\rangle s t$ and returns the tape $q s |\rangle t$.
+	
+	We also define $\LT(S)$ (Left Until) analogously. We leave its exact definition and proof to the reader, as it is extremely similar to the previous.
+	
+	It is very useful to be able to go back to, or at least recognize, the beginning of the tape. As such, we will try to work with tapes of the form $\B s \B^\infty$, where $s \in X^*$ for example, as to allow us to easily go back to the beginning.
+	
+	To allow us to assume our tape is of this sort, we will need to construct two important machines, Right Shift and Left Shift. We will build the former first, and we will tread with care and in small steps.
+	
+	We define a command, which we will call $\pull$. It is defined as:
+	
+	\[\pull = \ML; \Ncase \ell \Nof \MR; \W(\ell) \Nendcase\]
+	
+	It takes a tape $s \ell \underline c t$, moves left becoming $s \underline \ell c t$, and then runs $\MR; \W(\ell)$, moving back right to $s \ell \underline c t$ and writing $\ell$, becoming $s \ell \underline \ell t$. In essence, it copies the symbol on the left of the pointer to the place where the pointer is.
+	
+	We define another one, which we will call $\pt$, for Pull Until.
+	
+	\[\pt = \pull; \Nwhileon X \Ndo \ML; \pull \Nendwhile\]
+	
+	Suppose $q$ is any string, $s$ is a string in $X^*$, $t$ is any sequence.
+	
+	Suppose the program $\pt$ is given the tape $q \B s |\rangle \B t$. These aren't the most general possible conditions, but they are enough for our purposes.
+	
+	If $s = \Lambda$, we will simply end with $q \B |\rangle \B t$, as the reader may very easily check.
+	
+	Otherwise, after $\pull$, we will end up with (if $\lvert s \rvert = l$) the tape $q \B s[1, l] |\rangle s[l,l] \B t$.
+	
+	Now, notice that if $1 \leq p \leq l$, and the tape is $q \B s[1, p] |\rangle s[p,l] \B t$, then running $\ML$ will make it $q \B s[1, p[ \underline{ s[p]} s[p,l] \B t$ and doing pull will make it $q \B s[1, p-1] |\rangle s[p-1, l] \B t$. This code will run $l-1$ times as, until $p = 1$, the pointer will always be on an element of $s$, which is always in $X$. When this ($p = 1$) happens, the tape is $q \B s[1] |\rangle s \B t$. Moving left, we get $q \B \underline{s[1]} s \B t$, and pulling, we have $q \B \underline{\B} s \B t$. At this point, the While loop halts, and we exit the loop ending with $q \B |\rangle \B s t$.
+	
+	So, in both cases ($s = \Lambda$ and $s \neq \Lambda$) we have that, starting with the tape $q \B s |\rangle \B t$ we end with the tape $q \B |\rangle \B s t$.
+	
+	Finally, we define $\RS$ as follows:
+	\begin{align*}
+	\RS =& \Ncase \ell \Nof\\
+	&\quad \W(\B);\\
+	&\quad \MR; \RT(\B);\\
+	&\quad \pt; \\
+	&\quad \W(\ell); \ML\\
+	&\Nendcase
+	\end{align*}
+	
+	It does the following: suppose it is given a tape $|\rangle s \B^\infty$, where $s \in X^*$.
+	
+	If $s = \Lambda$, then $\RS$ is the identity, as can be easily seen.
+	
+	Otherwise, let $s = \ell s'$. The machine starts by identifying $\ell$, and run the machine $\W(\B); \MR; \RT(\B); \pt; \MR; \W(\ell); \ML$. So, after the first instruction, the tape is $|\rangle \B s' \B^\infty$. Then, the pointer moves right, and then right until $\B$, becoming $\B s' |\rangle \B^\infty$. Then the instruction $\pt$ is run, and we end with the tape $\B |\rangle \B s' \B^\infty$. Write $\ell$ and return left to end with the tape $|\rangle \B s \B^\infty$.
+	
+	So, in short, $\RS$ will shift the tape right by one, filling in the blank with a $\B$. That is, it starts with $|\rangle s \B^\infty$ and ends with $|\rangle \B s \B^\infty$
+	
+	The reader may easily verify that we didn't touch the $\B$ tiles after the first one in the case $s \neq \Lambda$, and the second one in the case $s = \Lambda$. That is, this machine could also work in the more general context of taking $|\rangle s \B \B t$ to $|\rangle \B s \B t$. Furthermore, there is no possibility of undefined behavior by going before the start. As such, this also works on tapes of the form $u |\rangle s \B \B t$, to become $u |\rangle \B s \B t$. This will be relevant in the sequence.
+	
+	As well as Right Shift, Left Shift ($\LS$) will also be an important machine. It is defined almost like Right Shift, but the directions (including in $\pull$ and $\pt$) must be swapped. It takes a tape $u \B \B s \langle| t$ and returns $u \B s \B \langle| t$
+	
+	\section{Segregated Memory Form}
+	
+	This section aims at fixing two main issues that make Turing Machines untenable: dealing with pointer state is a huge hassle, and there is no easy way to segregate data, that is, a concept of variables. There is one monolithic tape and that's that.
+	
+	We aim to fix that by implementing, on top of the Turing Machine, an alternate computing model.
+	
+	Intuitively, the idea is this: we have a fixed\footnote{Fixed as in, cannot be changed at runtime. It is a compile time parameter, so to speak.} number $N$ of `memory slots'. `Variables', if you will. Each of them holds a (possibly empty) string. We can prepend or pop a character as an instruction, and we can do conditional branching and looping based on whether a variable is empty or not. %is this good enough??
+	
+	In more rigorous terms, we will say a sequence is in \emph{Segregated Memory Form of type $N$}, or $N$-SMF, if it is of the form:
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_N \B^\infty\]
+	
+	Where $s_i \in X^*$ for all $i$.
+	
+	Given a tape in $N$-SMF, we say the pointer is parked if it is at position 1. It is, however, useful for us to move the pointer around, which is why we consider the instructions:
+	
+	\[\Oright = \MR; \RT(\B)\]
+	\[\Oleft = \ML; \LT(\B)\]
+	
+	As the reader may easily verify, they take a tape of the sort $\ldots \underline \B s_i \B \ldots$ and turn it into (in the case of $\Oright$) $\ldots \B s_i \underline \B \ldots$, while $\Oleft$ does the inverse.
+	
+	It is also useful for us to have the ability to prepend a character $c \in X$ to one of the $s_i$.
+	
+	Let's assume, first, that our tape is already in $N$-SMF form, and that the pointer is parked.
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_N \B^\infty\]
+	
+	First, we will run the instruction $\Oright$ $i-1$ times, denoted $\Oright^{i-1}$. After this, we will be at a position of the sort
+	
+	\[ \ldots |\rangle \B s_i \B s_{i+1} \B \ldots \]
+	
+	Now, what we need to do is to shift $s_i$ right and place $c$ in the blank we just opened up. But we also need to shift all the $s_{i+1}, s_{i+1}, \cdots s_N$ right as well. So, in fact, we proceed to run $\Oright$ the other $N-i$ times. By the end of this we will be at position
+	
+	\[ \ldots |\rangle \B s_N \B^\infty \]
+	
+	It is at this point that we move right once, and Right Shift, to end with $\ldots \B s_{N-1} \B |\rangle \B s_N \B^\infty$. Then we move left, apply the $\Oleft$ instruction, and repeat. We do this procedure $N-i$ times, to end up with a tape of the form
+	
+	\[ \ldots s_{i-1} \B |\rangle \B s_i \B s_{i+1} \B \ldots \]
+	
+	Finally, we write the character $c$, move left, and apply $\Oleft$ a total of $i-1$ times, parking the pointer.
+	
+	So, in essence, our program to prepend a character $c \in X$ to $s_i$ is the following:
+	\begin{align*}
+	\PREPEND(c, i) =& \Oright^{N-1};\\
+	& (\MR; \RS; \ML; \Oleft)^{N-i};\\
+	& \MR; \RS; \W(c); \ML;\\
+	& \Oleft^{i-1}
+	\end{align*}
+	
+	And it has the behavior that it takes a tape
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_i \B \cdots \B s_N \B^\infty\]
+	
+	Into
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	Similarly, we define the following program:
+	\begin{align*}
+	\POP(i) =& \Oright^{i-1};\\
+	& \MR; \W(\B); \Oright;\\
+	& (\ML; \LS; \MR; \Oright)^{N-i};\\
+	& \ML; \LS;\\
+	& \Oleft^{N}
+	\end{align*}
+	
+	Its behavior is as follows: start with a parked $N$-SMF of the form:
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	Move $\Oright$ $i-1$ times to be at
+	
+	\[\B s_1 \B s_2 \B \cdots |\rangle \B c s_i \B \cdots \B s_N \B^\infty\]
+	
+	Move right, write $\B$, move $\Oright$ to be at
+	
+	\[\B s_1 \B s_2 \B \cdots \B \B s_i |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	Then, we apply $\ML; \LS$ to be at
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_i |\rangle \B \B \cdots \B s_N \B^\infty\]
+	
+	Now we $\MR; \Oright$ to be at position
+	
+	\[\B s_1 \B \cdots \B s_i \B \B s_{i+1} |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	And repeat this procedure a total of $N-i$ times, culminating at something of the form
+	
+	\[\B s_1 \B \cdots \B \B s_N |\rangle \B^\infty\]
+	
+	Here, finally, Move Left and Left Shift to get
+	
+	\[\B s_1 \B \cdots \B s_N |\rangle \B^\infty\]
+	
+	And at last, $\Oleft$ a total of $N$ times to go back to the beginning and park.
+	
+	Do not use this command if the cell in question is empty. Regrettably, the behavior is not undefined.
+	
+	We now have tools to mess with each memory cell without worrying about interfering with the others.
+	
+	We present a tool for probing a memory cell, also without worrying about collateral effects.
+	
+	Let $M$ be a function from $X$ to the set of Turing Machines, and $\M_\B$ a Turing Machine. Define the Machine:
+	\begin{align*}
+	\CASE(i, M, \M_\B) =& \,\Oright^{i-1}; \MR;\\
+	&\Ncase \ell \Nof\\
+	&\quad \ML; \Oleft^{i-1};\\
+	&\quad \text{if $\ell \in X$, } M(\ell)\\
+	&\quad \text{else, } \M_\B\\
+	&\Nendcase
+	\end{align*}
+	
+	It will take a parked $N$-SMF of the form:
+	
+	\[|\rangle \B s_1 \B s_2 \B \cdots \B s_i \B \cdots \B s_N \B^\infty\]
+	
+	If $s_i = \Lambda$, it will move to the following position:
+	
+	\[\B s_1 \B s_2 \B \cdots \B s_i |\rangle \B \cdots \B s_N \B^\infty\]
+	
+	Enter the case with $\ell = \B$, go back to the start, and run $\M_\B$.
+	
+	If $s_i = \ell s'$, it will move to the position:
+	
+	\[\B s_1 \B s_2 \B \cdots \B |\rangle \ell s' \B \cdots \B s_N \B^\infty\]
+	
+	And park the pointer again and run $M(\ell)$.
+	
+	So this is a safe and collateral-free way of running code conditionally.
+	
+	It also allows us to define the following commands:
+	
+	\[\SAFEPOP(i) = \CASE(i, \POP(i), \NIL)\]
+	
+	\[\STRICTPOP(i) = \CASE(i, \POP(i), \UNDEF)\]
+	
+	The former will turn $s_i$ into $s'$ in the event that $s_i = c s$, and do nothing in the event that $s_i = \Lambda$. The latter will do the same, except that, instead of doing nothing if $s_i = \Lambda$, it will loop indefinitely. These are both better than $\POP$ because under no circumstances will they mess up the structure of the tape.
+	
+	We also provide a way to do looping.
+	\begin{align*}
+	\WHILE(i, \M) =& \,\Oright^{i-1}; \MR;\\
+	&\Nwhileon X \Ndo\\
+	&\quad \ML; \Oleft^{i-1};\\
+	&\quad \M;\\
+	&\quad \Oright^{i-1}; \MR\\
+	&\Nendwhile\\
+	&\ML; \Oleft^{i-1}
+	\end{align*}
+	
+	This will take a parked $N$-SMF, and move the pointer to the first character of $s_i$ (or the $\B$ after it, if it happens to be empty).
+	
+	Then, while this character is an element of $X$, it will run the code inside. That is, it will park, run $\M$, and go back to the same position.
+	
+	The While loop will terminate when $s_i$ is in fact empty, at which point the pointer will park and execution will terminate.
+	
+	This also provides us an easy monovariant: if we make sure that every run of $\M$ decreases the length of $s_i$ by at least one, we are sure that the program will eventually halt.
+	
+	We finish this section by writing a simple program that will be very useful:
+	
+	\[\CLEAN(i) = \WHILE(i, \POP(i))\]
+	
+	It halts, as can be easily seen by the monovariant above. By the time it does, $s_i$ will be empty. It doesn't change any other part of the string, so its behavior is simply making $s_i = \Lambda$.
+	
+	\section{O-Machines}
+	
+	Now that we have made this machinery, let's put it to good use.
+	
+	Our $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$ instructions will only function if our tape is in $N$-SMF. As such, we present the tools (easy at this point) to function with this state of affairs.
+	
+	Suppose we are given an input tape of the form $|\rangle s \B^\infty$. First, we $\RS$ it, to get something of the form $|\rangle \B s \B^\infty$. This can be interpreted as an $N$-SMF, for any $N \geq 1$.
+	
+	From hereonout, we can write a program composed only of $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$, using $s_1$ as our input, and let's suppose we write our intended output on $s_k$. We wish to, so to speak, `return $s_k$'.
+	
+	Well, first, we begin by clearing all variables but this one. That is, we run $\CLEAN(1), \CLEAN(2), \cdots, \CLEAN(k-1), \CLEAN(k+1), \cdots, \CLEAN(N)$. We are left with the tape $|\rangle \B^k s_k \B^\infty$. Now, we run $\Oright^{k}$, and we will be at tape $\B^k s_k |\rangle \B^\infty$, and we are almost done. We run $\ML$, $\LS$ $k-1$ times, and $\MR$ to get $\B s_k |\rangle \B^\infty$. Finally, we face the problem of pushing $s_k$ back this one last time and park to get a tape as desired. Unfortunately, $\LS$ won't work, as we will have no way to detect the beginning of the tape to park. As such, we define the following function, called Left Shift End Left:
+	
+	\begin{align*}
+	\LSEL =& \Oleft; \MR;\\
+	&\Ncase \ell \Nof\\
+	&\quad \W(\B); \Oright;\\
+	&\quad \ML; \LS; \Oleft;\\
+	&\quad \W(\ell)\\
+	&\Nendcase
+	\end{align*}
+	
+	This will take our tape $\B s_k |\rangle \B^\infty$, move $\Oleft$ to become $|\rangle \B s_k \B^\infty$, and move back right to be $\B |\rangle s_k \B^\infty$.
+	
+	At this point, if $s_k = \Lambda$, the reader can easily verify that the program will end at $|\rangle \B^\infty = |\rangle s_k \B^\infty$.
+	
+	On the other hand, if $s_k = \ell s'$, we will now run $\W(\B); \Oright; \ML; \LS; \MR; \Oleft; \W(\ell)$ on the tape $\B |\rangle \ell s' \B^\infty$. In order, the tape will become:
+	\begin{align*}
+	&\B |\rangle \ell s' \B^\infty &\text{Start}\\
+	&\B |\rangle \B s' \B^\infty &\text{After $\W(\B)$}\\
+	&\B \B s' |\rangle \B^\infty &\text{After $\Oright$}\\
+	&\B s' |\rangle \B^\infty &\text{After $\ML; \LS$}\\
+	&|\rangle \B s' \B^\infty &\text{After $\Oleft$}\\
+	&|\rangle \ell s' \B^\infty &\text{After $\W(\ell)$}
+	\end{align*}
+	
+	And so, at the end, we have, as desired, $|\rangle s_k \B^\infty$.
+	
+	We will call this sequence of instructions we just designed $\RETURN(k)$.
+	
+	What this shows is that, as long as we make sure our program starts with a $\RS$ and ends with a $\RETURN$, we can, if we use the four instructions above, assume we are in SMF.
+	
+	A \emph{P-Machine} is a Turing Machine made by composition of the instructions $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$, with a fixed $N$. Notice two observations:
+	
+	First of all, as long as we make sure our $i$s are always $\leq N$, the value of $N$ is not really important, and the computation will have the same effect. This means we can make it arbitrarily big.
+	
+	Secondly, we can shuffle our $i$s around in whatever way we like, and the behavior of the machine will always be the same, as long as we make sure our input is read from $i = 1$, and we keep track of where we write our output as to return it at the end.
+	
+	As such, we will begin writing our programs in a more symbolic fashion. Instead of specific numbers, we will write variable names. In order to turn what we write into a valid Turing Machine, one writes down all the variables we used. Let $N$ be their number, and assign each of them a unique number from $1$ to $N$, reserving 1 for the input variable. Since the exact assignment is irrelevant, we are assured the behavior is well-defined.
+	
+	This also allows us to freely compose computations. But first, we will need some helper functions.
+	
+	For instance, suppose we want to copy a value from one cell to another. It is difficult to do this nondestructively. So first, we define the following Machine:
+	
+	\[\MOVR(i, j) = \CLEAN(j);\WHILE(i, \CASE(i, \ell \mapsto \PREPEND(\ell, j); \STRICTPOP(i), \NIL))\]
+	
+	It clearly halts because of the already mentioned monovariant. First, it cleans $s_j$, and then, every step, it takes the first character of $s_i$ and prepends it to $s_j$. As such, after the $p$-th step, we will have that, if $s_i = s$ and $\lvert s \rvert = l$ at the beginning, we will have $s_i = s]p,l]$ and $s_j = t]l-p, l]$, where $t$ is obtained from $s$ by reversing it. At the end, we will have $s_i = \Lambda$ and $s_j = t$, and every other variable remains unchanged.
+	
+	We define another program, very similarly:
+	\begin{align*}
+	\MOVR2(i, j_1, j_2) =& \CLEAN(j_1); \CLEAN(j_2);\\
+	& \WHILE(i,\\
+	&\quad \CASE(i,\\
+	&\quad \quad \ell \mapsto \PREPEND(\ell, j_1); \PREPEND(\ell, j_2); \STRICTPOP(i),\\
+	&\quad \NIL)\\
+	&)
+	\end{align*}
+	
+	This one does the exact same, but writes $s_i$ backwards on both $s_{j_1}$ and $s_{j_2}$.
+	
+	This allows us to define the following command:
+	
+	Let $TMP$ be a temporary variable, not used anywhere else. Define:
+	
+	\[\COPY(i, j) = \MOVR(i, TMP); \MOVR2(TMP, i, j)\]
+	
+	This copies the value of $s_i$ into $s_j$ nondestructively. In more usual syntax, it might be written $j \leftarrow i$ or $j = i$.
+	
+	This allows us to compose computations. We will say a function $X^* \supseteq C \rightharpoonup X^*$ is P-Computable if there exists a P-Machine that, given $x \in C$ in a variable $inp$, will write $f(x)$ on a variable $out$ if $f(x)$ is defined, and loop indefinitely otherwise.
+	
+	Clearly, all constant functions are P-Computable. Simply prepend the characters in your constant on your $out$ variable in reverse order.
+	
+	Furthermore, the function that takes $\ceil{n}$ into $\ceil{n+1}$ is also computable: merely prepend a 1.
+	
+	Finally, the projection functions are also computable. But that will take a little explaining.
+	
+	First of all, remember that an $n$-uple $(x_1, x_2, \cdots, x_n)$ is represented as the string $\ceil{x_1}0\ceil{x_2}0\cdots0\ceil{x_n}$. The $k$-projection function is the function that takes such a string and returns $x_k$.
+	
+	To show why this is computable, we must first design the following programs:
+	\begin{align*}
+	\mathbf{ISONE}(i, j) =&\CLEAN(j)\\
+	&\CASE(i,\\
+	&\quad \ell \mapsto
+	\begin{cases}
+	\PREPEND(1, j) &\text{if $\ell = 1$}\\
+	\NIL &\text{otherwise}
+	\end{cases}\\
+	&\quad ,\NIL\\
+	&)
+	\end{align*}
+	
+	This will make $s_j = 1$ if $s_i$ starts with a 1, $s_j = \Lambda$ otherwise.
+	
+	This allows us to make the following machine:
+	
+	Let $TMP$ be a variable not used anywhere else.
+	
+	\begin{align*}
+	\REMONE(i, j) =& \CLEAN(j); \mathbf{ISONE}(i, TMP)\\
+	&\WHILE(TMP,\\
+	&\quad \POP(i); \PREPEND(1, j);\\
+	&\quad \mathbf{ISONE}(i, TMP)\\
+	&)\\
+	&\SAFEPOP(i)
+	\end{align*}
+	
+	The behavior of this machine is as follows: suppose $s_i = \ceil{n}0\cdots$. (This would also work if it were just $\ceil{n}$, but we leave that case to the reader.)
+	
+	If $n = 0$, then the ISONE command will make $s_{TMP} = \Lambda$, and so the loop won't run at all, leaving $s_j = \Lambda = \ceil{n}$.
+	
+	Otherwise, the loop will run. Each run of the loop will remove an element from $s_i$ and push a 1 onto $s_j$, and write $1$ to $s_{TMP}$ if $s_j$ still starts with a 1, and nothing otherwise. As such, the loop will run as long as $s_i$ starts with a 1. By the time the loop halts, $s_i$ will start with a zero.
+	
+	This happens after $n$ runs of the loop, and so $s_j$ will be of the form $\ceil{n}$. Finally, we pop this last zero from $s_i$.
+	
+	The behavior of this machine is, then, the following:
+	
+	Suppose $s_i = \ceil{n_1} 0 \ceil{n_2} 0 \cdots 0 \ceil{n_k}$. After running $\REMONE(i, j)$, we will have $s_i = \ceil{n_2} 0 \cdots 0 \ceil{n_k}$ and $s_j = \ceil{n_1}$.
+	
+	In essence, this `separates the $n$-uple into its head and tail'.
+	
+	We can now, finally, write a program for projection:
+	
+	\begin{align*}
+	\PR(k) =& \REMONE(inp, out)^k
+	\end{align*}
+	
+	If the input is $\ceil{x_1} 0 \ceil{x_2} 0 \cdots 0 \ceil{x_n}$, after running $\PR(k)$ with $k < n$, we will have $\ceil{x_k}$ on the output variable. This can easily be shown by induction on $k$.
+	
+	This gives us the beginning of the proof that all $\mu$-computable functions are computable, as these are defined inductively starting with the constant function, the successor function, and the projection functions.
+	
+	The next step is to show that we can compose functions, do primitive recusion, and do minimization.
+	
+	\section{Composition}
+	
+	First, let us clarify our terms a bit here.
+	
+	We will say a function $f : X^* \supseteq C \rightharpoonup X^*$ is P-computable if there is a program using only the instructions $\PREPEND$, $\POP$, $\CASE$ and $\WHILE$ that will take the contents of the `variable' $s_{inp}$ (for some $inp$) and write $f(x)$ on $s_{out}$ for some $out$, in the event that $f(x)$ is defined. If it is not, this machine should loop indefinitely.
+	
+	Clearly, if a function is P-Computable, it is Turing Computable, as one can, given a P-Machine, implement it on a Turing Machine. First, make sure to $\RS$ the tape, let $inp = 1$, and run the program. Then, at the end, do $\RETURN(out)$.
+	
+	What we wish to show is that all $\mu$-computable functions are P-computable. As we have already seen, the constant, successor, and projection functions are computable. Before we move on, we will actually define the $\mu$-computable functions, in order to know what we are doing.
+	
+	We define these inductively, starting with the base functions above, and using the following four operators:
+	
+	\begin{itemize}
+	\item (Aggregation) If $f : \N^n \rightharpoonup \N^{m_1}$ and $g : \N^n \rightharpoonup \N^{m_2}$ are computable, the function $(f,g) : \N^n \rightharpoonup \N^{m_1 + m_2}$ is also computable.
+	
+	\item (Composition) If $f : \N^n \rightharpoonup \N^m$ and $g : \N^m \rightharpoonup \N^r$ are computable, so is $g \circ f : \N^n \rightharpoonup \N^r$
+	
+	\item (Primitive recursion) Suppose $h : \N^{n+2} \rightharpoonup \N$ is P-computable. Then, the function $f$ (denoted $\rho(h)$) defined inductively as:
+	\begin{gather*}
+	f(0, x_1, x_2, \cdots, x_n) = (x_1, \cdots, x_n)\\
+	f(y+1, x_1, x_2, \cdots, x_n) = h(y, f(y, x_1, \cdots, x_n), x_1, \cdots, x_n)
+	\end{gather*}
+	
+	Is computable.
+	
+	\item (Minimization) Let $f : \N^{n+1} \rightharpoonup \N$. Then, the function defined as
+	
+	\[\mu(f)(x_1, \cdots, x_n) = k\]
+	
+	Where $k$ is such that $f(k, x_1, \cdots, x_n) = 0$ and $f(k', x_1, \cdots, x_n)$ is defined and $>0$ for all $k' <k$. If this $k$ does not exist, $\mu(f)(x_1, \cdots, x_n)$ is undefined.
+	\end{itemize}
+	
+	We do these in order.
+	
+	Let $f : \N^n \rightharpoonup \N^{m_1}$ and $g : \N^n \rightharpoonup \N^{m_2}$ be partial P-computable functions. Suppose $F$ and $G$ are P-machines that take some input written on $inp_1$ and $inp_2$, respectively, and write their output on $out_1$ and $out_2$. We wish to write a program that computes $(f,g)$.
+	
+	To do this, suppose our input is on the variable $inp$. First, do $\COPY(inp, inp_1); \COPY(inp, inp_2)$. Then, run $F$ and $G$. The only thing left to do is to join $out_1$ and $out_2$ into $out$. It is not hard to see that this is easily done by concatenating the values of these variables, with a 0 in the middle.
+	
+	So, first, we $\COPY(out_2, out)$. Then, we $\PREPEND(0, out)$. Finally, we need a way to prepend a variable to another without destroying the latter. To do this, we make a minor adjustment to our $\COPY$ code:
+	\begin{align*}
+	\MOVR2'(i, j_1, j_2) =& \CLEAN(j_1);\\
+	& \WHILE(i,\\
+	&\quad \CASE(i,\\
+	&\quad \quad \ell \mapsto \PREPEND(\ell, j_1); \PREPEND(\ell, j_2); \STRICTPOP(i),\\
+	&\quad \NIL)\\
+	&)
+	\end{align*}
+	
+	It is not hard to show that this writes the contents of the variable $i$ in reverse to the variable $j_1$, and prepends it backwards to the variable $j_2$.
+	
+	Now let $TMP$ be a temporary variable. Define:
+	
+	\[\COPY'(i, j) = \MOVR(i, TMP); \MOVR2'(TMP, i, j)\]
+	
+	This will prepend the contents of the variable $i$ into variable $j$. This allows us to finish our code, by doing $\COPY'(out_1, out)$. This finishes our demonstration that aggregation of P-computable functions is P-computable.
+	
+	Now, we move on to composition. This one is not particularly hard.
+	
+	Let $f : \N^n \rightharpoonup \N^m$ and $g : \N^m \rightharpoonup \N^k$ be P-computable. Let $F$ be a P-machine that takes a variable $inp$ and writes $f(inp)$ to a variable $out_1$, and let $G$ be a P-machine that takes a variable $out_1$ and writes $g(out_1)$ to $out$. Composing the two machines $F;G$ will get us a machine that computes $g \circ f$.
+	
+	Next up is primitive recursion. This is possibly the hardest of the four.
+	
+	Let $h$ be a P-computable function $\N^{2+n} \rightharpoonup \N$ that is computed by $H$, which writes $h(inp_h)$ to $out_h$.
+	
+	Now, to write a program that computes $\rho(h)$. First, suppose it takes the input in a variable $inp$. Begin by running $\REMONE(inp, ix)$. This wil take the $n+1$-uple $(y, x_1, \cdots, x_n)$ contained in $inp$, and write $y$ to $ix$, leaving $(x_1, \cdots, x_n)$ in $inp$.
+	
+	Now, if $y = 0$, we are done, so we just $\COPY(inp, out)$. Otherwise, however, we want to run $h$ and decrease $y$ by one, and repeat this until $y$ is in fact zero. Consider, then, the following program: (where $ix2$ is a variable that starts empty)
+	
+	\begin{align*}
+	&\COPY(inp, inp_g);\\
+	&G;\\ %todo write out what g is
+	&\COPY(out_g, out_h);\\
+	&\WHILE(ix,\\
+	&\quad \COPY(inp, inp_h);\\
+	&\quad \PREPEND(0, inp_h); \COPY'(out_h, inp_h);\\
+	&\quad \PREPEND(0, inp_h); \COPY'(ix2, inp_h);
+	&\quad H\\
+	&\quad \POP(ix); \PREPEND(1, ix2)\\
+	&);\\
+	&\COPY(out_h, out)
+	\end{align*}
+	
+	Let us remind ourselves that, at the start of the while, we have the current state:
+	
+	$ix$ contains $y$, $ix2$ contains 0, and $out_h$ contains $g(x_1, \cdots, x_n)$.
+	
+	If $y = 0$, the loop won't run and we will just write $g(x_1, \cdots, x_n)$ to the output, as desired. Otherwise, let us suppose the loop runs at least once.
+	
+	We will copy $inp$ to $inp_h$, leaving $inp_h$ with the value $(x_1, \cdots, x_n)$. The next two lines turn $inp_h$ into the $n+2$-uple $(ix2, out_h, x_1, \cdots, x_n)$, which, keeping in mind the assignment of variables, is the $n+2$-uple $(0, g(x_1, \cdots, x_n), x_1, \cdots, x_n)$.
+	
+	Then we run $h$ on this, leaving $out_h$ with the value $h(0, g(x_1, \cdots, x_n), x_1, \cdots, x_n)$, which is $\rho(h,g)(1, x_1, \cdots, x_n)$. Finally, we pop $ix$, leaving it at $y-1$, and prepend 1 to $ix2$, leaving it at $1$.
+	
+	If $y = 1$, we exit the loop with the correct output, otherwise we run it again, a total of $y$ times.
+	
+	Formalizing the situation: notice that, when we enter the loop, we are at situation
+	
+	\smallskip
+	\begin{tabular}{c | c | c}
+	$out_h$ & $ix$ & $ix2$\\
+	\hline
+	$g(x_1, \cdots, x_n)$ & $y$ & 0
+	\end{tabular}
+	\smallskip
+	
+	More generally, the situation is of the form
+	
+	\smallskip
+	
+	\begin{tabular}{c | c | c}
+	$out_h$ & $ix$ & $ix2$\\
+	\hline
+	$\rho(h,g)(k, x_1, \cdots, x_n)$ & $y - k$ & $k$
+	\end{tabular}
+	\smallskip
+	
+	With $k = 0$.
+	
+	If 
+	
+	
+\begin{thebibliography}{9}
+\bibitem{bridges} 
+Bridges, Douglas S.
+\textit{Computability - A Mathematical Sketchbook}. 
+Springer, 1994. %i don't know how to do this right
+\end{thebibliography}	
+
+\end{document}

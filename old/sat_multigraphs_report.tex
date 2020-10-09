@@ -1,0 +1,606 @@
+\documentclass[11pt]{article}
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{relsize}
+\usepackage{enumerate}
+\usepackage{listings}
+
+\title{SAT, Multigraphs, and CNF}
+\author{Duarte Nascimento \\ \texttt{duarte.nascimento@tecnico.ulisboa.pt}
+		\and Supervised by: \\ Jo\~ao Rasga \\ \texttt{joao.rasga@tecnico.ulisboa.pt}}
+\date{}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\sat}{\Vdash}
+\newcommand{\cS}{\mathcal{S}}
+\DeclareMathOperator{\gr}{gr}
+\DeclareMathOperator{\Gr}{Gr}
+\DeclareMathOperator{\val}{val}
+\DeclareMathOperator{\col}{col}
+\DeclareMathOperator{\fp}{fp}
+
+\newcommand{\rightor}[3]{
+\!\!\!
+\mbox{
+  \begin{tikzpicture}[baseline=-3pt]
+    \draw[thick] (-1ex,0ex) node[left]{$#1\!$} -- (0ex,0ex);
+    \draw[thick, ->] (0ex,0ex) -- (0.75ex,0.75ex) node[right]{\footnotesize $\!#2$};
+    \draw[thick, ->] (0ex,0ex) -- (0.75ex,-0.75ex) node[right]{\footnotesize $\!#3$};
+  \end{tikzpicture}
+}
+\!\!\!
+}
+\newcommand{\rightand}[3]{
+\!\!\!
+\mbox{
+  \begin{tikzpicture}[baseline=-3pt]
+    \draw[thick] (-0.75ex,0.75ex) node[left]{\footnotesize $#1$\!} -- (0,0);
+    \draw[thick] (-0.75ex,-0.75ex) node[left]{\footnotesize $#2$\!} -- (0,0);
+    \draw[thick, ->] (0,0) -- (1ex,0) node[right]{$\!#3$};
+  \end{tikzpicture}
+}
+\!\!\!
+}
+
+\newcommand{\rightcurvearrow}{
+\mathrel{
+  \begin{tikzpicture}[scale=0.8]
+    \draw[thick,->] (0,1ex) arc (30:150:-2ex);
+    \draw[thick,->] (0,-1ex) arc (150:30:2ex);
+  \end{tikzpicture}
+}
+}
+\newcommand{\rightcurveor}{
+\!
+\mathrel{
+  \begin{tikzpicture}[scale=0.8]
+    \draw[thick,->] (0,0) arc (90:150:-2ex);
+    \draw[thick,->] (0,0) arc (90:30:2ex);
+    \draw[thick] (-1ex, 0) -- (0.1ex,0);
+  \end{tikzpicture}
+}\!
+}
+\newcommand{\Rightcurvearrow}{
+\mathrel{
+  \begin{tikzpicture}[scale=0.8]
+    \draw[thick,->] (0,1ex) arc (30:150:-2ex);
+    \draw[thick,->] (0,-1ex) arc (150:30:2ex);
+    \draw[thick] (0, 1ex) -- (0, -1ex);
+  \end{tikzpicture}
+}
+}
+\newcommand{\Rightcurveor}{
+\mathrel{
+  \begin{tikzpicture}[scale=0.8]
+    \draw[thick,->] (0,0) arc (90:150:-2ex);
+    \draw[thick,->] (0,0) arc (90:30:2ex);
+    \draw[thick] (-1ex, 0) -- (0.1ex,0);
+    \draw[thick] (-1ex, -0.7ex) -- (-1ex, 0.7ex);
+  \end{tikzpicture}
+}
+}
+\newcommand{\nRightcurvearrow}{
+\mathrel{
+  \begin{tikzpicture}[scale=0.8]
+    \draw[thick,->] (0,1ex) arc (30:150:-2ex);
+    \draw[thick,->] (0,-1ex) arc (150:30:2ex);
+    \draw[thick] (0, 1ex) -- (0, -1ex);
+    \draw (0.9ex, -1ex) -- (2.4ex, 1ex);
+  \end{tikzpicture}
+}
+}
+%todo mess with the symbols to make them look better
+
+
+\newtheorem{prop}{Proposition}
+\newtheorem*{prop*}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem*{av}{Possible avenue of investigation}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This project was motivated by the paper \cite{2cnf}. It builds a bridge between 2-CNF (a particular case of SAT for propositional logic) and directed graphs, with a theorem that states that the satisfiability of a given 2-CNF is equivalent to the nonexistance of a certain type of loop in a graph built from it. We thought it of interest to generalize some of the strategies found therein, possibly find a novel proof of this theorem, and perhaps even generalize it.
+
+The important idea for building this bridge is to, from a CNF (a special type of propositional formula), build a special graph, that represents the implications one can deduce from the given formula. The idea is that, if we construct this graph in a complete enough way, we can know if our formula is satisfiable just by checking that the graph does not have any cycles that spell obvious contradiction: namely, if there is no `path of implications' from some letter $a$ to $\conj a$ and from $\conj a$ to $a$.
+
+These ideas will be properly introduced at the end of the document. The first half of it is mostly definitions to lay the groundwork for later. The second half contains the main results, culminating in a novel proof of the aforementioned theorem, using these novel results.
+
+\section{Propositional Logic}
+%provisory telegraphic definitions. to be reviewed
+
+We will work with a set $\Sigma$, which we will suppose finite for convenience, which will be our \emph{set of propositional symbols}.
+
+A \emph{literal} is an element of $\Sigma \times \{\top, \bot\}$.
+
+If $(a, v_a)$ is a literal, its \emph{conjugate}, denoted $\conj{(a,v_a)}$ is the literal $(a, \conj{v_a})$, where $\conj \top = \bot$ and $\conj \bot = \top$.
+
+We say $\Gamma$ is a \emph{conjunctive normal form}, or \emph{CNF} if it is a set of \emph{clauses}. In turn, a clause is a set of literals. We say $\Gamma$ is an $n$-CNF if all of its clauses have at most $n$ literals. We are particularly interested in $2$-CNF.
+
+We will, in general, obey the convention that a letter or literal is represented by a lower case letter, a clause by an upper case latin letter, and CNF by an upper case greek letter.
+
+The clause $\{a,b,\cdots,z\}$ is usually denoted $a \vee b \vee \cdots \vee z$. In turn, the CNF $\{A, B, \cdots, Z\}$ is usually represented as $A \wedge B \wedge \cdots \wedge Z$.
+
+A \emph{valuation on $\Sigma$} is a function from $\Sigma$ to $\{\top, \bot\}$.
+
+Given a valuation $\rho$ and a literal $a = (\alpha, v_\alpha)$, we say $\rho$ satisfies $a$, denoted $\rho \sat a$ if and only if $\rho(\alpha) = v_\alpha$. Likewise, given a clause $C$ we say $\rho \sat C$ iff $\exists_{a \in C} \rho \sat a$. Finally, given a CNF $\Gamma$, we say $\rho \sat \Gamma$ iff $\forall_{C \in \Gamma} \rho \sat C$.
+
+We will say a CNF $\Gamma$ is \emph{degenerate} if $\emptyset \in \Gamma$. These are not of interest, because any degenerate CNF is immediately not satisfiable.
+
+\section{Logical symbols}
+
+We want to do logical operations on $\top$ and $\bot$, such as ``or'', ``and'', implications, equivalence...
+
+To distingish these operations from their ``meta'' versions, we will adopt the following conventions:
+
+We will use $\vee$ and $\wedge$ as boolean operations, and for conjunction and disjunction we will resort to writing ``or'' and ``and''.
+
+For boolean implication, we will use $\rightarrow$, reserving the symbol $\Rightarrow$ for meta-implication.
+
+Finally, boolean equivalence is represented as $\leftrightarrow$, while meta-equivalence is represented by the usual $\Leftrightarrow$.
+
+
+\section{Multigraphs}
+
+A \emph{directed multigraph} $G$ is an ordered pair $(V, E)$ where $E$ is a set of \emph{multiedges} on V.
+
+A multiedge on $V$ is an ordered pair $(A, B)$ where $A, B$ are subsets of $V$. This can be represented by the symbol $A \rightcurvearrow B$. We will often overload the term `edge' to mean multiedge, and the term `graph' to mean multigraph. When referring to graphs in the usual sense of the word (edges have one tail and one head), we will talk about `pure graphs'.
+
+Informally, the edges on multigraphs represent implication in the following way: $A \rightcurvearrow B$ means ``If all elements of $A$ are true, then one element of $B$ must be true''. This motivates the following definition:
+
+Fixed a multigraph $G = (V,E)$, we will work with colorations of the vertices with the colors $\top$ and $\bot$.
+
+A coloration on $G$ is a function $\chi : V \rightarrow \{\top, \bot\}$.
+
+Given a coloration $\chi$, we define:
+
+\[ \chi \text{\emph{ is a valid coloration of $G$} iff } \forall_{(A,B) \in E} \left( \bigwedge_{\alpha \in A} \chi(\alpha) \rightarrow \bigvee_{\beta \in B} \chi(\beta) \right)\]
+
+\section{Multigraphs from CNFs}
+
+Given a CNF $\Gamma$, define the \emph{full graph of $\Gamma$}, denoted as $\Gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
+
+\[ E = \{ \, \conj A \rightcurvearrow (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}\]
+
+Given a nondegenerate CNF $\Gamma$, define the \emph{tail graph of $\Gamma$}, denoted as $\gr \Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
+
+\[ E = \{ \, \conj a \rightcurveor (C \setminus \{a\}) \mid a \in C, C \in \Gamma \, \}\]
+
+Notice that this is a special kind of multigraph: one whose edges all have one and only one tail. We will call these \emph{tail graphs}.
+
+Given a nondegenerate 2-CNF $\Gamma$, define the \emph{pure graph of $\Gamma$}, denoted as $\gr'\Gamma$, as the graph $(V,E)$ such that $V$ is the set of literals, and
+
+\[ E = \{ \, \conj a \rightarrow b \mid \{a,b\} \in \Gamma \, \} \]
+
+Notice this is a pure graph. Furthermore notice that this definition also takes into account clauses with only one element, as the set $\{a\}$ is the same as $\{a,a\}$.
+
+These three definitions have something in common: all of them somehow represent the CNF they originate from. We will make the meaning of this more precise:
+
+We will assign to every multigraph $G = (V,E)$ (where $V$ is the set of literals) a unique CNF, which we will say is \emph{the CNF represented by $G$}. This is the CNF $\Gamma$ such that
+
+\[\Gamma = \{\, \conj A \cup B \mid A \rightcurvearrow B \in E\,\}\]
+
+As the reader may easily check, given a CNF $\Gamma$, it is the CNF represented by $\Gr \Gamma$, $\gr \Gamma$, and, if applicable, $\gr'\Gamma$. This will allow us to study some properties of all of these three at the same time.
+
+\section{Valuations from colorings}
+
+Given a set of propositional symbols $\Sigma$, we will deem a function $\chi$ from the literals to $\top, \bot$ to be \emph{valorable} if, for all literals $v$, $\chi(\conj v) = \conj{\chi(v)}$.
+
+\begin{prop}
+To every valorable coloration $\chi$ one can correspond a unique valuation $\rho$ such that $\chi(a, \top) = \rho(a)$, and vice versa.
+
+Define $\val \chi$ to be the valuation $\rho$ such that
+
+\[\rho(\alpha) = \chi(\alpha, \top)\]
+
+Likewise, define $\col \rho$ to be the valorable coloration $\chi$ such that
+
+\[\chi(\alpha, v_\alpha) = \rho(\alpha) \leftrightarrow v_\alpha\]
+
+The functions $\val$ and $\col$ are bijections from the valorable colorations to the valuations and vice versa.
+\end{prop}
+
+\begin{proof}
+We will do this by showing they are each other's left and right inverse.
+
+Let $\chi$ be a valorable coloration. Notice that
+
+\[\col \val \chi (\alpha, v_\alpha) = \val \chi (\alpha) \leftrightarrow v_\alpha = \chi(\alpha, \top) \leftrightarrow v_\alpha\]
+
+And a quick checking of both possible cases for $v_\alpha$ will show that this last thing equals $\chi(\alpha, v_\alpha)$.
+
+On the other hand, let $\rho$ be a valoration. We have
+
+\[\val \col \rho(\alpha) = \col \rho (\alpha, \top) = \rho(\alpha) \leftrightarrow \top = \rho(\alpha) \]
+
+As we wished to show.
+\end{proof}
+
+The following propositions makes the bridge between satisfiability and validity.
+
+\begin{prop}
+If $\Gamma$ is represented by $G = (V,E)$ and $\rho$ is a valoration of $\Gamma$, $\chi = \col \rho$ is valid iff $\rho$ satisfies $\Gamma$.
+\end{prop}
+
+\begin{proof}
+First, let us suppose $\rho$ is a coloration satisfying $\Gamma$. Consider the coloration of $G$ given by $\chi = \col \rho$. We wish to show it is valid.
+
+To do this, pick any edge $\conj A \rightcurvearrow B$. By definition, we know $A \cup B \in \Gamma$, and as such, we know, since $\rho \sat \Gamma$, there either exists some $(\alpha, v_\alpha) \in A$ such that $\rho(\alpha) = v_\alpha$, or some $(\beta, v_\beta) \in B$ such that $\rho(\beta) = v_\beta$.
+
+As such, either there exists some $a \in A$ such that $\chi(a) = \top$, or some $b \in B$ such that $\chi(b) = \top$, and thus, if $\chi$ was to color all elements of $\conj A$ as $\top$, it must color all elements of $A$ as $\bot$, and then necessarily color some element of $B$ as $\top$.
+
+This shows $\chi$ is valid with relation to this particular edge, but since the choice was arbitrary, $\chi$ is valid with relation to all edges, and so $\chi$ is a valid coloration of $G$.
+
+On the other hand, let us suppose that $\chi$ is valid. We will show $\rho$ satisfies $\Gamma$.
+
+To do this, pick an arbitrary $C \in \Gamma$. By hypothesis, we know $C$ is of the form $A \cup B$, where $\conj A \rightcurvearrow B$ is an edge in $G$. Since $\chi$ is valid, we have that either it colors an element of $A$, or an element of $B$, as $\top$. As such for some $(\gamma, v_\gamma) \in C$ we have $\chi(\gamma, v_\gamma) = \top$, and so $\rho(\gamma)$ must equal $v_\gamma$, and so $\rho$ satisfies this literal, and thus this clause. Since the clause chosen was arbitrary, $\rho$ satisfies all clauses, and thus satisfies $\Gamma$.
+\end{proof}
+
+\begin{prop}
+If $\Gamma$ is represented by $G = (V,E)$, then $\Gamma$ is satisfiable iff $G$ has a valid valorable coloration.
+\end{prop}
+
+\begin{proof}
+Simply apply the previous proposition. If $\Gamma$ is satisfiable, pick a satisfying valuation and consider its coloration, which will be valid and valorable. If $G$ has a valid valorable coloration, consider its associated valuation.
+\end{proof}
+
+\section{Indirect Implication}
+
+To help us study valid colorations of multigraphs, we make the following definition:
+
+Given a graph $G$ and two sets of vertices $A$ and $B$, we say \emph{$A$ indirectly implies $B$}, denoted $A \Rightcurvearrow B$, if all valid colorations $\chi$ that obey $\chi(a) = \top$ for all $a \in A$ also obey $\chi(b) = \top$ for some $b \in B$.
+
+\section{Direct Implication}
+
+In the interest of characterizing the relation of indirect implication in the context of tail graphs, we will consider the following definition:
+
+We define the relation \emph{$a$ n-implies $B$}, denoted as $a \rightcurveor_{\,n} B$, inductively as such:
+
+\[\text{if } B = \{a\} \text{, then } a \rightcurveor_0 B\]
+
+
+\[\text{if } a \rightcurveor_n B \text{, } b \in B \text{, and } b \rightcurveor C \text{, then } a \rightcurveor_{n+1} (B \setminus \{b\}) \cup C\]
+
+We say $a \rightcurveor_* B$ if there exists $n$ for which $a \rightcurveor_n B$.
+
+This relation is a generalization of the idea ``there's a path from $a$ to $b$'' in pure graphs. In fact, if our graph is pure, $a \rightcurveor_* B$ if and only if $B$ is a singleton set $\{b\}$ and there is a path going from $a$ to $b$. $a \rightcurveor_n \{b\}$ if and only if there is a path of length $n$ from $a$ to $b$ in this case. This can easily be shown by induction.
+
+\section{The exhaustion algorithm}
+
+Consider an arbitrary multigraph $G = (V,E)$, and let $V_0 \subseteq V$
+
+We will call the following the \emph{exhaustion algorithm}.
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[mathescape]
+$T \gets V_0$
+$U \gets E$
+While $\exists_{(A,B) \in U} \, A \subseteq T$:
+    If $B = \emptyset$:
+        Halt
+    Else:
+        Pick $v$ from $B$
+        $T \gets T \cup \{v\}$
+        $U \gets U \setminus \{(A,B)\}$
+\end{lstlisting}
+\end{minipage}
+
+
+\section{General results on multigraphs}
+
+In the following, consider fixed a multigraph $G = (V,E)$.
+
+\begin{prop}
+The exhaustion algorithm halts, and when it does, if it has not halted prematurely (that is, due to the Halt instruction), the coloration $\chi(a) = (\top \text{ if } a \in T \text{ else } \bot)$ is valid.
+\end{prop}
+
+\begin{proof}
+To show that it halts, merely notice that the cardinality of $U$ decreases by 1 with each iteration.
+
+To show that the coloration induced by $T$ is valid after it does, notice that whenever an edge $A \rightcurvearrow B$ is removed from $U$, you are sure to have at least one element of $B$ in $T$.
+
+As such, we can split edges into two sets. Those that are still in $U$ don't have all of their tail elements painted $\top$, as if any did, that would lead to another run in the loop, and so they are valid. Those that are not in $U$ have at least one element of their head painted $\top$, and so they are valid.
+
+As such, in the end, all edges are validated, and the coloring induced by $T$ is valid.
+\end{proof}
+
+\begin{prop}
+If there is a valid coloration $\chi$ of $G$, starting the exhaustion algorithm with any subset of $S = \{ \, v \in V \mid \chi(v) = \top \, \}$, there is a sequence of choices that does not lead to premature halting.
+\end{prop}
+
+\begin{proof}
+The idea is to take the greedy approach, and make sure $T$ is always a subset of  $S$.
+
+Before the while loop, this is true by hypothesis. Every run of the while loop, an edge $A \rightcurvearrow B$ is chosen such that $A$ is contained in $T$, and thus, in $S$. Therefore, some element of $B$ is contained in $S$. Pick that element. The condition that $T \subseteq S$ remains true, which preserves our invariant, allowing for yet another run of the loop, and so on until termination.
+\end{proof}
+
+It will be useful to study all the possible outputs of the exhaustion algorithm, and as such, we make the following definition:
+
+A \emph{state} is a pair $\cS = (T,U)$, where $T \subseteq V$ and $U \subseteq E$. The set of \emph{successors of a state $\cS = (T,U)$}, denoted $s(\cS)$, is defined as follows:
+
+If there exists no $(A,B) \in U$ such that $A \subseteq T$, define $s(\cS)$ as $\{(T, \emptyset)\}$.
+
+Otherwise, define $s(\cS)$ as
+
+\[ \{ \, (T \cup \{v\}, U \setminus \{(A,B)\}) \mid (A,B) \in U, A \subseteq T, v \in B \, \}\]
+
+It is easy to recognize $s(\cS)$ as ``the set of states we can be in after one iteration of the exhaustion algorithm, bar premature halting''.
+
+Define $\cS^n$ inductively as: $\cS^0 = \{\cS\}$, $\cS^{n+1} = \cup_{R \in \cS^n} s(R)$. In other words, ``the set of states we can be in after $n$ iterations of the exhaustion algorithm, bar premature halting''.
+
+The previous results can be mirrored as results about states.
+
+\begin{prop} \label{statesfixedpointvalid}
+Fixed a state $\cS = (T_0, U_0)$, there exists $n$ such that $\cS^{n+1} = \cS^n$.
+
+We will refer to this `fixed point' as $\fp \cS$.
+
+Given a graph $G = (V,E)$, suppose we start with $T_0 \subseteq V$, $U = E$. Fixed any state $(T,U)$ in the fixed point, the coloration of $G$ induced by $T$ is valid.
+\end{prop}
+
+\begin{proof}
+To show the fixed point exists, consider the families $U^n = \{\,U\mid (T,U) \in \cS^n\,\}$. Consider the maximum cardinality of the elements of $U^n$.
+
+For $n = 0$, this maximum cardinality is clearly $\# U_0$. Now, notice that this maximum cardinality always decreases, unless it is zero. When this max cardinality is zero, we are in a fixed point.
+
+To show that, for all $(T,U) \in \fp \cS$, the coloration induced by $T$ is valid, merely notice that, for all $n$, all states of $\cS^n$ obey the following property: if $A \rightcurvearrow B$ is not in $U$, then either there exists some element of $B$ in $T$, or there exists an element of $A$ not in $T$. This is easy to see in virtue of how the elements are removed from $U$.
+
+As such, since at the end, all states have $U$ empty, all edges are valid with respect to their respective $T$, and so the colorations are valid.
+
+%This is pretty piss poorly written. Find a better way to do this.
+\end{proof}
+
+\section{Full graphs}
+
+Remind yourself of the definition of the full graph of a CNF $\Gamma$:
+\begin{gather*}
+\Gr \Gamma = (V,E) \\
+\text{Where $V$ is the set of literals, and}\\
+E = \{ \, \conj A \rightcurvearrow (C \setminus A) \mid A \subseteq C, C \in \Gamma \, \}
+\end{gather*}
+
+This graph has very strong properties.
+
+We already showed that $\Gamma$ is the CNF represented by $\Gr \Gamma$, which shows that $\Gamma$ is satisfiable iff there exists a valid valorable coloration of $\Gr \Gamma$. What we will now show is that this can be relaxed to ``there exists a valid coloration''.
+
+First, a property of the edges of these graphs that will be useful in the sequence.
+
+\begin{prop}
+Let $\Gamma$ be a CNF. In the context of $\Gr \Gamma$:
+
+If $a \not\in A$ and $\conj a \not\in B$, then $(A \cup \{a\}) \rightcurvearrow B$ iff $A \rightcurvearrow (B \cup \{\conj a\})$.
+
+We will refer to this property of the full graph as \emph{local symmetry}.
+\end{prop}
+
+\begin{proof}
+Suppose $a \not\in A$ and $\conj a \not\in B$. Then, $(A \cup \{a\}) \rightcurvearrow B$ iff $\conj A \cup \{\conj a\} \cup B \in \Gamma$ iff $A \rightcurvearrow (B \cup \{\conj a\})$
+\end{proof}
+
+\begin{prop} \label{swapvalue}
+Let $\Gamma$ be a CNF, $G$ its full graph, and suppose $\chi$ is a valid coloration of $G$. Then, fixed some literal $a$, the coloration $\chi'$ of $G$ defined as follows is also valid:
+
+\[
+\chi'(v) =
+\begin{cases}
+\chi(v) & \text{if $v \neq a$}\\
+\conj{\chi(\conj a)} & \text{if $v = a$}
+\end{cases}
+\]
+\end{prop}
+
+\begin{proof}
+Fix an arbitrary edge $A \rightcurvearrow B$. We will show that if it is not valid with relation to $\chi'$, then $\chi$ is not a valid coloration.
+
+Suppose, then, it is not valid with relation to $\chi'$. Then, $\chi'(\alpha) = \top$ for all $\alpha \in A$, and $\chi'(\beta) = \bot$ for all $\beta \in B$.
+
+If $a \not \in A \cup B$, then $\chi(\alpha) = \top$ for all $\alpha \in A$ and $\chi(\beta) = \bot$ for all $\beta \in B$, which shows $A \rightcurvearrow B$ is not valid wrt $\chi$ and so $\chi$ is not a valid coloration.
+
+If $a \in A$ and $a \not \in B$, then $\chi(\alpha) = \top$ for all $\alpha \in A \setminus \{a\}$, and $\chi(b) = \bot$ for all $b \in B \cup \{\conj a\}$, which shows the edge $A \setminus \{a\} \rightcurvearrow B \cup \{\conj a\}$ is not valid wrt $\chi$ and so $\chi$ is not a valid coloration.
+
+The other two cases ($a \in B$ and $a \not \in B$; $a \in A$ and $a \in B$) are similar and left as an exercise to the reader.
+
+%todo maybe this could be improves
+\end{proof}
+
+This brings us to our main result about the full graph:
+
+\begin{prop}
+Let $\Gamma$ be a CNF.
+
+$\Gamma$ is satisfiable iff there exists a valid coloration of $\Gr \Gamma$.
+\end{prop}
+
+\begin{proof}
+If $\Gamma$ is satisfiable, there is a valid valorable coloration of $\Gr \Gamma$, and so there is a valid coloration.
+
+If there is a valid coloration $\chi$ of $\Gr \Gamma$, we can use prop \ref{swapvalue} to make it valorable. Simply take every $a$ such that $\chi(a) = \chi(\conj a)$ and swap one of them. The coloration at the end will be valorable, by prop \ref{swapvalue} it will be valid, and so there is a valid valorable coloration and $\Gamma$ is satisfiable.
+\end{proof}
+
+\begin{corollary}
+$\Gamma$ is not satisfiable iff $\emptyset \Rightcurvearrow \emptyset$.
+\end{corollary}
+
+\begin{proof}
+Notice that the condition $\emptyset \Rightcurvearrow \emptyset$ is equivalent to ``there is no valid coloration''.
+
+The right-implication is obvious: if $\emptyset \Rightcurvearrow \emptyset$, any valid coloration that makes all elements of $\emptyset$ true must make some element of $\emptyset$ true. The first condition applies to all valid colorations, the second applies to none, and so there can be no valid coloration.
+
+The left-implication is also obvious: if there is no valid coloration, for all $A, B \subseteq V$, we have that $A \Rightcurvearrow B$ is true, as all valid colorations that make all elements of $A$ true make some element of $B$ true. This is because there are none. In particular, plugging $A = B = \emptyset$, $\emptyset \Rightcurvearrow \emptyset$.
+
+This shows that $\emptyset \Rightcurvearrow \emptyset$ iff there are no valid colorations, which we already know to be iff $\Gamma$ is not satisfiable.
+\end{proof}
+
+This raises the question of how to find indirect implications. If we can find a way to deduce that $\emptyset \Rightcurvearrow \emptyset$, we have a way of showing a formula is not satisfiable.
+
+The following motivates a possible calculus, which this shows to be correct, for discovering indirect implications, but it is not known yet (by the author) if it is complete.
+
+\begin{prop}
+Fixed an arbitrary multigraph $G$, indirect implication in this graph has the following three properties:
+
+\begin{enumerate}[i)]
+\item If $A \rightcurvearrow B$, then $A \Rightcurvearrow B$
+\item (Extensionality) If $A' \supseteq A$, $B \subseteq B'$, and $A \Rightcurvearrow B$, then $A' \Rightcurvearrow B'$.
+\item (Concatenation) If $A \Rightcurvearrow \{x\}$ and $\{x\} \Rightcurvearrow B$, then $A \Rightcurvearrow B$.
+\end{enumerate}
+\end{prop}
+
+\begin{av}
+Would a calculus based on these properties be complete? If not, what needs to be added? It is very likely that property $iii)$ needs to be made stronger.
+\end{av}
+
+\section{Tail graphs}
+
+We could actually show that such a calculus does work for tail graphs.
+
+\begin{prop} \label{tailgraphindirectimplicationcharacterization}
+Let $G = (V,E)$ be a tail graph.
+
+$a \Rightcurveor B$ iff there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
+\end{prop}
+
+\begin{proof}
+Recall the definition of states, as this proposition is proven by showing the following cyclical implication.
+
+Consider the following propositions:
+
+\begin{enumerate}[i)]
+\item There exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
+\item $a \Rightcurveor B$
+\item There exists no state $(T,U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$.
+\end{enumerate}
+
+We will show the following cyclical implication: $i) \Rightarrow ii) \Rightarrow iii) \Rightarrow i)$. This clearly shows all three are equivalent, and, in particular, $i) \Leftrightarrow ii)$.
+
+$i) \Rightarrow ii)$ is a trivial exercise in induction. One easily shows by induction that if $a \rightcurveor_* B'$ then $a \Rightcurveor B'$, and it is easy to see that from this one concludes $a \Rightcurveor B$.
+
+$ii) \Rightarrow iii)$ is done by contrapositive. Suppose there is a state $(T, U)$ in $\fp (\{a\}, E)$ such that $T$ is disjoint from $B$. Then, by prop \ref{statesfixedpointvalid}, the coloration induced by $T$ is valid. Therefore, there is a valid coloration that makes $a$ true but keeps all elements of $B$ false, and hence we do not have $a \Rightcurveor B$, as desired.
+
+The difficult one is $iii) \rightarrow i)$. This one is done by induction.
+
+Namely, we will show that for all $n$, if there exists no state $(T,U)$ in $\cS^n (\{a\}, E)$ such that $T$ is disjoint from $B$, we have that there exists a subset $B'$ of $B$ such that $a \rightcurveor_* B'$.
+
+For $n = 0$ this is trivial, as the only state in $\cS^0 (\{a\}, E)$ is $(\{a\}, E)$ and $a \rightcurveor_0 \{a\}$.
+
+Suppose, then, this is true for $n$. We will show it is true for $n+1$.
+
+Suppose that for all states $(T,U)$ in $\cS^{n+1} (\{a\}, E)$ we have $T$ contains an element of $B$.
+
+Then, fixed a state $S = (T, U) \in \cS^n (\{a\}, E)$ we have that every successor of $S$ has some element of $B$ in its corresponding $T$.
+
+If there are no edges in $U$ whose antecedent is in $T$, since the only successor of $S$ is of the form $(T, \emptyset)$, we have that $T$ contains an element of $B$, let's say $d_{S}$.
+
+If there exists some edge in $U$ whose antecedent is in $T$, let's say $a_{S} \rightcurveor B_{S}$ such that $T$ contains $a_{S}$, all elements of the form $(T \cup \{b\}, U \setminus \{a_{S} \rightcurveor B_{S}\})$ for $b \in B_{S}$ are successors of $S'$, and so belong in $\cS^{n+1} (\{a\}, E)$.
+
+If $B_S$ is a subset of $B$, let $d_S = a_S$.
+
+If this is not the case, there exists $b \in B_S \setminus B$. Consider the state $(T \cup \{b\}, U \setminus \{a_{S} \rightcurveor B_{S}\})$. Since $T \cup \{b\}$ must contain an element of $B$, but $b \not \in B$, $T$ must contain an element of $B$, let's call it $d_S$.
+
+Now that we have defined $d_S$ in all cases, let $D = \{\,d_{S'} \mid S' \in \cS^n (\{a\}, E)\,\}$. Since every element $(T, U)$ of $\cS^n (\{a\}, E)$ is such that $T$ contains an element of $D$, we have that for some subset $D'$ of $D$ we have, by the induction hypothesis, $a \rightcurveor D'$.
+
+For every element $d$ of $D'$, either $d \in B$ or there exists $B_d \subseteq B$ such that $d \rightcurveor B_d$. As such, if we let $d_1, d_2, \cdots, d_k$ be the $d \in D'$ that don't match the first case, one can conclude $a \rightcurveor_* (D \cap B) \cup B_{d_1} \cup B_{d_2} \cup \cdots \cup B_{d_k}$, which is a subset of $B$ and thus the $B'$ we were looking for.
+
+%i hate this. find a better way to do it :(
+%reviewed: i hate this less. could be tidied up but isn't cancer anymore.
+\end{proof}
+
+\subsubsection{2-CNF}
+
+The following result can be found in \cite{2cnf}.
+
+\begin{prop*}
+Let $\Gamma$ be a 2-CNF.
+
+$\Gamma$ is satisfiable iff there is no cycle in $\gr' \Gamma$ that passes through a vertex and its conjugate at the same time.
+\end{prop*}
+
+Proposition \ref{tailgraphindirectimplicationcharacterization} turns out to give us a simple novel proof of this fact. Before it, however, a few simple propositions, the proofs of which are left to the reader.
+
+\begin{prop}
+Given a 2-CNF $\Gamma$, $\gr' \Gamma$ is a pure graph and, more generally, a tail graph.
+\end{prop}
+
+\begin{prop}
+Given a 2-CNF $\Gamma$, if $\gr' \Gamma$ has the edge $a \rightarrow b$ it also has the edge $\conj b \rightarrow \conj a$. As such, it also has the property that if there is a path from $a$ to $b$, there is also one from $\conj b$ to $\conj a$.
+\end{prop}
+
+\begin{prop}
+If $G$ is a pure graph, $a \rightcurveor B$ iff $B$ is a singleton set $\{b\}$ and there is a path from $a$ to $b$.
+\end{prop}
+
+\begin{prop}
+If $G$ is a pure graph, $a \Rightcurveor B$ iff there exists $b \in B$ such that there is a path from $a$ to $b$.
+\end{prop}
+
+With these in mind:
+
+\begin{prop} \label{2cnfcycle}
+Let $\Gamma$ be a 2-CNF.
+
+$\Gamma$ is satisfiable iff there is no cycle in $\gr' \Gamma$ that passes through a vertex $a$ and its conjugate $\conj a$ at the same time.
+\end{prop}
+
+\begin{proof}
+If there exists such a cycle, then clearly any valid coloring must have $a$ and $\conj a$ colored the same and as such any valid coloring cannot be valorable. This shows there are no valid valorable colorings and thus $\Gamma$ is not satisfiable. This shows the right-implication.
+
+The left-implication is trickier. To do it, we will suppose there is no such cycle and build a coloration explicitly.
+
+In the following, we use $p(a)$ to mean the set of $b$ such that there is a path from $a$ to $b$ (this includes $a$ itself).
+
+Consider the following algorithm:
+
+\begin{lstlisting}[mathescape]
+$T \gets \emptyset$
+While $\exists_{a \in V} \, a \not \in T \text{ and } \conj a \not \in T$:
+    If $\conj a \text{ indirectly implies } a$:
+        $T \gets T \cup p(a)$
+    Else:
+        $T \gets T \cup p(\conj a)$
+\end{lstlisting}
+
+It is easy to show this algorithm halts, as the size of $T$ increases by at least one every iteration, yet $T$ is always contained in the finite set $V$.
+
+To show that the coloration induced by $T$ at the end is valid is also easy, as whenever we add an element to $T$ we also add all of the elements it has a path to. As such, there is never an edge $b \rightarrow c$ such that $b \in T$ but $c \not \in T$, as if $b$ was added then there was a path from some $a$ to $b$, but then there is also a path from $a$ to $c$ and thus $c$ would have been added.
+
+%this part could be improved
+
+All that's left is to show this color is valorable. Because of the condition of the while, it is clear that for all $a$ at least one of $a, \conj a$ will be in $T$. All that's left to show is that at most one of these will be in $T$. This is clearly true at the start, which means we need only show that this property is preserved by the while loop.
+
+So, let's suppose that we are going through a run through the loop, this property is true at the outset, and to show it will be true by the end we will examine both branches of the if.
+
+In the first branch, if this property weren't preserved then one of the following happens:
+
+\begin{enumerate}[i)]
+\item There exists some $t \in T$ such that we added $\conj t$. This means that $a$ indirectly implies $\conj t$. By duality, $t$ indirectly implies $\conj a$ and since we're assuming the coloration induced by $T$ was valid at the outset, we get $\conj a$ must have been in $T$ from the get-go, which contradicts our choice for $a$.
+
+\item There exists $v$ such that $v$ and $\conj v$ are both in $p(a)$. This means that there is a path from $a$ to $v$ and from $a$ to $\conj v$. By duality, this implies there's a path from $v$ to $\conj a$ and by transitivity, there must be a path from $a$ to $\conj a$. But since, by hypothesis, there is a path from $\conj a$ to $a$, this implies that there is a cycle passing through $a$ and $\conj a$ and so we run into contradiction with our hypothesis.
+\end{enumerate}
+
+As for the second branch (wherein we know that $\conj a$ does not indirectly imply $a$), if this property weren't preserved, we could reach a contradiction similarly.
+
+The cases are the same. For case $i)$, the proof is exactly the same. For case $ii)$, notice that we can truncate the proof until the part where we conclude that there is a path from (in this case) $\conj a$ to $a$. From here, we conclude that this is a contradiction, as we were precisely assuming $\conj a$ does not indirectly imply $a$.
+
+This finishes our proof that this property is preserved through the whole loop, which in turn shows it is true at the end, which, finally, shows our coloration to be valorable. This means we have constructed a valid valorable coloration, and so $\Gamma$ is satisfiable.
+\end{proof}
+
+\section{Conclusion}
+
+This concludes our search for a novel proof of Proposition \ref{2cnfcycle}. However, on the way, we have found tools applicable to much more general contexts: namely, Proposition \ref{tailgraphindirectimplicationcharacterization}.
+
+Other ideas were also brought up, but not investigated in depth, like the concept of the full graph of a CNF. Furthermore, it is possible that there is a generalization of Proposition  \ref{tailgraphindirectimplicationcharacterization} that will work for any multigraph, rather than just tail graphs. These ideas could be investigated in future works but, due to time considerations, remain for the moment open.
+
+
+\begin{thebibliography}{1}
+
+\bibitem{2cnf}
+\textit{B. Aspvall, M. F. Plass, R. E. Tarjan, A linear-time algorithm for testing the truth of certain quantified boolean formulas, Information Processing Letters, 8(3):121-123, 1979.}
+
+\end{thebibliography}
+\end{document}

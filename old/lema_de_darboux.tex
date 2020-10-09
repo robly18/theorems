@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\title{Sobre X}
+\author{}
+\date{}
+
+\newtheorem{prop}{Prop}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\newcommand{\diam}[1]{\lvert #1 \rvert}
+
+\begin{document}
+
+	Notação:
+	
+	Denote-se por $\Sigma_P(f)$ a soma superior de $f$ associada à partição $P$, denotando-se a respetiva soma inferior por $\sigma_P(f)$. Como, no que se segue, só vai haver uma função em jogo, abreviaremos isto para $\Sigma_P$.
+	
+	No que se segue, o diâmetro de um retângulo $R$, denotado $\diam{R}$, é tomado como sendo o comprimento da sua maior aresta. O diâmetro duma partição é o maior diâmetro dos seus retângulos.
+
+	\begin{prop} (Lema de Darboux)
+	
+	Seja $f$ uma função limitada (por $M$) definida no retângulo $R_0 = \prod_1^n I_i = \prod \left[ a_i, b_i \right]$.
+	
+	Para qualquer $\varepsilon > 0$ existe $\delta$ tal que qualquer partição $P$ de $R$ com diâmetro inferior a $\delta$ é tal que $\Sigma_P \leq \overline{\int} f + \varepsilon$.
+	
+	O resultado análogo óbvio é verdade para as somas inferiores, e a demonstração é idêntica à que se segue.
+	\end{prop}
+	
+	\begin{proof}
+	Fixe-se $\varepsilon$, e seja $P_0$ uma partição, que se supõe ser quadriculada sem perda de generalidade, tal que $\Sigma_{P_0} < \overline{\int} f + \frac \varepsilon 2$. Supomo-la quadriculada, aliás, de uma forma muito específica: Se $x$ é um ponto de divisão no $j$-ésimo eixo, assumimos que $P_0$ não muda se a refinarmos com a partição que contém os retângulos da forma $\prod^{j-1} I_i \times S \times \prod_{j+1} I_i$, com $S = \left[a_i, x\right[, \{x\}, \left]x, b_i \right]$.
+	
+	Esta hipótese é-nos útil porque nos permite pensar em $P_0$ como a partição obtida a partir de refinamentos sucessivos da partição trivial com as partições desta forma à medida que $j$ varia ao longo dos eixos e $x$ varia ao longo dos pontos de divisão no eixo $j$.
+	
+	Mais geralmente, para refinar uma partição $P$ com $P_0$, basta fazer estes $N$ refinamentos sucessivos, em que $N$ é o número de pontos de divisão ao longo de todos os eixos. Isto vai-nos ser deveras relevante.
+	
+	Seja agora $P$ uma partição arbitrária de diâmetro inferior ou igual a $\delta$. Fazendo a refinação com $P_0$, obtendo-se uma partição $P_1$, obtemos que \linebreak $\Sigma_{P_1} < \overline{\int} f + \frac \varepsilon 2$. Vamos proceder a estimar por quanto desceu o valor de $\Sigma$ quando refinámos de $P$ para $P_1$.
+	
+	Visto que, como referido, esta refinação pode ser concebida como refinações sucessivas daquele tipo especial, e sabendo que após se refinar uma partição de diâmetro $\leq \delta$ se continua com uma de diâmetro $\leq \delta$, basta estimar por quanto diminui $\Sigma$ quando se refina uma partição de diâmetro $\leq \delta$ daquela forma.
+	
+	Suponhamos que $j = 1$ sem perda de generalidade. Abrevie-se $\prod_2^n I_i$ a $J$, de modo a que a nossa partição especial é escrita $S \times J$ com $S = \left[a_1, x\right[, \{x\}, \left]x, b_1 \right]$. Repare-se que os retângulos em $P$ que não intersetam $\{x\} \times J$ não mudam após refinamento, pelo que o seu contributo na soma não muda. Assim sendo, estime-se como muda o contributo dos retângulos $R$ que, após refinação, se separam em $R_1, R_2, R_3$. $R_1$ e/ou $R_3$ podem ser vazios, mas isso é irrelevante. Em adição, $R_2$ terá conteúdo nulo, pelo que o seu contributo é zero.
+	
+	Seja $R$ então um destes retângulos. Antes da divisão, ele contribuia por $\sup f(R) \cdot c(R)$. Após divisão, as suas partes contribuem por $\sup f(R_1) \cdot c(R_1) + \sup f(R_3) \cdot c(R_3)$. A diferença é no máximo $2 M c(R)$, pelo que, somando ao longo de todos os retângulos $R$ que intersetam a faixa $\{x\} \times J$, obtemos uma diminuição de no máximo $2 M \sum c(R)$. Mas, ora, os conjuntos $R$ são disjuntos (pertencem à partição $P$) e estão contidos na faixa $\left[ x - \delta, x + \delta \right] \times J$ (pois a primeira aresta contém $x$ e não tem comprimento superior a $\delta$) pelo que a soma dos seus conteúdos, que é o conteúdo da sua união, é menor ou igual que $2 \delta c(J)$, visto que, estando todos contidos nesta faixa, a sua união também está e portanto tem conteúdo inferior ao dela.
+	
+	Majore-se, agora, $c(J)$ por algo que não depende do eixo em que estamos: por exemplo, $\diam{R_0}^{n-1}$. Obtemos então que, da passagem para $P$ para [$P$ refinado pela primeira vez], $\Sigma$ diminuiu por no máximo $4 M \delta \diam{R_0}^{n-1}$. Este argumento também será válido quando o refinarmos das seguintes vezes, pelo que no final diminuirá por no máximo $4 M N \delta \diam{R_0}^{n-1}$. Ora, sendo que isto é, em função de $\delta$, tão pequeno quanto se queira, pode evidentemente ser feito menor do que $\frac \varepsilon 2$, donde, como o valor final de $\Sigma$ é menor que $\overline{\int} f + \frac \varepsilon 2$, o valor inicial não pode exceder $\overline{\int} f + \varepsilon$, donde a demonstração está concluída.
+	\end{proof}
+
+\end{document}

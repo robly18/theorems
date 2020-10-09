@@ -1,0 +1,347 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{indentfirst}
+
+\title{}
+\author{}
+
+\newtheorem{prop}{Prop}
+
+\addto\captionsportuguese{
+	\renewcommand{\proofname}{Dem}
+}
+
+\newcommand{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\mmu}{\mu}
+
+\begin{document}
+
+\maketitle
+
+\section{Intro}
+
+Venho hoje falar sobre um tema que vos vai chatear bastante a cabeça num futuro próximo: o Integral de Lebesgue.
+
+A principal razão pela qual venho fazer isso é porque vão ouvir disso do Magalhães, e com toda a sinceridade, detesto a abordagem que ele toma.
+
+Ora, infelizmente, entendo a razão pela qual ele o faz: não há tempo para dar o integral de Lebesgue \emph{bem} na cadeira de cálculo 2. E de facto, não venho aqui para o fazer bem: se ele não tem tempo em duas semanas, eu não tenho tempo em uma aula.
+
+No entanto, venho dar uns cheirinhos. Venho dar a entender a história e as ideias que vieram por trás, para que talvez consigam a ter uma apreciação do assunto que eu não consegui ter quando estive nos vossos pés.
+
+Dito isto, sem mais contratempos...
+
+\section{Prólogo}
+
+Antes de falar do conceito de integral, gostaria de dar uma ideia do contexto histórico no qual a sua concepção se situa.
+
+Joseph Fourier, em 1802, começou a estudar a forma como o calor se propagava, e usando algumas ideias de Newton, chegou ao que hoje se conhece como a equação do calor. Isto é uma equação diferencial parcial da qual vão ouvir falar em ACED, mas tudo o que precisam de saber sobre ela é o seguinte:
+
+Suponhamos que temos uma barra metálica (digamos, $[0,1]$) com uma certa distribuição de temperaturas $T_0(x)$. Pretendemos saber como é que a temperatura se distribui ao longo do tempo, e, se tudo correr bem, obter uma função $T(x, t)$ que nos diz a temperatura no ponto $x$ no instante $t$.
+
+Não é extremamente difícil resolver esta equação para certas distribuições iniciais. O próprio Fourier resolveu com alguma ingenuidade os casos em que as distribuições iniciais eram funções sinusoidais, mas a parte impressionante foi a generalização a qualquer estado inicial.
+
+Eis a ideia do Fourier: ele já sabia como resolver a equação se a situação inicial fosse sinusoidal... Ele reparou também que a equação é linear, ou seja, combinações lineares de soluções são soluções. Em particular, se $T(x,t)$ resolve a equação com condições iniciais $T_0$, e $T'(x,t)$ resolve para condições iniciais $T'_0$, (estes apóstrofos não são derivadas) sabemos já resolver o caso em que as condições iniciais são $T_0 + T'_0$: basta considerar $T + T'$.
+
+Eis a surpresa número um: o Fourier decidiu passar isto ao limite, e declarar que sabia resolver para qualquer condição inicial que fosse uma série trigonométrica. Bastava, segundo ele, simplesmente decompor $T_0$ como $\sum T^i_0$, resolver cada um destes termos, e somar as soluções.
+
+A surpresa número dois era a seguinte: ele afirmava que qualquer função inicial $T_0$ podia ser escrita como uma série destes.
+
+E a surpresa número três: ele descreveu até uma forma de calcular estas séries.
+
+Muito feliz com o seu trabalho, foi apresentá-lo à academia de ciências de Paris, em 1807. Infelizmente para ele, os matemáticos não acharam que o trabalho dele estava a um nível de rigor suficiente e efetivamente adiaram publicação indefinidamente, até que o homem teve que se publicar a si mesmo.
+
+Da perspetiva de um matemático, de facto, o trabalho de Fourier não tinha rigor. Ele era um engenheiro, não um matemático. Para ele, a demonstração que aquele método funcionava sempre era ``Bem, funciona para estes exemplos simples.'' No entanto, inegável era que o método dele \emph{funcionava}. E um facto bastante giro é que muitas das descobertas matemáticas do século XIX podem ser interpretadas como `passos para justificar aquelas coisas que o Fourier fez'.
+
+A título de exemplo: falei em passar coisas ao limite. Na altura o pessoal não tinha realmente um conceito rigoroso de limite; foi o Bolzano, em 1817, que deu a definição que hoje em dia conhecemos.
+
+Mais: na altura do Fourier, o pessoal pensava em funções como ``expressões'', tipo $x^2$ ou $\sin x$. Ora, foi o Dirichlet, em 1837, que definiu o que hoje se entende por função, precisamente porque para tratar com rigor estes assuntos era preciso ter uma noção mais alargada do que se entende por este conceito.
+
+E eis a parte onde entram os integrais: eu disse que o Fourier descreveu um método para, dada uma função, obter a série trigonométrica que lhe corresponde. A ideia pode ser posta quase em termos de álgebra linear.
+
+Pensemos em $\R^n$ e na base canónica $e_1, \cdots, e_n$. Se queremos escrever um vetor $v$ como combinação linear destes vetores, a fórmula é simples:
+
+\[v = \sum \langle v, e_i \rangle e_i\]
+
+A ideia do Fourier foi considerar uma coisa parecida, só que em vez de termos $\R^n$ temos o espaço de funções e em vez de termos a base canónica temos senos e cosenos. E como produto interno, usamos o produto que aprenderam em AL:
+
+\[ \langle f, g \rangle = \int fg \]
+
+E portanto, segundo o Fourier, uma função $f : [0, 2 \pi] \to \R$ podia ser escrita como (o $2 \pi$ é para evitar escrever constantes em todo o lado)
+
+\[f(x) = \sum_{n = 1}^\infty a_n \sin( n x ) + b_n \cos ( n x )\]
+
+onde os coeficientes $a_n$ e $b_n$ eram calculados como
+
+\[a_n = \int_0^{2 \pi} f(x) \sin ( n x ); b_n = \int_0^{2 \pi} f(x) \cos ( n x )\]
+
+(Isto está ligeiramente (muito) errado, mas a \emph{minutia} não me interessa)
+
+É aqui que entra a história dos integrais: para calcular estes coeficientes para uma função ``arbitrária'', é preciso entender muito bem o que se entende por integral. E foi à custa disso que o Cauchy se pôs a pensar nestes assuntos.
+
+O conceito de integral e de área já são conceitos extremamente antigos: o próprio Arquimedes inventou o chamado `método da exaustão', sobre o qual vou falar daqui a pouco, que se assemelha muito ao que vós conhecem como integral de Riemann.
+
+A primeira definição rigorosa de integral deve-se a Cauchy em 1823, que é um caso particular da de Riemann. A ideia do Cauchy foi uma com a qual já estão familiares: se pretendo integrar uma função $f$ de $a$ até $b$, particiono o intervalo $[a,b]$ em pedaços $a < x_1 < \cdots < x_n < b$ e em cada pedaço calculo a área do retângulo $[x_i, x_{i+1}] \times [0, f(x_i)]$. Somando estas áreas, obtenho uma aproximação para a área sob o gráfico. O Cauchy provou que para funções contínuas, quando se `faz os intervalos tender para zero', esta aproximação converge para um valor fixo, independentemente das divisões escolhidas.
+
+Esta definição só está feita para funções contínuas, pelo que Riemann (1853) a generalizou para uma classe ligeiramente mais alargada de funções, e Darboux (1875) deu uma definição equivalente que é a que aprenderam em cálculo 1.
+
+\section{Seguimento}
+
+Mais importante do que entender as definições, às vezes, é entender donde elas vêm. Às vezes é informativo tentar imaginar como é que alguém poderia sequer ter pensado nos conceitos que estamso a manipular.
+
+Vamos, então, por-nos nos pés de um matemático do século XIX e perguntar: o que entendemos realmente por integral? A definição `naïve' é a seguinte: `é a àrea por baixo do gráfico'. Na realidade é só um pouco mais complicado do que isso, porque o gráfico pode ir para baixo do eixo dos x, mas é uma questão de dividir a coisa em dois bocados. O problema verdadeiro desta definição é que não se está a definir coisa que seja, está-se só a chutar a bola para outro campo: o que entendemos por área?
+
+E de facto, tanto a definição do integral de Riemann como o de Lebesgue podem ser reduzidos a `a área debaixo do gráfico', sob certas noções de área.
+
+Pequena clarificação: o que entendemos por `debaixo do gráfico'? (Finalmente, uma pergunta fácil de responder!)
+
+Dada uma função $f : D \to \R$, definimos o \emph{conjunto das ordenadas positivas de $f$}como
+
+\[\Omega^+_f = \{\, (x,y) \mid 0 < y < f(x), x \in F \,\}\]
+
+Análogamente, definimos o conjunto das ordenadas negativas, $\Omega^-_f$. Se ambos estes conjuntos tiverem área bem definida, establecemos que o símbolo $\int f$ significa a área de $\Omega^+$ menos a área de $\Omega^-$.
+
+Vamos, então, tentar clarificar o que entendemos por área. Uma das primeiras pessoas que pensou bem nestes assuntos foi Giuseppe Peano, por volta de 1884
+
+A ideia dele relaciona-se com o método da exaustão de Arquimedes, que mencionei à pouco. Arquimedes não estava preocupado com a definição de àrea, mas estava preocupado com como calcular áreas. Por exemplo, a área do círculo.
+
+A observação dele foi a seguinte: peguemos numa figura no plano, $A$. Suponhamos que esta figura está contida numa figura $B$, e contém uma figura $C$. Suponhamos que sabemos a área destas duas: $b$ e $c$.
+
+Então, Arquimedes observou: não sei quanto é a área de $A$, mas sei de certeza absoluta que está entre $b$ e $c$. E de facto, ele utilizou estes métodos para aproximar $\pi$, obtendo as melhores aproximações do seu tempo: $\frac{223}{71} < \pi < \frac{22}{7}$
+
+A ideia do Peano foi a seguinte: ele isolou três propriedades `essenciais' ao conceito de área.
+
+1- A área de um retângulo $x \times y$ é $xy$
+
+2- Dadas duas figuras disjuntas, a área da união é a soma das áreas
+
+3- A observação do Arquimedes: se $A$ está contido em $B$ e contém $C$, a área de $A$ está entre as áreas destes.
+
+Com as observações 1 e 2 é possível definir área para os chamados conjuntos elementares: uniões finitas de retângulos. Uma pessoa escreve o conjunto como uma união disjunta de retângulos e soma as áreas destes. É preciso ter cuidado: provar que é possível escrever como união disjunta, provar que independentemente da forma como se decompõe o conjunto se chega ao mesmo número... Assuntos, enfim, que enfiarei para baixo do tapete.
+
+Usando a observação $3$, ele definiu o que chamamos hoje conteúdo exterior e conteúdo interior.
+
+Considere-se um conjunto elementar que contém o nosso conjunto $A$. A área deste é certamente um majorante da área de $A$. Tomando, então, o ínfimo destes majorantes, obtemos ainda um majorante da área de $A$:
+
+\[\overline c (A) = \inf_{E \supseteq A} \text{área de $E$}\]
+
+Da mesma forma, usando conjuntos elementares contidos em $A$, conseguimos um minorante da área:
+
+\[\underline c (A) = \sup_{E \subseteq A} \text{área de $E$}\]
+
+E a observação do Peano foi a seguinte: se estes dois números coincídem, a área de $A$ é necessariamente igual a este número comum.
+
+E assim se definiu, para os conjuntos em que isto acontece, a `área' de um conjunto no plano. Visto que a história não é justa, esta área, denotada $c(A)$, é conhecida como `conteúdo de Jordan de $A$'.
+
+É esta a área que corresponde ao que conhecem como integral de Riemann: e de facto, uma forma de intuir a equivalência entre esta definição de área e a do integral de Darboux é reparar que os retângulos de Darboux formam conjuntos elementares que cobrem e são cobertos pelo conjunto cuja área pretendemos determinar.
+
+Após vos mostrar a fundação por trás do integral de Riemann, procedo a mostrar porque é que ela não chega.
+
+\section{Limite}
+
+Recordem-se que esta conversa surgiu por causa das séries trigonométricas. Quem fala de séries fala de limites. Quem fala de limites e de integral de Riemann queima-se.
+
+Decerto já conhecem todos o exemplo prototípico de função que não é Riemann-integrável: a função de Dirichlet. Muitos de vós já devem conhecer, então o seguinte exemplo:
+
+Seja $\{q_n\}$ uma enumeração dos racionais. Seja $f_n$ a função que é 0 em todo o lado e 1 em $q_n$. Fácil é ver que todas as funções $f_n$ são Riemann-integráveis. Fácil também é notar que $\sum f_n$ é a função de Dirichlet, que, ora, não é integrável.
+
+Isto leva-nos a um não-teorema muito importante: posso ter um monte de funções todas Riemann-integráveis, mas a sua soma não ser. (Isto no sentido de séries)
+
+Há inúmeros não-teoremas assim: meta-se aqui limites de sucessões, limites contínuos, derivadas... E deixem-me dizer-vos, o facto de isto serem não-teoremas é uma alta chatice.
+
+Metendo isto em termos de áreas, vemos o cerne da questão: Sejam $\{A_n\}$ uma infinidade de conjuntos disjuntos, de áreas $a_n$. Tal como no caso finito, gostariamos imenso que a união destes tivesse área $\sum a_n$, mas pode acontecer precisamente que $\cup A_n$ não tem sequer área definida.
+
+Foram feitas várias tentativas de remediar isto. Uma delas foi literalmente definir, em casos destes, a área de $\cup A_n$ como $\sum a_n$. Este remédio não funcionou. Para ver o problemapensemos no contexto de comprimentos dado que é tudo a mesma coisa. Considere-se o conjunto dos racionais entre 0 e 1; isto é uma união contável de pontos, e então o seu comprimento sob esta definição é zero. Considere-se o intervalo $[0,1]$ e retirem-se esses pontos. Visto que retirámos um conjunto de comprimento zero, o resultante, os irracionais entre 0 e 1, deveriam ainda ter área 1. No entanto é possível provar que qualquer conjunto com área positiva tem interior não vazio, e como o conjunto dos irracionais não tem interior, obtemos um conjunto que não tem área.
+
+Olhando para exemplos de desgraças deste género, Émile Borel (1898) destilou as propriedades essenciais que queria que `área' tivesse, e resumiu-as no que hoje se chama uma \emph{medida}. Mas no caminho encontrou algumas dificuldades.
+
+\section{O problema de Borel}
+
+Começo por expor o melhor caso concebível, e falarei em $\R$ e comprimentos para simplificar a exposição.
+
+Suponha-se que há uma função $\mu$ que atribui, a qualquer subconjunto de $\R$, um `comprimento', num certo sentido. Que propriedades queremos que esta função tenha?
+
+1- Desejamos que os conjuntos que já conhecemos bem se comportem bem. Isto é, nem que seja, queremos que o comprimento do intervalo $[a,b]$ seja precisamente $b-a$.
+
+2- Como vimos antes, vamos establecer que se $\{A_n\}$ são disjuntos, a medida de $\cup A_n$ é a soma das medidas destes.
+
+3- É imperativo que a área seja invariante para translações, e se estivermos a pensar em dimensões acima, rotações.
+
+O primeiro indivíduo a reparar que isto dá barraca foi um indivíduo pelo nome de Giuseppe Vitali, em 1905. De facto, ele construiu um conjunto, hoje em dia conhecido como conjunto de Vitali, que, sob estas definições, nos permite chegar a uma contradição. Se eu tiver tempo para isso falarei nele.
+
+É um bocado surpreendente (digo eu) que se tirarmos os infinitos da equação obtemos uma coisa concretizável em $\R$ e $\R^2$. No entanto, o paradoxo de Banach-Tarski (1924) mostra que de $\R^3$ para cima não há volta a dar.
+
+Para aqueles que não sabem, Banach e Tarski arranjaram uma forma de fazer o seguinte: considere-se uma esfera no espaço. É possivel decompor a esfera como união disjunta $A \cup B \cup C \cup D$, rodar e transladar estas quatro peças, de modo a obter duas esferas idênticas à primeira. Ora, se houvesse tal coisa como `volume', isto claramente violaria conservação de volume!
+
+Repare-se que este exemplo surgiu depois de Borel, portanto não foi por olhar para isto; mas de alguma forma, Borel entendeu que tentar definir área para qualquer subconjunto do plano era demasiado ambicioso, e tentou arranjar um conceito menos abrangente mas mais não-impossível.
+
+%roughly 40 mins
+
+Vamos, então, pensar novamente no género de propriedades que queremos que esta nossa `medida', de preferência mais simpática que o conteúdo de Jordan, obedeça. Estableçamos um conjunto de propriedades que uma função área $\mmu$, definida para alguns subconjuntos de $\R^2$, teria que ter.
+
+Direi que um conjunto $A \subseteq \R^2$ é \emph{mensurável} se $\mmu A$ estiver definido.
+
+Primeiro que tudo, queremos, como já vimos, que se $A_1, A_2, \cdots$ são mensuráveis e disjuntos, $\cup A_n$ também é mensurável e $\mmu \cup A_n = \sum \mmu A_n$.
+
+Exigimos também uma coisa que tem a ver com o tal método da exaustão: suponhamos que $A \subseteq B$. Se tanto $A$ como $B$ forem mensuráveis, queremos que $\mmu A \leq \mmu B$. Mas vamos exigir, ainda mais, que $B \setminus A$ seja mensurável e se tenha $\mmu (B \setminus A) = \mmu B - \mmu A$.
+
+Queremos também que isto extenda a nossa noção de área. Como tal, vamos exigir que qualquer conjunto que tenha conteúdo de Jordan definido seja mensurável, com $\mmu A = c(A)$.
+
+Bem, isto são muitas exigências. A nossa primeira questão é se não estamos a pedir demasiado. Surpreendentemente, a resposta é não. \textbf{Existe pelo menos uma função nestas condições.}
+
+Pouco surpreendente será por esta altura que um exemplo disto é a medida de Lebesgue. Mas não nos adiantemos.
+
+A questão `existe alguma função nestas condições' foi proposta e resolvida por Borel. Mas antes de olharmos melhor para a solução, vamos propor o problema em termos mais claros.
+
+\section{$\sigma$-álgebras e medidas}
+
+Antes de formalizar alguns destes conceitos, gostaria de vos alertar a uma inevitabilidade: este conceito de área \emph{não tomará apenas valores reais}.
+
+Isto pois, sob esta definição, por exemplo, o espaço todo é mensurável. Basta cobri-lo todo por retângulos. E qual é a sua área? Somando a área de uma infinidade de retângulos $1 \times 1$, obtemos uma série divergente. Associamos, então, o valor de $+ \infty$.
+
+Pelo outro lado, como qualquer conjunto contém o vazio, que tem área 0, qualquer conjunto tem área $\geq 0$, pelo que as nossas áreas vão tomar valores em $[0, \infty]$. Notar, novamente, que o intervalo é fechado.
+
+Estamos, então, à procura de uma função $\mmu : M \to [0, \infty]$ que satisfaça certas propriedades; $M$ é a classe dos conjuntos mensuráveis.
+
+Esta classe satisfaz certas propriedades, que podem ser resumidas na definição do que hoje se chama uma $\sigma$-álgebra:
+
+Dizemos que uma classe de conjuntos $M$ é uma $\sigma$-álgebra se:
+
+1- O vazio e o todo pertencem a $M$
+
+2- Se $\{A_n\}$ são elementos de $M$, $\cup A_n \in M$
+
+3- Se $A$ é elemento de $M$, o complementar de $A$ também é
+
+Exigimos, em adição, que $M$ contenha todos os conjuntos Jordan-mensuráveis.
+
+Repare-se que, com a exceção da condição de conter os Jordan-mensuráveis, estas condições são completamente agnósticas em relação ao espaço subjacente.
+
+A função $\mmu$ tém também que satisfazer certas condições, que são englobadas no conceito de \emph{medida}.
+
+Se $M$ é uma $\sigma$-álgebra, uma função $\mmu : M \to [0, \infty]$ diz-se uma medida se:
+
+1- $\mu(\emptyset) = 0$
+
+2- Se $A_1, A_2, \cdots \in M$ são disjuntos, $\mmu(\cup A_n) = \sum \mmu(A_n)$
+
+Exigimos, em adição, que, para conjuntos Jordan-mensuráveis, $\mmu(A) = c(A)$.
+
+Novamente, com a exceção desta última exigência, não há aqui nada específico a $\R^2$ ou sequer a $\R^n$. De facto, o estudo de medidas em espaços abstratos pode ser feito, e muitos resultados não requerem nada específico sobre o espaço ambiente. Eis um exemplo, que será importante na sequência.
+
+\begin{prop}
+Seja $\mmu : M \to [0, \infty]$ uma medida, e sejam $A_1 \subseteq A_2 \subseteq A_3 \subseteq \cdots$, todos mensuráveis, com $A = \cup A_n$.
+
+Então, $A$ é mensurável e $\mmu(A) = \lim \mmu(A_n)$.
+\end{prop}
+
+\begin{proof}
+A mensurabilidade de $A$ é trivial por definição de $\sigma$-álgebra. Para provar a igualdade, defina-se:
+
+\begin{gather*}
+B_1 = A_1\\
+B_n = A_n \setminus A_{n-1}, n > 1
+\end{gather*}
+
+É fácil verificar que todos os $B_n$ são disjuntos e que $\cup B_n = \cup A_n$. Temos, então,
+
+\[ \mmu(A) = \mmu(\cup B_n) = \sum \mmu(B_n) \]
+
+Aplicando a definição de série, isto é igual a $\lim \sum_{n = 1}^N \mmu(B_n)$, e como $B_1, \cdots, B_N$ são disjuntos e a sua união é $A_n$, a soma destas medidas é $\mmu(A_N)$ e temos então o desejado.
+\end{proof}
+
+Isto é uma versão daquilo que se chama \emph{o teorema de convergência monótona}.
+
+\section{A medida de Lebesgue}
+
+Com isto, tenho andado a dançar à volta do problema: como é que arranjo uma medida em $\R^2$ que seja uma extensão dos Jordan-mensuráveis? Infelizmente, isto é deliberado: a medida de Lebesgue é não-trivial de construir, e requer mexer com algo chamado \emph{Teorema de Carethedory}, que se eu tiver tempo explico o que é, mas a conclusão a que quero chegar é: isto é não-trivial.
+
+No entanto, a partir do momento em que aceitamos a existência de tal coisa, não é preciso muita maquinaria para provar coisas sobre ela.
+
+Vamos começar com algo fácil: que tipo de conjuntos conseguimos assegurar serem mensuráveis?
+
+Bem, sabemos que os retângulos são todos mensuráveis. Visto que o conjunto dos mensuráveis é uma $\sigma$-álgebra, uniões contáveis de retângulos são mensuráveis. Ora, é possível provar (usando truques do género `retângulos de extremos racionais' que conjuntos abertos são uniões contáveis de retângulos. Assim sendo, qualquer aberto é mensurável.
+
+Uma noção que é ocasionalmente útil é a noção de \emph{$\sigma$-álgebra gerada por conjunto}. Vocês já ouviram falar de `subgrupo gerado por conjunto' e `ideal gerado por conjunto'. Isto é uma coisa parecida.
+
+Observação: Dadas duas $\sigma$-álgebras $M, N$, o conjunto $M \cap N$ é também uma $\sigma$-álgebra. Mais geralmente, dada uma família de $\sigma$-álgebras, a sua interseção é uma também. Assim sendo, dada uma família de conjuntos $F$, define-se $M(F)$ como a menor $\sigma$-álgebra que contém $F$, ou seja, a interseção de todas as $\sigma$-álgebras que contêm $F$. Em particular, se sabemos que uma $\sigma$-álgebra $M$ contém $F$, sabemos que $M \supseteq M(F)$.
+
+Assim sendo, visto que sabemos que todos os abertos são mensuráveis, sabemos que todos os elementos de $M(\text{abertos})$ são mensuráveis. A esta família chama-se a $\sigma$-álgebra de Borel, $B$.
+
+Foi nesta $\sigma$-álgebra que o Borel definiu a sua medida. Esta família já inclui os retângulos, mas, ligeiramente surpreendentemente, não inclui todos os Jordan-mensuráveis! Para manter a exposição curta, não darei o exemplo, mas ele existe e se quiserem posso falar sobre ele no final da aula.
+
+Alguns anos depois, em 1902, Henri Lebesgue, na sua tese de doutoramento (com o Borel!) arranjou forma de definir a sua medida para $M(\text{Jordan-mensuráveis})$! E é esta a medida que nos interessa, porque deixem-me dizer-vos, esta classe (chamada a classe dos Lebesgue-mensuráveis) contém basicamente tudo o que alguma vez vão usar. É preciso tentar com mesmo muita força para arranjar um conjunto que não seja Lebesgue-mensurável: o primeiro exemplo demorou três anos a aparecer!
+
+Dito isto, podemos então caraterizar a medida de Lebesgue como uma extensão do conteúdo de Jordan a uma medida, e isto dá-nos toda a informação necessária para trabalhar com ela.
+
+\section{Integral}
+
+No meio disto tudo, acabei por ainda não definir integral. Mas dado o conceito de área, não é particulamente difícil.
+
+Vou restringir a minha atenção a funções $f : \R \to [0, \infty]$ para simplificar a exposição.
+
+Recordem-se da definição de $\Omega^+_f$. Defino que uma função $f$ é Lebesgue-mensurável se $\Omega^+_f$ é Lebesgue-mensurável, e neste caso, defino $\int f$ como $m(\Omega^+_f)$.
+
+Parece demasiado simples, mas o truque é que a dificuldade toda foi varrida para baixo do tapete quando me recusei a definir a medida.
+
+Vamos investigar que propriedades é que isto vai ter. Parto do princípio que, para conjuntos Jordan-mensuráveis, a medida de Lebesgue está definida e é igual. Obtenho, então, como consequência imediata, que qualquer função Riemann-integrável é Lebesgue-integrável, com o mesmo integral. Isto dá-me já um enorme leque de funções com que mexer.
+
+Então e funções contínuas? Se definidas num intervalo limitado e fechado, certamente são Riemann e então Lebesgue, mas não é preciso essa hipótese para provar a sua mensurabilidade em geral.
+
+De facto, dada uma função contínua $f : \R \to [0, \infty]$, é possível provar que o seu conjunto de ordenadas é aberto, e então Borel, e então Lebesgue-mensurável, pelo que tem integral definido. Repare-se, no entanto, que este integral pode ser infinito.
+
+Com um bocadinho mais de trabalho, mostra-se que se duas funções $f, g$ são mensuráveis a sua soma e produto também, e tem-se a relação $\int f + g = \int f + \int g$.
+
+Finalmente, recordem-se da razão pela qual estamos a fazer isto: queremos mexer com limites. Estou, por isso, feliz em dizer que estamos na condição de provar (uma forma ligeiramente restrita de) o \textbf{Teorema da Convergência Monótona.}
+
+\begin{prop}
+(Teorema da Convergência Monótona) Seja $f_n$ uma sucessão crescente de funções, convergindo pontualmente para $f$. Se todos os $f_n$ são mensuráveis então $f$ é mensurável com $\int f = \lim \int f_n$
+\end{prop}
+
+\begin{proof}
+A demonstração disto passa apenas por observar o seguinte facto:
+
+\[\Omega^+_f = \cup \Omega^+_{f_n}\]
+
+Daqui, usando o teorema de convergência monótona que já provámos para conjuntos, o nosso trabalho fica trivial.
+\end{proof}
+
+Gostaria de dar a entender o sucesso que isto é. Recordem-se que isto é brutalmente falso para o integral de Riemann: basta pensar no exemplo de Dirichlet.
+
+Não é, no entanto, uma vitória total. Muito raramente serão as sucessões de funções encontradas ``na vida real'' sucessões crescentes. Infelizmente, o teorema não pode ser generalizado descuidadamente, como os seguintes exemplos mostram.
+
+Considere-se a sucessão de funções $f_n$ definidas da seguinte forma:
+
+\[ f_n(x) =
+\begin{cases}
+n & \text{se } x \in \left]0, 1/n\right] \\
+0 & \text{c.c.}
+\end{cases}
+\]
+
+Todas elas são integráveis, de integral 1. No entanto, tomando o limite ponto a ponto, obtemos a função $f(x) = 0$, que tem integral zero... Logo, aqui, a passagem para o limite falha completamente.
+
+Um exemplo parecido encontra-se tomando a sucessão de funções:
+
+
+\[ f_n(x) =
+\begin{cases}
+1 & \text{se } x \in [n, n+1] \\
+0 & \text{c.c.}
+\end{cases}
+\]
+
+Novamente, o integral de cada uma destas é 1, mas o integral final é 0. O que se está aqui a passar?
+
+Por observação destas funções, percebemos rapidamente o problema: a área está, de alguma forma, a fugir toda para o infinito! A solução para este problema é impedir isso de acontecer, exigindo que a função se mantenha `dentro de algo finito'. Por outras palavras, e sem demonstração, eis o \textbf{Teorema da Convergência Dominada}:
+
+\begin{prop}
+Seja $f_n$ uma sucessão de funções $\R \to [0, \infty]$. Suponha-se que $f_n$ converge pontualmente para $f$. Então, $f$ é mensurável, e partindo do princípio que existe $g$ tal que $\int g$ é finito e $f_n \leq g$ para todo $n$, temos que $\int f = \lim \int f_n$
+\end{prop}
+
+\end{document}
