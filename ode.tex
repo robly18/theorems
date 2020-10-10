@@ -21,6 +21,22 @@
 
 This document is a repository for me to write down the sequence of results necessary to prove, from scratch, that the flow of a vector field exists and is smooth, in some sense. The flow is obtained by solving an ODE, which means that I want to show that, under some niceness assumptions, the solutions of an ODE exist locally and vary smoothly when the initial conditions change. In this document, I will only solve the case for $\R^n$, as translating that to the original goal (proving vector field flows exist) is beyond the scope of this.
 
+\section{Grunbaum's lemma}
+
+Grunbaum's lemma is a tool that allows us to take differential (or, to be more precise, differential) inequalities and turn them into actual inequalities.
+
+The integral statement is as follows: let $g$ and $h$ be two positive-valued continuous functions satisfying the inequality
+\[g(t) \leq c + \int_{t_0}^t g(s) h(s) \dd s\]
+for some positive $c$, for $t \geq t_0$. Then, we conclude $g(t) \leq c \exp(\int_{t_0}^t h(s) \dd s)$.
+
+The proof goes as follows. Define $G(t) = c + \int_{t_0}^t gh$. Then, $G$ is a strictly positive function for $t \geq t_0$, and thus $\log G(t)$ makes sense. Furthermore, it is differentiable by the fundamental theorem of calculus, with $(\log G)'(t) = G'(t)/G(t) = g(t) h(t) / G(t)$. By hypothesis, $g \leq G$ and so this is at most $h(t)$. In conclusion, $\log G(t) - \log G(t_0) \leq \int_{t_0}^t h$, and taking the exponential and applying $G \geq g$ again we reach the desired conclusion.
+
+Note that this proof relies on $c > 0$ to make sense of $\log G$ and division by $G$. However, if $c = 0$ we can take the limit as $c \to 0$ of the strictly positive result, leading to the result: if $g(t) \leq \int_{t_0}^t g h$ then $g = 0$.
+
+Another note: our proof used $t \geq t_0$, but it also works for $t < t_0$ as long as the sign of the integral is kept positive.
+
+A lot of the integral inequalities in what follow assume implicitly $t \geq t_0$ (for example, the inequality $\lvert \int_{t_0}^t f \lvert \leq \int_{t_0}^t \lvert f \rvert$ only goes through in this case; otherwise the limits in the integral must be swapped). This is of no consequence. I hope.
+
 \section{Picard-Lindelöf}
 
 The Picard-Lindelöf theorem states that, fixed initial conditions, the solution of an ODE exists locally and is unique globally.
