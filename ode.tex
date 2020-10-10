@@ -92,7 +92,9 @@ As such, Gronwall's Lemma guarantees us that
 Therefore, if $\lvert x_1 - \varphi(t_1) < \exp(-L(b-a)) \delta_1$ we can be sure that $x$ is defined over the whole interval, because it doesn't leave the tubular neighbourhood and for it to stop being defined at some point eiher $f$ would need to become unbounded (which doesn't happen because $M$) or $x$ would need to converge to some point outside $D$ (which doesn't happen because it never leaves the tubular neighbourhood, which is closed and contained in $D$).
 
 As a consequence, $x(t_1, x_1)$ is well-defined in a tubular neighbourhood of $(t_0, x_0)$, so it remains to show that it is continuous in $C[a,b]$. But the above argument serves to show that if $x$ and $y$ are two solutions (with initial conditions $t_1, x_1$ and $s_1, y_1$) we have
-\[\lVert x - y \rVert \leq \lvert x_1 - y(t_1) \rvert \exp(L(b-a)) \leq C_1 \lvert x_1 - y_1 \rvert + C_2 \lvert t_1 - s_1 \rvert\]
+\begin{equation}\label{uniformcontinuity}
+\lVert x - y \rVert \leq \lvert x_1 - y(t_1) \rvert \exp(L(b-a)) \leq C_1 \lvert x_1 - y_1 \rvert + C_2 \lvert t_1 - s_1 \rvert
+\end{equation}
 which is enough to guarantee continuity in the initial conditions.
 
 Note that this also allows us to conclude that $x(t,t_0,x_0)$ is continuous as a three real-variable function.
@@ -103,5 +105,96 @@ In conclusion, the set where $x(t,t_0,x_0)$ is well-defined is open (as a subset
 
 Before investigating smoothness of the solution as a function of the initial conditions, it is perhaps useful to show that smoothness of $f$ is enough to guarantee $f$ Lipschitz on compacts.
 
+Suppose, then, that $f$ is continuous in $t$ and $C^1$ in $x$. Then, $\partial_x f$ is continuous, and so bounded on compacts. In particular, we may consider a compact rectangular neighbourhood of an arbitrary $(t_0, x_0)$, wherein all partial derivatives of $f$ are bounded by, say, $M$. Then, for any (applicable) $t$, the difference $f(t,x) - f(t,y)$ can be bounded using the mean value theorem by $n^2 M \lvert x - y \rvert$, which shows that any point has a Lipschitz neighbourhood. It remains to show that $f$ is Lipschitz on any compact.
+
+The following idea is due to Manel. Fix a compact $K \subseteq D$. Let
+\[A = \{\,(t,x,y) \mid (t,x) \in K, (t,y) \in K, x \neq y\,\}.\]
+
+Consider the function $g : A \to \R$ defined by
+\[g(t,x,y) = \frac{\lvert f(t,x) - f(t,y) \rvert}{\lvert x-y \rvert}.\]
+
+It is clear that this is well-defined and continuous. We wish to show it is bounded from above. To do so, suppose for contradiction that $(t_n, x_n, y_n)$ is a sequence of elements of $A$ such that $g(t_n, x_n, y_n) \to \infty$. Since $A$ is bounded, we may without loss of generality suppose that the sequence converges, and by continuity of $g$ it must converge to a point $(t,x,y)$ not in $A$.
+
+It is easy to check that $(t,x) \in K$ and $(t,y) \in K$, so the only way for this point not to be in $A$ is for $x = y$. But this contradicts the local Lipschitz condition, which guarantees that, for $(t',x',y')$ close enough to $(t,x,x)$, $g$ is bounded. This concludes the proof that locally Lipschitz implies Lipschitz on compacts, and so $C^1$ implies Lipschitz on compacts.
+
+\section{Derivative in $x_0$}
+
+In what follows, we suppose to simplify that $f$ is $C^1$ and does not depend on $t$. In other words, the ODE is reduced to
+\[
+\begin{cases}
+x' = f(x)\\
+x(t_0) = x_0.
+\end{cases}
+\]
+
+We will show that the function $x(t,t_0,x_0)$ is $C^1$. Smoothness in $t$ is obvious because $f$ is continuous and smoothness in $t_0$ is simply a consequence of $x(t,t_0,x_0) = x(t-t_0, 0, x_0)$ together with the chain rule. Differenciability wrt $x_0$ is the hardest part.
+
+The first step is to try to guess what the derivative would be. Let us refer to it as $J(t) = \partial_{x_0} x(t,t_0,x_0)$. It is easy to check that $J(t_0) = I$, and (assuming $x$ is $C^1$) we could conclude that
+\begin{multline*}
+\partial_t J(t) = \partial_t \partial_{x_0} x(t,t_0,x_0) = \partial_{x_0} \partial_t x(t,t_0,x_0) = \partial_{x_0} f(x(t,t_0,x_0)) =\\
+= f'(t, x(t,t_0,x_0)) \partial_{x_0} x(t,t_0,x_0) = f'(t, x(t,t_0,x_0)) J(t).
+\end{multline*}
+
+As a consequence, we guess that the derivative (wrt $x_0$) of $x$ is described by the matrix $J$ satisfying the ODE (in $\R^{n^2}$)
+\[
+\begin{cases}
+J(t_0) = I\\
+J'(t) = A(t) J(t)
+\end{cases}
+\]
+where $A(t) = f'(x(t))$. Note that, by hypothesis on $f$, $A$ is a continuous function of $t$ and therefore the function $J, t \mapsto A(t) J$ is continuous in $t$ and locally Lipschitz in $J$, and so $J$ exists, at least locally.
+
+Let us show that $J$ is defined for all $t$ that $x$ is. Consider an interval $[a,b]$ in which $x$ is defined. Then, so is $A$, and $A$ has all entries bounded in this interval by some $M$. As a consequence,
+\[\lvert J(t) \rvert \leq n + \int_{t_0}^t \lvert A(t) J(t) \rvert \leq n + \int_{t_0}^t n^3 M \lvert J \rvert,\]
+and therefore by Grunbaum's lemma we conclude $\lvert J \rvert \leq n \exp((b-a) n^3 M)$, and so $J$ is bounded. Therefore, for $J$ to stop being extendable after some time $t_f$, it would need to `go outside the domain', but for every $t \in [a,b]$ the function $J \mapsto AJ$ is defined for all $J$ and therefore $J$ must be extendable to all $t \in [a,b]$.
+
+Note also that $J$ is continuous as a function of $x_0$, as the ODE that specifies it can also be rewritten as to make $x_0$ part of the initial conditions:
+\[
+\begin{cases}
+J(t_0) = I\\
+X(t_0) = x_0\\
+J'(t) = f'(x(t,t_0,X(t))) J(t)\\
+X'(t) = 0.
+\end{cases}
+\]
+
+We now turn to verifying that $J$ is in fact the derivative of $x$ as a function of $x_0$. To this effect, let us call $x(t) \equiv x(t,t_0,x_0)$ and $x_h(t) \equiv x(t,t_0,x_0+h)$, for small enough $h$ that this is well-defined. We wish to show that, for $t$ and $t_0$ fixed, the following expression converges to zero as $h \to 0$:
+\[\frac1{\lvert h \rvert} \left\lvert x_h(t) - x(t) - J(t) h \right\rvert.\]
+
+To this effect, let us try to bound $\left\lvert x_h(t) - x(t) - J(t) h \right\rvert$ from above. The first step is to expand it as an integral:
+\[\left\lvert x_h(t) - x(t) - J(t) h \right\rvert \leq \int_{t_0}^t \lvert f(x_h(s)) - f(x(s)) - f'(x(s)) J(s) h \rvert \dd s,\]
+which looks tempting because the quantity $f(x_h(s)) - f(x(s))$ should be of the form $f'(x(s)) \Delta(s) + o(\Delta(s))$, where $\Delta = x_h - x$, and to a first order approximation $\Delta(s)$ should be more or less $J(s)h$... Of course, this is not a rigorous argument, but it is at least an indication that we might be in the right track.
+
+Let us begin by applying the mean value theorem to conclude $f(x_h(s)) - f(x(s)) = (f'(x(s)) + E(h,s)) \Delta(s)$, where $E$ is an error matrix whose entries are of the form $\partial_j f_i(\xi(h,s)) - \partial_j f_i(x(s))$, where $\xi(h,s)$ is a value somewhere within $\lvert \Delta(s) \rvert$ of $x(s)$. Since $f$ is $C^1$, for all $\varepsilon$ there exists a $\delta$ such that $\lvert \Delta(s) \rvert < \delta$ implies that all entries in $E(h,s)$ are at most $\varepsilon$. In turn, because of inequality \eqref{uniformcontinuity} there exists $C$ such that $\lVert \Delta \rVert \leq C \lvert h \rvert$ and as a consequence if $\lvert h \rvert < \delta/C$ then $\lVert \Delta \rVert < \delta$, and therefore all entries of $E$ are (for all $s$) at most $\varepsilon$. As a consequence, we have, for small enough $h$, the inequality
+\begin{align*}
+\left\lvert x_h(t) - x(t) - J(t) h \right\rvert &\leq \int_{t_0}^t \lvert f(x_h(s)) - f(x(s)) - f'(x(s)) J(s) h \rvert \dd s\\
+&= \int_{t_0}^t \lvert f'(x(s)) \Delta(s) + E(h,s) \Delta(s) - f'(x(s)) J(s) h \rvert \dd s\\
+&\leq (b-a) \varepsilon \lVert \Delta \rVert + \int_{t_0}^t \lvert f'(x(s)) \Delta(s) - f'(x(s)) J(s) h \rvert \dd s\\
+&\leq (b-a) \varepsilon C \lvert h \rvert + \int_{t_0}^t \lvert f'(x(s)) (x_h(s) - x(s) - J(s) h) \rvert \dd s\\
+&\leq (b-a) \varepsilon C \lvert h \rvert + \int_{t_0}^t n^2 M \lvert x_h(s) - x(s) - J(s) h \rvert \dd s,
+\end{align*}
+where $M$ is the maximum value of the entries of $f'(x(t))$ as $t$ ranges from $A$ To $B$.
+
+As a consequence, we may apply Grunbaum's lemma to get, finally, that for all $\varepsilon$ there exists $\delta$ such that $\lvert h \rvert < \delta$ implies
+\[ \frac1{\lvert h \rvert} \lvert x_h(t) - x(t) - J(t) h \rvert < (b-a)\varepsilon C \exp(n^2 M (b-a)),\]
+which concludes the proof that $J(t)$ is the derivative of $x_h(t)$ at $h=0$, or, in other words, $\partial_{x_0} x(t,t_0,x_0)$. We have already discussed continuity of $J$ and the other derivatives of $x$, and so we conclude that if $f$ is $C^1$ so is the solution as a function of initial data.
+
+\section{Smoothness}
+
+We will now show that $x$ absorbs all degrees of smoothness from $f$. In particular, if $f$ is $C^\infty$, so is $x$.
+
+We will show by induction that if $f$ is $C^p$ then so is $x$. We have already proven the base case $p = 1$, concluding that the jacobian of $x$ is given by the solution of the ODE
+\[
+\begin{cases}
+J(t_0) = I\\
+X(t_0) = x_0\\
+J'(t) = f'(x(t-t_0,0,X)) J(t)\\
+X' = 0.
+\end{cases}
+\]
+
+Now, suppose we have already shown the case for some $p$, and let us show it for $p+1$. If $f \in C^{p+1}$ then in particular $f \in C^p$, and so $x$ is $C^p$. Therefore, the function
+\[(J,X,t) \mapsto f'(x(t-t_0,0,X)) J\]
+is $C^p$, because it is the composition of two $C^p$ functions: $f'$ and $x$. Therefore, by applying the induction hypothesis to the ODE that yields $J$, we conclude $J$ is $C^p$ and thus that $x$ is $C^{p+1}$ everywhere it is defined. In particular, if $f$ is $C^\infty$ then so is $x$. The proof of everything is complete.
 
 \end{document}
