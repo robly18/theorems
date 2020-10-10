@@ -53,7 +53,7 @@ which shows that $T$ is contracting in the sup norm. Standard arguments (Cauchy 
 \[\lVert T T^n x_0 - T \varphi \rVert \leq \alpha L \lVert T^n x_0 - \varphi \rVert \to 0,\]
 and so $T^{n+1} x_0$ converges to $T \varphi$, but since it is a subsequence of $T^n x_0$ it also converges to $\varphi$, which shows equality.
 
-We conclude that $\varphi$ is a continuous function satisfying $\varphi(t) = x_0 + \int_{t_0}^t f(s, \varphi(s)) \dd s$, and differentiating both sides we obtain it is a local solution of the original ODE.
+We conclude that $\varphi$ is a continuous function satisfying $\varphi(t) = x_0 + \int_{t_0}^t f(s, \varphi(s)) \dd s$, and differentiating both sides we obtain it is a solution of the original ODE.
 
 Now for uniqueness. Let $x$ and $y$ be two solutions defined in a common interval $[t_0, t_1]$ without loss of generality. Then,
 \begin{align*}
@@ -70,12 +70,38 @@ Define $I_M$ as the union of the intervals of definition of all possible (contig
 
 It is possible to show that if $I_M$ is bounded, say, from above, then in some sense $x$ is `exploding' or leaving $D$. Indeed, in this case, call the supremum of $I_M$ by the name $t_f$. We assert that either $f(t, x)$ is unbounded as $t \to t_f$ or, in the negative case, $(t, x(t))$ converges to a limit $(t_f, x_f)$ as $t \to t_f$, and this limit lies outside $D$.
 
-Suppose, then, $f(t,x)$ is bounded as $t \to t_f$. Then $x'$ is bounded and so it converges as $t \to t_f$, because $x$ is also bounded and so has a converging subsequence, but boundedness of the derivative implies that any two sublimits coincide. As such, let $x_f$ be the limit.
+Suppose, then, $f(t,x)$ is bounded as $t \to t_f$. Then $x'$ is bounded and so $x$ converges as $t \to t_f$, because it is also bounded and so has a converging subsequence, but boundedness of the derivative implies that any two sublimits coincide. As such, let $x_f$ be the limit.
 
-If $(t_f, x_f) \in D$ then it would be possible to find $\varphi : \left[t_f, t_f + \varepsilon\right[ \to \R^n$ that is also a solution of the ODE. It is easy to see (calculating the left-derivative) that gluing $\varphi$ to the end of $x$ gives us another (bigger) solution of the ODE, contradicting $x$'s maximality.
+If $(t_f, x_f) \in D$ then it would be possible to find $\varphi : \left[t_f, t_f + \varepsilon\right[ \to \R^n$ that is also a solution of the ODE. It is easy to see (calculating the left-derivative) that gluing $\varphi$ to the end of $x$ gives us another (bigger) solution of the ODE, contradicting $x$'s maximality. Therefore, $(t_f, x_f) \not \in D$, concluding the proof.
 
-\section{Continuity of initial conditions}
+\section{Continuity in initial conditions}
 
 Define $x(t_0, x_0)(t)$ to be the solution of the ODE \eqref{ode} with the given initial conditions. Given $t_0, x_0$ fixed, suppose $x(t_0, x_0)$ is defined on an interval $[a,b]$. We will show that for $t_1, x_1$ close enough to $t_0, x_0$ the solution is also defined in $[a,b]$, and $x$ is continuous as a function from this neighbourhood to $C[a,b]$ with the sup norm.
+
+To this effect, we begin by defining a tubular neighbourhood of $x$. For each $t$, define $\delta(t)$ as the distance from $(t,x(t))$ to $D^c$. Since $[a,b]$ is compact, this is minimized at some value $ \delta > 0$, and so we define $T$ as the closed tubular neighbourhood of $x$ with radius, say, $\delta_1 < \delta$. It is easy to check that $T$ is compact, and so $f$ is maximized there with some value $M$ and has a Lipschitz constant $L$.
+
+Now, let $(t_1, x_1)$ be in this tubular neighbourhood, and let us investigate how the solution starting at this point develops, starting with how long it takes to leave the tubular neighbourhood. Let $\varphi$ be the original solution and $x$ the (maximal) solution with these initial conditions.
+\begin{align*}
+\lvert x(t) - \varphi(t) \rvert &= \lvert x_1 - \varphi(t_1) + \int_{t_1}^t f(s, x) - f(s, \varphi) \dd s \rvert\\
+&\leq \lvert x_1 - \varphi(t_1) \rvert + \int_{t_1}^t L \lvert x(s) - \varphi(s) \rvert \dd s.
+\end{align*}
+
+As such, Gronwall's Lemma guarantees us that
+\[\lvert x - \varphi \rvert \leq \lvert x_1 - \varphi(t_1) \rvert \exp(L(b-a)).\]
+
+Therefore, if $\lvert x_1 - \varphi(t_1) < \exp(-L(b-a)) \delta_1$ we can be sure that $x$ is defined over the whole interval, because it doesn't leave the tubular neighbourhood and for it to stop being defined at some point eiher $f$ would need to become unbounded (which doesn't happen because $M$) or $x$ would need to converge to some point outside $D$ (which doesn't happen because it never leaves the tubular neighbourhood, which is closed and contained in $D$).
+
+As a consequence, $x(t_1, x_1)$ is well-defined in a tubular neighbourhood of $(t_0, x_0)$, so it remains to show that it is continuous in $C[a,b]$. But the above argument serves to show that if $x$ and $y$ are two solutions (with initial conditions $t_1, x_1$ and $s_1, y_1$) we have
+\[\lVert x - y \rVert \leq \lvert x_1 - y(t_1) \rvert \exp(L(b-a)) \leq C_1 \lvert x_1 - y_1 \rvert + C_2 \lvert t_1 - s_1 \rvert\]
+which is enough to guarantee continuity in the initial conditions.
+
+Note that this also allows us to conclude that $x(t,t_0,x_0)$ is continuous as a three real-variable function.
+
+In conclusion, the set where $x(t,t_0,x_0)$ is well-defined is open (as a subset of $\R^{2+n}$) and $x$ is continuous in this domain.
+
+\section{Smoothness (in general)}
+
+Before investigating smoothness of the solution as a function of the initial conditions, it is perhaps useful to show that smoothness of $f$ is enough to guarantee $f$ Lipschitz on compacts.
+
 
 \end{document}
