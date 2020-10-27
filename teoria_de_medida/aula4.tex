@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+
+\title{Aula $4^{TM}$}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\DeclareMathOperator{\ps}{P}
+\DeclareMathOperator{\dom}{dom}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Na última aula falámos do processo $\mu_0 \to \mu^* \to \mu$.
+\item Hoje vamos falar de unicidade (sob certas circunstâncias).
+\item Proposição: se $\nu$ é uma outra medida que extende $\mu_0$ então $\nu \leq \mu^*$ no seu domínio.
+\item Demonstração: fixe-se $E$ no domínio de $\nu$. Então, dada uma cobertura $A_1, A_2, \dots$ de $E$ temos que $\sum \mu_0 A_i = \sum \nu A_i \geq \nu E$. Logo, tomando o ínfimo, $\mu^* E \geq \nu E$.
+\item Tomando complementares, sob certas circunstâncias, é possível virar este argumento do avesso para obter a desigualdade oposta para conjuntos mensuráveis.
+\item Suponha-se que $\mu^*(X) < \infty$ (neste caso, dizemos que $\mu_0$ é finita). Então, se $\nu$ é uma extensão de $\mu_0$ e $E$ é um conjunto no domínio de $\nu$ e de $\mu$, temos $\nu E = \mu E$.
+\item Demonstração: já sabemos que $\nu E \leq \mu E$. O mesmo aplica-se ao complementar, obtendo-se
+\[\nu X - \nu E \leq \mu X - \mu E.\]
+Se conseguirmos provar que $\nu X = \mu X$, temos esta proposição demonstrada.
+\item A ideia é a seguinte. Como $\mu^*(X) < \infty$, podemos escrever $X = E_1 \cup E_2 \cup \dots$, com $E_i \in \mathcal{A}$, disjuntos spdg. Assim sendo,
+\[\nu X = \sum \nu E_i = \sum \mu_0 E_i = \sum \mu E_i = \mu X.\]
+\item Caso particular mas útil: seja $\mu_0 : \mathcal{A} \to [0,\infty]$ uma pré-medida finita. Então, existe uma \textbf{única} medida em $M(\mathcal A)$ cuja restrição a $\mathcal A$ seja $\mu_0$.
+\item Esta hipótese é muito restritiva, sendo que nem a podemos aplicar ao caso da medida de Lebesgue... Felizmente, apesar de finitude ser rara, existe uma propriedade que a substitui em quase todos os efeitos práticos.
+\item Vamos fazer um ligeiro ajuste à demonstração anterior. Em vez de nos focarmos no $X$, foquemo-nos em cada $E_i$.
+\item Seja $E_i$ a mesma decomposição de $X$. Então, se $E \in \dom \nu$ é $\mu^*$-mensurável, temos que $\nu(E) = \sum \nu(E_i \cap E)$ e $\mu(E) = \sum \mu(E_i \cap E)$, pelo que basta mostrar, para cada $E_i$, que $\nu(E_i \cap E) = \mu(E_i \cap E)$.
+\item Já sabemos $\nu(E_i \cap E) \leq \mu(E_i \cap E)$. Pelo outro lado, sabemos que $\nu(E_i \setminus E) \leq \mu(E_i \setminus E)$ e por mensurabilidade temos
+\[\nu(E_i \cap E) + \nu(E_i \setminus E) = \nu E = \mu_0 E = \mu E = \mu(E_i \cap E) + \mu(E_i \setminus E).\]
+\item Agora a ideia é que se alguma das desigualdades fosse estrita, esta igualdade não poderia acontecer. Ora, para este agumento functionar, \textbf{é preciso que $\mu_0 E$ seja finito}. No entanto, isto é o único requerimento, pelo que temos o teorema:
+\item Se $X$ é decomponível numa união contável $E_1 \cup E_2 \cup \dots$ em que todos os $E_i$ estão em $\mathcal A$ e $\mu_0 E_i$ é sempre finito, então a extensão de $\mu_0$ a $M(\mathcal A)$ é única.
+\item (É possível ser ligeiramente mais genérico, mas este enunciado é suficiente para os nossos efeitos.)
+\item Esta propriedade de $X$ ser decomponível numa união contável de conjuntos finitos (chamamos a isto ser $\sigma$-finito) é muito útil, visto que há muitas propriedades de medidas que são fáceis de provar para medidas finitas, e depois podemos extendê-las a medidas $\sigma$-finitas tomando limites. Como regra geral, se uma coisa é verdade para medidas finitas e não há razão óbvia para não ser generalizável, provavelmente é verdade para $\sigma$-finitas.
+\item Note-se que, por exemplo, a pré-medida que vamos usar para Lebesgue satisfaz isto, pelo que vamos conseguir o resultado: existe uma única medida definida nos conjuntos de Borel que dá o valor esperado a intervalos.
+\item (Fim da primeira metade)
+\item Vamos agora aplicar as ferramentas que temos ao nosso dispor para construir a medida de Lebesgue em $\R$. Poder-se-ia fazer isto em $\R^n$, mas abordaremos isso de outra forma usando a medida produto.
+\item A escolha de pré-medida é razoávelmente evidente. Seja $\mathcal E$ o anel dos conjuntos elementares: uniões finitas de intervalos limitados. Para não haver problemas com as bordas, vamos estabelecer que trabalharemos apenas com intervalos da forma $\left[a,b\right[$ para $a,b \in \R$.
+\item Dado $J \in \mathcal E$, escrito $J = \bigcup_{i=1}^n I_i$ de forma disjunta, definimos $\mu_0(J)$ como $\sum_{i=1}^n c(I_i)$, once $c(I_i)$ é o comprimento definido da forma óbvia.
+\item Para isto originar uma medida, precisamos de mostrar as seguintes coisas:
+\begin{itemize}
+\item Mostrar que $\mathcal E$ é um anel. Fácil.
+\item Mostrar que $\mu_0$ está bem-definida. Saltar para subcobertura comum para reduzir ao caso de $J$ ser um intervalo. Isto mostra também aditividade finita.
+\item Mostrar que $\mu_0$ é contavelmente aditiva. Esta é a parte difícil.
+\end{itemize}
+\item Para mostrar que $\mu_0$ é contavelmente aditiva, é preciso usar propriedades essenciais de $\R$. De facto, tudo o que foi feito até agora podia ter sido igualmente feito com intervalos em $\Q$, mas aditividade contável não funciona nesse contexto.
+\item Basta provar subaditividade contável. Para mais, usando o argumento de tomar interseções, podemos sem perda de generalidade supor que o nosso conjunto é um intervalo. ou seja, basta mostrar o seguinte:
+\item Se $J$ é um intervalo meio-aberto e $I_1, I_2, \dots$ é uma cobertura de $J$ por intervalos meio-abertos, então $\sum c(I_i) \geq c(J)$.
+\item Demonstração: a ideia é usar compacidade para reduzir a coisas finitas. Comecemos por diminuir o intervalo $J$ por uma quantidade $\varepsilon$ à esquerda, para obter um intervalo compacto $\tilde J$; e aumentar os $I_i$ à direita por uma quantiade $\varepsilon_i$ para obter intervalos abertos $\tilde I_i$. Então, como $\tilde J$ é compacto e $\tilde I_i$ são uma cobertura aberta de $\tilde J$, temos que existe uma quantidade finita, digamos $\tilde I_1, \dots, \tilde I_n$ que cobre $\tilde J$.
+\item Supondo que esta cobertura é tão pequena quanto possível, podemos justificar (...)
+\end{itemize}
+
+\end{document}
