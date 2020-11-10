@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage[margin=2cm,top=1cm]{geometry}
+
+\title{Aula $5^{TM}$}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\DeclareMathOperator{\ps}{P}
+\DeclareMathOperator{\dom}{dom}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Na última aula: construção de medida de Lebesgue/Borel.
+\item Correção: construção de medidas de Lebesgue-Stieltjes. $F$ devia ser contínua para o lado fechado.
+\item Construção de medida produto. Sejam $(X,M,\mu)$ e $(Y,N,\nu)$ dois espaços de medida. Pretendemos construir uma medida $\mu \times \nu$ sobre $M \otimes N$.
+\item Construimos a função $\eta$ sobre o anel $\mathcal R$, dado por uniões finitas de retângulos \textbf{de lado finito} para não ter indeterminações. Definimos $\eta$ da forma óbvia. \textbf{Apontar que isto difere da definição usual.}
+\item É preciso mostrar que $\eta$ está bem-definido. Ideia (para unicidade do valor): reduzir a caso de subdividir um retângulo. Por sua vez, subdividir mais para obter uma divisão em colunas. Para fazer isto, usar `códigos de barras' num dos eixos.
+\item Isto também nos dá aditividade finita. Falta apenas mostrar subaditividade contável. Isto é difícil.
+\item Reduzir a caso de subdivisão contável de um retângulo. Suponha-se $\{E_n\times F_n\}$ cuja união disjunta é $E \times F$. Defina-se $R_N = \bigcup^N E_n \times F_n$. Então, pretende-se mostrar que $\lim \eta R_N = \mu E \nu F$.
+\item Ideia: Tetris.
+\item Teorema preliminar: (Convergência monótona para conjuntos) Sejam $E_1, E_2, \dots$ uma sucessão crescente de conjuntos $\mu$-mensuráveis, e seja $E$ a sua união. Representamos isto como $E_n \nearrow E$. Então, $\mu E_n \nearrow \mu E$.
+\item Fixe-se $f < \nu F$, e defina-se $S_N$ como conjunto dos $x$ tal que $\nu((R_N)_x) > f$.
+\item Proposição: Aplicando o teorema de convergência monótona duas vezes, $\mu S_N \nearrow \mu E$. Assim sendo, seja $e < \mu E$ arbitrário, e fixe-se $N$ tal que $\mu S_N > e$.
+\item Sabemos que $\lim \eta R_n > \eta R_N$. Para mais, o cálculo de $\eta R_N$ pode ser feito subdividindo em colunas, e por sua vez isto é maior ou igual do que contabilizar apenas as colunas $\tilde E$ contidas em $S_N$. Cada uma destas colunas tem contribuição igual a pelo menos $f \mu \tilde E$ por definição de $S_N$, e somando estas contribuições todas obtemos $\eta R_N \geq e f$. Logo, $\lim \eta R_N > e f$ para qualquer $e<\mu E$, $f < \nu F$.
+\item O resto da demonstração são detalhes.
+\item Conclusão: dadas duas medidas $\mu$ e $\nu$ existe pelo menos uma medida definida no produto dos domínios.
+\item Teorema: se $\mu$ e $\nu$ forem $\sigma$-finitas, existe uma medida única definida na $\sigma$-álgebra produto que atribui o esperado a retângulos.
+\item No caso não $\sigma$-finito, a definição aqui dada não coincide com a definição standard, mas é na boa porque quase todas as coisas que as pessoas querem saber são $\sigma$-finitas.
+\item Convenção: Note-se que aqui evitou-se coisas infinitas para não lidar com indeterminações. Acontece que em teoria de medida normalmente não se tem este cuidado, porque se faz a convenção $0 \times \infty = 0$. Esta convenção é justificada porque é verdadeira em espaços $\sigma$-finitos.
+\item Aplicação prática: construir a medida de Borel em $\R^n$ indutivamente. Questão razoável de perguntar: isto não depende da construção? Será que uma construção diferente dava a mesma coisa? Felizmente, o resultado de unicidade garante que existe uma única `medida de Borel em $\R^n$'.
+\item Defina-se $m_{n+1} = m_n \times m$. Então, $m$ restrito a uniões finitas de retângulos é uma pré-medida $\sigma$-finita, pelo que se conclui que existe uma e apenas uma medida na $\sigma$-álgebra gerada pelos retângulos que dá a esses o valor `esperado'. Verificando que esta é a $\sigma$-álgebra de Borel, conclui-se que a medida de Borel em $\R^n$ é um objeto `canónico'.
+\item Outra aplicação prática (esta importante): definir integral.
+\item Consideremos primeiro funções positivas para ter áreas a sério, e já agora permita-se o valor $+\infty$. Ou seja, consideremos $f : X \to [0,\infty]$.
+\item Definir $L^+(X)$ para $X$ um espaço de medida como sendo o conjunto das funções $f$ positivas cujo conjunto de ordenadas é mensurável. $\Omega_f = \{\,(x,y) \mid 0 < f(x) < y\,\}$. Se $f \in L^+(X)$, defina-se $\int f \dd \mu$ como $(\mu \times m)(\Omega_f)$.
+\item Falar um pouco sobre $[0,\infty]$ como espaço de medida. A $\sigma$-álgebra de Borel é a gerada por intervalos. Justificar que se $A \subseteq [0,\infty]$ é mensurável então se removermos $\infty$ dá um conjunto mensurável em $\R$. Definir a medida em $[0,\infty]$ como tomar a medida de Lebesgue de $A \setminus \{\infty\}$.
+\item Esta definição de integral é satisfatória, mas é pouco trabalhável. Por exemplo, não é fácil mostrar usando esta definição que o conjunto de ordenadas de uma função dada é mensurável, ou que o integral é aditivo. Esta definição dá-nos exatamente uma demonstração fácil:
+\item Teorema (Convergência Monótona) Seja $f_n \in L^+(X)$ uma sucessão crescente de funções cujo limite pontual é $f$. Então, $f \in L^+(X)$ e $\int f \dd \mu = \lim \int f_n \dd \mu$.
+\item Demonstração: Teorema de convergência monótona para medidas + reparar que $\Omega_f = \bigcup \Omega_{f_n}$.
+\item O truque para transformar esta definição numa mais mexível é passar a considerar apenas funções mais... Simples. \textsf{B}\texttt{)}
+\item Definir funções simples: funções de contradomínio finito. Alternativamente, coisas da forma $\sum^N a \xi$. Para estas funções, provar linearidade do integral é fácil. Ideia: escrever qualquer função como um limite crescente de funções simples.
+\item Proposição: dado $f \in L^+$, existe uma sucessão de funções simples que converge monotonamente para $f$ em todos os pontos.
+\item \textbf{Não} fazer detalhadamente a construção das funções simples.
+\item Concluir que o integral é aditivo.
+\item Provar que $f$ é mensurável sse preimagens de $\left]t,\infty\right]$ são mensuráveis. Concluir sse preimagens de boreis são mensuráveis.
+\item Se houver tempo: definir função mensurável de $X$ para $Y$, em que $X$ e $Y$ são espaços com $\sigma$-álgebras associadas, como uma função cuja preimagem sob mensuráveis é mensurável. Justificar com base em: analogia com definição topológica, generalização por definição de $L^+$, esta definição permite, partindo de medidas em $X$, induzir medidas em $Y$.
+\end{itemize}
+
+\end{document}
