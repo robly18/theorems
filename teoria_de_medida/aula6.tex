@@ -1,0 +1,83 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage[margin=2cm,top=1cm]{geometry}
+
+\title{Aula $5^{TM}$}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\DeclareMathOperator{\ps}{P}
+\DeclareMathOperator{\dom}{dom}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Aula tripartida: Revisão de aula passada, para quem faltou; Actual matéria (funções mensuráveis); Tempo livre para resolução de questões.
+\item Construção da medida produto:
+\begin{itemize}
+\item Sejam $(X,M,\mu)$ e $(Y,N,\nu)$ espaços de medida. Então, a função $\eta : \mathcal R \to [0,\infty]$ é uma pré-medida bem-definida, onde
+\begin{itemize}
+\item $\mathcal R$ é o anel `uniões finitas de coisas da forma $E \times F$, com $E \in M$ com $\mu E < \infty$ e idem para $F$.
+\item $\eta$ é a função (aditiva) que transforma $E \times F$ em $\mu E \nu F$. Repare-se que não há indeterminação.
+\end{itemize}
+\item Esta pré-medida gera uma medida, chamada $\mu \times \nu$, definida pelo menos em $M \otimes N$. Se $\mu$ e $\nu$ são $\sigma$-finitas, esta medida é única.
+\item O caso $\sigma$-finito motiva o estabelecimento da convenção $0 \times \infty = 0$.
+\end{itemize}
+\item Definição de integral:
+\begin{itemize}
+\item Seja $X$ um espaço de medida. Então, definimos $L^+(X)$ como as funções $f : X \to [0,\infty]$ `mensuráveis' no seguinte sentido.
+\item Pretendemos definir o integral de $f$ como a àrea por baixo do gráfico. Assim sendo, defina-se $\Omega_f = \{\,(x,y) \mid 0<y<f(x)\,\} \subseteq X \times \R$. Então, $f$ diz-se mensurável se $\Omega_f$ é mensurável, e neste caso definimos $\int f \dd \mu = (\mu \times m)(\Omega_f)$.
+\end{itemize}
+\item Teorema (Convergência Monótona) Seja $f_n \in L^+(X)$ uma sucessão crescente de funções cujo limite pontual é $f$. Então, $f \in L^+(X)$ e $\int f \dd \mu = \lim \int f_n \dd \mu$.
+\item Definir funções simples: funções de contradomínio finito. Alternativamente, coisas da forma $\sum^N a \xi$. Para estas funções, provar linearidade do integral é fácil. Ideia: escrever qualquer função como um limite crescente de funções simples.
+\item Proposição: dado $f \in L^+$, existe uma sucessão de funções simples que converge monotonamente para $f$ em todos os pontos.
+\item Justificar a partir disto que o integral é aditivo. (E consequentemente está bem-definido na soma.)
+\item Obviamente não é exequível arranjar uma fórmula semelhante para o produto, mas o mesmo argumento de funções simples serve para mostrar, e.g., que $L^+$ é fechado para produtos ou mínimos ou máximos. No entanto, na segunda metade veremos uma forma mais abstrata e geral de ver a coisa.
+\item Para exemplificar, mostrar que se $f, g \in L^+$ então $fg \in L^+$. Mostrar que $\max(f,g) \in L^+$, $\min(f,g)$, $\sqrt f$. Nota: max e min também são fáceis com definição naïve!
+\item Aparte: estes argumentos \emph{não} funcionam para mostrar que $L^+$ é `fechado para composições'! Isto requer um pouco mais de trabalho para formalizar o enunciado, mas mesmo após o fazer, é preciso uma ideia diferente.
+\item Segunda metade.
+\item Infelizmente, fazer a construção das funções simples com um pouco mais de detalhe.
+\item As funções consideradas são obtidas da forma
+\[\phi_n = \frac1{2^{-n}} \sum_{k=1}^{n 2^n} \chi_{f \geq k 2^{-n}}.\]
+\item Isto funciona porque os conjuntos em questão são secções de $\Omega$, e já vimos que secções de conjuntos $M\otimes N$-mensuráveis são $M$-mensuráveis.
+\item Conclusão: a única propriedade estritamente necessária para esta construção é que os conjuntos $\{\,x \mid f(x) \geq q\,\}$ sejam $M$-mensuráveis para todos os $q$ diádicos. Isto parece sugerir que o integral pode ser generalizado um pouco mais. Mas não, não pode.
+\item Teorema: Seja $f : X \to [0,\infty]$. Então, $f \in L^+$ sse $f^{-1}[q,\infty]$ é mensurável para todo o $q$ diádico.
+\item $\rightarrow$ já foi visto. $\leftarrow$ porque uniões contáveis. Note-se que aqui se usou as duas facetas da definição de $M \otimes N$: em $\leftarrow$ usou-se o facto de $M \otimes N$ conter todos os retângulos, e em $\rightarrow$ usou-se o facto de $M \otimes N$ ser a $\sigma$-álgebra mais pequena que faz isso.
+\item Teorema: $f \in L^+$ sse preimagens de elementos de $\mathcal B([0,\infty])$ são mensuráveis.
+\item Consequência: funções contínuas $X \to [0,\infty]$ ($X$ topológico munido de Borel) são mensuráveis. Ou seja, é possível tomar o integral de qualquer função (positiva) contínua!
+\item Isto, juntamente com outros dois factos, motiva a definição de função mensurável.
+\item Sejam $(X,M)$ e $(Y,N)$ duas $\sigma$-álgebras. Então, $f: X \to Y$ diz-se $(M,N)$-mensurável se para todo o $E \in N$ temos $f^{-1}(E) \in M$.
+\item Motivações:
+\begin{itemize}
+\item A proposição acima diz que $f \in L^+$ sse $f$ é $(M,\mathcal B)$-mensurável.
+\item Paralelismo com a definição de função contínua.
+\item É a condição necessária para medidas induzidas funcionarem. Isto é, dada uma medida em $M$ poder construir uma medida em $N$. Interpretação: ver medida de probabilidade.
+\item (Motivação \textit{post hoc}) Bate certo com definições categóricas. Por exemplo, $M \otimes N$ transforma-se num produto categórico, (@Beatriz) limites de $\sigma$-álgebras transformam-se em limites categóricos. 
+\end{itemize}
+\item Isto permite, por exemplo, justificar que se $f : X \to [0,\infty]$ e $g : [0,\infty] \to [0,\infty]$ são mensuráveis então $g \circ f$ é mensurável, coisa essa que não é pegável com nenhuma das outras duas definições que temos!
+\item Isto também nos permite mostrar, e.g., que o máximo de duas funções mensuráveis é mensurável, com um pouco mais de trabalho mas de forma mais satisfatória, usando composições.
+\item Proposição: Se $f : X \to Y$ e $g : X \to Z$ são mensuráveis, então $(f,g) : X \to Y \times Z$ é mensurável.
+\item Proposição: Se $X$ e $Y$ são espaços topológicos e $f : X \to Y$ é contínua, então $f$ é mensurável.
+\item Corolário: Se $f, g \in L^+(X)$ então $\max(f,g)$ é mensurável.
+\item Demonstração: Basta notar que $\max(f,g)$ é a composição da função $\max : [0,\infty]^2 \to [0,\infty]$ (contínua portanto mensurável) com a função $(f,g) : X \to [0,\infty]^2$ (mensurável).
+\item A mesma ideia funciona para todos os outros exemplos que fizemos. Concluímos então com três formas de olhar para funções mensuráveis. The good (definição abstrata), the bad (conjunto de ordenadas) and the ugly (limites crescentes de funções simples).
+\item Não vou falar muito mais de funções mensuráveis gerais (elas são úteis uma ou outra vez, em particular para definir coisas categoricamente), sendo que me vou focar maioritariamente em funções mensuráveis $X \to \R$ ou $X \to [0,\infty]$ (e se eu quiser mesmo posso fazer $X \to \C$). Há aqui um detalhe no caso particular de, digamos, $\R \to \R$ que merece alguma atenção.
+\item Quando é que dizemos que uma função $\R \to \R$ é mensurável? A nossa definição atual é `se pré-imagens de Boreis' são mensuráveis, mas em que $\sigma$-álgebra? Temos duas $\sigma$-álgebras óbvias que podemos meter em $\R$ (como domínio): $\mathcal B$ e $\mathcal L$.
+\item Isto dá azo, respetivamente, à noção de Borel mensurável e Lebesgue-mensurável. Ambos estes conceitos têm o seu uso, sendo que as Lebesgue-mensuráveis são as que se vêm mais `in the wild' (porque detalhes de q.t.p.s que falaremos na próxima aula), mas as Lebesgue-mensuráveis não são fechadas para composições (próxima aula. maybe.). Pelo outro lado, as Borel são fechadas para composições, e maior parte das funções `concretas' que há são Borel, mas há detalhes finos relacionados com limites que nos podem forçar a sair das Borel mensuráveis em casos práticos, pelo que é implausível fazer análise apenas com estas.
+\item Na próxima aula, salvo erro, exploraremos um pouco melhor estes assuntos, e veremos em mais detalhe o que é este $\mathcal L$ misterioso.
+\end{itemize}
+
+\end{document}
