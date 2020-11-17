@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{commath}
+
+\usepackage[margin=2cm,top=1cm]{geometry}
+
+\title{Aula $7^{TM}$}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+
+\renewcommand{\cal}[1]{\mathcal{#1}}
+
+\DeclareMathOperator{\ps}{P}
+\DeclareMathOperator{\dom}{dom}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Penúltima aula. Plano: hoje falar da medida de Lebesgue, aula que vem falar de Fubini.
+\item Já vimos: definição da medida de Lebesgue (em $\R$) como aplicação do teorema de Carathéodory. Nessa aplicação, obtemos uma medida definida num conjunto $\cal L$, que contém, mas não é igual a $\cal B$.
+\item Para ver porquê, é preciso falar de completude. Para isso, comecemos com a questão: O que significa `q.t.p.'?
+\item Exemplo de teorema: Seja $f : X \to [0,\infty]$ tal que $f = 0$ q.t.p. Então(?) $\int f = 0$.
+\item Possível problema: como sabemos que $f \in L^+$? Qual o significado preciso de $f = 0$ q.t.p.?
+\item Conclusão: é fixe que teoremas tipo o acima sejam verdade. Ou, um caso particular: se $x \in A$ sse $x \in B$ para quase todo o $x$ e $A$ é mensurável, então $\mu A = \mu B$. (Possível problema: como sabemos $B$ mensurável?)
+\item Definição: A medida $\mu$ diz-se completa se todo o conjunto quase vazio é mensurável. Por outras palavras: se $A \subseteq N$ com $\mu N = 0$, então $A$ é mensurável.
+\item Facto: as medidas obtidas por Carathéodory são completas.
+\item Demonstração: Seja $N$ um conjunto tal que $\mu^*(N) = 0$. Então, $N$ é mensurável, pois fixo $A$ temos $\mu^*(A) \leq \mu^*(A\cap N) + \mu^*(A \setminus N) \leq \mu^*(N) + \mu^*(A) = \mu^*(A)$.
+\item Como consequência, se $N$ é um $\mu^*$-mensurável de medida nula, qualquer subconjunto dele também é mensurável.
+\item Levanta-se agora a questão de se a medida de Borel é completa, e a resposta é não.
+\item A demonstração requer uns quantos desvios, mas encontra-se em: exercício 9, página 48 do Folland.
+\item Conclusão: $\cal B \subsetneq \cal L$. Levanta-se agora a questão de como caracterizar o $\cal L$.
+\item Desvio: dada uma medida $\mu$, existe um procedimento standard (e óbvio) para ober uma medida completa. Se $\mu$ está definida em $M$, simplesmente defina-se $\overline M$ como sendo a coleção de coisas da forma $E \cup N$, em que $N$ é quase-vazio, e defina-se $\overline \mu(E \cup N)$ como $\mu E$.
+\item Determinar se pessoas querem ver os detalhes de construção.
+\item Proposição: A medida assim obtida é a menor extensão completa possível de $\mu$, e é única.
+\item Conclusão: $m_L$ extende $\overline{m_B}$. Isto é na verdade uma igualdade. 
+\item Notemos que definimos a medida de Lebesgue através de aproximações por fora, de intervalos meio-abertos. Assim sendo, a seguinte proposição não é de todo surpreendente:
+\item Proposição: Dado $E \subseteq \R$ e $\varepsilon$ existem $I_1, I_2, \dots$ meio-abertos cobertura de $E$ tal que $\sum m I_i \leq m E + \varepsilon$.
+\item Agora, podemos modificar isto ligeiramente, aumentando os intervalos, para obter:
+\item Proposição: Dado $E \subseteq \R$ e $\varepsilon$ existem $I_1, \dots$ abertos cobertura de $E$ tal que $\sum m I_i \leq m E + \varepsilon$,
+\item e daqui é direto: Dado $E \subseteq \R$ e $\varepsilon$ existe um aberto $U \subseteq E$ tal que $m U \leq m E + \varepsilon$.
+\item Se a medida de Lebesgue fosse finita, era agora possível provar uma coisa parecida ao contrário: a existência de $F$ fechado contido em $E$ tal que $m F \geq m E - \varepsilon$. No entanto, isto não funciona, mas no processo de o fazer funcionar conseguimos algo melhor:
+\item Dado $E$ existem $K_1, K_2, \dots$ compactos contidos em $E$ tal que $m K_n \nearrow m E$.
+\item Conclusão: qualquer Lebesgue-mensurável é aproximável por abertos por fora e por compactos por dentro.
+\item Ideia: aproveitar isto para construir Borel-mensuráveis que `abraçam' Lebesgue-mensuráveis, mostrando então que qualquer Lebesgue é um Borel mais menos um nulo.
+\item (Isto seria uma boa altura para fazer uma pausa?)
+\item Problema: eu quero que o `espaço entre os conjuntos' seja nulo, mas infinitos não jogam bem com isso.
+\item Resolução: partir em bocados.
+\item Conclusão: dado um Lebesgue-mensurável $E$, existem dois Borel-mensuráveis $F$ e $G$ tal que $F \subseteq E \subseteq G$ e $m(G \setminus F) = 0$. É possível dizer mais sobre estes abertos ($F$ é um $F_\sigma$ e $G$ é um $G_\delta$), mas isso não nos é relevante.
+\item Conclusão: a medida de Lebesgue é o completamento da de Borel, concluindo-se então a caracterização completa de $\cal L$.
+\item (Next up: tudo é retângulos)
+\item Estas ideias permitem-nos obter outros resultados de aproximação que são úteis na prática.
+\item Exemplo de aplicação: Lema de Riemann-Lebesgue.
+\item Se $f : \R \to \R$ é somável\footnote{Mensurável e $\int \abs f < \infty$.} , então $\int f(t) \e^{\I n t} \dif t \to 0$ quando $n \to \infty$.
+\item Este problema parece em geral inatacável. Podemos tentar a estratégia usual de aproximar $f$ por funções simples, mas o problema mantém-se que avaliar $\int_E \e^{\I n t} \dif t$ é difícil sem saber nada sobre $E$. Isto deixa de ser verdade se $E$ for um intervalo limitado, porque aí o integral é fácil de calcular:
+\[\int_a^b \e^{\I n t} \dif t = \frac1{\I n} (\e^{\I n b} - \e^{\I n a}) \to 0.\]
+\item Não vou fazer os detalhes de porque é que isto chega, mas isto motiva a ideia de `aproximar conjuntos mensuráveis por uniões finitas de intervalos'. É isso que vamos fazer agora. Não é difícil.
+\item Seja $E$ um conjunto mensurável de medida finita. Já vimos que existem $I_1, I_2, \dots$ intervalos (abertos, semiabertos, whatever) tal que $\sum m I_i \leq m E + \varepsilon$. Ou seja, a união dos $I_i$ aproxima o $E$. Agora, por finitude, este somatório é aproximado pelas somas parciais. Logo, existem $I_1, \dots, I_N$ tal que $\sum^N m I_n$ está a menos de $2 \varepsilon$ de $E$. Mudando de variável e limpando um pouco o argumento, obtemos facilmente o resultado:
+\item Dado um conjunto mensurável de medida finita $E$ e $\varepsilon$ arbitrário, existe um conjunto elementar $A$ tal que $m(E \Delta A) < \varepsilon$.
+\item Nota: é possível pensar em $m(E \Delta A)$ como uma `distância entre conjuntos'. De facto, a classe dos mensuráveis com a norma $d(A,B) = \mu(A \Delta B)$ é um espaço normado. (Assumindo que permitimos normas que tomam valores infinitos.)
+\item Conclusão: Conjuntos são aproximáveis por uniões finitas de intervalos.
+\item É possível depois ajustar estes argumentos para justificar, por exemplo, que qualquer função somável é aproximável por funções contínuas: aproxime-se uma função somável por soma finita de funções simples, cada função simples pode ser aproximada por número finito de funções simples em intervalos, e é fácil ver que uma função característica de um intervalo pode ser aproximada por funções contínuas. (Até $C^\infty$, aliás.) Logo, compondo tudo isto, podemos aproximar qualquer função somável por coisas contínuas!
+\item Isto funciona para qualquer função mensurável $\R \to \R$, mas isso requer detalhes mais finos de $\sigma$-finitude que não nos são importantes, visto que isto é meramente expositório.
+\end{itemize}
+
+\end{document}
