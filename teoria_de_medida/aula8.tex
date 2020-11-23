@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{commath}
+
+\usepackage[margin=2cm,top=1cm]{geometry}
+
+\title{Aula $8^{TM}$}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+
+\renewcommand{\cal}[1]{\mathcal{#1}}
+
+\DeclareMathOperator{\ps}{P}
+\DeclareMathOperator{\dom}{dom}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Última aula. Teorema de Fubini let's go.
+\item Problema: sejam $(X,M,\mu)$ e $(Y,N,\nu)$ espaços de medida, e seja $f : X \times Y \to [0,\infty]$. Queremos de alguma forma argumentar que se $f$ é simpática o suficiente, podemos tomar os integrais
+\[\iint f(x,y) \dif \mu(x) \dif \nu(y) \text{ e } \iint f(x,y) \dif \nu(y) \dif \mu(x)\]
+e estes são iguais.
+\item Ideia para mostrar igualdade assumindo que eles existem: passar a medida-produto. Exemplificar com $I \times I$.
+\item Ou seja, o objetivo é mostrar que se $f : X \times Y \to [0,\infty]$ é mensurável em $M \otimes N$, então o integral iterado existe e
+\[\iint f(x,y) \dif \mu(x) \dif \nu(y) = \int f \dif \mu \times \nu.\]
+(Note-se que por simetria o integral com $\dif \nu \dif \mu$ também é igual a isto.)
+\item Agora, estando no mundo das funções $M \otimes N$-mensuráveis, podemos aproximar $f$ por funções simples e efetivamente reduzimos o nosso trabalho a provar uma afirmação sobre conjuntos. Ou seja, pretendemos provar que, se $E \in M \otimes N$, então a função $x \mapsto \nu(E_x)$ está em $L^+(X)$, e para mais
+\begin{equation}\label{fub}
+\mu \times \nu(E) = \int \nu(E_x) \dif \mu(x).
+\end{equation}
+\item Queremos provar uma afirmação para todos os $E \in M \otimes N$, por isso já conhecem a estratégia. Definimos, digamos, $\cal F$ como a coleção de conjuntos $E \in M \otimes N$ tal que \eqref{fub}, mostramos que os retângulos estão lá, e mostramos que $\cal F$ é uma $\sigma$-álgebra. Easy peasy, right?
+\item Mostrar retângulos é fácil. Vamos agora mostrar $\sigma$-álgebra.
+\item Vamos começar por mostrar que $\cal F$ é fechado para complementares. A ideia óbvia é a seguinte:
+\[ \mu \times \nu(E) + \mu \times \nu(E^c) = \int \nu(E_x) \dif \mu(x) + \int \nu(E_x^c) \dif \mu(x),\]
+porque ambos os lados são iguais a
+\[\mu\times\nu(X\times Y) = \int \nu(Y) \dif \mu(x).\]
+\item Agora, queremos concluir que se \eqref{fub} é verdade para $E$ então o é para $E^c$. Aqui, precisamos de exigir que coisas sejam finitas! Ou seja, adicionamos a exigência:
+\begin{center}
+A partir de agora, supomos $X$ e $Y$ finitos.
+\end{center}
+Claro que mais tarde extenderemos o resultado a $\sigma$-finitos.
+\item Ok, já provámos que $\cal F$ é fechado para complementares. E para uniões contáveis? Well... Isso é mais difícil.
+\item\relax [Pausa comprida para pessoas pensarem no assunto!!!]
+\item (@Duarte: don't forget. Pausa! Para as pessoas perceberem que de facto assim não vai lá. Se conseguires tenta fazer momento de colaboração.)
+\item Ok, agora que já viram que provar que isto é uma $\sigma$-álgebra diretamente é pouco exequível, vamos ver como dar a volta à coisa. Vamos ver que género de operações podemos fazer em $\cal F$.
+\item Uniões disjuntas. Uniões binárias mesmo muito simpáticas. Uniões de retângulos. Ooh, $\cal F$ contém todos os elementos de $\cal A$, o anel (neste caso álgebra) gerado pelos retângulos.
+\item Usando o TCM, podemos mostrar que $\cal F$ é fechado para uniões monótonas. Já estamos mais próximos: já podemos fazer pelo menos uma operação contável. Usando complementares, podemos também fazer interseções monótonas.
+\item Temos aqui uma caixa de ferramentas de operações que podemos fazer, mas nenhuma delas é uniões. Reparem, já agora, que se mostrarmos que podemos fazer uniões binárias, pela coisa de uniões monótonas, temos uma $\sigma$-álgebra. Mas as uniões binárias parecem elusivas.
+\end{itemize}
+
+\end{document}
