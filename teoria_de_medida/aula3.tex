@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage[margin=3cm, tmargin=2.5cm]{geometry}
+
+
+\title{Aula 3 de TM}
+\author{Duarte Maia}
+\date{}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\DeclareMathOperator{\ps}{P}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+\begin{itemize}
+\item Introduzir ideia de medida exterior gerada por uma função de conjuntos. Falar de convenções: $\sup \emptyset = 0$, $\inf \emptyset = \infty$. Em particular: não assumo que haja alguma cobertura!
+\item Definir $\mu^*(E) = \inf \sum \rho A_i$, onde o ínfimo é tomado sobre coberturas contáveis $A_i$ de $E$.
+\item Caracterizar os objetos formados desta forma como sendo as medidas exteriores. Isto é, provar que qualquer objeto destes é medida exterior, e qualquer medida exterior pode ser obtida desta forma.
+\begin{itemize}
+\item $\mu^* \emptyset = 0$; Subaditividade contável; Monotonia
+\end{itemize}
+\item Motivar definição de conjunto mensurável (caso de medida finita). Definir conjunto $\mu^*$-mensurável. \textbf{Exercício:} no caso de $\mu^*(X) < \infty$, estas definições são equivalentes.
+\item Teorema de Carathéodory: Seja $\mu^*$ uma medida exterior e $M$ a coleção dos conjuntos $\mu^*$-mensuráveis. Então, $M$ é uma $\sigma$-álgebra e $\mu^*|_M$ é uma medida.
+\item Começar por verificar que $M$ contém o todo, o vazio e é fechado para complementares.
+\item Verificar que $M$ é fechado para uniões binárias. Prova por bonecos. Fazer prova a sério?
+\item Único sítio em que se pode pegar para uniões contáveis é subaditividade. Queremos
+\[\mu^*( A \cap \bigcup E_n ) + \mu^*(A \setminus \bigcup E_n) \leq \mu^*(A).\]
+Sabemos que $\mu^*(\bigcup (A \cap E_n)) \leq \lim \sum^N \mu_*(A \cap E_n)$, e podemos somar $\mu^*(A \setminus \bigcup E_n) \leq \mu^*(A \setminus \bigcup^N E_n)$. Problema: a primeira desigualdade pode perder demasiada informação.
+\item Considerar apenas $E_n$ disjuntos. Generalizar depois.
+\item Concluir $\sigma$-álgebra. Falta agora verificar medida.
+\item Medida do vazio ser zero é trivial. Aditividade contável é fazível a partir de aditividade finita e subaditividade contável.
+\item Problema: não temos garantia nenhuma que a medida que obtemos no final concorde ou extenda o nosso $\rho$.
+\item Encontrar condições na nossa função de conjuntos para assegurar que:
+\begin{itemize}
+\item Todos os conjuntos com que começámos são mensuráveis
+\item A medida final coincide com a função inicial
+\end{itemize}
+(Uma função que satisfaz as condições que encontrarmos chama-se uma pré-medida.)
+\item Olhemos primeiro para a condição de mensurabilidade e vejamos como a poderíamos tentar mostrar. Seja $A$ arbitrário e $E \in \mathcal{A}$. Queremos hipoteticamente mostrar que
+\[\mu^*(A \cap E) + \mu^*(A \setminus E) = \mu^*(A).\]
+Subaditividade contável dá $\geq$, pelo que basta mostrar $\leq$. O lado direto é um ínfimo de coisas, pelo que podemos dedicar o nosso esforço a mostrar que, dada uma cobertura de $A$ por elementos de $\mathcal{A}$, podemos parti-la numa cobertura de $A \cap E$ e uma de $A \setminus E$. A coisa óbvia a fazer seria intersetar termo-a-termo com $E$ e o seu complementar, o que justifica fazermos a seguinte definição
+\item Uma coleção $\mathcal{A} \subseteq \ps(X)$ diz-se um anel se é fechado para uniões binárias e diferenças de conjuntos.
+\item Se exigirmos que $\rho$ esteja definido num anel e que seja aditivo, garantimos que todos os elementos de $\mathcal{A}$ são mensuráveis. Falta agora, no entanto, garantir que $\mu^*(E) = \rho(E)$ para todo o $E \in \mathcal{A}$.
+\item Uma desigualdade ($\leq$) é garantida, faltando apenas verificar a outra. A tentativa óbvia de prova (pegar numa cobertura) requer apenas a adição da seguinte propriedade:
+\begin{center}
+Se $E_1, E_2, \dots \in \mathcal{A}$ são disjuntos e $\bigcup E_i \in \mathcal{A}$ então $\sum \rho(E_i) = \rho(\bigcup E_i)$.
+\end{center}
+\item Assim sendo, definimos:
+\begin{itemize}
+\item Uma coleção $\mathcal{A} \subseteq \ps(X)$ diz-se um anel se é fechado para uniões binárias e diferenças de conjuntos.
+\item Uma função $\mu_0 : \mathcal{A} \to [0,\infty]$ diz-se uma pré-medida se é contavelmente aditiva. (Caso particular: união de zero termos $\rightarrow$ $\mu_0(\emptyset) = 0$)
+\end{itemize}
+\item Conclusão da aula: o processo de construir uma medida exterior e aplicar Carátheodory resulta numa extensão da função inicial, desde que a função inicial seja uma pré-medida.
+\item O próximo passo é ver como construir pré-medidas, e veremos que estas são muito mais fáceis de construir: o domínio é uma coisa muito finita, sendo que o único infinito com que nos precisamos de preocupar é uma propriedade que queremos que ela satisfaça.
+\item Se houver 15 min: Vamos falar de unicidade. Suponha-se que temos uma pré-medida $\mu_0$, e construimos a partir dela a medida $\mu = \mu^*|_M$. Suponha-se que $\nu$ é outra medida que estende $\mu_0$. O que podemos dizer sobre ela?
+\item Uma coisa é clara por definição: $\nu$ concorda com $\mu_0$ em todos os conjuntos de $\mathcal{A}$. Assim sendo, concorda, por exemplo, em uniões contáveis de conjuntos de $\mathcal{A}$ (que podem não estar neste anel!)
+\item Demonstração deste facto: seja $E = \bigcup E_n$ uma união, disjunta spdg (porquê?). Então, $\nu(E) = \sum \nu(E_n) = \sum \mu_0(E_n) = \sum \mu(E_n) = \mu(E)$.
+\item No entanto, isto não chega para mostrar que a medida é realmente única, até porque temos problemas com complementares. Mas há outros sítios por onde pegar.
+\item A medida $\mu = \mu^*|_M$ obtida a partir de uma pré-medida $\mu_0$ é na verdade \emph{a maior extensão possível} (em termos numéricos) de $\mu_0$ a $M$. Isto pois se $\nu$ é outra extensão de $\mu_0$ então, dado um conjunto $E$ e uma cobertura $E_1, E_2, \dots \in \mathcal{A}$ temos
+\[\nu(E) \leq \nu(\bigcup E_i) \leq \sum \nu E_i = \sum \mu_0 E_i,\]
+e tomando o ínfimo do lado direito obtemos
+\[\nu(E) \leq \mu^*(E). \text{ ($E$ nem precisa de estar em $M$)}\]
+\item Como consequência, é possível provar unicidade no caso em que $\mu^*(X)$ é finito. De facto, já sabemos que $\nu(E) \leq \mu^*(E)$, mas temos também que $\nu(E^c) \leq \mu^*(E^c)$. Sabendo que $\nu(E^c) = \nu(X) - \nu(E)$ (faz sentido porque $\nu(X) < \infty$) e que $\mu^*(E^c) = \mu^*(X) - \mu^*(E)$ (por mensurabilidade) temos a desigualdade $\nu(E) \geq \nu(X) - \mu^*(X) + \mu^*(E)$. Provando o lema: $\nu(X) = \mu^*(X)$, obtemos que $\nu(E) \geq \mu^*(E)$, como desejado.
+\item Prova do lema: se $\mu^*(X)$ é finito, existe uma cobertura contável deste por elementos de $\mathcal{A}$, o que pelo acima mostra $\mu^*(X) = \nu(X)$.
+\item A exigência de $\mu^*(X)$ ser finito é bastante restritiva, sendo que nem se aplica à medida de Lebesgue. Mas a unicidade no caso mais geral fica para a aula seguinte.
+\end{itemize}
+
+\end{document}
