@@ -1,0 +1,113 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[standard]{ntheorem}
+
+\usepackage{diffcoeff}
+
+\title{The Hartman-Grobman Theorem}
+\author{Duarte Maia}
+
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\e}{\mathrm{e}}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\theoremnumbering{arabic}
+\theoremseparator{:}
+\newtheorem*{Assumption}{Assumption}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+The Hartman-Grobman theorem is shockingly recent for mathematical standards: Grobman's original paper is from 1959, and Hartman's is from 1960. With this in mind, it's perhaps not too shocking that there don't seem to be that many complete proofs out there. In my research, I found only Hartman's original paper, Grobman's original paper (in Russian...) and one in a book by Chicone. Furthermore, all of the proofs I found (that I could read...) use a `discrete-time approach', which feels artificial and unnecessary to me. Consequently, I present a proof in continuous time, which is hopefully marginally simpler than the ones currently out there. Furthermore, as well as the proof, I present the steps I took to reach it, in hopes that it makes the proof more easily understood. However, for the reader who only wants to see the proof and not the steps that led up to it, the terse version of the proof is at the end of this document.
+
+Prerequisites for reading this document are basic propositions in the theory of ODEs: existence of solutions, continuity in initial conditions, and Grunbaum's lemma.
+
+\section{Motivation}
+
+What the Hartman-Grobman theorem guarantees is, in a sense, that near a hyperbolic rest point of the ODE $\dot x = f(x)$ (i.e. a point where $f(z) = 0$ and $f'(z)$ has no null-real-part eigenvalues) the phase portrait of the equation looks a lot like the phase portrait of $\dot x = f'(z) x$. More concretely, we will show that there exists a topological homeomorphism $H$ between a neighbourhood of $z$ and a neighbourhood of the origin such that
+\begin{equation}\label{goaleq}
+\phi_t = H^{-1} \e^{f'(z) t} H,
+\end{equation}
+where $\phi_t$ is the (time $t$) flow of $f$.
+
+To find such a $H$, a tempting approach is to use the tried-and-tested method of iteration. A possible way to do it, and perhaps the most obvious, is to write \eqref{goaleq} as
+\begin{equation}
+H = \e^{f'(z) t} H \phi_{-t},
+\end{equation}
+and therefore iterating the transformation $H \mapsto \e^{f'(z) t} H \phi_{-t}$ starting with $H$ equal to, say, the identity, might give us good results. Note that we have not yet fixed $t$.
+
+Now, it is easy to see that iterating the above map starting with the identity is the same as taking the limit $t \to \pm\infty$ (depending on the sign of $t$) of $H_t(x) = \e^{f'(z) t} \phi_{-t} x$. As such, this will be the preliminary definition we shall work with, and most of what follows is based on making this definition work.
+
+\section{A first example}
+
+To start, note that this is a local theorem. As such, `getting away from the rest point' implies, in principle, losing control of the flow. Therefore, we want to make sure $\phi_{-t} x \to z$, and for this to happen for $t \to \pm \infty$ then $z$ must be either a source or a sink. Of course, if the proof works for one of these then it'll work for the other (just reverse time), so for the sake of definiteness we will work with a source. We will then lay out the basic assumptions for this section and the others.
+
+\begin{Assumption}
+From now on, we will always be working with an ODE of the form
+\[\dot x = f(x),\]
+where $f$ is Lipschitz in a neighborhood of the rest point $z$, and differentiable at $z$. By translation, we may assume without loss of generality that $z = 0$. Under these assumptions, we may write the ODE as
+\[\dot x = A x + g(x),\]
+where $g(x) = o(x)$. Finally, we assume 0 is a source, in the sense that all eigenvalues of $A$ have positive real part.
+\end{Assumption}
+
+We will test our definition of $H(x) = \lim_{t \to \infty} \e^{-A t} \phi_t x$ in the following simple equation:
+\[
+\begin{cases}
+\dot x = -x,\\
+\dot y = -\alpha y + x^2.
+\end{cases}
+\]
+
+This equation was picked because it is among the simplest nonlinear ODEs I know how to solve. Indeed, the solution can easily be found by the method of variation of parameters:
+\[
+\begin{cases}
+x = x_0 \e^{-t},\\
+y = y_0 \e^{-\alpha t} - \frac1{2-\alpha} x_0^2 \e^{-\alpha t} (1 - \e^{(2 - \alpha)t}).
+\end{cases}
+\]
+
+Note that this is only the solution for $\alpha \neq 2$. For $\alpha = 2$, the solution is slightly simpler:
+\[y = y_0 \e^{-2 t} + x_0^2 \e^{- 2 t} t.\]
+
+We can now write the expression for $\e^{-At} \phi_t (x,y)$ explicitly, and then we may take the limit as $t \to \infty$. For $\alpha \neq 2$,
+\begin{equation}\label{flowsimple}
+\e^{-At} \phi_t (x,y) =
+\begin{bmatrix}
+x\\
+y - \frac1{2-\alpha} x^2 (1 - \e^{(2-\alpha)t})
+\end{bmatrix}.
+\end{equation}
+
+We are now faced with an unfortunate situation. For $\alpha < 2$ this method works fine, converging to a function $H(x,y) = (x, y-\frac1{2-\alpha} x^2)$, but for $\alpha > 2$ it diverges. However, this expression for $H$ still works, and it is easy to check that, for $\alpha \neq 2$, $H$ is a homeomorphism that behaves as intended with regard to the flow, i.e.
+\[\phi_t = H^{-1} \e^{A t} H.\]
+However, for $\alpha = 2$, the situation seems to be not easily repaired. In any case, it has become clear that this method, while promising, does not work for all ODEs. It then becomes obvious that a different approach is needed.
+
+I have tried a few things. I couldn't get most of them to work.
+\begin{itemize}
+\item Exponential ($\e^{\delta/\abs{x}}$) dampening near the origin, followed by taking the limit $\delta \to 0$. The method works for the dampened ODEs, but it might diverge as $\delta \to 0$.
+
+\item Adding a correction term to prevent $H$ from exploding. This occurred to because of the following argument. Consider the previous expression for $H$:
+\[H(x,y) = (x,y - \frac1{2-\alpha} x^2).\]
+
+We cannot, from it, recover an expression for $\alpha = 2$, even taking limits, because it diverges. However, adding the term $\frac1{2-\alpha} x^\alpha$ to the second coordinate gives us a modified function
+\[\tilde H(x,y) = (x,y + \frac{x^2 - x^\alpha}{2-\alpha}),\]
+and in this case it does make sense to take $\alpha \to 2$. This seems to suggest that $\tilde H$ is a `more natural homeomorphism', and so it might be fortuitous to find a correction error we could add to make $\tilde H$ appear naturally.
+
+\item Starting the iteration with a function that isn't the identity. In other words, taking the limit of $\e^{-A t} T \phi_t$, where $T$ is a suitable function. This might be a possible way to add the correction term mentioned in the previous bullet point.
+\end{itemize}
+
+However, the approach that seems to work best is the one taken by Hartman himself, which we will now describe.
+
+
+
+\end{document}
