@@ -106,8 +106,81 @@ and in this case it does make sense to take $\alpha \to 2$. This seems to sugges
 \item Starting the iteration with a function that isn't the identity. In other words, taking the limit of $\e^{-A t} T \phi_t$, where $T$ is a suitable function. This might be a possible way to add the correction term mentioned in the previous bullet point.
 \end{itemize}
 
-However, the approach that seems to work best is the one taken by Hartman himself, which we will now describe.
+However, the approach that seems to work best is the one taken by Hartman himself (and maybe Grobman too, but I couldn't tell), which we will now describe.
 
+\section{Hartman's approach}
 
+Earlier, we mentioned that, since it is a local theorem we are trying to prove, it is best not to stray too far from the origin, because the origin is where we have control. On the other hand, the previous example shows us that the origin can be tricky to work with. This leads us to a very clever insight in Hartman's part: we can turn the tables and dampen the area far from the origin, and then build $H$ by going `outside' and then `inside'.
+
+In other words, let us multiply $g$ by a bump function $\varphi(x)$, which is a smooth function equal to 1 near the origin and equal to 0 far from the origin. This has the added bonus of allowing us to extend $f = A + g$ to the whole plane, and furthermore making $f$ a linear function outside of a bounded set. Consequently, the ODE $\dot x = f(x)$ can be guaranteed to have solutions for all starting positions, and for all time, freeing us from worrying about domains of definition. Furthermore, the flows are the same as those of the original equation in a small enough neighborhood of the origin, which means that this transformation can be done without loss of generality.
+
+\begin{Assumption}
+Still working with the ODE $\dot x = f(x) = A x + g(x)$, suppose without loss of generality that $g$ is null outside of a neighborhood of radius $R$. By continuity, this implies that $g$ is bounded by some $M_g$, which can be assumed to be as small as necessary by decreasing $R$. Furthermore, the same can be said for $g'$: it is bounded (in the operator norm, say) by some constant $M_{g'}$, which can also be made as small as needed. In particular, $g$ is $M_{g'}$-Lipschitz.
+\end{Assumption}
+
+Note that $R$ has been left undefined. As we go on, we will require that $M_g$ or $M_{g'}$ are small enough for some things to happen. As such, we will demand that $R$ is small enough for these constants to be as small as necessary.
+
+Now, let us define our next version of $H$. Recall that we're working with a source, which implies that $A$ has all eigenvalues positive.
+
+Define $H(x) = \lim_{t \to \infty} \e^{-A t} \phi_t x$. It remains to check that this is, in fact, well-defined.
+
+First of all, note that for $x$ big enough (i.e. such that $\phi_t(x)$ is never smaller than $R$) this expression is constant as a function of $t$, and then obviously the limit exists. The crux of the proof of convergence is simple: because the origin is a source, every $x$ (other than zero) is eventually pushed away enough from the origin that this expression becomes a constant.
+
+First, we find out how far away we need to be from the origin to be sure that we never have norm less than $R$. Recall the elementary bounds for the growth of matrix exponentials acting on a vector.
+
+\begin{Assumption}
+By assumption, all eigenvalues of $A$ have positive real part. Let $\lambda_m$ be the minimum real part among all eigenvalues, and $\lambda_M$ the largest. Let $\varepsilon$ be a small number. We will make this number as small as necessary in what follows. Then, elementary bounds tell us that there exist constants $m$ and $M$ (as a function of $\varepsilon$) such that, for all vectors $v$,
+\begin{gather*}
+m \e^{(\lambda_m - \varepsilon)t} \abs{v} \leq \abs{\e^{A t} v} \leq M \e^{(\lambda_M + \varepsilon)t} \abs{v}, \text{for $t \geq 0$};\\
+m \e^{(-\lambda_M - \varepsilon) t} \abs{v} \leq \abs{\e^{-A t} v} \leq M \e^{(-\lambda_m + \varepsilon) t} \abs{v}, \text{for $t \geq 0$}.
+\end{gather*}
+\end{Assumption}
+
+With this in mind, recall that
+\begin{gather*}
+\phi_t x = \e^{A t} x + \int_0^t \e^{A (t-s)} g(\phi_s(x)) \dl s, \text{and therefore}\\
+\abs{\phi_t x} \geq m \e^{(\lambda_m - \varepsilon) t} \abs{x} - \abs*{\int_0^t \dots \dl s}.
+\end{gather*}
+
+Now, it is easy to show that, if $\abs{x}$ is greater than $R/m$ (and $\varepsilon$ is less than $\lambda_m$), $\phi_t x$ will never enter the ball of radius $R$ around the origin and thus the integral will have null contribution. Therefore, from the moment $\phi_t(y)$ becomes greater than $R/m$, the function $\e^{-A t} \phi_t(y)$ becomes constant. Thus, to show the pointwise convergence of $H$, we need only show that $\phi_t(y)$ becomes arbitrarily big as $t \to \infty$. To do so, we will ensure that the nonlinear term cannot significantly affect the linear term's growth.
+
+Indeed, recall that the linear term grows at least like $m \e^{(\lambda_m - \varepsilon) t} \abs{x}$. We will ensure that $M_{g'}$ is small enough that after some fixed time $T$ the vector $\phi_T x$ is bigger than $x$ by a factor of at least $\rho = \frac12 m \e^{(\lambda_m - \varepsilon) T}$. Of course, we want to make sure that $\rho > 1$, so fix arbitrary $T$ such that this is the case.
+
+In truth, what we will show is not that $\abs{\phi_T x} \geq \rho \abs x$, but rather that there exists $t \leq T$ such that this is the case. Of course, even though this is slightly weaker, it is sufficient to show that $\abs{\phi_t x}$ grows \emph{at least} like $\rho^{t/T}$, which goes to infinity.
+
+Onward with the proof. Suppose, for the sake of argument, that at no point in the interval $[0, T]$ is $\abs{\phi_t x}$ ever greater than or equal to $\rho \abs x$. Then, by the formula of variation of parameters,
+\begin{align*}
+\abs{\phi_T x} &\geq m \e^{(\lambda_m - \varepsilon) T} \abs{x} - \int_0^T M \e^{(\lambda_M + \varepsilon)(T-s)} \abs{g(\phi_s(x))} \dl s\\
+&\geq 2\rho \abs{x} - \int_0^T M \e^{(\lambda_M + \varepsilon)T} M_{g'} \abs{\phi_s(x)} \dl s\\
+&\geq 2\rho \abs{x} - \int_0^T M \e^{(\lambda_M + \varepsilon)(t-s)} M_{g'} \rho \abs{x} \dl s\\
+&\geq \left( 2\rho - \e^{(\lambda_M + \varepsilon)T} \frac1{\lambda_M + \varepsilon} M_{g'} \rho \right) \abs{x}.
+\end{align*}
+
+Now, recall that we have control over $M_{g'}$. In particular, we can still make it as small as necessary. In this case, let
+\[M_{g'} \leq (\lambda_M + \varepsilon) \e^{-(\lambda_M + \varepsilon) T}.\]
+
+Note that neither $T$ nor $\rho$ depends on the choice of $R$, so this retroactive change does not break any step of the proof. In any case, we conclude that $\abs{\phi_T x} \geq \rho \abs{x}$, which contradicts the hypothesis we started with, and so we conclude:
+
+\begin{Lemma}
+Under the assumptions we have henceforth accumulated, for all $x$ there exists $t \in [0,T]$ such that $\abs{\phi_t x} \geq \rho \abs{x}$.
+\end{Lemma}
+
+\begin{Corollary}
+For all $x$ and for all $n$ there exists $t_n \leq n T$ such that $\abs{\phi_{t_n} x} \geq \rho^n \abs x$.
+\end{Corollary}
+
+\begin{Proposition}
+The definition we have given for $H$ is well-defined at every point.
+\end{Proposition}
+
+\begin{Proof}
+We just need to show that, for every $x \neq 0$, there exists $t$ such that $\abs{\phi_t x} \geq R/m$. But this is a trivial consequence of the previous remark.
+\end{Proof}
+
+\begin{Remark}
+While we defined $H$ as a limit, note that it is a very particular kind of limit: one where the function in question stabilizes for big enough $t$.
+\end{Remark}
+
+This shows that $H$ exists, but we have not yet shown that it has any reasonable properties.
 
 \end{document}
