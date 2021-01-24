@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage{cite}
+\usepackage{hyperref}
+
+\usepackage{braket}
+\usepackage{diffcoeff}
+
+\title{MQM Term Paper}
+\author{Duarte Maia}
+\date{}
+
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Introduction}
+
+\section{On powers of the commutator}
+
+\subsection{General case}
+
+The OTOC of two operators $V$ and $W$ is usually defined as the symmetric of the thermal average of $[W(t), V(0)]^2$, where $W$ and $V$ are usually, respectively, $x$ and $p$. In this section we'll investigate what happens if the square is replaced by an $N$th power. In other words, we'll investigate the behavior of
+\[C_T^N(t) := -\braket{[x(t), p(0)]^N}.\]
+
+To begin, we will follow the approach of \cite{Hashimoto_2017} in writing $C_T^N(t)$ in terms of matrix elements of $x$ and $p$ in the eigenbasis of $H$.
+
+In what follows, we suppose $H$ has only a discrete spectrum $E_n$ with eigenvectors $\ket n$.
+
+We will follow most conventions in \cite{Hashimoto_2017}, including writing $V$ for $V(0)$ and $V_{ij}$ for $\braket{i|V|j}$.
+
+\begin{gather*}
+C_T^N(t) = -\frac1Z \sum \e^{-\beta E_n} c_n^N(t),\\
+c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n},\\
+b_{ij} = \braket{i|[x(t), p]j}.
+\end{gather*}
+
+Note that our definition of $b_{nm}$ differs slightly from \cite{Hashimoto_2017}. As in \cite{Hashimoto_2017}, we can rewrite $b_{nm}$ as
+\[b_{ij} = \sum_k \e^{\I (E_i - E_k) t} x_{ik} p_{kj} - \e^{\I (E_k - E_j) t} p_{ik} x_{jm},\]
+and in the case where $H$ is of the form $H = \frac1{2m} p^2 + U(x)$, this can be written only in terms of the $E_n$ and matrix elements of $x$ as follows:
+\begin{gather*}
+p_{ij} = \frac\I{2\hbar} (E_i - E_j) x_{ij},\\
+b_{ij} = \frac\I{2\hbar} \sum_k \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}.
+\end{gather*}
+
+\subsection{Harmonic Oscillator}
+
+We now calculate this explicitly for the Harmonic oscillator $H = \frac1{2m} p^2 + \frac12 m \omega^2 x^2$. Recall that in this case we have
+\begin{gather*}
+E_n = \hbar \omega (n + \tfrac12),\\
+x_{ij} = \sqrt{\frac\hbar{2 \omega m}} (\sqrt{j} \delta_{i,j-1} + \sqrt{j+1} \delta_{i,j+1}), %todo check this
+\end{gather*}
+and so we can calculate $b_{ij}$ explicitly:
+\begin{align*}
+b_{ij} &= \frac\I{2\hbar} \sum_k \begin{multlined}
+\left(\e^{\I \hbar \omega (i-k) t} \hbar \omega (k - j) - \e^{\I \hbar \omega (k-j) t} \hbar \omega (i - k) \right) \times\\
+\times \frac{\hbar}{2 \omega m} (\sqrt k \delta_{i, k-1} + \sqrt{k+1} \delta_{i, k+1}) (\sqrt j \delta_{k, j-1} + \sqrt{j+1} \delta_{k, j+1})\end{multlined}\\
+&= \frac{\I \hbar}{2 m} \cos(\hbar \omega t) \delta_{ij}.
+\end{align*}
+
+Consequently, we can easily calculate $c_n^N(t)$ and $C_T^N(t)$:
+\begin{gather*}
+c_n^N(t) = \sum_{k_1,\dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1}n} = \left( \frac{\I \hbar}{2m} \cos(\hbar \omega t) \right)^N\\
+C_T^N(t) = - \left( \frac{\I \hbar}{2m} \cos(\hbar \omega t) \right)^N.
+\end{gather*}
+
+\nocite{Hashimoto_2017}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
