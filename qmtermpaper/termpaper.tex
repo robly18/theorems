@@ -40,16 +40,16 @@ We will follow most conventions in \cite{Hashimoto_2017}, including writing $V$ 
 \begin{gather*}
 C_T^N(t) = -\frac1Z \sum \e^{-\beta E_n} c_n^N(t),\\
 c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n},\\
-b_{ij} = \braket{i|[x(t), p]j}.
+b_{ij} = \braket{i|[x(t), p]|j}.
 \end{gather*}
 
 Note that our definition of $b_{nm}$ differs slightly from \cite{Hashimoto_2017}. As in \cite{Hashimoto_2017}, we can rewrite $b_{nm}$ as
 \[b_{ij} = \sum_k \e^{\I (E_i - E_k) t} x_{ik} p_{kj} - \e^{\I (E_k - E_j) t} p_{ik} x_{jm},\]
 and in the case where $H$ is of the form $H = \frac1{2m} p^2 + U(x)$, this can be written only in terms of the $E_n$ and matrix elements of $x$ as follows:
-\begin{gather*}
+\begin{gather}
 p_{ij} = \frac\I{2\hbar} (E_i - E_j) x_{ij},\\
-b_{ij} = \frac\I{2\hbar} \sum_k \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}.
-\end{gather*}
+b_{ij} = \frac\I{2\hbar} \sum_k \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}. \label{bijwithx}
+\end{gather}
 
 \subsection{Harmonic Oscillator}
 
@@ -72,7 +72,64 @@ c_n^N(t) = \sum_{k_1,\dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1}n} = \
 C_T^N(t) = - \left( \frac{\I \hbar}{2m} \cos(\hbar \omega t) \right)^N.
 \end{gather*}
 
+\subsection{The Infinite Well}
+
+Let us now consider a slightly less trivial example: the infinite well in the interval $[-L, L]$. The spectrum and wavefunctions are known:
+\begin{gather*}
+E_n = \frac{\hbar^2 \pi^2 n^2}{8 m L^2}, n > 0,\\
+\psi_n(x) = \begin{cases}
+\frac1{\sqrt L} \cos(k_n x), & \text{$n$ odd},\\
+\frac1{\sqrt L} \sin(k_n x), & \text{$n$ even},
+\end{cases}\\
+k_n = \frac1\hbar \sqrt{2 m E_n} = \frac{\pi n}{2 L}.
+\end{gather*}
+
+This allows us to calculate the matrix elements of $x$. Begin by writing out the definition:
+\begin{equation*}
+x_{ij} = \braket{i|x|j} = \frac1{L} \int_{-L}^L x \psi_i(x) \psi_j(x) \dl x.
+\end{equation*}
+
+Now, note that if $i$ and $j$ have the same parity the integrand is odd, so the only relevant case has $i$ odd and $j$ even or vice-versa. For example, if $i$ is even and $j$ is odd:
+\[
+x_{ij} = \frac1{L} \int_{-L}^L x \sin(k_i x) \cos(k_j x) \dl x = -\frac{8 \I^{i+j+1} L}{\pi^2} \frac{i^2 + j^2}{(i^2 - j^2)^2}.
+\]
+If $i$ is odd and $j$ is even the same formula is applicable.
+
+Consequently, we can now calculate $b_{ij}$ using \eqref{bijwithx}, which we recall now:
+\[b_{ij} = \frac\I{2\hbar} \sum_{k>0} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}.\]
+
+Notice that if $i$ and $j$ have different parities, it is impossible for $x_{ik}$ and $x_{kj}$ to be non-null at the same time. Therefore, we need only look at the cases where $i$ and $j$ are both even or both odd.
+
+If $i$ and $j$ are both even, we get
+\begin{align*}
+b_{ij} &= \frac\I{2\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}\\
+&
+\begin{multlined}
+= \frac\I{2\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2)\right) - \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2)\right) \right)\times\\
+\times \frac{64 \I^{(i+2k+j+2)} L^2}{\pi^4} \left(\frac{i^2 + k^2}{(i^2 - k^2)^2}\frac{k^2 + j^2}{(k^2 - j^2)^2}\right)
+\end{multlined}\\
+&= -\frac{4 \I^{i+j+1} \hbar}{m \pi^2} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} (k^2 - j^2) - \e^{\I \frac{\hbar^2 \pi^2}{m L^2} (k^2 - j^2) t} (i^2 - k^2) \right)\left(\frac{i^2 + k^2}{(i^2 - k^2)^2}\frac{k^2 + j^2}{(k^2 - j^2)^2}\right)
+\end{align*}
+
+If they are both odd, the formula is the same except the sum is taken over even $k$ (starting at 2) and the sign (which came from an $\I^{2k}$ term) is swapped.
+
+\subsection{Large $N$}
+
+Recall the definition of $c_n^N(t)$:
+\begin{gather*}
+c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n},\\
+b_{ij} = \braket{i|[x(t), p]|j}.
+\end{gather*}
+
+If $t$ is small enough, most $b_{ij}$ terms are nearly null, aside from those where $i = j$. In particular, this implies that
+\begin{equation}\label{capproximatepower}
+c_n^N(t) \approx b_{nn}^N.
+\end{equation}
+
+It might be worth investigating around what $t$ this approximation breaks down. The Harmonic Oscillator is useless in this respect, because in that case the approximation is exact. Therefore, let us consider the infinite well.
+
 \nocite{Hashimoto_2017}
+\nocite{romatschke2021quantum}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
