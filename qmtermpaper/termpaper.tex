@@ -9,6 +9,7 @@
 
 \usepackage{braket}
 \usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 
 \title{MQM Term Paper}
 \author{Duarte Maia}
@@ -17,6 +18,8 @@
 
 \newcommand{\e}{\mathrm{e}}
 \newcommand{\I}{\mathrm{i}}
+
+\DeclareMathOperator{\re}{Re}
 
 \begin{document}
 
@@ -37,18 +40,18 @@ In what follows, we suppose $H$ has only a discrete spectrum $E_n$ with eigenvec
 
 We will follow most conventions in \cite{Hashimoto_2017}, including writing $V$ for $V(0)$ and $V_{ij}$ for $\braket{i|V|j}$.
 
-\begin{gather*}
+\begin{gather}
 C_T^N(t) = -\frac1Z \sum \e^{-\beta E_n} c_n^N(t),\\
-c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n},\\
-b_{ij} = \braket{i|[x(t), p]|j}.
-\end{gather*}
+c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n}, \label{smallcdef}\\
+b_{ij} = \braket{i|[x(t), p]|j}. \label{bdef}
+\end{gather}
 
 Note that our definition of $b_{nm}$ differs slightly from \cite{Hashimoto_2017}. As in \cite{Hashimoto_2017}, we can rewrite $b_{nm}$ as
 \[b_{ij} = \sum_k \e^{\I (E_i - E_k) t} x_{ik} p_{kj} - \e^{\I (E_k - E_j) t} p_{ik} x_{jm},\]
 and in the case where $H$ is of the form $H = \frac1{2m} p^2 + U(x)$, this can be written only in terms of the $E_n$ and matrix elements of $x$ as follows:
 \begin{gather}
-p_{ij} = \frac\I{2\hbar} (E_i - E_j) x_{ij},\\
-b_{ij} = \frac\I{2\hbar} \sum_k \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}. \label{bijwithx}
+p_{ij} = - \frac{\I m}{\hbar} (E_i - E_j) x_{ij},\\
+b_{ij} = - \frac{\I m}{\hbar} \sum_k \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_k - E_j) \right) x_{ik} x_{kj}. \label{bijwithx}
 \end{gather}
 
 \subsection{Harmonic Oscillator}
@@ -60,16 +63,16 @@ x_{ij} = \sqrt{\frac\hbar{2 \omega m}} (\sqrt{j} \delta_{i,j-1} + \sqrt{j+1} \de
 \end{gather*}
 and so we can calculate $b_{ij}$ explicitly:
 \begin{align*}
-b_{ij} &= \frac\I{2\hbar} \sum_k \begin{multlined}
+b_{ij} &= -\frac{\I m}{\hbar} \sum_k \begin{multlined}
 \left(\e^{\I \hbar \omega (i-k) t} \hbar \omega (k - j) - \e^{\I \hbar \omega (k-j) t} \hbar \omega (i - k) \right) \times\\
 \times \frac{\hbar}{2 \omega m} (\sqrt k \delta_{i, k-1} + \sqrt{k+1} \delta_{i, k+1}) (\sqrt j \delta_{k, j-1} + \sqrt{j+1} \delta_{k, j+1})\end{multlined}\\
-&= \frac{\I \hbar}{2 m} \cos(\hbar \omega t) \delta_{ij}.
+&= - \I \hbar \cos(\hbar \omega t) \delta_{ij}.
 \end{align*}
 
 Consequently, we can easily calculate $c_n^N(t)$ and $C_T^N(t)$:
 \begin{gather*}
-c_n^N(t) = \sum_{k_1,\dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1}n} = \left( \frac{\I \hbar}{2m} \cos(\hbar \omega t) \right)^N\\
-C_T^N(t) = - \left( \frac{\I \hbar}{2m} \cos(\hbar \omega t) \right)^N.
+c_n^N(t) = \sum_{k_1,\dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1}n} = \left( -\I \hbar \cos(\hbar \omega t) \right)^N\\
+C_T^N(t) = - \left( -\I \hbar \cos(\hbar \omega t) \right)^N.
 \end{gather*}
 
 \subsection{The Infinite Well}
@@ -91,42 +94,144 @@ x_{ij} = \braket{i|x|j} = \frac1{L} \int_{-L}^L x \psi_i(x) \psi_j(x) \dl x.
 
 Now, note that if $i$ and $j$ have the same parity the integrand is odd, so the only relevant case has $i$ odd and $j$ even or vice-versa. For example, if $i$ is even and $j$ is odd:
 \[
-x_{ij} = \frac1{L} \int_{-L}^L x \sin(k_i x) \cos(k_j x) \dl x = -\frac{8 \I^{i+j+1} L}{\pi^2} \frac{i^2 + j^2}{(i^2 - j^2)^2}.
+x_{ij} = \frac1{L} \int_{-L}^L x \sin(k_i x) \cos(k_j x) \dl x = \frac{16 \I^{i+j+1} L}{\pi^2} \frac{ij}{(i^2 - j^2)^2}.
 \]
 If $i$ is odd and $j$ is even the same formula is applicable.
 
 Consequently, we can now calculate $b_{ij}$ using \eqref{bijwithx}, which we recall now:
-\[b_{ij} = \frac\I{2\hbar} \sum_{k>0} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}.\]
+\[b_{ij} = - \frac{\I m}{\hbar} \sum_{k>0} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_k - E_j) \right) x_{ik} x_{kj}.\]
 
 Notice that if $i$ and $j$ have different parities, it is impossible for $x_{ik}$ and $x_{kj}$ to be non-null at the same time. Therefore, we need only look at the cases where $i$ and $j$ are both even or both odd.
 
 If $i$ and $j$ are both even, we get
 \begin{align*}
-b_{ij} &= \frac\I{2\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}\\
+b_{ij} &= - \frac{\I m}{\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I (E_i - E_k) t} (E_k - E_j) - \e^{\I (E_k - E_j) t} (E_i - E_j) \right) x_{ik} x_{kj}\\
 &
 \begin{multlined}
-= \frac\I{2\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2)\right) - \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2)\right) \right)\times\\
-\times \frac{64 \I^{(i+2k+j+2)} L^2}{\pi^4} \left(\frac{i^2 + k^2}{(i^2 - k^2)^2}\frac{k^2 + j^2}{(k^2 - j^2)^2}\right)
+= - \frac{\I m}{\hbar} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2)\right) - \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2) t} \left(\frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2)\right) \right)\times\\
+\times \frac{16 \I^{i+k+1} L}{\pi^2} \frac{ik}{(i^2 - k^2)^2} \frac{16 \I^{k+j+1} L}{\pi^2} \frac{kj}{(i^2 - j^2)^2}
 \end{multlined}\\
-&= -\frac{4 \I^{i+j+1} \hbar}{m \pi^2} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} (k^2 - j^2) - \e^{\I \frac{\hbar^2 \pi^2}{m L^2} (k^2 - j^2) t} (i^2 - k^2) \right)\left(\frac{i^2 + k^2}{(i^2 - k^2)^2}\frac{k^2 + j^2}{(k^2 - j^2)^2}\right)
+&= -\frac{32 \I^{i+j+1} \hbar}{\pi^2} \sum_{\text{$k$ odd}} \left( \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (i^2 - k^2) t} (k^2 - j^2) - \e^{\I \frac{\hbar^2 \pi^2}{8m L^2} (k^2 - j^2) t} (i^2 - k^2) \right) \left(\frac{ik}{(i^2 - k^2)^2}\frac{kj}{(k^2 - j^2)^2}\right).
 \end{align*}
 
 If they are both odd, the formula is the same except the sum is taken over even $k$ (starting at 2) and the sign (which came from an $\I^{2k}$ term) is swapped.
 
-\subsection{Large $N$}
+\subsection{Large $N$, small $t$}
 
 Recall the definition of $c_n^N(t)$:
-\begin{gather*}
-c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n},\\
-b_{ij} = \braket{i|[x(t), p]|j}.
-\end{gather*}
+\begin{gather}
+c_n^N(t) = \braket{n|[x(t), p]^N|n} = \sum_{k_1, \dots, k_{N-1}} b_{nk_1} b_{k_1 k_2} \dots b_{k_{N-1} n}, \tag{\ref{smallcdef}}\\
+b_{ij} = \braket{i|[x(t), p]|j}. \tag{\ref{bdef}}
+\end{gather}
 
-If $t$ is small enough, most $b_{ij}$ terms are nearly null, aside from those where $i = j$. In particular, this implies that
-\begin{equation}\label{capproximatepower}
-c_n^N(t) \approx b_{nn}^N.
+It might be worth investigating what happens in the large N limit. However, aside from trivial cases like the Harmonic Oscillator, this problem seems in general to be quite difficult. Therefore, we will make a simplification and consider only the case for small $t$, up to a first order approximation. In other words, we will approximate
+\[c_n^N(t) \approx (-\I \hbar)^N + \dot c_n^N(0) t,\quad t \ll 1.\]
+
+Differentiating the expression \eqref{smallcdef}, we get
+\begin{equation}
+\dot c_n^N(0) = (-\I \hbar)^{N-1} \sum_{k_1, \dots, k_{N-1}}
+\left(
+\begin{aligned}
+&\dot b_{n k_1} \delta_{k_1 k_2} \dots \delta_{k_{N-1} n}\\
++ &\delta_{n k_1} \dot b_{k_1 k_2} \delta_{k_2 k_3} \dots \delta_{k_{N-1} n}\\
++ &\dots\\
++ &\delta_{n k_1} \dots \delta_{k_{N-2} k_{N-1}} \dot b_{k_{N-1} n}
+\end{aligned}
+\right).
 \end{equation}
 
-It might be worth investigating around what $t$ this approximation breaks down. The Harmonic Oscillator is useless in this respect, because in that case the approximation is exact. Therefore, let us consider the infinite well.
+It is easy to see that, amid all those deltas, the only term in the sum that survives is that where all $k$ are equal to $n$, so that
+\begin{equation}
+\dot c_n^N(0) = N (-\I \hbar)^{N-1} \dot b_{nn}.
+\end{equation}
+
+Finally, we can use \eqref{bijwithx} to calculate $\dot b_{nn}$ as a function of the matrix elements of $x$:
+\begin{equation}
+\dot b_{nn} = \frac{\I m}\hbar \sum_k (E_n - E_k) \left( \e^{\I (E_n - E_k) t} - \e^{\I (E_k - E_n) t} \right) \left(\begin{multlined}
+\I (E_n - E_k) x_{nk} x_{kn}\\
++ 2 \re(\dot x_{nk} x_{kn})
+\end{multlined}\right).
+\end{equation}
+
+%todo reorganize this
+
+Expression \eqref{smallcdef} looks a little bit like a definition for a path integral. Therefore it might be worth investigating something like
+\begin{equation}
+\sigma_q(t) = \lim_N \idotsint \dl q_1 \dots \dl q_N \braket{q|[x(\tfrac t N), p]|q_1} \dots \braket{q_{N}|[x(\tfrac t N), p]|q}
+\end{equation}
+\begin{equation}
+\sigma_n(t) = \lim_N \sum_{k_1, \dots, k_{N-1}} \braket{n|[x(\tfrac t N), p]|k_1} \dots \braket{k_{N-1}|[x(\tfrac t N), p]|n}
+\end{equation}
+then we can write
+\begin{gather}
+c_n^N(t) \approx \sigma_n(t),\\
+C_n^N(t) \approx \frac1Z \sum \e^{-\beta E_n} \sigma_n(t)
+\end{gather}
+
+Define
+\begin{equation}
+\sigma_{nm}^N(t) = \left(\frac\I\hbar\right)^N \sum_{k_1, \dots, k_{N-1}} \braket{n|[x(\tfrac t N), p]|k_1} \dots \braket{k_{N-1}|[x(\tfrac t N), p]|m}
+\end{equation}
+Then, in the big $N$ limit, we have the differential equation
+\begin{equation}
+\sigma_{nm}^{N+1}(t + \frac1{N+1} t) =  \frac\I\hbar \sum_{k} \sigma_{nk}^N(t) \braket{k|[x(\frac1{N+1} t), p]|m}
+\end{equation}
+\begin{equation}
+\frac{\sigma_{nm}^{N+1}(t + \frac1{N+1} t) - \sigma_{nm}^{N+1}(t)}{t/(N+1)} + \frac{\sigma_{nm}^{N+1}(t) - \sigma_{nm}^{N}(t)}{t/(N+1)}  = \sigma_{nm}(t) \frac{\tfrac\I\hbar \braket{m|[x(\frac1{N+1} t), p]|m} - 1}{t/(N+1)} + \frac\I\hbar \sum_{k \neq m} \frac{N+1}t \sigma_{nk}^N(t) \braket{k|[x(\frac1{N+1} t), p]|m}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+\diff{\sigma_{nm}(t)}t  = \sum_{k} \frac\I\hbar \diff{\braket{k|[x(s), p]|m}}s[0] \sigma_{nk}(t),\\
+\sigma_{nm}(0) = \delta_{nm}.
+\end{cases}
+\end{equation}
+
+This doesn't work. but for some reason in mathematica doing
+\[\frac{\braket{k|[x(s), p]|m}+\I \hbar \braket{k|m}}{s^{1.5}}\]
+is giving great results??? investigate this
+
+
+
+\section{Spatial Averages}
+
+The definition of OTOC in \cite{Hashimoto_2017} uses thermal averages. In this secion, we investigate what happens if the thermal average is replaced by a weighed spatial average.
+
+Let $\psi$ be a wavefunction. Define $C_\psi(t) = - \braket{\psi|[x(t), p]^2|\psi}$. This can be expanded as an integral
+\[C_\psi(t) = - \iint \psi^*(q_1) \psi(q_2) \braket{q_1|[x(t),p]^2|q_2} \dl q_1 \dl q_2. \]
+
+This can be written, analogously to the thermal version, using the auxilliary functions
+\[
+c_{q_1 q_2}(t) = -\braket{q_1 | [x(t), p]^2 |q_2},
+\]
+which in turn can be computed in terms of the quantities
+\[\ket{b_{q}(t)} = [x(t),p] \ket q.\]
+
+In summary, we have the definitions
+\begin{gather}
+C_\psi(t) = \iint \psi^*(q_1) \psi(q_2) c_{q_1 q_2}(t) \dl q_1 \dl q_2,\\
+c_{q_1 q_2}(t) = \braket{b_{q_1}(t) | b_{q_2}(t)},\\
+\ket{b_q(t)} = [x(t),p] \ket q.
+\end{gather}
+
+We can further expand the definition of $b_q(t)$ by applying a resolution of identity
+\begin{equation}
+\ket{b_q(t)} = x(t) p \ket q - p x(t) \ket q = \int x(t) \ket{q'} \braket{q'|p|q} \dl q' - p x(t) \ket q
+\end{equation}
+
+\section{Linear Propagator}
+
+Let's find $K(q,0;q',t)$ for a linear potential of slope $k$.
+
+Fortunately, this is a solved problem, because the linear potential is a Gaussian theory:
+\[\mathcal{L} = \frac12 m \dot q^2 - \frac12 0 q^2 + k q.\]
+
+We did in class the work for the free particle, and most of the work is kept identical until the very last step:
+\[K(q,0;q',t) = \sqrt{\frac{m}{2 \I \pi \hbar t}} \exp(\tfrac\I\hbar S_c).\]
+
+The only difference here is the classical action, which can be readily calculated as
+\[S_c = \frac m{2 t} \Delta q^2 + (U(q_0) - \frac12 k \Delta q) t - \frac{k^2}{24 m} t^2, \quad \Delta q = q' - q.\]
+
 
 \nocite{Hashimoto_2017}
 \nocite{romatschke2021quantum}
