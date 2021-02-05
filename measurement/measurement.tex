@@ -7,10 +7,14 @@
 \usepackage{amsfonts}
 \usepackage{amsthm}
 
+\usepackage{braket}
+
 \usepackage{cite}
 
+\usepackage{tikz}
 
-\title{On measurement spaces}
+
+\title{An attempt to represent measurement spaces with quantum mechanical concepts}
 \author{Duarte Maia}
 
 \theoremstyle{definition}
@@ -18,171 +22,189 @@
 \newtheorem{definition}{Definition}
 
 \theoremstyle{plain}
-\newtheorem{prop}{Prop}
+\newtheorem*{prop}{Prop}
+\newtheorem*{idea}{Idea}
 
-\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\spann}{span}
 
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+
+\newcommand{\HH}{\mathcal{H}}
 
 \newcommand{\ps}{\mathcal{P}}
+\newcommand{\pr}{\mathbb{P}}
+
+
+\newcommand{\id}{\mathrm{id}}
+
+
+\newcommand{\two}{\mathbf{2}}
 
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\section{Preliminary Definitions}
 
-This document is meant as a repository for my notes on measurement spaces. It stores intuition I have developed and attempts at motivation behind definitions.
+Context: there exists a quantum system which is being measured. We have at our disposal a device capable of measuring this system and outputting its results to us. The purpose is to formalize this concept in a way that is, hopefully, equivalent to \cite{measurement}.
 
-\section{Struggles with definition}
+\subsection{Microstates and Macrostates}
 
-The phenomenon we are trying to model is as follows: there exists a physical system, and we are in possession of some measurement device. This device can take measurements in some set $M$, but some measurements might not be finitely recordable. For example, we may be in possession of an infinitely sharp needle to measure the position of a particle with, but it is impossible for the device to output with infinite precision the result it has measured: the best thing it can do is give us intervals inside of which we can be sure the particle lies. This motivates the definition of the collection of physical properties that can be finitely recorded, which we will call $\Omega$.
+Consider a quantum mechanical system. It has an internal state, a wavefunction, but we don't know what that wavefunction is. Therefore, there is a distinction between the (single) state the system is in and the `metastate' we are aware of: the set of states the system \emph{could} be in from our perspective. I believe in thermodynamics this is the distinction between the so-called microstates and macrostates.
 
-A standard argument (as can be found in \cite{topologyvialogic}) is enough to convince me that $\Omega$ should form a frame, where the order represents implication. (To be more precise, $\Omega$ should rather represent the collection of finitely recordable properties modulo equivalence, as to make $\leq$ a partial order.) Furthermore, given a measurement $m \in M$ and a finitely recordable property (henceforth frp) $U \in \Omega$, it might or might not be that the measurement $m$ is compatible with the property $U$. In other words, we may imagine our measuring device as something which, upon taking a measurement, requests frps and outputs whether or not it is possible that the frp is true; in other words, it says `no' to properties it can disprove. If $m$ does not disprove the frp $U$, we represent so by $m \vDash U$ (as per the notation in \cite{topologyvialogic}).
+As such, let us begin by defining the set of microstates. As per the postulates of quantum mechanics, the set of possible microstates is a projective Hilbert space, let's say $S = \pr \HH$. At every moment, the system is in one and only one of these states.
 
-This brings us close to the notion of what Vickers calls a topological system: a triple $(M, \Omega, \vDash)$, where $M$ is a set, $\Omega$ is a frame and $\vDash$ is a relation in $M \times \Omega$, satisfying the property that for all $m \in M$ the function $(m\vDash) \colon \Omega \to \{\bot, \top\}$ is a frame homomorphism. Therefore, it would be desirable to have an intuitive argument to show that our `logic of measurements' is a topological system.
+However, from the outside, we may yet be unable to distinguish between a set of states, leaving us with a \emph{macrostate}: a collection of microstates, i.e. an element of $\ps(S)$. Furthermore, note that the set of metastates has a natural operation of `superposition', which I will call $\sigma$. It is simply the operation that takes an element $A$ of $\ps(S)$ and returns the (projective) subspace of $S$ given by either $\spann A$ or $\overline\spann A$; I still haven't thought about infinite-dimensional cases so the distinction hasn't been relevant yet. This operation can probably be axiomatized as a monotone idempotent operator or something of the likes, but for now I'll be dealing with the very particular case of projective spaces.
 
-In natural language, we wish to show that the following three properties are true:
-\begin{enumerate}
-\item ($m\vDash$ is monotonous.) If upon measuring $m$ our machine cannot refute $U$, and $U \leq V$, then our machine cannot refute $V$. This is intuitively true, as the counterreciprocal makes clear: if our machine could refute $V$ and $U$ implies $V$, then the machine could also refute $U$.
+So, in summary: I have a Hilbert space $\HH$; the set of microstates $S = \pr \HH$; the set of macrostates $\ps(S)$, and the operation $\sigma : \ps(S) \to \ps(S)$ corresponding to `subspace generated by'.
 
-\item (If $m\vDash \bigcup U_\alpha$ then $\exists_\alpha m \vDash U_\alpha$.) If upon measuring $m$ our machine cannot disprove `at least one of the properties $U_\alpha$ is true', then there exists one of the properties that the machine can't disprove. This is intuitively plausible, as, as per the counter reciprocal, if the machine can disprove all $U_\alpha$ then it should also be able to disprove the idea that some $U_\alpha$ is true. This `disproof' might not be able to be exhibited in finite time, but that isn't too problematic because the measurements themselves are also possibly not representable in finite time.
+\subsection{Measurements}
 
-\item (If $m\vDash U_1, \dots, U_n$ then $m \vDash \bigcap U_k$.) If our machine cannot, upon measuring $m$, disprove any of the finite number of properties $U_1, \dots, U_n$, then it cannot also disprove that their conjunction is true.
-\end{enumerate}
+Now, we are assuming that, in order to investigate our quantum system, we have at our disposal a machine which can do some kind of measurements. In abstract, we may think of a measurement as something that only happens under certain circumstances, and when it does it might disturb the state of the system. For example, a destructive measurement might allow us to conclude that previously a certain electron was in its $n$th excited state, but the measurement might have been done by waiting until the electron decayed to its ground state and inspecting the emitted radiation.
 
-\begin{problem}\label{probhom}
-The first property is intuitively obvious, and the second one is plausible. However, it is not obvious that the last property should be true.
+Therefore, let us think of each measurement $m$ as a binary relation, where $(s_1, s_2) \in m$ if it is compatible with the measurement $m$ that we were previously in the state $s_1$ and are now in the state $s_2$. Of course, this induces a very natural composition of measurements, which coincides with composition of binary relations, which in turn corresponds to the intuitive notion of `doing one measurement after the other'.
 
-A quantum interpretation might be as follows. Using the example of Schrödinger's electron, the property $Z^\uparrow \cap Z^\downarrow$ might represent a superposition of the states $\lvert z^\uparrow \rangle$ and $\lvert z^\downarrow \rangle$. However, this interpretation is incompatible with the interpretation of $\leq$ as `implies', for even though $Z^\uparrow \cap Z^\downarrow \leq Z^\uparrow$, it can hardly be said that `the property of an electron that has been measured to have spin up or spin down (which of these, it is unknown)' implies, for example, `the electron has spin up'. 
+\subsection{Recording Protocols}
 
-Intuitively it seems to make sense that $Z^\uparrow \cap Z^\downarrow$ means `it has spin up and spin down at the same time', but the meaning of this is unclear and interpreting it this way requires a revision of the interpretation of the order.
-\end{problem}
+Even though we might allow things like an infinitely sharp needle, the outcomes of measurements need to be recorded in a finite medium, for example, a screen, or a Turing-machine-like tape. In \cite{measurement}, it is assumed that the recording depends on the quality of the machine, and better machines yield sharper results. I propose, instead, a query-response method. The user inserts a query, and the machine responds with `plausible' or `implausible'.
 
-\begin{problem}
-The paper I'm basing myself in \cite{measurement} uses not the notion of topological system, but that of topological space. Vickers defines this as a topological system isomorphic to one of the kind $(X, \mathcal{T}, \in)$, where $\mathcal{T}$ is a topology on $X$. It is necessary and sufficient in order for a topological system to be spatial that its `opens' are uniquely defined by their elements. In the context of measurements, to require spatiality is to identify two physical properties $U$ and $V$ if they are compatible with the same set of measurements. In other words, we're identifying physical properties that are measurably identical.
+With this in mind, we consider fixed a set of queries $Q$ (which we might want to assume countable later on), and we will consider the frame $F = \braket{Q}$. It might also be reasonable to allow for a set of physical assumptions $A$ which relates the queries. For example, it is plausible that we could allow for two queries $q_1$ and $q_2$ which imply one another, e.g. `the particle is in the first excited state or above' vs `the particle is in the second excited state or above', and so our frame $F$ would not be freely generated, but we would add the relation $q_1 \land q_2 = q_2$.
 
-This can be interpreted as some statement of `realism', in the sense that there are no hidden variables: for any two different states of the system there exists a measurement that distinguishes them. However, the story doesn't quite end here, because it might be that our apparatus is insufficient for measuring some properties. For example, if my apparatus is capable of measuring an electron's position but not its spin, requiring our formalism to be spatial is to identify the properties `the electron is between 0 and 1 with spin up' and `the electron is between 0 and 1 with spin down', because we do not have access to a measurement that distinguishes them. Therefore, the requirement of spatiality is also, in a sense, an identification: we are identifying properties that are measurably identical, even if they might, in some sense, be distinct. Is this desirable?
-\end{problem}
+Note that in this case the meet does not quite correspond to an `intersection'. Indeed, it might very well that $q_1$ and $q_2$ are two disjoint queries (they can't both be true at the same time), but $q_1 \land q_2$ is not the impossible query. Indeed, if the state is ill-known enough, it is very well possible that both $q_1$ and $q_2$ are plausible, if we haven't enough information to eliminate either of the possibilities. In the other hand, as we will soon see, joins do correspond to `unions'.
 
-\begin{problem}
-Another requirement that is made in \cite{measurement} is sobriety of the space. Under Vickers' notion of topological system, this corresponds to saying that the system is localic, in the sense that it is isomorphic to a topological system of the form
-\[(\Hom(L, \{\bot, \top\}), L, \Vdash),\]
-where the relation $\Vdash$ is such that $h \Vdash U$ iff $h(U) = \top$. It is a theorem that a topological system $(M, \Omega, \vDash)$ is localic if and only if for all homomorphisms $h : \Omega \to \{\bot, \top\}$ there exists a point $m$ such that $h = (m \vDash)$.
+Each query is supposed to reflect reality in some way. To be more specific about this, it is important to first look at the general physical meaning of a query. We could, for example, do a measurement and ask `is the electron's spin up?', but there is a distinction between finding out that the spin is up \emph{now}, after the measurement, or was the spin up before? The first case corresponds to something like using a Stern-Gerlach apparatus, while the second case corresponds to some kind of measurement that measures, say, the polarity of a photon, though in a destructive way.
 
-This is, in a sense, a statement that we have `enough measurements'. Indeed, (modulo problem \ref{probhom}) any $m$ induces a homomorphism $\Omega \to \{\bot,\top\}$, and to say that the system is localic is to say that to any such homomorphism we can correspond a measurement.
+As such, let us attribute to each query $q$ a relation $r(q) \subseteq \ps(S) \times \ps(S)$. The interpretation is that $(s_1, s_2) \in r(q)$ if the query $q$ is compatible with the situation where the system was in state $s_1$ prior to measurement, and is now in state $s_2$. It would hypothetically be plausible to add queries regarding intermediate states, but let us not go down that rabbit hole yet.
 
-This can be interpreted as follows. One such homomorphism can be thought of as a `unambiguous consistent set of properties'. That is, from the point of view of a homomorphism $h$ some properties are `true' and some properties are `false'. Furthermore, $h$ is consistent, in the sense that if $h$ `sees' the property $U$ as true and $U$ implies $V$ then $h$ also sees $V$ as true, and furthermore if $h$ sees $U_1, U_2, \dots, U_n$ all as true then it also sees their conjunction as true. Finally $h$ allows no ambiguity, in the sense that if $h$ sees `some $U_\alpha$ is true' as a true statement (i.e. $\bigcup U_\alpha$) then there exists no ambiguity as to which of the $U_\alpha$ is true, in the sense that there does exist some $\alpha$ such that $h(U_\alpha) = \top$.
+Now, given the function $r$, it is possible to define when our machine should reply `yes' or `inconclusive' to a query. If we have just made a measurement $m$, we will say $m \vDash q$ if there exist macrostates $s_1, s_2$ such that $(s_1, s_2) \in m$ and $(s_1, s_2) \in r(q)$. In other words,
+\begin{equation}\label{defvdash}
+m \vDash q \text{ iff } m \cap r(q) \neq \emptyset.
+\end{equation}
 
-Under this point of view, the sobriety of the space corresponds to the idea that any unambiguous consistent set of properties corresponds to a measurement. I have problems with this postulate. Unlike the concept of spatiality, which can be guaranteed by identifying properties, sobriety requires that there be a plethora of measurements. The reference paper \cite{measurement} justifies this principle as follows: `if from the logical structure of properties it is derived (albeit possibly transfinitely) that a certain measuring process exists, then such a process should really exist.` However, this does not feel like a justification. Why should this be true?
-\end{problem}
+Note that for the resulting homomorphism $(m\vDash) : F \to \two$ to be well defined there has to be some kind of compatibility between the `query interpretation function' $r$ and the physical assumptions $A$. It is possible (and it is true in all examples we will see) that the necessary physical assumptions are all deducible from the interpretation function $r$. I don't know if this should be true in general.
 
-In what follows, we will assume these questions solved, so that the context is now a set $M$ of measurements and a sober topology $\Omega$ on $M$. It makes sense to consider temporal composition of measurements, i.e. given two measurements $m$ and $n$ it makes sense to consider the measurement given by `perform measurement $m$ followed by $n$'. This corresponds to a binary operator $M \times M \to M$.
-
-Since sometimes it might not make sense to compose some pair of measurements (e.g. it is impossible to measure a macroscopic ball bearing to be at position $A$ followed by measuring it to be in position $B$), it makes sense to postulate the existence of the impossible measurement $0$, which is absorbing and is compatible with no physical properties save for the trivial one.
-
-\begin{problem}
-Another postulate that is made is that composition of measurements is coordinatewise continuous. However, the physical interpretation of that is slightly problematic.
-
-Fixed a measurement $m$ and an open $U$, why should the set $(m \cdot)^{-1}(U)$ be open? That would be to say that it corresponds to a physical property that can be recorded with finite information. What physical property does it correspond to?
-
-This actually brings up another question, which becomes relevant when temporal composition is introduced: if $(m \cdot)^{-1}(U)$ corresponds to a physical property, it corresponds to a physical property \emph{when}?
-
-It might be worth it to inspect what might be happening on a meta level when we do a composition of measurements. We might imagine that our system starts in a quantum state $S_1$. We make some measurement, let's say $m$. That disturbs our system, putting it in another state $S_2$. Then we make another measurement $n$, and that disturbs the system again, putting it in a state $S_3$. We can represent this as
-\[S_1 \xrightarrow{m} S_2 \xrightarrow{n} S_3.\]
-
-Then, when we say, for example, that $mn \in U$, we are saying that the measurement $mn$ is compatible with the physical property $U$. Does that mean that the physical property $U$ is true of $S_3$ or of $S_1$? Using the example of the Schrödinger electron experiment, it becomes clear that when we speak of a measurement being compatible with a physical property, we mean that it is so \emph{after the measurement}. This means, for example, that if we consider a `measurement' that consists of modifying the system, for example resetting the system to a fixed state $S$, then this measurement is compatible with all physical properties $S$ is compatible with.
-
-Returning to preimages, the set $(m \cdot)^{-1}(U)$ is, by definition, the set of measurements $n$ such that $mn$ is compatible with $U$. Using the same language as above, this would be the same as saying that there exist states $S_1, S_2, S_3$ such that
-\[S_1 \xrightarrow{m} S_2 \xrightarrow{n} S_3,\]
-and furthermore that $S_3$ satisfies the property $U$. Now, we are identifying sets of measurements with the physical properties they are compatible with, and, as per the ideas above, these are the physical properties that (some possible) $S_3$ is compatible with.
-
-In retrospect, this is confusing. I need to establish notation to talk about this properly.
-\end{problem}
-
-\section{Underlying phase space}
-
-In this section I will try to establish notation to talk about what's happening `behind the scenes', which will allow me to speak more clearly about conceptual problems I have with this formalism of measurements.
-
-Suppose we have a physical system under our microscope. This system has some phase space, which will be referred to as $\Phi$. Elements of phase space will be called states, and will be referred to using the letter $S$. The system begins in some state, which we may assume is unknown to us and can take any value in phase space.
-
-Now, let us suppose we take some measurement $m$. There are two phenomena associated with this measurement-taking.
+\subsection{Summary}
 
 \begin{itemize}
-\item It might be that the measurement is incompatible with the state we previously found ourselves in. For example, we might be in a state where the electron's spin is down; in this case performing a measurement that concludes its spin is up is nonsensical.
+\item We are assuming given a quantum system $S$ (with a `superposition function' $\sigma$ which hasn't proven useful yet but represents the underlying vector space structure so I feel like it shouldn't be ignored);
 
-\item In the case where a measurement is performable, it usually disturbs the system in some manner. The textbook example is making the system's state into an eigenstate of the observable, but this might also include destructible measurements.
-
-Furthermore, there's no reason why the disturbance should be deterministic. That is, it could happen that if the system starts in state $S_1$ and we perform a measurement $m$ it could be disturbed into either $S_2$ or $S_3$. Note that this nondeterminism is distinct from quantum nondeterminism in that a quantum superposition of two states is one state unto itself. An example where this might happen is the Schrödinger electron, where the measurement $\mathbf{z}$ can be considered as disturbing the state nondeterministically into either $Z^\uparrow$ or $Z^\downarrow$.
-\end{itemize}
-
-From the moment we allow nondeterminism, the case of nonsensical measurements becomes simple to handle: it is simply the case where the set of possible states after performing the measurement is empty. As such, it makes sense to consider nondeterminism even if we disregard Schrödinger-like experiments.
-
-This allows us now to think of a measurement as a function $m : \Phi \to \ps(\Phi)$. In order to make $m$ into an endomorphism, we will actually work with the `mapped function' $m^\sharp : \ps(\Phi) \to \ps(\Phi)$, defined as
-\[m^\sharp(P) = \bigcup_{S \in P} m(S).\]
-
-We are already in a position to rigorously define composition of measurements as $mn := n^\sharp \circ m$. Note the order reversal.
-
-Now, we don't know what the system looks like at the outset. We represent this by saying that the set of potential states at the start is the entirety of the phase space, $\Phi$. However, upon taking a measurement $m$, the set of potential states is now $m^\sharp(\Phi)$, which is usually a strict subset of $\Phi$.
-
-We can now interpret the meaning of a measurement being compatible with a physical property. In abstract, a physical property is a predicate $p : \Phi \to \{\top, \bot\}$. We might demand that $p$ satisfies some more properties, especially with regard to quantum superposition, but let us not concern ourselves with that additional structure for now. To say that $p$ is compatible with a set of states $P$ is to say that it is not impossible, given that set of states, that $p$ is true. In other words, \emph{$p$ is compatible with $P$ iff there exists $S \in P$ such that $p(S) = \top$}. Consequently, we define that $p$ is compatible with a measurement $m$ iff $p$ is compatible with $m^\sharp(\Phi)$. The interpretation of this is that the measurement $m$ does not allow us to refute that the property $p$ is true.
-
-Note that a physical property $p$ is the same as a subset of $\Phi$. Furthermore, we probably have some protocol for recording observations, which will not allow us to record any possible predicate. As such, the set of predicates that can be recorded in finite time is a subset of $\ps(\Phi)$, and it is easy to reach the conclusion that it forms a topology on $\Phi$.
-
-So in conclusion, we have: a phase space $\Phi$, a topology $\Omega$ on $\Phi$ and a set of measurements $M$, where each measurement is a binary relation on $\Phi$. Furthermore, $M$ is closed under composition.
-
-We can establish an order on $M$ by saying that a measurement $m$ is \emph{more specific than} $n$ if $m$ always gives more information than $n$, that is, for all states $S$ we have $m(S) \subseteq n(S)$. In binary relation language, $m \subseteq n$.
-
-We are trying to make a presentation of complete measurement spaces, so we would want $M$ to be closed under suprema. The most natural supremum is the union of relations, but that is completely disregarding all possible structure on $\Phi$. Indeed, $\Phi$ represents the phase space of a quantum system. This gives it some structure which I have yet to identify precisely. However, for now let's try the following: I postulate that there exists a function $\sigma : \ps(\Phi) \to \ps(\Phi)$, $\sigma$ for `superposition'. For example, if $\lvert + \rangle$ and $\lvert - \rangle$ are the states for $z$ spin up and down respectively, their superposition consists of all possible linear combinations of them. The superposition function probably ought to satisfy some extra properties, but I don't know what. The only ones that stick out are monotony and $\sigma(P) \supset P$. Oh, and maybe some kind of associativity. And definitely idempotency. Idempotency probably solves all my problems. Indeed,
-\[\sigma(\sigma(a,b) \cup \{c\}) \supseteq \sigma(a,b,c) \text{ by monotony and increasingness}\]
-and furthermore, $\sigma(a,b) \cup \{c\} \subseteq \sigma(a,b,c)$ and so associativity-ish is true. Yeah this all works out fine.
-
-So, to recap, I demand that $\sigma$ satisfies: idempotency, monotony, and is greater than identity. Note that the `closed span' operator on a Hilbert space satisfies all these things. This is as it should be, as it is the prototypical example of a superposition operator.
-
-Actually, I think this might be superfluous. Well, kind of. Anyway, let $\Sigma$ be the image of $\sigma$. It represents `the linear subspaces of $\Phi$'. I can probably show that the subset order on $\Sigma$ forms a sup-lattice. Actually, possibly a frame. File this away for further consideration. [Post-scriptum: it does, but the sup is not given by union!]
-
-Anyhow, the point of the matter is that, if $m$ is a measurement and $S$ is a state, we ought to expect that $m(S)$ is a valid superposition of states, and thus that $m(S) \in \Sigma$. In particular, this means that in taking the supremum of two measurements $m$ and $n$ it is not necessarily the most natural idea to define $(m \vee n)(S) = m(S) \cup n(S)$, but rather $\sigma(\text{this})$. This might prove a worthy definition for a model of a complete measurement space.
-
-\begin{definition}
-A quantum phase space is a set $\Phi$ together with a function $\sigma : \ps(\Phi) \to \ps(\Phi)$ satisfying the four properties:
+\item We will define a \emph{measuring device on $S$} to be composed of
 \begin{itemize}
-\item For all $P \subseteq \Phi$, $P \subseteq \sigma(P)$,
-\item For all $P \subseteq Q \subseteq \Phi$, $\sigma(P) \subseteq \sigma(Q)$,
-\item $\sigma$ is idempotent,
-\item $\sigma(\emptyset) = \emptyset$ (because it makes sense that a superposition of no states has no states).
+\item A set of measurements $M$,
+\item A set of queries $Q$ and a set of physical assumptions $A$ in order to form the frame $F = \braket{Q|A}$,
+\item A function $r$ that, given a query, returns a relation in $\ps(S) \times \ps(S)$, which must be in some sense compatible with the physical assumptions,
+\item A compatibility relation $(\vDash) \subseteq M \times F$ defined on the generators by
+\begin{equation}
+m \vDash q \text{ iff } m \cap r(q) \neq \emptyset. \tag{\ref{defvdash}}
+\end{equation}
+\end{itemize}
 \end{itemize}
 
-Furthermore, we will use the letter $\Sigma$ to refer to the image of $\sigma$.
-\end{definition}
+Note: the triple $(M,F,\vDash)$ forms what Vickers \cite{topologyvialogic} calls a \emph{topological system}, which allows us to ask if it is spatial, i.e. if it corresponds to a topological space, or if it is localic, i.e. if it corresponds to a locale.
 
-\begin{prop}
-Under the above notation, $\Sigma$ is a frame. The infimum is simply set intersection inherited from $\ps(\Phi)$, though suprema might not be set union.
-\end{prop}
+\section{Examples}
 
-\begin{proof}
-We begin by showing $\Sigma$ is closed under finite intersections.
+\subsection{Schrödinger's Electron}
 
-The empty intersection, $\Phi$, is clearly in $\Sigma$, for $\sigma(\Phi) = \Phi$.
+Consider the Schrödinger's electron experiment. We will now enumerate the ingredients mentioned in the previous section.
 
-Furthermore, let $P, Q \in \Sigma$. We wish to show $P \cap Q \in \Sigma$. In other words, that $\sigma(P \cap Q) = P \cap Q$. One property gives us $\supseteq$, while the other may be obtained as follows: since $P \cap Q \subseteq P$, we have $\sigma(P \cap Q) \subseteq \sigma(P) = P$. Likewise for $Q$, hence $\sigma(P \cap Q)$ is contained in both $P$ and $Q$ and hence in their intersection.
+Our set of states, in principle, should be $S = \pr \C^2$, since the underlying Hilbert space in this case is $\C^2$.
 
-Now we define the supremum on $\Sigma$ as $\bigvee P_\alpha = \sigma(\bigcup P_\alpha)$. We show that this is a supremum. It is easy to check that it is indeed bigger than all $P_\alpha$, and furthermore if $Q \supseteq P_\alpha$ for all $\alpha$ then $Q \supseteq \bigcup P_\alpha$. Taking $\sigma$ of both sides and assuming $Q \in \Sigma$, we get $Q \supseteq \bigvee P_\alpha$, which shows $\bigvee P_\alpha$ is indeed the supremum.
-\end{proof}
+The set of measurements is given by the following four relations. In what follows, we will use the following notation: $xx$ represents the $x$ axis, i.e. the subspace generated by $(1,0)$; $yy$ represents the $y$ axis; $\text{Else}$ is a stand-in for any 1d subspace that is neither the $x$ axis or the $y$ axis, and $\text{Any}$ is a stand-in for any 1d subspace at all.
+\begin{itemize}
+\item $0 = \emptyset$,
+\item $z^\uparrow = \{(xx,xx), (\text{Else}, xx)\}$,
+\item $z^\downarrow = \{(yy,yy), (\text{Else},yy)\}$,
+\item $z = \{(xx,xx), (yy, yy), (\text{Else}, xx), (\text{Else}, yy)\}$.
+\end{itemize}
 
-\begin{definition}
-A measurement $m$ on a quantum phase space $\Phi$ is a function $\Phi \to \Sigma$. The set of measurements is denoted by $\mathcal{M}$. Given a measurement $m$, $m^\sharp$ denotes the function $\ps(\Phi) \to \ps(\Phi)$ given by $m^\sharp(P) = \bigcup_{S \in P} m(S)$ and $m'$ denotes the function $\Sigma \to \Sigma$ given by $\sigma \circ m^\sharp$. Equivalently,
-\[m'(P) = \bigvee_{S \in P} m(S).\]
+There are two fundamental queries: `is the electron's spin up [now]?' and `is the electron's spin down [now]?'. We call these $Z^\uparrow$ and $Z^\downarrow$ respectively, and
+\begin{equation}
+r(Z^\uparrow) = \{(\text{Any}, xx)\}, \quad r(Z^\downarrow) = \{(\text{Any}, yy)\}.
+\end{equation}
 
-Given two measurements $m$ and $n$, we can compose them (do one after the other) as follows:
-\[mn = n' \circ m.\]
+We do not need to add any assumptions, though we could try modifying the experiment, adding the assumption that the electron starts (and therefore is always) in a state of spin up or spin down.
 
-This corresponds to composition of relations, if we see a measurement as a binary relation on $\Phi$.
+Therefore, for the moment, the frame $F$ is given by the diagram
+\begin{center}
+\begin{tikzpicture}
+\node (top) at (0,2) {$\top$};
+\node (join) at (0,1) {$Z^\uparrow \lor Z^\downarrow$};
+\node (up) at (-1,0) {$Z^\uparrow$};
+\node (down) at (1,0) {$Z^\downarrow$};
+\node (meet) at (0,-1) {$Z^\uparrow \land Z^\downarrow$};
+\node (bot) at (0,-2) {$\bot$};
 
-The set of measurements can be ordered. Indeed, the set of measurements is simply $\Sigma^\Phi$, which can be given the product order (inherited from $\Sigma$) and therefore inherits the suprema and infima from $\Sigma$; namely, pointwise $\vee$ and $\cap$. This means that the set of measurements forms a frame.
+\draw (top)--(join)--(up)--(meet)--(bot);
+\draw (join)--(down)--(meet);
+\end{tikzpicture}
+\end{center}
 
-A \emph{measurement device} $M$ is a subframe of $\mathcal{M}$ that is closed under composition.
-\end{definition}
+Now, to calculate $\vDash$, we need only know how it behaves on the fundamental queries $Z^\uparrow$ and $Z^\downarrow$, because they generate the frame, and it is very easy to conclude:
+\begin{itemize}
+\item $0$ is not compatible with any element of $F$ except $\top$,
+\item $z^\uparrow \vDash Z^\uparrow$ but $z^\uparrow \nvDash Z^\downarrow$,
+\item Likewise for $z^\downarrow$,
+\item $z \vDash Z^\uparrow$ and $z \vDash Z^\downarrow$, so $z$ is compatible with all elements of $F$ except $\bot$.
+\end{itemize}
 
-Even though the measurement device can take all measurements $M$, only finite amount of information can be recorded. As such, it is necessary \textit{a priori} to establish an information recording protocol. To do: do I want to define what I mean by this? It's an interesting question.
+Note that there are a few small variations of this construction that yield effectively the same result. For example, suppose we replaced $r(Z^\uparrow)$ by
+\begin{equation}
+r'(Z^\uparrow) = \{(xx,xx), (\text{Else}, xx)\}.
+\end{equation}
+
+Then, since there is no measurement containing the pair $(yy,xx)$, the frame F and compatibility relation $\vDash$ would be the same, and so our measurement space would be effectively the same.
+
+Note that (it is trivial to see) the topological system $(M,F,\vDash)$ is a spatial locale, i.e. it corresponds to a sober topological space.
+
+\subsection{Schrödinger's Electron With a `Scramble' Button}
+
+Even though we have been calling the elements of $M$ measurements, the framework allows them to do slightly more: they can be used to modify, or set up, the system. To exemplify this, let us consider Schrödinger's electron, except we add a button (measurement) that scrambles the electron inside the box, giving it a completely new spin.
+
+The set of states $S$ is the same as in the previous experiment, and the set of measurements is nearly the same, with the addition of a `scramble'
+\begin{equation}
+\xi = \{(\text{Any}, \text{Any})\}.
+\end{equation}
+(Note: to avoid ambiguity in this example, the two `Any's are independent; this is the maximal binary relation, not the diagonal one.)
+
+The set $\{0,z^\uparrow, z^\downarrow, z, \xi\}$ is not closed under composition, so we need to consider all possible compositions, which yields the set $M$.
+
+Note that compositions are independent of process. For example $\xi z^\uparrow \xi = \xi$. This embodies the assumption that the only thing that matters about a measurement is the possibilities it allows or disallows.
+
+Now, we could use the same basic queries $Z^\uparrow$ and $Z^\downarrow$, but the resulting system would have a lot of points and very few opens, and thus would fail to be sober. There are two ways to find the frame $F$ appropriate for this situation.
+
+The first, most obvious way, is to brute force it. There is a finite number of measurements, so we can just add a query for each measurement and add relations regarding how those measurements relate to each other, e.g. $z^\uparrow \cup z^\downarrow = z$, so it would make sense that $Z^\uparrow \lor Z^\downarrow = Z$. This is probably doable, but time-consuming.
+
+The second way is to look at the meaning of the measurements we have. As well as the five basic measurements enumerated above, we have new, weird composition. Any such composition must have $\xi$ in it, as we've already seen that the other four measurements are closed under composition. This allows us to do things like:
+\begin{itemize}
+\item The measurement $\xi z^\uparrow$, which means `I scrambled the electron and afterwards measured its spin $z$ to be up'. This corresponds to the relation $\{(\text{Any}, xx)\}$, which is distinct from just $z^\uparrow$, as the latter does not contain $(yy,xx)$.
+
+\item The measurement $z^\uparrow \xi$, which means `I measured the electron's spin $z$ to be up, but scrambled it afterwards'. From this measurement we cannot conclude anything about the current state of the electron, but we can conclude that the state prior to the measurement was definitely not $yy$.
+
+\item The measurement $z^\uparrow \xi z^\downarrow$, from which we can conclude that previously the electron's state was anything but $yy$, but that it is $yy$ now.
+
+\item These three possibilities (along with their versions with $z^\uparrow$ and $z^\downarrow$ replaced by each other or by $z$) are the only possible new measurements, because any expression with more than one $\xi$ is of the form
+\begin{equation}
+z_1 \xi A \xi z2,
+\end{equation}
+where $z_i \in \{0,z^\uparrow,z^\downarrow,z, \id\}$ and $A$ is some measurement. Now, either $A$ is zero (in which case $\xi A \xi = 0$), or it is not (in which case $\xi A \xi = \xi$). As such, the three possibilities mentioned above really do describe all possible (new) measurements.
+\end{itemize}
+
+With this in mind, we can conclude that a set of queries that allows us to discern all possible measurements (which is a necessary condition to make this into a locale) would allow us to discern statements about the system prior to and after measurement. Therefore, let us construct four basic queries:
+\begin{equation}
+Q = \{Z^\uparrow_0, Z^\downarrow_0, Z^\uparrow_1, Z^\downarrow_1\},
+\end{equation}
+where the subscript $0$ or $1$ represents the possibility of the electron's spin being up/down before or after the measurement, respectively. So, for example, $Z^\uparrow_0$ is compatible with $\xi z^\downarrow$, but $Z^\uparrow_1$ is not. This allows us to define the function $r$, which I will not do explicitly, but will exemplify with $Z^\uparrow_0$ and $Z^\downarrow_1$:
+\begin{equation}
+r(Z^\uparrow_0) = \{(xx, \text{Any})\}, \quad r(Z^\uparrow_1) = \{(\text{Any}, xx)\}
+\end{equation}
+
+Now, these four queries are independent, and so we conclude that $F = \braket{Q}$.
+
+\section{Niceness of These Constructions (or Lack Thereof)}
+
+In what I've done so far, I've mostly set up a language to talk about the possible representations, and done almost no work in restricting them. For example, at the moment, there is no guarantee that the operation of composition is continuous, or for that matter the resulting topological system has no obligation to be spatial or localic. There is also a lot of redundancy. For example, since we're looking for sobriety, we should be able to construct $M$ as the set of homomorphisms $F \to \two$, or equivalently the completely prime filters of $F$. Of course, it isn't enough to say that, because elements of $M$ are supposed to be sets of relations, not filters, so I need to find a way to construct a relation from a filter.
 
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
