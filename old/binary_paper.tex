@@ -148,7 +148,7 @@ We begin by recalling the definition of Hausdorff measure and Hausdorff dimensio
 
 Let $X$ be a metric space, with distance $d$. If $E \subseteq X$, we denote the diameter of $E$ by $\lvert E \rvert = \sup_{x, y \in E} d(x,y)$.
 
-Given $E \subseteq X$, a \emph{$\delta$-covering} of $E$ is a countable collection of sets $\{U_n\}$ whose union contains $E$ and such that the diameter of any $U_n$ is such that $0 < \lvert U_n \rvert \leq \delta$.
+Given $E \subseteq X$, a \emph{$\delta$-covering} of $E$ is a countable collection of sets $\{U_n\}$ whose union contains $E$ and such that the diameter of any $U_n$ satisfies $0 < \lvert U_n \rvert \leq \delta$.
 
 For every set $E \subseteq X$ and $\delta > 0$, define
 \begin{equation}\label{hausdorffdeltadef}
@@ -379,18 +379,18 @@ Let us now fix some $t > 0$, and investigate how one might go about calculating 
 
 \[g_{bs}(t) := \BB_{bs}^\infty(\left[0, t \right[).\]
 
-First, fix $b^k$ as the least integer power of $b$ that is $\geq t$. Then, a possible covering of $\left[0, t \right[$ would be the interval $\left[0, b^k\right[$. Hence, $g(t) \leq b^{ks}$.
+First, let $b^k$ be the least integer power of $b$ that is greater than or equal to $t$. Then, a possible covering of $\left[0, t \right[$ would be the interval $\left[0, b^k\right[$. Hence, $g(t) \leq b^{ks}$.
 
-Now, observe that $b^{k-1} < t$, and so there is a maximal integer, which we will call $d_1 < b$, such that $d_1 b^{k-1} \leq t$. This gives us another possible covering of our interval, given by
+Now, observe that $b^{k-1} < t$, and so there is a maximal integer, which we will call $d_1$, such that $d_1 b^{k-1} \leq t$. This gives us another possible covering of our interval, given by
 \[\left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[d_1 b^{k-1}, (d_1 + 1) b^{k-1} \right[,\]
-which yields another upper bound, $g(t) \leq (d_1 + 1) b^{k-1}$.
+which yields another upper bound, $g(t) \leq (d_1 + 1) b^{k-1}$. Note that $d_1 < b$.
 
-We can continue this process. If we let $d_2 < b$ be maximal such that $d_1 b^{k-1} + d_2 b^{k-2} \leq t$ then the following sequence of intervals will cover $\left[0, t \right[$:
+We can continue this process. If we let $d_2$ be maximal such that $d_1 b^{k-1} + d_2 b^{k-2} \leq t$ then the following sequence of intervals will cover $\left[0, t \right[$:
 \begin{multline*}
 \left[0, b^{k-1} \right[, \left[b^{k-1}, 2 b^{k-1} \right[, \cdots, \left[(d_1 - 1) b^{k-1}, d_1 b^{k-1} \right[ \\
 \left[d_1 b^{k-1}, d_1 b^{k-1} + b^{k-1} \right[, , \cdots, \left[d_1 b^{k-1} + d_2 b^{k-2}, d_1 b^{k-1} + (d_2 + 1) b^{k-2} \right[,
 \end{multline*}
-giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$.
+giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$. Note, again, that $d_2 < b$.
 
 We will make this process more rigorous shortly. Below is a diagram exemplifying it for $b = 3$ and $t = 0.86$.
 
@@ -466,15 +466,16 @@ As such, we may consider the sequence of intervals given by
 \begin{gather*}
 \left\{\, \left[ x , x + b^{k-N} \right[ \;\middle|\; x = \left(\sum_{i=1}^N d_i b^{k-i}\right) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\right\}\\
 \bigcup\\
-\left\{\left[ \left(\sum_{i=1}^M d_i b^{k-i}\right) ,\left(\sum_{i=1}^M d_i b^{k-i}\right) + b^{k-M} \right[\right\}.
+\left\{\left[ \left(\sum_{i=1}^M d_i b^{k-i}\right) ,\left(\sum_{i=1}^M d_i b^{k-i}\right) + b^{k-M} \right[\right\},
 \end{gather*}
+for $M = 0, 1, 2, \dots$
 
 To simplify the notation we make the following definitions:
 
 \begin{definition}
-We start by defining $R_\delta(x)$ as the interval  $\left[x, x+\delta \right[$.
+Define $R_\delta(x)$ as the interval  $\left[x, x+\delta \right[$.
 
-Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. We now define the collection of intervals denoted by
+Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Define the collection of intervals denoted by
 \[ b^k [d_0 d_1 d_2 \dots] \]
 as follows:
 
@@ -517,7 +518,7 @@ Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$ Consider the cov
 \[ b^k [d_0 \cdots d_{n-1} (d_n + 1)] \]
 as $n$ ranges over $\N$.
 
-Any of these cover $\left[0, t\right[$, and so we have
+All of these cover $\left[0, t\right[$, and so we have
 
 \[ g(t) \leq \inf \{\, b^{ks} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1) \mid n \in \N\,\}.\]
 
@@ -536,7 +537,7 @@ We already know $LHS \leq RHS$, so we only need to show the opposite inequality.
 We will do this in two parts: first, we will show that the infimum required to compute $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is at least $\inf s_n$.
 
 Fixing an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$,
-we may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. In fact, assume $A$ is wholly contained in $\left[0, b^k \right[$.
+we may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume $A$ is wholly contained in $\left[0, b^k \right[$.
 
 Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows:
 
@@ -548,7 +549,7 @@ So, we have established that $A'$ covers $\left[0, t\right[$. We will now show i
 
 First suppose, without loss of generality, that $A$ does not contain any interval disjoint from $A'$. We will show, under these conditions, that any interval $I$ in $A$ is contained in one of the intervals in $A'$.
 
-Given $I \in A$, let it intersect $J \in A'$. By construction of the $b$-ary intervals, either $I \subseteq J$ (as desired), or $J \subseteq I$. But, if the latter were the case, we could conclude that $J = I$ for,
+Given $I \in A$, let it intersect $J \in A'$. By construction of the $b$-ary intervals, either $I \subseteq J$ (as desired), or $J \subseteq I$. But, if the latter were the case, we could conclude that $J = I$. To see why,
 suppose $I$ is of the form $R_{b^{k-n}}(i b^{k-n})$. By the maximality of $a_n$, we have
 \[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n} \]
 and therefore, $J$ is present in $b^k [a_0 \cdots a_n]$. Hence, the length of $J$ is $\geq b^{k-n}$, and so if $J \subseteq I$ we would have $J = I$.
