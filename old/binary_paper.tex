@@ -4,6 +4,8 @@
 \usepackage{amsfonts}
 \usepackage{amsthm}
 
+\usepackage{hyperref}
+
 \usepackage[utf8]{inputenc}
 
 \usepackage{tikz}
@@ -536,7 +538,7 @@ We already know $LHS \leq RHS$, so we only need to show the opposite inequality.
 
 We will do this in two parts: first, we will show that the infimum required to compute $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is at least $\inf s_n$.
 
-Fixing an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$,
+Given an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$,
 we may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume $A$ is wholly contained in $\left[0, b^k \right[$.
 
 Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows:
@@ -547,14 +549,14 @@ First, we show it covers the desired interval. We know $A'$ covers the interval 
 
 So, we have established that $A'$ covers $\left[0, t\right[$. We will now show its Hausdorff sum does not exceed that of $A$.
 
-First suppose, without loss of generality, that $A$ does not contain any interval disjoint from $A'$. We will show, under these conditions, that any interval $I$ in $A$ is contained in one of the intervals in $A'$.
+First suppose, without loss of generality, that $\bigcup A$ is an interval of the form $\left[0,a\right[$. Then, it is easy to see that $b^k \times a_0 . a_1 a_2 \dots = a$ and therefore $\bigcup A = \bigcup A'$. With these hypotheses, as we will now show, any $I \in A$ is contained in some $J \in A'$.
 
-Given $I \in A$, let it intersect $J \in A'$. By construction of the $b$-ary intervals, either $I \subseteq J$ (as desired), or $J \subseteq I$. But, if the latter were the case, we could conclude that $J = I$. To see why,
-suppose $I$ is of the form $R_{b^{k-n}}(i b^{k-n})$. By the maximality of $a_n$, we have
-\[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n} \]
-and therefore, $J$ is present in $b^k [a_0 \cdots a_n]$. Hence, the length of $J$ is $\geq b^{k-n}$, and so if $J \subseteq I$ we would have $J = I$.
+Let $I \in A$ be of the form $R_{b^{k-n}}(i b^{k-n})$. Then, $a > (i+1) b^{k-n}$ and thus by the maximality of $a_n$, we have
+\[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n}. \]
 
-We can now finish the argument as follows: for each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. Note that, by construction, these cover $J$. We will show that each of these collections can be replaced by $J$ without increasing the Hausdorff sum, which allows us to conclude, then, that the Hausdorff sum of $A'$ is $\leq$ that of $A$.
+Hence, the interval $I$ is contained in a union of $b$-ary intervals of $A'$ of at least its size, and since if two $b$-ary intervals intersect one of them must contain the other we conclude that $I$ is entirely contained in an interval in $A'$.
+
+We can now finish the argument as follows: for each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. Note that, by what we have just seen, these cover $J$. We will show that each of these collections can be replaced by $J$ without increasing the Hausdorff sum, which allows us to conclude that the Hausdorff sum of $A'$ is at most that of $A$.
 
 By elementary properties of the Lebesgue measure, we have
 \[ \sum \lvert I \rvert \geq \lvert J \rvert,\]
@@ -566,9 +568,9 @@ This concludes the first part of the proof. We move on to the second part.
 We have already concluded we need only consider coverings of the form $b^k [a_0 a_1 a_2 \dots]$ and, in fact, we need only take into account those constructed as above; this will allow us to use certain maximality arguments. We will now show that we may further restrict our attention to those sequences of the form $d_0 d_1 \cdots d_{n-1} (d_n + 1)$.
 
 Given any arbitrary sequence $\{a_n\}$ constructed as above, we necessarily have $b^k \times a_0 . a_1 a_2 \ldots \geq b^k \times d_0 . d_1 d_2 \dots$ Then, either these two sequences are the same, or there exists a first index  where they differ. In the latter case, let $n$ be this index. That is, $a_i = d_i$ for $i < n$, $a_n \neq d_n$. It is necessarily the case that $a_n > d_n$ because, if $a_n < d_n$, we would reach a contradiction with the maximality of $a_n$. In this case we can safely assume our covering is of the desired form: indeed, the covering given by the sequence $d_0 d_1 \cdots d_{n-1} (d_n + 1) 0 0 0 \dots$ also covers $\left[0, t \right[$, and has Hausdorff sum not greater than that of the covering given by $\{a_n\}$.
-As for the former case, consider the sequence $s_n$ we defined as $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. We remark that $\lim s_n = b^k \times d_0 . d_1 d_2 \dots$. This limit is, in fact, the Hausdorff sum of the covering in consideration (that is, $b^k [d_0 d_1 d_2 \dots]$) and it is elementary to notice that $\lim s_n \geq \inf s_n$, as desired.
+As for the former case, consider the sequence $s_n$ we defined as $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. We remark that $\lim s_n = b^k \times d_0 . d_1 d_2 \dots$. This limit is, in fact, the Hausdorff sum of the covering in consideration (that is, $b^k [d_0 d_1 d_2 \dots]$) and elementary calculus shows that $\lim s_n \geq \inf s_n$, as desired.
 
-We have now, shown, then, that whatever the covering we choose, $\inf s_n$ will be less than or equal than the Hausdorff sum of our covering, and therefore we have finally shown the result
+We have now, shown that whatever the covering we choose, $\inf s_n$ will be less than or equal than the Hausdorff sum of our covering, and therefore we have finally shown the result
 \[ g(t) = \inf s_n.\]
 
 \iffalse
@@ -584,7 +586,7 @@ This last proposition has a few consequences, one of which is the following: it 
 
 \section{$b$-ary digit expansions (Formalization)}\label{sec7}
 
-We will now use the preceding proposition to study the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion (also known as $\beta$-expansion ).
+We will now use the preceding proposition to study the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion (also known as $\beta$-expansion). [I don't know what else to write here, but there is a paper coauthored by Erdös that seems to be the start of the area here: \url{http://www.numdam.org/article/BSMF_1990__118_3_377_0.pdf}. See also \url{https://mathscinet.ams.org/mathscinet/search/publdoc.html?pg1=MR&s1=142719&loc=fromreflist}. The main difference seems to be that I allow digits greater than $\lfloor b \rfloor$.]
 
 \begin{definition}
 We define a \emph{digit expansion} as a \emph{bounded} function $d : \Z \to \N$ for which
@@ -596,7 +598,7 @@ Given a base $b \in \left]1, \infty \right[$, to any digit expansion we can assi
 
 \[ \sum_{i = -\infty}^\infty d_i b^{-i}.\]
 
-Recall that any positive real number has a $b$-ary digit expansion. This expansion is not always unique, but the so-called `greedy expansion', the one obtained by the algorithm outlined in page \pageref{digalg}, is. This also happens to be the lexicographically smallest digit expansion whose interpretation is base $b$ is precisely the number we started with. In this expansion, all the digits are contained in the set $\N \cap \left[0, b \right[$. Of course, for natural $b$, this is the familiar set of digits $\{0, \cdots, b-1 \}$, and natural bases have the benefit of almost-uniqueness: any number is uniquely determined by, and determines uniquely, a decimal expansion, as long as we restrict ourselves to those with digits in the set $\{0, \cdots, b-1 \}$ and that don't end with an infinite sequence of $b-1$.
+Recall that any positive real number has a $b$-ary digit expansion. This expansion is not always unique, but the so-called `greedy expansion', the one obtained by the algorithm outlined in page \pageref{digalg}, is. This also happens to be the lexicographically largest digit expansion whose interpretation in base $b$ is precisely the number we started with. In this expansion, all the digits are contained in the set $\N \cap \left[0, b \right[$. Of course, for natural $b$, this is the familiar set of digits $\{0, \cdots, b-1 \}$, and natural bases have the benefit of almost-uniqueness: any number is uniquely determined by, and determines uniquely, a decimal expansion, as long as we restrict ourselves to those with digits in the set $\{0, \cdots, b-1 \}$ and that don't end with an infinite sequence of $b-1$.
 
 We will use the notation $\dig_b t$ to mean the greedy digit expansion of $t$ in base $b$. In the other direction, given a digit expansion $d$ we use $\intr_b d$ to mean the interpretation of $d$ in base $b$.
 
@@ -631,14 +633,14 @@ For all $t \geq 0$,
 \begin{proof}
 Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$. Let $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
 
-We have already established $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+We have already established that $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
 
 We would like to argue that $s_n = i(t_n)$. Indeed, this is true under the condition that $d_n \neq b-1$, by almost-uniqueness of the $b$-ary expansion.
 
 Of course, we can restrict ourselves to those $n$ such that $d_n \neq b-1$. Indeed, if $n$ satisfies this condition, it is trivial to check that $s_{n-1} \leq s_n$.
 
 As a consequence, we conclude
-\[g(t) = \inf_{n \mid d_n \neq b-1} i(t_n).\]
+\[g(t) = \inf_{\{n \mid d_n \neq b-1\}} i(t_n).\]
 
 This shows $LHS \geq RHS$, as for all $n$ we have $t_n \geq t$.
 
@@ -649,11 +651,11 @@ Consider the following three cases:
 
 \begin{enumerate}[label=\textbf{Case \arabic*:}]
 
-\item $x = t$. We already know that $i(t) \geq g(t)$, so this case is done.
+\item $x = t$. We already know that $i(t) = \lim s_n \geq g(t)$, so this case is done.
 
 \item $x \geq b^{k+1}$. In this case $i(x) \geq b^{(k+1)s} > b^{ks} = s_0 \geq g(t)$.
 
-\item $t < x < b^{k+1}$. Suppose $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$ and let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_n \neq x_n$. Then, $d_n < x_n$, and therefore every digit of $t_n$ is $\leq$ its corresponding digit in $x$. Therefore, $i(x) \geq i(t_n) \geq g(t)$.
+\item $t < x < b^{k+1}$. Suppose $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$ and let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_n \neq x_n$. Then, $d_n < x_n$, and therefore every digit of $t_n$ is less than or equal to its corresponding digit in $x$. Therefore, $i(x) \geq i(t_n) \geq g(t)$.
 \end{enumerate}
 \end{proof}
 
@@ -678,16 +680,16 @@ where, if we let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, $s
 
 To show $g_{bs}(t)$ is a continuous function of $s$, it is not quite enough to show all $s_n(t)$ are continuous functions of $s$. It is, however, sufficient to show they are all Lipschitz with respect to a fixed constant $c$.
 
-Indeed, notice that for any $n$ and $t$ the function $s_n(t)$ (of $s$) is a finite sum of terms of the form $\sum k_i b^{-is}$.  We can, then, take the derivative with respect to $s$, getting derivatives of the form $\sum - i k_i \log b \cdot b^{-is}$. Since all $k_i$ are $\leq b$, this sum is, in absolute value, less than $b \log b \sum i b^{-is}$, which converges to $\frac{b^{s+1} \log b}{(b^s + 1)^2}$ for $s > 0$.
+Indeed, notice that for any $n$ and $t$ the function $s_n(t)$ (of $s$) is a finite sum of terms of the form $\sum_i k_i b^{-is}$.  We can, then, take the derivative with respect to $s$, getting derivatives of the form $\sum - i k_i \log b \cdot b^{-is}$. Since all $k_i$ are at most, this sum is, in absolute value, less than $b \log b \sum i b^{-is}$, which converges to $\frac{b^{s+1} \log b}{(b^s + 1)^2}$ for $s > 0$.
 
-Now the argument can be easily completed: fix any $s > 0$. These derivatives are, in the interval $\left[s, 1 \right]$, all bounded by $c = \frac{b^{s+1} \log b}{(b^s + 1)^2}$, and so, in this interval, every $s_n(t)$ is $c$-Lipschitz as a function of $s$, and therefore so is $h$. This concludes the proof.
+Now the argument can be easily completed. Let $s > 0$. These derivatives are, in the interval $\left[s, 1 \right]$, all bounded by $c = \frac{b^{s+1} \log b}{(b^s + 1)^2}$, and so, in this interval, every $s_n(t)$ is $c$-Lipschitz as a function of $s$, and therefore so is $h$. This concludes the proof.
 \end{proof}
 
 \section{On notation}
 
 Our main object of study is the `optimal constant' $C$ for the inequality $\BB_{bs} \leq C \HH_{bs}$. This constant depends on $b$ and $s$, and so, having fixed such a base and dimension, we call this optimal constant $C_{bs}$.
 
-We have already shown an upper bound to this constant is given by the solution to the optimization problem
+We have already shown that an upper bound to this constant is given by the solution to the optimization problem
 \[ \sup_{\substack{\ell,r \in \R^+_0\\\ell+r \neq 0}} \frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s}.\]
 
 We will call the solution to this optimization problem $K_{bs}$.
@@ -703,7 +705,7 @@ To be more rigorous, consider the interval $\left[ 1/b, 1 \right]$. The function
 
 By convexity, $i(t) \geq t^s$, which, by the definition of $g$ using $i$, makes the inequality $g(t) \geq t^s$ evident. Equality is attained at, for example, $t = 1$.
 
-The maximum turns out to be much harder to pinpoint, but in fact it turns out to be very closely related to $K$. To see why, let us give it a name, $\Theta_{bs}$, and let, for the moment, $\theta$ be a maximizer. It is clear that, while we took the maximum in $\left[ 1/b, 1 \right]$, the inequality $g(t) \leq \Theta t^s$ applies over all $\R^+_0$, and therefore
+The maximum turns out to be much harder to pinpoint, but in fact it is very closely related to $K$. To see why, let us give it a name, $\Theta_{bs}$, and let, for the moment, $\theta$ be a maximizer. It is clear that, while we took the maximum in $\left[ 1/b, 1 \right]$, the inequality $g(t) \leq \Theta t^s$ applies over all $\R^+_0$, and therefore
 
 \[\frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s} \leq \frac{\Theta \ell^s + \Theta r^s}{(\ell+r)^s}.\]
 
@@ -714,7 +716,7 @@ The right hand side can be easily maximized with elementary calculus, giving us 
 The other inequality can be shown by noticing that, for $\ell = r = \theta$ the quantity to be maximized amounts to precisely $2^{1-s} \Theta$. This shows, then, that to calculate an upper bound of $C$ we can focus on trying to bound $g$ from above as closely as possible by a function of the form $\Theta t^s$. In other words, we are now interested in the optimization problem
 \[ \max_{t \in \left[ 1/b, 1 \right]} \frac{g(t)}{t^s}.\]
 
-Notice that the function being optimized is a quotient of two increasing functions. There exists an algorithm to approximate, to arbitrary precision, this class of functions. We present a naïve algorithm to this effect.
+Notice that the function being optimized is a quotient of two increasing functions. It is possible to approximate, to arbitrary precision, this class of functions. We present a naïve algorithm to this effect. [I don't know if there's any literature on this subject. Should I look into it?]
 %note: i have a less naïve algorithm. should i present that?
 
 \section{Optimization of increasing function quotients} \label{optimization}
@@ -725,10 +727,10 @@ Suppose that we have fixed an interval $I = \left[ a, b \right]$ and two continu
 
 Denote this maximum by $S$.
 
-Fix a partition $P$ given by $a = t_0 < t_1 < \cdots < t_n = b$ of $I$. For $i = 0, 1, \cdots, n-1$ define $M_i = \frac{u(t_{i+1})}{v(t_i)}$ and $m_i = \frac{u(t_i)}{v(t_{i+1})}$. Clearly, $M_i$ and $m_i$ are upper and lower bounds, respectively, of $u/v$ in the interval $\left[t_i, t_{i+1} \right]$. As such, if we put $M(P) = \max M_i$ and $m(P) = \max m_i$, we have the inequality
+Consider a partition $P$ of I given by $a = t_0 < t_1 < \cdots < t_n = b$. For $i = 0, 1, \cdots, n-1$ define $M_i = \frac{u(t_{i+1})}{v(t_i)}$ and $m_i = \frac{u(t_i)}{v(t_{i+1})}$. Clearly, $M_i$ and $m_i$ are upper and lower bounds, respectively, of $u/v$ in the interval $\left[t_i, t_{i+1} \right]$. As such, if we let $M(P) = \max M_i$ and $m(P) = \max m_i$, we have the inequality
 \[m(P) \leq S \leq M(P).\]
 
-Of course, as is usual with this type of argument, refining the partition will get us sharper bounds. Indeed, if $P_n$ is a sequence of partitions whose diameter converges to zero, $M(P_n) - m(P_n) \to 0$ by uniform continuity, and so each of these sequences will converge to $S$. This concludes this section on this kind of optimization problem.
+Of course, refining the partition will yield sharper bounds. Indeed, if $P_n$ is a sequence of partitions whose diameter converges to zero, $M(P_n) - m(P_n) \to 0$ by uniform continuity, and so each of these sequences will converge to $S$. This concludes this section on this kind of optimization problem.
 
 \section{On the continuity of $K$}
 
@@ -744,7 +746,7 @@ To this effect, we use the result of section \ref{calck} to reduce the matter to
 As a function of $s \in \left]0, 1\right]$, the quantity $\Theta_{bs}$ is continuous.
 \end{prop}
 
-Notice that we defined $\Theta$ as
+Recall that we defined $\Theta$ as
 
 \[ \Theta_{bs} = \max_{t \in \left[ 1/b, 1 \right]} \frac{g(t)}{t^s}.\]
 
@@ -760,16 +762,18 @@ This function is continuous.
 \end{lemma}
 
 \begin{proof}
-We prove this lemma by supposing fixed arbitrary $x_0 \in X$ and a sequence of $x_n \in X$ converging to $x_0$. We will show $u(x_n)$ converges to $u(x_0)$.
+To show this lemma, consider a sequence $x_n \in X$ such that $x_n$ converges to some $x_0 \in X$. We will show $u(x_n)$ converges to $u(x_0)$.
 
-Fix arbitrary $\varepsilon > 0$, and let $y_0$ be a maximizer of $f(x_0, y)$. There exists a neighbourhood, let's say $B_{\delta_1}(x_0) \times B_{\delta_2}(y_0)$ such that, for $(x,y)$ in this neighbourhood, $f(x,y)$ is within $\varepsilon$ of $f(x_0, y_0) = u(x_0)$, and so for $x \in B_{\delta_1}(x_0)$ we have $u(x) \geq u(x_0) - \varepsilon$.
+Let $\varepsilon > 0$, and let $y_0$ be a maximizer of $f(x_0, y)$. There exists a neighbourhood, let's say $B_{\delta_1}(x_0) \times B_{\delta_2}(y_0)$ such that, for $(x,y)$ in this neighbourhood, $f(x,y)$ is within $\varepsilon$ of $f(x_0, y_0) = u(x_0)$, and so for $x \in B_{\delta_1}(x_0)$ we have $u(x) \geq u(x_0) - \varepsilon$.
 
 On the other hand, consider the sequence $u(x_n)$. We can, without loss of generality, pass to a converging subsequence with limit $L$. The preceding argument shows $L \geq u(x_0)$; we now show the reverse inequality.
 
 Let $y_n$ be a sequence of maximizers, that is, suppose it satisfies $f(x_n, y_n) = u(x_n)$. Suppose, again without loss of generality, that $y_n$ converges, to a limit $y_L$.
 
-It is a fact that $L = \lim f(x_n, y_n) = f(x_0, y_L)$ by continuity. But, furthermore, $f(x_0, y_L) \leq u(x_0)$, which finishes our argument.
+Then $L = \lim f(x_n, y_n) = f(x_0, y_L)$ by continuity. But, furthermore, $f(x_0, y_L) \leq u(x_0)$, which finishes our argument.
 \end{proof}
+
+[I think the preceding proof is needlessly complicated. I'll look into it again later]
 
 We conclude the section with the following proposition:
 
