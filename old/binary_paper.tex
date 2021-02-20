@@ -274,7 +274,7 @@ As mentioned in the introduction, it appears that, the bigger $b$ is (that is, t
 
 This intuition proves to be partially correct. Indeed, if $b < c$ are both powers of a common integer, it is easy to check that any $b$-ary interval is also a $c$-ary interval, which implies the inequality $\BB_{bs} \leq \BB_{cs}$. This argument, however, is not generalizable.
 
-It would be nice to have a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. One might conjecture that the $b$-ary measures are, in a sense, monotone as a function of $b$, but this turns out not to be the case, we we show at the end of this article. In other words, the following statement is \textbf{false}: If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.
+It would be nice to have a criterion to, given two numbers $c, b \in \N_{\geq 2}$, tell if it is the case that $\BB_{bs} \leq \BB_{cs}$. One might conjecture that the $b$-ary measures are, in a sense, monotone as a function of $b$, but this turns out not to be the case, we we show at the end of this article. In other words, the following statement is \textbf{false}: If $c \geq b$ then $\BB_{bs} \leq \BB_{cs}$.\label{falseconjecture}
 
 \section{Minimal interval coverings}\label{sec5}
 
@@ -815,7 +815,7 @@ Finally, having fixed a $b$-ary interval $I = R_{b^\eta}(a)$, we define its \emp
 
 Our construction consists of starting with an interval of the form \eqref{gableinterval} and simply applying G-splits, A-splits and B-splits repeatedly. This will give us the decreasing sequence of sets we are looking for.
 
-More concretely, let $S_0 = \left]-\gamma, \gamma\right[$, and define $S_{n+1}$ as \emph{the B-split of the A-split of the G-split of $S_n$}. This process will give us a decreasing sequence of sets that depends on four parameters: $\alpha$, $\beta$, $b$ and $s$. We wish to manipulate $\alpha$ and $\beta$ to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
+More concretely, let $S_0 = \left]-\gamma, \gamma\right[$, and define $S_{n+1}$ as \emph{the B-split of the A-split of the G-split of $S_n$}. This process will give us a decreasing sequence of sets that depends on four parameters: $\alpha$, $\beta$, $b$ and $s$. We wish to manipulate these parameters to maximize the difference between the Hausdorff and $b$-ary coverings of $S$. We begin by inspecting the Hausdorff measure.
 
 Note that all of the $S_i$, taken as unions of intervals, are Hausdorff covers of $S$. Let $\sigma_i$ be the Hausdorff sum of $S_i$.
 
@@ -823,12 +823,11 @@ Clearly, $\sigma_0 = (2 \gamma)^s$. Furthermore, by the recursive definition of 
 
 The only way for the limit to be nontrivial is for this sequence to be the constant sequence equal to one, and so for $\sigma_1$ to be $(2 \gamma)^s$. Hence, let us calculate $\sigma_1$.
 
-First, calculate the Hausdorff sum of the B-split of $\left[0, 1 \right[$. This is $\left] \frac 1 b - \frac \gamma{b^\beta}, \frac 1 b + \frac \gamma{b^\beta} \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s \beta}$. By rescaling, the B-split of an interval of length $\ell$ would have Hausdorff sum $(2 \gamma)^s b^{-s \beta} \ell^s$.
+First, calculate the Hausdorff sum of the B-split of $\left[0, 1 \right[$. The B-split of this interval is $\left] \frac 1 b - \frac \gamma{b^\beta}, \frac 1 b + \frac \gamma{b^\beta} \right[$, with Hausdorff sum $(2 \gamma)^s b^{-s \beta}$. By rescaling, the B-split of an interval of length $\ell$ would have Hausdorff sum $(2 \gamma)^s b^{-s \beta} \ell^s$.
 
 Now, notice that before doing a B-split we first do an A-split. This means that an interval of length $\ell$ is turned into $b^\alpha$ many intervals, of length $\ell b^{-\alpha}$. Hence, the B-split of the A-split of an interval of length $\ell$ has Hausdorff sum equal to $b^\alpha (2 \gamma)^s b^{-s (\alpha + \beta)} \ell^s$.
 
-If we have a set of intervals with Hausdorff sum $H$ and take their A- and B-split the resulting Hausdorff sum is given by
-
+If we have a set of intervals with Hausdorff sum $H$ and take their A and B-split the resulting Hausdorff sum is given by
 \begin{align*}
 \sum_\ell (2 \gamma)^s \ell^s b^{\alpha - (\alpha + \beta) s} &=
 (2 \gamma)^s b^{\alpha - (\alpha + \beta) s} \sum \ell^s\\
@@ -868,38 +867,47 @@ Now, consider the collection of intervals $\{ \left]x_i - \varepsilon_i, y_i \ri
 
 This lemma is useful because $S$ is compact.
 
-Indeed, it is trivial to see that the closure of the G-split of an interval $I$ is contained in $I$, which means the closure of $S_{n+1}$ is contained in $S_n$. This means that $S$ can be written as the intersection of all $\overline{S_n}$, all of which are compact, hence $S$ itself is compact. Therefore, we may bound the $b$-ary measure of $S$ from below by minoring the Hausdorff sum of \emph{finite} $b$-ary coverings of $S$.
+Indeed, it is trivial to see that the closure of the G-split of an interval $I$ is contained in $I$, which means the closure of $S_{n+1}$ is contained in $S_n$. This means that $S$ can be written as the intersection of all $\overline{S_n}$, all of which are compact, hence $S$ itself is compact. Therefore, we may bound the $b$-ary measure of $S$ from below by bounding the Hausdorff sum of \emph{finite} $b$-ary coverings of $S$.
 
 We can further strengthen our assumptions. Notice that, for $n > 0$, $S_n$ contains no points of the form $k b^{-n}$. This implies that, given a finite $b$-ary covering of $S$, there exists $n$ such that our covering covers $S_n$, as we will now show.
 
-Fix any finite $b$-ary covering of $S$. Let $n$ be a positive natural number such that all intervals of this covering have length greater than $b^{-n}$. Consider $S_n$ as a countable collection of intervals. Each of these intervals is either wholly contained in the covering we have fixed, or entirely outside it. Of course, if any of them were outside the covering, there would be at least one point of $S$ not being covered, which is a contradiction. Hence, $S_n$ is entirely covered.
+Consider some finite $b$-ary covering of $S$. Let $n$ be a positive natural number such that all intervals of this covering have length greater than $b^{-n}$. Consider $S_n$ as a countable collection of intervals. Each of these intervals is either wholly contained in the covering we have fixed, or entirely outside it. Of course, if any of them were outside the covering, there would be at least one point of $S$ not being covered, which is a contradiction. Hence, $S_n$ is entirely covered.
 
-Therefore, we now work with the following hypothesis: \textbf{Fix a \emph{finite} covering of some $S_n$}. If we can bound from below the Hausdorff sum of coverings of this kind, we have bound from below the $b$-ary measure of $S$, as desired.
+Therefore, we now work with the following hypothesis: \textbf{Consider a \emph{finite} covering of some $S_n$}. If we can bound from below the Hausdorff sum of coverings of this kind, we have bound from below the $b$-ary measure of $S$, as desired.
 
 We will now show by induction on $n$ that this covering has Hasudorff sum at least 2.
 
-If $n = 0$ the result is a mere consequence of the definition of $\gamma$. We will now suppose the result to be true for some $n$, and show it for $n+1$.
+If $n = 0$ the result is a mere consequence of the definition of $\gamma$. We will now suppose that the result is true for some $n$, and show that it also holds for $n+1$.
 
 Note that $S_{n+1}$ can be described as follows: consider all intervals $I = R_{b^\eta}(a)$ composing the A-split of the G-split of $S_0$ and replace each interval with an appropriately rescaled and translated copy of $S_n$, made to fit inside the B-split of $I$, which we will call $J = ]a \pm b^{\eta - \beta} \gamma[$. This allows us to use the induction hypothesis to assume, without loss of generality, that any $b$-ary cover of each of these copies of $S_n$ covers the entire interval $J$.
 
 Any such cover is either a cover of $\left]-\gamma, \gamma \right[$ scaled down to the size of $J$, or contains an interval that covers $J$ entirely. Of course, in the latter case, because of a property of the B-split we mention above, we must actually cover $I$ entirely, yielding a Hausdorff sum of $b^{\eta s}$. In the former case, by rescaling, we have a Hausdorff sum of at least $2 b^{(\eta - \beta) s} = b^{\eta s} b^{\log_b 2 - \beta s}$. Since $\log_b 2 - \beta s = \alpha (s - 1) \leq 0$, at a minimum we have a Hausdorff sum of $b^{\eta s + \alpha (s - 1)}$.
 
-What we have done refers to a single copy of $S_n$. Now, consider an interval $I = R_{b^\eta}(a)$ in the G-split of $S_0$. If we show that we can assume that $I$ is entirely covered, then we show that we can assume without loss of generality that we cover the entirety of $S_0$ and therefore that we have a Hausdorff sum of at least 2. Fix, then, an arbitrary $b$-ary covering of the copies of $S_n$ contained in the B-split of the A-split of $I$.
+What we have done refers to a single copy of $S_n$. Now, consider an interval $I = R_{b^\eta}(a)$ in the G-split of $S_0$. If we show that we can assume that $I$ is entirely covered, then we show that we can assume without loss of generality that we cover the entirety of $S_0$ and therefore that we have a Hausdorff sum of at least 2. Consider, then, an arbitrary $b$-ary covering of the copies of $S_n$ contained in the B-split of the A-split of $I$.
 
-The A-split of $I$ consists of splitting $I$ into $b^\alpha$ identical intervals. We can assume, without loss of generality, that, if we \emph{don't} cover the entirety of $I$, each of these identical intervals is covered separately, with no interval in our covering containing two different intervals of the A-split of $I$. This means that we cover each of our copies of $S_n$ independently. Each of them, as we have shown, requires a Hausdorff sum of at least $b^{(\eta - \alpha)s + \alpha(s - 1)} = b^{\eta s - \alpha}$, and since there are $b^\alpha$ many of these, our $b$-ary cover has Hausdorff sum at least $b^{\eta s}$. This is the same as the Hausdorff sum of the trivial cover $\{I\}$, which means that we may assume $I$ is completely covered. This concludes our proof. \qed
+The A-split of $I$ consists of splitting $I$ into $b^\alpha$ identical intervals. We can assume, without loss of generality, that if we \emph{don't} cover the entirety of $I$ then each of these identical intervals is covered separately, with no interval in our covering containing two different intervals of the A-split of $I$. This means that we cover each of our copies of $S_n$ independently. Each of them, as we have shown, requires a Hausdorff sum of at least $b^{(\eta - \alpha)s + \alpha(s - 1)} = b^{\eta s - \alpha}$, and since there are $b^\alpha$ many of these, our $b$-ary cover has Hausdorff sum at least $b^{\eta s}$. This is the same as the Hausdorff sum of the trivial cover $\{I\}$, which means that we may assume $I$ is completely covered. This concludes our proof. \qed
 
-To recap: our set $S$, built for any dimension of the form $s = \frac{\alpha + \log_b 2}{\alpha + \beta}$, has
+[Need to review this proof]
+
+To recap: our set $S$, built for any dimension of the form $s = \frac{\alpha + \log_b 2}{\alpha + \beta}$, satisfies
 \begin{gather*}
 \HH_s(S) \leq (2\gamma)^s\\
 \BB_s(S) \geq 2
 \end{gather*}
-which shows that, for these dimensions,
-
+which shows that, for the dimensions $s$,
 \[C \geq 2^{1-s} \gamma^{-s}.\]
 
-We have, then, a partial bound. If we define $\Gamma_{bs} = \gamma_{bs}^{-s}$, we have the partial bounds
-\[ 2^{1-s} \Gamma_{bs} \leq C_{bs} \leq 2^{1-s} \Theta_{bs},\]
-where we have seen the right inequality always holds, and the left equality holds in a dense subset of $\left[0, 1 \right]$.
+Note that the set of dimensions $s$ for which we can conclude this inequality is rather small: countable, in fact, because the parameters $\alpha$ and $\beta$ vary over integers. However, it is easy to check that the set of possible dimensions forms a dense subset of $[0,1]$, and so we conclude
+
+\begin{theorem}\label{boundtheorem}
+Let $\Gamma_{bs} = \gamma_{bs}^{-s}$. Then,
+\begin{equation} \label{partialineq}
+2^{1-s} \Gamma_{bs} \leq C_{bs} \leq 2^{1-s} \Theta_{bs},
+\end{equation}
+where we have right inequality always holds and the left equality holds in a dense subset of $\left[0, 1 \right]$.
+\end{theorem}
+
+Since $\Gamma_{bs}$ is a continuous function of $s$ [Need to fact check this], if $C_{bs}$ is also continuous in $s$ then inequality \eqref{partialineq} holds for all $s \in [0,1]$. However, at time of writing, it is not known if this is true.
 
 \section{Application}\label{secfinal}
 
@@ -907,20 +915,17 @@ We use the results from the preceding section to construct a set $S$ satisfying 
 \[ \BB_{5s}(S) < \BB_{4s}(S) \]
 for some dimension $s$.
 
-This is a rather striking result as it disproves the expected growth of the $b$-ary measures with $b$, mentioned in \eqref{falseconjecture}.
+This is a rather striking result as it disproves the expected growth of the $b$-ary measures with $b$, mentioned in page \pageref{falseconjecture}.
 
 In view of what we have already done, the set $S$ is not difficult to construct. Indeed, simply replicate the construction done above for $b = 4$, $\alpha = 0$  and $\beta = 1$, getting $s = 1/2$.
 
-For this $S$ we already know $\BB_{4s}(S) \geq 2^{1-s} \Gamma_{4s} \HH_s(S)$.
+For this $S$, theorem \ref{boundtheorem} shows that $\BB_{4s}(S) \geq 2^{1-s} \Gamma_{4s} \HH_s(S)$. Furthermore, $\BB_{5s}(S) \leq K_{5s} \HH_s(S) = 2^{1-s} \Theta_{5s} \HH_s(S)$. We need now only show that  $\Theta_{5s} \leq \Gamma_{4s}$.
 
-We know, furthermore, that $\BB_{5s}(S) \leq K_{5s} \HH_s(S) = 2^{1-s} \Theta_{5s} \HH_s(S)$. We need only show, now, that  $\Theta_{5s} \leq \Gamma_{4s}$.
-
-We begin by calculating $\gamma_{4s}$. We assert it is given by $4^0 \times 0.111\dots$, which amounts to $1/3$.
+We begin by calculating $\gamma_{4s}$. We will show it is given by $4^0 \times 0.111\dots$, which equals $1/3$.
 
 To show this, we begin by noticing that for any $t > 1/3$ we have $i(t) \geq 1$, which, together with the fact that $i(1/3) = 1$ shows that $g(1/3) = 1$.
 
-Indeed, if $1 > t > 1/3$ (the case $t \geq 1$ is trivial), its ternary digits will agree with those of $1/2$ until some $n$-th digit, which will be a $2$ or a $3$. We have, then,
-
+Indeed, if $1/3 < t < 1$ (the case $t \geq 1$ is trivial), its ternary digits will agree with those of $1/2$ until some $n$-th digit, which will be a $2$ or a $3$. We then have
 \begin{align*}
 i(t) &\geq \frac 1 {4^s} + \frac 1 {4^{2s}} + \cdots + \frac 1 {4^{(n-1)s}} + \frac 2 {4^{ns}} \\
 &= \frac 1 {2} + \frac 1 {2^2} + \cdots + \frac 1 {2^{n-1}} + \frac 2 {2^n} \\
@@ -929,9 +934,9 @@ i(t) &\geq \frac 1 {4^s} + \frac 1 {4^{2s}} + \cdots + \frac 1 {4^{(n-1)s}} + \f
 
 Now, notice that the numbers given by $t_n = \frac 1 2 - 4^{-n}$ converge to $1/2$, and $i(t_n)$ is always $< 1$, implying that for any $t < 1/3$ we have $g(t) < 1$.
 
-We conclude, then, $\gamma_{4s} = 1/3$, whence $\Gamma_{4s} = \sqrt 3$.
+We then conclude $\gamma_{4s} = 1/3$, whence $\Gamma_{4s} = \sqrt 3$.
 
-We need now bound $\Theta_{5s}$ from above. To this effect, we use the strategies outlined in section \ref{optimization}
+We need now bound $\Theta_{5s}$ from above. To this effect, we use the strategy outlined in section \ref{optimization}
 
 Consider the following partition of $\left[1/5, 1 \right]$:
 
@@ -963,7 +968,9 @@ And we then conclude that $\Theta_{5s}$ is bounded from above by
 
 \[ \max \left\{ \left(\frac 1 {\sqrt{5}} + \frac 1 5\right) \sqrt 5, \left(\frac 1 {\sqrt{5}} + \frac 2 5\right) \frac 5 {\sqrt 6}, \frac 5 {\sqrt 7} \right\}.\]
 
-Since all of these are strictly less than $\sqrt 3$, we conclude the desired result. \qed
+Since all of these are strictly less than $\sqrt 3$, we conclude $\Theta_5s < \sqrt3 = \Gamma_4s$, and so
+\[\BB_{5s}(S) \leq 2^{1-s} \Theta_{5s} \HH_s(S) < 2^{1-s} \Gamma_{4s} \HH_s(S) \leq \BB_{4s}(S),\]
+as desired. \qed
 
 \section{Acknowledgements}
 
