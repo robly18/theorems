@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{mathtools}
 \usepackage{ntheorem}
 \usepackage[utf8]{inputenc}
@@ -24,22 +24,68 @@
 \theoremseparator{.}
 \newtheorem{proof}{Dem}
 
+\newcommand{\R}{\mathbb{R}}
+
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
 \begin{document}
-	\maketitle
+\maketitle
 
-	\section{Introdução}
+\section{Introdução}
 
-	todo
+todo
 
-	\section{Restrições Holonómicas}
+\section{Restrições Holonómicas}
 
-	Um problema de otimização com restrições holonómicas é um problema no qual se pretende minimizar um funcional da forma
-	\[I(u) = \int_a^b f(x,u(x),u'(x)) \dl x,\]
-	sujeito a restrições pontuais. A forma mais elementar é exigir que o caminho esteja contido numa variedade definida por equações cartesianas, isto é, exigir que, para todo o $x \in [a,b]$,
-	\[g_1(u(x)) = c_1, \dots, g_k(u(x)) = c_k,\]
-	onde os $g_i$ são funções regulares o suficiente e os $c_i$ são constantes reais. Por exemplo, se quisermos otimizar um funcional sobre os caminhos contidos na esfera, podemos escrever isto como a condição $\norm{u(x)} = 1$.
+Um problema de otimização com restrições holonómicas é um problema no qual se pretende minimizar um funcional da forma
+\[I(u) = \int_a^b f(t,u(t),u'(t)) \dl2 t,\]
+sujeito a restrições pontuais. A forma mais elementar é exigir que o caminho esteja contido numa variedade definida por equações cartesianas, isto é, exigir que, para todo o $x \in [a,b]$,
+\[g_1(u(t)) = c_1, \dots, g_k(u(t)) = c_k,\]
+onde os $g_i$ são funções regulares o suficiente e os $c_i$ são constantes reais. Por exemplo, se quisermos otimizar um funcional sobre os caminhos contidos na esfera, podemos escrever isto como a condição $\norm{u(t)} = 1$.
+
+\begin{teorema}
+Seja $u$ um minimizante do funcional $I$ sob as condições de fronteira usuais ($u(a) = \alpha$, $u(b) = \beta$), juntamente com a restrição $g(u(x)) = c$, em que $g : \R^d \to \R^k$ e $c \in \R^k$ é um valor regular de $g$. Impõem-se as hipóteses de regularidade: $u$ é $C^2$, $f$ é $C^1$ e $g$ é $C^2$ num aberto que contém o caminho. Então, existe uma função $C^1$, $\lambda : \left]a,b\right[ \to \R^k$, tal que
+\[\diffp f u(t,u(t),u'(t)) - \diff*{\left(\diffp f \xi(t,u(t),u'(t))\right)}t = g'(u(t)) \lambda(t).\]
+\end{teorema}
+
+\begin{proof}
+Vamos demonstrar esta afirmação construindo localmente a função $\lambda$. Para cada $t_0 \in \left]a,b\right[$ mostraremos que existe uma função $\lambda$ definida numa vizinhança de $t_0$ que satisfaz as restrições acima, e fica a partir disto provada a afirmação, visto que o facto de $c$ ser valor regular assume que $\lambda(t)$ é sempre único e portanto a função $\lambda$ ``cola bem'' nas vizinhanças.
+
+Para este efeito, usemos o teorema da função inversa. Como $g'(u(t_0))$ é uma matriz $k \times d$ de característica $k$, uma das suas submatrizes $k \times k$ é invertível. Trocando índices, podemos sem perda de generalidade assumir que é a submatriz ``da esquerda'', isto é, podemos supor que a matriz
+$
+A = \begin{bmatrix}
+g'(u(t_0))\\
+\begin{matrix}
+0 & I
+\end{matrix}
+\end{bmatrix}
+$
+é invertível. Isto permite-nos aplicar o teorema da função inversa à seguinte função. Decomponha-se $u = (v, w)$, em que $v$ são as primeiras $k$ componentes de $u$ e $w$ as últimas $d-k$. Defina-se agora $G(v,w) = (g(v,w),w)$. Então, claramente temos $G'(u(t_0)) = A$, que é invertível, pelo que existem abertos $U$ e $V$ em $\R^d$ tal que:
+\begin{itemize}
+\item $u(t_0) \in U$,
+\item $G(u(t_0)) \in V$, e
+\item $G \colon U \to V$ é um difeomorfismo $C^2$.
+\end{itemize}
+
+Visto que $G(u(t_0)) \in V$, existe uma bola, digamos de raio $r$, em torno de $G(u(t_0))$ que está contida em $V$. Considere-se um intervalo $\left]t_0-\delta, t_0 + \delta\right[$ tal que $G(u)$ não difere de mais de $r/2$ de $G(u(t_0))$. Seja $v$ uma função de teste de suporte contido neste intervalo. Então, para $\varepsilon$ pequeno o suficiente temos que $G(u) + \varepsilon v$ está contido em $V$ para $t \in \left]t_0-\delta,t_0+\delta\right[$. Consequentemente, é possível definir $u_\varepsilon$ de modo a concordar com $u$ fora deste intervalo, e como $G^{-1}(G(u) + \varepsilon v)$ dentro dele.
+
+Podemos agora fazer o argumento usual para obter as equações de Euler-Lagrange. Como sabemos que $u$ minimiza o funcional de entre os caminhos que satisfazem $g(u) = c$, sabemos que, se $v$ tiver as primeiras $k$ componentes nulas, $I(u_\varepsilon) \geq I(u)$. Assim sendo, definindo $\Phi(\varepsilon) = I(u_\varepsilon)$, obtemos $\Phi'(0) = 0$, e esta derivada pode ser calculada usando a regra de Leibniz, porque, pelas nossas hipóteses de regularidade, a função $f(t, u_\varepsilon(t), u'_\varepsilon(t))$ é $C^1$ em $\varepsilon$ e $t$. A verificação é tediosa, mas resume-se a dividir no caso em que $t$ não está no suporte de $v$ (neste caso a afirmação é trivial) e no caso em que $t$ está no suporte de $v$ (neste caso podemos usar a expressão $u_\varepsilon = G^{-1}(G(u) + \varepsilon v)$ numa vizinhança).
+
+Calcule-se então $\Phi'(0)$. Primeiro que tudo, aplicamos Leibniz para obter
+\[\Phi'(0) = \int_a^b \diffp*{f(t, u_\varepsilon(t), u'_\varepsilon(t))}\varepsilon \dl2 t.\]
+
+De seguida, podemos usar o facto que para $t \not \in \left]t_0-\delta,t_0+\delta\right[$ temos $u_\varepsilon = u$, para reduzir o integral a
+\[\int_{t_0 - \delta}^{t_0 + \delta} \diffp*{f(t, u_\varepsilon(t), u'_\varepsilon(t))}\varepsilon \dl2 t,\]
+e neste intervalo temos o benefício que $u_\varepsilon$ tem uma expressão simples. Nomeadamente, $u_\varepsilon(t) = G^{-1}(G(u(t)) + \varepsilon v(t))$. A expressão para $u'_\varepsilon(t)$ é ligeiramente mais complexa.
+\[u'_\varepsilon(t) = (G^{-1})'(G(u(t)) + \varepsilon v(t)) [G'(u(t)) u'(t) + \varepsilon v'(t)].\]
+
+Aplicando a derivada da composta, concluimos
+\[\Phi'(0) = \int_{t_0 - \delta}^{t_0 + \delta} \diffp fu (t, u(t), u'(t)) \diffp {u_\varepsilon(t)} \varepsilon(0) + \diffp f \xi (t, u(t), u'(t)) \diffp{u_\varepsilon}{\varepsilon, t}(0,t)\dl2 t,\]
+e uma aplicação de integração por partes no segundo termo resulta em
+\[\Phi'(0) = \int_{t_0 - \delta}^{t_0 + \delta} \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right) \diffp {u_\varepsilon(t)} \varepsilon(0)\dl2 t.\]
+
+O termo $\diffp {u_\varepsilon(t)} \varepsilon(0)$ toma nesta prova o lugar do que normalmente chamamos $v$, sendo que normalmente aqui aplicaríamos o lema fundamental do cálculo de variações para concluir Euler-Lagrange. No entanto, os $u_\varepsilon$ estão limitados à nossa variedade, pelo que podemos apenas concluir que o termo nos parênteses pertence ao espaço normal à variedade. Isto faz sentido com o que esperamos, visto que esse espaço é gerado pelos gradientes dos $g_i$.
+\end{proof}
 
 \end{document}
