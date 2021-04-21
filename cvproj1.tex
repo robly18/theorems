@@ -26,6 +26,8 @@
 
 \newcommand{\R}{\mathbb{R}}
 
+\newcommand{\tr}{\intercal}
+
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
 
@@ -45,8 +47,8 @@ sujeito a restrições pontuais. A forma mais elementar é exigir que o caminho 
 onde os $g_i$ são funções regulares o suficiente e os $c_i$ são constantes reais. Por exemplo, se quisermos otimizar um funcional sobre os caminhos contidos na esfera, podemos escrever isto como a condição $\norm{u(t)} = 1$.
 
 \begin{teorema}
-Seja $u$ um minimizante do funcional $I$ sob as condições de fronteira usuais ($u(a) = \alpha$, $u(b) = \beta$), juntamente com a restrição $g(u(x)) = c$, em que $g : \R^d \to \R^k$ e $c \in \R^k$ é um valor regular de $g$. Impõem-se as hipóteses de regularidade: $u$ é $C^2$, $f$ é $C^1$ e $g$ é $C^2$ num aberto que contém o caminho. Então, existe uma função $C^1$, $\lambda : \left]a,b\right[ \to \R^k$, tal que
-\[\diffp f u(t,u(t),u'(t)) - \diff*{\left(\diffp f \xi(t,u(t),u'(t))\right)}t = g'(u(t)) \lambda(t).\]
+Seja $u$ um minimizante do funcional $I$ sob as condições de fronteira usuais ($u(a) = \alpha$, $u(b) = \beta$), juntamente com a restrição $g(u(x)) = c$, em que $g \colon \R^d \to \R^k$ e $c \in \R^k$ é um valor regular de $g$. Impõem-se as hipóteses de regularidade: $u$ é $C^2$, $f$ é $C^1$ e $g$ é $C^2$ num aberto que contém o caminho. Então, existe uma função contínua, $\lambda \colon \left]a,b\right[ \to \R^k$, tal que
+\[\diffp f {u_i}(t,u(t),u'(t)) - \diff*{\left(\diffp f {\xi_i}(t,u(t),u'(t))\right)}t = \sum_{j=1}^k \lambda_j(t) \diffp {g_j} {u_i} (u(t)), \quad i = 1, \dots, d.\]
 \end{teorema}
 
 \begin{proof}
@@ -86,6 +88,28 @@ e uma aplicação de integração por partes no segundo termo resulta em
 \[\Phi'(0) = \int_{t_0 - \delta}^{t_0 + \delta} \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right) \diffp {u_\varepsilon(t)} \varepsilon(0)\dl2 t.\]
 
 O termo $\diffp {u_\varepsilon(t)} \varepsilon(0)$ toma nesta prova o lugar do que normalmente chamamos $v$, sendo que normalmente aqui aplicaríamos o lema fundamental do cálculo de variações para concluir Euler-Lagrange. No entanto, os $u_\varepsilon$ estão limitados à nossa variedade, pelo que podemos apenas concluir que o termo nos parênteses pertence ao espaço normal à variedade. Isto faz sentido com o que esperamos, visto que esse espaço é gerado pelos gradientes dos $g_i$.
+
+Para prosseguir, escreva-se melhor o termo $\diffp {u_\varepsilon(t)} \varepsilon(0)$. Este é dado por
+\[\diffp {u_\varepsilon(t)} \varepsilon(0) = (G^{-1})'(G(u(t))) v(t) = (G'(u(t)))^{-1} v(t).\]
+
+Seja $A(t) = G'(u(t))^{-1}$, $a_{ij}(t)$ o elemento $i,j$ de $A(t)$, e defina-se a função $\lambda \colon \left]t-\delta,t+\delta\right[ \to \R^d$ como
+\[\lambda_i(t) = \sum_j \left( \diffp f{u_j} (t, u(t), u'(t))  - \diff*{\diffp f {\xi_j} (t, u(t), u'(t))}t \right) a_{ji}(t). \]
+
+Então, a equação acima diz-nos que, pelo TFCV, $\lambda_i = 0$ para $i > k$. Para mais, é fácil ver por definição que
+\[\lambda(t)^\tr = \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right) G'(u(t))^{-1},\]
+pelo que $G'(u(t))^\tr \lambda(t) = \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right)^\tr$.
+
+Visto que apenas as primeiras $k$ coordenadas de $\lambda$ são não-nulas, e que as primeiras $k$ coordenadas de $G$ coincidem com $g$, esta expressão pode ser escrita como (abusando da notação e usando agora $\lambda(t)$ para representar o vetor das primeiras $k$ coordenadas de $\lambda$):
+\[
+\begin{bmatrix}
+\nabla g_1(u(t)) & \dots & \nabla g_k(u(t))
+\end{bmatrix}
+\lambda(t)
+=
+\left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right)^\tr.
+\]
+
+Consequentemente, a função $\lambda(t)$ (com apenas $k$ componentes) é a função que se procura, e a prova está concluída.
 \end{proof}
 
 \end{document}
