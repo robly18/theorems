@@ -7,26 +7,34 @@
 \usepackage{diffcoeff}
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 
-\usepackage[portuges]{babel}
+%\usepackage[portuges]{babel}
 
-\title{Projeto de CV\\
-\large Multiplicadores de Lagrange e restrições holonómicas e não-holonómicas}
+\title{Project in Calculus of Variations\\
+\large Holonomic and Non-Holonomic Constraints, with Lagrange Multipliers}
 \author{Duarte Maia}
-\date{Abril de 2021}
+\date{May 2021}
 
 \theoremseparator{.}
-\newtheorem{prop}{Proposição}
-\newtheorem{lema}{Lema}
-\newtheorem{teorema}{Teorema}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
 
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
 \theoremseparator{.}
-\newtheorem{proof}{Dem}
+\newtheorem{proof}{Proof}
 
 \newcommand{\R}{\mathbb{R}}
 
 \newcommand{\tr}{\intercal}
+
+\newcommand{\tstart}{\mathrm{start}}
+\newcommand{\tend}{\mathrm{end}}
+
+\newcommand{\wtphi}{
+  \mspace{2mu}
+  \widetilde{\mspace{-2mu}\smash[t]{\phi}}
+}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
@@ -34,11 +42,11 @@
 \begin{document}
 \maketitle
 
-\section{Introdução}
+\section{Introduction}
 
 todo
 
-\section{Restrições Holonómicas}
+\section{Holonomic Constraints}
 
 Um problema de otimização com restrições holonómicas é um problema no qual se pretende minimizar um funcional da forma
 \[I(u) = \int_a^b f(t,u(t),u'(t)) \dl2 t,\]
@@ -46,10 +54,10 @@ sujeito a restrições pontuais. A forma mais elementar é exigir que o caminho 
 \[g_1(u(t)) = c_1, \dots, g_k(u(t)) = c_k,\]
 onde os $g_i$ são funções regulares o suficiente e os $c_i$ são constantes reais. Por exemplo, se quisermos otimizar um funcional sobre os caminhos contidos na esfera, podemos escrever isto como a condição $\norm{u(t)} = 1$.
 
-\begin{teorema}
+\begin{theorem}
 Seja $u$ um minimizante do funcional $I$ sob as condições de fronteira usuais ($u(a) = \alpha$, $u(b) = \beta$), juntamente com a restrição $g(u(x)) = c$, em que $g \colon \R^d \to \R^k$ e $c \in \R^k$ é um valor regular de $g$. Impõem-se as hipóteses de regularidade: $u$ é $C^2$, $f$ é $C^1$ e $g$ é $C^2$ num aberto que contém o caminho. Então, existe uma função contínua, $\lambda \colon \left]a,b\right[ \to \R^k$, tal que
 \[\diffp f {u_i}(t,u(t),u'(t)) - \diff*{\left(\diffp f {\xi_i}(t,u(t),u'(t))\right)}t = \sum_{j=1}^k \lambda_j(t) \diffp {g_j} {u_i} (u(t)), \quad i = 1, \dots, d.\]
-\end{teorema}
+\end{theorem}
 
 \begin{proof}
 Vamos demonstrar esta afirmação construindo localmente a função $\lambda$. Para cada $t_0 \in \left]a,b\right[$ mostraremos que existe uma função $\lambda$ definida numa vizinhança de $t_0$ que satisfaz as restrições acima, e fica a partir disto provada a afirmação, visto que o facto de $c$ ser valor regular assume que $\lambda(t)$ é sempre único e portanto a função $\lambda$ ``cola bem'' nas vizinhanças.
@@ -112,6 +120,44 @@ Visto que apenas as primeiras $k$ coordenadas de $\lambda$ são não-nulas, e qu
 Consequentemente, a função $\lambda(t)$ (com apenas $k$ componentes) é a função que se procura, e a prova está concluída.
 \end{proof}
 
-\section{Restrições Não-Holonómicas}
+\section{Non-Holonomic Constraints}
+
+\subsection{Introduction}
+
+Definition: a nonholonomic constraint is of the form
+\[\phi(t,u(t),\dot u(t)) = 0.\]
+
+We wish to minimize $I(u) = \int f(t,u,\dot u) \,\dl x$, for $u$ satisfying these constraints and with $u(t_\tstart) = u_\tstart$ and $u(t_\tend) = u_\tend$, for $u_\tstart$ and $u_\tend$ fixed elements of $\R^n$.
+
+Note that $\phi$ is given by a number (let's say $k$) of differential equations. (Remember to show examples.) It is natural (and will be necessary) to require that these equations are independent. In other words, if $\phi \equiv \phi(t,u,\xi)$, we require that the matrix $\diffp\phi\xi$ has linearly independent lines, or, equivalently, rank $k$.
+
+\subsection{Valid Displacements}
+
+The local strategies used in the holonomic case fail here, so we will need to use a kind of global version of the inverse function theorem. The proof will be presented in the annex, so until then here is theorem.
+
+\begin{theorem}
+Let $u$ be a $C^k$ path $[t_\tstart,t_\tend] \to \R^n$, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(x,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
+
+Suppose that for all $t$ we have that the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, such that $U$ contains all points of the form $(x,u(x),\dot u(x))$ and is contained in $\Omega$, as well as a function $\wtphi \colon U \to \R^n$ whose first $k$ coordinates agree with $\phi$, such that the function given by
+\begin{align*}
+\Phi \colon U &\to V\\
+(x,u,\xi) &\mapsto (x,u,\wtphi(x,u,\xi))
+\end{align*}
+is a $C^k$ diffeomorphism.
+\end{theorem}
+
+Consider a fixed path $u_0$, and apply the theorem to this case. Let the inverse of the above $\Phi$ be $(x,u,\eta) \mapsto (x,u,\psi(x,u,\eta))$.
+
+\subsection{First Variation}
+
+discuss how the value of the functional varies as a function of a parameter and simplifications we can do
+
+\subsection{The Multiplier Rule}
+
+aaaa
+
+\subsection{The Normal Case}
+
+bbb
 
 \end{document}
