@@ -6,6 +6,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{diffcoeff}
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+\usepackage[integrals]{wasysym}
 
 %\usepackage[portuges]{babel}
 
@@ -18,6 +19,11 @@
 \newtheorem{prop}{Proposition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
+
+
+\theoremstyle{nonumberplain}
+\theorembodyfont{\upshape}
+\newtheorem{remark}{Remark}
 
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
@@ -38,6 +44,10 @@
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\eval{.}{\rvert}
+\DeclarePairedDelimiter\bracket{[}{]}
+
+\newcommand{\vecb}{{\vec{b}}}
 
 \begin{document}
 \maketitle
@@ -136,28 +146,150 @@ Note that $\phi$ is given by a number (let's say $k$) of differential equations.
 The local strategies used in the holonomic case fail here, so we will need to use a kind of global version of the inverse function theorem. The proof will be presented in the annex, so until then here is theorem.
 
 \begin{theorem}
-Let $u$ be a $C^k$ path $[t_\tstart,t_\tend] \to \R^n$, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(x,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
+Let $u$ be a $C^k$ path $[t_\tstart,t_\tend] \to \R^n$, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
 
-Suppose that for all $t$ we have that the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, such that $U$ contains all points of the form $(x,u(x),\dot u(x))$ and is contained in $\Omega$, as well as a function $\wtphi \colon U \to \R^n$ whose first $k$ coordinates agree with $\phi$, such that the function given by
+Suppose that for all $t$ we have that the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, such that $U$ contains all points of the form $(t,u(t),\dot u(t))$ and is contained in $\Omega$, as well as a function $\wtphi \colon U \to \R^n$ whose first $k$ coordinates agree with $\phi$, such that the function given by
 \begin{align*}
 \Phi \colon U &\to V\\
-(x,u,\xi) &\mapsto (x,u,\wtphi(x,u,\xi))
+(t,u,\xi) &\mapsto (t,u,\wtphi(t,u,\xi))
 \end{align*}
 is a $C^k$ diffeomorphism.
 \end{theorem}
 
-Consider a fixed path $u_0$, and apply the theorem to this case. Let the inverse of the above $\Phi$ be $(x,u,\eta) \mapsto (x,u,\psi(x,u,\eta))$.
+Consider a fixed path $u_0$, and apply the theorem to this case. Let the inverse of the above $\Phi$ be $(t,u,\eta) \mapsto (t,u,\psi(t,u,\eta))$.
+
+We can build valid displacements using the following recipe. Let $v \colon [t_\tstart, t_\tend] \to \R^{n-k}$, and consider the ODE given by $\wtphi(x,u,\dot u) = (0, b v)$, where $b$ is a real number, with $u(t_\tstart) = u_\tstart$. More concretely:
+\[
+\begin{cases}
+\dot u(t) = \psi(t, u(t), (0, b v(t))),\\
+u(t_\tstart) = u_\tstart.
+\end{cases}
+\]
+
+This is an ODE with a parameter $b$. Let us call the solution (if it exists) $u_b^v(t)$. Note that the solution exists for $b = 0$: it is simply $u_0$. Classical ODE theorems guarantee that if the solution exists for some set of parameters (in this case, $b = 0$), then it exists for small enough perturbations of the parameters, and is continuous. Moreover, it can be shown to absorb the degrees of regularity of the ODE. In this case, since $\psi$ is $C^k$, so is $u_b^v(t)$ (in the two variables, $b$ and $v$).
+
+In the next section we will require the quantity $\diffp{u_b^v(t)}b$, which exists for $b$ close enough to 0. Later on, we will require a slight variation, in which we allow for several $v$'s and several $b$'s. More concretely, we would solve the ODE given by
+\[\wtphi(t,u,\dot u) = (0, b_1 v_1 + \dots + b_p v_p),\]
+where the values of $b_i$ will be considered to be part of a single vector $b$ (yes, it has the same name as when it was just a real number), and the vector-functions $v_1$, $v_2$, and so on are considered to be the columns of a single $n \times p$ matrix $V(t)$. In this case, the ODE becomes
+\[\wtphi(t,u,\dot u) = (0, V b).\]
+
+The same conclusions apply: the resulting solution $u^V_b(t)$ exists for small enough $b$, and is $C^k$ in the variables $b$ and $t$.
+
+Note that in constructing these families \emph{we have no guarantee that the end-point $u_b^V(t_\tend)$ equals $u_\tend$}! This is part of what makes this study so difficult.
 
 \subsection{First Variation}
 
-discuss how the value of the functional varies as a function of a parameter and simplifications we can do
+Consider a one-parameter family of arcs of the form $u_b^v(t)$, as described above. In what follows we will abbreviate this to $u_b(t)$. We will investigate the behavior of $I(u_b)$ around zero. More precisely, we will look at $\diff{I(u_b)}b[0]$.
+
+Recall that $I(u_b)$ is defined as $\int f(t, u_b(t), \dot u_b(t)) \dl1 t$, and since this is integration over a compact interval of a $C^1$ function in both its variables (assuming $f$ is $C^1$ and $u_b(t)$ is $C^2$ in both variables) Leibniz' rule is applicable and so
+\[\diff{I(u_b)}b = \int_\tstart^\tend \diffp*{f(t, u_b, \dot u_b)}b \dl1 t =\int_\tstart^\tend \diffp f u \diffp{u_b}b + \diffp f \xi \diffp{\dot u_b}b \dl1 t.\]
+
+The usual integration by parts of the calculus of variations can now be performed, owing to the fact that, since $u$ is $C^1$ in $b$ and $t$, the order of derivatives is irrelevant, so that $\diffp{\dot u_b}b = \diffp{u_b(t)}{t,b}$. Therefore,
+\[\diff I b = \int_\tstart^\tend \left( \diffp f u - \diff*{\diffp f \xi}t \right) \diffp{u_b}b \dl1 t + \bracket*{ \diffp f \xi \diffp{u_b}b }_\tstart^\tend.\]
+
+Finally, note that we are keeping the first end of $u$ fixed, so that $u_b(t_\tstart)$ is constant. Therefore, the bracket term can be simplified, yielding
+\[\diff I b = \int_\tstart^\tend \left( \diffp f u - \diff*{\diffp f \xi}t \right) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.\]
+
+Reminder to introduce $\Theta$-notation. With it, this can be written
+\[\diff I b = \int_\tstart^\tend \Theta(f) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.\]
+
+This expression can still be simplified, if we recall that $u$ satisfies $\wtphi(t,u(t), \dot u(t)) = (0, b v(t))$. Taking (time-variable) linear combinations of this, we conclude that, if $\mu(t) = (\mu_1(t), \mu_2(t))$ is regular enough,
+\[\mu \cdot \wtphi(t, u, \dot u) = b \mu_2 \cdot v,\]
+and so, differentiating in $b$, we get
+\[\diffp{(\mu \cdot \wtphi)}u \diffp u b + \diffp{(\mu \cdot \wtphi)}\xi \diffp{\dot u}b = \mu_2 \cdot v,\]
+which can be rewritten in terms of $\Theta$ as
+\[\Theta(\mu \cdot \wtphi) \diffp u b = \mu_2 \cdot v - \diff*{\left(\diffp{(\mu \cdot \wtphi)}\xi \diffp u b \right)}t.\]
+
+Integrating, this yields
+\[\int_\tstart^\tend \Theta(\mu \cdot \wtphi) \diffp u b \dl1 t = \int_\tstart^\tend \mu_2 \cdot v \dl2 t - \bracket*{\diffp{(\mu \cdot \wtphi)}\xi \diffp u b}_\tstart^\tend.\]
+
+Using the same trick as before, the bracket can be simplified to get
+\[\int_\tstart^\tend \Theta(\mu \cdot \wtphi) \diffp u b \dl1 t = \int_\tstart^\tend \mu_2 \cdot v \dl2 t - \mu(t_\tend) \cdot \eval*{\diffp{\wtphi}\xi}_\tend \eval*{\diffp u b}_\tend.\]
+
+Adding and subtracting this expression to $\diff I b$ deduced above, we get
+\begin{multline*}
+\diff I b = \int_\tstart^\tend \Theta(f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
++ \left(\eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend.
+\end{multline*}
+
+Note that $\mu$ has still been left arbitrary, as long as $\Theta(\mu \cdot \wtphi)$ makes sense. Therefore, we have freedom to manipulate it. This will be useful in the sequence.
 
 \subsection{The Multiplier Rule}
 
-aaaa
+Suppose, now, that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$. We might be tempted to apply the above formula for $\diff I b$ and claim that this quantity must be null for all $v$. However, that is neglecting the requirement that $u(t_\tend) = u_\tend$. One could think about restricting themselves to only $v$'s that guarantee this requirement, in some way, but that might not be possible.
 
-\subsection{The Normal Case}
+To get around this, consider an arbitrary collection $v_1, \dots, v_{n+1}$ of smooth functions $[t_\tstart, t_\tend] \to \R^k$, which we collect into the matrix $V(t)$. We can see $I$ as function in $n+1$-variables, given by the vector $\vecb$. Furthermore, we can see $u(t_\tend)$ as a function of $\vecb$ as well, and so we may consider the $C^1$ function given by
+\[\vecb \mapsto (I(u_\vecb^V), u_\vecb(t_\tend)).\]
 
-bbb
+By the inverse function theorem, if the jacobian of this function at $\vecb = 0$ were invertible, this map would be a diffeomorphism in a neighborhood of the origin. But this contradicts the assumption that $u_0$ is a minimum of $I$, for in this case we could find $\vecb$ such that $u_\vecb(t_\tend) = u_\tend$, and $I(u_\vecb^V)$ is slightly smaller than $I(u_0)$. In other words, under the assumption that $u$ is a minimum of $I$, the following matrix has linearly dependent rows: (evaluated at $\vecb = 0$)
+\[
+\begin{bmatrix}
+\diffp*{I(u_\vecb^V)}{b_1} & \dots & \diffp*{I(u_\vecb^V)}{b_{n+1}}\\
+\diffp*{u_\vecb^V(t_\tend)}{b_1} & \dots &\diffp*{u_\vecb^V(t_\tend)}{b_{n+1}}
+\end{bmatrix}.
+\]
+
+Note that, at $\vecb = 0$, these columns can be simplified:
+\[
+\begin{bmatrix}
+\diff*{I(u_b^{v_1})}{b} & \dots & \diff*{I(u_b^{v_{n+1}})}{b}\\
+\diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \diff*{u_b^{v_{n+1}}(t_\tend)}{b}
+\end{bmatrix}.
+\]
+
+Since this holds for arbitrary collections $v_1, \dots, v_{n+1}$, we can actually conclude a very strong result. Indeed, let $q$ be the largest number of $v_1, \dots, v_q$ you can have such that the following matrix has linearly independent columns
+\[
+A =
+\begin{bmatrix}
+\diff*{I(u_b^{v_1})}{b} & \dots & \diff*{I(u_b^{v_{q}})}{b}\\
+\diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \diff*{u_b^{v_{q}}(t_\tend)}{b}
+\end{bmatrix}.
+\]
+
+By the above remark, $q$ must be less than $n+1$. Therefore, for any $v$, the vector $(\diff*{I(u_b^v)}{b}, \diff*{u_b^v(t_\tend)}{b})$ is a linear combination of the columns of $A$.
+
+Since the matrix $A$ is strictly taller than it is wide, there exists a row-matrix, say $E = \begin{bmatrix} \ell_0 & e \end{bmatrix} = \begin{bmatrix} \ell_0 & e_1 & \dots & e_n\end{bmatrix}$ such that $e A = 0$. By the previous paragraph, we conclude that \emph{for this specific collection of scalars}(!), for any $v$ we have
+\[\ell_0 \diff*{I(u_b^v)}{b} + e \diff*{u_b^v(t_\tend)}{b} = 0.\]
+
+Now, by the result of the previous subsection (need to modify), we may rewrite the derivative in $I$ as
+\begin{multline*}
+\ell_0 \diff I b = \int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend,
+\end{multline*}
+where, recall, $\mu$ has been left as an arbitrary regular function. If we expand the previous equation, this gives the result
+\begin{multline*}
+\int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend + e\right) \eval*{\diffp{u_b}b}_\tend = 0, \text{ for all regular $v$.}
+\end{multline*}
+
+We may now rejoice in the degrees of freedom we have left, for we can, for instance, pick $\mu(t_\tend)$ in order to make
+\[\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend + e = 0.\]
+
+Indeed, note that this choice is independent of $v$. Also independent of $v$ would be to ensure that $\Theta(\ell_0 f + \mu \cdot \wtphi)$. This is an ODE, and existence of solution is guaranteed by classical ODE theory. If we expand we get a linear ODE with varying coefficients. Remember to cite Perko or so.
+
+Then, for this particular $\mu$, we reach the startling conclusion
+\[\int_\tstart^\tend \mu_2 \cdot v \dl2 t = 0 \text{ for all regular $v$.}\]
+
+We may now apply the FLCV to get that the last $k$ coordinates of $\mu$ were null after all, and so
+\[\Theta(\ell_0 f + \mu_1 \cdot \phi) = 0\]
+
+And so we are done, because we get a result that did not require arbitrary choices. Our conclusion is as follows:
+
+\begin{theorem}
+If $u_0$ is a sufficiently regular minimum of the optimization problem, then there exist a constant $\ell_0$ and $k$ $C^1$ functions, say $\lambda_1, \dots, \lambda_k$, such that
+\begin{equation}\label{multipliers}
+\ell_0 \diffp f u + \lambda \cdot \diffp \phi u = \diff*{\left(\ell_0 \diffp f \xi + \lambda \cdot \diffp \phi \xi\right)}t.
+\end{equation}
+\end{theorem}
+
+\begin{remark}
+Note that this is, in principle, a well-determined first-order ODE. We have $n+k$ functions to solve:
+\[u_1, \dots, u_n, \lambda_1, \dots, \lambda_k,\]
+and $k+n$ equations: $k$ are given by the condition $\phi(t,u,\dot u) = 0$, and $n$ are given by \eqref{multipliers}.
+\end{remark}
+
+\subsection{Normality and Abnormality}
+
+The solutions to the Lagrange multiplier equation can be divided into two types: normal solutions, wherein $\ell_0 \neq 0$, and abnormal solutions, where $\ell_0 = 0$.
 
 \end{document}
