@@ -8,6 +8,8 @@
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 \usepackage[integrals]{wasysym}
 
+\usepackage{cite}
+
 %\usepackage[portuges]{babel}
 
 \title{Project in Calculus of Variations\\
@@ -54,7 +56,25 @@
 
 \section{Introduction}
 
-todo
+This work originally started as a project for a class on the Calculus of Variations, at Instituto Superior Técnico. The topic of the project is classical optimization with holonomic and non-holonomic constraints. However, when doing research on the subject, I was shocked to find very few mathematical references with the proper results and proofs. Consequently, I have taken it upon myself to create such a reference.
+
+This document is divided into two parts. The first part is a relatively simple exploration of holonomic constraints, that is, optimization on (possibly time-dependent) manifolds. In other words, we require that our paths satisfy equations of the form $\phi_i(t, u(t)) = 0$, $i = 1, \dots, k$. The second part is trickier, in which the restrictions become differential equations of the form $\phi_i(t,u(t), \dot u(t))$, $i = 1, \dots k$. This is where I had a problem finding references.
+
+This work is the culmination of a couple of weeks spent interpreting 16 pages' worth of Bliss' \textit{Lectures on the Calculus of Variations} \cite[pp.~187-202]{bliss}. I don't know whether to blame my unfamiliarity with the notational conventions, the great amount of generality in which the proof is done, or my own lack of familiarity with the topic, but it was with more effort than I am proud to admit that I could finally understand the proof which I reproduce in section \ref{sec:nonholonomic}, albeit in much less generality. Perhaps my own proof might serve as a primer for someone else's reading of Bliss' proof.
+
+\section{Notational Conventions}
+
+In this section we lay down the basic notational conventions that will be followed over the rest of this document.
+
+The problem at hand is to find a curve $u \colon [t_\tstart, t_\tend] \to \R^n$ that minimizes the value of a certain integral $I(u) = \int_{t_\tstart}^{t_\tend} f(t, u(t), \dot u(t)) \dl2 t$. In order for this expression to make sense, it is assumed that the curves $u$ being considered are at least $C^1$, and the function $f$ is at least continuous, though the results to be obtained require in fact that $f$ is at least $C^2$.
+
+The function $f$ is considered to be a function of 3 variables: time $t \in [t_\tstart, t_\tend]$, position $u \in \R^n$ and velocity $\xi \in \R^n$. In truth, we could be considering $f$ defined in more general (i.e. smaller) domains, but since our results are local in nature correctness is not harmed by omitting consideration of the domain.
+
+We allow ourselves to consider partial derivatives in vector coordinates, for example $\diffp f \xi (t, u, \xi)$. These derivatives are to be taken in the sense of multivariable calculus; for example, the expression we have just written is understood as an $1 \times n$ row-matrix.
+
+Arguments of functions will often be omitted. For example, if $u$ represents a curve, an expression like $f(t,u,\dot u)$ is understood to mean $f(t,u(t),\dot u(t))$: the evaluations at time $t$ are implied. Somewhat more extremely, if $u$ is understood to be the curve in consideration, we might go as far as to write $f$ without any arguments. So, for example, we might write $I(u) = \int_\tstart^\tend f$. This applies especially to expressions involving partial derivatives. For example, the standard Euler-Lagrange equations might be written as
+\[\diffp f u - \diff*{\diffp f \xi}t = 0.\]
+
 
 \section{Holonomic Constraints}
 
@@ -130,7 +150,7 @@ Visto que apenas as primeiras $k$ coordenadas de $\lambda$ são não-nulas, e qu
 Consequentemente, a função $\lambda(t)$ (com apenas $k$ componentes) é a função que se procura, e a prova está concluída.
 \end{proof}
 
-\section{Non-Holonomic Constraints}
+\section{Non-Holonomic Constraints}\label{sec:nonholonomic}
 
 \subsection{Introduction}
 
@@ -291,5 +311,8 @@ and $k+n$ equations: $k$ are given by the condition $\phi(t,u,\dot u) = 0$, and 
 \subsection{Normality and Abnormality}
 
 The solutions to the Lagrange multiplier equation can be divided into two types: normal solutions, wherein $\ell_0 \neq 0$, and abnormal solutions, where $\ell_0 = 0$.
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
 
 \end{document}
