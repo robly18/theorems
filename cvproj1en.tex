@@ -96,7 +96,7 @@ are satisfied for all $t \in [t_\tstart, t_\tend]$.
 It is assumed that $\phi$ is a $C^2$ function.
 \end{statement}
 
-\subsection{Euler-Lagrange in Local Coordinates (Time-Independent Case)}
+\subsection{Local Coordinates (Time-Independent Conditions)}
 
 The most basic way to solve an optimization problem with holonomic constraints is to write it out in local coordinates.
 
@@ -109,7 +109,7 @@ Let $M$ be an $m$-dimensional $C^2$ manifold embedded in $n$-dimensional euclide
 Furthermore, define $\tilde u$ (`$u$ in coordinates') as
 \[\tilde u(t) = u(r^{-1}(t)), \text{ for applicable $t$.}\]
 
-Then, if $u$ minimizes the value of $I(u) = \int f(t,u,\dot u)$, it must satisfy the Euler-Lagrange equations in every coordinate chart, i.e., for all $C^2$ charts,
+Then, if $u_0$ minimizes the value of $I(u) = \int f(t,u,\dot u)$ as $u$ ranges over paths starting at $u_\tstart$ and ending at $u_\tend$, $u_0$ must satisfy the Euler-Lagrange equations in every coordinate chart, i.e., for all $C^2$ charts,
 \[\diffp{\tilde f} q - \diff*{\diffp{\tilde f}v}t = 0.\]
 \end{theorem}
 
@@ -157,20 +157,27 @@ Finally, to simplify matters, let us suppose without loss of generality (by rota
 
 Of course, this does not solve the problem of length-minimizing curves in the circle, as we would need to ensure that length-minimizing curves are $C^2$, and solutions of the Euler-Lagrange equations do not necessarily minimize the value of the functional. However, this example has served the purpose of exemplifying the method.
 
+\begin{remark}
+This method also works for time-dependent conditions, but it is slightly more complicated, because the spaces that the conditions define are not just manifolds, but rather `time-dependent' manifolds. Unfortunately, I do not know of any relevant bibliography on this matter.
+\end{remark}
+
 \subsection{Langrange Multipliers}
 
-Um problema de otimização com restrições holonómicas é um problema no qual se pretende minimizar um funcional da forma
-\[I(u) = \int_a^b f(t,u(t),u'(t)) \dl2 t,\]
-sujeito a restrições pontuais. A forma mais elementar é exigir que o caminho esteja contido numa variedade definida por equações cartesianas, isto é, exigir que, para todo o $x \in [a,b]$,
-\[g_1(u(t)) = c_1, \dots, g_k(u(t)) = c_k,\]
-onde os $g_i$ são funções regulares o suficiente e os $c_i$ são constantes reais. Por exemplo, se quisermos otimizar um funcional sobre os caminhos contidos na esfera, podemos escrever isto como a condição $\norm{u(t)} = 1$.
+When solving problems in calculus of optimization in manifolds, sometimes local parametrizations are very messy business. Indeed, even though the implicit function theorem guarantees that the solutions to independent cartesian equations are manifolds in euclidean space, to parametrize these manifolds explicitly is often messy at best, and impossible at worst. This motivates the study of parametrization-independent methods of optimization. The most well-known of these is the method of Lagrange multipliers, which can be extended to the Calculus of Variations in two ways: it can be applied to problems with integral restriction (e.g. curves of a fixed length), see \cite[\S 12.1]{gelfandfomin}, or it can be applied to problems with pointwise (i.e. holonomic) restrictions, as we will see in this subsection. In section \ref{sec:nonholonomic}, we show a more general version of this principle, which can be applied to nonholonomic constraints, and in section \ref{subsec:applications} we show how integral constraints are really just a particular case of nonholonomic constraints. %TODO!!! ???? fact check
 
-\begin{theorem}
-Seja $u$ um minimizante do funcional $I$ sob as condições de fronteira usuais ($u(a) = \alpha$, $u(b) = \beta$), juntamente com a restrição $g(u(x)) = c$, em que $g \colon \R^d \to \R^k$ e $c \in \R^k$ é um valor regular de $g$. Impõem-se as hipóteses de regularidade: $u$ é $C^2$, $f$ é $C^1$ e $g$ é $C^2$ num aberto que contém o caminho. Então, existe uma função contínua, $\lambda \colon \left]a,b\right[ \to \R^k$, tal que
-\[\diffp f {u_i}(t,u(t),u'(t)) - \diff*{\left(\diffp f {\xi_i}(t,u(t),u'(t))\right)}t = \sum_{j=1}^k \lambda_j(t) \diffp {g_j} {u_i} (u(t)), \quad i = 1, \dots, d.\]
+The main result of this section is the following:
+
+\begin{theorem}\label{lagrangeholonomic}
+Let $u_0$ be a curve that minimizes the functional $I(u) = \int f(t,u,\dot u)$ as $u$ ranges over $C^1$ curves starting at $u_\tstart$, ending at $u_\tend$, and satisfying the $k$ cartesian equations $\phi(t,u(t)) = 0$ for all $t$. Suppose that $u_0$ is $C^2$, that $f$ and $\phi$ are $C^2$ in an open set containing all points of the form $(t,u_0,\dot u_0)$ and $(t,u_0)$ respectively, and that $\diffp \phi u$ has rank $k$ on all points of the form $(t,u_0)$. Then, there exists a continuous function $\lambda \colon \left]t_\tstart, t_\tend\right[ \to \R^k$ such that
+\[\diffp f u - \diff*{\diffp f \xi}t = \eval*{\diffp{\phi}{u}}_{t,u(t)} \lambda(t).\]
 \end{theorem}
 
+\begin{remark}
+The most common way to ensure the condition on the rank of $\diffp \phi u$ is to request that 0 is a regular value of $\phi$.
+\end{remark}
+
 \begin{proof}
+
 Vamos demonstrar esta afirmação construindo localmente a função $\lambda$. Para cada $t_0 \in \left]a,b\right[$ mostraremos que existe uma função $\lambda$ definida numa vizinhança de $t_0$ que satisfaz as restrições acima, e fica a partir disto provada a afirmação, visto que o facto de $c$ ser valor regular assume que $\lambda(t)$ é sempre único e portanto a função $\lambda$ ``cola bem'' nas vizinhanças.
 
 Para este efeito, usemos o teorema da função inversa. Como $g'(u(t_0))$ é uma matriz $k \times d$ de característica $k$, uma das suas submatrizes $k \times k$ é invertível. Trocando índices, podemos sem perda de generalidade assumir que é a submatriz ``da esquerda'', isto é, podemos supor que a matriz
