@@ -169,7 +169,9 @@ The main result of this section is the following:
 
 \begin{theorem}\label{lagrangeholonomic}
 Let $u_0$ be a curve that minimizes the functional $I(u) = \int f(t,u,\dot u)$ as $u$ ranges over $C^1$ curves starting at $u_\tstart$, ending at $u_\tend$, and satisfying the $k$ cartesian equations $\phi(t,u(t)) = 0$ for all $t$. Suppose that $u_0$ is $C^2$, that $f$ and $\phi$ are $C^2$ in an open set containing all points of the form $(t,u_0,\dot u_0)$ and $(t,u_0)$ respectively, and that $\diffp \phi u$ has rank $k$ on all points of the form $(t,u_0)$. Then, there exists a continuous function $\lambda \colon \left]t_\tstart, t_\tend\right[ \to \R^k$ such that
-\[\diffp f u - \diff*{\diffp f \xi}t = \eval*{\diffp{\phi}{u}}_{t,u(t)} \lambda(t).\]
+\begin{equation}\label{eq:lagrangeholonomic}
+\diffp f u - \diff*{\diffp f \xi}t = \lambda(t)^\tr \eval*{\diffp{\phi}{u}}_{t,u_0(t)}.
+\end{equation}
 \end{theorem}
 
 \begin{remark}
@@ -177,24 +179,33 @@ The most common way to ensure the condition on the rank of $\diffp \phi u$ is to
 \end{remark}
 
 \begin{proof}
+The proof of this theorem proceeds locally. We will show that, for all $t$, there exists a neighborhood of $t$ and a function $\lambda$ defined on this neighborhood, satisfying \eqref{eq:lagrangeholonomic}. The theorem follows immediately, as the functions thus defined are unique. Indeed, since $\diffp \phi u$ has linearly independent rows, the equation in $\lambda(t)$ given by \eqref{eq:lagrangeholonomic} has at most one solution for each $t$. The remarkable fact is that these solutions exist for all $t$, and form a continuous function.
 
-Vamos demonstrar esta afirmação construindo localmente a função $\lambda$. Para cada $t_0 \in \left]a,b\right[$ mostraremos que existe uma função $\lambda$ definida numa vizinhança de $t_0$ que satisfaz as restrições acima, e fica a partir disto provada a afirmação, visto que o facto de $c$ ser valor regular assume que $\lambda(t)$ é sempre único e portanto a função $\lambda$ ``cola bem'' nas vizinhanças.
-
-Para este efeito, usemos o teorema da função inversa. Como $g'(u(t_0))$ é uma matriz $k \times d$ de característica $k$, uma das suas submatrizes $k \times k$ é invertível. Trocando índices, podemos sem perda de generalidade assumir que é a submatriz ``da esquerda'', isto é, podemos supor que a matriz
-$
+To show the theorem locally, we use the inverse function theorem. Given $t_0$, since $\diffp\phi u$ has linearly independent rows, we can without loss of generality (by swapping coordinates if necessary) suppose that the $n \times n$ matrix
+\[
 A = \begin{bmatrix}
-g'(u(t_0))\\
+\eval*{\diffp\phi u}_{t_0,u_0(t_0)}\\
 \begin{matrix}
 0 & I
 \end{matrix}
 \end{bmatrix}
-$
-é invertível. Isto permite-nos aplicar o teorema da função inversa à seguinte função. Decomponha-se $u = (v, w)$, em que $v$ são as primeiras $k$ componentes de $u$ e $w$ as últimas $d-k$. Defina-se agora $G(v,w) = (g(v,w),w)$. Então, claramente temos $G'(u(t_0)) = A$, que é invertível, pelo que existem abertos $U$ e $V$ em $\R^d$ tal que:
-\begin{itemize}
-\item $u(t_0) \in U$,
-\item $G(u(t_0)) \in V$, e
-\item $G \colon U \to V$ é um difeomorfismo $C^2$.
-\end{itemize}
+\]
+is invertible. Now, let $\Phi(t,u) = (t, \phi(t,u), u_{k+1}, \dots, u_n)$. It is obvious that
+\[\Phi'(t_0, u_0(t_0)) =
+\begin{bmatrix}
+1 & 0\\
+* & A
+\end{bmatrix},\]
+which is invertible and so we are in the conditions of the inverse function theorem.
+
+To simplify notation, let us define $u^1 = (u_1, \dots, u_k)$ and $u^2 = (u_{k+1}, \dots, u_n)$, so that, for example, $\Phi$ can be written as $\Phi(t,u) = (t, \phi(t,u), u^2)$. Then, by the inverse function theorem, there exist open sets in $\R^{n+1}$, say $U$ and $V$ such that:
+\begin{enumerate}
+\item $(t_0, u_0(t_0)) \in U$,
+\item $\Phi$ is a diffeomorphism $U \to V$, and
+\item Without loss of generality, we may assume (making $U$ and $V$ smaller if need be) that $U$ is of the form $\left]t_0-\varepsilon, t_0+\varepsilon\right[ \times U_1$ for some open $U_1$.
+\end{enumerate}
+
+Now, since $(t_0, u_0(t_0)) \in U$ and $\Phi(t_0, u_0(t_0)) \in V$, by continuity there exists a neighborhood of $t_0$, say $B = \left]t_0 - \delta, t_0 + \delta\right[$, such that for all $t$ in this neighborhood we have $(t,u_0(t)) \in U$ and $\Phi(t,u_0(t)) \in V$. Furthermore, suppose that $\delta$ is small enough such that, for all $t \in B$, for all $z$ of norm less than some $d_0$, $(t,u_0(t) + z) \in U$. To show that such a $\delta$ exists, one may pick $d$ such that $u_0(t_0) + z$ is in $U_1$ for all $z$ of norm less than $2d$, and then pick $\delta$ such that $u_0(t)$ is always within $d$ of $u_0(t_0)$ for $t$ within $\delta$ of $t_0$.
 
 Visto que $G(u(t_0)) \in V$, existe uma bola, digamos de raio $r$, em torno de $G(u(t_0))$ que está contida em $V$. Considere-se um intervalo $\left]t_0-\delta, t_0 + \delta\right[$ tal que $G(u)$ não difere de mais de $r/2$ de $G(u(t_0))$. Seja $v$ uma função de teste de suporte contido neste intervalo. Então, para $\varepsilon$ pequeno o suficiente temos que $G(u) + \varepsilon v$ está contido em $V$ para $t \in \left]t_0-\delta,t_0+\delta\right[$. Consequentemente, é possível definir $u_\varepsilon$ de modo a concordar com $u$ fora deste intervalo, e como $G^{-1}(G(u) + \varepsilon v)$ dentro dele.
 
