@@ -1,12 +1,13 @@
 \documentclass{article}
 
 \usepackage{amsmath,amssymb,amsfonts}
+\usepackage[thmmarks,amsmath]{ntheorem}
 \usepackage{mathtools}
-\usepackage{ntheorem}
 \usepackage[utf8]{inputenc}
 \usepackage{diffcoeff}
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 \usepackage[integrals]{wasysym}
+
 
 \usepackage{cite}
 
@@ -32,6 +33,7 @@
 \theorembodyfont{\upshape}
 \theoremseparator{.}
 \newtheorem{statement}{Problem Statement}
+\theoremsymbol{\ensuremath{\blacksquare}}
 \newtheorem{proof}{Proof}
 
 \newcommand{\R}{\mathbb{R}}
@@ -52,6 +54,7 @@
 \DeclarePairedDelimiter\bracket{[}{]}
 
 \DeclareMathOperator{\tg}{tg}
+\DeclareMathOperator{\supp}{supp}
 
 \newcommand{\vecb}{{\vec{b}}}
 
@@ -121,7 +124,7 @@ Even though the above theorem requires that the verification be made for every c
 Theorem \ref{elinmanifolds} also holds for abstract $C^2$ manifolds, not embedded in $\R^n$, if $f$ is defined on $[t_\tstart, t_\tend] \times TM$, where $TM$ is the tangent bundle of $M$.
 \end{remark}
 
-\begin{example}
+\begin{example}\label{sphere1}
 Suppose that we wish to find length-minimizing curves on the sphere of unit radius. Then, we begin by parametrizing the sphere using polar coordinates:
 \[r(\theta, \varphi) = (\cos\theta \cos\varphi, \sin\theta \cos\varphi, \sin\varphi),\]
 and now we calculate the function $f(t,u,\xi) = \norm\xi$ in local coordinates:
@@ -205,49 +208,75 @@ To simplify notation, let us define $u^1 = (u_1, \dots, u_k)$ and $u^2 = (u_{k+1
 \item Without loss of generality, we may assume (making $U$ and $V$ smaller if need be) that $U$ is of the form $\left]t_0-\varepsilon, t_0+\varepsilon\right[ \times U_1$ for some open $U_1$.
 \end{enumerate}
 
-Now, since $(t_0, u_0(t_0)) \in U$ and $\Phi(t_0, u_0(t_0)) \in V$, by continuity there exists a neighborhood of $t_0$, say $B = \left]t_0 - \delta, t_0 + \delta\right[$, such that for all $t$ in this neighborhood we have $(t,u_0(t)) \in U$ and $\Phi(t,u_0(t)) \in V$. Furthermore, suppose that $\delta$ is small enough such that, for all $t \in B$, for all $z$ of norm less than some $d_0$, $(t,u_0(t) + z) \in U$. To show that such a $\delta$ exists, one may pick $d$ such that $u_0(t_0) + z$ is in $U_1$ for all $z$ of norm less than $2d$, and then pick $\delta$ such that $u_0(t)$ is always within $d$ of $u_0(t_0)$ for $t$ within $\delta$ of $t_0$.
+Since $(t_0, u_0(t_0)) \in U$ and $\Phi(t_0, u_0(t_0)) \in V$, by continuity there exists a neighborhood of $t_0$, say $B = \left]t_0 - \delta, t_0 + \delta\right[$, such that for all $t$ in this neighborhood we have $(t,u_0(t)) \in U$ and $\Phi(t,u_0(t)) \in V$. Furthermore, suppose that $\delta$ is small enough such that, for all $t \in B$, for all $z \in \R^{n}$ of norm less than some $d$, $\Phi(t,u_0(t)) + (0,0,z) \in V$. To show that such a $\delta$ exists, begin by picking a neighborhood of $\Phi(t_0, u_0(t_0))$ of the form $R \left]t_0-\delta_0, t_0 + \delta_0\right[ \times B_{2d}(0, u_0^2(t_0))$ such that $R$ is contained in $V$. Now pick $\delta < \delta_0$ such that $u_0(t)$ differs less than $d$ from $u_0(t_0)$ for $t$ within $\delta$ of $t_0$. This exists by continuity. Then, for $t \in \left]t_0-\delta, t_0 + \delta\right[$ and $z$ of norm less than $d$, we have that
+\[\norm*{(0, u_0^2(t_0)) - \left((0, u_0^2(t)) + (0, z)\right)} \leq \norm{u_0^2(t_0) - u_0^2(t)} + \norm z \leq 2d.\]
 
-Visto que $G(u(t_0)) \in V$, existe uma bola, digamos de raio $r$, em torno de $G(u(t_0))$ que está contida em $V$. Considere-se um intervalo $\left]t_0-\delta, t_0 + \delta\right[$ tal que $G(u)$ não difere de mais de $r/2$ de $G(u(t_0))$. Seja $v$ uma função de teste de suporte contido neste intervalo. Então, para $\varepsilon$ pequeno o suficiente temos que $G(u) + \varepsilon v$ está contido em $V$ para $t \in \left]t_0-\delta,t_0+\delta\right[$. Consequentemente, é possível definir $u_\varepsilon$ de modo a concordar com $u$ fora deste intervalo, e como $G^{-1}(G(u) + \varepsilon v)$ dentro dele.
-
-Podemos agora fazer o argumento usual para obter as equações de Euler-Lagrange. Como sabemos que $u$ minimiza o funcional de entre os caminhos que satisfazem $g(u) = c$, sabemos que, se $v$ tiver as primeiras $k$ componentes nulas, $I(u_\varepsilon) \geq I(u)$. Assim sendo, definindo $\Phi(\varepsilon) = I(u_\varepsilon)$, obtemos $\Phi'(0) = 0$, e esta derivada pode ser calculada usando a regra de Leibniz, porque, pelas nossas hipóteses de regularidade, a função $f(t, u_\varepsilon(t), u'_\varepsilon(t))$ é $C^1$ em $\varepsilon$ e $t$. A verificação é tediosa, mas resume-se a dividir no caso em que $t$ não está no suporte de $v$ (neste caso a afirmação é trivial) e no caso em que $t$ está no suporte de $v$ (neste caso podemos usar a expressão $u_\varepsilon = G^{-1}(G(u) + \varepsilon v)$ numa vizinhança).
-
-Calcule-se então $\Phi'(0)$. Primeiro que tudo, aplicamos Leibniz para obter
-\[\Phi'(0) = \int_a^b \diffp*{f(t, u_\varepsilon(t), u'_\varepsilon(t))}\varepsilon \dl2 t.\]
-
-De seguida, podemos usar o facto que para $t \not \in \left]t_0-\delta,t_0+\delta\right[$ temos $u_\varepsilon = u$, para reduzir o integral a
-\[\int_{t_0 - \delta}^{t_0 + \delta} \diffp*{f(t, u_\varepsilon(t), u'_\varepsilon(t))}\varepsilon \dl2 t,\]
-e neste intervalo temos o benefício que $u_\varepsilon$ tem uma expressão simples. Nomeadamente, $u_\varepsilon(t) = G^{-1}(G(u(t)) + \varepsilon v(t))$. A expressão para $u'_\varepsilon(t)$ é ligeiramente mais complexa.
-\[u'_\varepsilon(t) = (G^{-1})'(G(u(t)) + \varepsilon v(t)) [G'(u(t)) u'(t) + \varepsilon v'(t)].\]
-
-Aplicando a derivada da composta, concluimos
-\[\Phi'(0) = \int_{t_0 - \delta}^{t_0 + \delta} \diffp fu (t, u(t), u'(t)) \diffp {u_\varepsilon(t)} \varepsilon(0) + \diffp f \xi (t, u(t), u'(t)) \diffp{u_\varepsilon}{\varepsilon, t}(0,t)\dl2 t,\]
-e uma aplicação de integração por partes no segundo termo resulta em
-\[\Phi'(0) = \int_{t_0 - \delta}^{t_0 + \delta} \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right) \diffp {u_\varepsilon(t)} \varepsilon(0)\dl2 t.\]
-
-O termo $\diffp {u_\varepsilon(t)} \varepsilon(0)$ toma nesta prova o lugar do que normalmente chamamos $v$, sendo que normalmente aqui aplicaríamos o lema fundamental do cálculo de variações para concluir Euler-Lagrange. No entanto, os $u_\varepsilon$ estão limitados à nossa variedade, pelo que podemos apenas concluir que o termo nos parênteses pertence ao espaço normal à variedade. Isto faz sentido com o que esperamos, visto que esse espaço é gerado pelos gradientes dos $g_i$.
-
-Para prosseguir, escreva-se melhor o termo $\diffp {u_\varepsilon(t)} \varepsilon(0)$. Este é dado por
-\[\diffp {u_\varepsilon(t)} \varepsilon(0) = (G^{-1})'(G(u(t))) v(t) = (G'(u(t)))^{-1} v(t).\]
-
-Seja $A(t) = G'(u(t))^{-1}$, $a_{ij}(t)$ o elemento $i,j$ de $A(t)$, e defina-se a função $\lambda \colon \left]t-\delta,t+\delta\right[ \to \R^d$ como
-\[\lambda_i(t) = \sum_j \left( \diffp f{u_j} (t, u(t), u'(t))  - \diff*{\diffp f {\xi_j} (t, u(t), u'(t))}t \right) a_{ji}(t). \]
-
-Então, a equação acima diz-nos que, pelo TFCV, $\lambda_i = 0$ para $i > k$. Para mais, é fácil ver por definição que
-\[\lambda(t)^\tr = \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right) G'(u(t))^{-1},\]
-pelo que $G'(u(t))^\tr \lambda(t) = \left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right)^\tr$.
-
-Visto que apenas as primeiras $k$ coordenadas de $\lambda$ são não-nulas, e que as primeiras $k$ coordenadas de $G$ coincidem com $g$, esta expressão pode ser escrita como (abusando da notação e usando agora $\lambda(t)$ para representar o vetor das primeiras $k$ coordenadas de $\lambda$):
+This shows that $\Phi(t,u_0(t)) + (0,0,z) \in R \subseteq V$, which allows us to define the variation of $I$ at $u_0$ with respect to some variations contained in $B$. More specifically, let $v : [t_\tstart, t_\tend] \to \R^{n-k}$ be a $C^\infty$ function of support contained in $B$. Then, for $\varepsilon$ small enough (such that $\norm{\varepsilon v} \leq d$), for all $t \in B$ we have $(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)) \in V$. Then, we may define $u_\varepsilon$ as
 \[
-\begin{bmatrix}
-\nabla g_1(u(t)) & \dots & \nabla g_k(u(t))
-\end{bmatrix}
-\lambda(t)
-=
-\left( \diffp fu (t, u(t), u'(t))  - \diff*{\diffp f \xi (t, u(t), u'(t))}t \right)^\tr.
+u_\varepsilon(t) =
+\begin{cases}
+u_0(t), & t \not \in \supp v,\\
+\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)), & t \in B,
+\end{cases}
+\]
+where $\Psi$ is defined as follows. Since $\Phi$ is of the form $\Phi(t,u) = (t, \phi(t,u), u^2)$, its inverse must be of the form $\Phi^{-1}(t,w) = (t, \psi(t,w), w^2)$. We set $\Psi(t,w) = (\psi(t,w), w^2)$. In other words, $\Psi = \begin{bmatrix} 0 & I \end{bmatrix} \circ \Phi^{-1}$, i.e. $\Psi$ is the inverse of $\Phi$ with the time component thrown out.
+
+Since both branches of this definition are open, agree on the intersection, and each branch is $C^1$, we conclude that $u_\varepsilon$ is also a $C^1$ path. It is also trivial to see that it satisfies the boundary conditions and that $\phi(t, u_\varepsilon(t)) = 0$. Therefore, we must have
+\[I(u_\varepsilon) \geq I(u_0)\]
+
+Now, the standard idea is to take the derivative in $\varepsilon = 0$ and apply Leibniz to get that a certain integral expression is null. However, for our purposes it is useful to first split the integral in two parts:
+\[I(u_\varepsilon) = \int_{[t_\tstart,t_\tend] \setminus B} f(t,u_0,\dot u_0) \dl2 t + \int_B f(t,u_\varepsilon, \dot u_\varepsilon) \dl2 t.\]
+
+Now, the first expression is constant in $\varepsilon$, so differentiating and applying Leibniz we get
+\[\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp*{f(t,u_\varepsilon, \dot u_\varepsilon)}\varepsilon \dl2 t.\]
+
+The usual chain rule and integration by parts of the calculus of variation yields
+\[
+\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp f u \diffp{u_\varepsilon}\varepsilon + \diffp f {\xi} \diffp{\dot u}\varepsilon \dl2 t = \int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \diffp{u}\varepsilon \dl2 t.
 \]
 
-Consequentemente, a função $\lambda(t)$ (com apenas $k$ componentes) é a função que se procura, e a prova está concluída.
+Note that in the integration by parts we used the fact that partial derivatives commute, and so
+\[\diffp{\dot u_\varepsilon}\varepsilon = \diffp{u_\varepsilon(t)}{\varepsilon,t} = \diffp*{\diffp {u_\varepsilon} \varepsilon}t.\]
+
+The term $\diffp u \varepsilon$ plays the part of the variation in the usual proof of the Euler-Lagrange equations. If $\diffp u \varepsilon$ were arbitrary, we would in fact conclude Euler-Lagrange. However, they are not. Intuitively, they are arbitrary, though tangent to the manifold given by the cartesian equations $\phi = 0$. Therefore, one intuits that the term $\diffp f u + \diff*{\diffp f {\dot u}}t$ is always orthogonal to the manifold, which matches up with the expected conclusion, as we know from vector calculus that the space orthogonal to a manifold defined by cartesian equations is generated by $\nabla_x \phi_1, \dots, \nabla_x \phi_k$..
+
+To proceed with the proof, let us investigate $\eval*{\diffp {u_\varepsilon} \varepsilon}_{\varepsilon = 0}$. This can be computed using the chain rule:
+\begin{align*}
+\eval*{\diffp {u_\varepsilon} \varepsilon}_0 &= \eval*{\diffp*{\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
+&= \eval*{\begin{bmatrix} 0 & I \end{bmatrix} \diffp*{\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} (\Phi^{-1})'(t, \phi(t,u_0(t)), u_0^2(t)) (0, 0, v(t))\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} \left(\Phi'(\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t)))\right)^{-1} (0,0,v(t))\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t)).
+\end{align*}
+
+Therefore, the conclusion is that, for all smooth $v$ defined in $B$,
+\[
+\int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t))\dl2 t = 0.
+\]
+
+Now, we may apply at once the Fundamental Lemma of the Calculus of Variations, to conclude that the last $n-k$ coordinates of the $(n+1)$-dimensional row-vector
+\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1}\]
+are null.  In other words, we can write this vector in the form
+\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} = (\ell(t),\lambda(t),0)^\tr,\]
+for some $\ell : B \to \R$ and $\lambda : B \to \R^k$. Note that these functions are continuous, as they are a product of continuous functions, and we cannot ensure more regularity under only $C^2$ assumptions because of the $\diff*{\diffp f \xi}t$ term.
+
+To finalize, let us try to solve for $\diffp f u + \diff*{\diffp f {\xi}}t$, which we will temporarily refer to as $T(t)$. Simply put, multiplying by $\Phi'$ and applying matrix block multiplication,
+\[\begin{bmatrix}0 & T(t)\end{bmatrix} = (\ell(t), \lambda(t), 0)^\tr \Phi'(t,u_0(t)) =
+(\ell(t), \lambda(t), 0)^\tr
+\begin{bmatrix}
+1 & \begin{matrix} 0 & 0 \end{matrix}\\
+* & \diffp\phi u\\
+* & \begin{matrix}
+0 & I
+\end{matrix}
+\end{bmatrix}.\]
+
+Therefore, we conclude $T(t) = \lambda(t)^\tr \diffp\phi u$, and so the proof is complete.
 \end{proof}
+
+\begin{example}
+Let us reproduce example \ref{sphere1}, i.e. to find paths of minimal length on the unit sphere. 
+\end{example}
 
 \section{Non-Holonomic Constraints}\label{sec:nonholonomic}
 
