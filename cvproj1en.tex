@@ -8,6 +8,10 @@
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 \usepackage[integrals]{wasysym}
 
+\usepackage{cancel}
+\usepackage{braket}
+
+\usepackage{tikz}
 
 \usepackage{cite}
 
@@ -275,19 +279,116 @@ Therefore, we conclude $T(t) = \lambda(t)^\tr \diffp\phi u$, and so the proof is
 \end{proof}
 
 \begin{example}
-Let us reproduce example \ref{sphere1}, i.e. to find paths of minimal length on the unit sphere. 
+Let us reproduce example \ref{sphere1}, i.e. to find paths of minimal length on the unit sphere.  In this case,
+\begin{gather*}
+\phi = x^2 + y^2 + z^2 - 1,\\
+f = \sqrt{\dot x^2 + \dot y^2 + \dot z^2}.
+\end{gather*}
+
+Our variables are $x(t)$, $y(t)$, $z(t)$ and $\lambda(t)$, and our equations are
+\begin{gather*}
+\diffp f x - \diff*{\diffp f {\dot x}}t = \lambda(t) \diffp \phi x,\\
+\text{(Same for $y$ and $z$)},\\
+\phi = 0,
+\end{gather*}
+and these equations simplify to
+\begin{gather*}
+- \diff*{\frac{\dot x}f}t = 2 \lambda(t) x,\\
+\text{(Same for $y$ and $z$)},\\
+x^2 + y^2 + z^2 = 1,
+\end{gather*}
+
+As in example \ref{sphere1}, let us make the simplifying assumption of unit speed parametrizations, i.e. $f = 1$. With this simplification, our equations become
+\begin{gather*}
+\diff*[2]{(x,y,z)}{t} = -2 \lambda(t) (x,y,z),\\
+x^2 + y^2 + z^2 = 1.
+\end{gather*}
+
+In what follows, let $q = (x,y,z)$. The previous equations state that
+\[\ddot q = - 2 \lambda q, \quad \norm{q}^2 = 1.\]
+
+If we can show that $\lambda$ is constant equal to $1/2$, $q$ obeys the Harmonic Oscillator equation, and it is easy to then write out the solutions explicitly as sines and cosines to obtain great circles. Therefore, it suffices to try and solve for $\lambda$. To this effect, we use the following trick. Since we are assuming that $q$ has constant norm, we get that $\braket{\dot q, q} = 0$ by the product rule. Differentiating this expression a second time, we get
+\[0 = \diff{\braket{\dot q, q}}t = \braket{\ddot q, q} + \braket{\dot q, \dot q}.\]
+
+Since $\ddot q = - 2 \lambda q$ and we are assuming a unit speed parametrization, this gives
+\[0 = - 2 \lambda + 1.\]
+
+Consequently, $\lambda$ is constant equal to $1/2$, and the example is complete.
 \end{example}
 
-\section{Non-Holonomic Constraints}\label{sec:nonholonomic}
+\section{Nonholonomic Constraints}\label{sec:nonholonomic}
 
 \subsection{Introduction}
 
-Definition: a nonholonomic constraint is of the form
-\[\phi(t,u(t),\dot u(t)) = 0.\]
+In the previous section, we went over problems with holonomic (pointwise) constraints, i.e. optimization problems where the path $u$ to be optimized must satisfy $k$ (independent) cartesian equations of the form $\phi(t,u) = 0$. For a \emph{nonholonomic} problem, the constraints are now differential equations of the form $\phi(t,u,\dot u) = 0$.
 
-We wish to minimize $I(u) = \int f(t,u,\dot u) \,\dl x$, for $u$ satisfying these constraints and with $u(t_\tstart) = u_\tstart$ and $u(t_\tend) = u_\tend$, for $u_\tstart$ and $u_\tend$ fixed elements of $\R^n$.
+Problems with nonholonomic constraints occur often when describing physical systems. The classical example is that of an upright disk rotating without slipping on the $xy$ plane. It is described by four coordinates: the $(x,y)$ coordinates of the disk's center, the angle of the disk about the vertical axis, which we call $\varphi$, and the disk's rotation about its normal axis, which we call $\theta$. See figure \ref{diskfigure}.
 
-Note that $\phi$ is given by a number (let's say $k$) of differential equations. (Remember to show examples.) It is natural (and will be necessary) to require that these equations are independent. In other words, if $\phi \equiv \phi(t,u,\xi)$, we require that the matrix $\diffp\phi\xi$ has linearly independent lines, or, equivalently, rank $k$.
+\begin{figure}
+\centering
+\begin{tikzpicture}[z={(0,1)},y={(-1/2,-1/2)}, scale=1.2]
+
+\foreach \x in {1,2,3,4,5}
+	\draw[gray, very thin] (\x,0,0) -- (\x,5,0);
+\foreach \y in {1,2,3,4}
+	\draw[gray, very thin] (0,\y,0) -- (6,\y,0);
+
+\draw[->] (0,0,0)--(6,0,0) node[below] {x};
+\draw[->] (0,0,0)--(0,5,0) node[below] {y};
+\draw[->] (0,0,0)--(0,0,4) node[left] {z};
+
+\coordinate (circlepos) at (4,3,0);
+\coordinate (ev) at (30:1);
+
+\fill[red] (circlepos) circle (0.1);
+
+\begin{scope}[shift=(circlepos),x=(30:1),y={(0,0,1)}]
+\draw (0,2) circle (2);
+\draw[->] (0,0) -- (2,0);
+\draw (0,0) -- (0,2) -- +(-130:2);
+\draw[->] (0,0.8) arc (-90:-130:1.2) node[midway,below left] {$\theta$};
+\end{scope}
+
+\draw (circlepos) --+(1,0,0);
+\draw[->] (circlepos)+(1,0,0) arc (0:30:1) node [midway, right] {$\varphi$};
+
+\node[below left] at (circlepos) {$(x,y)$};
+\end{tikzpicture}
+\label{diskfigure}
+\caption{The coordinate system for the rolling upright disk.}
+\end{figure}
+
+Then, even though all four coordinates can attain any number, they are not independent. If the $\theta$ angle changes a little bit, that induces a change in $x$ and $y$ that depends on $\varphi$. In physics texts, this condition is often described using infinitesimals, as follows
+\[\dl x = \cos \varphi \, \dl \theta, \quad \dl y = \sin \varphi \, \dl \theta.\]
+
+For our mathematical purposes, we `divide by $\dl t$' to obtain the ordinary differential equation
+\[
+\begin{cases}
+\dot x = \cos \varphi \, \dot \theta,\\
+\dot y = \sin \varphi \, \dot \theta.
+\end{cases}
+\]
+
+Therefore, if we intend to model the possible paths such a rolling disk might take, they ought to satisfy this differential equation.
+
+In dealing with holonomic constraints, it was essential to assume that the equations of constraint were independent, in the sense that the space-coordinate derivative had full rank. Such an assumption is also necessary here, except that  as we now wish to ensure that a collection of \emph{differential} equations is independent, we consider the derivative in the velocity-coordinate.
+
+\begin{statement}
+A problem of optimization with nonholonomic constraints is that in which we intend to minimize the value of the functional $I(u) = \int f(t, u, \dot u) \dl2 t$ under the constraints:
+\begin{enumerate}
+\item $u$ has prescribed initial and final conditions, i.e. $u(t_\tstart) = u_\tstart$ and $u(t_\tend) = u_\tend$, and
+\item $u$ satisfies the equation $\phi(t,u,\dot u) = 0$, where
+\[\phi \equiv \phi(t, u, \xi) \colon \R \times \R^n \times \R^n \to \R^k.\]
+\end{enumerate}
+
+The $k$ differential equations $\phi = 0$ are said to be \emph{independent} if the $k \times n$ matrix given by $\diffp \phi \xi$ has rank $k$, i.e. has linearly independent rows.
+\end{statement}
+
+In most applications, $\phi$ is given in the so-called Pfaffian form, i.e.
+\[\phi(t,u,\xi) = A(t,u) \xi + b(t,u),\]
+for some matrix $A$ and vector $b$. In this case, the requirement of independence of the equations corresponds to requiring that the rows of $A$ are linearly independent.
+
+
 
 \subsection{Valid Displacements}
 
