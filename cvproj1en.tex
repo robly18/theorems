@@ -384,9 +384,26 @@ A problem of optimization with nonholonomic constraints is that in which we inte
 The $k$ differential equations $\phi = 0$ are said to be \emph{independent} if the $k \times n$ matrix given by $\diffp \phi \xi$ has rank $k$, i.e. has linearly independent rows.
 \end{statement}
 
+\begin{remark}\label{pfaffian}
 In most applications, $\phi$ is given in the so-called Pfaffian form, i.e.
 \[\phi(t,u,\xi) = A(t,u) \xi + b(t,u),\]
 for some matrix $A$ and vector $b$. In this case, the requirement of independence of the equations corresponds to requiring that the rows of $A$ are linearly independent.
+\end{remark}
+
+\begin{remark}
+The definition we have just given is not universal. Indeed, in physics, the term nonholonomic is usually reserved for constraints which \emph{cannot} be made holonomic. So, for example, a constraint of the form $\dl x = \dl y + \dl z$ would not be nonholonomic, because it is equivalent to $x = y + z + C$ for some fixed $C$.
+
+However, in this document the distinction is not useful, and we will use the term nonholonomic for any problem whose constraints are differential equations. Indeed, we consider holonomic problems a subset of nonholonomic problems (see remark \ref{nonholoaregeneral} below.
+\end{remark}
+
+\begin{remark}\label{nonholoaregeneral}
+A wide class of problems can be seen as nonholonomic. For example, any holonomic problem can be seen in this framework.
+
+Consider a holonomic problem with restriction $\phi(t,u) = 0$. The obvious way to transform it into a nonholonomic problem would be to simply write $\wtphi(t,u,\xi) = \phi(t,u)$. However, $\wtphi$ does not satisfy the independence requirement for nonholonomic problems, which means that our methods will not be applicable. Instead, a better way to turn a holonomic problem into a nonholonomic one would be to note that $\phi(t,u)$ is constant, and so, differentiating in time, $\diffp \phi u \dot u + \diffp \phi t = 0$. This can be seen as a nonholonomic constraint in Pfaffian form, and it is easy to see that independence of the holonomic equations $\phi = 0$ is equivalent to independence of the nonholonomic equations $\psi = 0$, where $\psi(t,u,\xi) = \eval*{\diffp \phi u}_{t,u} \xi + \eval*{\diffp \phi t}_{t,u}$ (see remark \ref{pfaffian}).
+
+Another class of problems that can be seen in nonholonomic form is problems with functional constraints. That is, suppose we wish to consider paths $u$ satisfying $\int g(t,u,\dot u) \dl t = c$. Such a constraint can be written as a differential equation by adding an auxiliary quantity, which we call $j(t)$, which represents $\int_\tstart^t g$. Then, we add the constraints
+\[j(t_\tstart) = 0, \quad j(t_\tend) = c, \quad \diff j t = g(t,u,\dot u).\]
+\end{remark}
 
 
 
