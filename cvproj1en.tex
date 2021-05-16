@@ -426,7 +426,7 @@ Unfortunately, such strategies fall completely flat when passing to the nonholon
 Therefore, our strategy will be to consider perturbations that keep only the start of the path fixed. We will concern ourselves with the end later on. But even lifting this restriction, it is not obvious that \emph{any} nontrivial perturbation exists, or how to construct it. It is here that the hypothesis of independence of the differential equations comes into play, because it allows is to apply a buffed-up version of the implicit/inverse function theorem, which we will now state. The proof of this theorem is left to appendix \ref{buffift}. For an alternative proof, we direct the reader to \cite[\S 3]{blissmayer}.
 
 \begin{restatable}{theorem}{buffift}\label{thm:buffift}
-Let $u \colon [t_\tstart,t_\tend] \to \R^n$ be a $C^k$ curve, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
+Let $u \colon [t_\tstart,t_\tend] \to \R^n$ be a $C^p$ curve, $\Omega$ an open subset of $X = \R \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^{p+1}$ function $\phi \colon \Omega \to \R^k$.
 
 Suppose that for all $t$ the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, and a function $\wtphi \colon U \to \R^n$, such that
 \begin{itemize}
@@ -438,7 +438,7 @@ Suppose that for all $t$ the matrix $\diffp\phi\xi$ has rank $k$. Then there exi
 \Phi \colon U &\to V\\
 (t,u,\xi) &\mapsto (t,u,\wtphi(t,u,\xi))
 \end{align*}
-is a $C^k$ diffeomorphism.
+is a $C^p$ diffeomorphism.
 \end{itemize}
 \end{restatable}
 
@@ -588,7 +588,7 @@ In this appendix, we prove the following auxiliary result, which was used in sec
 
 The kernel of the proof is the following lemma:
 
-\begin{lemma}
+\begin{lemma}\label{matrixlemma}
 Let $A(t)$ be a variable $k \times n$ matrix, for $t \in [t_\tstart, t_\tend]$. Suppose that $A$ is a $C^p$ function for some $p \in \N_0$. Then, it is possible to add $n-k$ (variable) rows to $A$, yielding a function $\tilde A(t)$, such that $\tilde A$ is $C^p$ and invertible for all $t$.
 \end{lemma}
 
@@ -613,7 +613,22 @@ This concludes the proof that $t_0 = t_\tend$. Clearly this proof can be easily 
 \end{proof}
 
 \begin{proofref}[Proof of theorem \ref{thm:buffift}.]
-aaaa
+Define $A(t) = \eval*{\diffp \phi \xi}_{t,u(t)}$. By hypothesis, $A(t)$ is a $k \times n$ matrix of rank $k$, and its coordinates are $C^p$ in time. Therefore, we are in the conditions of lemma \ref{matrixlemma}, and can find a $(n-k) \times n$ matrix, let's say $B(t)$, such that $\tilde A = \begin{bmatrix}A\\B\end{bmatrix}$ is invertible for all $t$. Furthermore, we may suppose that $B$ is $C^p$. Then, we define
+\[\wtphi(t,u,\xi) = (\phi(t,u,\xi), B(t) \xi).\]
+
+This function is clearly $C^p$ in all its variables, and well-defined whenever $\phi$ is. Now, put
+\[\Phi(t,u,\xi) = (t, u, \wtphi(t,u,\xi).\]
+
+This is a function from $\Omega \subseteq \R^{2n + 1}$ to $\R^{2n+1}$, and computing the derivative one easily finds that $\Phi'(t,u(t),\dot u(t))$ is always invertible. Therefore, by the inverse function theorem, for all $t$ there exists a neighborhood $U(t)$ of $(t,u(t), \dot u(t))$ where $\Phi$ is a diffeomorphism. By compactness, a finite number of these is needed to cover all points of the form $(t,u(t), \dot u(t))$. If we suppose, without loss of generality, that these neighborhoods are tubular in $\xi$ in $\R^{2n+1}$, then we can ensure that $\Phi$ is a bijection (and thus a $C^p$ diffeomorphism by the IFT) from the union of these balls (let's call it $U = U(t_1) \cup \dots \cup U(t_N)$) to $\Phi(U)$ (which we call $V$).
+
+To be more specific, suppose that $U(t)$ is of the following form: there exists an interval $\left]a,b\right[$ and two radii $r_1$, $r_2$, such that
+\[(t,u,\xi) \in U(t) \text{ iff } t \in \left]a,b\right[, \norm{u-u(t)} < r_1 \text{ and } \norm{\xi - \dot u(t)} < r_2.\]
+
+This assumption can be made without loss of generality because given an open containing $(t_i, u(t_i), \dot u(t_i))$, one may assume that it is of the form $\left]a,b\right[ \times W$ for some open $W$, decrease the interval to ensure that $(u(t),\dot u(t))$ is always contained in $W$, and then set $r_1 = r_2$ as the minimum distance from $(u(t), \dot u(t))$ to the outside of $W$ as $t$ ranges over $[a,b]$.
+
+Now, under the assumption that the $U(t_i)$ are tubular, suppose that $(t,u,\xi)$ and $(t', u', \xi')$ are two points of $U$ such that $\Phi(t,u,\xi) = \Phi(t', u', \xi')$. If we show that there exists some $U(t_i)$ which contains $(t,u,\xi)$ and $(t',u',\xi')$ then the result will be proven, since $\Phi$ is injective when restricted to $U(t_i)$.
+
+Since $\Phi(t,u,\xi) = \Phi(t', u', \xi')$ we have $t = t'$ and $u = u'$. Now, consider the distance from $\xi$ to $\dot u(t)$ and $\xi'$ to $\dot u(t)$. If, say, $\xi$ is closer to $\dot u(t)$ than $\xi'$ is, then the tubular neighborhood that contains $(t,u,\xi')$ also contains $(t,u,\xi)$. If $\xi$ is not closer than $\xi'$, the same argument can be made with the neighborhoods swapped. Therefore, these two points are in a neighborhood in which $\Phi$ is known to be injective, and the proof is complete.
 \end{proofref}
 
 \end{appendices}
