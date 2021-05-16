@@ -1,9 +1,13 @@
 \documentclass{article}
 
 \usepackage{amsmath,amssymb,amsfonts}
+\usepackage{thmtools,thm-restate}
 \usepackage[thmmarks,amsmath]{ntheorem}
 \usepackage{mathtools}
 \usepackage[utf8]{inputenc}
+
+\usepackage[toc,title]{appendix}
+
 \usepackage{diffcoeff}
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 \usepackage[integrals]{wasysym}
@@ -22,6 +26,7 @@
 \author{Duarte Maia}
 \date{May 2021}
 
+\theoremstyle{plain}
 \theoremseparator{.}
 \newtheorem{prop}{Proposition}
 \newtheorem{lemma}{Lemma}
@@ -40,7 +45,14 @@
 \theoremsymbol{\ensuremath{\blacksquare}}
 \newtheorem{proof}{Proof}
 
+\theoremstyle{empty}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proofref}{Proof}
+
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
 
 \newcommand{\tr}{\intercal}
 
@@ -405,22 +417,30 @@ Another class of problems that can be seen in nonholonomic form is problems with
 \[j(t_\tstart) = 0, \quad j(t_\tend) = c, \quad \diff j t = g(t,u,\dot u).\]
 \end{remark}
 
+\subsection{Valid Displacements}\label{validdisplacements}
 
+The strategy used to prove the basic form of the Euler-Lagrange equations, which consists of adding a perturbation to a path $u_0$ which is assumed to minimize $I(u)$, requires vector space structure, which is lost when we restrict our paths to those satisfying nonlinear conditions. In the holonomic case, this problem was recoverable by using the inverse/implicit function theorem to locally `distort the space into $\R^n$'.
 
-\subsection{Valid Displacements}
+Unfortunately, such strategies fall completely flat when passing to the nonholonomic case. Because of the differential nature of the restrictions, small perturbations will propagate from the place of perturbation to the end of the path. The easiest way to see this is to imagine a problem in which the constraint is given by $\norm{\dot u} = 1$. Then, a straight line cannot possibly be perturbed without changing the initial and final location. This means that we necessarily have to give up on the strategy of considering small admissible perturbations of a minimal path.
 
-The local strategies used in the holonomic case fail here, so we will need to use a kind of global version of the inverse function theorem. The proof will be presented in the annex, so until then here is theorem.
+Therefore, our strategy will be to consider perturbations that keep only the start of the path fixed. We will concern ourselves with the end later on. But even lifting this restriction, it is not obvious that \emph{any} nontrivial perturbation exists, or how to construct it. It is here that the hypothesis of independence of the differential equations comes into play, because it allows is to apply a buffed-up version of the implicit/inverse function theorem, which we will now state. The proof of this theorem is left to appendix \ref{buffift}. For an alternative proof, we direct the reader to \cite[\S 3]{blissmayer}.
 
-\begin{theorem}
-Let $u$ be a $C^k$ path $[t_\tstart,t_\tend] \to \R^n$, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
+\begin{restatable}{theorem}{buffift}\label{thm:buffift}
+Let $u \colon [t_\tstart,t_\tend] \to \R^n$ be a $C^k$ curve, $\Omega$ an open subset of $X = [t_\tstart,t_\tend] \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^k$ function $\phi \colon \Omega \to \R^k$.
 
-Suppose that for all $t$ we have that the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, such that $U$ contains all points of the form $(t,u(t),\dot u(t))$ and is contained in $\Omega$, as well as a function $\wtphi \colon U \to \R^n$ whose first $k$ coordinates agree with $\phi$, such that the function given by
+Suppose that for all $t$ the matrix $\diffp\phi\xi$ has rank $k$. Then there exist open subsets of $X$, say $U$ and $V$, and a function $\wtphi \colon U \to \R^n$, such that
+\begin{itemize}
+\item $U$ contains all points of the form $(t,u(t),\dot u(t))$,
+\item $U$ is contained in $\Omega$,
+\item The first $k$ coordinates of $\wtphi$ agree with $\phi$
+\item The function given by
 \begin{align*}
 \Phi \colon U &\to V\\
 (t,u,\xi) &\mapsto (t,u,\wtphi(t,u,\xi))
 \end{align*}
 is a $C^k$ diffeomorphism.
-\end{theorem}
+\end{itemize}
+\end{restatable}
 
 Consider a fixed path $u_0$, and apply the theorem to this case. Let the inverse of the above $\Phi$ be $(t,u,\eta) \mapsto (t,u,\psi(t,u,\eta))$.
 
@@ -557,6 +577,46 @@ and $k+n$ equations: $k$ are given by the condition $\phi(t,u,\dot u) = 0$, and 
 \subsection{Normality and Abnormality}
 
 The solutions to the Lagrange multiplier equation can be divided into two types: normal solutions, wherein $\ell_0 \neq 0$, and abnormal solutions, where $\ell_0 = 0$.
+
+\begin{appendices}
+
+\section{An implicit function-like theorem}\label{buffift}
+
+In this appendix, we prove the following auxiliary result, which was used in section \ref{validdisplacements}
+
+\buffift*
+
+The kernel of the proof is the following lemma:
+
+\begin{lemma}
+Let $A(t)$ be a variable $k \times n$ matrix, for $t \in [t_\tstart, t_\tend]$. Suppose that $A$ is a $C^p$ function for some $p \in \N_0$. Then, it is possible to add $n-k$ (variable) rows to $A$, yielding a function $\tilde A(t)$, such that $\tilde A$ is $C^p$ and invertible for all $t$.
+\end{lemma}
+
+\begin{proof}
+To prove this lemma, we will actually prove something stronger yet. We will show that if $k < n$ then there exists $v(t)$, different from zero, defined on $[t_\tstart, t_\tend]$ such that $v$ is orthogonal to all rows of $A$. Such a $v$ can clearly be appended as a row to $A$, creating a $(k+1) \times n$ matrix of rank $k+1$, and repeating the process $n-k$ times we obtain the desired $\tilde A$.
+
+The main trick in this proof is that, locally, such a $v$ is determined uniquely by $n-k$ well-chosen coordinates. Indeed, we wish to solve the equation $A v = 0$. We know from linear algebra that there exists a $k \times k$ invertible minor of $A$ (which corresponds to the pivots in gaussian elimination). Without loss of generality we can suppose that, for some fixed $t_1$, this minor is the leftmost, i.e. given $t_1$ we can by reordering of coordinates assume that $A(t) = \begin{bmatrix} A_1(t) & A_2(t) \end{bmatrix}$, with $A_1(t_1)$ invertible. Of course, by continuity of the determinant, $A_1$ is actually invertible for $t$ in a neighborhood of $t_1$.
+
+Consequently, the problem can be solved easily in a neighborhood of $t_\tstart$. Indeed, choose $v_{k+1}(t), \dots, v_n(t)$ arbitrarily, as long as they are not all zero, and $v_1(t), \dots, v_k(t)$ is uniquely determined as
+\[(v_1, \dots, v_k) = - A_1(t)^{-1} A_2(t) (v_{k+1}, \dots, v_n).\]
+
+Note that if the $v_{k+1}, \dots, v_n$ are chosen to be $C^p$ functions, then $v$ is also $C^p$. This uses the well-known fact that if an invertible matrix is $C^p$ then so is its inverse, by the cofactor formula.
+
+To solve the problem globally, let us consider the following number:
+\[t_0 = \sup \{\, t \in [t_\tstart, t_\tend] \mid \parbox{7cm}{\centering There exists $v$ of class $C^p$ defined on $[t_\tstart, t]$ satisfying the hypotheses of the theorem}\,\}.\]
+
+We have just shown that $t_0 > t_\tstart$. Now, we will show that $t_0 = t_\tend$.
+
+Suppose that $t_0 < t_\tend$. Then, consider an invertible $k \times k$ minor of $A(t_0)$, which we will again suppose without loss of generality is $A_1$ above. Suppose $A_1$ is invertible for $t$ in a neighborhood of $t_0$, say $V = \left]t_0 - \delta, t_0 + \delta\right[$. Pick some number $\tau$ strictly between $t_0$ and $t_0 - \delta$. Then, by definition of supremum, we know that there exists a $v$ satisfying the hypotheses of the theorem defined up until $\tau$. However, by the paragraph at the start of the proof, such a $v$ is uniquely determined on $V$ by its last $n-k$ coordinates. Therefore, all one has to do is to extend $v_{k+1}, \dots, v_n$ from $[t_\tstart, \tau]$ to $[t_\tstart, t+\delta/2]$, say, in a $C^p$ way, taking care to avoid zero. The $C^p$ extension can be done by considering the Taylor expansion of each $v_i$ at $\tau$ and extending it with that formula. To avoid zero, pick a coordinate $v_i$ such that $v_i(\tau) \neq 0$, and add a large enough multiple of $\pm (x-\tau)^{p+1}$. Then, we have just defined a nonzero $v(t)$ such that $Av=0$ on the interval $[t_\tstart, t_0 + \delta/2]$, contradicting the hypothesis that $t_0$ was the supremum of that set.
+
+This concludes the proof that $t_0 = t_\tend$. Clearly this proof can be easily adjusted to show that there exists $v(t)$ defined over $[t_\tstart, t_\tend]$, $C^p$ and never null, such that $Av = 0$. Therefore, the proof is complete.
+\end{proof}
+
+\begin{proofref}[Proof of theorem \ref{thm:buffift}.]
+aaaa
+\end{proofref}
+
+\end{appendices}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
