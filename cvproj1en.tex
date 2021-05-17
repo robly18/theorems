@@ -72,7 +72,7 @@
 \DeclareMathOperator{\tg}{tg}
 \DeclareMathOperator{\supp}{supp}
 
-\newcommand{\vecb}{{\vec{b}}}
+\newcommand{\vecb}{{\bar{b}}}
 
 \begin{document}
 \maketitle
@@ -421,9 +421,9 @@ Another class of problems that can be seen in nonholonomic form is problems with
 
 The strategy used to prove the basic form of the Euler-Lagrange equations, which consists of adding a perturbation to a path $u_0$ which is assumed to minimize $I(u)$, requires vector space structure, which is lost when we restrict our paths to those satisfying nonlinear conditions. In the holonomic case, this problem was recoverable by using the inverse/implicit function theorem to locally `distort the space into $\R^n$'.
 
-Unfortunately, such strategies fall completely flat when passing to the nonholonomic case. Because of the differential nature of the restrictions, small perturbations will propagate from the place of perturbation to the end of the path. The easiest way to see this is to imagine a problem in which the constraint is given by $\norm{\dot u} = 1$. Then, a straight line cannot possibly be perturbed without changing the initial and final location. This means that we necessarily have to give up on the strategy of considering small admissible perturbations of a minimal path.
+Unfortunately, such strategies fall completely flat when passing to the nonholonomic case. Because of the differential nature of the restrictions, small perturbations will propagate from the place of perturbation to the end of the path. The easiest way to see this is to imagine a problem in which the constraint is given by $\norm{\dot u} = 1$. Then, a straight line cannot possibly be perturbed without changing the initial or final location. This means that we necessarily have to give up on the strategy of considering small admissible perturbations of a minimal path.
 
-Therefore, our strategy will be to consider perturbations that keep only the start of the path fixed. We will concern ourselves with the end later on. But even lifting this restriction, it is not obvious that \emph{any} nontrivial perturbation exists, or how to construct it. It is here that the hypothesis of independence of the differential equations comes into play, because it allows is to apply a buffed-up version of the implicit/inverse function theorem, which we will now state. The proof of this theorem is left to appendix \ref{buffift}. For an alternative proof, we direct the reader to \cite[\S 3]{blissmayer}.
+Therefore, our strategy will be to consider perturbations that keep only the start of the path fixed. We will concern ourselves with the end later on. But even lifting this restriction, it is not obvious that \emph{any} nontrivial perturbation exists, or how to construct it. It is here that the hypothesis of independence of the differential equations comes into play, because it allows is to apply a kind of implicit/inverse function theorem, which we will now state. The proof of this theorem is left to appendix \ref{buffift}. For an alternative proof, we direct the reader to \cite[\S 3]{blissmayer}.
 
 \begin{restatable}{theorem}{buffift}\label{thm:buffift}
 Let $u \colon [t_\tstart,t_\tend] \to \R^n$ be a $C^p$ curve, $\Omega$ an open subset of $X = \R \times \R^n \times \R^n$ such that $(t,u(t),\dot u(t)) \in \Omega$ for all $t$, and $\phi \equiv \phi(t,u,\xi)$ a $C^{p+1}$ function $\phi \colon \Omega \to \R^k$.
@@ -442,26 +442,57 @@ is a $C^p$ diffeomorphism.
 \end{itemize}
 \end{restatable}
 
-Consider a fixed path $u_0$, and apply the theorem to this case. Let the inverse of the above $\Phi$ be $(t,u,\eta) \mapsto (t,u,\psi(t,u,\eta))$.
+We will now use this theorem to build our perturbations of a path. Indeed, given a path $u_0$, construct the $U$, $V$, and $\Phi$ given above. Let the inverse of $\Phi$ be denoted $(t,u,\xi) \mapsto (t,u,\psi(t,u,\xi))$.
 
-We can build valid displacements using the following recipe. Let $v \colon [t_\tstart, t_\tend] \to \R^{n-k}$, and consider the ODE given by $\wtphi(x,u,\dot u) = (0, b v)$, where $b$ is a real number, with $u(t_\tstart) = u_\tstart$. More concretely:
+We can use $\psi$ to build a valid displacement of $u$ as follows. We wish to find a perturbation of $u$, let's say $\tilde u$, such that $\phi(t,u,\dot u) = 0$. Therefore, $\wtphi(t,u,\dot u)$ is of the form $(0,w(t))$ for some $v$. This can be solved for $\dot u$, and we get the differential equation
+\[\dot u(t) = \psi(t,u(t),w(t)).\]
+
+We can now use ODE theory to guarantee that this has a solution for $w$ `close enough to $w_0$', for `$w_0$ corresponding to the path $u_0$'.
+
+\begin{theorem}
+Let $p \geq 1$. Let $u$ be a $C^{p+1}$ path satisfying $\phi(t,u,\dot u) = 0$ for $\phi$ a $C^p$ function such that $\diffp \phi \xi$ has linearly independent rows. Extend $\phi$ to $\wtphi$ (in a $C^p$ way) using the methods of theorem \ref{thm:buffift}. Let $\wtphi(t,u,\dot u) = (0, w(t))$. Then, given a curve $v : [t_\tstart, t_\tend] \to \R^{n-k}$ of class $C^p$ in this interval, for real numbers $b$ close enough to zero the following ODE has a unique solution:
 \[
 \begin{cases}
-\dot u(t) = \psi(t, u(t), (0, b v(t))),\\
+\wtphi(t, u, \dot u) = (0, w(t) + b\,v(t)),\\
 u(t_\tstart) = u_\tstart.
 \end{cases}
 \]
 
-This is an ODE with a parameter $b$. Let us call the solution (if it exists) $u_b^v(t)$. Note that the solution exists for $b = 0$: it is simply $u_0$. Classical ODE theorems guarantee that if the solution exists for some set of parameters (in this case, $b = 0$), then it exists for small enough perturbations of the parameters, and is continuous. Moreover, it can be shown to absorb the degrees of regularity of the ODE. In this case, since $\psi$ is $C^k$, so is $u_b^v(t)$ (in the two variables, $b$ and $v$).
+For $b$ small enough that this exists, we refer to this solution as $u_b^v(t)$, or $u_b$ if $v$ is implied.
 
-In the next section we will require the quantity $\diffp{u_b^v(t)}b$, which exists for $b$ close enough to 0. Later on, we will require a slight variation, in which we allow for several $v$'s and several $b$'s. More concretely, we would solve the ODE given by
-\[\wtphi(t,u,\dot u) = (0, b_1 v_1 + \dots + b_p v_p),\]
-where the values of $b_i$ will be considered to be part of a single vector $b$ (yes, it has the same name as when it was just a real number), and the vector-functions $v_1$, $v_2$, and so on are considered to be the columns of a single $n \times p$ matrix $V(t)$. In this case, the ODE becomes
-\[\wtphi(t,u,\dot u) = (0, V b).\]
+The resulting function of two parameters ($b$ and $t$) is $C^p$.
+\end{theorem}
 
-The same conclusions apply: the resulting solution $u^V_b(t)$ exists for small enough $b$, and is $C^k$ in the variables $b$ and $t$.
+\begin{proof}
+We begin by applying theorem \ref{thm:buffift} to $\phi$, to obtain the $U$, $V$ and $\Phi$ therein described. Let
+\[\Phi^{-1}(t,u,\xi) = (t,u,\psi(t,u,\xi)).\]
 
-Note that in constructing these families \emph{we have no guarantee that the end-point $u_b^V(t_\tend)$ equals $u_\tend$}! This is part of what makes this study so difficult.
+Note that all points of the form $(t,u(t),0,w(t))$ are in $V$, for $t \in [t_\tstart, t_\tend]$. The set of these points form a compact set, and it is known from metric space theory that there exists a $\delta > 0$ such that, for all $z$ with $\norm z < \delta$, $(t,u,0,w) + z \in V$ for all $t$. Consequently, if $b < \delta / \max \norm v$, $(t,u,0,w+bv) \in V$, and so
+\[\wtphi(t, u, \dot u) = (0, w(t) + b\,v(t)) \text{ iff } \dot u(t) = \psi(t,u(t),w(t) + b\,v(t)).\]
+
+Therefore, (for small enough $b$) our ODE is of the form
+\[
+\begin{cases}
+\dot u(t) = F(t,u(t),b),\\
+u(t_\tstart) = u_\tstart,
+\end{cases}
+\]
+to which elementary ODE theory is applicable. Note that since $\psi$, $w$ and $v$ are $C^p$, $F$ is also $C^p$. In particular, it is $C^1$, and so (see \cite[p.74]{perko}) the solution exists and is unique for small enough $t$. Moreover, it is known to exist in $[t_\tstart, t_\tend]$ for $b = 0$, and consequently (see \cite[thm.2,~p.84]{perko}) the solution exists and is unique for $t \in [t_\tstart,t_\tend]$, for $b$ close enough to 0.
+
+To show differentiability in these two variables, the cited reference is not enough. However, the methods therein found can be used to prove inductively that if $F$ is $C^p$ then $u$ is also $C^p$ in time and the parameters.
+\end{proof}
+
+\begin{remark}
+Though the above proof was stated for only one parameter $b$, it could easily be stated and extended for several parameters and $v$'s. In other words, we could have considered the ODE
+\[
+\begin{cases}
+\wtphi(t, u, \dot u) = (0, w(t) + b_1\,v_1(t) + \dots + b_q v_q(t)),\\
+u(t_\tstart) = u_\tstart.
+\end{cases}
+\]
+
+The same result and notation applies, except that we collect the functions $v_i$ in a $(n-k) \times q$ matrix we call $V(t)$, and the scalars $b_i$ form a vector we call $\vecb$. This will be crucial in section \ref{sec:multrule}, which contains the main result of this document: the multiplier rule.
+\end{remark}
 
 \subsection{First Variation}
 
@@ -500,7 +531,7 @@ Adding and subtracting this expression to $\diff I b$ deduced above, we get
 
 Note that $\mu$ has still been left arbitrary, as long as $\Theta(\mu \cdot \wtphi)$ makes sense. Therefore, we have freedom to manipulate it. This will be useful in the sequence.
 
-\subsection{The Multiplier Rule}
+\subsection{The Multiplier Rule}\label{sec:multrule}
 
 Suppose, now, that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$. We might be tempted to apply the above formula for $\diff I b$ and claim that this quantity must be null for all $v$. However, that is neglecting the requirement that $u(t_\tend) = u_\tend$. One could think about restricting themselves to only $v$'s that guarantee this requirement, in some way, but that might not be possible.
 
@@ -622,9 +653,10 @@ This function is clearly $C^p$ in all its variables, and well-defined whenever $
 This is a function from $\Omega \subseteq \R^{2n + 1}$ to $\R^{2n+1}$, and computing the derivative one easily finds that $\Phi'(t,u(t),\dot u(t))$ is always invertible. Therefore, by the inverse function theorem, for all $t$ there exists a neighborhood $U(t)$ of $(t,u(t), \dot u(t))$ where $\Phi$ is a diffeomorphism. By compactness, a finite number of these is needed to cover all points of the form $(t,u(t), \dot u(t))$. If we suppose, without loss of generality, that these neighborhoods are tubular in $\xi$ in $\R^{2n+1}$, then we can ensure that $\Phi$ is a bijection (and thus a $C^p$ diffeomorphism by the IFT) from the union of these balls (let's call it $U = U(t_1) \cup \dots \cup U(t_N)$) to $\Phi(U)$ (which we call $V$).
 
 To be more specific, suppose that $U(t)$ is of the following form: there exists an interval $\left]a,b\right[$ and two radii $r_1$, $r_2$, such that
-\[(t,u,\xi) \in U(t) \text{ iff } t \in \left]a,b\right[, \norm{u-u(t)} < r_1 \text{ and } \norm{\xi - \dot u(t)} < r_2.\]
+\[(t,u,\xi) \in U(t) \text{ iff } t \in \left]a,b\right[, \norm{u-u(t)} < r_1 \text{ and } \norm{\xi - \dot u(t)} < r_2,\]
+where we have extended $u$ in a $C^p$ to an open interval containing $[t_\tstart, t_\tend]$. This can be done by using the Taylor expansion of $u$ at the ends of the interval.
 
-This assumption can be made without loss of generality because given an open containing $(t_i, u(t_i), \dot u(t_i))$, one may assume that it is of the form $\left]a,b\right[ \times W$ for some open $W$, decrease the interval to ensure that $(u(t),\dot u(t))$ is always contained in $W$, and then set $r_1 = r_2$ as the minimum distance from $(u(t), \dot u(t))$ to the outside of $W$ as $t$ ranges over $[a,b]$.
+The tubularity assumption on the neighborhoods can be made without loss of generality because given an open containing $(t_i, u(t_i), \dot u(t_i))$, one may assume that it is of the form $\left]a,b\right[ \times W$ for some open $W$, decrease the interval to ensure that $(u(t),\dot u(t))$ is always contained in $W$, and then set $r_1 = r_2$ as the minimum distance from $(u(t), \dot u(t))$ to the outside of $W$ as $t$ ranges over $[a,b]$.
 
 Now, under the assumption that the $U(t_i)$ are tubular, suppose that $(t,u,\xi)$ and $(t', u', \xi')$ are two points of $U$ such that $\Phi(t,u,\xi) = \Phi(t', u', \xi')$. If we show that there exists some $U(t_i)$ which contains $(t,u,\xi)$ and $(t',u',\xi')$ then the result will be proven, since $\Phi$ is injective when restricted to $U(t_i)$.
 
