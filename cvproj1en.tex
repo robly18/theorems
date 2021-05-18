@@ -452,7 +452,7 @@ We can use $\psi$ to build a valid displacement of $u$ as follows. We wish to fi
 We can now use ODE theory to guarantee that this has a solution for $w$ `close enough to $w_0$', for `$w_0$ corresponding to the path $u_0$'.
 
 \begin{theorem}\label{thm:perturbation}
-Let $p \in \N^+$.\footnote{We will only use the case $p = 2$.} Let $u$ be a $C^{p+1}$ path satisfying $\phi(t,u,\dot u) = 0$ for $\phi$ a $C^p$ function such that $\diffp \phi \xi$ has linearly independent rows. Extend $\phi$ to $\wtphi$ (in a $C^p$ way) using the methods of theorem \ref{thm:buffift}. Let $\wtphi(t,u,\dot u) = (0, w(t))$. Then, given a curve $v : [t_\tstart, t_\tend] \to \R^{n-k}$ of class $C^p$ in this interval, for real numbers $b$ close enough to zero the following ODE has a unique solution with $(t,u,\dot u) \in U$:
+Let $p \in \N^+$.\footnote{We will only use the case $p = 1$.} Let $u$ be a $C^{p+1}$ path satisfying $\phi(t,u,\dot u) = 0$ for $\phi$ a $C^p$ function such that $\diffp \phi \xi$ has linearly independent rows. Extend $\phi$ to $\wtphi$ (in a $C^p$ way) using the methods of theorem \ref{thm:buffift}. Let $\wtphi(t,u,\dot u) = (0, w(t))$. Then, given a curve $v : [t_\tstart, t_\tend] \to \R^{n-k}$ of class $C^p$ in this interval, for real numbers $b$ close enough to zero the following ODE has a unique solution with $(t,u,\dot u) \in U$:
 \[
 \begin{cases}
 \wtphi(t, u, \dot u) = (0, w(t) + b\,v(t)),\\
@@ -481,7 +481,7 @@ u(t_\tstart) = u_\tstart,
 \]
 to which elementary ODE theory is applicable. Note that since $\psi$, $w$, and $v$ are $C^p$, $F$ is also $C^p$. In particular, it is $C^1$, and so (see \cite[p.74]{perko}) the solution exists and is unique for small enough $t$. Moreover, it is known to exist in $[t_\tstart, t_\tend]$ for $b = 0$ (it is $u_0$ in this case), and consequently (see \cite[thm.2,~p.84]{perko}) the solution exists and is unique for $t \in [t_\tstart,t_\tend]$, for $b$ close enough to 0.
 
-To show differentiability in these two variables, the cited reference is not enough. However, the methods therein found can be used to prove inductively that if $F$ is $C^p$ then $u$ is also $C^p$ in time and the parameters.
+To show differentiability in these two variables, the cited reference proves only the case $p = 1$. However, the methods therein found can be used to prove inductively for all $p \in \N^+$ that if $F$ is $C^p$ then $u$ is also $C^p$ in time and the parameters.
 \end{proof}
 
 \begin{remark}\label{rmk:perturbation}
@@ -538,94 +538,220 @@ Using the same trick as before, the bracket can be simplified to get
 Adding and subtracting this expression to a multiple of $\diff I b$, using \eqref{firstvar2} we get
 \begin{multline}\label{firstvar3}
 \ell_0 \diff I b = \int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
-+ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend.
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend.
 \end{multline}
 
 Even though this expression looks more complex than \eqref{firstvar2}, it has a large degree of freedom to exploit: $\mu$ has been left arbitrary (as long as it is $C^1$ so that the $\Theta$ term exists). For example, we could cross out the non-integral term by choosing an appropriate value for $\mu(t_\tend)$. We will not do so yet, however, because an even more appropriate choice will present itself in due time. The mysterious $\ell_0$ coefficient appears for technical reasons, and is necessary in a proof. If the reader is mystified by its presence, he or she may ignore it for now.
 
 \subsection{The Multiplier Rule}\label{sec:multrule}
 
-In this section, we will finally prove the necessary condition for a minimum we have been building up to: the Lagrange Multipler Rule.
+In this section, we will finally prove the necessary condition for a minimum that we have been building up to: the Lagrange Multipler Rule.
 
-Suppose that that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$, under the hypothesis that $f$ is $C^?$, $u_0$ is $C^?$ and $\phi$ is $C^?$.
+Suppose that that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$, under the hypothesis that $f$ is $C^2$, $u_0$ is $C^2$ and $\phi$ is $C^3$ and that $\diffp \phi \xi$ has full rank over the path $u_0$.
 
 We might be tempted to apply the formula \eqref{firstvar2} or \eqref{firstvar3} for $\diff I b$ and claim that $\diff I b = 0$ for all $v$, since $u_0$ minimizes the value of $I$. However, that is neglecting the requirement that $u(t_\tend) = u_\tend$: since the variations we have created break this requirement, $I(u_b)$ has no obligation to be minimal at $b = 0$. One could consider restricting themselves to variations $v$ that guarantee the boundary conditions, but such $v$ might not even exist: consider the example where $u_0$ is a straight line and $\phi(t,u,\xi) = \norm \xi$.
 
-To get around this, consider an arbitrary collection $v_1, \dots, v_{n+1}$ of smooth functions $[t_\tstart, t_\tend] \to \R^{n-k}$, which we collect into the matrix $V(t)$. We can see $I$ as function in $n+1$-variables, given by the vector $\vecb$. Furthermore, we can see $u(t_\tend)$ as a function of $\vecb$ as well, and so we may consider the function given by
-\[\vecb \mapsto (I(u_\vecb^V), u_\vecb(t_\tend)).\]
+To get around this, consider an arbitrary collection $v_1, \dots, v_{n+1}$ of smooth functions $[t_\tstart, t_\tend] \to \R^{n-k}$, which we collect into the matrix $V(t)$. We can see $I$ as function in $n+1$-variables, given by the vector $\vecb$ (see remark \ref{rmk:perturbation}). Furthermore, we can see $u(t_\tend)$ as a function of $\vecb$ as well, and so we can consider the function (with $n+1$ variables and values in $\R^{n+1}$) given by
+\begin{equation}\label{vecbfunc}
+\vecb \mapsto (I(u_\vecb^V), u_\vecb(t_\tend)).
+\end{equation}
 
-This function is $C^1$ in a neighborhood of the origin by 
+This function is $C^1$ in a neighborhood of the origin. To see why, first note that theorem \ref{thm:perturbation} guarantees that $u_\vecb(t)$ is $C^2$ as a function of both parameters, and so in particular is $C^1$ if we fix $t = t_\tend$. This shows that the last $n$ coordinates of \eqref{vecbfunc} are $C^1$. It now suffices to show that $I(u_\vecb^V)$ is $C^1$. To do so, note that $f$ is $C^1$ in its three arguments: $t$, $u_\vecb^V(t)$ and $\dot u_\vecb^V(t)$. Furthermore, since all its arguments are $C^1$ in $t$ and $\vecb$ (here we use that $\phi$ is $C^3$ to show that $u$ is $C^2$ in $t$ and $\vecb$ and so $\dot u$ is $C^1$ in $\vecb$), we get that so is the composite, and Leibniz' theorem guarantees that an integral in $t$ of a $C^1$ function in $t$ and $\vecb$ is $C^1$ in $\vecb$.
 
-By the inverse function theorem, if the jacobian of this function at $\vecb = 0$ were invertible, this map would be a diffeomorphism in a neighborhood of the origin. But this contradicts the assumption that $u_0$ is a minimum of $I$, for in this case we could find $\vecb$ such that $u_\vecb(t_\tend) = u_\tend$, and $I(u_\vecb^V)$ is slightly smaller than $I(u_0)$. In other words, under the assumption that $u$ is a minimum of $I$, the following matrix has linearly dependent rows: (evaluated at $\vecb = 0$)
+Since \eqref{vecbfunc} is $C^1$ from $n+1$-dimensional space to $n+1$-dimensional space, we are in conditions of applying the inverse function theorem. We conclude that if the jacobian of \eqref{vecbfunc} at $\vecb = 0$ were invertible, \eqref{vecbfunc} would be a diffeomorphism in a neighborhood of the origin. But this contradicts the assumption that $u_0$ is a minimum of $I$, for in this case we could find $\vecb$ such that $u_\vecb(t_\tend) = u_\tend$, and $I(u_\vecb^V)$ is slightly smaller than $I(u_0)$. In other words, under the assumption that $u$ is a minimum of $I$, the following matrix has linearly dependent columns: (evaluated at $\vecb = 0$)
 \[
 \begin{bmatrix}
-\diffp*{I(u_\vecb^V)}{b_1} & \dots & \diffp*{I(u_\vecb^V)}{b_{n+1}}\\
-\diffp*{u_\vecb^V(t_\tend)}{b_1} & \dots &\diffp*{u_\vecb^V(t_\tend)}{b_{n+1}}
+\displaystyle \diffp*{I(u_\vecb^V)}{b_1} & \dots & \displaystyle \diffp*{I(u_\vecb^V)}{b_{n+1}}\\[1em]
+\displaystyle \diffp*{u_\vecb^V(t_\tend)}{b_1} & \dots &\displaystyle \diffp*{u_\vecb^V(t_\tend)}{b_{n+1}}
 \end{bmatrix}.
 \]
 
 Note that, at $\vecb = 0$, these columns can be simplified:
 \[
 \begin{bmatrix}
-\diff*{I(u_b^{v_1})}{b} & \dots & \diff*{I(u_b^{v_{n+1}})}{b}\\
-\diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \diff*{u_b^{v_{n+1}}(t_\tend)}{b}
+\displaystyle \diff*{I(u_b^{v_1})}{b} & \dots & \displaystyle \diff*{I(u_b^{v_{n+1}})}{b}\\[1em]
+\displaystyle \diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \displaystyle \diff*{u_b^{v_{n+1}}(t_\tend)}{b}
 \end{bmatrix}.
 \]
 
-Since this holds for arbitrary collections $v_1, \dots, v_{n+1}$, we can actually conclude a very strong result. Indeed, let $q$ be the largest number of $v_1, \dots, v_q$ you can have such that the following matrix has linearly independent columns
+Since this holds for arbitrary collections $v_1, \dots, v_{n+1}$, we can actually conclude a surprisingly strong result. Let $q$ be the maximal possible number of $v_1, \dots, v_q$ such that the following matrix has linearly independent columns
 \[
 A =
 \begin{bmatrix}
-\diff*{I(u_b^{v_1})}{b} & \dots & \diff*{I(u_b^{v_{q}})}{b}\\
-\diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \diff*{u_b^{v_{q}}(t_\tend)}{b}
+\displaystyle \diff*{I(u_b^{v_1})}{b} & \dots & \displaystyle \diff*{I(u_b^{v_{q}})}{b}\\[1em]
+\displaystyle \diff*{u_b^{v_1}(t_\tend)}{b} & \dots & \displaystyle \diff*{u_b^{v_{q}}(t_\tend)}{b}
 \end{bmatrix}.
 \]
 
-By the above remark, $q$ must be less than $n+1$. Therefore, for any $v$, the vector $(\diff*{I(u_b^v)}{b}, \diff*{u_b^v(t_\tend)}{b})$ is a linear combination of the columns of $A$.
+By the above, $q < n+1$. Therefore, for any $v$, the vector $(\diff*{I(u_b^v)}{b}, \diff*{u_b^v(t_\tend)}{b})$ is a linear combination of the columns of $A$, i.e. of the form $Aw$ for some $w \in \R^{n+1}$.
 
-Since the matrix $A$ is strictly taller than it is wide, there exists a row-matrix, say $E = \begin{bmatrix} \ell_0 & e \end{bmatrix} = \begin{bmatrix} \ell_0 & e_1 & \dots & e_n\end{bmatrix}$ such that $e A = 0$. By the previous paragraph, we conclude that \emph{for this specific collection of scalars}(!), for any $v$ we have
-\[\ell_0 \diff*{I(u_b^v)}{b} + e \diff*{u_b^v(t_\tend)}{b} = 0.\]
+Since the matrix $A$ has more rows than columns, there exists a row-matrix, say $E = \begin{bmatrix} \ell_0 & e \end{bmatrix} = \begin{bmatrix} \ell_0 & e_1 & \dots & e_n\end{bmatrix}$, such that $E A = 0$. By the previous paragraph, we conclude that \emph{for this specific collection of scalars}(!), for any smooth $v$ we have
+\begin{equation}\label{premultiplier}
+\ell_0 \diff*{I(u_b^v)}{b} + e \diff*{u_b^v(t_\tend)}{b} = 0.
+\end{equation}
 
-Now, by the result of the previous subsection (need to modify), we may rewrite the derivative in $I$ as
+We can now rewrite the variation in $I$ using \eqref{firstvar3} to get
 \begin{multline*}
 \ell_0 \diff I b = \int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
-+ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend,
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend,
 \end{multline*}
-where, recall, $\mu$ has been left as an arbitrary regular function. If we expand the previous equation, this gives the result
-\begin{multline*}
+where, as the reader will recall, $\mu$ has been left as an arbitrary $C^1$ function. Substituting in \eqref{premultiplier}, we obtain
+\begin{multline}\label{bigequation}
 \int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
-+ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend + e\right) \eval*{\diffp{u_b}b}_\tend = 0, \text{ for all regular $v$.}
-\end{multline*}
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend + e\right) \eval*{\diffp{u_b}b}_\tend = 0, \text{ for all regular $v$.}
+\end{multline}
 
-We may now rejoice in the degrees of freedom we have left, for we can, for instance, pick $\mu(t_\tend)$ in order to make
-\[\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend + e = 0.\]
+Even though this looks like a very complicated expression, this is where the arbitrariness of $\mu$ comes into play. For instance, we can now pick $\mu(t_\tend)$ to make
+\[\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend + e = 0.\]
 
-Indeed, note that this choice is independent of $v$. Also independent of $v$ would be to ensure that $\Theta(\ell_0 f + \mu \cdot \wtphi)$. This is an ODE, and existence of solution is guaranteed by classical ODE theory. If we expand we get a linear ODE with varying coefficients. Remember to cite Perko or so.
+This is possible because $\diffp\wtphi\xi$ is invertible. Note that this choice is independent of $v$.
 
-Then, for this particular $\mu$, we reach the startling conclusion
+As a further simplification, we may wish to ensure that $\Theta(\ell_0 f + \mu \cdot \wtphi)$. Expanding the expression, we get the following linear ODE:
+\begin{equation}\label{thetaode}
+\ell_0 \diffp f u + \mu^\tr \diffp \wtphi u = \ell_0 \diff*{\diffp f \xi}t + \mu^\tr \diff*{\diffp \wtphi \xi}t + \dot \mu^\tr \diffp \wtphi \xi,
+\end{equation}
+where all partial derivatives are evaluated on the vector $(t,u_0(t),\dot u_0(t))$. Since $\diffp \wtphi \xi$ is invertible, this can be rewritten as a linear ODE of the form
+\begin{equation}\label{thetaode2}
+\dot \mu(t) = A(t) \mu(t) + B(t).
+\end{equation}
+
+Classical ODE theory guarantees that \eqref{thetaode2} has unique solution for all time, given initial conditions (see \cite[pp.~60,61]{perko}). Therefore, we may construct a concrete $\mu$ as the unique solution to
+\begin{equation}\label{thetaode3}
+\begin{cases}
+\Theta(\eval*{\ell_0 f}_{t,u_0(t),\dot u_0(t)} + \mu(t) \cdot \wtphi(t,u_0(t),\dot u_0(t)),\\
+\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend + e = 0.
+\end{cases}
+\end{equation}
+
+For this particular $\mu$, \eqref{bigequation} simplifies to
 \[\int_\tstart^\tend \mu_2 \cdot v \dl2 t = 0 \text{ for all regular $v$.}\]
 
-We may now apply the FLCV to get that the last $k$ coordinates of $\mu$ were null after all, and so
+We may now apply the FLCV to get that the last $k$ coordinates of $\mu$ are null, and so
 \[\Theta(\ell_0 f + \mu_1 \cdot \phi) = 0\]
 
-And so we are done, because we get a result that did not require arbitrary choices. Our conclusion is as follows:
+This is good, because this result does not depend on any arbitrary choices, such as the extension of $\phi$ to $\wtphi$. Therefore, we have the first version of the Lagrange multiplier rule:
 
 \begin{theorem}
-If $u_0$ is a sufficiently regular minimum of the optimization problem, then there exist a constant $\ell_0$ and $k$ $C^1$ functions, say $\lambda_1, \dots, \lambda_k$, such that
+Let $u_0$ be a $C^2$ minimum of the optimization problem
+\[\min I(u) = \int f,\]
+where $f$ is $C^2$ and $u$ varies over $C^1$ paths satisfying $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$, and the $k$ differential equations given by
+\[\phi(t,u(t),\dot u(t)) = 0,\]
+where $\phi$ is a $C^3$ function with $k$ coordinates. Suppose that these $k$ equations are independent differential equations, in the sense that $\diffp \phi \xi$ has rank $k$ over the whole path. Then, there exists a constant $\ell_0$ and $k$ $C^1$ functions, say $\lambda_1, \dots, \lambda_k$, such that the following differential equation is satisfied in $[t_\tstart, t_\tend]$.
 \begin{equation}\label{multipliers}
-\ell_0 \diffp f u + \lambda \cdot \diffp \phi u = \diff*{\left(\ell_0 \diffp f \xi + \lambda \cdot \diffp \phi \xi\right)}t.
+\ell_0 \diffp f u + \lambda \cdot \diffp \phi u = \diff*{\left(\ell_0 \diffp f \xi + \lambda^\tr \diffp \phi \xi\right)}t.
 \end{equation}
+
+Furthermore, it is not the case that $\ell_0$, $\lambda_1$, \dots, $\lambda_k$ are all null.
 \end{theorem}
 
 \begin{remark}
-Note that this is, in principle, a well-determined first-order ODE. We have $n+k$ functions to solve:
+The condition that not all be null is essential to stop the theorem from becoming a triviality: otherwise, the trivial solution would always be possible.
+
+To show that not all are null, suppose that $\ell_0$ is null. Then, by \eqref{thetaode3} $\lambda$ satisfies
+\[\lambda(t_\tend)^\tr \eval*{\diffp\wtphi\xi}_\tend + e = 0.\]
+
+Since by hypothesis the row-matrix $E = \begin{bmatrix}\ell_0 & e\end{bmatrix}$ is non-null, and we are assuming that $\ell_0$ is null, and so $e$ cannot be, and therefore $\lambda(t_\tend)$ cannot be as well. By continuity, we conclude that $\lambda$ cannot be the null function.
+\end{remark}
+
+\begin{remark}
+As it ought to, the problem posed by \eqref{multipliers} has as many equations as it has variables, if we consider the solution of the problem to be the process of finding the $u_0$. Indeed, we have $n+k$ functions to find:
 \[u_1, \dots, u_n, \lambda_1, \dots, \lambda_k,\]
-and $k+n$ equations: $k$ are given by the condition $\phi(t,u,\dot u) = 0$, and $n$ are given by \eqref{multipliers}.
+and $k+n$ equations: $k$ are given by the condition $\phi(t,u,\dot u) = 0$, and $n$ are given by \eqref{multipliers}. It is by solving this problem in $n+k$ variables and equations that one usually solves this kind of variational problems.
 \end{remark}
 
 \subsection{Normality and Abnormality}
 
+Consider the parameter $\ell_0$ in the Lagrange multiplier equations, \eqref{multiplers}. There exist two possible cases:
+\begin{itemize}
+\item If $\ell_0 \neq 0$, the whole equation can be divided by $\ell_0$, yielding solutions to the equation
+\begin{equation}\label{multipliers:normal}
+\diffp f u + \lambda \cdot \diffp \phi u = \diff*{\left(\diffp f \xi + \lambda \cdot \diffp \phi \xi\right)}t.
+\end{equation}
+
+This is the so-called \emph{normal case};
+
+\item If $\ell_0 = 0$, we obtain a \emph{nontrivial} solution to the equation
+\begin{equation}\label{multipliers:abnormal}
+\lambda \cdot \diffp \phi u = \diff*{\left(\lambda \cdot \diffp \phi \xi\right)}t.
+\end{equation}
+
+This is the so-called \emph{abnormal} case.
+\end{itemize}
+
 The solutions to the Lagrange multiplier equation can be divided into two types: normal solutions, wherein $\ell_0 \neq 0$, and abnormal solutions, where $\ell_0 = 0$.
+
+An analogy can be made between the distinction normal/abnormal solutions and the distinction interior/border of a manifold. In some sense, as the name would indicate, abnormal solutions are `undesired', or uncommon. In fact, note that the existence (or not) of abnormal solutions \emph{does not depend on the functional being considered}, but only on the constraints placed on the paths! This is by analogy to optimization in calculus, where, besides checking critical points of the function to be optimized, one must usually also check the border of the space for extrema. According to Brunt \cite[p.~129]{brunt}, the usual approach to variational problems with nonholonomic constraints is to work under the assumption that the problem is normal, i.e. that there are no abnormal extrema, and only afterwards study the abnormal solutions and compare them to the normal critical points found.
+
+Geometrically, abnormal solutions correspond to solutions that cannot be perturbed. For example, in a constant-speed nonholonomic problem, a straight line cannot be perturbed while preserving the boundary conditions, while a non-straight line can be slightly perturbed. This particular case can easily be verified:
+
+\begin{theorem}\label{abnormalline}
+Let $\phi(t,u,\xi) = \xi^2 - 1$. Then, $u$ is an abnormal solution to the Euler-Lagrange equations if and only if it is a straight line.
+\end{theorem}
+
+\begin{proof}
+The equation to be solved is given by \eqref{multipliers:abnormal}, which in this case reduces to
+\[0 = \diff{(2 \lambda \dot u)}t,\]
+i.e. the vector $\lambda \dot u$ is constant. Furthermore, we are under the constraint $\norm{\dot u} = 1$, so taking the norm of $\lambda \dot u$ we obtain that $\lambda$ is constant, and by nontriviality of the solution must be a constant different from zero. Therefore, $\dot u$ must be constant, and so $u$ is a (speed 1) straight line.
+\end{proof}
+
+\subsection{Example of application}
+
+Let us apply the method of Lagrange multipliers to Dido's problem, of finding a curve of fixed length $L > 2$, starting at $(-1,0)$ and ending at $(1,0)$, that encompasses the most area between it and the $x$ axis. To do so, we encode the problem as a variational problems with nonholonomic constraints.
+
+In order to consider curves of fixed length $L$, instead of considering an integral constraint on the paths, we will consider paths of unit velocity defined on $[0,L]$. That is, if we let $u = (x,y)$, our restrictions are given by
+\begin{equation}\label{initcond}
+x(0) = -1,\; x(L) = 1, \quad y(0) = y(L) = 0, \quad \dot x^2 + \dot y^2 - 1 = 0.
+\end{equation}
+
+To measure the area encompassed by the curve $u = (x,y)$, the usual trick is to apply Green's formula on the integral $\int_\Omega 1 \dl1 x \dl1 y$ to get
+\[I(u) = - \int_0^L x \dot y \dl2 t.\]
+
+Let us now try to solve the Euler-Lagrange equation. By theorem \ref{abnormalline}, the abnormal case corresponds to straight lines, and straight lines cannot satisfy the boundary conditions as the start and end points are too close together, at a distance of $2 < L$.  Therefore, the equation to solve becomes
+\[
+\begin{cases}
+\displaystyle \diffp f x + \lambda \diffp \phi x = \diff*{\left(\diffp f {\dot x} + \lambda \diffp \phi {\dot x}\right)}t,\\[0.7em]
+\displaystyle \diffp f y + \lambda \diffp \phi y = \diff*{\left( \diffp f {\dot y} + \lambda \diffp \phi {\dot y}\right)}t,\\
+\dot x^2 + \dot y^2 = 1,
+\end{cases}
+\]
+where $\lambda$ is a $C^1$ real function, and $u$ satisfies \eqref{initcond}. Expanding the partial derivatives,
+\begin{equation}\label{dido1}
+\begin{cases}
+\dot y  = 2 \dot \lambda \dot x + 2 \lambda \ddot x,\\
+0 = \dot x + 2 \dot \lambda \dot y + 2 \lambda \ddot y,\\
+\dot x^2 + \dot y^2 = 1.
+\end{cases}
+\end{equation}
+
+To solve these equations, we begin by noting that $\dot x^2 + \dot y^2 = 1$ implies (by taking the derivative in time and multiplying by $\lambda$)
+\[2\lambda \ddot x \dot x + 2 \lambda \ddot y \dot y = 0.\]
+
+Therefore, adding appropriate multiples of the other two equations, we obtain
+\[\cancel{\dot y \dot x} = 2 \dot \lambda \dot x^2 + \cancel{\dot x \dot y} + 2 \dot \lambda \dot y^2,\]
+and using $\dot x^2 + \dot y^2 = 1$ we get
+\[\dot \lambda = 0.\]
+
+Consequently, $\lambda$ is a constant, and \eqref{dido1} reduces to
+\begin{equation}\label{dido2}
+\begin{cases}
+\dot y  = 2 \lambda \ddot x,\\
+\dot x = - 2 \lambda \ddot y,\\
+\dot x^2 + \dot y^2 = 1.
+\end{cases}
+\end{equation}
+
+Consequently, $\dot x = - 2 \lambda \ddot y = -4 \lambda^2 \dot{\ddot x}$, and so $\dot x$ is of the form
+\[\dot x = A \sin(2 \lambda t) + B \cos(2 \lambda t).\]
+
+If $\lambda = 0$, $x$ would be a constant and so $\ddot x = 0$, implying $\dot y = 0$ and so $(x,y)$ is constant, contradicting the hypothesis of unit speed. Therefore, $\lambda \neq 0$ and so we can integrate $\dot x$ to get
+\[x = A_1 \sin(2 \lambda t) + B_1 \cos(2 \lambda t) + C_1,\]
+and a similar thing can be done for $y$ to obtain
+\[y = A_2 \sin(2 \lambda t) + B_2 \cos(2 \lambda t) + C_2.\]
+
+The rest of the solution is busywork. The initial conditions ($x(0)=-1$, $x(L) = 1$, and so on), together with the differential equations, yield several equations on $A_1$, $B_1$, $C_1$, $A_2$, $B_2$, $C_2$, and $\lambda$. These solutions can be solved, yielding (SOLVE THIS)
+
+
+\subsection{Further reading}
 
 \begin{appendices}
 
