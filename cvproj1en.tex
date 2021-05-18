@@ -100,6 +100,8 @@ Arguments of functions will often be omitted. For example, if $u$ represents a c
 
 Note that that the total time derivative is evaluated \emph{after} the implicit insertion of variables, unlike the partial derivatives. These conventions are common in physics books (see, e.g. \cite{goldstein}), so we hope that they are understandable to the reader.
 
+In section \ref{sec:firstvar}, we introduce a notation for the `Euler-Lagrange derivative', which we record here for completeness. We define the differential operator $\Theta$ as
+\[\Theta(f) := \diffp f u - \diff*{\diffp f \xi}t.\]
 
 \section{Holonomic Constraints}
 
@@ -449,7 +451,7 @@ We can use $\psi$ to build a valid displacement of $u$ as follows. We wish to fi
 
 We can now use ODE theory to guarantee that this has a solution for $w$ `close enough to $w_0$', for `$w_0$ corresponding to the path $u_0$'.
 
-\begin{theorem}
+\begin{theorem}\label{thm:perturbation}
 Let $p \in \N^+$.\footnote{We will only use the case $p = 2$.} Let $u$ be a $C^{p+1}$ path satisfying $\phi(t,u,\dot u) = 0$ for $\phi$ a $C^p$ function such that $\diffp \phi \xi$ has linearly independent rows. Extend $\phi$ to $\wtphi$ (in a $C^p$ way) using the methods of theorem \ref{thm:buffift}. Let $\wtphi(t,u,\dot u) = (0, w(t))$. Then, given a curve $v : [t_\tstart, t_\tend] \to \R^{n-k}$ of class $C^p$ in this interval, for real numbers $b$ close enough to zero the following ODE has a unique solution with $(t,u,\dot u) \in U$:
 \[
 \begin{cases}
@@ -482,7 +484,7 @@ to which elementary ODE theory is applicable. Note that since $\psi$, $w$, and $
 To show differentiability in these two variables, the cited reference is not enough. However, the methods therein found can be used to prove inductively that if $F$ is $C^p$ then $u$ is also $C^p$ in time and the parameters.
 \end{proof}
 
-\begin{remark}
+\begin{remark}\label{rmk:perturbation}
 Though the above proof was stated for only one parameter $b$, it could easily be stated and extended for several parameters and $v$'s. In other words, we could have considered the ODE
 \[
 \begin{cases}
@@ -494,26 +496,36 @@ u(t_\tstart) = u_\tstart.
 The same result and notation applies, except that we collect the functions $v_i$ in a $(n-k) \times q$ matrix we call $V(t)$, and the scalars $b_i$ form a vector we call $\vecb$. This will be crucial in section \ref{sec:multrule}, which contains the main result of this document: the multiplier rule.
 \end{remark}
 
-\subsection{First Variation}
+\subsection{First Variation}\label{sec:firstvar}
 
-Consider a one-parameter family of arcs of the form $u_b^v(t)$, as described above. In what follows we will abbreviate this to $u_b(t)$. We will investigate the behavior of $I(u_b)$ around zero. More precisely, we will look at $\diff{I(u_b)}b[0]$.
+Consider a one-parameter family of arcs of the form $u_b^v(t)$, constructed as described above. We will abbreviate this to $u_b(t)$. We will now investigate the behavior of $I(u_b)$ around zero: more precisely, we will study $\diff{I(u_b)}b[0]$, i.e. the first variation of $I$ along this family.
 
-Recall that $I(u_b)$ is defined as $\int f(t, u_b(t), \dot u_b(t)) \dl1 t$, and since this is integration over a compact interval of a $C^1$ function in both its variables (assuming $f$ is $C^1$ and $u_b(t)$ is $C^2$ in both variables) Leibniz' rule is applicable and so
+Recall that $I(u_b)$ is defined as $\int f(t, u_b(t), \dot u_b(t)) \dl1 t$, and since this is integration over a compact interval of a $C^1$ function in both its variables (assuming $f$ is $C^1$ and $u_b(t)$ is $C^2$ jointly in both variables) Leibniz' rule is applicable and so
 \[\diff{I(u_b)}b = \int_\tstart^\tend \diffp*{f(t, u_b, \dot u_b)}b \dl1 t =\int_\tstart^\tend \diffp f u \diffp{u_b}b + \diffp f \xi \diffp{\dot u_b}b \dl1 t.\]
 
-The usual integration by parts of the calculus of variations can now be performed, owing to the fact that, since $u$ is $C^1$ in $b$ and $t$, the order of derivatives is irrelevant, so that $\diffp{\dot u_b}b = \diffp{u_b(t)}{t,b}$. Therefore,
+If we now assume that $f$ is $C^2$, the usual integration by parts of the calculus of variations can be performed. In doing so, we are implicitly using the fact that, since $u$ is $C^2$ in $b$ and $t$, the order of derivatives is irrelevant, and thus $\diffp{\dot u_b}b = \diffp{u_b(t)}{t,b}$. We conclude
 \[\diff I b = \int_\tstart^\tend \left( \diffp f u - \diff*{\diffp f \xi}t \right) \diffp{u_b}b \dl1 t + \bracket*{ \diffp f \xi \diffp{u_b}b }_\tstart^\tend.\]
 
-Finally, note that we are keeping the first end of $u$ fixed, so that $u_b(t_\tstart)$ is constant. Therefore, the bracket term can be simplified, yielding
-\[\diff I b = \int_\tstart^\tend \left( \diffp f u - \diff*{\diffp f \xi}t \right) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.\]
+Finally, note that we are keeping the first end of $u$ fixed, so that $u_b(t_\tstart)$ is constant and so $\eval*{\diffp{u_b}b}_\tstart = 0$. Therefore, the bracket term can be simplified, yielding
+\begin{equation}\label{firstvar1}
+\diff I b = \int_\tstart^\tend \left( \diffp f u - \diff*{\diffp f \xi}t \right) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.
+\end{equation}
 
-Reminder to introduce $\Theta$-notation. With it, this can be written
-\[\diff I b = \int_\tstart^\tend \Theta(f) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.\]
+In order to avoid writing a burdensome amount of terms, we now introduce a notation for the `Euler-Lagrange derivative'. Let $\Theta$ be the differential operator given by
+\[\Theta(f) := \diffp f u - \diff*{\diffp f \xi}t.\]
 
-This expression can still be simplified, if we recall that $u$ satisfies $\wtphi(t,u(t), \dot u(t)) = (0, b v(t))$. Taking (time-variable) linear combinations of this, we conclude that, if $\mu(t) = (\mu_1(t), \mu_2(t))$ is regular enough,
-\[\mu \cdot \wtphi(t, u, \dot u) = b \mu_2 \cdot v,\]
-and so, differentiating in $b$, we get
-\[\diffp{(\mu \cdot \wtphi)}u \diffp u b + \diffp{(\mu \cdot \wtphi)}\xi \diffp{\dot u}b = \mu_2 \cdot v,\]
+With this notation, \eqref{firstvar1} can be written
+\begin{equation}\label{firstvar2}
+\diff I b = \int_\tstart^\tend \Theta(f) \diffp{u_b}b \dl1 t + \eval*{\diffp f \xi}_\tend \eval*{\diffp{u_b}b}_\tend.
+\end{equation}
+
+There exists a trick that will later be used to get rid of the non-integral terms, which we now describe. Recall that $u_b$ satisfies the differential equation
+\[\wtphi(t,u_b(t),\dot u_b(t)) = (0, w(t) + b\,v(t)),\]
+where $\wtphi(t,u_0,\dot u_0) = (0,w(t))$. This actually consists of $n$ differential equations, which can be added together. Indeed, if $\mu(t) = (\mu_1(t), \mu_2(t))$ is a regular enough time-dependent $n$-vector,
+\[\mu \cdot \wtphi(t, u, \dot u) = \mu_2 \cdot w + b \, \mu_2 \cdot v.\]
+
+Taking the partial derivative in $b$, we obtain
+\[\mu \cdot \diffp{\wtphi}u \diffp u b + \mu \cdot \diffp{\wtphi}\xi \diffp{\dot u}b = \mu_2 \cdot v,\]
 which can be rewritten in terms of $\Theta$ as
 \[\Theta(\mu \cdot \wtphi) \diffp u b = \mu_2 \cdot v - \diff*{\left(\diffp{(\mu \cdot \wtphi)}\xi \diffp u b \right)}t.\]
 
@@ -523,20 +535,26 @@ Integrating, this yields
 Using the same trick as before, the bracket can be simplified to get
 \[\int_\tstart^\tend \Theta(\mu \cdot \wtphi) \diffp u b \dl1 t = \int_\tstart^\tend \mu_2 \cdot v \dl2 t - \mu(t_\tend) \cdot \eval*{\diffp{\wtphi}\xi}_\tend \eval*{\diffp u b}_\tend.\]
 
-Adding and subtracting this expression to $\diff I b$ deduced above, we get
-\begin{multline*}
-\diff I b = \int_\tstart^\tend \Theta(f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
-+ \left(\eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend.
-\end{multline*}
+Adding and subtracting this expression to a multiple of $\diff I b$, using \eqref{firstvar2} we get
+\begin{multline}\label{firstvar3}
+\ell_0 \diff I b = \int_\tstart^\tend \Theta(\ell_0 f + \mu \cdot \wtphi) \diffp{u_b}b \dl1 t - \int_\tstart^\tend \mu_2 \cdot v \dl2 t\\
++ \left(\ell_0 \eval*{\diffp{f} \xi}_\tend + \mu(t_\tend) \eval*{\diffp\wtphi\xi}_\tend \right) \eval*{\diffp{u_b}b}_\tend.
+\end{multline}
 
-Note that $\mu$ has still been left arbitrary, as long as $\Theta(\mu \cdot \wtphi)$ makes sense. Therefore, we have freedom to manipulate it. This will be useful in the sequence.
+Even though this expression looks more complex than \eqref{firstvar2}, it has a large degree of freedom to exploit: $\mu$ has been left arbitrary (as long as it is $C^1$ so that the $\Theta$ term exists). For example, we could cross out the non-integral term by choosing an appropriate value for $\mu(t_\tend)$. We will not do so yet, however, because an even more appropriate choice will present itself in due time. The mysterious $\ell_0$ coefficient appears for technical reasons, and is necessary in a proof. If the reader is mystified by its presence, he or she may ignore it for now.
 
 \subsection{The Multiplier Rule}\label{sec:multrule}
 
-Suppose, now, that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$. We might be tempted to apply the above formula for $\diff I b$ and claim that this quantity must be null for all $v$. However, that is neglecting the requirement that $u(t_\tend) = u_\tend$. One could think about restricting themselves to only $v$'s that guarantee this requirement, in some way, but that might not be possible.
+In this section, we will finally prove the necessary condition for a minimum we have been building up to: the Lagrange Multipler Rule.
 
-To get around this, consider an arbitrary collection $v_1, \dots, v_{n+1}$ of smooth functions $[t_\tstart, t_\tend] \to \R^k$, which we collect into the matrix $V(t)$. We can see $I$ as function in $n+1$-variables, given by the vector $\vecb$. Furthermore, we can see $u(t_\tend)$ as a function of $\vecb$ as well, and so we may consider the $C^1$ function given by
+Suppose that that $u_0$ is a minimum of the functional $I$ over the class of paths such that $u(t_\tstart) = u_\tstart$, $u(t_\tend) = u_\tend$ and $\phi(t,u,\dot u) = 0$, under the hypothesis that $f$ is $C^?$, $u_0$ is $C^?$ and $\phi$ is $C^?$.
+
+We might be tempted to apply the formula \eqref{firstvar2} or \eqref{firstvar3} for $\diff I b$ and claim that $\diff I b = 0$ for all $v$, since $u_0$ minimizes the value of $I$. However, that is neglecting the requirement that $u(t_\tend) = u_\tend$: since the variations we have created break this requirement, $I(u_b)$ has no obligation to be minimal at $b = 0$. One could consider restricting themselves to variations $v$ that guarantee the boundary conditions, but such $v$ might not even exist: consider the example where $u_0$ is a straight line and $\phi(t,u,\xi) = \norm \xi$.
+
+To get around this, consider an arbitrary collection $v_1, \dots, v_{n+1}$ of smooth functions $[t_\tstart, t_\tend] \to \R^{n-k}$, which we collect into the matrix $V(t)$. We can see $I$ as function in $n+1$-variables, given by the vector $\vecb$. Furthermore, we can see $u(t_\tend)$ as a function of $\vecb$ as well, and so we may consider the function given by
 \[\vecb \mapsto (I(u_\vecb^V), u_\vecb(t_\tend)).\]
+
+This function is $C^1$ in a neighborhood of the origin by 
 
 By the inverse function theorem, if the jacobian of this function at $\vecb = 0$ were invertible, this map would be a diffeomorphism in a neighborhood of the origin. But this contradicts the assumption that $u_0$ is a minimum of $I$, for in this case we could find $\vecb$ such that $u_\vecb(t_\tend) = u_\tend$, and $I(u_\vecb^V)$ is slightly smaller than $I(u_0)$. In other words, under the assumption that $u$ is a minimum of $I$, the following matrix has linearly dependent rows: (evaluated at $\vecb = 0$)
 \[
