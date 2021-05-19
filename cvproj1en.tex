@@ -83,7 +83,7 @@ This work originally started as a project for a class on the Calculus of Variati
 
 This document is divided into two parts. The first part is a relatively simple exploration of holonomic constraints, that is, optimization on (possibly time-dependent) manifolds. In other words, we require that our paths satisfy equations of the form $\phi_i(t, u(t)) = 0$, $i = 1, \dots, k$. The second part is trickier, in which the restrictions become differential equations of the form $\phi_i(t,u(t), \dot u(t))$, $i = 1, \dots k$. This is where I had a problem finding references.
 
-This work is the culmination of a couple of weeks spent interpreting 16 pages' worth of Bliss' \textit{Lectures on the Calculus of Variations} \cite[pp.~187-202]{bliss}. I don't know whether to blame my unfamiliarity with the notational conventions, the great amount of generality in which the proof is done, or my own lack of experience with the topic, but it was with more effort than I am proud to admit that I could finally understand the proof which I reproduce in section \ref{sec:nonholonomic}, albeit in much less generality (though the essential ideas are there). Perhaps my own proof might serve as a primer for someone else's reading of Bliss' proof.
+This work is the culmination of a couple of weeks spent interpreting 16 pages' worth of Bliss' \textit{Lectures on the Calculus of Variations} \cite[pp.~187-202]{bliss}. I don't know whether to blame my unfamiliarity with the notational conventions, the great amount of generality in which the proof is done, or my own lack of experience with the topic, but it was with more effort than I am proud to admit that I could finally understand the proof which I reproduce in section \ref{sec:nonholonomic}, albeit in much less generality (though the essential ideas are there). Perhaps this work might serve as a primer for someone else's reading of Bliss' proof.
 
 \section{Notational Conventions}
 
@@ -696,17 +696,17 @@ i.e. the vector $\lambda \dot u$ is constant. Furthermore, we are under the cons
 
 \subsection{Example of application}
 
-Let us apply the method of Lagrange multipliers to Dido's problem, of finding a curve of fixed length $L > 2$, starting at $(-1,0)$ and ending at $(1,0)$, that encompasses the most area between it and the $x$ axis. To do so, we encode the problem as a variational problems with nonholonomic constraints.
+Let us apply the method of Lagrange multipliers to Dido's problem, of finding a curve of fixed length $L > 2$, starting at $(-1,0)$ and ending at $(1,0)$, that encompasses the most area between it and the $x$ axis. To do so, we encode the problem as a variational problem with nonholonomic constraints.
 
-In order to consider curves of fixed length $L$, instead of considering an integral constraint on the paths, we will consider paths of unit velocity defined on $[0,L]$. That is, if we let $u = (x,y)$, our restrictions are given by
+In order to consider curves of fixed length $L$, instead of considering an integral constraint on the paths, we will consider paths of unit speed defined on $[0,L]$. That is, if we let $u = (x,y)$, our restrictions are given by
 \begin{equation}\label{initcond}
 x(0) = -1,\; x(L) = 1, \quad y(0) = y(L) = 0, \quad \dot x^2 + \dot y^2 - 1 = 0.
 \end{equation}
 
-To measure the area encompassed by the curve $u = (x,y)$, the usual trick is to apply Green's formula on the integral $\int_\Omega 1 \dl1 x \dl1 y$ to get
+To measure the area encompassed by the curve\footnote{The usual remark about the equivalence of maximization and minimization problems applies.} $u = (x,y)$, the usual trick is to apply Green's formula on the integral $\int_\Omega 1 \dl1 x \dl1 y$ to get a formula for the area such as
 \[I(u) = - \int_0^L x \dot y \dl2 t.\]
 
-Let us now try to solve the Euler-Lagrange equation. By theorem \ref{abnormalline}, the abnormal case corresponds to straight lines, and straight lines cannot satisfy the boundary conditions as the start and end points are too close together, at a distance of $2 < L$.  Therefore, the equation to solve becomes
+Let us now find the Euler-Lagrange equations. By theorem \ref{abnormalline}, the abnormal solutions to the Euler-Lagrange equations are straight lines, and straight lines cannot satisfy the boundary conditions as the start and end points are too close together, at a distance of $2 < L$. Therefore, we need only consider the Euler-Lagrange equations for the normal case, which are
 \[
 \begin{cases}
 \displaystyle \diffp f x + \lambda \diffp \phi x = \diff*{\left(\diffp f {\dot x} + \lambda \diffp \phi {\dot x}\right)}t,\\[0.7em]
@@ -723,7 +723,7 @@ where $\lambda$ is a $C^1$ real function, and $u$ satisfies \eqref{initcond}. Ex
 \end{cases}
 \end{equation}
 
-To solve these equations, we begin by noting that $\dot x^2 + \dot y^2 = 1$ implies (by taking the derivative in time and multiplying by $\lambda$)
+To solve these equations, note that from the restriction $\dot x^2 + \dot y^2 = 1$ we conclude
 \[2\lambda \ddot x \dot x + 2 \lambda \ddot y \dot y = 0.\]
 
 Therefore, adding appropriate multiples of the other two equations, we obtain
@@ -744,14 +744,17 @@ Consequently, $\dot x = - 2 \lambda \ddot y = -4 \lambda^2 \dot{\ddot x}$, and s
 \[\dot x = A \sin(2 \lambda t) + B \cos(2 \lambda t).\]
 
 If $\lambda = 0$, $x$ would be a constant and so $\ddot x = 0$, implying $\dot y = 0$ and so $(x,y)$ is constant, contradicting the hypothesis of unit speed. Therefore, $\lambda \neq 0$ and so we can integrate $\dot x$ to get
-\[x = A_1 \sin(2 \lambda t) + B_1 \cos(2 \lambda t) + C_1,\]
-and a similar thing can be done for $y$ to obtain
-\[y = A_2 \sin(2 \lambda t) + B_2 \cos(2 \lambda t) + C_2.\]
+\[x = A' \sin(2 \lambda t) + B' \cos(2 \lambda t) + C,\]
+for $A' = \frac1{2 \lambda} B$ and $B' = -\frac1{2\lambda} A$. Integrating $\dot y = 2 \lambda \ddot x$, we get
+\[y = A' \cos(2 \lambda t) - B' \sin(2 \lambda t) + C'.\]
 
-The rest of the solution is busywork. The initial conditions ($x(0)=-1$, $x(L) = 1$, and so on), together with the differential equations, yield several equations on $A_1$, $B_1$, $C_1$, $A_2$, $B_2$, $C_2$, and $\lambda$. These solutions can be solved, yielding (SOLVE THIS)
-
+We conclude that the curve $(x,y)$ describes a circle around the point $(C, C')$, and so the (multiple) solutions to the Euler-Lagrange equations are unit speed circle sections starting at $(-1,0)$ and ending at $(1,0)$. Further investigation would be necessary to find expressions for these circles and to discover which of them is the best candidate for a maximum.
 
 \subsection{Further reading}
+
+As mentioned in the introduction, this proof is, for the most part, a particularization of the proof found in Bliss \cite[pp.~187-202]{bliss}. We direct the interested reader there, as the theorem is stated and proved in much, much greater generality: the paths considered are sectionally $C^1$, the endpoints of the curves are not fixed but rather obey some set of equations (imagine a chain with endpoints on a rail), $t_\tstart$ and $t_\tend$ are likewise not fixed, and the functional to be optimized might have a term depending on the endpoints. It is reasonably well-written, though in a terse style which, when combined with unusual notational conventions (e.g. the Euler-Lagrange equations are written in integral form) might leave a first-time reader perplexed. I certainly was.
+
+The section on normality and abnormality was loosely based on Brunt \cite[pp.~128,129]{brunt}, which also has a discussion of the (non)applicability of the Lagrange multiplier method to nonholonomic problems in mechanics, as well as further bibliographic references.
 
 \begin{appendices}
 
