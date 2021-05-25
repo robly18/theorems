@@ -145,13 +145,45 @@ Theorem \ref{elinmanifolds} also holds for abstract $C^2$ manifolds, not embedde
 \begin{example}\label{sphere1}
 Suppose that we wish to find length-minimizing curves on the sphere of unit radius. Then, we begin by parametrizing the sphere using polar coordinates:
 \[r(\theta, \varphi) = (\cos\theta \cos\varphi, \sin\theta \cos\varphi, \sin\varphi),\]
+\begin{figure}
+\centering
+\begin{tikzpicture}[z={(0,1)},y={(-1/2,-1/2)}, scale=3]
+
+\draw[->] (0,0,0)--(1.5,0,0) node[below] {$y$};
+\draw[->] (0,0,0)--(0,2,0) node[below] {$x$};
+\draw[->] (0,0,0)--(0,0,1.5) node[left] {$z$};
+
+\coordinate (ex) at (.70711,0,-.70711);
+\coordinate (ey) at (.57735,-.57735,.57735);
+\draw[y=(ey),x=(ex)] (0,0) circle (1);
+
+\draw[gray, very thin] (1,0,0) arc (0:150:1);
+\draw[gray, very thin] (1,0,0) arc (0:-30:1);
+\draw[gray, very thin, x={(0,0,1)}] (1,0) arc (0:150:1);
+\draw[gray, very thin, x={(0,0,1)}] (1,0) arc (0:-30:1);
+\draw[gray, very thin, y={(0,0,1)}] (1,0) arc (0:120:1);
+\draw[gray, very thin, y={(0,0,1)}] (1,0) arc (0:-60:1);
+
+\draw[->] (0,.8) arc (90:20:.8) node [midway,above] {$\theta$};
+\draw (0,0) -- (20:.8);
+
+\begin{scope}[x=(20:1),y={(0,0,1)}]
+\draw (0,0)--(1,0);
+\draw [->] (.8,0) arc (0:80:.8) node [midway,right] {$\varphi$};
+\draw (0,0) -- (80:1);
+\draw[gray, very thin] (1,0) arc (0:90:1);
+\end{scope}
+\end{tikzpicture}
+\label{spherefigure}
+\caption{Polar coordinate system.}
+\end{figure}
 and now we calculate the function $f(t,u,\xi) = \norm\xi$ in local coordinates:
 \begin{align*}
 \tilde f &= \norm{r'(\theta, \varphi) (\dot \theta, \dot \varphi)}\\
 &= \norm*{\begin{bmatrix}
-\sin\theta \cos\varphi & \cos\theta \sin\varphi\\
--\cos\theta \cos\varphi & \sin\theta \sin\varphi\\
-0 & -\cos\varphi
+-\sin\theta \cos\varphi & -\cos\theta \sin\varphi\\
+\cos\theta \cos\varphi & -\sin\theta \sin\varphi\\
+0 & \cos\varphi
 \end{bmatrix}
 \begin{bmatrix}
 \dot\theta\\
@@ -171,9 +203,9 @@ The Euler-Lagrange equations then become, in local coordinates:
 
 To find a solution to these equations, we begin by pointing out that the length of a curve does not depend on the parametrization, as long as it does not double back. Therefore, we may, for simplicity, find a unit-speed parametrization. This simplification is equivalent to requiring that $f = 1$, so the equations become
 \[\dot \theta = \frac C {\cos^2(\varphi)}, \quad \ddot \varphi = \cos\varphi \sin\varphi \, \dot \theta^2,\]
-and the second equation can be simplified to $\ddot \varphi = C^2 \tg \varphi$.
+and the second equation can be simplified to $\ddot \varphi = C^2 \frac{\sin\varphi}{\cos^3 \varphi}$.
 
-Finally, to simplify matters, let us suppose without loss of generality (by rotation) that the starting point of our curve lies in the equator ($\varphi = 0$), and its initial velocity is $\dot\theta = 1$, $\dot \varphi = 0$. Then, the Euler-Lagrange equations become easy to solve, as $\ddot \varphi = 0$ and so $\varphi$ is constant equal to 0, and $\dot \theta = C = 1$, and so our curve is just a constant speed rotation about the equator. This (and invariance by change of coordinates) proves that the (unit speed) solutions of the Euler-Lagrange equations are great circle rotations.
+Finally, to simplify matters, let us suppose without loss of generality (by rotation) that the starting point of our curve lies in the equator ($\varphi = 0$), and its initial velocity is $\dot\theta = 1$, $\dot \varphi = 0$. Then, the Euler-Lagrange equations become easy to solve, as $\varphi$ constant equal to 0 is a solution of $\ddot \varphi = C^2 \frac{\sin\varphi}{\cos^3 \varphi}$, and $\dot \theta = C = 1$, and so our curve is just a constant speed rotation about the equator. This (and invariance by change of coordinates) proves that the (unit speed) solutions of the Euler-Lagrange equations are great circle rotations.
 \end{example}
 
 Of course, this does not solve the problem of length-minimizing curves in the circle, as we would need to ensure that length-minimizing curves are $C^2$, and solutions of the Euler-Lagrange equations do not necessarily minimize the value of the functional. However, this example has served the purpose of exemplifying the method.
@@ -184,7 +216,7 @@ This method also works for time-dependent conditions, but it is slightly more co
 
 \subsection{Langrange Multipliers}
 
-When solving problems in calculus of optimization in manifolds, sometimes local parametrizations are very messy business. Indeed, even though the implicit function theorem guarantees that the solutions to independent cartesian equations are manifolds in euclidean space, to parametrize these manifolds explicitly is often messy at best, and impossible at worst. This motivates the study of parametrization-independent methods of optimization. The most well-known of these is the method of Lagrange multipliers, which can be extended to the Calculus of Variations in two ways: it can be applied to problems with integral restriction (e.g. curves of a fixed length), see \cite[\S 12.1]{gelfandfomin}, or it can be applied to problems with pointwise (i.e. holonomic) restrictions, as we will see in this subsection. In section \ref{sec:nonholonomic}, we show a more general version of this principle, which can be applied to nonholonomic constraints, and in section \ref{subsec:applications} we show how integral constraints are really just a particular case of nonholonomic constraints. %TODO!!! ???? fact check
+When solving problems in calculus of optimization in manifolds, sometimes local parametrizations are very messy business. Indeed, even though the implicit function theorem guarantees that the solutions to independent cartesian equations are manifolds in euclidean space, to parametrize these manifolds explicitly is often messy at best, and impossible at worst. This motivates the study of parametrization-independent methods of optimization. The most well-known of these is the method of Lagrange multipliers, which can be extended to the Calculus of Variations in two ways: it can be applied to problems with integral restriction (e.g. curves of a fixed length), see \cite[\S 12.1]{gelfandfomin}, or it can be applied to problems with pointwise (i.e. holonomic) restrictions, as we will see in this subsection. In section \ref{sec:nonholonomic}, we show a more general version of this principle, which can be applied to nonholonomic constraints, and see also remark \ref{nonholoaregeneral} where we show how integral constraints are really just a particular case of nonholonomic constraints.
 
 The main result of this section is the following:
 
@@ -347,9 +379,9 @@ Problems with nonholonomic constraints occur often when describing physical syst
 \foreach \y in {1,2,3,4}
 	\draw[gray, very thin] (0,\y,0) -- (6,\y,0);
 
-\draw[->] (0,0,0)--(6,0,0) node[below] {x};
-\draw[->] (0,0,0)--(0,5,0) node[below] {y};
-\draw[->] (0,0,0)--(0,0,4) node[left] {z};
+\draw[->] (0,0,0)--(6,0,0) node[below] {$y$};
+\draw[->] (0,0,0)--(0,5,0) node[below] {$x$};
+\draw[->] (0,0,0)--(0,0,4) node[left] {$z$};
 
 \coordinate (circlepos) at (4,3,0);
 \coordinate (ev) at (30:1);
@@ -363,10 +395,10 @@ Problems with nonholonomic constraints occur often when describing physical syst
 \draw[->] (0,0.8) arc (-90:-130:1.2) node[midway,below left] {$\theta$};
 \end{scope}
 
-\draw (circlepos) --+(1,0,0);
-\draw[->] (circlepos)+(1,0,0) arc (0:30:1) node [midway, right] {$\varphi$};
+\draw (circlepos) --+(0,1,0);
+\draw[->] (circlepos)+(0,1,0) arc (90:30:1) node [midway, below] {$\varphi$};
 
-\node[below left] at (circlepos) {$(x,y)$};
+\node[shift={(-.6,.4)}] at (circlepos) {$(x,y)$};
 \end{tikzpicture}
 \label{diskfigure}
 \caption{The coordinate system for the rolling upright disk.}
