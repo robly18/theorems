@@ -121,9 +121,9 @@ e escrever $u$ em coordenadas como $u(t) = r(\theta(t), \varphi(t))$.
 \begin{align*}
 \tilde f &= \norm{r'(\theta, \varphi) (\dot \theta, \dot \varphi)}\\
 &= \norm*{\begin{bmatrix}
-\sin\theta \cos\varphi & \cos\theta \sin\varphi\\
--\cos\theta \cos\varphi & \sin\theta \sin\varphi\\
-0 & -\cos\varphi
+-\sin\theta \cos\varphi & -\cos\theta \sin\varphi\\
+\cos\theta \cos\varphi & -\sin\theta \sin\varphi\\
+0 & \cos\varphi
 \end{bmatrix}
 \begin{bmatrix}
 \dot\theta\\
@@ -193,7 +193,108 @@ O teorema \ref{elinmanifolds} também se aplica a variedades $C^2$ abstratas, n�
 
 \item Bónus: pode dar informação extra. Exemplo: em mecânica, o método de multiplicadores de Lagrange corresponde a problemas com restrições, e.g. um objeto em carris, e os multiplicadores que se obtêm podem nesse caso ser interpretados como as forças de restrição.
 
-\item a
+\item Ideia: Distorcer localmente o espaço de modo às equações cartesianas `parecerem da forma' $x_1 = x_2 = \dots = x_k = 0$.
+
+\item Assim sendo, Euler-Lagrange aplica-se às restantes coordenadas, donde concluímos que, nestas coordenadas, a `derivada do cálculo das variações' é da forma
+\[\diffp f u - \diff*{\diffp f \xi}t = \lambda_1(t) e_1 + \dots + \lambda_k(t) e_k,\]
+e desfazendo a mudança de coordenadas chegaremos à nossa fórmula dos multiplicadores de Lagrange.
+
+\item Por simplicidade, farei a demonstração com condições cartesianas da forma $\varphi(u) = 0$, mas a demonstração é facilmente modificada para $\varphi(t,u) = 0$.
+
+\item \begin{theorem}\label{lagrangeholonomic}
+Seja $u_0$ uma curva que minimiza o funcional $I(u) = \int f(t,u,\dot u)$ sobre as curvas $u$ de classe $C^1$, de início em $u_\tstart$, fim em $u_\tend$, e satisfazendo as $k$ equações cartesianas $\phi(u(t)) = 0$ para todo o $t$. Suponha-se que $u_0$ é de classe $C^2$, que $f$ e $\phi$ de classe $C^2$ e que 0 é um valor regular de $\phi$, ou seja, as $k$ linhas de $\phi'$ são linearmente independentes em todos os pontos de interesse. Então, existe uma função contínua $\lambda \colon \left]t_\tstart, t_\tend\right[ \to \R^k$ tal que
+\begin{equation}\label{eq:lagrangeholonomic}
+\diffp f u - \diff*{\diffp f \xi}t = \lambda(t)^\tr \eval*{\diffp{\phi}{u}}_{t,u_0(t)}.
+\end{equation}
+\end{theorem}
+
+\item A demonstração deste teorema será local. Mostraremos que para todo o $t$ existe uma vizinhança de $t$ e uma função $\lambda$ definida nesta vizinhança que satisfaz \eqref{eq:lagrangeholonomic}. Disto segue-se o teorema, porque as soluções de \eqref{eq:lagrangeholonomic} são pontualmente únicas. Assim, mostrámos que a solução existe em todos os pontos, e que é localmente contínua.
+
+\item Aplicar T. Função Inversa. Fixo $t_0$, como $\phi'(u_0(t_0))$ tem linhas linearmente independentes, podemos supor sem perda de generalidade que esta matriz $n \times n$ é invertível:
+\[
+A = \begin{bmatrix}
+\phi'(u_0(t_0))\\
+\begin{matrix}
+0 & I
+\end{matrix}
+\end{bmatrix}
+\]
+
+\item Logo, a função $\Phi(u) = (\phi(u), u_{k+1}, \dots, u_n)$ tem derivada invertível em $u_0(t_0)$, pelo que estamos nas condições do TFI.
+
+\item Defina-se $u^1 = (u_1, \dots, u_k)$ e $u^2 = (u_{k+1}, \dots, u_n)$,.
+
+\item TFI: Existem abertos $U$ e $V$ em $\R^n$ tal que
+\begin{enumerate}
+\item $u_0(t_0) \in U$,
+\item $\Phi$ é um difeomorfismo (Classe?) $U \to V$, and
+\item Without loss of generality, we may assume (making $U$ and $V$ smaller if need be) that $U$ is of the form $\left]t_0-\varepsilon, t_0+\varepsilon\right[ \times U_1$ for some open $U_1$.
+\end{enumerate}
+
+Since $(t_0, u_0(t_0)) \in U$ and $\Phi(t_0, u_0(t_0)) \in V$, by continuity there exists a neighborhood of $t_0$, say $B = \left]t_0 - \delta, t_0 + \delta\right[$, such that for all $t$ in this neighborhood we have $(t,u_0(t)) \in U$ and $\Phi(t,u_0(t)) \in V$. Furthermore, suppose that $\delta$ is small enough such that, for all $t \in B$, for all $z \in \R^{n}$ of norm less than some $d$, $\Phi(t,u_0(t)) + (0,0,z) \in V$. To show that such a $\delta$ exists, begin by picking a neighborhood of $\Phi(t_0, u_0(t_0))$ of the form $R \left]t_0-\delta_0, t_0 + \delta_0\right[ \times B_{2d}(0, u_0^2(t_0))$ such that $R$ is contained in $V$. Now pick $\delta < \delta_0$ such that $u_0(t)$ differs less than $d$ from $u_0(t_0)$ for $t$ within $\delta$ of $t_0$. This exists by continuity. Then, for $t \in \left]t_0-\delta, t_0 + \delta\right[$ and $z$ of norm less than $d$, we have that
+\[\norm*{(0, u_0^2(t_0)) - \left((0, u_0^2(t)) + (0, z)\right)} \leq \norm{u_0^2(t_0) - u_0^2(t)} + \norm z \leq 2d.\]
+
+This shows that $\Phi(t,u_0(t)) + (0,0,z) \in R \subseteq V$, which allows us to define the variation of $I$ at $u_0$ with respect to some variations contained in $B$. More specifically, let $v : [t_\tstart, t_\tend] \to \R^{n-k}$ be a $C^\infty$ function of support contained in $B$. Then, for $\varepsilon$ small enough (such that $\norm{\varepsilon v} \leq d$), for all $t \in B$ we have $(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)) \in V$. Then, we may define $u_\varepsilon$ as
+\[
+u_\varepsilon(t) =
+\begin{cases}
+u_0(t), & t \not \in \supp v,\\
+\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)), & t \in B,
+\end{cases}
+\]
+where $\Psi$ is defined as follows. Since $\Phi$ is of the form $\Phi(t,u) = (t, \phi(t,u), u^2)$, its inverse must be of the form $\Phi^{-1}(t,w) = (t, \psi(t,w), w^2)$. We set $\Psi(t,w) = (\psi(t,w), w^2)$. In other words, $\Psi = \begin{bmatrix} 0 & I \end{bmatrix} \circ \Phi^{-1}$, i.e. $\Psi$ is the inverse of $\Phi$ with the time component thrown out.
+
+Since both branches of this definition are open, agree on the intersection, and each branch is $C^1$, we conclude that $u_\varepsilon$ is also a $C^1$ path. It is also trivial to see that it satisfies the boundary conditions and that $\phi(t, u_\varepsilon(t)) = 0$. Therefore, we must have
+\[I(u_\varepsilon) \geq I(u_0)\]
+
+Now, the standard idea is to take the derivative in $\varepsilon = 0$ and apply Leibniz to get that a certain integral expression is null. However, for our purposes it is useful to first split the integral in two parts:
+\[I(u_\varepsilon) = \int_{[t_\tstart,t_\tend] \setminus B} f(t,u_0,\dot u_0) \dl2 t + \int_B f(t,u_\varepsilon, \dot u_\varepsilon) \dl2 t.\]
+
+Now, the first expression is constant in $\varepsilon$, so differentiating and applying Leibniz we get
+\[\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp*{f(t,u_\varepsilon, \dot u_\varepsilon)}\varepsilon \dl2 t.\]
+
+The usual chain rule and integration by parts of the calculus of variation yields
+\[
+\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp f u \diffp{u_\varepsilon}\varepsilon + \diffp f {\xi} \diffp{\dot u}\varepsilon \dl2 t = \int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \diffp{u}\varepsilon \dl2 t.
+\]
+
+Note that in the integration by parts we used the fact that partial derivatives commute, and so
+\[\diffp{\dot u_\varepsilon}\varepsilon = \diffp{u_\varepsilon(t)}{\varepsilon,t} = \diffp*{\diffp {u_\varepsilon} \varepsilon}t.\]
+
+The term $\diffp u \varepsilon$ plays the part of the variation in the usual proof of the Euler-Lagrange equations. If $\diffp u \varepsilon$ were arbitrary, we would in fact conclude Euler-Lagrange. However, they are not. Intuitively, they are arbitrary, though tangent to the manifold given by the cartesian equations $\phi = 0$. Therefore, one intuits that the term $\diffp f u + \diff*{\diffp f {\dot u}}t$ is always orthogonal to the manifold, which matches up with the expected conclusion, as we know from vector calculus that the space orthogonal to a manifold defined by cartesian equations is generated by $\nabla_x \phi_1, \dots, \nabla_x \phi_k$..
+
+To proceed with the proof, let us investigate $\eval*{\diffp {u_\varepsilon} \varepsilon}_{\varepsilon = 0}$. This can be computed using the chain rule:
+\begin{align*}
+\eval*{\diffp {u_\varepsilon} \varepsilon}_0 &= \eval*{\diffp*{\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
+&= \eval*{\begin{bmatrix} 0 & I \end{bmatrix} \diffp*{\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} (\Phi^{-1})'(t, \phi(t,u_0(t)), u_0^2(t)) (0, 0, v(t))\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} \left(\Phi'(\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t)))\right)^{-1} (0,0,v(t))\\
+&= \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t)).
+\end{align*}
+
+Therefore, the conclusion is that, for all smooth $v$ defined in $B$,
+\[
+\int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t))\dl2 t = 0.
+\]
+
+Now, we may apply at once the Fundamental Lemma of the Calculus of Variations, to conclude that the last $n-k$ coordinates of the $(n+1)$-dimensional row-vector
+\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1}\]
+are null.  In other words, we can write this vector in the form
+\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} = (\ell(t),\lambda(t),0)^\tr,\]
+for some $\ell : B \to \R$ and $\lambda : B \to \R^k$. Note that these functions are continuous, as they are a product of continuous functions, and we cannot ensure more regularity under only $C^2$ assumptions because of the $\diff*{\diffp f \xi}t$ term.
+
+To finalize, let us try to solve for $\diffp f u + \diff*{\diffp f {\xi}}t$, which we will temporarily refer to as $T(t)$. Simply put, multiplying by $\Phi'$ and applying matrix block multiplication,
+\[\begin{bmatrix}0 & T(t)\end{bmatrix} = (\ell(t), \lambda(t), 0)^\tr \Phi'(t,u_0(t)) =
+(\ell(t), \lambda(t), 0)^\tr
+\begin{bmatrix}
+1 & \begin{matrix} 0 & 0 \end{matrix}\\
+* & \diffp\phi u\\
+* & \begin{matrix}
+0 & I
+\end{matrix}
+\end{bmatrix}.\]
+
+Therefore, we conclude $T(t) = \lambda(t)^\tr \diffp\phi u$, and so the proof is complete.
 \end{itemize}
 
 This work originally started as a project for a class on the Calculus of Variations, at Instituto Superior Técnico. The topic of the project is classical optimization with holonomic and non-holonomic constraints. However, when doing research on the subject, I was shocked to find very few mathematical references with the Lagrange multiplier theorem for the non-holonomic case, and corresponding proof. Consequently, I have taken it upon myself to create such a reference.
@@ -287,108 +388,12 @@ When solving problems in calculus of optimization in manifolds, sometimes local 
 
 The main result of this section is the following:
 
-\begin{theorem}\label{lagrangeholonomic}
-Let $u_0$ be a curve that minimizes the functional $I(u) = \int f(t,u,\dot u)$ as $u$ ranges over $C^1$ curves starting at $u_\tstart$, ending at $u_\tend$, and satisfying the $k$ cartesian equations $\phi(t,u(t)) = 0$ for all $t$. Suppose that $u_0$ is $C^2$, that $f$ and $\phi$ are $C^2$ in an open set containing all points of the form $(t,u_0,\dot u_0)$ and $(t,u_0)$ respectively, and that $\diffp \phi u$ has rank $k$ on all points of the form $(t,u_0)$. Then, there exists a continuous function $\lambda \colon \left]t_\tstart, t_\tend\right[ \to \R^k$ such that
-\begin{equation}\label{eq:lagrangeholonomic}
-\diffp f u - \diff*{\diffp f \xi}t = \lambda(t)^\tr \eval*{\diffp{\phi}{u}}_{t,u_0(t)}.
-\end{equation}
-\end{theorem}
 
 \begin{remark}
 The most common way to ensure the condition on the rank of $\diffp \phi u$ is to request that 0 is a regular value of $\phi$.
 \end{remark}
 
 \begin{proof}
-The proof of this theorem proceeds locally. We will show that, for all $t$, there exists a neighborhood of $t$ and a function $\lambda$ defined on this neighborhood, satisfying \eqref{eq:lagrangeholonomic}. The theorem follows immediately, as the functions thus defined are unique. Indeed, since $\diffp \phi u$ has linearly independent rows, the equation in $\lambda(t)$ given by \eqref{eq:lagrangeholonomic} has at most one solution for each $t$. The remarkable fact is that these solutions exist for all $t$, and form a continuous function.
-
-To show the theorem locally, we use the inverse function theorem. Given $t_0$, since $\diffp\phi u$ has linearly independent rows, we can without loss of generality (by swapping coordinates if necessary) suppose that the $n \times n$ matrix
-\[
-A = \begin{bmatrix}
-\eval*{\diffp\phi u}_{t_0,u_0(t_0)}\\
-\begin{matrix}
-0 & I
-\end{matrix}
-\end{bmatrix}
-\]
-is invertible. Now, let $\Phi(t,u) = (t, \phi(t,u), u_{k+1}, \dots, u_n)$. It is obvious that
-\[\Phi'(t_0, u_0(t_0)) =
-\begin{bmatrix}
-1 & 0\\
-* & A
-\end{bmatrix},\]
-which is invertible and so we are in the conditions of the inverse function theorem.
-
-To simplify notation, let us define $u^1 = (u_1, \dots, u_k)$ and $u^2 = (u_{k+1}, \dots, u_n)$, so that, for example, $\Phi$ can be written as $\Phi(t,u) = (t, \phi(t,u), u^2)$. Then, by the inverse function theorem, there exist open sets in $\R^{n+1}$, say $U$ and $V$ such that:
-\begin{enumerate}
-\item $(t_0, u_0(t_0)) \in U$,
-\item $\Phi$ is a diffeomorphism $U \to V$, and
-\item Without loss of generality, we may assume (making $U$ and $V$ smaller if need be) that $U$ is of the form $\left]t_0-\varepsilon, t_0+\varepsilon\right[ \times U_1$ for some open $U_1$.
-\end{enumerate}
-
-Since $(t_0, u_0(t_0)) \in U$ and $\Phi(t_0, u_0(t_0)) \in V$, by continuity there exists a neighborhood of $t_0$, say $B = \left]t_0 - \delta, t_0 + \delta\right[$, such that for all $t$ in this neighborhood we have $(t,u_0(t)) \in U$ and $\Phi(t,u_0(t)) \in V$. Furthermore, suppose that $\delta$ is small enough such that, for all $t \in B$, for all $z \in \R^{n}$ of norm less than some $d$, $\Phi(t,u_0(t)) + (0,0,z) \in V$. To show that such a $\delta$ exists, begin by picking a neighborhood of $\Phi(t_0, u_0(t_0))$ of the form $R \left]t_0-\delta_0, t_0 + \delta_0\right[ \times B_{2d}(0, u_0^2(t_0))$ such that $R$ is contained in $V$. Now pick $\delta < \delta_0$ such that $u_0(t)$ differs less than $d$ from $u_0(t_0)$ for $t$ within $\delta$ of $t_0$. This exists by continuity. Then, for $t \in \left]t_0-\delta, t_0 + \delta\right[$ and $z$ of norm less than $d$, we have that
-\[\norm*{(0, u_0^2(t_0)) - \left((0, u_0^2(t)) + (0, z)\right)} \leq \norm{u_0^2(t_0) - u_0^2(t)} + \norm z \leq 2d.\]
-
-This shows that $\Phi(t,u_0(t)) + (0,0,z) \in R \subseteq V$, which allows us to define the variation of $I$ at $u_0$ with respect to some variations contained in $B$. More specifically, let $v : [t_\tstart, t_\tend] \to \R^{n-k}$ be a $C^\infty$ function of support contained in $B$. Then, for $\varepsilon$ small enough (such that $\norm{\varepsilon v} \leq d$), for all $t \in B$ we have $(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)) \in V$. Then, we may define $u_\varepsilon$ as
-\[
-u_\varepsilon(t) =
-\begin{cases}
-u_0(t), & t \not \in \supp v,\\
-\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t)), & t \in B,
-\end{cases}
-\]
-where $\Psi$ is defined as follows. Since $\Phi$ is of the form $\Phi(t,u) = (t, \phi(t,u), u^2)$, its inverse must be of the form $\Phi^{-1}(t,w) = (t, \psi(t,w), w^2)$. We set $\Psi(t,w) = (\psi(t,w), w^2)$. In other words, $\Psi = \begin{bmatrix} 0 & I \end{bmatrix} \circ \Phi^{-1}$, i.e. $\Psi$ is the inverse of $\Phi$ with the time component thrown out.
-
-Since both branches of this definition are open, agree on the intersection, and each branch is $C^1$, we conclude that $u_\varepsilon$ is also a $C^1$ path. It is also trivial to see that it satisfies the boundary conditions and that $\phi(t, u_\varepsilon(t)) = 0$. Therefore, we must have
-\[I(u_\varepsilon) \geq I(u_0)\]
-
-Now, the standard idea is to take the derivative in $\varepsilon = 0$ and apply Leibniz to get that a certain integral expression is null. However, for our purposes it is useful to first split the integral in two parts:
-\[I(u_\varepsilon) = \int_{[t_\tstart,t_\tend] \setminus B} f(t,u_0,\dot u_0) \dl2 t + \int_B f(t,u_\varepsilon, \dot u_\varepsilon) \dl2 t.\]
-
-Now, the first expression is constant in $\varepsilon$, so differentiating and applying Leibniz we get
-\[\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp*{f(t,u_\varepsilon, \dot u_\varepsilon)}\varepsilon \dl2 t.\]
-
-The usual chain rule and integration by parts of the calculus of variation yields
-\[
-\diff{I(u_\varepsilon)}\varepsilon = \int_B \diffp f u \diffp{u_\varepsilon}\varepsilon + \diffp f {\xi} \diffp{\dot u}\varepsilon \dl2 t = \int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \diffp{u}\varepsilon \dl2 t.
-\]
-
-Note that in the integration by parts we used the fact that partial derivatives commute, and so
-\[\diffp{\dot u_\varepsilon}\varepsilon = \diffp{u_\varepsilon(t)}{\varepsilon,t} = \diffp*{\diffp {u_\varepsilon} \varepsilon}t.\]
-
-The term $\diffp u \varepsilon$ plays the part of the variation in the usual proof of the Euler-Lagrange equations. If $\diffp u \varepsilon$ were arbitrary, we would in fact conclude Euler-Lagrange. However, they are not. Intuitively, they are arbitrary, though tangent to the manifold given by the cartesian equations $\phi = 0$. Therefore, one intuits that the term $\diffp f u + \diff*{\diffp f {\dot u}}t$ is always orthogonal to the manifold, which matches up with the expected conclusion, as we know from vector calculus that the space orthogonal to a manifold defined by cartesian equations is generated by $\nabla_x \phi_1, \dots, \nabla_x \phi_k$..
-
-To proceed with the proof, let us investigate $\eval*{\diffp {u_\varepsilon} \varepsilon}_{\varepsilon = 0}$. This can be computed using the chain rule:
-\begin{align*}
-\eval*{\diffp {u_\varepsilon} \varepsilon}_0 &= \eval*{\diffp*{\Psi(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
-&= \eval*{\begin{bmatrix} 0 & I \end{bmatrix} \diffp*{\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t) + \varepsilon v(t))} \varepsilon}_0\\
-&= \begin{bmatrix} 0 & I \end{bmatrix} (\Phi^{-1})'(t, \phi(t,u_0(t)), u_0^2(t)) (0, 0, v(t))\\
-&= \begin{bmatrix} 0 & I \end{bmatrix} \left(\Phi'(\Phi^{-1}(t, \phi(t,u_0(t)), u_0^2(t)))\right)^{-1} (0,0,v(t))\\
-&= \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t)).
-\end{align*}
-
-Therefore, the conclusion is that, for all smooth $v$ defined in $B$,
-\[
-\int_B \left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} (0,0,v(t))\dl2 t = 0.
-\]
-
-Now, we may apply at once the Fundamental Lemma of the Calculus of Variations, to conclude that the last $n-k$ coordinates of the $(n+1)$-dimensional row-vector
-\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1}\]
-are null.  In other words, we can write this vector in the form
-\[\left( \diffp f u + \diff*{\diffp f {\xi}}t \right) \begin{bmatrix} 0 & I \end{bmatrix} \left( \Phi'(t, u_0(t)) \right)^{-1} = (\ell(t),\lambda(t),0)^\tr,\]
-for some $\ell : B \to \R$ and $\lambda : B \to \R^k$. Note that these functions are continuous, as they are a product of continuous functions, and we cannot ensure more regularity under only $C^2$ assumptions because of the $\diff*{\diffp f \xi}t$ term.
-
-To finalize, let us try to solve for $\diffp f u + \diff*{\diffp f {\xi}}t$, which we will temporarily refer to as $T(t)$. Simply put, multiplying by $\Phi'$ and applying matrix block multiplication,
-\[\begin{bmatrix}0 & T(t)\end{bmatrix} = (\ell(t), \lambda(t), 0)^\tr \Phi'(t,u_0(t)) =
-(\ell(t), \lambda(t), 0)^\tr
-\begin{bmatrix}
-1 & \begin{matrix} 0 & 0 \end{matrix}\\
-* & \diffp\phi u\\
-* & \begin{matrix}
-0 & I
-\end{matrix}
-\end{bmatrix}.\]
-
-Therefore, we conclude $T(t) = \lambda(t)^\tr \diffp\phi u$, and so the proof is complete.
 \end{proof}
 
 \begin{example}
