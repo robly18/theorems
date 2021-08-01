@@ -71,15 +71,15 @@ Therefore, let us think of each measurement $m$ as a binary relation, where $(s_
 
 Even though we might allow things like an infinitely sharp needle, the outcomes of measurements need to be recorded in a finite medium, for example, a screen, or a Turing-machine-like tape. In \cite{measurement}, it is assumed that the recording depends on the quality of the machine, and better machines yield sharper results. I propose, instead, a query-response method. The user inserts a query, and the machine responds with `plausible' or `implausible'.
 
-With this in mind, we consider fixed a set of queries $Q$ (which we might want to assume countable later on), and we will consider the frame $F = \braket{Q}$. It might also be reasonable to allow for a set of physical assumptions $A$ which relates the queries. For example, it is plausible that we could allow for two queries $q_1$ and $q_2$ which imply one another, e.g. `the particle is in the first excited state or above' vs `the particle is in the second excited state or above', and so our frame $F$ would not be freely generated, but we would add the relation $q_1 \land q_2 = q_2$.
+With this in mind, we consider fixed a set of queries $Q$ (which we might want to assume countable later on), and we will consider the frame $F = \braket{Q}$. It might also be reasonable to allow for a set of physical assumptions $A$ which relate the queries. For example, it is plausible that we could allow for two queries $q_1$ and $q_2$ which imply one another, e.g. `the particle is in the first excited state or above' vs `the particle is in the second excited state or above', and so our frame $F$ would not be freely generated, but we would add the relation $q_1 \land q_2 = q_2$.
 
 Note that in this case the meet does not quite correspond to an `intersection'. Indeed, it might very well that $q_1$ and $q_2$ are two disjoint queries (they can't both be true at the same time), but $q_1 \land q_2$ is not the impossible query. Indeed, if the state is ill-known enough, it is very well possible that both $q_1$ and $q_2$ are plausible, if we haven't enough information to eliminate either of the possibilities.
 
-Each query is supposed to reflect reality in some way. To be more specific about this, it is important to first look at the general physical meaning of a query. We could, for example, do a measurement and ask `is the electron's spin up?', but there is a distinction between finding out that the spin is up \emph{now}, after the measurement, or was the spin up before? The first case corresponds to something like using a Stern-Gerlach apparatus, while the second case corresponds to some kind of measurement that measures, say, the polarity of a photon, though in a destructive way.
+Each query is supposed to reflect reality in some way. To be more specific about this, it is important to first look at the general physical meaning of a query. We could, for example, do a measurement and ask `is the electron's spin up?', but there is a distinction between finding out that the spin is up \emph{now}, after the measurement, versus that it was up before. The first case corresponds to something like using a Stern-Gerlach apparatus, while the second case corresponds to some kind of measurement that measures, say, the polarity of a photon, though in a destructive way.
 
 As such, let us attribute to each query $q$ a relation $r(q) \subseteq \ps(S) \times \ps(S)$. The interpretation is that $(s_1, s_2) \in r(q)$ if the query $q$ is compatible with the situation where the system was in state $s_1$ prior to measurement, and is now in state $s_2$. It would hypothetically be plausible to add queries regarding intermediate states, but let us not go down that rabbit hole yet.
 
-Now, given the function $r$, it is possible to define when our machine should reply `yes' or `inconclusive' to a query. If we have just made a measurement $m$, we will say $m \vDash q$ if there exist macrostates $s_1, s_2$ such that $(s_1, s_2) \in m$ and $(s_1, s_2) \in r(q)$. In other words,
+Now, given the function $r$, it is possible to define when our machine should reply `yes' or `inconclusive' to a query. If we have just made a measurement $m$, we will say $m \vDash q$ if there exist microstates $s_1, s_2$ such that $(s_1, s_2) \in m$ and $(s_1, s_2) \in r(q)$. In other words,
 \begin{equation}\label{defvdash}
 m \vDash q \text{ iff } m \cap r(q) \neq \emptyset.
 \end{equation}
@@ -95,7 +95,7 @@ Note that for the resulting homomorphism $(m\vDash) : F \to \two$ to be well def
 \begin{itemize}
 \item A set of measurements $M$,
 \item A set of queries $Q$ and a set of physical assumptions $A$ in order to form the frame $F = \braket{Q|A}$,
-\item A function $r$ that, given a query, returns a relation in $\ps(S) \times \ps(S)$, which must be in some sense compatible with the physical assumptions,
+\item A function $r$ which, given a query $q \in Q$, returns a relation in $\ps(S) \times \ps(S)$, which must be in some sense compatible with the physical assumptions,
 \item A compatibility relation $(\vDash) \subseteq M \times F$ defined on the generators by
 \begin{equation}
 m \vDash q \text{ iff } m \cap r(q) \neq \emptyset. \tag{\ref{defvdash}}
@@ -168,7 +168,7 @@ The set of states $S$ is the same as in the previous experiment, and the set of 
 \begin{equation}
 \xi = \{(\text{Any}, \text{Any})\}.
 \end{equation}
-(Note: to avoid ambiguity in this example, the two `Any's are independent; this is the maximal binary relation, not the diagonal one.)
+(Note: the two `Any's in this example are independent; this is the maximal binary relation, not the diagonal one.)
 
 The set $\{0,z^\uparrow, z^\downarrow, z, \xi\}$ is not closed under composition, so we need to consider all possible compositions, which yields the set $M$.
 
@@ -178,7 +178,7 @@ Now, we could use the same basic queries $Z^\uparrow$ and $Z^\downarrow$, but th
 
 The first, most obvious way, is to brute force it. There is a finite number of measurements, so we can just add a query for each measurement and add relations regarding how those measurements relate to each other, e.g. $z^\uparrow \cup z^\downarrow = z$, so it would make sense that $Z^\uparrow \lor Z^\downarrow = Z$. This is probably doable, but time-consuming.
 
-The second way is to look at the meaning of the measurements we have. As well as the five basic measurements enumerated above, we have new, weird composition. Any such composition must have $\xi$ in it, as we've already seen that the other four measurements are closed under composition. This allows us to do things like:
+The second way is to look at the meaning of the measurements we have. As well as the five basic measurements enumerated above, we have new, weird compositions. Any such composition must have $\xi$ in it, as we've already seen that the other four measurements are closed under composition. This allows us to do things like:
 \begin{itemize}
 \item The measurement $\xi z^\uparrow$, which means `I scrambled the electron and afterwards measured its spin $z$ to be up'. This corresponds to the relation $\{(\text{Any}, xx)\}$, which is distinct from just $z^\uparrow$, as the latter does not contain $(yy,xx)$.
 
@@ -188,7 +188,7 @@ The second way is to look at the meaning of the measurements we have. As well as
 
 \item These three possibilities (along with their versions with $z^\uparrow$ and $z^\downarrow$ replaced by each other or by $z$) are the only possible new measurements, because any expression with more than one $\xi$ is of the form
 \begin{equation}
-z_1 \xi A \xi z2,
+z_1 \xi A \xi z_2,
 \end{equation}
 where $z_i \in \{0,z^\uparrow,z^\downarrow,z, \id\}$ and $A$ is some measurement. Now, either $A$ is zero (in which case $\xi A \xi = 0$), or it is not (in which case $\xi A \xi = \xi$). As such, the three possibilities mentioned above really do describe all possible (new) measurements.
 \end{itemize}
@@ -272,7 +272,7 @@ and so, taking suprema in the right-hand side followed by the left-hand side we 
 Obviously the argument can be reversed, and so we conclude that the result of expression \eqref{freehomdef} does not depend on how $V$ is represented in terms of subbasis elements, and the proof is complete.
 \end{proof}
 
-Now, obviously this is a very particular case, but any other measurement space (under the definition given above) corresponds to a subset $M \subseteq \ps(S \times S)$, so given $M$ we can, using the subspace topology, construct the `biggest possible set of queries o n$M$', and so for our purposes the topology we give $M$ must necessarily be coarser than this one. In general, if we lack context about the opens we want $M$ to have, we probably want to be most general and give $M$ all possible opens it could have.
+Now, obviously this is a very particular case, but any other measurement space (under the definition given above) corresponds to a subset $M \subseteq \ps(S \times S)$, so given $M$ we can, using the subspace topology, construct the `biggest possible set of queries on $M$', and so for our purposes the topology we give $M$ must necessarily be coarser than this one. In general, if we lack context about the opens we want $M$ to have, we probably want to be most general and give $M$ all possible opens it could have.
 
 \section{Application to Schrödinger's Electron}
 
@@ -348,7 +348,7 @@ as it should be.
 
 So, in conclusion: we have a function $m : \Max \HH \to M$, which is a homomorphism in the sense that $m_U m_V = m_{\braket{U V}}$. One last thing we might want to show is that this is a one-to-one identification, that is, if $m_U = m_V$ then $U = V$.
 
-Let $\HH = \C^2$, and consider the following two elements of $\Max \HH$
+%Let $\HH = \C^2$, and consider the following two elements of $\Max \HH$
 
 
 \bibliography{bibliography}{}
