@@ -29,10 +29,20 @@ glops = ""
 def setglops(arg):
     global glops
     glops = arg
-def drawPath(points, options=None):
+def drawPath(points, options=None, **kwargs):
     if options is None:
         options = glops
-    return "\\draw[{}] {}; ".format(options,"--".join(map(showPt, points)))
+    maybecycle=""
+    if "cycle" in kwargs and kwargs["cycle"]:
+        maybecycle = "--cycle"
+    return "\\draw[{}] {}; ".format(options,"--".join(map(showPt, points))+maybecycle)
+def path(points, options=None, **kwargs):
+    if options is None:
+        options = glops
+    maybecycle=""
+    if "cycle" in kwargs and kwargs["cycle"]:
+        maybecycle = "--cycle"
+    return "\\path[{}] {}; ".format(options,"--".join(map(showPt, points))+maybecycle)
 def drawPoint(pt, options=None):
     if options is None:
         options = glops
