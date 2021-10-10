@@ -296,13 +296,20 @@ Hence, we investigate $\sup \BB_{bs}^\infty(I)$, where the supremum is taken ove
 
 We will now further restrict the class of intervals over which this supremum is taken. To be more precise, we will show
 \[\sup_{\lvert I \rvert = \ell} \BB_{bs}^\infty(I) = \sup_{\substack{\lvert I \rvert = \ell\\ 0 \in I}} \BB_{bs}^\infty(I),\]
-that is, that we can add the restriction that our intervals contain 0.
+that is, that we can add the restriction that our intervals contain 0. To this effect, given any interval $I$ we will construct an interval $I'$, which has the same length and contains the origin, and we will prove that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
 
+Before performing the rigorous construction, here is a rough sketch of the idea. If we translate an interval by a multiple of $b^j$, for a fixed integer $j$, then the only coverings that we might be messing up are those that use intervals of size $b^{j+1}$ and above. Therefore, in order to minimize the perturbation induced by translating $I$ onto the origin, we translate it by a multiple of $b^j$ for the biggest possible $j$.
 
-show that we can assume, in addition, that our interval contains the origin. To this effect, given any interval $I$ we will construct an interval $I'$ of same length containing the origin, such that $\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I)$.
+The rest of the proof consists of showing that covers using intervals of size bigger than $b^j$ are not problematic. The idea behind that is that the translate contains the origin, which forbids any `quick covers by big intervals', as no $b$-ary interval covers points on both sides of the origin.
 
-This construction requires splitting the argument into cases.
+[Perhaps here would be a good place to add an illustration. To do: think of what drawing would represent this proof.]
 
+\begin{lemma}
+Let $I$ be a half-open interval. Then, there exists a half-open interval $I'$ of the same length such that $0 \in I'$ and
+\[\BB_{bs}^\infty(I') \geq \BB_{bs}^\infty(I).\]
+\end{lemma}
+
+\begin{proof}
 Let $\ell = \lvert I \rvert$, and $j$ such that $b^j < \ell \leq b^{j+1}$.
 
 \begin{enumerate}[label=\textbf{Case \arabic*:}]
@@ -329,21 +336,21 @@ There exists at least one point of the form $k b^j$ in $I$. Let $I'$ be given by
 
 \begin{enumerate}[label=\textbf{Subcase \roman*)}]
 
-\item ($\BB_{bs}^{b^j}(I) \leq b^{(j+1)s}$) By the same argument used to deduce equation \eqref{transinvariance}, we have
-\[\BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) \leq b^{(j+1)s},\]
-and thus $\BB_{bs}^{b^j}(I') = \BB_{bs}^\infty(I')$, as any coverings containing intervals bigger then $b^j$ can be safely ignored. Finalizing, we get
-\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I') = \BB_{bs}^{b^j}(I) = \BB_{bs}^\infty(I).\]
+\item ($\BB_{bs}^\infty(I) = \BB_{bs}^{b^j}(I)$) By the same argument used to deduce equation \eqref{transinvariance}, we conclude
+\[\BB_{bs}^\infty(I) = \BB_{bs}^{b^j}(I) = \BB_{bs}^{b^j}(I').\]
 
-\item ($\BB_{bs}^{b^j}(I) \geq b^{(j+1)s}$) Simply observe that either
-\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I'),\]
-in which case $\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I) \geq \BB_{bs}^\infty(I)$, as desired.
-Or it could happen that
-\[\BB_{bs}^\infty(I') < \BB_{bs}^{b^j}(I'),\]
-in which case we can assert that $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{bs}^\infty(I)$ since we need only consider coverings that contain at least one interval of length $b^{j+1}$ and so have Hausdorff sum  at least $b^{(j+1)s}$.
+Furthermore, note that $\BB_{bs}^{b^j}(I') = \BB_{bs}^{\infty}(I')$, as any cover of $I'$ using an interval of size greater than $b^j$ would have a Hausdorff sum of at least $b^{(j+1)s}$, which is greater than $\BB_{bs}^{b^j}(I')$. In conclusion,
+\[\BB_{bs}^\infty(I) = \BB_{bs}^\infty(I').\]
+
+\item ($\BB_{bs}^\infty(I) = b^{(j+1)s}$) Observe that either
+\[\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I') \text{, or } \BB_{bs}^\infty(I') < \BB_{bs}^{b^j}(I').\]
+
+In the first case $\BB_{bs}^\infty(I') = \BB_{bs}^{b^j}(I) \geq \BB_{bs}^\infty(I)$, as desired.
+
+In the second case we can assert that $\BB_{bs}^\infty(I') \geq b^{(j+1)s} = \BB_{bs}^\infty(I)$ since we need only consider coverings that contain at least one interval of length $b^{j+1}$ and so have Hausdorff sum  at least $b^{(j+1)s}$.
 \end{enumerate}
 \end{enumerate}
-
-\qed
+\end{proof}
 
 With this construction done, we have now shown that our problem can be reduced to determining
 \[\sup_{\substack{\text{$I$ half-open interval}\\ 0 \in I}} \frac{\BB_{bs}^\infty(I)}{\lvert I \rvert^s}.\]
@@ -364,16 +371,16 @@ For any base $b$, any dimension $s > 0$, and any $a \geq 0$, we have
 \begin{proof}
 Fix any $b$-ary $\delta$-covering of $\left[-a, 0\right[$. Denote it by $\{\left[x_i, y_i\right[\}$. Consider now the collection $\{\left[-y_i, -x_i\right[\}$. 
 
-This collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$. This can, however, be remedied by augmenting our collection with intervals of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so we reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's, concluding that $\BB_{bs}^\delta(\left[-a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. A similar argument will show the opposite inequality.
+This collection almost forms a $b$-ary $\delta$-covering of $\left[0, a\right[$. Indeed, the only points that might not be covered are those of the form $-x_i$. This can, be remedied by augmenting our collection with intervals of the form $\left[ -x_i, -x_i + \varepsilon_i \right[$ with arbitrarily small $\varepsilon_i$, and so we reach the conclusion that there are coverings of $\left[0, a\right[$ with Hausdorff sum arbitrarily close to our original covering's. This proves that $\BB_{bs}^\delta(\left[-a, 0\right[) \geq \BB_{bs}^\delta(\left[0, a\right[)$. A similar argument will show the opposite inequality.
 \end{proof}
 
 \section{$b$-ary digit expansions (Introduction)}\label{sec6}
 
-In the previous section we showed that a possible approach to our problem would be to investigate the optimization problem
+In the previous section we showed that a possible approach to the problem of tighter bounds on the $b$-ary measures would be to investigate the optimization problem given by
 
 \[ \sup_{\substack{\ell,r \in \R^+_0\\\ell+r \neq 0}} \frac{g_{bs}(\ell) + g_{bs}(r)}{(\ell + r)^s}. \]
 
-By itself, this reduction would not be much help. As it turns out, however, one can draw a connection between this function $g$ and the theory of noninteger base expansions.
+We now turn to the study of the function $g$.
 
 \begin{remark}
 In remark \ref{dimnotzero} we mentioned that we will be assuming $s \neq 0$. We will outline here another such assumption.
@@ -445,21 +452,23 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 
 \bigskip
 
-Notice the structure of how we would find the $d_i$ in the previous argument: knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the digits of $t$ in base $b$.
+Notice the structure of how we would find the $d_i$ in the previous argument: knowing $d_1, \cdots, d_{i-1}$, one would pick $d_i$ as the maximal one such that $\sum_{j = 1}^i d_j b^{k-j} \leq t$. This is, in fact, the exact same algorithm used to find the digits of $t$ in base $b$:
 
-So, let us consider the following algorithm to calculate $g(t)$:
-
+\fbox{
+\parbox{\textwidth}{
 Let $b^k$ be the least power of $b$ greater than $t$ for $t > 0$.
 
 For $i = 1, 2, \dots$, define  $d_i$ as the maximal integer $d$ such that
 
 \[ \left( \sum_{j = 1}^{i-1} d_j b^{k-j} \right) + d b^{k-i} \leq t.\]
+}
+}
 \label{digalg}
 
 Running this procedure for all natural $i$ in order, one will end with a sequence $\{d_i\}$ which corresponds to the digits of $t$ in base $b$. Indeed, in base $b$, $t$ would be represented as
-\[d_1 d_2 \cdots d_k \, . \, d_{k+1} \ldots\]
+\[t = d_1 d_2 \cdots d_k \, . \, d_{k+1} \ldots\]
 or, in scientific notation,
-\[b^k \times 0.d_1 d_2 d_3 \dots \]
+\[t = b^k \times 0.d_1 d_2 d_3 \dots \]
 
 All the $d_i$ are members of the set $\{ 0, \dots, b-1\}$, and furthermore we have
 \[\sum_{i = 1}^\infty d_i b^{k-i} = t.\]
@@ -467,7 +476,7 @@ All the $d_i$ are members of the set $\{ 0, \dots, b-1\}$, and furthermore we ha
 Finally, for any $N \geq 0$,
 \[(\sum_{i=1}^N d_i b^{k-i}) + b^{k-N} \geq t.\]
 
-As such, we may consider the sequence of intervals given by
+As such, we may consider the collections of intervals given by
 
 \begin{gather*}
 \left\{\, \left[ x , x + b^{k-N} \right[ \;\middle|\; x = \left(\sum_{i=1}^N d_i b^{k-i}\right) + j b^{k-N}, 0 \leq j < d_N, 0 \leq N \leq M\,\right\}\\
@@ -489,7 +498,7 @@ First, define it inductively for finite sequences:
 
 \begin{gather*}
 b^k [] = \emptyset\\
-b^k [d_0 \cdots d_n d_{n+1}] = b_n [d_0 \cdots d_n] \cup \left\{\, R_{b^{k-(n+1)}}(d_0 . d_1 \cdots d_n j \times b^k) \;\middle|\; 0 \leq j < d_{n+1} \,\right\}.
+b^k [d_0 \cdots d_n d_{n+1}] = b^k [d_0 \cdots d_n] \cup \left\{\, R_{b^{k-(n+1)}}(b^k \times d_0 . d_1 \cdots d_n j) \;\middle|\; 0 \leq j < d_{n+1} \,\right\}.
 \end{gather*}
 
 Then, for infinite sequences, simply take the increasing union
@@ -497,7 +506,7 @@ Then, for infinite sequences, simply take the increasing union
 
 \end{definition}
 
-The following proposition is stated without proof.
+The proof of the following proposition is a time-consuming exercise, which is left to the reader.
 
 \begin{prop}
 Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Let $A = b^k [d_0 d_1 d_2 \dots]$. Then, $A$ satisfies the following properties:
@@ -509,7 +518,7 @@ Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Let $A = b^k [d_0 d_1
 
 \item Every two intervals in $A$ are disjoint.
 
-\item The Hausdorff sum of $A$ is given by $b^{ks} \sum d_i b^{-is}$.
+\item The $s$-dimensional Hausdorff sum of $A$ is given by $b^{ks} \sum d_i b^{-is}$.
 \end{itemize}
 
 \end{prop}
@@ -517,7 +526,10 @@ Let $\{d_i\}_{i \in \N}$ be a sequence of natural numbers. Let $A = b^k [d_0 d_1
 \begin{remark}
 Notice that the Hausdorff sum of $A$ can be easily written as a $b^s$-ary expansion. Namely, $(b^s)^k \times d_0 . d_1 d_ 2 \dots$
 
-When writing numbers in scientific notation it is usually assumed that the base in which the expansion should be interpreted is the base of the mantissa. In this case, $b^s$. In the future, however, in this particular case, we will abbreviate it to $b^{ks}$, but the expansion following it should still be interpreted as base $b^s$.
+When writing numbers in scientific notation it is usually assumed that the base in which the expansion should be interpreted is the base of the mantissa, in this case, $b^s$. However, to save on parentheses, we will write abbreviate the previous expression to
+\[b^{ks} \times d_0 . d_1 d_ 2 := (b^s)^k \times d_0 . d_1 d_ 2.\]
+
+This is, in principle, an ambiguous expression, but we hope that it causes no confusion.
 \end{remark}
 
 Let $t$ have $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$ Consider the coverings given by
@@ -538,18 +550,20 @@ Define $s_n = b^{ks} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$ for $n \in \
 \end{prop}
 
 \begin{proof}
-We already know $LHS \leq RHS$, so we only need to show the opposite inequality.
+We already know $g(t) \leq \inf s_n$, so we only need to show the opposite inequality.
 
 We will do this in two parts: first, we will show that the infimum required to compute $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is at least $\inf s_n$.
 
 Given an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$,
-we may begin by supposing there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume $A$ is wholly contained in $\left[0, b^k \right[$.
+we may begin by supposing that there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume that all the intervals in $A$ are contained in $\left[0, b^k \right[$.
 
 Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows:
 
-For all $n \in \N$, having defined $a_0 \cdots a_{n-1}$, let $a_n$ be the greatest natural such that $b^k [a_0 \cdots a_n] \subseteq \bigcup I_i$. Let $A'$ be the covering given by $b^k [a_0 a_1 \dots]$. We wish to show that this covering not only covers $\left[0, t \right[$, but also has Hausdorff sum less than or equal to that of $A$.
+For all $n \in \N_0$, having defined $a_0 \cdots a_{n-1}$, let $a_n$ be the greatest natural such that $b^k [a_0 \cdots a_n] \subseteq \bigcup I_i$. Let $A'$ be the covering given by $b^k [a_0 a_1 \dots]$. We wish to show that this covering not only covers $\left[0, t \right[$, but also has Hausdorff sum less than or equal to that of $A$.
 
-First, we show it covers the desired interval. We know $A'$ covers the interval from 0 up to $a = b^k \times a_0 . a_1 a_2 \dots$, so suppose for the sake of argument that $a < t = b^k \times d_0 . d_1 d_2 \dots$. It is easy to verify that, if $a < t$, then there would exist $n$ such that, for $i < n$, we would have $a_i = d_i$, and $a_n < d_n$. But if this were the case, we would have a contradiction with our definition of $a_n$ by maximality, as it would mean that $b^k \times a_0 . a_1 \cdots a_{n-1} (a_n + 1) \leq t$ and so $b^k [a_0 \cdots a_{n-1} (a_n + 1)] \subseteq \bigcup I_i$.
+(review by duarte ends here)
+
+First, we show that it covers the desired interval. We know $A'$ covers the interval from 0 up to $a = b^k \times a_0 . a_1 a_2 \dots$, so suppose for the sake of argument that $a < t = b^k \times d_0 . d_1 d_2 \dots$. It is easy to verify that if $a < t$ then there would exist $n$ such that, for $i < n$, we would have $a_i = d_i$, and $a_n < d_n$. But if this were the case, we would have a contradiction with our definition of $a_n$ by maximality, as it would mean that $b^k \times a_0 . a_1 \cdots a_{n-1} (a_n + 1) \leq t$ and so $b^k [a_0 \cdots a_{n-1} (a_n + 1)] \subseteq \bigcup I_i$.
 
 So, we have established that $A'$ covers $\left[0, t\right[$. We will now show its Hausdorff sum does not exceed that of $A$.
 
