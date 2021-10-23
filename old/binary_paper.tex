@@ -407,7 +407,7 @@ giving us a new upper bound $d_1 b^{k-1} + (d_2 + 1) b^{k-2}$. Note, again, that
 
 We will make this process more rigorous shortly. Below is a diagram exemplifying it for $b = 3$ and $t = 0.86$.
 
-%todo make slightly bigger?
+\begin{figure}
 \noindent\resizebox{\linewidth}{!}{
 \begin{tikzpicture}
 \draw[thick, {|-|}] (0,0) node[above]{0} -- (10,0) node[above]{1};
@@ -445,10 +445,12 @@ We will make this process more rigorous shortly. Below is a diagram exemplifying
 \draw (10, -3) node[right]{\tiny $2\!\times\!3^{-1} + 1\!\times\!3^{-2} + 2\!\times\!3^{-3} + 1\!\times\!3^{-4}$};
 
 
-\draw[thick] (8.6, 0.1) node[above]{0.86} -- (8.6, -3.1);
+\draw[thick] (8.6, 0.1) node[above]{t = 0.86} -- (8.6, -3.1);
  
 \end{tikzpicture}
 }
+\caption{A visual representation of the procedure outlined to find upper bounds for $g(t)$}
+\end{figure}
 
 \bigskip
 
@@ -555,24 +557,85 @@ We already know $g(t) \leq \inf s_n$, so we only need to show the opposite inequ
 We will do this in two parts: first, we will show that the infimum required to compute $g(t)$ can be taken over coverings of the form $b^k [a_0 a_1 a_2 \dots]$. Then, we will show that any covering of this form has contribution that is at least $\inf s_n$.
 
 Given an arbitrary $b$-ary covering $A = \{ I_i \}_{i \in \N}$ of $\left[ 0, t \right[$,
-we may begin by supposing that there is no interval of size greater than $b^k$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume that all the intervals in $A$ are contained in $\left[0, b^k \right[$.
+we may begin by supposing that there is no interval of size greater than $b^k$ in $A$. Indeed, the only intervals greater than this size that are not immediately discardable are those of the form $\left[0, b^m \right[$ with $m > k$, but these can obviously be replaced by $\left[0, b^k \right[$ without any loss of generality. Furthermore, assume that all the intervals in $A$ are contained in $\left[0, b^k \right[$.
 
-Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows:
+Define, inductively, the sequence $\{a_i\}_{i \in \N}$ as follows. See also figure \ref{constructAprime}.
 
 For all $n \in \N_0$, having defined $a_0 \cdots a_{n-1}$, let $a_n$ be the greatest natural such that $b^k [a_0 \cdots a_n] \subseteq \bigcup I_i$. Let $A'$ be the covering given by $b^k [a_0 a_1 \dots]$. We wish to show that this covering not only covers $\left[0, t \right[$, but also has Hausdorff sum less than or equal to that of $A$.
 
-(review by duarte ends here)
+\begin{figure}
+\noindent\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\draw[thick, {|-|}] (0,0) node[above]{0} -- (10,0) node[above]{1};
+\draw[thick, {->}] (10,0) -- (12, 0) node[above]{$x$};
 
-First, we show that it covers the desired interval. We know $A'$ covers the interval from 0 up to $a = b^k \times a_0 . a_1 a_2 \dots$, so suppose for the sake of argument that $a < t = b^k \times d_0 . d_1 d_2 \dots$. It is easy to verify that if $a < t$ then there would exist $n$ such that, for $i < n$, we would have $a_i = d_i$, and $a_n < d_n$. But if this were the case, we would have a contradiction with our definition of $a_n$ by maximality, as it would mean that $b^k \times a_0 . a_1 \cdots a_{n-1} (a_n + 1) \leq t$ and so $b^k [a_0 \cdots a_{n-1} (a_n + 1)] \subseteq \bigcup I_i$.
+
+\draw[thick, {|-|}] (0,0) -- (7,0) node[above]{$t = 0.7$};
+
+%The following was automatically generated with the help of the code at binary2.py
+\draw[thick, blue, {[-)}] (0.00, -0.4) -- (3.33, -0.4);
+\draw[thick, blue, {[-)}] (3.33, -0.4) -- (4.44, -0.4);
+\draw[thick, blue, {[-)}] (4.44, -0.4) -- (5.56, -0.4);
+\draw[thick, blue, {[-)}] (5.56, -0.4) -- (6.67, -0.4);
+\draw[thick, blue, {[-)}] (6.67, -0.4) -- (7.78, -0.4);
+\draw[thick, blue, {[-)}] (8.89, -0.4) -- (9.26, -0.4);
+
+\draw (10,-.4) node[right] {$A$};
+
+
+\draw[thick, gray, {[-)}] (0.00, -1) -- (3.33, -1);
+\draw (10,-1) node[right] {Contained in $\bigcup I_i$};
+
+
+\draw[thick, gray, {[-)}] (0.00, -2) -- (3.33, -2);
+\draw[thick, gray, {[-)}] (3.33, -2) -- (6.67, -2);
+\draw (10,-2) node[right] {Contained};
+
+
+\draw[thick, gray, {[-)}] (0.00, -3) -- (3.33, -3);
+\draw[thick, gray, {[-)}] (3.33, -3) -- (6.67, -3);
+\draw[thick, red, {[-)}] (6.67, -3) -- (10, -3);
+\draw (10,-3) node[right] {Not contained, hence $a_0 = 2$};
+
+
+\draw[thick, gray, {[-)}] (0.00, -4) -- (3.33, -4);
+\draw[thick, gray, {[-)}] (3.33, -4) -- (6.67, -4);
+\draw[thick, gray, {[-)}] (6.67, -4) -- (7.78, -4);
+\draw (10,-4) node[right] {Contained};
+
+\draw[thick, gray, {[-)}] (0.00, -5) -- (3.33, -5);
+\draw[thick, gray, {[-)}] (3.33, -5) -- (6.67, -5);
+\draw[thick, gray, {[-)}] (6.67, -5) -- (7.78, -5);
+\draw[thick, red, {[-)}] (7.78, -5) -- (8.89, -5);
+\draw (10,-5) node[right] {Not contained, hence $a_1 = 1$};
+
+
+\draw[thick, gray, {[-)}] (0.00, -6) -- (3.33, -6);
+\draw[thick, gray, {[-)}] (3.33, -6) -- (6.67, -6);
+\draw[thick, gray, {[-)}] (6.67, -6) -- (7.78, -6);
+\draw[thick, red, {[-)}] (7.78, -6) -- (8.15, -6);
+\draw (10,-6) node[right] {Not contained, hence $a_2 = 0$};
+
+\draw[thick, gray, {[-)}] (0.00, -7) -- (3.33, -7);
+\draw[thick, gray, {[-)}] (3.33, -7) -- (6.67, -7);
+\draw[thick, gray, {[-)}] (6.67, -7) -- (7.78, -7);
+\draw (10,-7) node[right] {$A'$};
+ 
+\end{tikzpicture}
+}
+\caption{A visual representation of the construction of $A'$. In blue is the original covering $A$. Note that the value of $t$ is irrelevant.}\label{constructAprime}
+\end{figure}
+
+First, we show that it covers the desired interval. We know that $A'$ covers the interval from 0 up to $a = b^k \times a_0 . a_1 a_2 \dots$, so suppose for the sake of argument that $a < t$. Recall that $t = b^k \times d_0 . d_1 d_2 \dots$, and hence it is easy to verify that if we had $a < t$ then there would exist $n$ such that $a_n < d_n$, but $a_i = d_i$ for $i < n$.\footnote{Implicit here is that these are nice (integer-based) digit expansions, and that all $d_i$ are less than $b$.} But if this were the case, we would have a contradiction with our definition of $a_n$ by maximality, as it would mean that $b^k \times a_0 . a_1 \cdots a_{n-1} (a_n + 1) \leq t$ and so $b^k [a_0 \cdots a_{n-1} (a_n + 1)] \subseteq \bigcup I_i$.
 
 So, we have established that $A'$ covers $\left[0, t\right[$. We will now show its Hausdorff sum does not exceed that of $A$.
 
-First suppose, without loss of generality, that $\bigcup A$ is an interval of the form $\left[0,a\right[$. Then, it is easy to see that $b^k \times a_0 . a_1 a_2 \dots = a$ and therefore $\bigcup A = \bigcup A'$. With these hypotheses, as we will now show, any $I \in A$ is contained in some $J \in A'$.
+Suppose, without loss of generality, that $\bigcup A$ is an interval of the form $\left[0,a\right[$. Then, it is easy to see that $b^k \times a_0 . a_1 a_2 \dots = a$ and therefore $\bigcup A = \bigcup A'$. With these hypotheses, as we will now show, any $I \in A$ is contained in some $J \in A'$. In other words, $A'$ is kind of a version of $A$ where some intervals have been glued together as much as possible.
 
 Let $I \in A$ be of the form $R_{b^{k-n}}(i b^{k-n})$. Then, $a > (i+1) b^{k-n}$ and thus by the maximality of $a_n$, we have
 \[ \sum_{i = 0}^n a_i b^{k-i} \geq (i+1) b^{k-n}. \]
 
-Hence, the interval $I$ is contained in a union of $b$-ary intervals of $A'$ of at least its size, and since if two $b$-ary intervals intersect one of them must contain the other we conclude that $I$ is entirely contained in an interval in $A'$.
+Hence, the interval $I$ is contained in a union of $b$-ary intervals of $A'$ of at least its size. If two $b$-ary intervals intersect the smallest must be contained in the largest, and so we conclude that $I$ is entirely contained in an interval in $A'$.
 
 We can now finish the argument as follows: for each interval $J \in A'$ collect the intervals $I \in A$ contained in $J$. Note that, by what we have just seen, these cover $J$. We will show that each of these collections can be replaced by $J$ without increasing the Hausdorff sum, which allows us to conclude that the Hausdorff sum of $A'$ is at most that of $A$.
 
@@ -585,8 +648,15 @@ This concludes the first part of the proof. We move on to the second part.
 
 We have already concluded we need only consider coverings of the form $b^k [a_0 a_1 a_2 \dots]$ and, in fact, we need only take into account those constructed as above; this will allow us to use certain maximality arguments. We will now show that we may further restrict our attention to those sequences of the form $d_0 d_1 \cdots d_{n-1} (d_n + 1)$.
 
-Given any arbitrary sequence $\{a_n\}$ constructed as above, we necessarily have $b^k \times a_0 . a_1 a_2 \ldots \geq b^k \times d_0 . d_1 d_2 \dots$ Then, either these two sequences are the same, or there exists a first index  where they differ. In the latter case, let $n$ be this index. That is, $a_i = d_i$ for $i < n$, $a_n \neq d_n$. It is necessarily the case that $a_n > d_n$ because, if $a_n < d_n$, we would reach a contradiction with the maximality of $a_n$. In this case we can safely assume our covering is of the desired form: indeed, the covering given by the sequence $d_0 d_1 \cdots d_{n-1} (d_n + 1) 0 0 0 \dots$ also covers $\left[0, t \right[$, and has Hausdorff sum not greater than that of the covering given by $\{a_n\}$.
-As for the former case, consider the sequence $s_n$ we defined as $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. We remark that $\lim s_n = b^k \times d_0 . d_1 d_2 \dots$. This limit is, in fact, the Hausdorff sum of the covering in consideration (that is, $b^k [d_0 d_1 d_2 \dots]$) and elementary calculus shows that $\lim s_n \geq \inf s_n$, as desired.
+Given any arbitrary sequence $\{a_n\}$ constructed as above, we necessarily have $b^k \times a_0 . a_1 a_2 \ldots \geq b^k \times d_0 . d_1 d_2 \dots$ Then, either these two sequences of digits are the same, or there exists a first index  where they differ.
+
+
+\begin{enumerate}[label=\textbf{Case \arabic*:}]
+\item (The two sequences are different) Let $n$ be the first index where the sequences differ, that is, $a_i = d_i$ for $i < n$, and $a_n \neq d_n$. It is necessarily the case that $a_n > d_n$ because, if $a_n < d_n$, we would reach a contradiction with the maximality of $a_n$. In this case we can safely assume our covering is of the desired form: indeed, the covering given by the sequence $d_0 d_1 \cdots d_{n-1} (d_n + 1) 0 0 0 \dots$ also covers $\left[0, t \right[$, and has Hausdorff sum not greater than that of the covering given by $\{a_n\}$.
+
+
+\item (The two sequences are the same) Consider the sequence $s_n$ we defined as $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$. We remark that $\lim s_n = b^k \times d_0 . d_1 d_2 \dots$. This limit is, in fact, the Hausdorff sum of the covering in consideration (that is, $b^k [d_0 d_1 d_2 \dots]$) and elementary calculus shows that $\lim s_n \geq \inf s_n$, as desired.
+\end{enumerate}
 
 We have now, shown that whatever the covering we choose, $\inf s_n$ will be less than or equal than the Hausdorff sum of our covering, and therefore we have finally shown the result
 \[ g(t) = \inf s_n.\]
@@ -600,11 +670,13 @@ This digression completed, we may go back to the problem at hand.
 \fi
 \end{proof}
 
-This last proposition has a few consequences, one of which is the following: it gives us an algorithm to approximate, or even compute, the value of $g(t)$, facilitating its study.
+A consequence of proposition \ref{ginfs}, which we will explore in the sequel, is that it gives us an algorithm to approximate, or even compute, the value of $g(t)$, facilitating its study.
+
+[If there is room in this paper, maybe we could add some plots of $g$, as an example of how computable this function is]
 
 \section{$b$-ary digit expansions (Formalization)}\label{sec7}
 
-We will now use the preceding proposition to study the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion (also known as $\beta$-expansion). [I don't know what else to write here, but there is a paper coauthored by Erdös that seems to be the start of the area here: \url{http://www.numdam.org/article/BSMF_1990__118_3_377_0.pdf}. See also \url{https://mathscinet.ams.org/mathscinet/search/publdoc.html?pg1=MR&s1=142719&loc=fromreflist}. The main difference seems to be that I allow digits greater than $\lfloor b \rfloor$.]
+We will now use proposition \ref{ginfs} to study the function $g$ from another angle. We will begin by taking a closer look at the notion of digit expansion (also known as $\beta$-expansion). [I don't know what else to write here, but there is a paper coauthored by Erdös that seems to be the start of the area here: \url{http://www.numdam.org/article/BSMF_1990__118_3_377_0.pdf}. See also \url{https://mathscinet.ams.org/mathscinet/search/publdoc.html?pg1=MR&s1=142719&loc=fromreflist}. The main difference seems to be that I allow digits greater than $\lfloor b \rfloor$.]
 
 \begin{definition}
 We define a \emph{digit expansion} as a \emph{bounded} function $d : \Z \to \N$ for which
@@ -612,16 +684,18 @@ there exists $k$ such that, for $i < k$, we have $d_i = 0$.
 
 \end{definition}
 
-Given a base $b \in \left]1, \infty \right[$, to any digit expansion we can assign a real number. Indeed, by definition, the following sum, which we define as the `interpretation of $d$ in base $b$', converges:
+Given a base $b \in \left]1, \infty \right[$, to any digit expansion we can assign a real number. Indeed, by definition, the following sum, which we refer to as the `interpretation of $d$ in base $b$', converges:
 
 \[ \sum_{i = -\infty}^\infty d_i b^{-i}.\]
 
-Recall that any positive real number has a $b$-ary digit expansion. This expansion is not always unique, but the so-called `greedy expansion', the one obtained by the algorithm outlined in page \pageref{digalg}, is. This also happens to be the lexicographically largest digit expansion whose interpretation in base $b$ is precisely the number we started with. In this expansion, all the digits are contained in the set $\N \cap \left[0, b \right[$. Of course, for natural $b$, this is the familiar set of digits $\{0, \cdots, b-1 \}$, and natural bases have the benefit of almost-uniqueness: any number is uniquely determined by, and determines uniquely, a decimal expansion, as long as we restrict ourselves to those with digits in the set $\{0, \cdots, b-1 \}$ and that don't end with an infinite sequence of $b-1$.
+Any positive real number has a $b$-ary digit expansion. This expansion is not always unique, but the so-called `greedy expansion', obtained by the algorithm outlined in page \pageref{digalg}, is a possible choice of `canonical expansion'. This also happens to be the lexicographically largest digit expansion whose interpretation in base $b$ is precisely the number we started with. In this expansion, all the digits are contained in the set $\N \cap \left[0, b \right[$. Of course, for natural $b$, this is the familiar set of digits $\{0, \cdots, b-1 \}$, and natural bases have the benefit of almost-uniqueness: any number is uniquely determined by, and determines uniquely, a decimal expansion, as long as we restrict ourselves to those with digits in the set $\{0, \cdots, b-1 \}$ that don't end with an infinite sequence of $b-1$.
 
+\begin{definition}
 We will use the notation $\dig_b t$ to mean the greedy digit expansion of $t$ in base $b$. In the other direction, given a digit expansion $d$ we use $\intr_b d$ to mean the interpretation of $d$ in base $b$.
+\end{definition}
 
 \begin{remark}
-It should be noted that there is a slight imprecision when we write expressions like ``let $b^k \times d_0 . d_1 d_2 \dots$ be the $b$-ary expansion of $t$''. Indeed, what we are saying here is not that the sequence $d$ is the expansion of $t$, at least not in the sense as above. Rather, the actual expansion would be something defined as follows:
+It should be noted that there is a slight imprecision when we write expressions like ``let $b^k \times d_0 . d_1 d_2 \dots$ be the $b$-ary expansion of $t$''. Indeed, what we are saying here is not that the sequence $d$ is the expansion of $t$, at least not in the sense as above. Rather, the actual expansion of $t$ would be the one defined as follows:
 
 \[d'_i =
 \begin{cases}
@@ -630,7 +704,7 @@ d_{i-k} & \text{for $i \geq k$}\\
 \end{cases}
 \]
 
-Furthermore, we often use that same notation to refer to both extracting the digits from a number, as well as to interpret a sequence of digits. This should not cause any confusion, however, as the operation being done is usually clear from context.
+Furthermore, we will often use scientific notation to refer to both the process of extracting the digit expansion of a number, as well as to interpret a sequence of digits. This should not cause any confusion, however, as the operation being done is usually clear from context.
 \end{remark}
 
 We now propose an alternate definition of the function $g$.
@@ -641,6 +715,8 @@ As always, suppose fixed a base $b$ and a dimension $s$. We begin by defining, f
 This function will appear regularly in the sequence.
 
 Now, we claim the following:
+
+(End current review)
 
 \begin{theorem} \label{ginfi}
 For all $t \geq 0$,
