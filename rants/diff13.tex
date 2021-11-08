@@ -1,0 +1,43 @@
+
+\documentclass[tikz,convert={convertexe={magick.exe}}]{standalone}
+\usetikzlibrary{patterns}
+
+\usepackage{tikz-3dplot}
+
+\begin{document}
+\tdplotsetmaincoords{70}{100}
+\begin{tikzpicture}[tdplot_main_coords, scale=3]
+
+\draw[thick,->] (-2,0,0) -- (2,0,0) node[right] {$x$};
+\draw[thick,->] (0,-2,0) -- (0,2,0) node[right] {$y$};
+
+\draw[thick, orange] (0,0,0) circle (1);
+
+\draw[thick] (0,0,0) -- (0,0,1);
+
+\foreach \t in {-10,10,...,150}
+\path[fill=orange, fill opacity=.3] ({sin(\t)},{cos(\t)},1) -- ({sin(\t)},{cos(\t)},0) -- ({sin(\t+20)},{cos(\t+20)},0) -- ({sin(\t+20)},{cos(\t+20)},1) -- cycle;
+
+
+\draw[pattern = north west lines, pattern color = blue!30] (-2,-2,1) -- (-2,2,1) -- (2,2,1) -- (2,-2,1) -- cycle;
+
+\draw[very thick, red] (0,0,1) circle (1);
+
+\draw[thick] (0,0,1) -- (0,0,2);
+
+\foreach \t in {-10,10,...,150}
+\path[fill=orange, fill opacity=.3] ({sin(\t)},{cos(\t)},1) -- ({sin(\t)},{cos(\t)},2) -- ({sin(\t+20)},{cos(\t+20)},2) -- ({sin(\t+20)},{cos(\t+20)},1) -- cycle;
+
+
+
+\draw[thick, orange] (0,0,2) circle (1);
+
+\draw[thick,->] (0,0,2) -- (0,0,3) node[right] {$z$};
+
+\node at (-1,1,2) {$x^2 + y^2 = 1$};
+
+\node[fill=white] at (0,2,1) {$z = 1$};
+
+
+\end{tikzpicture}
+\end{document}

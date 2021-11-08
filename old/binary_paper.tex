@@ -716,8 +716,6 @@ This function will appear regularly in the sequence.
 
 Now, we claim the following:
 
-(End current review)
-
 \begin{theorem} \label{ginfi}
 For all $t \geq 0$,
 
@@ -725,32 +723,29 @@ For all $t \geq 0$,
 \end{theorem}
 
 \begin{proof}
-Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$. Let $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+For $t = 0$ the proof is trivial, so we assume $t > 0$. For the other case, we begin by sketching a slightly wrong proof, before correcting our mistake.
 
-We have already established that $g(t)$ can be calculated as $\inf s_n$, where $s_n = b^{sk} \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
+Suppose $t$ has $b$-ary expansion $b^k \times d_0 . d_1 d_2 \dots$, and define $t_n = b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$.
 
-We would like to argue that $s_n = i(t_n)$. Indeed, this is true under the condition that $d_n \neq b-1$, by almost-uniqueness of the $b$-ary expansion.
+Then, it is almost true that $s_n = i(t_n)$ for all $n$. Therefore,
+\[g(t) = \inf s_n \overset{\text{(wrong!)}}{=} \inf i(t_n) \geq \inf_{x \geq t} i(x).\]
 
-Of course, we can restrict ourselves to those $n$ such that $d_n \neq b-1$. Indeed, if $n$ satisfies this condition, it is trivial to check that $s_{n-1} \leq s_n$.
+For the other direction, it suffices to show that if $x \geq t$ then $i(x) \geq g(t)$. To this effect, note that if $x \geq t$ then the digit expansion of $x$ induces a $b$-ary cover of $\left[0,x\right[$, whose Hausdorff sum of dimension $s$ is precisely $i(x)$. Hence, $i(x)$ is the Hausdorff sum of a $b$-ary cover of $\left[0,x\right[$, and hence of a cover of $\left[0,t\right[$, so we conclude $i(x) \geq g(t)$ by definition of $g$.
 
-As a consequence, we conclude
-\[g(t) = \inf_{\{n \mid d_n \neq b-1\}} i(t_n).\]
+We now correct the mistake we previously made. The error was in the assumption that $s_n = i(t_n)$: This is true \emph{if the greedy expansion of $t_n$ is $b^k \times d_0 . d_1 d_2 \cdots d_{n-1} (d_n + 1)$}, and this hypothesis fails if $d_n + 1 = b$.
 
-This shows $LHS \geq RHS$, as for all $n$ we have $t_n \geq t$.
+In other words, we have the equality
+\[s_n = i(t_n) \text{, given that $d_n \neq b-1$.}\]
 
-For the other inequality, we will show $i(x) \geq g(t)$ for all $x \geq t$.
+Therefore, it suffices to show that the infimum $\inf s_n$ be taken over the collection of $n$ such that $d_n \neq b-1$, because then we can do the (correct!) sequence of manipulations
+\[g(t) = \inf s_n = \inf_{d_n \neq b-1} s_n = \inf_{d_n \neq b-1} i(t_n) \geq \inf_{x \geq t} i(x).\]
 
-Consider the following three cases:
+So, suppose that $d_n = b-1$. It is trivial to verify that
+\begin{equation}\label{shiftsone}
+s_{n-1} = s_n - b \cdot b^{(k-n)s} + b^{(k-(n-1))s} \leq s_n.
+\end{equation}
 
-
-\begin{enumerate}[label=\textbf{Case \arabic*:}]
-
-\item $x = t$. We already know that $i(t) = \lim s_n \geq g(t)$, so this case is done.
-
-\item $x \geq b^{k+1}$. In this case $i(x) \geq b^{(k+1)s} > b^{ks} = s_0 \geq g(t)$.
-
-\item $t < x < b^{k+1}$. Suppose $x$ has a $b$-ary expansion $b^k \times x_0 . x_1 x_2 \dots$ and let $n$ be the index such that $d_i = x_i$ for $i < n$ and $d_n \neq x_n$. Then, $d_n < x_n$, and therefore every digit of $t_n$ is less than or equal to its corresponding digit in $x$. Therefore, $i(x) \geq i(t_n) \geq g(t)$.
-\end{enumerate}
+Applying inequality \eqref{shiftsone} enough times, one concludes that $s_n$ can be replaced in the infimum by $s_{n'}$ for some $n' < n$ which satisfies $d_{n'} \neq b-1$. Applying this process to all $n$ with $d_n = b-1$, one then concludes $\inf s_n = \inf_{d_n \neq b-1} s_n$.
 \end{proof}
 
 \section{$g$ as a function of $s$}
@@ -758,7 +753,7 @@ Consider the following three cases:
 We now present an application of theorem \ref{ginfi} which will be useful in the sequence.
 
 \begin{prop} \label{gfuncofs}
-Fix arbitrary $t > 0$ and a base $b$. Define $h(s) = g_{bs}(t)$. Then, $h$ is a continuous function from $\left]0, 1 \right]$ to $\R$. Furthermore, for $t \in \left[0, 1 \right]$, $h$ is decreasing.
+Let $b \in \Z_{\geq 2}$ and $t > 0$. Define $h(s) = g_{bs}(t)$. Then, $h$ is a continuous function from $\left]0, 1 \right]$ to $\R$. Furthermore, for $t \in \left[0, 1 \right]$, $h$ is decreasing.
 \end{prop}
 
 \begin{proof}
