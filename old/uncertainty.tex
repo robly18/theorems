@@ -1,0 +1,512 @@
+\documentclass{amsart}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\usepackage{cite}
+
+\usepackage{graphicx}
+
+
+\title{The uncertainty principle on $\R^n$ and the torus}
+\author{Duarte Maia}
+\date{}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\loc}{\mathrm{loc}}
+
+\newcommand{\A}{\mathbb{A}}
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+
+\newtheorem{prop}{Prop}
+\newtheorem*{prop*}{Prop}
+\newtheorem{cor}{Corollary}[prop]
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In this document we give a brief overview of classical results related to the uncertainty principle, exhibiting three of its manifestations. At the end, we try to transpose the Heisenberg inequality to the torus.
+\end{abstract}
+
+\section{Introduction}
+
+When one thinks of the uncertainty principle, Heisenberg's inequality comes to mind. However, the Heisenberg inequality is just a particular case of a much more general phenomenon.
+
+The essence of the uncertainty principle can be stated as follows:
+\begin{center}
+\emph{The more localized a function is the less localized its Fourier transform is, and vice versa.}
+\end{center}
+
+The main difficulty becomes to clarify what is meant by `localized', and surprisingly, there exist many ways to interpret the expression that make the statement above true.
+
+The ubiquitous example uses variance. As in quantum mechanics, one may think of a function $f \in L^2(\R)$ with $\lVert f \rVert_2 = 1$ as a kind of probability distribution (with probability distribution function equal to $\lvert f \rvert^2$), and its variance can be calculated as the minimum of the integral
+\[\int ( x - a )^2 \lvert f(x) \rvert^2 \dd x,\]
+as a function of $a$. If we call this quantity $V(f)$ and define an analogous quantity for the Fourier transform of $f$, denoted by $V(\hat f)$, Heisenberg's inequality tells us that\footnote{The right-hand side of this inequality depends on the normalization constant in the definition of the Fourier transform. Another constant that appears often is $\frac1{16 \pi^2}$.}
+\begin{equation}\label{heisenberg1}
+V(f) V(\hat f) \geq \frac14.
+\end{equation}
+
+In other words, since $V$ quantifies roughly how spread out a function is, if a function $f$ is very localized then its Fourier transform must be very spread out and vice versa.
+
+This inequality is what is usually meant by `the uncertainty principle', but it is only the beginning. It is easy to see (and we will later show) that inequality \eqref{heisenberg1} is equivalent to the following statement
+\begin{equation}\label{heisenberg2}
+\lVert t f(t) \rVert_2 \lVert \hat \xi \hat f(\xi) \rVert_2 \geq \frac12 \lVert f \rVert_2.
+\end{equation}
+
+An obvious generalization would be to try to replace the $L^2$ norms by $L^p$ norms. And indeed we have the following result, for $1 \leq p \leq 2$.
+\begin{equation}\label{heisenberg3}
+\lVert t f(t) \rVert_p \lVert \xi \hat f(\xi) \rVert_p \geq \frac12 \lVert f \rVert_2.
+\end{equation}
+
+We can generalize this even further, obtaining an uncertainty principle that measures the $p$-norm of $t f(t)$ versus the $q$-norm of $\xi \hat f(\xi)$, for arbitrary $p$ and $q$. We leave the full statement for later, but we present a particular case as an example:
+
+For all $p, q \in \left]1, \infty\right[$ and $M \geq 0$ there exists a positive constant $K$ such that
+\begin{equation}\label{heisenberg4}
+\lVert \lvert t \rvert^{M + 1/p'} f(t) \rVert_p \lVert \lvert \xi \rvert^{M + 1/q'} \hat f(\xi) \rVert_q \geq K \lVert f \rVert_2^2,
+\end{equation}
+where $p'$ denotes the conjugate of $p$.
+
+\bigskip
+
+All the inequalities stated so far refer to `global spreadness of $f$ and $\hat f$', in a sense. For example, a function concentrated on two faraway points would be considered `spread out' from the point of view of variation. However, there also exist local results, which forbid this `split localization' from happening.
+
+A very basic such inequality is given by Faris \cite{faris}, which we will prove under differentiability hypotheses:
+
+Let $f \in L^2(\R)$ with $\lVert f \rVert_2 = 1$, and let $E$ be a measurable set. Then,
+
+\[\int_E \lvert f \rvert^2 \leq m(E) \sigma(\hat f),\]
+where $\sigma(\hat f) = \sqrt{V(\hat f)}$. In other words, the more concentrated $\hat f$ is on a single point, the less $f$ may be concentrated on small intervals.
+
+Cowling and Price \cite{cp} show a much more general result, which we will state without proof:
+
+\begin{enumerate}[i.]
+\item If $0 < \alpha < \frac12 n$ then there exists a constant $K_\alpha$ such that for all $f \in L^2(\R^n)$ and all measurable $E \subseteq \R^n$,
+\[\int_E \lvert \hat f \rvert^2 \leq K_\alpha \lvert E \rvert^{2 \alpha / n} \left\lVert \lvert x \rvert^\alpha f \right\rVert_2^2.\]
+
+\item If $\alpha > \frac12 n$ then there exists a constant $K_\alpha$ such that for all $f \in L^2(\R^n)$ and all measurable $E \subseteq \R^n$,
+\[\int_E \lvert \hat f \rvert^2 \leq K_\alpha \lvert E \rvert \lVert f \rVert_2^{2 - (n/\alpha)} \left\lVert \lvert x \rvert^\alpha f \right\rVert_2^{n/\alpha}.\]
+\end{enumerate}
+
+\bigskip
+
+To conclude our exploration of the uncertainty principle on the real line, we show a deeper result than the previous two, called Hardy's theorem, which states that a function and its Fourier transform cannot both go to zero too fast at infinity. Its proof requires some machinery from complex analysis, but the end result is neat and very different than the previous results.
+
+If we call $E(a)$ the set of measurable functions that decay at infinity like $\e^{-a x^2}$ and let $E(a,b)$ be the set of $f \in E(a)$ such that $\hat f \in E(b)$, Hardy's theorem talks about the dimension of these sets as complex vector spaces. As $a$ and $b$ increase, so does the product $ab$, and Hardy's theorem tells us that there is a sharp cutoff between $ab < \frac12$ and $ab > \frac12$. Indeed, for $ab < \frac12$ the set $E(a,b)$ is very populated, being a vector space with infinite dimension, while for $ab > \frac12$ it is barren, containing only the zero function. The cutoff at $ab = \frac12$ has dimension one, containing only the gaussian around the origin and its multiples.
+
+\bigskip
+
+Finally, in section \ref{lastsection} we try to adapt Heisenberg's inequality to the torus, following Grunbaum and Pinsky \cite{pinsky}. The end result is a Heisenberg-like inequality, under the rather restrictive hypothesis that $f(\pi) = 0$:
+\[\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert_2 > \frac12.\]
+
+It is of note that this inequality is strict, but sharp, as we will show. The proof of sharpness is, to the best of my knowledge, original.
+
+\section{Convention and context}
+
+To begin with, we establish the definition of the Fourier transform. We follow as in Rauch \cite{rauch}, with the formula (valid in $L^1(\R)$):
+\[\hat f(\xi) = (2 \pi)^{-1/2} \int \e^{- \I x \xi} f(x) \dd x.\]
+
+For the sake of brevity, the results below will not be given in their most general form. However, the interested reader may satisfy their curiosity in the bibliography. Most of these results were taken from Folland's survey of the uncertainty principle \cite{survey}.
+
+\section{Heisenberg's inequality}\label{sec:heisenberg}
+
+To begin our excursion into the uncertainty principle, we start with the classical result
+
+\begin{prop}\label{heisenbergprop1}
+Let $f \in L^1(\R) \cap C^1(\R)$ with $\lVert f \rVert_2 = 1$. Then,
+\[\lVert t f(t) \rVert_2 \lVert \xi \hat f(\xi) \rVert_2 \geq \frac12.\]
+
+Equality happens iff $f(t)$ is a (centered) gaussian, i.e. a rescaling of $\e^{- x^2}$.
+\end{prop}
+
+\begin{proof}
+We begin by noting that $\xi \hat f(\xi)$ is, up to a factor of $\I$, the Fourier transform of $f'$. Therefore, $\lVert \xi \hat f(\xi) \rVert = \lVert f' \rVert$, because the Fourier transform preserves $L^2$ norm. If $f' \not \in L^2$, then the $L^2$ norm of $\xi \hat f(\xi)$ is infinity and it is easy to see that the inequality is satisfied. So, let us suppose $f' \in L^2$. We can then apply Cauchy-Schwarz to get:
+\begin{equation}\label{protoheisenberg}
+\lVert t f(t) \rVert \lVert \xi \hat f(\xi) \rVert \geq \left\lvert \int t f(t) \overline{f'(t)} \dd t \right\rvert.
+\end{equation}
+
+We now proceed to estimate the right-hand side. We may estimate it by an integral in a compact interval and integrate it by parts to get
+\begin{align}
+\int_{-M}^M t f(t) \overline{f'(t)} \dd t &= \Bigl[t \lvert f(t) \rvert^2 \Bigr]_{-M}^M - \int_{-M}^M (t f)'(t) \overline{f(t)} \dd t\nonumber\\
+&= \Bigl[t \lvert f(t) \rvert^2 \Bigr]_{-M}^M - \int_{-M}^M f(t) \overline{f(t)} \dd t - \int_{-M}^M t f'(t) \overline{f(t)} \dd t.\label{eq1}
+\end{align}
+
+Now, notice that, since both $f$ and $f'$ are in $L^2$, the limit of all the integrals in play exists when $M \to \infty$. Therefore, so does $\lim_{M \to \infty} \bigl[t \lvert f(t) \rvert^2 \bigr]_{-M}^M$. We can do even better: if we call $M_1$ the upper limit and $M_2$ the lower limit, we can take each limit separately, and obtain that the limit of $t \lvert f(t) \rvert^2$ exists when $t \to \infty$ and when $t \to -\infty$. Of course, these limits can only be zero, for otherwise $f$ would be asymptotically close to $t^{-1/2}$, and therefore not be in $L^1$. As such, taking the limit $M \to \infty$ in \eqref{eq1}, we get
+\[\int t f(t) \overline{f'(t)} \dd t = - \int f \overline f - \int t f'(t) \overline{f(t)} \dd t.\]
+
+It is easy to manipulate this expression to get the identity
+\[\re\left( \int t f(t) \overline{f'(t)} \dd t \right) = -\frac12,\]
+wherein we used the fact that $\lVert f \rVert_2 = 1$.
+
+We now can now finish the proof of the inequality:
+\begin{align*}
+\lVert t f(t) \rVert \lVert \xi \hat f(\xi) \rVert &\geq \left\lvert \int t f(t) \overline{f'(t)} \dd t \right\rvert\\
+&\geq \left\lvert \re \int t f(t) \overline{f'(t)} \dd t \right\rvert\\
+&= \frac12.
+\end{align*}
+
+We need now only look at the case for equality. Note that in the very first step we apply Cauchy-Schwarz on the inner product $\langle t f(t), f'(t) \rangle$. For equality to happen, $f$ must satisfy a differential equation of the form $t f(t) = C_1 f'(t)$. All solutions of these equations are of the form $C_2 \e^{C_1 x^2 / 2}$, and for the nontrivial solutions to be in $L^1$ it is necessary that $C_1 < 0$. All such solutions are rescalings of the gaussian, and since all such rescalings can be multiplied by a unit complex to become real functions, all inequalities above become equalities.
+\end{proof}
+
+It is easy to go from this statement to the statement involving variances:
+
+\begin{cor}
+Define the variance of a measurable function $f$ as
+\[V(f) = \inf_{a \in \R} \int (t - a)^2 \lvert f(t) \rvert^2 \dd t.\]
+
+Then if $f \in L^1(\R) \cap C^1(\R)$ we have Heisenberg's uncertainty principle:
+\[V(f) V(\hat f) \geq \frac14.\]
+\end{cor}
+
+\begin{proof}
+It is obvious by taking infima that we need only show that, for all $a, b \in \R$,
+\[\int (t - a)^2 \lvert f(t) \rvert^2 \dd t \, \int (\xi - b)^2 \lvert \hat f(\xi) \rvert^2 \dd \xi \geq \frac14.\]
+
+But this is the same as showing that
+\[ \lVert (t-a) f(t) \rVert_2 \lVert (\xi - b) \hat f(\xi) \rVert \geq \frac12.\]
+
+In turn, we can apply the translation invariance of the $L^2$ norm to get that this is the same as
+\[ \lVert t f(t+a) \rVert_2 \lVert \xi \hat f(\xi+b) \rVert \geq \frac12.\]
+
+But this is a particular case of proposition \ref{heisenbergprop1}, where instead of $f$ we have the function $g(t) = \e^{- \I b t} f(t+a)$.
+\end{proof}
+
+The argument above to go from the $L^2$ norm of $t f(t)$ to the variance of $f$ and likewise for $\hat f$ is rather general. As such, we will not bother to do it again.
+
+There exists an easy generalization of proposition \ref{heisenbergprop1} that uses $L^p$ norms:
+
+\begin{prop}
+If $f \in L^1(\R) \cap C^1(\R)$ with $\lVert f \rVert_2 = 1$, then for all $p \in [1,2]$ we have
+\[\lVert t f(t) \rVert_p \lVert \xi f(\xi) \rVert_{p} \geq \frac12 (2 \pi)^{\frac12 - \frac1p}.\]
+\end{prop}
+
+\begin{proof}
+Consider the following modification of the argument in the proof of proposition \ref{heisenbergprop1}: upon deducing
+\[\re\left( \int t f(t) \overline{f'(t)} \dd t \right) = -\frac12,\]
+instead of applying Cauchy-Schwarz to get something like the left-hand side, apply instead Hölder's inequality:
+\[ \lVert t f(t) \rVert_p \lVert f' \rVert_{p'} \geq \int \lvert t f(t) f'(t) \rvert \dd t.\]
+
+Then, it is easy to reach the conclusion
+\[\lVert t f(t) \rVert_p \lVert f' \rVert_{p'} \geq \frac12,\]
+and we may apply a modified version of the Hausdorff-Young inequality to replace $f'$ with $\xi \hat f(\xi)$.
+
+The usual Hausdorff-Young inequality tells us that, for all $u \in L^p(\R)$, $1 \leq p \leq 2$,
+\[ \lVert \hat u \rVert_{p'} \leq (2 \pi)^{\frac1p - \frac12} \lVert u \rVert_p.\]
+However, we have that, for $f \in L^2$, $\F \F f(x) = f(-x)$, and so we can invert this result:
+\[ \lVert u \rVert_{p'} \leq (2 \pi)^{\frac1p - \frac12} \lVert \hat u \rVert_p.\]
+
+In particular, applying this result to $u = f'$, we get
+\[ \lVert f' \rVert_{p'} \leq (2 \pi)^{\frac1p - \frac12} \lVert \F(f') \rVert_p.\]
+
+Finally, we know that $\F(f')(\xi) = \xi \hat f(\xi)$, so we finally have the result
+\[ \lVert t f(t) \rVert_p \lVert \xi f(\xi) \rVert_{p} \geq \frac12 (2 \pi)^{\frac12 - \frac1p}.\]
+\end{proof}
+
+This inequality can be generalized a lot further. To see just how further it can be generalized, we might begin by trying to find bounds on $\lVert t f(t) \rVert_p \lVert \xi \hat f(\xi) \rVert_q$. However, a simple scaling argument shows that this won't work: if $g(t) = c^{1/2} f(ct)$ (the $c^{1/2}$ factor is meant to keep the $L^2$ norm fixed) then
+\begin{equation}\label{scaling}
+\lVert t g(t) \rVert_p \lVert \xi \hat g(\xi) \rVert_q = c^{-1-\frac1p + \frac12} \lVert t f(t) \rVert_p \, c^{1/q + \frac12} \lVert \xi \hat f(\xi) \rVert_q.
+\end{equation}
+
+The only way for this not to be unbounded from above and below is if $p = q$, which is precisely the inequality we already had. However, one can add more parameters to correct this issue.
+
+We will state without proof the results of a paper by Cowling and Price \cite{cp}, who investigate, among other things, inequalities of this form:
+
+\[\lVert \lvert t \rvert^\theta f(t) \rVert_p^\alpha  \lVert \lvert \xi \rvert^\phi \hat f(\xi) \rVert_q^{1-\alpha} \geq K\]
+for some positive $K$.
+
+We can apply scaling arguments as in \eqref{scaling} to see when such an inequality is plausible. Indeed, if $g(t) = c^{1/2} f(ct)$, we get that
+\begin{multline*}
+\lVert \lvert t \rvert^\theta g(t) \rVert_p^\alpha  \lVert \lvert \xi \rvert^\phi \hat g(\xi) \rVert_q^{1-\alpha} =\\
+= c^{\frac\alpha2 - \alpha\theta - \alpha\frac1p} \lVert \lvert t \rvert^\theta f(t) \rVert_p^\alpha \, c^{\frac{1-\alpha}2 - (1-\alpha) + (1-\alpha)\phi + (1-\alpha)\frac1q} \lVert \lvert \xi \rvert^\phi \hat f(\xi) \rVert_q^{1-\alpha}\\
+= c^{\alpha(\frac12 - \theta - \frac1p) - (1-\alpha)(\frac12 - \phi - \frac1q)}\lVert \lvert t \rvert^\theta f(t) \rVert_p^\alpha  \lVert \lvert \xi \rvert^\phi \hat f(\xi) \rVert_q^{1-\alpha}.
+\end{multline*}
+
+Therefore, in order for this to \emph{possibly} be bounded from below, we need to establish the condition
+\[\alpha(\frac12 - \theta - \frac1p) = (1-\alpha)(\frac12 - \phi - \frac1q).\]
+
+And indeed, in their paper, Cowling and Price show that under these conditions there is indeed a positive real $K$ such that, for all $f$ of unitary $L^2$ norm,
+\[\lVert \lvert t \rvert^\theta f(t) \rVert_p^\alpha  \lVert \lvert \xi \rvert^\phi \hat f(\xi) \rVert_q^{1-\alpha} \geq K.\]
+
+However, the proof is rather technical and we will not reproduce it here.
+
+\section{Localized Uncertainty}
+
+In the introduction we mentioned a local uncertainty principle due to Faris \cite{faris}, which we will now show.
+
+\begin{prop}\label{localheisenberg}
+Let $E$ be a measurable set and $f \in L^2(\R) \cap C^1(\R)$ with $\lVert f \rVert_2 = 1$. Then,
+
+\[\int_E \lvert f \rvert^2 \leq m(E) \lVert \xi \hat f(\xi) \rVert_2.\]
+\end{prop}
+
+\begin{proof}
+We begin by fixing a non-negative $C^1$ approximation of identity $k_\varepsilon$, for example, the heat kernel. Define $K_\varepsilon(t) = -\frac12 + \int_{-\infty}^t k_\varepsilon$. Then, by integrating by parts, we have the relation
+\[\int k_\varepsilon \lvert f \rvert^2 = - 2 \int K_\varepsilon \re(f f'),\]
+where the term $\left[ k_\varepsilon f \right]_{-\infty}^\infty$ is equal to zero by an argument similar to the one used in the proof of proposition \ref{heisenbergprop1}.
+
+Next, we can bound the norm of the right-hand side using Cauchy-Schwarz. Namely,
+\[\left\lvert \int K_\varepsilon  \re(f f') \right \rvert \leq \int K_\varepsilon \lvert f \rvert \lvert f' \rvert \leq \lVert K_\varepsilon f \rVert_2 \lVert f' \rVert_2.\]
+
+Finally, since $\lvert K_\varepsilon(t) \rvert \leq \frac12$, we have
+\[\lVert K_\varepsilon f \rVert_2 \leq \frac12 \lVert f \rVert_2 = \frac12,\]
+and we also know that $\lVert f' \rVert_2 = \lVert \xi \hat f(\xi) \rVert_2$. As such, combining all the pieces, we have the inequality
+\[\left\lvert \int k_\varepsilon \lvert f \rvert^2 \right\rvert \leq \lVert \xi \hat f(\xi) \rVert_2.\]
+
+Notice that this argument also works if we shift $k_\varepsilon$, and so we get
+\[\lVert k_\varepsilon * \lvert f \rvert^2 \rVert_\infty \leq \lVert \xi \hat f(\xi) \rVert_2.\]
+
+Therefore, integrating the left-hand side over a measurable set $E$ yields at most $m(E) \lVert \xi \hat f(\xi) \rVert_2$, and taking $\varepsilon \to 0$ gives us the desired inequality.
+\end{proof}
+
+There is another way to read the prevous proposition. If we take $E$ to be a ball of radius $r$ around some point $x$, we conclude
+\[A_r(\lvert f \rvert^2)(x) \leq \sigma(\hat f),\]
+where $\sigma = \sqrt V$ is the standard deviation. Since, when $r \to 0$, $A_r(\lvert f \rvert^2)$ converges almost everywhere to $\lvert f \rvert^2$ by the Lebesgue differenciation theorem, we conclude
+
+\begin{cor}
+If $f \in L^2(\R) \cap C^1(\R)$ with $\lVert f \rVert_2 = 1$ then
+\[\lVert f \rVert_\infty \leq \sqrt{\sigma(\hat f)}.\]
+\end{cor}
+
+\begin{proof}
+We present another proof, which does not use the Lebesgue differenciation theorem. Suppose $\lvert f \rvert$ exceeds $\sqrt{\sigma(\hat f)}$ in a set of positive measure. Then, it must exceed $\sqrt{\sigma(\hat f) + 1/k}$ in a set of positive measure for some $k$. Apply proposition \ref{localheisenberg} (or rather, the stronger version with standard deviation) with $E$ equal to this set to reach a contradiction.
+\end{proof}
+
+In colloquial terms, the less wide the Fourier transform of a function is, the shorter the function itself can be, which implies it must be wider. Of course, all of these arguments could be done with $f$ and $\hat f$ swapped.
+
+\section{Hardy's Theorem}
+
+This section could just as well have been named `decay at infinity', for that is the subject of Hardy's theorem. This section is more demanding than the previous two, but the result is neat and different.
+
+In simple terms, Hardy's theorem states that a function and its Fourier transform cannot both decay too fast at the same time, and (like in a lot of other manifestations of the uncertainty principle) the most balanced function is the gaussian. More quantitatively, if $f$ is $O(\e^{-a x^2})$ and $\hat f$ is $O(\e^{-b x^2})$ with $ab > 1$ then $f$ must be zero. The highest the product $ab$ can get is precisely 1, and in that case $f$ must be a gaussian.
+
+This theorem requires some knowledge of complex analisys. In particular, we need the maximum modulus principle and Liouville's theorem. We will also need a less common result, called the Phragmén-Lindelöf theorem, which is a variant of the maximum modulus principle. A proof of this theorem follows. Another exposition of the following can be found, together with a recap of the important prerequisites, in Dym \& Mckean \cite{dmk}.
+
+\begin{prop}
+(Phragmén-Lindelöf theorem) Let $f$ be a continuous function defined on a closed angular sector $\overline D$, of amplitude strictly less than $\pi$. Suppose $f$ is analytic in the corresponding open sector, $D$. Finally, suppose $\lvert f(z) \rvert \leq C \e^{K \lvert z \rvert}$ for some $C, K \in \R$, and $\lvert f \rvert \leq M$ on the boundary of $D$. Then, $\lvert f \rvert \leq M$ on the whole of $D$.
+\end{prop}
+
+\begin{proof}
+Suppose without loss of generality that the sector is centered around the positive half-line, and let $\psi$ be the half-opening. Since by hypothesis $\psi < \pi/2$ we can pick a number $B \in \left]\psi, \pi/2 \right[$.
+
+Given a parameter $A > 0$, define $f_A(z) = f(z) \exp(-A z^{B/\psi})$. Since we're working in a sector, we can define $z^B$ with no problem as $(r \e^{\I \theta})^B = r^B \e^{\I B \theta}$, where $\theta$ is always chosen to be between $-\pi$ and $\pi$, so that $f_A$ is analytic in $D$ and continuous in $\overline D$. In the arc of radius $R$, $f_A$ is bounded by $C \e^{K R} \exp(-A R^{B/\psi} \re(\e^{\I \theta_z B / \psi}))$, and since the $\exp$ term grows as $\re(\e^{\I \theta_z B / \psi})$ gets smaller, this is maximized when $\theta_z = \psi$. As such,
+\[\lvert f_A(z) \rvert \leq C \e^{K R} \exp(-A R^{B/\psi} \cos B).\]
+
+As $R$ goes to infinity, this expression goes to zero, and so we may pick $R_0$ big enough such that $\lvert f_A \rvert$ is at most $M$ for $R$ bigger than $R_0$. By the maximum modulus principle applied to the circle slice with radius $R_0$, $f_A$ is also at most $M$ for $R < R_0$. As such, $\lvert f_A \rvert \leq M$ everywhere, and taking $A \to 0$ we have $\lvert f \rvert \leq M$ everywhere, as desired.
+\end{proof}
+
+We can now start introducing Hardy's theorem. The crux of the argument is that if a holomorphic function defined on the complex plane grows exponentially then it must necessarily be an exponential. That is: if $h : \C \to \C$ is holomorphic and $h(z) = O(\e^{K z^2})$ then applying Liouville to $\e^{-K z^2} h(z)$ we conclude that $h$ must be a function of the form $C \e^{K z^2}$.
+
+As such, suppose $f$ is a fast-decreasing function with $\hat f$ fast decreasing as well. If we can find a way to extend $\hat f$ analytically to the whole complex plane and if $\hat f$ grows slow enough to let the analytic extension be bounded by $\e^{K z^2}$ then, by the previous observation, $\hat f$ must necessarily be of the form $\hat f(z) = C \e^{K z^2}$. Since $\hat f |_\R$ decreases fast, necessarily $\re K < 0$ and $\hat f |_\R$ must be a gaussian, which implies that $f$ is one as well.
+
+This was the overview of the proof. Of course, the devil is in the details. More precisely, how this analytic extension is done, and how to ensure it doesn't grow too fast.
+
+\begin{prop}\label{complexfourier}
+If $a > 0$ is a real parameter, define $E(a)$ as the set of measurable functions such that $f(t) = O(\e^{- a t^2})$. Notice that these are in all $L^p$.
+
+If $f \in E(a)$ then we may extend $\hat f$ to the complex plane by the usual definition:
+\[\hat f(z) = (2 \pi)^{-1/2} \int \e^{- \I z x} f(x) \dd x.\]
+
+The function $\hat f$ so defined is analytic.
+\end{prop}
+
+\begin{proof}
+First, we check that $\hat f$ is properly defined. Indeed, fixed $z = x + y\I$, we have that
+\[\int \lvert \e^{- \I z t} f(t) \rvert \dd x = \int \e^{y t} \lvert f(t) \rvert \dd t.\]
+
+It is easy to check that since $\lvert f \rvert$ is bounded from above by a multiple of $\e^{- a t^2}$, this integral is necessarily finite. Indeed, by completing the square in the exponent, this argument gives us a bound of the form
+\begin{equation}\label{bound1}
+\lvert \hat f(x+y\I) \rvert \leq C \e^{\frac{y^2}{4a}}.
+\end{equation}
+
+We now check that $\hat f(z)$ is analytic. We can do this by definition, by explicitly calculating the derivative. Let $h_n$ be a sequence of complex numbers converging to 0. Then,
+
+\begin{equation}\label{eq2}
+\frac1{h_n}(\hat f(z+h_n) - \hat f(z)) = (2 \pi)^{-1/2} \int f(t) \e^{- \I z t} \frac{\e^{-\I h_n t} - 1}{h_n} \dd t.
+\end{equation}
+
+We wish to apply the dominated convergence theorem. Since, by hypothesis, $f$ goes to zero very fast, it is enough to show that the term $\frac{\e^{-\I h_n t} - 1}{h_n}$ is uniformly dominated by something that doesn't grow faster than exponentially with $t$.
+
+Define $g(z) = \frac{\e^z - 1}z$ (with $g(0) = 1$). Then, the term in question is given by the expression
+\[-\I g(-\I h_n t) t.\]
+
+Since $t = O(\e^{\lvert t \rvert})$, it is enough to show that $g(-\I h_n t)$ is uniformly bounded by something that grows exponentially.
+
+Since $g$ is continuous, it is bounded in the unit disk around the origin by some $M \geq 1$. On the other hand, for $z$ outside the unit disk we have $\lvert g(z) \rvert \leq \lvert \e^z \rvert + 1$. Therefore, $g(z) \leq \lvert \e^z \rvert + M = O(\e^{\lvert z \rvert})$.
+
+To conclude the proof, return to the integral in \eqref{eq2}. Since $h_n \to 0$, the sequence $\lvert h_n \rvert$ is bounded by some $N$. As such, we have the bound
+\[\left\lvert f(t) \e^{- \I z t} \frac{\e^{-\I h_n t} - 1}{h_n} \right\rvert = O(\e^{-a t^2 + \lvert z \rvert  \lvert t \rvert + \lvert t \rvert + N \lvert t \rvert}).\]
+
+More or less evidently, that last term has finite integral and therefore the dominated convergence theorem works in \eqref{eq2}, yielding $\hat f'(z) = -\I \widehat{(t f)}(z)$, and the proof is complete.
+\end{proof}
+
+\begin{prop} (Hardy's theorem)
+Let $a, b > 0$ be real parameters. Define $E(a,b)$ as the set of functions $f \in E(a)$ such that $\hat f \in E(b)$. Note that $E(a,b)$ is a complex vector space.
+
+Then, if $ab < \frac14$, $E(a,b)$ has infinite dimension. If $ab = \frac14$, $E(a,b)$ has dimension 1 and is generated by the gaussian $\e^{-a t^2}$. If $ab > \frac14$ then $E(a,b) = \{0\}$.
+\end{prop}
+
+\begin{proof}
+We begin with the observation that if $ab = a' b'$ then $E(a,b)$ and $E(a', b')$ differ only by a rescaling. As such, we may without loss of generality assume $a = b$.
+
+The proof of the $a < \frac12$ case will not be given in detail, but the idea is to create an infinite number of (linearly independent) functions that go to zero ever-so-slightly slower than the gaussian. Indeed, define
+\[f_n(t) = t^n \exp(-t^2/2).\]
+
+All $f_n$ are linearly independent because of the fundamental theorem of algebra. Furthermore, all $f_n$ are evidently in $E(a)$, so it remains to check that their Fourier transform is as well. But by integration by parts and induction it becomes clear that $\hat f_n$ is of the form $p_n(\xi) \exp(-\xi^2 / 2)$, for some polynomial $p_n$, which is also in $E(a)$.
+
+We now turn to the hard part of the proof, which is the case $a = \frac12$. Clearly the gaussian $f_0$ is in $E(\frac12, \frac12)$, so it remains to show that every element $f$ of $E(\frac12,\frac12)$ is a multiple of $f_0$. Note that once we show this, the case $a > \frac12$ is done, because for $a>\frac12$ we have $E(a,a) \subseteq E(\frac12,\frac12)$, which only contains the gaussians, but nonzero gaussians are not in $E(a,a)$.
+
+The proof uses several tricks. The first observation is that the Phragmén-Lindelöf theorem regards functions that grow as $\e^{K \lvert z \rvert}$, but (see inequality \eqref{bound1}) our bound on $\hat f(z)$ is of the form $\e^{-K (\im z)^2}$, which is exponent-quadratic. As such, we will begin by taking a square root to make the Phragmén-Lindelöf theorem applicable. In order for this to work we shall assume from now on that $f$ is an even function.
+
+If $f$ is an even function in $E(\frac12, \frac12)$, by proposition \ref{complexfourier} its Fourier transform can be extended to an analytic function on the complex plane. It is clear that $\hat f$ is an even function, and so can be expanded as an even power series
+\[\hat f(z) = \sum c_n z^{2n}.\]
+
+We will define $h(z)$ as $\hat f(\sqrt{z})$. More formally,
+\[h(z) = \sum c_n z^n.\]
+
+The bound given by proposition \ref{complexfourier} translates to $h$ as
+\[\lvert h(z) \rvert \leq M \e^{(\im \sqrt{z})^2 / 2}.\]
+
+Furthermore, the bound on $\hat f |_\R$ (because $\hat f \in E(\frac12)$) translates to
+\[\lvert h(t) \rvert \leq M \e^{- t / 2},\]
+for $t \geq 0$, where it is understood that we might have increased $M$ as to make both bounds work.
+
+If it were the case that the Phragmén-Lindelöf theorem worked for sectors of amplitude $\pi$, here is how one might continue the argument. Consider the sector $D$ given by the upper half-plane. We have the bound $\lvert h(t) \rvert \e^{- t / 2} \leq M$  for all real $t$, and $h(z) \e^{- z/2}$ grows at most exponentially in radius, because $(\im \sqrt{z})^2 \leq \lvert z \rvert$. As such, \emph{if} the Phragmén-Lindelöf theorem were applicable in this angular sector, we would have the bound
+\[h(z) \leq M \e^{- z/2}, \; \im z \geq 0.\]
+
+Applying the same result to the lower half-plane, we would have that $h(z) = O(\e^{- z/2})$, and by the Liouville argument, $h(z)$ would necessarily be of the form $C \e^{- z/2}$. Therefore, $\hat f(z)$ would be $C \e^{- z^2/2}$ and thus $f(t) = C \e^{-t^2/2}$, which is what we wished to prove.
+
+Unfortunately, the argument above is flawed, which brings us to our second trick. Instead of using the entire upper half-plane, we may use a section that goes from the positive half-line to the half-line with a fixed argument $\theta = \theta_0 \in \left]0, \pi\right[$. Indeed, if we let $z = R \e^{\I \theta_0}$ range over this half-line, we have that
+\[(\im \sqrt{z})^2 = R \sin^2(\theta_0/2),\]
+and so
+\[\lvert h(z) \e^{-R \sin^2(\theta_0/2) / 2} \rvert \leq M.\]
+
+Since $\sin^2(\theta_0/2) < 1$ we also have
+\[\lvert h(z) \e^{-R/2} \rvert \leq M.\]
+
+We will now apply Phragmén-Lindelöf to the function
+\begin{equation}\label{expr1}
+ h(z) \exp\left( \frac{\I \, z \, \e^{-\I \theta_0 / 2}}{2 \sin(\theta_0/2)}\right),
+\end{equation}
+whose absolute value can be written as
+\[ \lvert h(z) \rvert \exp\left( - R \frac{\sin( \theta - \frac{\theta_0}2 )}{2 \sin(\theta_0 / 2)}\right).\] 
+
+Indeed, for $\theta = 0$ this is bounded by $\lvert h(z) \rvert \exp(R/2)$, which is known to be less than or equal to $M$; and for $\theta = \theta_0$ this is bounded by $\lvert h(z) \rvert \exp(-R/2) \leq M$. Finally, since $-\sin(\theta - \frac{\theta_0}2) \leq 1$ and $h$ grows at most exponentially with radius, it is easy to check that \eqref{expr1} grows at most exponentially with radius. Therefore, Phragmén-Lindelöf is applicable and we reach the result that, on the slice $0 \leq \theta \leq \theta_0$,
+\[\left\lvert h(z) \exp\left( \frac{\I \, z \, \e^{-\I \theta_0 / 2}}{2 \sin(\theta_0/2)}\right) \right\rvert \leq M,\]
+and taking $\theta_0 \to \pi$ we reach the conclusion that, in the upper half-plane,
+\[\lvert h(z) \exp(z/2) \rvert \leq M.\]
+
+The argument can also be applied to the lower half-plane, and by continuity it also holds for the real line. Therefore, $h(z) \exp(z/2)$ is a bounded holomorpic function, and by Liouville's theorem must be constant. Hence, $h(z) = C \exp(-z/2)$ for some $C$ and, as a consequence, $\hat f(t) = C \exp(-z^2/2)$, which implies that $f$ is a gaussian.
+
+This concludes the proof for even $f$. For odd $f$, we have that $\hat f$ is an odd holomorphic function, and we can apply the above argument using the even holomorphic function $\hat f(z)/z$ instead of $\hat f(z)$, because dividing by $z$ only makes it go to zero faster and oddness of $\hat f$ prevents it from blowing up at the origin. As a consequence, we reach that $\hat f(z) = C z \e^{-z^2/2}$, which, unless $C = 0$, is not $O(\e^{-t^2/2})$ on the real line. Therefore, by the decay hypothesis on $\hat f$, it must be zero.
+
+Now that the proof has been made for even and odd $f$, we may complete it by splitting arbitrary $f$ into its even and odd parts. Both of these decay to zero as fast as $f$. Furthermore, since the Fourier transform is linear,
+\[\hat f_{\text{odd}} = \widehat{f_{\text{odd}}} \text{ and } \hat f_{\text{even}} = \widehat{f_{\text{even}}},\]
+which by the same argument shows that the Fourier transform of the even and odd parts of $f$ also decay fast. Therefore, the previous argument is applicable to either part, with the conclusion that the odd part is zero and the even part is a gaussian.
+\end{proof}
+
+\section{Heisenberg on the torus}\label{lastsection}
+
+At first sight, uncertainty principles on the torus seem unlikely, because while the Fourier transform of a function on the torus can be very concentrated, a function on the torus can only get so spread out. And in fact, this gives us a very simple example that shreds any hopes of Heisenberg-like inequality on the torus: the constant function. Indeed, the constant function equal to one is as spread out as it gets, and its Fourier transform has the lowest possible variance (zero). Yet their product is zero, which shows that there can be no non-trivial bound on $V(f) V(\hat f)$.
+
+If one tries to adapt the argument for the real line to see what goes wrong, the problem is clear: when integrating by parts in the real line we can usually show that things go to zero at infinity, leading to very useful identities of the form
+\[ \int f' g = - \int f g'.\]
+
+This fails for the torus, but there is a very easy, if rather ad-hoc, way to deal with the problem: picking a point to play the part of `infinity' (usually $\pi$) and assume that functions are zero there. This leads, for example, to the following `Heisenberg inequality', whose proof is just an adjustment of the proof of the Heisenberg inequality on the real line.
+
+\begin{prop}\label{propheisenbergtorus}
+Let $f$ be an absolutely continuous function in the torus with $f(\pi) = 0$ and $\lVert f \rVert_2 = 1$. Then, the following inequality holds
+\begin{equation}\label{torusheisenberg}
+\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert \geq \frac12,
+\end{equation}
+where the $t$ in $t f(t)$ is picked to be between $-\pi$ and $\pi$.
+\end{prop}
+
+\begin{proof}
+We know that $n \hat f(n)$ is simply the Fourier transform of $- \I f'$. Furthermore, since the Fourier transform preserves $L^2$ norm, the quantity in the left-hand side of \eqref{torusheisenberg} is equal to
+\[ \lVert t f(t) \rVert_2 \lVert f' \rVert_2.\]
+We may now apply Cauchy-Schwarz to bound this from below
+\[ \lVert t f(t) \rVert_2 \lVert f' \rVert_2 \geq \frac1{2 \pi} \left\lvert \int_{-\pi}^\pi t f(t) \overline{f'(t)} \dd t \right\rvert.\]
+
+By integrating the right-hand side by parts, it is easy to reach the identity
+\begin{align*}
+\re\left( \int t f(t) \overline{f'(t)} \dd t \right) &= \frac12 \left( [t \lvert f(t) \rvert^2 ]_{-\pi}^\pi - 2 \pi \lVert f \rVert_2^2 \right)\\
+&= \pi ( \lvert f(\pi) \rvert^2 - 1 ).
+\end{align*}
+
+By hypothesis, $f(\pi) = 0$, so we simply get
+\begin{align*}
+\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert &\geq \frac1{2 \pi} \left\lvert \int_{-\pi}^\pi t f(t) \overline{f'(t)} \dd t \right\rvert\\
+&\geq \frac1{2 \pi} \left\lvert \re \int_{-\pi}^\pi t f(t) \overline{f'(t)} \dd t \right\rvert\\
+&= \frac12.
+\end{align*}
+
+This completes the proof.
+\end{proof}
+
+Note that if we dropped the requirement that $f(\pi) = 0$ we would still get a useable, if clunky, inequality:
+\begin{equation}\label{clunky}
+\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert \geq \frac12\left\lvert \lvert f(\pi) \rvert^2 - 1\right\rvert.
+\end{equation}
+
+The previous inequality can be slightly strengthened:
+
+\begin{prop}
+The inequality in proposition \ref{propheisenbergtorus} is strict. That is, under the same hypotheses,
+\[
+\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert > \frac12.
+\]
+\end{prop}
+
+\begin{proof}
+Note that, for equality to happen, we would have needed to have equality in the Cauchy-Schwarz step. In other words, $f$ would have to satisfy an equation of the form
+\[t f(t) = C f'(t), \; \text{a.e.} t \in \left]-\pi, \pi\right[.\]
+
+Classical ODE arguments show that the only solutions to this are the gaussians, but a non-null gaussian does not satisfy $f(\pi) = 0$, and so does not satisfy the hypotheses of the theorem.
+\end{proof}
+
+Despite this, we can show that the inequality is sharp, by making use of inequality \eqref{clunky}. Indeed, let $f_K(t) = C_K \e^{- K t^2}$ for $t \in \left]-\pi, \pi\right[$, where $C_K > 0$ is picked to make the $L^2$ norm of $f$ equal to 1. We can study $C_K$ as follows:
+
+We know $C_K = \left( \frac1{2 \pi} \int_{-\pi}^\pi \e^{-2 K t^2} \dd t \right)^{-1/2}$. By an easy change of variable, as $K \to \infty$, we have that $\frac1{\sqrt{K}} C_K$ goes to $\sqrt \pi$.
+
+Now, since $f_K$ satisfies an equation of the form $t f_K(t) = c f'(t)$, we have equality in the Cauchy-Schwarz step of proposition \ref{propheisenbergtorus}, and since this function is real all the other steps also satisfy equality, leading to
+\[\lVert t f(t) \rVert_2 \lVert n \hat f(n) \rVert_2 = \frac12(1 - C_K \e^{- K \pi^2}).\]
+
+Therefore, if we let $g_K(t) = f_K(t) - f_K(\pi)$, by the triangular inequality:
+\begin{align*}
+\lVert t g_K(t) \rVert \lVert n \hat g_K(n) \rVert &\leq \lVert t f_K(t) \rVert \lVert n \hat f_K(n) \rVert + \lVert t f_K(\pi) \rVert \lVert n \hat f_K(n) \rVert\\
+&= \frac12 - f_K(\pi)^2 + f_K(\pi) \lVert t \rVert \lVert n \hat f_K(n) \rVert.
+\end{align*}
+
+It is easy to see that $f_K(\pi) \sim \sqrt K \e^{- \pi^2 K} \to 0$, so we need now only inspect the term $f_K(\pi) \lVert n \hat f_K(n) \rVert$. We know that this is the same as $f_K(\pi) \lVert f_K' \rVert$, and this last norm can be calculated explicitly:
+\[\lVert f_K' \rVert^2 = \frac1{2 \pi} \int_{-\pi}^\pi \lvert - 2 C_K K t \e^{- K t^2} \rvert^2 \dd t.\]
+Since $t \in \left]-\pi, \pi\right[$, this can be bounded from above by $2 \pi K^2 \lVert f_K \rVert^2 = 2 \pi K^2$, which grows far slower than $f_K(\pi)$ goes to zero, and so it is easy to conclude that
+
+\[\lim_{K \to \infty} \lVert t g_K(t) \rVert \lVert n \hat g_K(n) \rVert = \frac12.\]
+
+Which shows the sharpness of the inequality.
+
+
+\bibliography{citations}{}
+\bibliographystyle{plain}
+
+\end{document}

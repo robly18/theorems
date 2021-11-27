@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist{label=\alph*)}
+
+\title{Differential Geometry Homework 1}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\DeclareMathOperator{\inte}{int}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Show that $U(n)$ is a smooth manifold of dimension $n^2$.
+\end{ex}
+
+\begin{sol}
+Consider the function
+\begin{align*}
+f \colon M_n(\C) &\to S_n\\
+A &\mapsto A^* A,
+\end{align*}
+where $S_n$ is the vector space of $n \times n$ complex matrices which are self-adjoint. It is obvious that this vector space has dimension $n^2$.
+
+We wish to show that $I$ is a regular value of $f$. To this effect, let $f(A) = I$, and let us calculate $(\dl f)_A$.
+
+Let $B$ be an $n \times n$ complex matrix, identified with a vector tangent to $A$. This vector is the derivative of the curve $A + tB$, so we may calculate
+\begin{multline*}
+(\dl f)_A(B) = \diff{}t[0] f(A + tB)\\
+=\diff{}t \left(A^* A + t (A^* B + B^* A) + t^2 B^* B \right) = A^* B + B^* A.
+\end{multline*}
+
+Consequently, to show that $A$ is a regular point, it suffices to show that for all symmetric matrices $C$, there exists $B$ such that $C = A^* B + B^* A$. To this effect, we simply guess: plugging $B = \frac12 A C$ yields
+\[(\dl f)_A(B) = \frac12 \cancel{A^* A} C + \frac12 C^* \cancel{A^* A} = C,\]
+where we used the fact that $A^* A = I$ and $C = C^*$.
+
+We are therefore in the hypotheses of the regular value theorem, which yields that $U(n) = f^{-1}(I)$ is an embedded submanifold of $M_n(\C)$, whose dimension is
+\[\dim M_n(\C) - \dim S_n = 2 n^2 - n^2 = n^2.\]
+\end{sol}
+
+\begin{ex}
+Let $X$ and $Y$ be smooth manifolds of the same dimension such that $X$ is compact and $Y$ is connected. Let $f \colon X \to Y$ be a submersion. Show that $f$ is a finite covering map, that is:
+
+\begin{enumerate}
+\item $f$ is surjective
+
+\item For all $q \in Y$, the preimage of $q$ is finite (say $p_1, \dots, p_k$) and there exists a neighborhood of $q$, say $V$, such that $f^{-1}(V)$ is a collection disjoint neighborhoods of the $p_i$ such that $f$ is a diffeomorphism from each of these to $V$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+First, we show that $f$ is surjective. Note that since $f$ is a submersion and $X$ and $Y$ have the same dimension, $f$ is a local diffeomorphism, that is: for all $x \in X$ there exists a coordinate neighborhood of $x$ and one of $f(x)$ such that $f$ is the identity in coordinates. This is a simple consequence of the normal form theorem for submersions.
+
+Since $f$ is a local diffeomorphism, it is trivial to show that it is also open, so $f(X)$ is open in $Y$. It is also open, because it is the image of a compact. Since $Y$ is connected, we have shown that $f(X)$ is either empty or $Y$, but the empty set is not a manifold I guess so $X \neq \emptyset$ and so $f(X) \neq \emptyset$.
+
+Now we show the stack of pancakes property. Let $q \in Y$. Then, $f^{-1}(q)$ is a closed set in $X$, hence it is compact. Furthermore, since $f$ is a local diffeomorphism, for each $p \in f^{-1}(q)$ there is a neighborhood of $p$ which does not intersect any other element of $f^{-1}(q)$, which means that $f^{-1}(q)$ is a discrete space in the subspace topology. A discrete compact space must be finite, so $f^{-1}(q)$ contains finitely many elements, say $p_1, \dots, p_k$.
+
+Now, for each $p_i$ there exists a neighborhood $U_i$ of $p_i$ and $V_i$ of $q$ such that $f$ is a diffeomorphism between $U_i$ and $V_i$. Taking the intersection of all $V_i$, call it $V$, and shrinking the $U_i$ accordingly, we obtain that all $U_i$ are diffeomorphic (though $f$) to $V$. It suffices to show (by possibly shrinking first) that all $U_i$ are disjoint.
+
+To this effect, for each $i$ construct a compact neighborhood $W_i$ of $p_i$ such that $p \in \inte W_i \subseteq W_i \subseteq U_i$. Then, replace each $U_i$ by
+\[U'_i = \inte W_i \setminus \bigcup_{j \neq i} W_j.\]
+
+Clearly all the $U'_i$ are disjoint neighborhoods of $p_i$, and $f$ restricted to each is still a diffeomorphism to some neighborhood of $q$. We may therefore repeat the shrinking argument used to replace all the $V_i$ by their intersection, and the proof is complete.
+\end{sol}
+
+\begin{ex}
+Show that the embedding $\PP\R^1 \hookrightarrow \PP\R^2$ cannot be obtained as a regular level set of a smooth map $\PP\R^2 \to \R$.
+\end{ex}
+
+\begin{sol}
+Simply note that $\PP\R^2 \setminus \PP\R^1$ is topologically equivalent to the plane (we removed the `line at infinity' from the projective plane), and so is connected.
+
+If there was a smooth map $f \colon \PP\R^2 \to \R$ whose preimage of, say, $0$, were $\PP\R^1$, then $f$ must take a constant sign on $\PP\R^2 \setminus \PP\R^1$, and then 0 must either be a minimum or a maximum of $f$. But regular values cannot be minima or maxima, for if $f(q) = 0$ for some regular point $q$, by definition of regular point it is easy to check that some positive and some negative values must be attained near $q$. This contradiction shows that $\PP\R^1$ is not the level set of any regular value of any function $\PP\R^2 \to \R$.
+\end{sol}
+
+\end{document}
