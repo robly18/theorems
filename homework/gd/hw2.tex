@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{mathtools}
 
 \usepackage[thmmarks, amsmath]{ntheorem}
 
@@ -30,6 +31,7 @@
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
 
 \newcommand{\PP}{\mathbb{P}}
 \newcommand{\FF}{\mathcal{F}}
@@ -41,6 +43,8 @@
 \DeclareMathOperator{\inte}{int}
 \DeclareMathOperator{\codim}{codim}
 \newcommand{\grad}{\nabla}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
 
 \begin{document}
 \maketitle
@@ -146,7 +150,100 @@ To show that it is a foliation, we note that it is the pullback of the 0-foliati
 
 \medskip
 
-b) 
+b) Consider the function $p(z,w) = (\norm z^2 - \norm w^2, 2z\overline{w})$. This function goes from $S^3$ to $S^2$, where $S^2$ is given by
+\[ S^2 = \{\, (h,z) \mid h \in \R, z \in \C, h^2 + \norm z^2 = 1\,\}.\]
+
+It is clear that $p$ is a smooth function from $S^3$ to $\R^3$, and since its image is contained in $S^2$ it restricts to a smooth function $S^3 \to S^2$. Furthermore, it is obvious that it is invariant with respect to the action of $U(1)$, so $p$ lifts to some smooth function
+\[\tilde p \colon S^3 / U(1) \to S^2.\]
+
+We now show that $\tilde p$ is a diffeomorphism. We need to show three things: 1) $\tilde p$ is injective, 2) $\tilde p$ is surjective and 3) $\dl \tilde p$ is an isomorphism.
+
+1) We will show that if $p(z,w) = p(z',w')$ then there exists a unit complex number $u$ such that $z' = uz$ and $w' = uw$.
+
+First, we point out that, due to the definition of $S^3$, the first entry of $p(z,w)$ can be written as
+\[\norm z^2 - \norm w^2 = 2 \norm z^2 - 1 = 1 - 2 \norm w^2.\]
+
+Consequently, from $p(z,w) = p(z',w')$ we conclude that $\norm z = \norm{z'}$ and $\norm w = \norm{w'}$, and so there exist $u$ and $v$ unit complex numbers such that
+\[z' = u z \text{ and } w' = v w.\]
+
+We need now only show that we can pick $u$ and $v$ to be the same. In the case where either $z$, $w$, $z'$ or $w'$ is null, we may freely change the corresponding unit complex and the statement is proven, so we now assume that none of them is null. Then, since $p(z,w) = p(uz,vw)$, we obtain
+\[2 z w = 2 u z \overline{v w} = 2 u \overline v z \overline w.\]
+
+Since $2zw \neq 0$, we may divide out to obtain $u \overline v = 1$, and since these are unit complex numbers we conclude $u = v$. The proof of injectivity is complete.
+
+2) To show surjectivity, let $h \in \R$ and $a \in \C$ with $h^2 + \norm a^2 = 1$, i.e. $(h,a) \in S^2$. Consider $z = \sqrt{\frac{h+1}2}$, which is a real number because $h$ is at least $-1$. Then, let
+\[w = \frac{\overline a}{2z} \text{ if $z \neq 0$, and $w = 1$ otherwise.}\]
+
+Then, we claim that $(z,w)$ is a point in $S^3$ whose image under $p$ is $(h,a)$.
+
+First we check that $(z,w) \in S^3$. The case where $z = 0$ is trivial, so we focus on the other case:
+\begin{multline*}
+\norm z^2 + \norm w^2 = z^2 + \frac{\norm a^2}{4z^2} = \frac{4z^4 + \norm a^2}{4z^2}\\
+= \frac{(h+1)^2 + \norm a^2}{2(h+1)} = \frac{2 h + 1 + h^2 + \norm a^2}{2(h+1)} = \frac{2h + 2}{2(h+1)} = 1.
+\end{multline*}
+
+Next, we check that $p(z,w) = (h,a)$. If $z = 0$ then $h = -1$ and $a = 0$, so clearly $p(z,w) = (h,a)$ in this case. Otherwise, similar computations to the above will show that
+\begin{gather*}
+\norm z^2 + \norm w^2 = \frac{2 h + 1 + h^2 - \norm a^2}{2(h+1)} = \frac{2 h + 2 h^2}{2(h+1)} = h,\\
+2 z \overline w = a.
+\end{gather*}
+
+This completes the proof of surjectivity.
+
+3) To prove that $\dl \tilde p$ is an isomorphism, we will show that $\dl p$ is surjective. This will work because if $\dl p = (\dl \pi) \circ (\dl \tilde p)$ is surjective, so is $\dl \tilde p$, and dimensional considerations imply that it is an isomorphism.
+
+First, we calculate $\dl p$, where we see $p$ as a function from $\R^4$ to $\R^3$. In this case,
+\[(\dl p)_{z,w} = 2 \cdot \begin{bmatrix}
+z_r & z_i & -w_r & -w_i\\
+w_r & w_i & z_r & z_i\\
+- w_i & w_r & z_i & - z_r
+\end{bmatrix},\]
+where the subscripts denote real and imaginary part.
+
+We want to show that this matrix is surjective from the tangent space to $S^3$ to the tangent space to $S^2$, at $(z,w)$ and $p(z,w)$ respectively. It suffices to show that this matrix has characteristic three, as this implies a one-dimensional kernel from $\R^4$ to $\R^3$, which in turn implies that its kernel from $T_{z,w}S^3$ to $T_{p(z,w)}S^2$ has dimension at most one and so the image has dimension at least two. But this matrix clearly has characteristic three, as its rows are orthonormal (this is really really easy to check). This concludes the proof of surjectivity of $\dl \tilde p$, and hence that $\tilde p$ is a diffeomorphism.
+
+\medskip
+
+c) We know that one of the leaves of the Reeb foliation is given by the torus $\norm z^2 = \norm w^2 = 1/2$. But this leaf is closed under the action of $U(1)$ on $S^3$, as it does not change the norm of neither $z$ nor $w$. Consequently, for any point $(z,w)$ on this torus $T_{z,w} \FF_{\text{Reeb}} + T_{z,w} \FF_{\text{Orbits}} = T_{z,w} \FF_{\text{Reeb}}$, which is two-dimensional and therefore cannot be the entire tangent space. This shows that these two foliations are not transverse.
+
+\end{sol}
+
+\begin{ex}
+Consider the action above, restricted to $\Z_p$, which we see as a subset of $U(1)$ via the identification $[1]_{\Z_p} \approx \e^{2 \I \pi \frac qp}$.
+
+\begin{enumerate}
+\item Show that this is a properly discontinuous action.
+
+\item Show that this action commutes with the action of $U(1)$. Show that the action of $U(1)$ on $S^3/\Z_p$ induced by the action of $U(1)$ on $S^3$ is not free.
+
+\item Show that the action of $U(1)$ on $S^3/\Z_p$ given by
+\[u \cdot [z,w] = [\sqrt[p]{u} \cdot (z,w)]\]
+is free and proper. Show that the resulting quotient is isomorphic to $S^2$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) (This is not in the problem statement, but I think it should be:) We will first show that the action is free. This is true because if $u \cdot (z,w) = (z,w)$ then $u z = z$ and $u w = w$. It is always true that either $z$ or $w$ is nonzero, so we conclude that $u = 1 = [0]$.
+
+Now we show that it is properly discontinuous. A free action is properly discontinuous iff the following two properties are satisfied:
+\begin{enumerate}
+\item For all $p$ there exists a neighborhood $U$ of $p$ which is disjoint from $g \cdot U$ for all $g \neq e$,
+\item For all $p \neq q$ there exist neighborhoods $U$ of $p$ and $V$ of $q$ such that $U$ is disjoint from $g \cdot V$ for all $g$.
+\end{enumerate}
+
+Now, since the group $\Z_p$ is finite and the action is smooth (I think this should be in the problem statement too? But it is obvious) and therefore the elements act homeomorphically, property (b) is simply a consequence of the sphere being Hausdorff, as you build disjoint $U$ and $V$ for the pair $(p,g \cdot q)$ for each $g$, and intersect all the $U$ and all the $g^{-1} V$. Therefore, it remains to show property (a), but a similar argument goes, because the action is free, continuous and the space is Hausdorff. In fact, I think this whole argument shows that any free smooth action of a finite group is properly discontinuous. The more you know.
+
+\medskip
+
+b) Since we are seeing $\Z_p$ as a subset of $U(1)$, and acting as such, the fact that the actions of these two groups commute is a simple consequence of the commutativity of $U(1)$.
+
+The fact that the induced action of $U(1)$ on the quotient is not free (for $p>1$!!! This should also be in the statement) is equally trivial, as any element of $\Z_p$ acts trivially on any element of the quotient, so we may consider any element of $\Z_p$ distinct from the identity as an example of a non-identity element whose action has fixed points.
+
+\medskip
+
+c) This new action is clearly free, as 
+
+
 \end{sol}
 
 \end{document}
