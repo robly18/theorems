@@ -1,0 +1,152 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist{label=\alph*)}
+
+\title{Differential Geometry Homework 2}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $\FF_1$ and $\FF_2$ be two foliations of $M$.
+\begin{enumerate}
+\item Give an appropriate definition for transversality.
+
+\item If $\FF_1 \pitchfork \FF_2$, define $\FF_1 \cap \FF_2$ and compute its codimension.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) We will say that two foliations are transverse if its leaves are pairwise transverse.
+
+\medskip
+
+b) We define $\FF = \FF_1 \cap \FF_2$ as the foliation whose leaves are connected components of pairwise intersections of leaves of $\FF_1$ with leaves of $\FF_2$. We will show that this is a foliation of codimension equal to $\codim \FF_1 + \codim \FF_2$.
+
+To be more precise, let $L^1_\alpha$ be the leaves of $\FF_1$ and $L^2_\beta$ be the leaves of $\FF_2$. Define $L_{\alpha\beta} := L^1_\alpha \cap L^2_\beta$, and decompose $L_{\alpha\beta}$ into its connected components $L_{\alpha\beta1}, L_{\alpha\beta2}, \dots$. (There may be a finite or infinite number of connected components, or none if $L_{\alpha\beta} = \emptyset$.) These $L_{\alpha\beta k}$ are the leaves of $\FF$.
+
+It is obvious that these leaves are all disjoint and that they form a partition of $M$. We will now verify that each point is covered by a foliated chart.
+
+The main result necessary to this effect is the following: if $\FF_1 \pitchfork \FF_2$, near every point $p$ there exist coordinates $(x,y,z)$ such that $((x,y),z)$ is a foliated chart for $\FF_1$ and $((x,z),y)$ is a foliated chart for $\FF_2$. Once this result is proven, we will be able to write foliated charts for $\FF_1 \cap \FF_2$ as $(x,(y,z))$.
+
+To this effect, let $p \in M$ and suppose that $(x',z)$ is a foliated chart around $p$ for $\FF_1$, and that $(x'',y)$ is a foliated chart around $p$ for $\FF_2$. The first step is to show that the functions $y^i$ and $z^i$ are independent, in the sense that all the $\dl y^i$ and $\dl z^i$ are linearly independent. Once this is done, we know that we can find a coordinate chart of the form $(x,y,z)$ near $p$, and the next step is to show that this chart satisfies the desired conditions.
+
+To show that all the $\dl y^i$ and $\dl z^i$ are linearly independent, let us consider the collection of vectors $\partial_{x'^i}$ and $\partial_{x''^i}$. These vectors span the tangent spaces to the leaves of $\FF_1$ and $\FF_2$ respectively, and the transversality hypothesis tells us that the collection of all these vectors, call it $G$, generates the tangent spaces to $M$. Consequently, a one-form is null if and only if it is null when tested on all vectors of $G$. With this in mind, to show that all the $\dl y^i$ and $\dl z^i$ are linearly independent, suppose that we are given a linear combination of these that equals zero:
+\[\sum a_i \dl y^i + \sum b_j \dl z^j = 0.\]
+
+Evaluating it on all the $\partial_{x''^*}$ yields
+\[\sum a_i \dl y^i(\partial_{x''^*}) = 0,\]
+because all $\dl z^j(\partial_{x''^*})$ are null. In turn, since all $\dl y^i(\partial_{x'^*})$ are null, we conclude that the form $\sum a_i \dl y^i$ is null when evaluated on all vectors of $G$, and hence
+\[\sum a_i \dl y^i = 0.\]
+
+Finally, by linear independence of the $\dl y^i$, we conclude that all the $a_i$ are null. A similar argument goes to show that all the $b_j$ are null, and the proof that the $\dl y^i$ and $\dl z^j$ are linearly independent is complete.
+
+We are finally able to build our $(x,y,z)$ chart, so it remains to show that it is foliated in the three ways outlined above. Suppose without loss of generality that this chart is a (coordinate) rectangle so that there are no problems with connectivity. Clearly, the level sets of $z$ connected components of the leaves, because they were so in the $(x',z)$ chart and decreasing the domain of the chart cannot join different connected components. This shows that $((x,y),z)$ is a foliated chart for $\FF_1$, and the same argument shows that $((x,z),y)$ is a foliated chart for $\FF_2$. Finally, we show that $(x,(y,z))$ is a foliated chart for $\FF_1 \cap \FF_2$. Indeed, the level sets of $(y,z)$ are all contained in the same leaf of the intersection, because they are all in the same leaf $L^1_\alpha$ of $\FF_1$ and $L^2_\beta$ $\FF_2$, and since these level sets are connected they are all in the same connected component of $L_{\alpha\beta}$.
+
+We need only show that the level sets are precisely the connected components. To this effect, consider a path $\gamma$, contained in the $(x,y,z)$ chart, contained in the same leaf $L_{\alpha\beta k}$. We will show that all points of $\gamma$ have the same $(y,z)$ coordinates. Well, this path is entirely contained in the leaf $L^1_\alpha$ and in the $(x',z)$ chart, so the $z$ coordinate must be fixed. The same argument works to show that $y$ is fixed. Consequently, any in the $(x,y,z)$ chart which never leaves the same leaf has $(y,z)$ fixed, which shows that the level sets of $(y,z)$ are indeed the connected components of the leaves. This completes the proof that $\FF_1 \cap \FF_2$ is indeed a foliation.
+\end{sol}
+
+\begin{ex}
+Show that $\FF$ is simple iff $M/\FF$ has a smooth structure such that $\pi$ is a submersion.
+\end{ex}
+
+\begin{sol}
+$(\leftarrow)$ If $M/\FF$ has a smooth structure such that $\pi$ is a submersion, then it is trivial to construct foliated charts such where each $y$ corresponds to exactly one leaf. Indeed, given $p \in M$, pick a coordinate chart $(x,y)$ around $p$ and another around $\pi(p)$ where $\pi$ looks in coordinates like
+\[\pi(x,y) = y.\]
+
+Shrink the neighborhood of $p$ into a rectangle so that we do not have problems with connectedness, and it suffices to show: $(x,y)$ and $(x',y')$ are in the same leaf iff $y = y'$. But both of these statements are equivalent to saying $\pi(x,y) = \pi(x',y')$.
+
+\medskip
+
+$(\rightarrow)$ We assume that $\FF$ is simple, and construct a smooth structure on $M/\FF$.
+
+First, we construct coordinate charts on $M/\FF$ as follows. Given $p \in M$, consider a rectangular foliated chart $(V, (x,y))$ around $p$ such that each leaf intersects $V$ exactly once. In other words, leaves are identified by their $y$ coordinate. Therefore, it is natural to consider $U \subseteq M/\FF$ as the set of leaves which intersect $V$, and to define $\tilde y$ on $U$ as the lift of $y$. If we define such a $U$ and $\tilde y$ for each $p \in M$, the collection of all the $U$ will cover $M/\FF$, and it remains to show that 1) each $U$ is open and $\tilde y$ is a homeomorphism, and 2) the transitions between the $\tilde y$ are smooth.
+
+To show 1), we prove that the projection map $\pi$ is open. Once we do so, $U$ is clearly open as $U = \pi(V)$. Furthermore, $\tilde y$ is continuous because given an open $W \subseteq \R^{n-k}$ (where $n$ is the dimension of $M$ and $k$ is the rank of $\FF$) we get
+\[\tilde y^{-1}(W) = \{\,L \in \FF \mid  \exists_{(x,y)\in V \cap L}\, y \in W \,\} = \pi(V_1 \times (W\cap V_2)),\]
+where $V = V_1 \times V_2$.\footnote{This is kind of wrong because $V$ lives in the manifold, not $\R^n$, and so this decomposition as a cartesian product makes no sense, but it should be clear what's going on here (we're doing math in $(x,y)$ coordinates) and writing it out with properly correct notation would be a gigantic mess, so I kept it like this.}
+This set is clearly open. Finally, $\tilde y$ is open because, given an open $U_0 \subseteq U$, $V_0 = \pi^{-1}(U_0)$ is open, and
+\[\tilde y(U_0) = y(V \cap V_0) = \pi_2((x,y)(V \cap V_0)).\]
+
+Since $\pi_2$ is open (as a map from an open in $\R^n$ to $\R^{n-k}$) and $(x,y)$ is a homeomorphism, $\tilde y(U_0)$ is open.
+
+We now prove that $\pi$ is open. In other words, if $V \subseteq M$ is an open set, we wish to show that $\pi^{-1} \pi(V)$ is open. To this effect, for each $p \in \pi^{-1}\pi(V)$ we construct a neighborhood of $p$ whose points are all in $\pi^{-1}\pi(V)$.
+
+Let $L$ be the leaf containing $p$. By hypothesis, this leaf intersects $V$ at some point $q$. Consider a path of plaques $P_1, \dots, P_k$ going from $q$ to $p$. We will build a neighborhood of $p$ inductively on $k$. In order to simplify the exposition, we will only do the cases $k = 1$ and $k = 2$, but the general case is very similar.
+
+For $k = 1$, pick the foliated chart $U$ which contains $p$ and $q$. Then, we build the neighborhood of $p$ in coordinates by considering $U \cap V$ in coordinates and `stretching it out horizontally', i.e. defining $V_0 = \pi_1(U) \times \pi_2(U \cap V)$ in coordinates. Since $p$ and $q$ have the same $y$ coordinate and $q \in U \cap V$, this is evidently a neighborhood of $p$ whose elements are all in leaves which intersect $V$.
+
+For $k = 2$, let $p_0 \in P_1 \cap P_2$. We repeat the process above for $p_0$, obtaining a neighborhood $V_0$ of $p_0$ whose elements are all in leaves which intersect $V$. Now, we repeat the process on $p$, with $V$ as $V_0$ and $q$ as $p_0$, building a neighborhood $V_1$ of $p$. Every point in this neighborhood has its leaf intersecting $V_0$, which in turn implies that every point in $V_1$ has its leaf intersecting $V$. Consequently, $V_1$ is also a neighborhood of $p$ contained in $\pi^{-1}\pi(V)$. Again, this strategy is easily seen to work for higher $k$, and the proof that $\pi$ is open is complete.
+
+We now turn to showing 2), that is, that the transition maps between the $\tilde y$ are smooth. To this effect, let $(x,y)$ and $(x',y')$ be two coordinate charts, and construct the respective lifts $\tilde y$ and $\tilde y'$. Consider a leaf $L$ which is in both the $\tilde y$ and the $\tilde y'$ chart. We will build a neighborhood of $\tilde y(L)$ where the function $\varphi = \tilde y' \circ \tilde y$ is a diffeomorphism.
+
+The idea is the following. Consider a path of plaques of $L$, say $P_1, \dots, P_k$, which goes from the $(x,y)$ chart to the $(x',y')$ chart. For each foliated chart associated to each $P_i$ we may define a new $\tilde y_i$. The idea is to show that the transition between each $\tilde y_i$ to $\tilde y_{i+1}$ is smooth near $L$. Therefore, it suffices to suppose $k = 2$, as this proof will immediately generalize to any $k$.
+
+Consequently, we suppose that $\tilde y$ and $\tilde y'$ are based on coordinate charts $(x,y)$ and $(x',y')$ which have in common a point $p \in L$. In a neighborhood $U$ of this point, the transition from $(x,y)$ to $(x',y')$ is smooth. From this we may deduce that the transition from $\tilde y$ to $\tilde y'$ is smooth in $\pi(U)$, because it can, for example, be calculated using the following sequence of smooth operations. Suppose that $p$ has local coordinates $(x_0,y_0)$.
+\[\tilde y \xrightarrow{\text{Insert into $(x,y)$ chart}} (x_0,\tilde y) \xrightarrow{\text{Transition map}} (x', y') \xrightarrow{\pi} \tilde y'.\]
+
+In other words, instead of calculating the transition map between $\tilde y$ and $\tilde y'$ by taking a value for $\tilde y$, calculating the leaf corresponding to it, and calculating $\tilde y'$ of that leaf, we are calculating a point on that leaf in $(x,y)$ coordinates (in a smooth way), followed by transitioning to $(x',y')$ coordinates and projecting on the $y'$ axis.
+
+This completes the proof of smoothness of transitions, and we have finally finished the exercise.
+\end{sol}
+
+\begin{ex}
+Consider the action of $U(1)$ on $S^3$.
+\begin{enumerate}
+\item Show that the orbits of the action define a 1-dimensional simple foliation $\FF$ of $S^3$.
+
+\item Show that $S^3/U(1)$ is diffeomorphic to $S^2$.
+
+\item Show that $\FF$ is not transverse to the Reeb foliation.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) Since the action is smooth and proper, the quotient $S^3/U(1)$ is a smooth manifold and the quotient map is a submersion. Furthermore, this quotient is by definition the quotient $S^3/\FF$, where $\FF$ is the collection of orbits of the action. If we show that $\FF$ is a foliation, exercise 1 guarantees that it is a simple foliation.
+
+To show that it is a foliation, we note that it is the pullback of the 0-foliation of the quotient space. In other words, we may consider $\FF_0$ as the foliation on the quotient whose leaves are just the points, and so when we pull it back via $\pi$ we obtain $\FF = \pi^*(\FF_0)$.\footnote{This actually requires checking one detail, which is that the orbits are connected, but that is just a matter of noticing that the orbits are diffeomorphic to $U(1)$, which is connected.} This is a well-defined foliation because $\pi$ is transverse to $\FF_0$, because $\pi$ is a submersion.
+
+\medskip
+
+b) 
+\end{sol}
+
+\end{document}

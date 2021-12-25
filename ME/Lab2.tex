@@ -1,0 +1,462 @@
+
+\documentclass[11pt]{article}
+\headheight0pt \textwidth17.9cm     \textheight24.8cm \topmargin -1.0cm
+\oddsidemargin -0.8cm \evensidemargin -0.8cm \baselineskip18pt \headsep0pt
+\topskip1.5ex
+\parskip0em
+% \input option_keysplus
+\pagestyle{empty}
+\newcommand{\real}{{\rm I\!\!\,R}}
+\usepackage{amsfonts,euscript,eufrak,latexsym,amssymb}
+\usepackage[english,portuges]{babel}
+\usepackage{inputenc}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{color}
+
+\begin{document}
+
+
+
+
+
+\noindent {\bf Sec\c{c}\~{a}o de Matem\'{a}tica Aplicada e
+An\'alise Num\'erica}
+
+\noindent Departamento de  Matem\'atica/Instituto Superior
+T\'ecnico \vspace{3mm}
+
+\noindent {{\bf Matem\'atica Experimental }} ({\small LMAC}) -- 1$^{\rm o}$ Semestre de 2021/2022\\
+
+\vspace{-5mm}
+
+\begin{center}
+{\bf   Aula Laboratorial II  } \vspace{6mm}
+\end{center}
+
+\vspace{-1cm}
+
+
+\section{Defini\c{c}\~ao de fun\c{c}\~oes }
+
+
+
+Uma fun\c{c}\~ao pode ser traduzida em c\'odigo Mathematica ou por \textsl{abstra\c{c}\~ao funcional} ou por \textsl{atribui\c{c}\~ao param\'etrica}.
+
+
+\begin{itemize}
+
+\item[a)]  Para definir a fun\c{c}\~ao $f(x) = x \,\sin x$   por  atribui\c{c}\~ao param\'etrica escrevemos
+$
+f[x\_]:=x\, Sin[x]
+$,
+onde o s\'\i mbolo $\_$  (\texttt{Blank})  permite que o argumento $x$ possa ser substitu\'\i do por qualquer express\~ao.  O \texttt{Blank}  \'e um \textsl{padr\~ao} (ou \textsl{molde}),  indispens\'avel para definir fun\c{c}\~oes. Experimente
+ \[\begin{array}{l}
+f[x\_]:=x\, Sin[x]    \vspace{1mm}\\
+\{f[1], f[Pi/2],f[1.0]\}  \vspace{1mm}\\
+g[x]:=x\, Sin[x];\, g[0] 
+\end{array}
+ \]
+
+Para poder observar a diferen\c{c}a entre definir uma fun\c{c}\~ao com atribui\c{c}\~ao \textsl{imediata} (=) (\texttt{Set}) ou \textsl{diferida} (:=) (\texttt{SetDelayed}),
+ execute as instru\c{c}\~oes a seguir  linha a linha
+
+
+ \[\begin{array}{l}
+Clear[f]    \vspace{1mm}\\
+f[x\_]:= Expand[x^2 + x + 1]  \vspace{1mm}\\
+ h[x\_]=Expand[x^2 + x + 1]  \vspace{1mm}\\
+f[1+\sqrt{2}] \vspace{1mm}\\
+ h[1+\sqrt{2}]\vspace{1mm}\\
+ Clear[h];x=2;\, h[x\_]=x\,Sin[x];\, h[0]
+\end{array}
+ \]
+
+ Consulte o \texttt{Help} sobre o comando \texttt{Expand} e explique porque  a defini\c{c}\~ao por atribui\c{c}\~ao imediata n\~ao \'e recomend\'avel.
+
+
+\item[b)]  A defini\c{c}\~ao da fun\c{c}\~ao $f(x) = x \, \sin x$  por abstra\c{c}\~ao funcional  \'e \texttt{f=Function[x,x Sin[x]]}. Uma fun\c{c}\~ao assim definida diz-se \textsl{pura}. Execute as instru\c{c}\~oes
+ \[\begin{array}{l}
+Clear[f,g,x]
+
+  \vspace{1mm}
+  
+   \\ 
+f[x\_]:= x\ Sin[x];  
+
+ \vspace{1mm}
+  
+   \\ 
+ g=Function[x,x\, Sin[x]]; 
+ 
+   \vspace{1mm}
+  
+   \\ 
+ \{Head[f], Head[g], f[x], g[x]\}
+\end{array} \]
+
+
+
+
+\item[c)]  Trace o gr\'afico da fun\c{c}\~ao $f(x) = x \,\sin x$ no intervalo $[-\pi,\pi]$.  Experimente as op\c{c}\~oes \texttt{AxesLabel, PlotLabel, Filling} e \texttt{GridLines}  do comando \texttt{Plot}. 
+  
+  Observe qual o efeito de cada uma das substitui\c{c}\~oes indicadas a seguir para \texttt{AspectRatio}
+
+ \[\begin{array}{l}
+Column[Table[
+  Plot[f[x], \{x, -\pi, \pi\}, AspectRatio \rightarrow a, 
+  
+  \vspace{1mm}
+  
+   \\ 
+\qquad \qquad    Frame \rightarrow True], \{a, \{Automatic, 2, 1, 1/GoldenRatio\}\}]]
+\end{array} \]
+
+
+    
+\pagebreak
+
+ \item[d)]   O comando \texttt{Map}[\textsl{fun\c{c}\~ao,dados}]  retorna uma lista constitu\'\i da  pelo resultado da aplica\c{c}\~ao da \textsl{fun\c{c}\~ao}  a cada elemento da lista \textsl{dados}. Experimente
+ \[\begin{array}{l}
+
+
+dados1=Range[5];
+
+        \vspace{1mm}
+\\
+
+
+Map[Function[x,x^2],dados1]
+ 
+         \vspace{1mm}
+\\
+
+PrimeQ[dados1]
+
+         \vspace{1mm}
+\\
+
+
+% dados2 = Table[i - j, \{i, 3, 4\}, \{j, 1, -1, -2\}]
+
+  %       \vspace{1mm}
+% \\
+
+
+%  Map[f,dados2]
+
+
+  %        \vspace{1mm}
+% \\
+
+%  Map[PrimeQ,dados2]
+
+
+ %         \vspace{1mm}
+% \\
+
+%  Flatten[dados2]
+
+  \end{array}
+ \]
+
+Interrogue o sistema sobre os comandos  \texttt{PrimeQ}.
+
+
+% \item[e)]  Define-se uma  sucess\~ao de fun\c{c}\~oes da forma
+% $f_n(x) = x \sin(nx), n = 1,2,\ldots $ em  \texttt{Mathematica} por:
+%  \[\begin{array}{l}
+% \texttt{Clear[f,x]; }
+  %  \vspace{1mm}\\
+ %  \texttt{f[n}\_ \texttt{Integer/;Positive[n]][x}\_\texttt{]:=\,x\,Sin[n}\ast \texttt{x]}
+ %   \end{array} \]
+
+   
+% Com  o seguinte c\'odigo obt\^em-se    
+% os gr\'aficos das fun\c{c}\~oes $f_n, n=1,2,3,4$ numa grelha
+ 
+%   \[\begin{array}{l}  
+%    gr = Table[
+  %  Plot[f[n][x], \{x, -\pi, \pi\}, AspectRatio \rightarrow Automatic,  
+   
+ %  \vspace{1mm}\\
+   
+   
+%   \qquad  \qquad \quad  PlotStyle \rightarrow Thickness[Medium], Filling \rightarrow Bottom, 
+  
+  
+ %    \vspace{1mm}\\
+     
+ %  \qquad  \qquad \quad     PlotLabel \rightarrow StringJoin[\texttt{\char"0D}\!\! \texttt{\char"0D}\texttt{n= }\texttt{\char"0D}\!\! \texttt{\char"0D}, ToString[n]], 
+    
+  %   \vspace{1mm}\\
+     
+ %  \qquad  \qquad \quad    LabelStyle \rightarrow Directive[Orange, Bold]], \{n, 1, 4\}];
+   
+ %       \vspace{2mm}\\
+   
+ %  GraphicsGrid[Partition[gr, 2],
+ % Frame \rightarrow True, ImageSize \rightarrow \{800, 300\},
+
+  %    \vspace{1mm}\\
+     
+%  \qquad  \qquad \quad   
+%  Background \rightarrow RGBColor[0.9, 1, 1], 
+ 
+ 
+  %     \vspace{1mm}\\
+     
+ %  \qquad  \qquad \quad  
+%  PlotLabel \rightarrow 
+%  Text[Style[
+ %   \texttt{\char"0D}\!\! \texttt{\char"0D}\texttt{x sin(nx)},  -\pi \leq \texttt{x} \leq \pi,  \texttt{1}\leq \texttt{n} \leq \texttt{4} \texttt{\char"0D}\!\! \texttt{\char"0D}, Bold, FontSize \rightarrow 16]]]
+
+
+ %    \end{array} \]
+    
+    
+  %  Consulte o \texttt{Help} sobre os comandos \texttt{Condition\,(/;), Positive, Partition, GraphicsGrid, Text, PlotStyle, LabeStyle} e \texttt{Style}. 
+ 
+\item[e)]   Uma fun\c{c}\~ao real de vari\'avel vectorial (um campo escalar) como $f(x,y) = \sin x \cos y$ define-se  em \texttt{Mathematica} por 
+$ \texttt{f[x\_,y\_]\,:= Sin[x]\,Cos[y]}$ ou  $\texttt{f = Function[\{x,\,y\},\,Sin[x]\,Cos[y]]}$.
+
+     
+ O gr\'afico de um campo escalar de duas vari\'aveis \'e uma superf\'\i cie em $\mathbb{R}^3$ dada pelo gr\'afico da equa\c{c}\~ao $z=f(x,y)$ no sistema de coordenadas $\mathcal{O}_{xyz}$. Experimente 
+\[\begin{array}{l}
+ Clear[f];  \   f[x\_,y\_] := Sin[x]\,Cos[y]; \
+Plot3D[f[x, y], \{x, 0, 2 \pi\}, \{y, 0, \pi\}].
+     \end{array} \]
+ 
+%  Analise ainda o efeito das diferentes op\c{c}\~oes na instru\c{c}\~ao
+ % \[\begin{array}{l}
+% Plot3D[f[x, y], \{x, 0, 2 \pi\}, \{y, 0, \pi \}, 
+%  ColorFunction \rightarrow Function[\{x, y,z\}, Hue[z]], \vspace{1mm}\\
+%  \qquad \quad PlotPoints \rightarrow \{100, 50\}, 
+%  AxesLabel \rightarrow \{    \texttt{\char"0D}\!\! \texttt{\char"0D}x    \texttt{\char"0D}\!\! \texttt{\char"0D},     \texttt{\char"0D}\!\! \texttt{\char"0D}y    \texttt{\char"0D}\!\! \texttt{\char"0D},     \texttt{\char"0D}\!\! \texttt{\char"0D}z    \texttt{\char"0D}\!\! \texttt{\char"0D}\},  \vspace{1mm}\\
+%   \qquad \quad  Ticks \rightarrow \{Automatic, Automatic, None\},  \
+%  Mesh \rightarrow None, 
+%  Background \rightarrow Pink, \vspace{1mm}\\
+%  \qquad \quad  AxesStyle \rightarrow  Directive[White, Bold, 14], 
+%  PlotRegion \rightarrow \{\{0.1, 0.9\}, \{0.1, 0.9\}\}]
+ %     \end{array} \]
+%  Observe o gr\'afico de diferentes \^angulos e consulte o \texttt{Help} sobre a op\c{c}\~ao \texttt{ColorFunction} e a directiva gr\'afica \texttt{Hue}. 
+ 
+\item[f)]   O comando \texttt{RegionPlot} permite desenhar regi\~oes do plano definidas por desigualdades. Experimente
+ \[\begin{array}{l}
+regionA = Abs[x] + 2 Abs[y] \leq 2\,;
+\vspace{2mm}\\
+regionB = x^2 + y^2 \leq 1\,;\vspace{2mm}\\
+GraphicsRow[\{RegionPlot[regionA, \{x, -2, 2\}, \{y, -2, 2\}, Axes \rightarrow True,
+    \vspace{2mm}\\ \qquad \qquad \qquad \qquad \qquad \qquad 
+    PlotLabel \rightarrow  \texttt{\char"0D}\!\! \texttt{\char"0D}\texttt{A} \texttt{\char"0D}\!\! \texttt{\char"0D}, PlotStyle \rightarrow Red\,],
+     \vspace{2mm}\\ \qquad   \qquad \qquad \quad RegionPlot[regionB, \{x, -2, 2\}, \{y, -2, 2\}, Axes \rightarrow True, 
+  \vspace{2mm}\\ \qquad \qquad \qquad \qquad \qquad \qquad PlotLabel \rightarrow  \texttt{\char"0D}\!\! \texttt{\char"0D} \texttt{B} \texttt{\char"0D}\!\! \texttt{\char"0D},    PlotStyle \rightarrow Red\,]\}]
+ \end{array} \]
+  Consulte o \texttt{Help} sobre os operadores l\'ogicos \texttt{And,\,Or,\,Xor,\,Nor} e  \texttt{Nand}.  Utilize os operadores, e os gr\'aficos anteriores, para desenhar a seguinte s\'erie de figuras
+ \begin{center}
+%\includegraphics[totalheight=3.5cm]{logical_graphs}
+\end{center}
+Obt\'em-se, por exemplo,   a primeira figura executando 
+ \[
+ \texttt{RegionPlot[And[regionA,regionB],\{x,2,2\},\{y,-2,2\},\,PlotLabel\,->\,"And[A,B]",\,PlotStyle\,->\,Red]}
+ \] 
+
+ 
+
+
+\end{itemize}
+
+
+\section{Derivadas}
+
+\begin{itemize}
+
+
+
+
+
+\item[a)]  O comando \texttt{D}[\textsl{f,var}] permite calcular a derivada parcial da fun\c{c}\~ao $f$ em rela\c{c}\~ao \`a vari\'avel $var$. Experimente (linha a linha)
+ \[\begin{array}{l}
+ Clear[f, g, x, y];\vspace{1mm}\\
+f = Function[x, Log[x]]; \vspace{1mm}\\
+g = Function[\{x, y\},  x^2 \ast  y^2];\vspace{1mm}\\
+D[f[x], x] \vspace{1mm}\\
+ D[f[x], \{x, 3\}] \vspace{1mm}\\
+D[g[x, y], x, y] \vspace{1mm}\\
+ D[g[x, y], x, x, y]
+\end{array}
+\]
+
+
+\item[b)]    A \textsl{fun\c{c}\~ao  derivada} de uma fun\c{c}\~ao  a uma vari\'avel pode ser determinada pelo comando  $f\texttt{\char"0D}$  ou \texttt{Derivative}[1][\textsl{f}].  Execute os comandos
+ \[\begin{array}{l}
+ f \texttt{\char"0D}[x]
+  \vspace{1mm}\\ 
+  Derivative[1][f][x]
+ \vspace{1mm}\\f \texttt{\char"0D}[2]
+   \vspace{1mm}\\ Derivative[1][f][2]  \vspace{1mm}\\ 
+   \texttt{Plot\big[\{f[x],f}\texttt{\char"0D}\texttt{[x]\},\{x,1,2\},PlotLegends}  \rightarrow \texttt{\char"0D} \!\! \texttt{\char"0D} \texttt{Expressions} \texttt{\char"0D} \!\! \texttt{\char"0D} \texttt{\big]}
+
+\end{array}
+\]
+
+\item[c)]  Observe com aten\c{c}\~ao o resultado de cada uma das instru\c{c}\~oes a seguir
+ \[\begin{array}{l}
+\texttt{f}\texttt{\char"0D}\!\texttt{[2.0]}
+\vspace{1mm}\\\texttt{D[f[x],x]/.x} \rightarrow \texttt{2.0}
+\vspace{1mm}\\ 
+\texttt{ReplaceAll}[\texttt{D[f[x],x],x} \rightarrow \texttt{1}]\vspace{1mm}\\ 
+\texttt{D\big[g[x,y],x,y\big]/.\{x}\rightarrow\texttt{2,y}\rightarrow\texttt{1\}}
+\vspace{1mm}\\ 
+\texttt{Derivative[2][f][x]}\vspace{1mm}\\ 
+\texttt{Derivative[1,1][g][x,y]}
+\end{array}
+\]
+Consulte o \texttt{Help} sobre os comandos \texttt{Derivative, D} e \texttt{ReplaceAll}. 
+
+% \item[d)]   Verifique as regras de deriva\c{c}\~ao que constam da tabela obtida pelo seguinte c\'odigo
+%  \[\begin{array}{l}
+% ClearAll[\texttt{\char"0D}\!\! \texttt{\char"0D}Global\  \mathaccent18{}    \,  {\ast}\texttt{\char"0D}\!\! \texttt{\char"0D}] \vspace{2mm}\\ 
+% u = f[x]; \, v = g[x];\vspace{1mm}\\ 
+% tabela = \{u\ v, u/v, u^n, Log[u], Composition[f,g][x], a^u\}; \vspace{2mm}\\ 
+ %   deriv = Simplify[D[tabela, x]]; \vspace{2mm}\\ 
+ %  Style[TableForm[Transpose[\{tabela, deriv\}], \vspace{1mm}\\ 
+%   \qquad 
+%   TableHeadings \rightarrow \{None, \{ \texttt{\char"0D}\!\! \texttt{\char"0D} \texttt{Fun\c{c}\~ao} \texttt{\char"0D}\!\! \texttt{\char"0D}, \texttt{\char"0D}\!\! \texttt{\char"0D} \texttt{Derivada} \texttt{\char"0D}\!\! \texttt{\char"0D}\}\}, 
+%   TableSpacing \rightarrow \{2, 2\}], 16]
+% \end{array}
+% \]
+
+
+\end{itemize} 
+
+
+
+
+
+  
+  \section{Problemas}   
+  \begin{itemize}
+  
+  
+
+\item[1.]    Considere a seguinte defini\c{c}\~ao da fun\c{c}\~ao de Collatz
+
+ \[\begin{array}{l}
+\texttt{T[n\textunderscore Integer/;OddQ[n]\&\&Positive[n]]:=\,3n\,+\,1;} \\ 
+\texttt{T[n\_Integer/;EvenQ[n]\&\&Positive[n]]:=\,n/2;}
+\end{array}
+ \]
+ 
+ \begin{itemize}
+ 
+ \item[a))]
+Teste a fun\c{c}\~ao para diferentes valores de \texttt{n}. Execute as instru\c{c}\~oes
+ \[\begin{array}{l}
+\texttt{NestList[T,n,20]}\\ 
+\texttt{NestWhileList[T,n,Function[x,x!=1]]}
+\end{array}
+ \]
+usando, por exemplo, \texttt{n=3,4,6,19,1000}.  Consulte o \texttt{Help} sobre os comandos \texttt{NestList} e \texttt{NestWhileList}. 
+
+
+
+
+\item[b)]   Execute as instru\c{c}\~oes a seguir para  reproduzir as figuras apresentadas na aula te\'orica
+
+ \[\begin{array}{l}
+\texttt{Collatz[n\_Integer/;n>=1]:=Module\big[\{x0=n,x1,niter,res\}, }
+\\
+ \texttt{niter=0; }\\
+ \texttt{res=\{x0\}; }\\ 
+  \texttt{
+  While[x0!=1,x1=T[x0]; } \\
+  \texttt{
+   AppendTo[res,x1]; } \\ 
+   \texttt{niter=niter+1;}\\
+ \texttt{x0=x1;}\\ 
+ \texttt{ ];}\\ 
+ \texttt{\{niter,res\}\big]}
+\end{array}
+ \]
+  \[\begin{array}{l}
+\texttt{  ListLinePlot\big[Table\big[\{k,Collatz[19][[2, k]]\},\{k,1,Length[Collatz[19][[2]]]\}\big], } \\ 
+\quad  \texttt{
+ PlotStyle\,->\,\{PointSize[0.02]\},\,BaseStyle\,->\,\{Bold,14\},}    \texttt{AxesOrigin\,->\,\{0,0\}, } \\
+\quad \texttt{ 
+ PlotRange\,->\,All,\,PlotLabel\,->\,n==19,\,PlotMarkers\,->\,Automatic,\,ImageSize\,->\,500}\big]
+\end{array}
+ \]
+Escolha outros valores para a iterada inicial \texttt{n}.  
+ 
+
+
+
+\item[c)]  O problema $5n+1$ \'e uma variante do problema de Collatz em que se define uma fun\c{c}\~ao iteradora \texttt{S} por
+ \[\begin{array}{l}
+\texttt{S[n\textunderscore Integer?EvenQ/;Mod[n,2]==0]:=n/2;} \\ 
+\texttt{S[n\_Integer/;(Mod[n,3]==0 \&\& Mod[n,2]!=0)]:=n/3;}\\
+\texttt{S[n\_Integer?OddQ/;Mod[n,3]!=0]:=5n+1;}
+\end{array}
+ \]
+Verifique que a  fun\c{c}\~ao  \texttt{S}  est\'a definida para todo o $n\in\mathbb{N}$. 
+
+Segundo a conjetura $5n+1$, qualquer que seja o inteiro inicial \texttt{n}, se aplicarmos a fun\c{c}\~ao \texttt{S} um n\'umero suficiente de vezes chegaremos inevitavelmente ao n\'umero $1$ ap\'os um n\'umero finito de passos.  Teste a conjetura executando as instru\c{c}\~oes
+
+ \[\begin{array}{l}
+\texttt{data\,=\,MatrixForm[Table[NestList[S,n,niter],\{n,nmax\}]];}\\
+\texttt{Style[data}\,\texttt{/.\{1\,->\,Style[1,Red,Bold]\},20] }
+\end{array}
+ \]
+para diferentes valores de \texttt{niter} e \texttt{nmax}. Determine os ciclos, e  os respectivos per\'\i odos, da itera\c{c}\~ao.  
+ Experimente ainda o comando
+\[
+\texttt{NestWhileList[S,n,Function[x,x!=1]]}
+\]
+escolhendo diferentes valores para $n$.
+
+   \underline{Resposta:} \ Existe apenas um ciclo $\{6,3,1\}$ de per\'\i odo $3$. 
+
+
+  \end{itemize}
+
+  
+   \item[2.]   Considere a seguinte  fun\c{c}\~ao definida por ramos
+ \[
+ \texttt{moll = Function\big[x,Piecewise\big[\{\{Exp[-1/\big(1-Abs[x]}^\texttt{2}\texttt{\big)],Abs[x]<1\},\{0,Abs[x]}\geq\texttt{1\}\}\big]\big]}
+      \]
+ 
+ \medskip
+ 
+ \noindent  
+ Define a fun\c{c}\~ao \texttt{moll} e execute as instru\c{c}\~oes
+  \[\begin{array}{l}
+  Plot[moll[x], \{x, -2, 2\}, AspectRatio \rightarrow 1/3]\vspace{2mm}\\ 
+  Table[Limit[D[moll[x], \{x, n\}], Abs[x] \rightarrow 1], \{n, 1, 6\}]
+  \end{array}
+ \]
+ A fun\c{c}\~ao \texttt{moll} diz-se \textsl{fun\c{c}\~ao molificadora}   ou \textsl{aproxima\c{c}\~ao da identidade}. \'E uma fun\c{c}\~ao suave  e de suporte compacto em $\mathbb{R}$. 
+
+\medskip
+
+
+
+\noindent   Define e desenhe  a fun\c{c}\~ao \texttt{hat} cujo gr\'afico \'e representado abaixo usando o comando \texttt{Piecewise}.
+
+
+ 
+   \begin{center}
+ %\includegraphics[totalheight=4.5cm]{hat}
+ \end{center}
+ Calcule os limites laterais de $\texttt{hat}\texttt{\char"0D}$ quando  $x\rightarrow -1,  x\rightarrow 0$ e $x\rightarrow 1$. 
+ \vspace{2mm}\\ 
+ (\underline{Sugest\~ao:} Consulte o \texttt{Help} sobre a op\c{c}\~ao \texttt{Direction} do comando \texttt{Limit}). 
+
+
+
+
+\end{itemize}
+
+
+
+ \end{document}
