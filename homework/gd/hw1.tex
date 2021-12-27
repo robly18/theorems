@@ -20,6 +20,7 @@
 \theorembodyfont{\upshape}
 \theoremseparator{.}
 \newtheorem{ex}{Exercise}
+\newtheorem{lemma}{Lemma}
 
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\itshape}
@@ -127,7 +128,38 @@ Starting with Sard's Theorem and the fact that any compact manifold embeds in so
 \end{ex}
 
 \begin{sol}
-???
+In this exercise, we actually only use the following corollary of Sard's Theorem:
+
+\begin{lemma}\label{l1}
+If $f \colon M \to N$ is a smooth function and $\dim N > \dim M$ then the image of $f$ has null measure.
+\end{lemma}
+
+Proof: Simply note that since the dimension of $N$ is greater than the dimension of $M$, the derivative can never be surjective, so the set of critical values coincides with the image. One may then apply Sard's theorem.
+
+Note: This requires a stronger version of Sard's theorem than the one stated in the homework. This will be necessary, because we will need to find a value which is regular for \emph{two} functions at the same time, and the statement of Sard's theorem which is in the homework sheet cannot guarantee that such a thing exists, as the intersection of two dense sets need not be dense.
+
+In what follows, we will prove that if $V$ is manifold of dimension $k$ embedded in $\R^n$, then almost all parallel projections onto $\R^{n-1}$ are injective for $n \geq 2k + 2$, and almost all of them induce an immersion of $V$ in $\R^{n-1}$ (not necessarily injective) for $n \geq 2k+1$. In particular, for $n \geq 2k+2$ almost all of them are injective immersions, which, given that $V$ is compact, are therefore embeddings.
+
+We define the following notation: given $v \in \R^{n-1}$, we define $P_v \colon \R^n \to \R^{n-1}$ as the projection parallel to $(v,1)$, defined as
+\[P_v(x) = (x_1 - x_n v_1, \dots, x_{n-1} - x_n v_{n-1}).\]
+
+We begin by proving that for almost all $v$, $P_v$ is an injective function $V \to \R^{n-1}$. To do so, define $\alpha$ as a function from the $2k$-dimensional manifold
+\[V^2 \setminus \Delta = \{\,(x,y) \mid x,y \in V, x_n \neq y_n\,\}\]
+
+(it is a manifold because it is an open subset of $V^2$) to $\R^{n-1}$ which corresponds to taking the straight line that passes through $x$ and $y$ and intersects it with $\R^{n-1}$. An explicit expression can be written out for it:
+\[\alpha(x,y) = \left(\frac{x_1 - y_1}{x_n - y_n}, \dots, \frac{x_{n-1}-y_{n-1}}{x_n-y_n}\right),\]
+which shows that $\alpha$ is smooth as a map from $\R^{2n} \setminus \Delta$, and composing with the inclusion shows that $\alpha$ is a smooth map
+\[\alpha \colon V^2 \setminus \Delta \to \R^{n-1}.\]
+
+With this in mind, lemma \ref{l1} shows that if $2k < n-1$ then the image of $\alpha$ has null measure. In other words, for almost all $v \in \R^{n-1}$ the function $P_v$ is injective, as failure of injectivity happens if and only if there exist $x, y \in V$, distinct, such that
+\[P_v(x) = P_v(y),\]
+which happens iff $x_i - x_n v_i = y_i - y_n v_i$ for all $i = 1, \dots, n-1$, which in turn happens iff
+\[x_i - y_i = (x_n - y_n) v_i, i = 1, \dots, n-1.\]
+
+Now, the requirement that $x$ and $y$ be distinct readily implies that, for this to happen, $x_n - y_n$ cannot be zero, and so we may divide out by $x_n - y_n$ to obtain that $v$ is in the image of $\alpha$. On the other hand, if $v$ is in the image of $\alpha$, then $v$ is of the form $\alpha(x,y)$ for some $x,y \in V$, which will then satisfy $P_v(x) = P_v(y)$. This shows that $P_v$ is almost always injective, as long as $n \geq 2k + 2$.
+
+Now we show that $P_v$ is almost always an immersion, for $n \geq 2k + 1$. To this effect, consider the function
+(unfinished)
 \end{sol}
 
 \end{document}
