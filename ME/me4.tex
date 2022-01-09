@@ -1,0 +1,223 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuges]{babel}
+\usepackage{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{diffcoeff}
+
+\usepackage{tikz} 
+\usetikzlibrary{matrix,decorations.pathreplacing, calc, positioning}
+
+%\usepackage[margin=1.5in]{geometry}
+\usepackage{multicol}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercício}
+
+\usepackage{enumitem}
+\setlist[enumerate, 1]{label=\alph*)}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,mathescape,keepspaces,tabsize=2,
+literate=
+  {á}{{\'a}}1
+  {à}{{\`a}}1
+  {ã}{{\~a}}1
+  {é}{{\'e}}1
+  {ê}{{\^e}}1
+  {í}{{\'i}}1
+  {ó}{{\'o}}1
+  {ú}{{\'u}}1
+  {ç}{{\c{c}}}1}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+
+\title{Exercício: Compressão de Imagens}
+\author{}
+\date{}
+\setlength{\parindent}{0pt}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+
+
+\newcommand{\T}{\mathbb{T}}
+
+\begin{document}
+
+O objetivo deste exercício é implementar e testar um algoritmo simples de compressão de imagens. O objetivo de compressão de imagens (neste caso, compressão \textit{lossy}) é pegar numa imagem que tem uma certa quantidade de informação e guardar apenas parte dela, de modo a reduzir o tamanho dela em disco, mas sem degradar demasiado a sua qualidade visual.
+
+A ideia básica é a seguinte. Uma imagem (a preto e branco, por simplicidade) é representada como uma matriz $M$ de números reais entre 0 e 1, sendo que cada casa da matriz $M$ representa um pixel, e o número correspondente indica a iluminação do pixel (0 significa que o pixel está preto, 1 significa que o pixel está branco). Ora, o espaço das matrizes é um espaço linear, equivalente a $\R^{wh}$, onde $w$ é a largura da imagem e $h$ a sua altura, em pixeis. Assim sendo, temos ao nosso dispor ferramentas de álgebra linear. Neste caso, o que será feito será:
+\begin{enumerate}
+\item Construir uma base \emph{ortonormada} conveniente do espaço das matrizes,
+\item Representar uma imagem nesta base
+\item Mandar fora coeficientes pequenos, que não terão muito impacto na imagem final.
+\end{enumerate}
+
+O método descrito abaixo tem várias limitações. Por exemplo, só funciona em imagens quadradas, cujo tamanho seja uma potência de dois.
+
+Para começar o exercício, escolha uma imagem para comprimir. Esta imagem deverá ser aproximadamente quadrada e	 de preferência uma imagem `pouco lisa', por exemplo uma fotografia.
+
+\begin{ex}
+Importe a imagem para o Mathematica da seguinte forma. Guarde-a na pasta do Notebook, e use o comando:
+\begin{verbatim}
+img = ImageResize[Import[NotebookDirectory[]<>"nome.png"],{128,128}]
+\end{verbatim}
+
+Execute os seguintes comandos e explique o seu output.
+\begin{verbatim}
+data = ImageData[img, Interleaving -> False];
+bw = 0.299 data[[1]] + 0.587 data[[2]] + 0.144 data[[3]];
+Image[bw]
+\end{verbatim}
+\end{ex}
+
+\begin{ex}
+Implemente um comando que, dado um $n$, retorne a lista das $n^2$ matrizes $n \times n$ que têm exatamente uma casa igual a 1, e o resto igual a 0.
+\end{ex}
+
+\begin{ex}
+Considere o espaço das matrizes $n \times n$ como se fosse $\R^{n^2}$, com o produto interno usual. Sob esta perspetiva, verifique computacionalmente para $n=4$ que a base descrita acima é ortonormada.
+
+Calcule a norma da matriz \texttt{bw}. Interprete o significado do número resultante.
+\end{ex}
+
+\begin{ex}
+Implemente uma função \texttt{basisCoefficients[basis,matrix]} que, dada uma lista \emph{ortonormada} \texttt{basis} de matrizes $n \times n$ e uma matriz calcula a lista $\{c_1, c_2, \dots, c_{n^2}\}$ de coeficientes tais que
+\[\mathtt{matrix} = c_1 \mathtt{basis[[1]]} + \dots + c_{n^2} \mathtt{basis[[n^2]]}.\]
+\end{ex}
+
+\begin{ex}
+Implemente uma função \texttt{compressCoefficients[coefs,epsilon]} que recebe uma lista de coeficientes \texttt{coefs} (como no exercício anterior) e retorna apenas aqueles que sejam maiores em módulo que \texttt{epsilon}.
+
+O formato de retorno desta função é deixado à escolha do utilizador, e deverá ser feito para possibilitar a implementação de outra função (que deverá também implementar), chamada \texttt{decompress[compressedcoefs, basis]} que recebe o output da função anterior e a base usada para calcular os coeficientes, e devolve uma aproximação da matriz original \texttt{matrix}.
+\end{ex}
+
+\begin{ex}\label{excomprimir}
+Use as ferramentas desenvolvidas acima para tentar comprimir a matriz \texttt{bw}. Escolha um valor de \texttt{epsilon} baixo o suficiente de modo a obter uma imagem que seja parecida com a original, mas alto o suficiente para haver diferenças visíveis.
+
+Aponte as diferenças que ocorreram e explique-as. Diria que este algoritmo de compressão (usando a base canónica) é adequado?
+\end{ex}
+
+\begin{ex}\label{exabc}
+Seja $n$ uma potência de 2. Considere-se a seguinte construção.
+
+Para $k$ par, definam-se as seguintes matrizes $k \times k$:
+\begin{gather*}
+A_k = \frac1k \begin{bmatrix}
+1 & \dots & 1 & -1 & \dots & -1\\
+& \vdots & & &\vdots &\\
+1 & \dots & 1 & -1 & \dots & -1
+\end{bmatrix}\\
+B_k = \frac1k \begin{bmatrix}
+1 & & & 1 \\
+\vdots & \cdots & \cdots & \vdots \\
+1 & & & 1\\
+-1 & & & -1 \\
+\vdots & \cdots & \cdots & \vdots \\
+-1 & & & -1
+\end{bmatrix}\\
+C_k = \frac1k \begin{bmatrix}
+1 & \dots & 1 & -1 & \dots & -1\\
+\vdots & \ddots & \vdots & \vdots & \ddots & \vdots\\
+1 & \dots & 1 & -1 & \dots & -1\\
+-1 & \dots & -1 & 1 & \dots & 1\\
+\vdots & \ddots & \vdots & \vdots & \ddots & \vdots\\
+-1 & \dots & -1 & 1 & \dots & 1
+\end{bmatrix}
+\end{gather*}
+
+De seguida, definimos as `matrizes-A' de tipo $n \times n$ como as seguintes (os zeros representam blocos):
+\begin{gather*}
+A_n,\\
+\begin{bmatrix}
+A_{n/2} & 0\\
+0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & A_{n/2}\\
+0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0\\
+A_{n/2} & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0\\
+0 & A_{n/2}
+\end{bmatrix},\\
+\begin{multlined}
+\begin{bmatrix}
+A_{n/4} & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & A_{n/4} & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0 & A_{n/4} & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0 & 0 & A_{n/4}\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix},\\
+\begin{bmatrix}
+0 & 0 & 0 & 0\\
+A_{n/4} & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix},
+\begin{bmatrix}
+0 & 0 & 0 & 0\\
+0 & A_{n/4} & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{bmatrix}, \text{ etc.}
+\end{multlined}\\
+\text{(Repetir para $n/8$, $n/16$, etc.)}
+\end{gather*}
+
+Definimos as matrizes de tipo-B e tipo-C de forma semelhante. Finalmente, definimos as `matrizes ABC' de tipo $n \times n$ como sendo todas as matrizes de tipo A, B e C, juntamente com a matriz de coeficientes constantes iguais a $1/n$.
+
+Implemente uma função que, dado $n$ uma potência de dois, devolve a lista de todas as matrizes ABC de tipo $n \times n$.
+
+Usando o facto que as matrizes ABC formam uma base ortonormada do espaço das matrizes $n \times n$ (não precisa de o provar), repita a primeira parte do exercício \ref{excomprimir} com esta base, ou seja, comprima a matriz \texttt{bw}. 
+\end{ex}
+
+Se tiver feito o exercício \ref{exabc}, faça os exercícios a seguir usando como base as matrizes ABC. Caso contrário, use a base canónica.
+
+\begin{ex}
+Seja $X$ uma imagem, e $X'$ uma versão comprimida da imagem. O fator de compressão (de $X'$ relativamente a $X$) consiste no número $\frac{\#X}{\#X'}$, onde $\#X$ é o número de bits que ocupa a imagem $X$ e idem para $X'$.
+
+Defina uma função que calcula o fator de compressão do método acima descrito para um dado \texttt{epsilon}. Teste a sua função para alguns valores de \texttt{epsilon} e compare com a imagem comprimida correspondente. Comente a eficácia do método.
+
+É possível o fator de compressão ser superior a 1? Justifique.
+
+\smallskip
+
+Nota: Em princípio, calcular o fator de compressão é bastante complexo, porque é preciso contabilizar toda a informação que existe. Por exemplo, uma lista com 5 números gasta ligeiramente mais bits do que os 5 números que a compõem, porque precisa por exemplo de guardar o seu próprio comprimento e onde estão as separações entre os seus cinco elementos. Para mais, alguns números gastam mais bits a guardar do que outros.
+
+Para resolver este exercício, ignore todos esses fatores. Assuma que a única informação a guardar são os números, e assuma que todos os números ocupam o mesmo espaço.
+\end{ex}
+
+\begin{ex}
+Justifique quantitativamente que, sem recorrer a fortes otimizações ou a um supercomputador, o exercício acima não seria possível de executar numa imagem $512 \times 512$.
+\end{ex}
+
+
+\end{document}
