@@ -1,0 +1,300 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist{label=\alph*)}
+
+\title{Differential Geometry Homework 4}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\sign}{sign}
+\newcommand{\grad}{\nabla}
+\newcommand{\into}{\mathbin{\lrcorner}}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $S^2$ have the standard orientation in $\R^3$, and consider
+\[\omega = (z-x^2) \dl x \wedge \dl y - (y + xz^2) \dl x \wedge \dl z + (x + 7y^5) \dl y \wedge \dl z.\]
+
+Compute $\int_{S^2} \omega$.
+\end{ex}
+
+\begin{sol}
+Stokes theorem. Let $D$ be the unit sphere in $\R^3$, with standard orientation. Since the orientation on $S^2$ induced by $D$ agrees with the standard one:
+\begin{align*}
+\int_{S^2} \omega &= \int_D \dl \omega\\
+&= \int_D \dl z \wedge \dl x \wedge \dl y - \dl y \wedge \dl x \wedge \dl z + \dl x \wedge \dl y \wedge \dl z\\
+&= 3 \int_D V,
+\end{align*}
+where $V = \dl x \wedge \dl y \wedge \dl z$. Consequently, this integral is simply three times the volume of the unit sphere, and so
+\[\int_{S^2} \omega = 3 \times \frac43 \pi = 4\pi.\]
+
+(Note: to calculate $\dl \omega$ I used the formula $\dl(f \eta) = \dl f \wedge \eta + f \dl \eta$ and the fact that the forms $\dl x \wedge \dl y$ and such are closed. Furthermore, simplifications like the following were used: to compute $\dl(x^2 \dl x \wedge \dl y)$, I simply noted that since $x^2$ depends only on $x$, $\dl(x^2)$ would be of the form $f \dl x$, which, when wedged with $\dl x \wedge \dl y$, would trivially be null. This wiped out most of the terms in $\dl \omega$.)
+\end{sol}
+
+\begin{ex}
+Let $G$ be a Lie group of dimension $n$.
+\begin{enumerate}
+\item Show that the space of left-invariant $n$-forms on $G$ is one-dimensional.
+\item Pick a non-zero $n$-form $\mu$, which induces an orientation. Consider the integral of a function of compact support to be done using $\mu$ as a volume form. Show that integration is left-invariant.
+\item Show that for $h \in G$ we have that $R_h^* \mu$ is a left-invariant $n$-form. Consequently it is of the form $R_h^* \mu = \lambda(h) \mu$. Show that $\lambda$ is a smooth group homomorphism from $G$ to $\R^*$.
+\item Show that, for $f$ smooth of compact support and $h \in G$,
+\[\int f = \int (f \circ R_h) \abs{\lambda(h)}.\]
+\item Show that if $G$ is compact then it is unimodular. Furthermore, if $G$ is connected, $\lambda = 1$.
+\item Show that a left-invariant volume form on $O(2)$ is not right-invariant. 
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) Obviously, a left-invariant form $\omega$ is determined by $\omega_e$, and the space of $n$-forms on $T_e G$ is one-dimensional, so it suffices to show that, given an $n$-form on $T_e G$, say, $\omega_0$, the left-invariant form is smooth. (I mean, this is never explicitly said, but given that we're doing \emph{differential} geometry, I figure that when we talk about `left-invariant forms' we actually mean `left-invariant \emph{smooth} forms'.)
+
+So, given $\omega_0$, define the form $\omega$ by
+\[\omega_g (X_1, \dots, X_n) = \omega_0((\dl L_{g^{-1}}) X_1, \dots, L_{g^{-1}}) X_n).\]
+To show that $\omega$ is smooth, it suffices that, given smooth vector fields $X_i$, the expression $\omega_g (X_1, \dots, X_n)$ is a smooth function of $g$. In turn, to show this it sufficed to show that for each $X_i$ the expression $(\dl L_{g^{-1}}) X_i$ is a smooth function from $G$ to $T_e G$, as any form on a finite-dimensional vector space is smooth in its arguments.
+
+Let us abstract the problem a bit. The details of which vector fields $X_i$ are being considered is irrelevant, so we consider a generic smooth vector field $X$ and turn to showing the following proposition: If $X$ is a smooth vector field on $G$, the function
+\[g \mapsto (\dl L_{g^{-1}}) X_g\]
+is smooth.
+
+To this effect, consider a left-invariant frame $Y_1, \dots, Y_n$, and write $X = \sum X^i Y_i$, where the $X^i$ are smooth. Then,
+\[(\dl L_{g^{-1}}) X_g = (\dl L_{g^{-1}}) (X^i_g (Y_i)_g) = X^i_g (Y^i_e),\]
+which is a linear combination of constant vectors with smooth coefficients, which is clearly smooth. This concludes the proof that $\omega_g$ is smooth.
+
+\medskip
+
+b) Through the use of partitions of unity, we reduce the problem to showing that
+\[\int f \circ L_g \mu = \int f \mu,\]
+for $f$ of support compactly contained in some \emph{positively oriented} coordinate chart $U$. Suppose that this chart has coordinates $x_1, \dots, x_n$, and that
+\[ \mu = h \dl x_1 \wedge \dots \dl x_n.\]
+
+Now, by definition of integration, we can write $\int f \mu$ in coordinates as
+\begin{equation}\label{fuhu}
+\int f \mu = \int f(u(x)) h(u(x)) \dl x,
+\end{equation}
+where the latter integral is done in $\R^n$, and $u$ is the map which, given $x = (x_1, \dots, x_n)$, returns the point in $U$ with those coordinates.
+
+Let us now turn to $f \circ L_g$. Since the support of $f$ is contained in $U$, the support of $f \circ L_g$ is contained in $V = g^{-1} U$. Since $L_g$ is a diffeomorphism, we may induce coordinates on $V$, say $y_1, \dots, y_n$, as those induced by the $x_i$, such that
+\[ y_i(p) = x_i(gp), p \in V.\]
+
+We now turn to calculating $\int f \circ L_g \mu$ in coordinates. To do so, we begin by calculating an expression for $\mu$. Since $\mu$ is left-invariant and the $y$ coordinates are defined by left-translation, it is easy to show that $\mu = (h \circ L_g) \dl y_n \wedge \dots \wedge \dl y_n$. (Sketch: Calculate $\mu(\partial_{y_1}, \dots, \partial_{y_n})$, apply left-invariance, show that $(\dl L_g) \partial_{y_i} = \partial_{x_i}$.)
+
+Indeed, in the $y$ coordinates,
+\[\int f \circ L_g \mu = \int (f \circ L_g)(v(y)) h(L_g(v(y))) \dl y,\]
+where $v$ is the function which given $y$ returns the point in $V$ with those coordinates. Note that we used the fact that the orientation is left-invariant, and so the $V$ chart is positively oriented.
+
+Now apply the fact that $L_g(v(y)) = u(y)$ (again, by definition of the $y$ coordinates as left-translation of the $x$) and this integral simplifies readily to \eqref{fuhu}, which completes the proof.
+
+\medskip
+
+c) To show that $R^*_h \mu$ it suffices to notice that $R_h$ commutes with left-translation, and therefore $L^*_g R^*_h \mu = R^*_h L^*_g \mu = R^*_h \mu$.
+
+Write $R^*_h \mu = \lambda(h) \mu$. First, we show that $\lambda$ is a homomorphism:
+\[\lambda(h_1) \lambda(h_2) \mu = R^*_{h_1} R^*_{h_2} \mu = (R_{h_2} \circ R_{h_1})^* \mu = R^*_{h_1 h_2} \mu = \lambda(h_1 h_2) \mu.\]
+
+Since $\mu$ is nonzero, we conclude $\lambda(h_1) \lambda(h_2) = \lambda(h_1 h_2)$. Note that this also implies that $\lambda(G) \subseteq \R^*$, as for any $h \in G$ we have $\lambda(h) \lambda(h^{-1}) = \lambda(e) = 1$ (the last equality is trivial), and so $\lambda(h)$ could not be zero.
+
+We now turn to proving smoothness of $\lambda$. To this effect, pick a basis for $T_e G$, say $v_1, \dots, v_n$. By evaluating $\lambda(h) \mu$ on this frame, we have an explicit formula for $\lambda(h)$:
+\[\lambda(h) = \frac{\lambda(h) \mu(v)}{\mu(v)} = \frac{R^*_h \mu(v)}{\mu(v)} = \frac{\mu( (\dl R_h) v)}{\mu(v)}.\]
+
+Note: $\mu(v)$ is nonzero because $\mu$ is nonzero everywhere and hence must yield a nonzero number when evaluated on a basis.
+
+This explicit formula for $\lambda(h)$ yields smoothness because it amounts to evaluating $\mu$ on a right-invariant vector field, and these are known to be smooth (by the same argument used to show that left-invariant vector fields are smooth).
+
+\medskip
+
+d) The argument is generally similar to the one in b). First we assume that the support of $f$ is compactly contained in some positively oriented coordinate chart $(U,u)$, and let $(V,v)$ be a coordinate chart defined by right-translation by $h^{-1}$, i.e.
+\[V = U h^{-1}, v(y) = u(y) h^{-1}.\]
+
+We begin by writing out $\int f \mu$ in coordinates. Let $\mu = j \dl x_1 \wedge \dots \wedge \dl x_n$. (Previously I used $h$ instead of $j$ but now this letter is taken by the group element by which we are translating.) Then,
+\[\int f \mu = \int f(u(x)) j(u(x)) \dl x = \int (f \circ R_h)(v(x)) (j \circ R_h)(v(x)) \dl x.\]
+
+Now it suffices to relate the second part to the integral of $f \circ R_h$ over $V$. To this effect, we study the form $(j \circ R_h) \dl y_1 \wedge \dots \wedge \dl y_n$, where $y$ are the coordinates on $V$ induced from those on $U$ by right-translation. In other words, $\dl y_i = (\dl R_h) (\dl x_i)$, and therefore
+\begin{multline*}
+(j \circ R_h) \dl y_1 \wedge \dots \wedge \dl y_n = (j \circ R_h) (\dl R_h)(\dl x_1 \wedge \dots \wedge \dl x_n)\\
+= R_h^* (j \dl x_1 \wedge \dots \wedge \dl x_n) = R^*_h \mu = \lambda(h) \mu.
+\end{multline*}
+
+In conclusion, the expression $\int f \mu$ can be massaged to look, in coordinates, like $\int (f \circ R_h) \lambda(h) \mu$... almost. The problem is that the $y$ coordinates might not be positively oriented, or consistently oriented at all. Fortunately, this is an easy fix: the orientation is induced by $\mu$, so we need only write
+\[ \mu = k \dl y_1 \wedge \dots \wedge y_n\]
+and look at the sign of $k$. And indeed, we've already shown that
+\[\mu = \frac{j \circ R_h}{\lambda} \dl y_1 \wedge \dots \wedge y_n,\]
+and since the $x$ coordinates were positively oriented, the $j$ term is positive, so the only sign that remains, which is the orientation of the $y$ coordinates (which may vary from point to point) is the sign of $\lambda$, and so we end the proof, as
+\begin{align*}
+\int f \mu &= \int (f \circ R_h)(v(x)) (j \circ R_h)(v(x)) \dl x\\
+&= \int (f \circ R_h) \sign(\lambda) (j \circ R_h) \dl y_1 \wedge \dots \wedge \dl y_n\\
+&= \int (f \circ R_h) \sign(\lambda) \lambda \mu = \int (f \circ R_h) \abs\lambda \mu.
+\end{align*}
+
+\medskip
+
+e) If $G$ is compact, constant functions have compact support and hence can be integrated. As such, we may consider $f$ to be a constant function equal to one. Then, by d),
+\begin{equation}\label{eq1}
+\int \mu = \abs{\lambda(h)} \int \mu.
+\end{equation}
+
+It suffices to show that $\int \mu$ is nonzero. To this effect, note that, since the orientation of $G$ is the one induced by $\mu$, the integral of $\mu$ as calculated in coordinates is never negative, so it suffices to show that for some coordinate neighborhood it is strictly positive. To this effect, pick some nonzero function $\varphi$ on the partition of unity used to define $\mu$, and write $\mu$ in the (positively oriented) coordinates to which $\varphi$ is subordinate as $\mu = j \dl x_1 \wedge \dots \wedge \dl x_n$. Then,
+\[\int \varphi \mu = \int \varphi(x) j(x) \dl x.\]
+
+This is the integral of a nonnegative continuous function (because $\varphi \geq 0$ and $j > 0$ because orientation) which is strictly positive on at least one point (we assumed that $\varphi \neq 0$ and we know that $j$ is always strictly positive), so this integral is strictly positive and the proof is complete: dividing both sides of \eqref{eq1} by the integral of $\mu$ we obtain the desired result.
+
+We now turn to showing that if $G$ is compact and connected then $\lambda = 1$. This is very easy, as we've already shown that $\lambda$ is either 1 or $-1$ at each point, and also that $\lambda$ is smooth and hence continuous. Since the image of a connected set under a continuous function is also connected, $\lambda(G)$ must be the set containing only 1, and the proof is complete.
+
+\medskip
+
+f) Consider a nonzero left-invariant form $\mu$ on $O(2)$. We show that it is not right-invariant by finding some orthogonal matrix $A$ such that $R^*_A \mu \neq \mu$. It suffices to compare $(R^*_A \mu)_I$ with $\mu_I$. To this effect, we need to compute $(R^*_A \mu)_I$, and it would be particularly convenient to do so in terms of $\mu_I$, so we do. Let $v$ be a vector tangent to $I$ (because $O(2)$ has dimension one):
+\[(R^*_A \mu)_I(v) = \mu_A ((\dl R_A) v) = \mu_I ((\dl L_A)^{-1} (\dl R_A) v).\]
+
+In conclusion, in order to make this expression distinct from $\mu_I(v)$, we wish to find an orthogonal matrix $A$ such that conjugation by $A$ inverts orientation on $\Lie O(2)$. This corresponds to picking a nonzero vector $v$ such that conjugation by $A$ swaps the sign of $v$.
+
+It is helpful (to me) to recall the Lie algebra of $O(2)$, and how conjugation acts on it. It is composed of the antisymmetric $2 \times 2$ matrices, and conjugation acts by conjugation in the usual sense. Indeed, let $v \in \Lie O(2)$. Then, $v$ can be represented by a curve $\gamma$ such that $\gamma(0)$ is $I$ and $\dot\gamma(0) = v$. Conjugating the values of this curve by $A$ we obtain a new curve, $\eta(t) = A^{-1} \gamma(t) A$, and the value of $\dot\eta(0)$ is the desired conjugate. It may be calculated via the derivative of the product, and since $A$ and its inverse are constants, we get
+\[(\dl L_A)^{-1} (\dl R_A) v = \dot \eta(0) = A^{-1} \dot\gamma(0) A = A^{-1} v A.\]
+
+Another thing: I know that $\lambda$ takes the value 1 on the connected component of the identity, so I had better pick a matrix $A$ which is not in that component. To ensure so, I pick $A$ with determinant equal to $-1$, like, say
+\[A = \begin{bmatrix}
+1 & 0 \\
+0 & -1
+\end{bmatrix}.\]
+
+It is easy to compute that, if $v = \begin{bsmallmatrix} 0 & 1 \\ -1 & 0 \end{bsmallmatrix}$ is a generator of $\Lie O(2)$,
+\[(\dl L_A)^{-1} (\dl R_A) v = A^{-1} v A = \begin{bmatrix} 0&-1\\1&0 \end{bmatrix} = -v.\]
+
+In conclusion, in $O(2)$ a left-invariant form is generally not right-invariant. I did not prove it, but I conjecture that any matrix with negative determinant would suffice as a counterexample.
+\end{sol}
+
+\begin{ex}
+Define the map $I \colon \Omega^{j+k}_c(\R^n \times \R^k) \to \Omega^j_c (\R^n)$ as follows. Let $x, y$ be cartesian coordinates in $\R^n$, $\R^k$, respectively. For $v_1, \dots, v_j \in \R^n$, we set
+\begin{align*}
+I(\omega)_x(v_1, \dots, v_j) &= \int_{\R^k} \omega_{(x,y)}(v_1, \dots, v_j, \partial_{y_1}, \dots, \partial_{y_k}) \dl3 y\\
+&= \int_{\R^k} (v_1, \dots, v_j) \into \omega_{(x,y)}.
+\end{align*}
+
+[Note: In the right-hand side, the vectors $v_i$ that are plugged into $\omega$ should be understood as vectors in $\R^n \times \R^k$ in the obvious way.]
+
+[Note: This is not the same definition as the one you gave, but I prefer this one. I hope that it is clear enough that they are equivalent: clearly this one is linear, so it suffices to show that they agree when $\omega$ is one of the forms you defined $I$ on. The case where not all $\dl y_i$ are included is easy, given that the definition evaluates $\omega$ on all $\partial_{y_i}$; the other case is not much more difficult by considering the $v_i$ as members of the canonical $x$ basis.]
+
+\begin{enumerate}
+\item Show that $I \circ \dl = \dl \circ I$.
+
+\item Let $\tau \in \Omega^{n-j}_c(\R^n)$ and $\omega \in \Omega^{j+k}_c(\R^n \times \R^k)$. Show that
+\[\int_{\R^n \times \R^k} \pi^*(\tau) \wedge \omega = \int_{\R^n} \tau \wedge I(\omega).\]
+
+\item Let $\pi \colon E \to B$ be a bundle over a compact $k$-manifold $F$ (is this the right nomenclature? I hope it is.) where $B$ has dimension $n$ and $E$ has dimension $n+k$. Based on the map $I$, construct a map $\check I$ from $H^{j+k}(E)$ to $H^j(B)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) In this solution, we will use the following coordinate-free expression for the exterior derivative. If $X_1, \dots, X_{j+1}$ are commuting vector fields and $\eta$ is a $j$-form, we let
+\[\dl \eta(X_1, \dots, X_{j+1}) = \sum (-1)^{i+1} X_i \cdot \omega(X_{\hat\i}),\]
+where $X_{\hat\i}$ means the list $X_1, \dots, X_j$ with the $i$-th index removed. This formula is particularly convenient in $\R^n$ because there is an obvious canonical way to extend a collection of vectors tangent at a point to the whole plane in a way that commutes, but the same can be done in any manifold because coordinates.
+
+To this effect, we compute $(\dl I(\omega))_x (v_1, \dots, v_{j+1})$. As just mentioned, we begin by extending the $v_i$ to global vector fields $X_i$.
+
+\begin{align*}
+(\dl I(\omega))_x (X_1, \dots, X_{j+1}) &= \sum (-1)^{i+1} v_i \cdot I(\omega)(X_{\hat\i})\\
+&= \sum (-1)^{i+1} v_i \cdot \left( \int_{\R^k} \omega_{(x,y)}((X_{\hat\i})_x,\partial_{y_1}, \dots, \partial_{y_k}) \dl3 y \right),
+\end{align*}
+where again the vectors $(X_i)_x$ are being extended to vectors in $\R^n \times \R^k$ in the obvious way and the derivative given by the $v_i$ is in the $x$ variable.
+
+Now, we apply the linearity of the integral and Leibniz' rule to pass the integral to the outside, yielding
+\begin{align*}
+(\dl I(\omega))_x (X_1, \dots, X_{j+1}) &= \sum (-1)^{i+1} v_i \cdot \left( \int_{\R^k} \omega_{(x,y)}((X_{\hat\i})_x,\partial_{y_1}, \dots, \partial_{y_k}) \dl3 y \right)\\
+&= \int_{\R^k}  \sum (-1)^{i+1} v_i \cdot \omega_{(x,y)}((X_{\hat\i})_x,\partial_{y_1}, \dots, \partial_{y_k}) \dl3 y.
+\end{align*}
+
+Now, it would be very fortunate that the sum inside the integral is equal to
+\begin{equation}\label{eq2}
+(\dl \omega)_{(x,y)} (v_1, \dots, v_{j+1}, \partial_{y_1}, \dots, \partial_{y_k}),
+\end{equation}
+as then the right-hand side would be, by definition, equal to $I(\dl \omega)_x(X_1, \dots, X_{j+1})$.
+
+To find out, we expand \eqref{eq2} using the formula for $(\dl \omega)$ mentioned before:
+\begin{equation*}
+\eqref{eq2} =
+\begin{multlined}
+\sum_{i=1}^{j+1} (-1)^{i+1} v_i \omega_{(x,y)}(X_{\hat\i}, \partial_{y_1}, \dots, \partial_{y_k})\\
++ \sum_{i=1}^k (-1)^{j+i+1} \partial_{y_i} \omega_{(x,y)}(X_1, \dots, X_{j+1}, \partial_{y_{\hat\i}}).
+\end{multlined}
+\end{equation*}
+
+Now, unfortunately, this is not exactly the desired quantity, because there are a few extra terms with derivative in $y_i$. Fortunately, these terms go away in the integral. I mean, I won't do the details because they're time-consuming, but you reorder the terms of integration to do the integral in $y_i$ first, apply the fundamental theorem of calculus, and by the compacity of the support of $\omega$ you can pick far away enough bounds of integration to obtain a difference between zeros. This concludes the proof that $I \circ \dl = \dl \circ I$.
+
+\medskip
+
+b) We begin by computing the left-hand side:
+\begin{equation}\label{eq3}
+\int_{\R^n \times \R^k} \pi^*(\tau) \wedge \omega = \int_{\R^n \times \R^k} (\pi^*(\tau) \wedge \omega)_{(x,y)}(\partial_x, \partial_y) \dl3 x \dl3 y,
+\end{equation}
+where $\partial_x$ and $\partial_y$ represent the obvious collections of $n$ and $k$ vectors respectively.
+
+Now, let us unfurl the definition of $\pi^*(\tau) \wedge \omega$ evaluated on these vectors. In principle, it would be necessary to write out a huge sum, over all possible ways to distribute all the $\partial_{x_i}$ and $\partial_{y_i}$ between $\pi^*(\tau)$ and $\omega$. However, a lot of the terms in that gigantic sum would immediately cross out, as $(\dl \pi) \partial_{y_i} = 0$. Consequently, we can simplify \eqref{eq3}, because
+\[(\pi^*(\tau) \wedge \omega)_{(x,y)}(\partial_x, \partial_y) = \sum_P \sign(P) \tau_x(\partial_{x_{P_1}}) \omega_{(x,y)}(\partial_{x_{P_2}},\partial_y).\]
+
+Let me explain the notation in the previous equation. The sum is taken over $P$, which are intended to be partitions of the set $\{1,\dots,n\}$ into two subsets, one of size $n-j$ ($P_1$) and another of size $j$ ($P_2$). Then, we use the expression $\partial_{x_{P_1}}$ to mean $\partial_{x_{i_1}}, \dots, \partial_{x_{i_{n-j}}}$, where $i_1, \dots, i_{n-j}$ are the elements of $P_1$ in order, and likewise for $P_2$. The sign of $P$ is the sign of the permutation of $\{1,\dots,n\}$ which puts $P_1$ in the first $n-j$ elements and $P_2$ in the last $j$, in order.
+
+Now, note that the $\tau_x(\partial_x)$ term does not depend on $y$, and therefore
+\begin{align*}
+\int_{\R^n \times \R^k} \pi^*(\tau) \wedge \omega &= \int_{\R^n} \sum_P \sign(P) \left( \tau_x(\partial_{x_{P_1}}) \left[ \int_{\R^k} \omega_{(x,y)}(\partial_{x_{P_2}},\partial_y) \dl3 y \right] \right) \dl3 x\\
+&= \int_{\R^n} \sum_P \sign(P) \left( \tau_x(\partial_{x_{P_1}}) I(\omega)_x(\partial_{x_{P_2}}) \right) \dl3 x.
+\end{align*}
+
+Finally, the sum in $P$ inside the integral is easily recognized to be a definition of $(\tau \wedge I(\omega))_x(\partial_x)$, and so we conclude
+\begin{align*}
+\int_{\R^n \times \R^k} \pi^*(\tau) \wedge \omega &= \int_{\R^n} (\tau \wedge I(\omega))_x(\partial_x) \dl3 x\\
+&= \int_{\R^n} \tau \wedge I(\omega),
+\end{align*}
+as we wished to show.
+
+\medskip
+
+c) We begin by describing a procedure which takes a $j+k$-form on $E$ and returns a $j$-form on $B$. (may not be possible?)
+
+Suppose that $\omega$ is a $j+k$-form on $E$ and that
+\end{sol}
+
+\end{document}

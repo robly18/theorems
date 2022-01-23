@@ -25,13 +25,14 @@
 \newtheorem{problem}{Problem}
 \newtheorem{definition}{Definition}
 
+\newtheorem{theorem}{Theorem}
 \newtheorem{prop}{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem*{idea}{Idea}
 
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
-\theoremheaderfont{\scshape}
+\theoremheaderfont{\slshape}
 \theoremsymbol{\ensuremath{\blacksquare}}
 \newtheorem{proof}{Proof}
 
@@ -102,7 +103,7 @@ A measurement space is a topological space $M$ such that:
 \item \label{absorp} $0p = 0$,
 \end{enumerate}
 \item \label{inv1} $M$ is equipped with a continuous unary operation $(\cdot)^*$ which is an involution,
-\item \label{inv2} $(mn)* = n^* m^*$, and
+\item \label{inv2} $(mn)^* = n^* m^*$, and
 \item \label{symmetry} If $m m^* m \leq m$ then $m m^* m = m$. \quad \textit{(symmetry)}
 \end{enumerate}
 \end{definition}
@@ -147,7 +148,75 @@ To this effect, let us introduce an auxiliary tool into the problem. Since $A$ i
 Now, suppose that $\tilde U$ is a subbasic neighborhood of $m+n$. Then, there exists some point $x+y \in U$, with $x \in m$ and $y \in n$. Consequently, some ball around $x+y$ is contained in $U$, with a positive radius $\delta$. That said, we may now define $V_0$ and $W_0$ as balls, around $x$ and $y$ respectively, of radius $\delta/2$. Then, it is trivial to check that $V = \tilde{V_0}$ and $W = \tilde{W_0}$ are the desired neighborhoods of $m$ and $n$.
 \end{proof}
 
+\subsection{The Operations}
 
+We now turn to showing the properties regarding the composition on $\Max A$, which is the one induced from matrix multiplication, as well as the involution, which is induced from matrix adjunction.
+
+\begin{prop}
+The induced composition on $\Max A$ satisfies property \ref{binop}, that is: it is continuous, associative, distributes over $\lor$ and $0p = 0$ for all $p$.
+\end{prop}
+
+\begin{proof}
+Associativity and $0p = 0$ are both trivial to prove, using the following characterization of the operation:
+\[mn = \{\, x_1 y_1 + \dots + x_k y_k \mid x_i \in m, y_i \in n \,\}.\]
+
+Distributivity is also easy, as we have already seen that $m \lor n = m + n$. Therefore, the only thing left to show is that composition is continuous in $\Max A$.
+
+As in the proof of continuity of the join, it suffices to show: If $m,n \in \Max A$ and $U$ is an open in $A$ such that $mn \in \tilde U$, there exists a neighborhood $V$ of $m$ and a neighborhood $W$ of $n$ such that for all $m' \in V$ and $n' \in W$ we have $m'n' \in \tilde U$. The rest of the proof is also very simple, stemming from the continuity of matrix multiplication, with a minor change due to the fact that the elements of $mn$ are \emph{sums} of pairwise products.
+
+In short: pick some element of $mn$ which is in $U$. Say that such an element is $p = x_1 y_1 \dots + x_k y_k$; since $U$ is open, some ball of radius $\varepsilon$ around $p$ is contained in $U$. Now, by continuity of matrix multiplication, we may found some $\delta_1$ such that, if $x' \in B_{\delta_1}(x_1)$ and $y' \in B_{\delta_1}(y_1)$, then $x' y' \in B_{\varepsilon/k} (x_1 y_1)$. Repeat for the other indices, finding $\delta_2, \dots, \delta_k$. Finally, we may find our neighborhood of $m$ as
+\[V = \widetilde{B_{\delta_1}(x_1)} \cap \dots \cap \widetilde{B_{\delta_k}(x_k)},\]
+and a similar construction yields $W$. The proof that for all $m' \in V$ and $n' \in W$ we have $m' n' \in \tilde U$ is simple repeated application of the triangle inequality and is left to the reader.
+\end{proof}
+
+The proof of continuity of the involution is also similar and left to the reader:
+
+\begin{prop}
+The involution on $\Max A$ induced by matrix adjunction is continuous.
+\end{prop}
+
+There are only three properties left to show: \ref{msober} ($\Max A$ is a sober topological space), \ref{inv2} ($(mn)^* = n^* m^*$) and \ref{symmetry} (If $m m^* m \leq m$ then $m m^* m = m$). Even though the last two are both related to the operations of involution and composition, we delegate the proof of \ref{symmetry} to the next section, as it is not that simple.
+
+We then conclude this section with the proof of
+\begin{prop}
+The involution on $\Max A$ satisfies
+\[ (mn)^* = n^* m^*.\]
+\end{prop}
+
+\begin{proof}
+A generic element of $(mn)^*$ is of the form
+\[(x_1 y_1 + \dots + x_k y_k)^* = y_1^* x_1^* + \dots + y_k^* x_k^*,\]
+which is evidently an element of $n^* m^*$. The other inclusion is equally easy.
+\end{proof}
+
+\section{Symmetry}
+
+In this section we show that for an algebra of matrices $A$, the space $\Max A$ satisfies property \ref{symmetry} of the definition of measurement space, that is:
+\begin{prop}\label{propsymmetry}
+If $m \in \Max A$ satisfies $m m^* m \leq m$, then $m m^* m = m$.
+\end{prop}
+
+To prove this, we actually prove a rather stronger general statement:
+
+\begin{theorem}\label{propstrongsymmetry}
+If $m \in \Max A$, then $\dim(m m^* m) \geq \dim(m)$.
+\end{theorem}
+
+\begin{proof}[Proposition \ref{propstrongsymmetry} implies theorem \ref{propsymmetry}]
+Let $m \in \Max A$ satisfy $m m^* m \leq m$. Recall that the (specialization) order on $\Max A$ is the subset order, so we are assuming that $m m^* m$ is a subspace of $m$. However, proposition \ref{propstrongsymmetry} tells us that it is a subspace of $m$, with dimension at least $\dim(m)$. Consequently, basic linear algebra tells us that these two spaces must coincide.
+\end{proof}
+
+In preparation for the proof of theorem \ref{propstrongsymmetry}, consider the function
+\begin{align*}
+\rho \colon A &\to A\\
+x &\mapsto x x^* x.
+\end{align*}
+
+The crux of the proof is that the function $\rho$ is injective. This may not seem obvious at first, but is slightly more believable once one considers the particular case $A = \C$. In this case, $\rho(r \e^{\I \theta}) = r^3 \e^{\I \theta}$, which is a kind of cube but only on the radius. And indeed, even though the cube function is not injective on $\C$, this modification is.
+
+\begin{prop}
+The function $\rho$ is injective.
+\end{prop}
 
 \nocite{measurement}
 
