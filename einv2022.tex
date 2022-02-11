@@ -39,6 +39,7 @@ Códigos de Barras de Funções}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
 
 \newcommand{\PP}{\mathbb{P}}
 \newcommand{\FF}{\mathcal{F}}
@@ -51,6 +52,7 @@ Códigos de Barras de Funções}
 \DeclareMathOperator{\codim}{codim}
 \newcommand{\grad}{\nabla}
 
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
 
@@ -68,8 +70,80 @@ A Topologia Algébrica, que estuda muitos destes invariantes, surge em 1895 com 
 
 \subsection{Introdução}
 
+%begin review
+A primeira coisa que têm de saber é que distinguir objetos geométricos é difícil. Considerem os seguintes objetos: Uma esfera. Uma linha. Um círculo. Um nó. Um toro. Será que são todos distintos?
+
+A resposta a essa questão depende da noção de igualdade, mas no que se segue vamos tomar o ponto de vista que dois objetos geométricos são distintos se são existe alguma diferença intrinsínseca, ou seja, que é possível, a partir de dentro do objeto, determinar alguma distinção. Sob esta perspetiva, o nó e o círculo são o mesmo objeto, simplesmente desenhado de forma diferente.
+
+Concluimos então que o mesmo objeto geométrico pode ser apresentado de mais de uma maneira diferente. Assim sendo, questionamo-nos se não será possível mais alguns destes objetos serem iguais uns aos outros. A resposta é que não, e a justificação passa pelos chamados invariantes geométricos.
+
+Exemplo simples: A dimensão. É um facto não-trivial que a dimensão de um objeto geométrico não depende da sua apresentação. Consequentemente, estes dois, que têm dimensão 2, não podem ser iguais a estes, que têm dimensão 1.
+
+Exemplo menos simples: O grupo fundamental. Aqueles que não sabem o que isto é vão dá-lo em Topologia, no terceiro ano. Isto é um objeto que pode ser associado a um espaço, e é possível calcular que o grupo fundamental da esfera é o grupo trivial e o grupo fundamental do toro é $\Z \oplus \Z$. Como estes grupos são distintos (um deles tem apenas um objeto e o outro não), estes dois espaços são necessariamente diferentes.
+
+Uma das utilidades de invariantes geométricos é distinguir espaços, mas alguns invariantes dão-nos informação adicional. Por exemplo, existe uma invariante chamada Característica de Euler, que é calculada decompondo o espaço em triângulos e contando faces e vértices, e nos dá informação sobre campos vetoriais nesse espaço. Para aqueles que já ouviram falar do Hairy Ball Theorem, uma demonstração rápida é: A característica de Euler da esfera é 2, que é diferente de zero.
+
+O objeto que eu vos vou apresentar hoje chama-se um Código de Barras, e é semelhante, mas não exatamente igual, aos códigos de barras que vêm nas mercearias. Códigos de barras podem ser usados para distinguir certos objetos, mas a sua maior utilidade é a informação que eles nos dão. Ou seja, não me vão ver a justificar que esta coisa e aquela são distintas porque os seus códigos de barras são distintos, mas sim a responder à questão: \emph{O que conseguimos ler de um código de barras?}
+
+Definição: Um código de barras é uma coleção finita de intervalos. (Desenhar um exemplo) Existem vários códigos de barras associados ao mesmo objeto geométrico, tal como há vários números (como a dimensão, característica de Euler, etc.). Eu vou falar de uma construção específica, que associa um código de barras a uma função de Morse através da homologia do espaço. Não precisam de saber o que estas palavras significam.
+
+%4 minutes
+
 \subsection{Exemplo}
 
+O objeto de estudo são funções reais no círculo, ou seja, a cada ponto do círculo estamos a fazer corresponder um número. Isto é inconveniente de representar, por isso vamos ver o círculo como um intervalo e depois colamos as pontas. Podemos agora representar uma função no círculo como um gráfico tipo aqueles aos quais estamos habituados, com o cuidado que a função tem que colar bem nas pontas, portanto não podemos ter descontinuidades tipo uma função linear.
+
+Para ser um pouco mais específico, vamos estar a falar de funções de Morse, cujo significado não precisam de saber, exceto que uma função de Morse genérica parece-se assim. [Desenhar função genérica.]
+
+Existe uma definição geral, e complicada, que associa um código de barras a uma função de Morse, mas felizmente no caso do círculo essa definição pode ser destilada numa receita simples, que vos estou prestes a apresentar.
+
+Passo 1: Identificar o mínimo da função. Agora, vamos desenhar uma barra infinita, que vai desse valor para cima.
+
+Passo 2: Identificar o mínimo a seguir. Agora, vamos desenhar uma barra que vai desse valor para cima, mas em vez de ir para o infinito, vamos parar assim que conseguirmos ver a barra anterior. Aqui em baixo, a nossa vista está bloqueada por estas montanhas, mas quando passamos daqui para cima conseguimos ver a barra inicial, por isso paramos aqui.
+
+Passo 3: Repetir com os próximos mínimos. Uma propriedade essencial de funções de Morse é que existe um número finito destes.
+
+Passo 4: Após percorrermos todos os mínimos, vamos ao máximo global e desenhamos uma barra que vai do máximo para cima. Isto termina o procedimento.
+
+%8 minutes
+
+%end review
+
 \subsection{Extrair Informação}
+
+Feito este desenho, vamos ver que informação podemos extrair. Ou seja, sabendo o código de barras de uma função, o que podemos dizer sobre ela? Claramente podemos distinguir duas funções com base no seu código de barras, mas isto seria muito trabalho para isso. O verdadeiro interesse está em reduzir funções a códigos de barras e tirar informação sobre as funções delas.
+
+\subsubsection{Quantidades}
+
+Primeiro que tudo, é óbvio do boneco que podemos ver qual é o máximo e o mínimo da função. Consideramos as duas barras infinitas (existem exatamente duas), e os seus extremos inferiores são o máximo e o mínimo.
+
+Podemos também averiguar quais são os valores críticos da função, isto é, os picos e vales. Os picos são os extremos superiores das barras (exceto o máximo global, que é um caso aparte) e os vales são as partes inferiores. Ora, isto parece ser tautológico porque é assim que vos dei a receita para este caso particular, mas não seria assim tão óbvio se fossem à definição original com homologias.
+
+A partir do código de barras é também possível calcular quantidades mais analíticas, por exemplo a variação total da função. A variação total de $f$ pode ser definida de várias formas equivalentes, mas a ideia é medir quanto é que o $f$ sobe e desce, sendo que subir 1 metro e descer 1 metro conta como andar 2 metros. Uma definição possível neste contexto é $\mathop{\mathrm{var}}(f) = \int_0^{2\pi} \abs{f'(t)} \dl t$, que é claramente uma quantidade analítica (dizer mais palavras?). No entanto, podemos ler esta quantidade do código de barras da seguinte forma: Primeiro, somamos o comprimento de todas as barras finitas a multiplicar por dois, porque estas representam uma descida e subida. Depois, somamos duas vezes o máximo menos o mínimo. (Apontar no desenho a que correspondem estas variações.) Conclusão: podemos ler a variação total de $f$ a partir do seu código de barras.
+
+\subsubsection{Estimativas}
+
+(Esta parte pode ser skippada se houver pouco tempo?)
+
+Para além de ler quantidades em códigos de barras, estes também podem ser utilizados para fazer certas estimativas. Comecemos com um facto óbvio: Se $f$ e $g$ são funções distintas, os seus códigos de barras são distintos.
+
+Ora, o interesse surge quando pensamos em como quantificar quão diferentes duas funções. Há várias formas de medir quão diferente $f$ e $g$ são (norma uniforme, norma $C^1$, normas $L^p$, e (talvez algo surpreendentemente) existe uma forma de medir quão diferentes dois códigos de barras são, chamada `bottleneck distance'. (Dar ideia da bottleneck distance?)
+
+Uma questão óbvia que surge é a seguinte: Será que a bottleneck distance entre o código de barras de $f$ e o de $g$ está relacionado com alguma distância entre $f$ e $g$?
+
+Infelizmente não é possível ter algo tipo igualdade, porque existem funções distintas cujos códigos de barras são iguais (e.g. transladar uma função). No entanto, é possível provar a seguinte igualdade:
+\begin{equation}\label{eq1}
+d(B_f,B_g) \leq \Norm{f-g}_{\text{unif}}.
+\end{equation}
+
+Este exemplo não parece muito impressionante, mas estimativas deste estilo têm utilidade teórica. Por exemplo, em geometria simplética existe um conceito chamado `distância de Hofer'. Os detalhes não são relevantes, mas o que é relevante é que isto é uma métrica num certo espaço, mas isso não é trivial de verificar. Como devem saber, uma métrica em $X$ é uma função $d \colon X \times X \to [0,\infty]$ que satisfaz: i) $d(x,x) = 0$, ii) $d(x,y) = d(y,x)$, iii) $d(x,y) + d(y,z) \geq d(x,z)$ e iv) Se $d(x,y) = 0$ então $x=y$. As primeiras três propriedades são fáceis de verificar para a distância de Hofer, mas a quarta é não-trivial, e uma possível abordagem para a demonstrar passa por uma estimativa do tipo \eqref{eq1}.
+
+\subsubsection{Entre outros/Conclusão}
+
+Talvez não estejam impressionados pelo poder dos códigos de barras. De facto, os exemplos dados até agora não são nada de especial. No entanto, o interesse (do meu ponto de vista) está naquilo que não viram.
+
+Considerem o seguinte. Neste objeto que construimos estão escondidas várias quantidades importantes sobre $f$ que conhecemos. Isso levanta a questão: que propriedades é que os códigos de barras escondem que ainda não conhecemos? Considerem as seguintes quantidades: O número de barras. O tamanho da maior barra finita. O tamanho da menor barra. O maior número de barras sobrepostas. O maior número de barras contidas umas nas outras. Isto são só coisas que eu mandei agora ao calhas, mas quem sabe quais destas poderão ter alguma importância? Isso é parte daquilo que eu gosto sobre códigos de barras: são um objeto simples o suficiente para estudar, mas complicado o suficiente para ter neles escondido várias outras quantidades importantes para outros propósitos.
+
+(Palestra over)
 
 \end{document}

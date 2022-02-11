@@ -1,0 +1,178 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\alph*)}
+
+\title{Differential Geometry Homework 7}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\im}{im}
+\newcommand{\grad}{\nabla}
+\newcommand{\into}{\mathbin{\lrcorner}}
+\newcommand{\id}{\mathrm{id}}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\pc}{P^1_\C}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $L \to \pc$ be the tautological line bundle. Let $U_z$ and $U_w$ be charts on $\pc$, both with coordinates living in $\C$, and with correspondences
+\[z \mapsto [z,1], \quad w \mapsto [1,w].\]
+
+\begin{enumerate}
+\item Consider the trivializations on $U_z$ and $U_w$ induced by the (complex) frames: $s_z \colon [z,1] \mapsto (z,1)$, $s_w \colon [1,w] \mapsto (1,w)$. Determine the corresponding transition function $g_{zw}$.
+
+\item Define the following elements of the dual bundle
+\[ \omega_z = \frac{-\overline{z}}{1+\abs{z}^2} \dl z, \quad \omega_w = \frac{-\overline{w}}{1+\abs{w}^2} \dl w.\]
+
+Show that these forms are connections forms for some connection on $L^*$.
+
+\item Compute the curvature form on $U_z$.
+
+\item Compute the first Chern number.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) The transition function $g_{zw}$ satisfies: If a section is of the form $s = \alpha s_w$, then it is of the form $s = g_{zw} \alpha s_z$. Consequently, if we set $\alpha = 1$, we may write $g_{zw} s_z = s_w$, so we need only write $s_w$ in terms of $s_z$.
+
+Well, at a point $[z,w]$, we get that
+\[s_z = (\frac zw, 1), \quad s_w = (1,\frac wz) = \frac wz s_z,\]
+so we conclude
+\[g_{zw}[z,w] = \frac wz.\]
+
+This notation isn't very good for the following computations, because we will only be using either the representations $[z,1]$ or $[1,w]$. Under this notation,
+\[g_{zw} = w = \frac1z.\]
+
+\medskip
+
+b) The first step is to compute the dual cocycles $g_{zw}^*$, so that afterwards we may verify the condition $\omega_z = g^*_{zw} \omega_w g^*_{wz} + g^*_{zw} \dl g^*_{wz}$. As such, I will deduce the formula for dual cocycles.
+
+Suppose that we have a formula for some cocycle $g_{12}$, which can be used to transform from a frame $s_1$ to a frame $s_2$ in the manner
+\[(s_2)_j = \sum_i (s_1)_i (g_{12})_{ij}.\]
+
+This allows us to compute the dual frame $s_2^*$ in terms of $s_1^*$. Let $v$ be a vector on the intersection of the domains of the two frames. Then,
+\[v = \sum_j (s_2^*)_j v \, (s_2)_j = \sum_{i,j} (s_2^*)_j v \, (g_{12})_{ij} (s_1)_i.\]
+
+As a consequence, $(s_1^*)_i v = \sum_j (s_2^*)_j v \, (g_{12})_{ij}$, i.e.
+\[(s_1^*)_j = \sum_i (s_2^*)_i (g_{12})_{ji}.\]
+
+In other words, $(g_{21}^*) = (g_{12})^T = ((g_{21})^{-1})^T$. (I think that this is surprising, because I was expecting a conjugate transpose, but the math seems to check out.) In our case, this translates to
+\[g_{zw}^* = \frac1{g_{zw}} = \frac 1w; \quad g_{wz}^* = w.\]
+
+Therefore, we compute $g^*_{zw} \omega_w g^*_{wz} + g^*_{zw} \dl g^*_{wz}$. Note that since we are in a line bundle, the first term is simply $\omega_w$, so it suffices to compute
+\begin{equation*}
+\omega_w + g^*_{zw} \dl g^*_{wz} = \frac{-\overline{w}}{1+\abs{w}^2} \dl2 w + z \dl2 w
+\end{equation*}
+
+To continue the computations, we need to write $\dl z$ in terms of $\dl w$. We know that (where both are defined) $zw = 1$, and therefore
+\[\dl(zw) = 0\text{, i.e. } \dl z \, w + z \dl w = 0.\]
+
+(Note: In principle, I should take care here, because I'm taking rules that are true in the real realm and applying them to complex-valued stuff. So I took my pen and paper and verified the above identity, looking at complex stuff as though they lived in $\R^2$ and doing the math on the components, and it checked out.)
+
+Therefore, $\dl w = -\frac wz \dl z$. Note also that as a consequence of the condition $zw=1$, all instances of $w$ can be replaced by $1/z$, and so
+
+\begin{align*}
+\omega_w + g^*_{zw} \dl g^*_{wz} &=\frac{-\overline{w}}{1+\abs{w}^2} \dl2 w + z \dl2 w\\
+&= \frac{-1/\overline{z}}{1+1/\abs{z}^2} \frac{-w}z \dl z - z \frac wz \dl z\\
+&= \frac{1}{1+\abs{z}^2} \frac1z \dl z - \frac1z \dl2 w\\
+&= \frac1z \left(\frac{1}{1+\abs{z}^2} - 1\right) \dl2 w\\
+&= \frac1z \frac{-\abs{z}^2}{1+\abs{z}^2} \dl2 w\\
+&= \frac{-\overline{z}}{1+\abs{z}^2} \dl2 w = \omega_z.
+\end{align*}
+
+In conclusion, the forms $\omega_w$ and $\omega_z$ transform as required, and therefore induce a connection on $\pc$.
+
+\medskip
+
+c) The curvature form is given by $\Omega_z = \dl \omega_z + \omega_z \wedge \omega_z$. Since we're in a line bundle, the second term vanishes, so it suffices to compute
+\begin{align*}
+\dl \omega_z &= - \dl \frac{\overline{z}}{1+\abs{z}^2} \wedge \dl z\\
+&= - \left( \frac{\dl \overline{z}}{1+\abs{z}^2} - \overline{z} \frac{\dl(1+\abs{z}^2)}{(1+\abs{z}^2)^2} \right) \wedge \dl z\\
+&= - \frac1{1+\abs{z}^2} \dl \overline{z} \wedge \dl z + \left(\overline{z} \frac{\dl(1+\abs{z}^2)}{(1+\abs{z}^2)^2} \right) \wedge \dl z\\
+&= - \frac1{1+\abs{z}^2} \dl \overline{z} \wedge \dl z + \left(\overline{z} \frac{z \dl \overline{z} + \cancel{\overline{z} \dl z}}{(1+\abs{z}^2)^2} \right) \wedge \dl z\\
+&= - \frac1{1+\abs{z}^2} \dl \overline{z} \wedge \dl z + \left(\overline{z} \frac1{(1+\abs{z}^2)^2} \right) z \dl2 \overline{z} \wedge \dl z\\
+&= \left(- \frac1{1+\abs{z}^2} + \overline{z} \frac1{(1+\abs{z}^2)^2}  z \right) \dl \overline{z} \wedge \dl z\\
+&= \left(\frac{-1-\abs{z}^2}{(1+\abs{z}^2)} + \frac{\abs{z}^2}{(1+\abs{z}^2)^2} \right) \dl \overline{z} \wedge \dl z\\
+&= \frac1{(1+\abs{z}^2)^2} \dl z \wedge \dl \overline{z}.
+\end{align*}
+
+\medskip
+
+d) Since the matrix $\Omega$ has only one entry, its trace (i.e. $c_1$) is $\Omega$ itself, so we integrate $\frac\I{2\pi}\Omega$. Since the $z$ chart covers the whole space except a submanifold of dimension one, and hence measure zero, it suffices to integrate $\frac\I{2\pi}\Omega_z$ over $\C$, so we do:
+\begin{align*}
+\underline{c_1} &= \frac\I{2\pi} \iint \frac1{(1+x^2+y^2)^2} \dl3(x+\I y) \wedge \dl(x-\I y)\\
+&= \frac\I{2\pi} \iint \frac1{(1+x^2+y^2)^2} \, 2 \I \dl3 x \wedge \dl y\\
+&= - \frac1\pi \iint \frac1{(1+x^2+y^2)^2} \dl3 x \dl3 y.
+\end{align*}
+
+This is a nasty integral. Switch to polar coordinates:
+\begin{align*}
+\underline{c_1} &= - \frac1\pi \iint \frac1{(1+x^2+y^2)^2} \dl3 x \dl3 y\\
+&= - \frac1\pi \int_0^{2\pi} \int_0^\infty \frac1{(1+r^2)^2} r \dl3 r \dl3 \theta\\
+&= \int_0^\infty \frac {-2r}{(1+r^2)^2} \dl3 r.
+\end{align*}
+
+(There are a bunch of things that probably should be said here. The standard argument about how we're ignoring a set of null measure. Verifying that the coordinates $(r,\theta)$ are positively oriented. That's all routine and tiresome to write, so I didn't.)
+
+Now, I have to calculate that integral. By eye, I was able to guess a primitive: $\frac1{1+r^2}$, and so
+\[\underline{c_1} = \left[ \frac1{1+r^2} \right]_0^\infty = -1.\]
+
+\end{sol}
+
+\begin{ex}
+
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}

@@ -1,0 +1,248 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\alph*)}
+
+\title{Differential Geometry Homework 5}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\im}{im}
+\newcommand{\grad}{\nabla}
+\newcommand{\into}{\mathbin{\lrcorner}}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Explain the short exact sequence of complexes
+\[0 \leftarrow \Omega^*_c M \xleftarrow{f} \Omega^*_c U \oplus \Omega^*_c V \xleftarrow{g} \Omega^*_c (U \cap V) \leftarrow 0.\]
+\end{ex}
+
+\begin{sol}
+First, I need to recall what the maps $f$ and $g$ are. To do so, it is useful to first note an easy auxiliary fact: If $U$ is an open subset of a manifold $M$ (and hence a submanifold), any compactly supported form on $U$ can be smoothly extended to one on $M$ by zero. Consequently, we may see $\Omega^*_c U$ as a subset of $\Omega^*_c M$.
+
+With this in mind, $f$ and $g$ become easy to describe. The map $g$ simply includes a form $\omega \in \Omega^*_c(U \cap V)$ into $U$ and $V$ and makes a pair with the both of them, except that the second is negated so that the sequence becomes exact. On the other hand, $f$ simply takes a pair of forms, includes them in $\Omega^*_c M$ and adds them.
+
+It remains to explain why the sequence is exact.
+
+\begin{itemize}
+\item ($f$ is surjective) Use a partition of unity $\{\varphi, \psi\}$ subordinate to $U$ and $V$. Multiply a form $\omega$ on $M$ by these two functions to obtain two forms, both smooth with compact support contained in $U$ and $V$, whose sum is $\omega$.
+
+\item ($g$ is injective) Obvious.
+
+\item ($\im g \subseteq \ker f$) Obvious, given that $\omega \in \Omega^*_c(U \cap V)$ is turned into $(\omega,-\omega)$ by $g$, which is turned into 0 by $f$.
+
+\item ($\ker f \subseteq \im g$) Let $(\omega,\eta) \in \Omega^*_c U \oplus \Omega^*_c V$ be in the kernel of $f$. In other words, $\omega+\eta=0$ on $M$, i.e. $\eta = -\omega$ on $M$. Consequently, since one of the sides of this equality has support compactly contained in $U$ and the other in $V$, we conclude that the support of $\omega$ is actually compactly contained in $U \cap V$, so we can see $\omega$ as a form on this intersection by restricting it. Obviously, such a restriction has the desired image under $g$.
+\end{itemize}
+\end{sol}
+
+\begin{ex}
+Use Mayer-Vietoris to prove that there exists a long exact sequence
+\[\cdots \rightarrow H^k P^n_\C \to H^k P^{n-1}_\C \oplus H^k \C^n \to H^k S^{2n-1} \to H^{k+1} P^n_\C \to \cdots\]
+and use it to compute the cohomology of complex projective space.
+\end{ex}
+
+\begin{sol}
+First, we decompose complex projective space as the union of two open sets.
+
+Consider $P^n_\C$ as the quotient of $\C^{n+1} \setminus 0$ by the (free proper) action of $\C \setminus 0$ given by scalar product. Consider the subset of $\C^{n+1} \setminus 0$ given by those tuples whose first element is nonzero. This is an open subset of $\C^{n+1}$, and it is saturated under the action of $\C \setminus 0$, so its projection is an open subset $U$ of $P^n_\C$. Note that $U$ is diffeomorphic to $\C^n$ by the map
+\begin{align*}
+\C^n &\to U \subseteq P^n_\C\\
+(z_1, \dots, z_n) &\mapsto [1,z_1,\dots,z_n].
+\end{align*}
+
+Now, for the other open we consider the subset of $\C^{n+1}$ given by those tuples whose last $n$ components are not all open. Again, this is a saturated open, so its image $V$ is an open subset of projective space. I do not know of any easy description of $V$, but I can show that $V$ is retractible by deformation to $P^n_\C$.
+
+Indeed, a generic element of $V$ is an equivalence class of the form
+\[ [z_1, z_2, \dots, z_{n+1}]\text{, with $(z_2, \dots, z_{n+1}) \neq 0$.}\] Consequently, we may smoothly deform $z_1$ into zero using the straight-line homotopy. Doing the same for all elements of $V$, we conclude that $V$ is smoothly retractable into the set of elements of projective space whose first element is zero, which is the same as projective space of dimension one lower.
+
+
+Finally, let us look at $U \cap V$. This is the collection of elements $[z_1, z_2, \dots, z_{n+1}]$ in projective space with $z_1 \neq 0$ and $(z_2, \dots, z_{n+1}) \neq 0$. We begin by noting that each of these representatives has a canonical element: since $z_1 \neq 0$ we may divide the tuple by $z_1$ and so obtain a unique representative of the form $(1, z_2, \dots, z_{n+1})$. This may be used (details ommitted) to show that $U \cap V$ is diffeomorphic to $\C^n \setminus \{0\}$. In turn, this is the same as $\R^{2n} \setminus \{0\}$, which is deformation retractible to $S^{2n-1}$.
+
+In conclusion, we've decomposed $P^n_\C$ as $U \cup V$, where $U$ and $V$ are open sets satisfying the following homotopy equivalences:
+\[U \simeq \C^n, \quad V \simeq P^{n-1}_\C, \quad U \cap V \simeq S^{2n-1}.\]
+
+Now, application of the Mayer-Vietoris sequence and homotopy invariance of cohomology obviously yields the desired long exact sequence, so now it suffices to use it to calculate the cohomology of projective space. To do so, we simplify the Mayer-Vietoris sequence.
+
+First, we recall that the cohomology of $\C^n$ is null except for the zeroth, which is $\R$. Then, the cohomology of $S^{2n-1}$ is null except for the zeroth and $2n-1$-th, which are both $\R$. Consequently, the Mayer-Vietoris sequence looks like:
+\begin{align*}
+0 \rightarrow &H^0 P^n_\C \rightarrow &&H^0 P^{n-1}_\C \oplus \R \rightarrow &&\R \rightarrow\\
+\rightarrow &H^1 P^n_\C \rightarrow &&H^1 P^{n-1}_\C \rightarrow &&0 \rightarrow\\
+\rightarrow &H^2 P^n_\C \rightarrow &&H^2  P^{n-1}_\C \rightarrow &&0 \rightarrow\\
+\rightarrow &&&\dots \rightarrow&&\\
+\rightarrow &H^{2n-2} P^n_\C \rightarrow &&H^{2n-2} P^{n-1}_\C \rightarrow &&0 \rightarrow\\
+\rightarrow &H^{2n-1} P^n_\C \rightarrow &&0 \rightarrow &&\R \rightarrow\\
+\rightarrow &H^{2n} P^n_\C \rightarrow &&0 \rightarrow &&0 \rightarrow \dots
+\end{align*}
+
+Note that all elements of the exact sequence after these last few, as well as $H^{2n-1} P^{n-1}_\C$ (which was omitted) are null by dimensional considerations. We may now begin the computations.
+
+First, we calculate the cohomology of $P^0_\C$. This is simply a point, whose only nontrivial cohomology is the zeroth, which is $\R$.
+
+We can also calculate the cohomology of $P^1_\C$, as it is 
+
+Now, suppose that the cohomology of $P^{n-1}_C$ is known. First, we remark that, from rows 2 until $2n-2$ of the Mayer-Vietoris sequence above, we know that $H^k P^n_\C$ is isomorphic to $H^k P^{n-1}_\C$, so it suffices only to calculate the cohomologies 0, 1, $2n-1$ and $2n$.
+
+The zeroth cohomology is obviously $\R$ because projective space is connected.
+
+The $2n-1$-th cohomology is null because $0 \rightarrow H^{2n-1} P^n_\C \rightarrow 0$ is exact.
+
+The $2n$-th cohomology is $\R$.
+
+The only remaining cohomology is the first, which, by Poincaré duality, is isomorphic to the $(2n-1)$th cohomology, which is known to be null.
+
+In conclusion, the cohomology of $P^{n+1}_\C$ is the same as that of $P^n_\C$, except you add an $\R$ in degree $2n$ (plus the detail about the first homology, but that one is always null). From this, it is clear that the cohomology of $P^n_\C$ is an $\R$ in the even degrees until $2n$.
+
+Note: The above computations work a little bit differently for $n=1$ because the start and the end of the long exact sequence are very close. But the cohomology for $P^1_\C$ can be computed explicitly knowing that $P^1_\C$ is $S^1$. The proof of this was mostly made in exercise 3b of homework 2, where we showed that $S^3$ (seen as pairs of complexes with total norm 1) quotiented by the action of the unit circle is $S^2$, and that is a possible way to realize $P^1_\C$ if we restrict our equivalence classes $[z,w]$ to pairs with unit total norm. The end result is the same.
+\end{sol}
+
+\begin{ex}
+Let $M$ be an oriented manifold of finite type with dimension $m$. Let $A$ be a proper oriented submanifold of dimension $k$.
+\begin{enumerate}
+\item Show that there exists a closed form $\eta$ of rank $m-k$ on $M$ such that for all closed $k$-forms $\omega$ of compact support on $M$ we have
+\[\int_A \omega = \int_M \omega \wedge \eta.\]
+
+\item Suppose that $A \cup B$ is the border of some $k+1$-dimensional embedded submanifold $W$, with $A$ and $B$ disjoint. Show that for an appropriate choice of orientation for $B$, the closed Poincaré dual of $A$ and $B$ coincide.
+
+\item Assume now that $A$ is compact. Show that there exists a compactly supported $m-k$-form on $M$, say $\eta'$, such that for $\omega$ a closed form of rank $k$ on $M$ we have
+\[\int_A \omega = \int_M \omega \wedge \eta'.\]
+
+Show that you can choose a representative of the compact Poincaré dual whose support is arbitrarily close to $A$.
+
+\item Let $M = \R^2 \setminus \{0\}$, $C$ the unit circle and $A$ the positive $x$ half-axis. Determine $\eta_A$, $\eta_C$ and $\eta'_C$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) Easy application of Poincaré duality, which holds because $M$ is of finite type. Consider the functional
+\begin{align*}
+\varphi \colon H^k_c(M) &\to \R\\
+[\omega] \mapsto \int_A \omega.
+\end{align*}
+Note that this is well-defined because the image does not depend on the representative by Stokes and $i^* \dl = \dl i^^ *$. The right-hand side exists because, since $A$ is proper, $i^* \omega$ has compact support in $A$, and since $A$ is oriented the integral exists.
+
+Clearly, $\varphi \in (H^k_c(M))^*$, and hence, by Poincaré duality, there corresponds to it a form $\eta \in H^{n-k}(M)$, in the sense that evaluating $\varphi(\omega)$ corresponds to integrating $\omega \wedge \eta$. In other words,
+\[\int_A \omega = \varphi(\omega) = \int_M \omega \wedge \eta,\]
+which completes the proof.
+
+\medskip
+
+b) Suppose that $A \cup B$ is the border of $W$, \emph{and that the orientation of $A$ matches the orientation induced by $W$}. Induce on $B$ the orientation \emph{opposite} to the induced orientation. We will show that the closed Poincaré duals of $A$ and $B$ coincide. To this effect, it suffices to show that for any closed compact $k$-form $\omega$ we have
+\[\int_A \omega = \int_B \omega.\]
+
+(This will show that the functionals corresponding to integration on $A$ and on $B$ coincide and so the cohomology class obtained by the Poincaré isomorphism is the same.)
+
+This is obvious because
+\[\int_A \omega - \int_B \omega = \int_{\partial W} \omega = \int_W \dl \omega = \int_W 0 = 0,\]
+by Stokes and closedness of $\omega$.
+
+\medskip
+
+c) The same agrument used in a) works to prove that the compact Poincaré dual exists: Since $A$ is compact, integration on $A$ is well-defined for arbitrary closed forms, so that induces a functional on $H^k(M)$, and the Poincaré duality isomorphism yields that to this functional corresponds a closed form with compact support $\eta'$ such that evaluating the functional on $[\omega]$ is the same as integrating $\omega \wedge \eta'$.
+
+To show that we can find representatives of the Poincaré dual as close to $A$ as we like: Let $U$ be an arbitrary neighborhood of $A$. Then, construct the Poincaré dual of $A$ within the manifold $U$. A representative of this homology class is also a Poincaré dual in $M$, for the following reason: Forms with compact support on $U$ can be seen as forms of compact support on $M$ by extending by zero, and furthermore evaluating $\int_M \omega \wedge \eta'$ when the support of $\eta'$ is compactly contained in $U$ is the same as to evaluate this integral on $U$, which in turn (by the definition of $\eta'$ as the Poincaré dual of $A$ in $U$) is the same as integrating $\omega$ on $A$.
+
+\medskip
+
+d) Let $\eta_A = \frac1{2\pi} \dl \theta$. We will show that this is the closed Poincaré dual of $A$ by showing that, for $\omega$ a closed compact $1$-form
+\[\int_A \omega = \frac1{2\pi} \int_M \omega \wedge \dl \theta.\]
+
+To this effect, define $\omega_\theta$, for $\theta \in [0,2\pi]$, as the pullback by rotation by $\theta$ of $\omega$. We note that the integral of $\omega_\theta$ on $A$ does not depend on $\theta$. To see this, note that $\int_A \omega_\theta$ is the same as integrating $\omega$ on the ray going from the origin to infinity at angle $-\theta$, say $A_{-\theta}$, so it suffices to show that
+\[\int_A \omega = \int_{A_{-\theta}} \omega.\]
+
+This can be shown using the Stokes theorem and an appropriately chosen annulus slice (with rounded corners if you don't believe in manifolds with corners).
+
+Let $\overline{\omega} = \frac1{2\pi} \int_0^{2\pi} \omega_\theta \dl \theta$. This is also a closed one-form, whose integral on $A$ is the same as that of $\omega$, with the important property that $\overline\omega$ is rotationally symmetric. Consequently, using Fubini's theorem and polar coordinates,
+\begin{multline*}
+\int_A \omega = \int_A \overline{\omega} = \int_0^\infty \overline{\omega}(\partial_r) \dl3 r = \frac1{2\pi} \int_0^\infty \int_0^{2\pi} \omega(\partial_r) \dl3 \theta \dl3 r\\
+= \frac1{2\pi} \iint (\omega \wedge \dl \theta)(\partial_r, \partial_\theta) \dl3\theta \dl3r = \frac1{2\pi} \int_M \omega \wedge \dl \theta.
+\end{multline*}
+
+This proves that $\eta_A = \frac1{2\pi} \dl \theta$.
+
+\smallskip
+
+Now we compute $\eta_C$. This one is very easy. Indeed, if $\omega$ is a closed compact 1-form on $\R^2 \setminus \{0\}$, it is also a closed compact 1-form on $\R^2$. Consequently, $\int_C \omega = \int_D \dl \omega$, where $D$ is the unit disk, and since $\omega$ is closed this integral is null. Consequently, we may consider $\eta_C = 0$.
+
+Finally, we compute $\eta'_C$. Let $\varphi$ be a compact support bump function with integral 1 in $\R^+$, and set $\eta' = \varphi(r) \dl1 r$. Suppose without loss of generality that the support of $\varphi$ is contained in $\left]0,1\right[$.
+
+Now, let $\omega$ be a closed 1-form on $M$. We compute $\int_M \omega \wedge \eta'_C$. Since $\eta'$ has compact support contained in the unit disk, we may instead evaluate $\int_D \omega \wedge \eta'_C$. Now, we may write $\eta'_C = \dl(F(r))$, where $F$ is a primitive of $\varphi$, so that
+\[\omega \wedge \eta' = \omega \wedge \dl(F(r)) = -\dl(F(r) \omega) + F(r) \dl \omega = -\dl(F(r) \omega).\]
+
+As such, we may use the Stokes theorem to conclude
+\[\int_D \omega \wedge \eta' = -\int_D \dl(F(r) \omega) = -\int_C F(r) \omega = -F(1) \int_C \omega.\]
+
+However, we must be careful to ensure that $F(r) \omega$ is a well-defined form on $D$. To this effect, we pick the primitive $F$ such that $F$ is 0 in a neighborhood of 0. Consequently, $F(1) = 1$.
+
+In conclusion,
+\[\int_C \omega = - \int_D \omega \wedge \eta'= -\int_M \omega \wedge \eta',\]
+and therefore $\eta'_C = -\eta' = -\varphi(r) \dl1r$.
+\end{sol}
+
+\begin{ex}
+Let $X$ be a vector field on $M$. Show that $X$ is non-degenerate iff it (as a function $M \to TM$) is transverse to the zero-section.
+\end{ex}
+
+\begin{sol}
+We begin by noting that both non-degeneracy and transversality with the zero-section are a condition that holds at the zeroes of $X$.
+
+Transversality states: For each zero $p$ of $X$, $\im \dl_p X \oplus T_p M = T_{p,0} (TM)$.
+
+Non-degeneracy states: For each zero $p$ of $X$, $D = \pi_2 \circ \dl_p X$ is invertible (where $\pi_2$ is the projection of $T_{p,0} (TM) \cong T_p M \oplus T_p M$ in the second coordinate.
+
+To see that these are equivalent, consider the matrix associated to $\dl_p X$:
+\[\dl_p X = \begin{bmatrix} I \\ D \end{bmatrix},\]
+because the expression of $X$ in coordinates is $(x_1, \dots, x_n) \mapsto (x_1, \dots, x_n, X^1, \dots, X^n)$.
+
+Now, $D$ is invertible if and only if the matrix
+\[\begin{bmatrix} I & I\\ 0 & D \end{bmatrix}\]
+is invertible, iff its columns generate the entire space. Now, the last $n$ columns generate the image of $\dl_p X$ and the first $n$ columns generate the image of the zero-section, so we conclude that $D$ is invertible iff $X$ is transversal to the zero-section. This completes the proof.
+\end{sol}
+
+\end{document}

@@ -1,0 +1,143 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{graphicx}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate]{label=\alph*)}
+
+\title{Differential Geometry Homework 6}
+\author{Duarte Maia}
+\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\im}{im}
+\newcommand{\grad}{\nabla}
+\newcommand{\into}{\mathbin{\lrcorner}}
+\newcommand{\id}{\mathrm{id}}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $0 \rightarrow F \xrightarrow{a} E \xrightarrow{f} C \rightarrow 0$ be a short exact sequence of vector bundles over a smooth manifold $M$.
+\begin{enumerate}
+\item Show that the sequence splits, i.e. there exists $g \colon C \to E$ such that $f \circ g = \id$.
+
+\item Show that $E$ is isomorphic to $F \oplus C$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+a) Let $x \in M$, and pick a local frame $f_1, \dots, f_*$ for $F$. Push this frame fowards using $a$ to obtain a linearly independent collection $e_1, \dots, e_*$ on $E$. Extend this collection to a basis at $x$, and extend the vectors we added to a vector field $e_1, \dots, e_*, e'_1, \dots, e'_\bullet$ near $x$ (using, say, a local trivialization). Since linear independence is preserved under small perturbations, this collection of vector fields forms a frame near $x$. Finally, we can push this frame forwards to $C$ using $f$, and by exactness we obtain that the $e_1, \dots, e_*$ are turned to zero, but that $f(e'_1), \dots, f(e'_\bullet)$ forms a local frame for $C$.
+
+It is with the help of this local frame that we define a local $g$, simply as $g(f(e'_i)) = e'_i$.
+
+This $g$ is defined in a neighborhood of $x$, so now we glue several such $g$ using a partition of unity. The resulting function satisfies $f \circ g = \id$ because $f$ is linear and therefore
+\[f(\sum \phi_i g_i(c)) = \sum \phi_i f(g_i(c)) = \sum \phi_i \cdot c = c.\]
+
+\medskip
+
+b) We have a function $a \colon F \to E$ and another $g \colon C \to E$. This induces a function $h$ from $F \oplus C$ to $E$. By the rank-nullity theorem and the short exact sequence, we know that $\dim E = \dim F + \dim C = \dim F \oplus C$, so it suffices to show that $h$ is injective.
+
+Suppose that $h(v,w) = 0$, $v \in F$ and $w \in C$. In other words, $a(v) + g(w) = 0$. Consequently, $f(a(v) + g(w)) = 0$, but by exactness $f(a(v)) = 0$ and so we conclude
+\[w = f(g(w)) = 0.\]
+
+Therefore, $a(v) + g(w) = a(v)$, and since $a$ is injective, for this to be null we require $v = 0$. This concludes the proof that $h$ is injective and therefore that $E \cong F \oplus C$.
+\end{sol}
+
+\begin{ex}
+Let $E$ be a vector bundle over a compact manifold $M$. Show that there exists a vector bundle $F$ over $M$ such that $E \oplus F$ is trivial.
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}
+Let $M$ be compact, oriented and connected. Show that $\chi(E \oplus F) = \chi(E) \wedge \chi(F)$.
+\end{ex}
+
+\begin{sol}
+Let $U_E$ and $U_F$ be representatives of the Thom classes for $E$ and $F$. We begin by showing that, in some sense, $U_E \wedge U_F$ is a representative of the Thom class in $E \oplus F$.
+
+To do so, we consider the pullback of $U_E$ under the projection $E \oplus F \to E$, and likewise for $F$. We call these $V_E$ and $V_F$. Now, these two are closed forms on $E \oplus F$, so it makes sense to wedge these two. Now we show that $V_E \wedge V_F$ is a representative of the Thom class in $E \oplus F$.
+
+To this effect, we show that integration on the fibers yields one. Pick a frame for $E$ and a frame for $F$, and use these to induce coordinates $(x_1, \dots, x_*, y_1, \dots, y_\bullet)$ on the fibers. Then, we use these coordinates to integrate $V_E \wedge V_F$ on a fiber:
+\[\iint (V_E \wedge V_F)(\partial_x,\partial_y) \dl3x \dl3y.\]
+
+Now, if we expand the definition of the wedge and use the fact that the projections of $\partial_x$ on $F$ are null and vice-versa, one easily concludes that the wedge product simplifies to
+\[\iint U_E(\partial_x) U_F(\partial_y) \dl3x \dl3y,\]
+and the integral can be written as a product of two integrals, both of which are one by definition of the Thom class.
+
+In conclusion: We have just shown that
+\begin{equation}\label{eq1}
+U_{E \oplus F} = \pi^* U_E \wedge \pi^* U_F.
+\end{equation}
+
+Now we pull both sides of \eqref{eq1} back by, say, the zero section, call it $s$. On the left side, we obtain precisely a representative of $\chi(E \oplus F)$. On the right-hand side, we get
+\[s^*(\pi^* U_E \wedge \pi^* U_F) = (s^* \pi^* U_E) \wedge (s^* \pi^* U_F).\]
+
+Finally, the last two terms can be simplified, as, for example, $s^* \pi^* U_E = (\pi \circ s)^* U_E$, where $s$ is the zero-section on $E \oplus F$ and $\pi$ is the projection on $E$, so $\pi \circ s$ is the zero-section on $E$ and consequently $s^* \pi^* U_E = \chi(E)$. 
+
+We have thus shown that \eqref{eq1} reduces to $\chi(E \oplus F) = \chi(E) \wedge \chi(F)$, as desired.
+\end{sol}
+
+\begin{ex}
+Show that if $\chi(M) = 0$ then $M$ admits a never vanishing vector field.
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}
+(Complicated exercise)
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}
