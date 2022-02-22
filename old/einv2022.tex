@@ -1,0 +1,142 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{Palestra para Escola de Inverno 2022\\
+Códigos de Barras de Funções}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+
+\usepackage[margin=1in]{geometry}
+
+
+\begin{document}
+\maketitle
+
+\section{Introdução}
+
+%begin review
+A primeira coisa que têm de saber é que distinguir objetos geométricos é difícil. Considerem os seguintes objetos: Uma esfera. Uma linha. Um círculo. Um nó. Um toro. Será que são todos distintos?
+
+A resposta a essa questão depende da noção de igualdade, mas no que se segue vamos tomar o ponto de vista que dois objetos geométricos são distintos se são existe alguma diferença intrinsínseca, ou seja, que é possível, a partir de dentro do objeto, determinar alguma distinção. Sob esta perspetiva, o nó e o círculo são o mesmo objeto, simplesmente desenhado de forma diferente.
+
+Concluimos então que o mesmo objeto geométrico pode ser apresentado de mais de uma maneira diferente. Assim sendo, questionamo-nos se não será possível mais alguns destes objetos serem iguais uns aos outros. A resposta é que não, e a justificação passa pelos chamados invariantes geométricos.
+
+Exemplo simples: A dimensão. É um facto não-trivial que a dimensão de um objeto geométrico não depende da sua apresentação. Consequentemente, estes dois, que têm dimensão 2, não podem ser iguais a estes, que têm dimensão 1.
+
+Exemplo menos simples: O grupo fundamental. Aqueles que não sabem o que isto é vão dá-lo em Topologia, no terceiro ano. Isto é um objeto que pode ser associado a um espaço, e é possível calcular que o grupo fundamental da esfera é o grupo trivial e o grupo fundamental do toro é $\Z \oplus \Z$. Como estes grupos são distintos (um deles tem apenas um objeto e o outro não), estes dois espaços são necessariamente diferentes.
+
+Uma das utilidades de invariantes geométricos é distinguir espaços, mas alguns invariantes dão-nos informação adicional. Por exemplo, existe uma invariante chamada Característica de Euler, que é calculada decompondo o espaço em triângulos e contando faces e vértices, e nos dá informação sobre campos vetoriais nesse espaço. Para aqueles que já ouviram falar do Hairy Ball Theorem, uma demonstração rápida é: A característica de Euler da esfera é 2, que é diferente de zero.
+
+O objeto que eu vos vou apresentar hoje chama-se um Código de Barras, e é semelhante, mas não exatamente igual, aos códigos de barras que vêm nas mercearias. Códigos de barras podem ser usados para distinguir certos objetos, mas a sua maior utilidade é a informação que eles nos dão. Ou seja, não me vão ver a justificar que esta coisa e aquela são distintas porque os seus códigos de barras são distintos, mas sim a responder à questão: \emph{O que conseguimos ler de um código de barras?}
+
+Definição: Um código de barras é uma coleção finita de intervalos. (Desenhar um exemplo) Existem vários códigos de barras associados ao mesmo objeto geométrico, tal como há vários números (como a dimensão, característica de Euler, etc.). Eu vou falar de uma construção específica, que associa um código de barras a uma função de Morse através da homologia do espaço. Não precisam de saber o que estas palavras significam.
+
+%4 minutes
+
+\section{Exemplo}
+
+O objeto de estudo são funções reais no círculo, ou seja, a cada ponto do círculo estamos a fazer corresponder um número. Isto é inconveniente de representar, por isso vamos ver o círculo como um intervalo e depois colamos as pontas. Podemos agora representar uma função no círculo como um gráfico tipo aqueles aos quais estamos habituados, com o cuidado que a função tem que colar bem nas pontas, portanto não podemos ter descontinuidades tipo uma função linear.
+
+Para ser um pouco mais específico, vamos estar a falar de funções de Morse, cujo significado não precisam de saber, exceto que uma função de Morse genérica parece-se assim. [Desenhar função genérica.]
+
+Existe uma definição geral, e complicada, que associa um código de barras a uma função de Morse, mas felizmente no caso do círculo essa definição pode ser destilada numa receita simples, que vos estou prestes a apresentar.
+
+Passo 1: Identificar o mínimo da função. Agora, vamos desenhar uma barra infinita, que vai desse valor para cima.
+
+Passo 2: Identificar o mínimo a seguir. Agora, vamos desenhar uma barra que vai desse valor para cima, mas em vez de ir para o infinito, vamos parar assim que conseguirmos ver a barra anterior. Aqui em baixo, a nossa vista está bloqueada por estas montanhas, mas quando passamos daqui para cima conseguimos ver a barra inicial, por isso paramos aqui.
+
+Passo 3: Repetir com os próximos mínimos. Uma propriedade essencial de funções de Morse é que existe um número finito destes.
+
+Passo 4: Após percorrermos todos os mínimos, vamos ao máximo global e desenhamos uma barra que vai do máximo para cima. Isto termina o procedimento.
+
+%8 minutes
+
+%end review
+
+\section{Extrair Informação}
+
+Agora que construímos o código de barras de $f$, perguntamos: Que informação podemos extrair dele?
+
+Primeiro que tudo, é óbvio a partir do código de barras de $f$ qual o valor máximo e mínimo de $f$. O código de barras tem exatamente duas barras infinitas, e os seus extremos inferiores correspondem ao mínimo e ao máximo.
+
+Podemos também averiguar quais são os valores críticos de $f$, isto é, os picos e os vales. Os picos são os extremos superiores das barras (com a exceção do máximo global) e os vales são os extremos inferiores.
+
+A partir do código de barras é também possível extrair informação mais analítica, por exemplo a variação total de $f$. A variação total de uma função pode ser definida de várias formas equivalentes, mas resumidamente mede quanto é que a função sobe e desce, sendo que subir um metro e descer um metro conta como variação total de 2 metros. Uma definição possível neste contexto é:
+\[\text{variação total de $f$} = \int_0^{2\pi} \abs{f'(t)} \dl t.\]
+
+Isto é uma quantidade que parece um pouco complicada: o integral de um valor absoluto de uma derivada. No entanto, podemos ler a variação total de $f$ a partir do seu código de barras de forma muito simples: Contamos duas vezes o comprimento de cada barra finita, e no final somamos duas vezes o máximo menos o mínimo. (Apontar no desenho a correspondência entre as variações.)
+
+%10 minutes?
+
+\section{Conclusão}
+
+Provavelmente não estão impressionados com o poder dos códigos de barras. Os exemplos que vos mostrei até agora são muito simples, e não dizem nada de novo sobre a função, mas o interessante está nos exemplos que \emph{não} vos mostrei.
+
+O que fizemos foi fazer correspondências entre propriedades importantes de $f$ e propriedades do seu código de barras, mas isso levanta a possibilidade de fazer as coisas ao contrário. O que acontece se eu começar com propriedades do código de barras de $f$ e tentar ver a que corresponde?
+
+Considerem as seguintes quantidades:
+\begin{itemize}
+\item O número de barras.
+\item O tamanho da maior barra finita.
+\item O tamanho da menor barra.
+\item O maior número de barras sobrepostas.
+\item O maior número de barras contidas umas nas outras.
+\end{itemize}
+
+Isto são quantidades que eu mandei ao calhas, mas quem sabe se algumas delas não serão alguma propriedade importante da função? Isto já aconteceu nalgumas áreas: Invariantes complicados que já eram conhecidas por outros meios foram reconhecidos como quantidades associados a códigos de barras, ou quantidades associadas a códigos de barras que se tornaram em invariantes importantes.
+
+É isto que estou a estudar para a minha tese de mestrado. Estou a estudar num contexto diferente e mais complicado, mas as ideias são as mesmas. Tenho uns certos objetos, tenho construções complicadas de códigos de barras associados a eles, e estou a tentar perceber: Que informação consigo ler a partir dos códigos de barras?
+
+(Palestra over)
+
+\end{document}

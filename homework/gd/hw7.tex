@@ -58,6 +58,8 @@
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 \newcommand{\pc}{P^1_\C}
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\J}{\mathrm{j}}
 
 \begin{document}
 \maketitle
@@ -77,6 +79,15 @@ Show that these forms are connections forms for some connection on $L^*$.
 \item Compute the curvature form on $U_z$.
 
 \item Compute the first Chern number.
+
+\item Compute $\underline{c_1}(L^{\otimes k} \otimes (L^*)^{\otimes r})$.
+
+\item Show that there exist two linearly independent sections $\sigma, \eta \in \Gamma(L^*)$ given by
+\[\sigma|_{U_z} = s^*_z, \sigma|_{w=0} = 0; \quad \eta|_{U_w} = s^*_w, \eta|_{z=0} = 0.\]
+
+Show also that they are holomorphic, in the sense that their covariant derivatives in the directions of $\overline{z}$ and $\overline{w}$ are null.
+
+\item Show that any section of the form $a \sigma + b \eta$, with $a,b \in \C$, has one simple zero.
 \end{enumerate}
 \end{ex}
 
@@ -165,14 +176,165 @@ This is a nasty integral. Switch to polar coordinates:
 Now, I have to calculate that integral. By eye, I was able to guess a primitive: $\frac1{1+r^2}$, and so
 \[\underline{c_1} = \left[ \frac1{1+r^2} \right]_0^\infty = -1.\]
 
+\medskip
+
+e) First I need to consider a connection on the tensor product. It is natural to define, on a tensor of vector bundles $E \otimes F$,
+\[\nabla_X(s_1 \otimes s_2) = (\nabla_X s_1 \otimes s_2) + s_1 \otimes \nabla_X s_2.\]
+
+This means that if $E$ has a frame $s_1, \dots, s_e$ and $F$ has a frame $s'_1, \dots, s'_f$, the tensor has a natural frame $s_i \otimes s'_j$, to which are associated forms $\omega''_{ii'jj'}$. It is easy to tell that these can be written in terms of the connection forms on $E$ and $F$ as
+\[\omega''_{ii'jj'} = \omega_{ij} + \omega'_{i'j'}.\]
+
+What follows is easier to describe in the case where, $E$ and $F$ are line bundles, and consequently so is $E \otimes F$. In that case, there is only one $\omega'' = \omega + \omega'$, and consequently, the curvature forms on the tensor becomes
+\[\Omega'' = \dl \omega'' = \Omega + \Omega'.\]
+
+Consequently, it is trivial to check that the Chern number of a tensor of line bundles is the sum of the Chern numbers of the factors, i.e.
+\[\underline{c_1}(L^{\otimes k} \otimes (L^*)^{\otimes r}) = k \underline{c_1}(L) + r \underline{c_1}(L^*).\]
+
+We already know that $\underline{c_1}(L^*) = -1$. To compute $\underline{c_1}(L)$, let us compute the Chern numbers of duals of line bundles. In this case, if we know the cocycles $g_{12}$ of the bundle $L$, the cocycles of $L^*$ are given by $1/g_{12} = g_{21}$ (note that these are complex numbers in this case). Consequently, we know that the connection forms of $L$ transform like
+\[\omega_1 = \omega_2 + g_{21} \dl2 g_{12},\]
+therefore it is obvious that if we consider the forms $-\omega_i$, these transform as they should in the dual bundle. In other words, we may induce a connection on the dual by negating the connection forms. This also negates the curvature forms, and thus the Chern number. Hence, we conclude
+\[\underline{c_1}(L) = -\underline{c_1}(L^*) = 1.\]
+
+Therefore, the answer to the problem is
+\[\underline{c_1}(L^{\otimes k} \otimes (L^*)^{\otimes r}) = k - r.\]
+
+\medskip
+
+f) First, we need to check that $\sigma$ and $\eta$ are smooth. I will only do $\sigma$.
+
+To show smoothness, it suffices to show smoothness in the $z$ and $w$ chart because they cover the manifold. To that effect, it we compute the coordinates of $\sigma$ in the $w$ chart; we already know that they are constant equal to 1 in the $z$ chart.
+
+So, let $\sigma = a s^*_w$. Obviously, $a = 0$ when $w=0$. For $w \neq 0$, we compute $a = \sigma(s_w)$:
+\[\sigma(s_w) = \sigma(1,w) = s^*_z(1,\frac1z) = s^*_z(\frac1z s_z) = w.\]
+
+In conclusion, $\sigma = w s^*_w$. Likewise, one can show $\eta = z s^*_z$. This is obviously smooth.
+
+Linear independence is clear from the fact that there exist points in which one section vanishes but not the other and vice-versa.
+
+Finally, we show that they are holomorphic. Again, I will only do $\sigma$, as $\eta$ is basically the same.
+
+First we compute the covariant derivative in $\partial_{\overline{z}}$, as that one is very easy. Indeed, by definition, on $U_z$,
+\[\nabla_{\partial_{\overline{z}}} \sigma = \omega_z(\partial_{\overline{z}}) s^*_z = -\frac{\overline{z}}{1+\abs{z}^2} \dl2z(\partial_{\overline{z}}) s^*_z.\]
+
+Now, I don't actually know what the meaning of $\dl z (\partial_{\overline z})$ is, but from context I'm going to assume that $z$ and $\overline{z}$ can be seen as independent coordinates, and so this term is zero and consequently $\nabla_{\partial{\overline z}} \sigma = 0$, at least when $w \neq 0$. Of course, by continuity the same is true for $w = 0$.
+
+Now we compute the derivative in the $\overline{w}$ direction, this time using the definition on $U_w$. Indeed,
+\[\nabla_{\partial_{\overline{w}}} \sigma = \nabla_{\partial_{\overline{w}}} (w s^*_w) = \partial_{\overline{w}} w s^*_w + w \nabla_{\partial_{\overline{w}}} s^*_w.\]
+
+The first term is null because $w$ does not have a $\overline{w}$ term, and so its derivative is zero. The second term is null by the same argument as previously. Finally, these calculations were done where $z\neq0$, but again by continuity they hold at $z = 0$.
+
+This concludes the proof of holomorphicity.
+
+\medskip
+
+g) Let $\omega = a \sigma + b \eta$, with $a, b \in \C$. I think we also have to assume that not both are zero.
+
+If $b = 0$, $\omega$ becomes a multiple of $\sigma$, which has only one zero at the only point where $w = 0$.
+
+If $b \neq 0$, then $\omega$ cannot be null at $z=0$ or at $w=0$. Consequently, it suffices to examine $U_z \cap U_w$, in which we know that $s^*_z = w s^*_w$, and therefore
+\[\omega = ( a w + b ) s^*_w.\]
+
+This is null exactly when $w = -b/a$, and this is therefore the only zero of $\omega$. Proof complete.
 \end{sol}
 
 \begin{ex}
 
+\begin{enumerate}
+\item Let
+\[\omega_1 = \frac{x \, \dl \conj x - \dl x \, \conj x}{2 (1+\abs x^2)}, \quad \omega_2 = \frac{y \, \dl \conj y - \dl y \, \conj y}{2 (1+\abs y^2)}.\]
+
+Show that these define local connection forms on a complex vector bundle of rank 2, with transition function
+\[g_{12}(x) = \frac x {\abs x}.\]
+
+\item Compute the Chern number of $E$.
+
+\item Compute the first Chern class of $E$, and the Chern number of $kE$.
+\end{enumerate}
 \end{ex}
 
 \begin{sol}
+a) Okay, so we check that $\omega_1 = g_{12} \omega_2 g_{21} + g_{12} \dl g_{21}$. To do so, we compute the right-hand side. Note that $g_{21} = \frac{\conj x}{\abs x}$, and $y = \frac1x$. Furthermore, since $xy = 1$, we may compute
+\[0 = \dl(xy) = \dl x \, y + x \, \dl y,\]
+and therefore $x \, \dl y = - \dl x \, y$. The same formula also holds for the conjugate coordinates, and with the order of both sides swapped.
 
+In preparation for solving this exercise, we compute $g_{12} \dl g_{21}$:
+\begin{multline*}
+g_{12} \dl g_{21} = \frac x {\abs x} \dl(\conj x / \abs x) = \frac x {\abs x^2} \dl \conj x + \abs x \dl \frac1{\abs x}\\
+= \conj y \, \dl \conj x - \frac1{\abs x} \dl \abs x = \conj y \, \dl \conj x - \frac12 \left( \conj y \, \dl \conj x + \dl x \, y \right) = \frac12 (\conj y\,  \dl \conj x - \dl x \, y).
+\end{multline*}
+
+The step where I developed $\dl \abs x$ there was kind of quick, but I used the identity $\abs x^2 = x \conj x$, took $\dl$ on both sides, expanded the left-hand side using the derivative of  the square and the right-hand side using derivative of the product. (Note: I only now looked and saw that you have the expresssion for $\dl \abs x$ in the hint. Woops.)
+
+Proceeding with the computations:
+\begin{align*}
+g_{12} \omega_2 g_21 + g_{12} \dl g_{21} &= \frac x {\abs x} \frac{y \, \dl \conj y - \dl y \, \conj y}{2 (1+\abs y^2)} \frac{\conj x}{\abs x} + g_{12} \dl g_{21}\\
+&= \frac1{\abs x^2} \frac{\dl \conj y \, \conj x - x \, \dl y}{2(1+\abs y^2)} + g_{12} \dl g_{21}\\
+&= \frac{-\conj y \, \dl \conj x + \dl x \, y}{2(1+\abs x^2)} + g_{12} \dl g_{21}\\
+&= \frac{-\conj y \, \dl \conj x + \dl x \, y}{2(1+\abs x^2)} + \frac12 (\conj y\,  \dl \conj x - \dl x \, y),
+\end{align*}
+and now we can add the fractions and use the fact that $-\conj y + (1+ \abs x^2) \conj y = x \conj x \, \conj y = x$ and likewise for the other term. At the end we clearly obtain $\omega_1$, which completes the proof that the $\omega_i$ are connection forms on $E$.
+
+\medskip
+
+b) Since $U_1$ covers all $S^4$ except one point, it suffices to integrate $c_2(E)$ over $U_1$.
+
+Now, I'll be honest: I have no idea how this stuff works. I'm expecting a $2 \times 2$ matrix of complex-valued forms, but I got a single quaternionic matrix, and I just kind of have no clue how this works. So what you're about to see is me trying to bumble my way through this exercise. Sorry for the atrocities I might have committed.
+
+So, uh, to compute the second Chern class, I need to see $\Omega_1$ as a $2 \times 2$ complex matrix somehow. Well, aside from the $\dl x \wedge \dl \conj x$, we have a real thing, so it makes sense that $\Omega_1$ is (kind of) the matrix
+\[\Omega_1 = \begin{bmatrix}
+\frac1{(1+r^2)^2}  \dl x \wedge \dl \conj x & 0\\
+0 & \frac1{(1+r^2)^2}  \dl x \wedge \dl \conj x
+\end{bmatrix}.\]
+
+This matrix has determinant given by
+\[- 4 \pi^2 c_2 = \frac1{(1+r^2)^4} \dl x \wedge \dl \conj x \wedge \dl x \wedge \dl \conj x,\]
+so this (over $-2\pi$) is the form that I must integrate. Maybe.
+
+Let that last part, $(\dl x \wedge \dl \conj x)^{\wedge 2}$, be a multiple $\alpha$ of the volume form on $U_1$. Then, with the help of Mathematica, I was able to compute the integral of $c_2$ as
+\[\underline{c_2} = - \alpha \frac1{4\pi^2} \underbrace{\int_0^\infty \frac{r^3}{(1+r^2)^4} \dl r}_{1/12} \times 2 \times \frac\pi2 \times 2 \pi = -\frac\alpha{24}.\]
+
+Now, I need that $\alpha$ be 24. That's a very suspect number, because it is precisely the cardinality of the group of permutations of four elements. Anyway, I figure I'll try to write $(\dl x \wedge \dl \conj x)^{\wedge 2}$ as a multiple of the unit volume form.
+
+I will begin by writing $x = z + \J w$, where $z, w \in \C$. A remark that will be useful in the sequence: $\J$ does not commute with complex numbers, but rather satisfies the identity $\J w = \conj w \J$. Furthermore, $\conj x = \conj z - \J w$. As such, we may write
+\begin{equation}\label{wedges}
+\dl x \wedge \dl \conj x = (\dl z + \J \dl w) \wedge (\dl \conj z - \J \dl w) = \dl z \wedge \dl \conj z - 2 \J \, \dl \conj z \wedge \dl w - \dl w \wedge \dl \conj w.
+\end{equation}
+
+Now we take the wedge square of this \eqref{wedges}. It is a sum of a total of nine terms, but fortunately complex wedges are a lot nicer than quaternionic nonsense. In particular, while this isn't true for quaternions, for complex numbers a wedge product that contains the same term twice is immediately null. As a consequence, it is easy to show that out of the nine terms that the square of \eqref{wedges} only three of them are relevant:
+\begin{align*}
+\eqref{wedges}^{\wedge 2} &= - \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w + (-2\J \, \dl \conj z \wedge \dl w)^{\wedge 2} - \dl w \wedge \dl \conj w \wedge \dl z \wedge \dl \conj z\\
+&= - 2 \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w + 4 \J \, \dl \conj z \wedge \dl w \wedge \J \, \dl \conj z \wedge \dl w\\
+&= - 2 \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w + 4 \J^2 \, \dl z \wedge \dl \conj w \wedge \dl \conj z \wedge \dl w\\
+&= - 2 \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w - 4 \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w\\
+&= - 6 \dl z \wedge \dl \conj z \wedge \dl w \wedge \dl \conj w.
+\end{align*}
+
+Okay, now. Let $z = z_r + \I z_i$ be a complex coordinate. It is easy to check (I think I did it in another exercise) that
+\[\dl z \wedge \dl \conj z = - 2 \I  \dl2 z_r \wedge \dl2 z_i,\]
+so that, all in all,
+\[\eqref{wedges}^{\wedge 2} = - 6 \times 2\I \times 2\I \dl2 z_r \wedge \dl z_i \wedge \dl w_r \wedge \dl w_i,\]
+which is precisely $\alpha$ times the volume form, where $\alpha = 24$. Hooray!
+
+Sooo, yeah. The end result matches with what I wanted it to be. Umm. Yeah.
+
+\medskip
+
+c) Okay, well, if my matrix for $\Omega$ above is correct, we should have that
+\[c_1(E) = \frac{2 \dl2 x \wedge \dl \conj x}{(1+r^2)^2}.\]
+
+And, uh, as for $\underline{c_2}(k E)$, we begin by noting that $c(kE) = c(E)^{\wedge k}$. As a consequence, since $c(E) = 1 + c_1(E) + c_2(E)$, we obtain
+\begin{align*}
+c_2(kE) &= k c_2(E) + \binom k 2  c_1(E) \wedge c_1(E)\\
+&= k c_2(E) + \binom k 2 \times 4 \, c_2(E)\\
+&= (k + 2 k (k-1)) c_2(E) = (2k^2 - k) c_2(E),
+\end{align*}
+where I used the (easy to conclude (if my math is correct...)) identity
+\[c_1(E) \wedge c_1(E) = 4 c_2(E).\]
+
+So now we take the integral, and fortunately we already know the integral of $c_2(E)$, so we get
+\[\underline{c_2}(kE) = (2k^2 - k) \underline{c_2}(E) = k - 2k^2.\]
+
+And... Yeah, I think that's the full thing. Thanks for being a cool teacher, doing differential geometry was pretty nice.
 \end{sol}
 
 \end{document}
