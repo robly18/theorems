@@ -2,11 +2,12 @@
 
 \usepackage[utf8]{inputenc}
 
+\usepackage[thmmarks]{ntheorem}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 
-\usepackage[thmmarks]{ntheorem}
 \usepackage{enumitem}
 
 \usepackage{braket}
@@ -45,16 +46,20 @@
 \newcommand{\C}{\mathbb{C}}
 
 
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+
 \newcommand{\HH}{\mathcal{H}}
 
 \newcommand{\ps}{\mathcal{P}}
 \newcommand{\pr}{\mathbb{P}}
 
-
 \newcommand{\id}{\mathrm{id}}
 
-
 \newcommand{\two}{\mathbf{2}}
+
+\newcommand{\conj}[1]{\overline{#1}}
 
 \begin{document}
 \maketitle
@@ -202,7 +207,7 @@ To prove this, we actually prove a rather stronger general statement:
 If $m \in \Max A$, then $\dim(m m^* m) \geq \dim(m)$.
 \end{theorem}
 
-\begin{proof}[Proposition \ref{propstrongsymmetry} implies theorem \ref{propsymmetry}]
+\begin{proof}[Theorem \ref{propstrongsymmetry} implies Proposition \ref{propsymmetry}]
 Let $m \in \Max A$ satisfy $m m^* m \leq m$. Recall that the (specialization) order on $\Max A$ is the subset order, so we are assuming that $m m^* m$ is a subspace of $m$. However, proposition \ref{propstrongsymmetry} tells us that it is a subspace of $m$, with dimension at least $\dim(m)$. Consequently, basic linear algebra tells us that these two spaces must coincide.
 \end{proof}
 
@@ -217,6 +222,29 @@ The crux of the proof is that the function $\rho$ is injective. This may not see
 \begin{prop}
 The function $\rho$ is injective.
 \end{prop}
+
+\begin{proof}
+We begin by recalling the spectral theorem on finite-dimensional complex spaces: Any self-adjoint matrix $T$ can be written in the form
+\[T = O^* D O,\]
+for $O$ unitary and $D$ diagonal. With this in mind, suppose that $x$ and $y$ satisfy $\rho(x) = \rho(y)$, that is,
+\[x x^* x = y y^* y.\]
+
+Notice that $\rho(x) \rho(x)^* = \rho(y) \rho(y)^*$, or, in other words,
+\[(x x^*)^3 = (y y^*)^3.\]
+
+Now, apply the spectral theorem to $T = x x^*$ and $S = y y^*$, writing
+\[x x^* = O^* D O, \quad y y^* = O'^* D' O',\]
+and conclude therefore that
+\[O^* D^3 O = O'^* D'^3 O'.\]
+
+We may rewrite this expression as
+\begin{equation}
+D^3 = O''^* D'^3 O'',\label{eq1}
+\end{equation}
+for $O'' = O' O^*$. The first part of our proof is to show that \eqref{eq1} implies that $D = O''^* D' O''$, and therefore that $x x^* = y y^*$.
+
+
+\end{proof}
 
 \nocite{measurement}
 

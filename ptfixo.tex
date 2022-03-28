@@ -1,0 +1,132 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\H}{\mathbb{H}}
+\renewcommand{\O}{\mathbb{O}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\title{Reais, Complexos, Quaterniões, e mais: A construção de Cayley-Dickinson}
+\author{Duarte Maia}
+
+\begin{document}
+
+\maketitle
+
+Ao longo dos séculos, os matemáticos criaram vários géneros de números. Os mais conhecidos são, entre outros, os números reais $\R$ e os números complexos $\C$, mas existem outros conjuntos, menos conhecidos, que extendem ainda mais a noção de número, como os quaterniões $\H$, os octoniões $\O$, entre outros.
+
+Todos estamos familiares com a vasta utilidade dos reais e complexos, e os quaterniões também encontram uso em áreas como a física e modelação 3D. O objetivo deste artigo não é falar dos quaterniões como objeto próprio, mas sim discutir como podemos construir os quaterniões, e de onde vêm os objetos mais complicados como os octoniões e acima.
+
+Antes de responder a esta questão, é conveniente responder à questão: O que são os números complexos? Esta questão parece algo supérflua, dado que o leitor provavelmente já sabe a resposta, mas a sua utilidade surge porque se de alguma forma construímos os complexos a partir dos números reais, fará sentido iterar essa construção para obter conjuntos de números ainda maiores, que estarão para os números complexos como estes estão para os números reais. Assim sendo, apresentam-se algumas definições do conjunto dos números complexos $\C$:
+\begin{enumerate}[label=\roman*)]
+\item Definição `à engenheiro': Os números complexos são coisas da forma $a+bi$, com $a, b \in \R$ e $i^2 = -1$,
+\item Definição rigorosa simples: Identificar os complexos com $\R^2$, ou seja, ver o número complexo $a+bi$ como o par $(a,b)$. Definir a soma e o produto de complexos como intuido pela regra $i^2 = -1$, i.e.
+\begin{align*}
+(a,b)+(c,d) &= (a+c,b+d),\\
+(a,b) \cdot (c,d) &= (ac-bd, bc+ad).
+\end{align*}
+\item Definição simbólica usando construções da álgebra. Resume-se a uma versão mais rigorosa da definição à engenheiro. A sua explicação requer falar de anéis de polinómios e quocientes, por isso regista-se apenas a definição simbólica:
+\[\C \cong \frac{\R[x]}{\langle x^2 - 1 \rangle},\]
+\item Finalmente, a minha definição preferida: A definição matricial. É sobre esta definição que o resto do artigo incide, por isso explicá-la-ei em detalhe.
+\end{enumerate}
+
+Existem várias formas de intuir à definição matricial. A mais elementar é reparar que a matriz
+\[J = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix}\]
+satisfaz a identidade $J^2 = -I$, que é semelhante a $i^2 = -1$. Assim sendo, podemos identificar os números complexos com um conjunto de matrizes (reais) $2 \times 2$:
+\[a + bi \approx a I + b J.\]
+
+Por outras palavras, definimos $\C$ como o conjunto das matrizes $2 \times 2$ da forma
+\[\C = \left\{ \begin{bmatrix} a & b \\ -b & a \end{bmatrix} \;\middle|\; a, b \in \R \right\} \subseteq M(2 \times 2, \R).\]
+
+As operações neste conjunto são as operações induzidas pela estrutura de matriz, sendo necessário verificar que somas e produtos de matrizes desta forma continuam a ser desta forma. Pelo lado positivo, recebemos algumas propriedades de graça, por exemplo a associatividade e distributividade do produto.
+
+A beleza da coisa é que recebemos também várias operações de graça, induzida a partir de operações de matrizes. Por exemplo:
+\begin{enumerate}
+\item A operação de conjugado $z \mapsto \overline{z}$ coincide com a transposição de matrizes, vindo de graça a propriedade $\overline{zw} = \overline{z} \cdot \overline{w}$ da regra $(AB)^T = B^T A^T$,
+\item A norma pode ser calculada como $\lvert z \rvert^2 = \det z$, vindo de graça propriedades como $\lvert z w \rvert = \lvert z \rvert \lvert w \rvert$.
+\end{enumerate}
+
+\medskip
+
+O conjunto dos quaterniões é uma coleção de números `acima dos complexos', da mesma forma que os complexos estão `acima dos reais'. Há também várias formas de os definir. Historicamente, eles foram concebidos de forma semelhante à definição `à engenheiro' dos complexos: Os quaterniões são coisas da forma $a+bi+cj+dk$, em que $i^2 = j^2 = k^2 = -1$ e, crucialmente, a multiplicação entre estes novos `números' satisfaz as regras
+\[ ij = k = -ji , jk = i = -kj, ki = j = -ik.\]
+
+Repare-se no facto que os quaterniões \emph{não são comutativos para a multiplicação}. Devido a isto, seria difícil adivinhar a definição de quaterniões sem saber da sua existência. Isto também dificulta a adaptação das definições dadas acima. Por exemplo, não é imediato adaptar a definição ii), pois a mesma demonstração usada para justificar que os complexos são comutativos poderia ser usada para justificar que os quaterniões o são.
+
+Entra então a definição matricial. Por analogia, vemos os quaterniões como uma coleção de matrizes $2 \times 2$ de entradas complexas da forma
+\[\begin{bmatrix} a & b \\ -b & a \end{bmatrix}, a, b \in \C,\]
+mas não é assim tão simples...
+
+A primeira complicação surge porque, tal como com a definição ii),  a mesma demonstração usada em $\C$ serve para justificar que estas matrizes são todas comutativas. Outra complicação surge porque algumas das regras que tão bem funcionavam anteriormente deixam agora de funcionar. Por exemplo, antes tinhamos que o determinante de uma matriz nos dava a sua norma $a^2 + b^2$, e por arrasto qualquer matriz não-nula tinha inverso (que era preciso verificar estar sempre em $\C$). No entanto agora o determinante, que continua a ser $a^2 + b^2$, nem sempre é diferente de zero, por exemplo para a matriz $\begin{bmatrix} 1 & i \\ -i & 1 \end{bmatrix}$. Consequentemente, os `quaterniões' resultantes nem sempre permitem divisão.
+
+Isto sugere tentar encontrar alguma modificação que faça com que o determinante seja $\lvert a \rvert^2 + \lvert b \rvert^2$. Para esse efeito, podemos tentar conjugar uma das linhas da matriz de modo ao determinante ser $a \overline{a} + b \overline{b}$, o que leva, por exemplo, à definição
+\[\H = \left\{ \begin{bmatrix} a & b \\ -\overline{b} & \overline{a} \end{bmatrix} \;\middle|\; a, b \in \C \right\} \subseteq M(2 \times 2, \C).\]
+(Nota: Os quaterniões chamam-se $\H$ em honra de Sir William Rowan Hamilton, que os descobriu em 1843.)
+
+Agora sim, tudo o que foi feito para os complexos se transpõe para os quaterniões:
+\begin{enumerate}[label=\roman*)]
+\item A associatividade do produto vem da associatividade da multiplicação de matrizes,
+\item Idem para distributividade,
+\item O conjugado quaterniónico é induzido pelo transposto conjugado, isto é, $\overline{w} = w^*$,
+\item O determinante dá o quadrado da norma, etc.
+\end{enumerate}
+
+Tudo funciona como esperado, exceto a demonstração de comutatividade, visto que os conjugados na segunda linha estragam alguma da simetria necessária para essa prova.
+
+O processo não precisa de parar aqui. Podemos iterar e construir os chamados octoniões:
+\begin{equation}\label{oct1}
+\begin{bmatrix} a & b \\ -\overline{b} & \overline{a} \end{bmatrix}, a, b \in \H,
+\end{equation}
+mas mais uma vez encontramos um problema.
+
+É desejado que o produto de dois octoniões seja também um octonião. No entanto, se calcularmos o produto de duas matrizes da forma \eqref{oct1}, obtemos
+\[\begin{bmatrix} a & b \\ -\overline{b} & \overline{a} \end{bmatrix} \begin{bmatrix} c & d \\ -\overline{d} & \overline{c} \end{bmatrix} = \begin{bmatrix} ac - b \overline{d} & ac + b \overline{c} \\ -\overline{b}c - \overline{a} \overline{d} & -\overline{b} d + \overline{a} \, \overline{c} \end{bmatrix}\]
+e repare-se que \emph{em geral, a matriz obtida não é da forma} \eqref{oct1}, dado que
+\[\overline{ac - b\overline{d}} = \overline{c} \, \overline{a} - d \overline{b},\]
+que não é igual a $\overline{a}\,\overline{c} - \overline{b} d$ \emph{a não ser que a multiplicação das entradas seja comutativa}. Isto explica porque é que isto não foi um problema até os quaterniões, mas passa a ser a partir destes.
+
+A solução parece excessiva, mas consiste em modificar ligeiramente a noção de produto de matrizes. A noção usual de produto de matrizes $2 \times 2$ é dada por
+\[\begin{bmatrix} a_1 & b_1 \\ c_1 & d_1 \end{bmatrix} \begin{bmatrix} a_2 & b_2 \\ c_2 & d_2 \end{bmatrix} = \begin{bmatrix} a_1 a_2 + b_1 c_2 & a_1 b_2 + b_1 d_2  \\ c_1 a_2 + d_1 c_2 & c_1 b_2 + d_1 d_2 \end{bmatrix}\]
+e para prosseguir com o nosso processo substituimo-la pela operação subtilmente diferente
+\[\begin{bmatrix} a_1 & b_1 \\ c_1 & d_1 \end{bmatrix} \circ \begin{bmatrix} a_2 & b_2 \\ c_2 & d_2 \end{bmatrix} = \begin{bmatrix} a_1 a_2 + c_2 b_1 & b_2 a_1 + b_1 d_2  \\ a_2 c_1 + d_1 c_2 & c_1 b_2 + d_2 d_1 \end{bmatrix}\]
+em que a única mudança é a ordem de alguns produtos em algumas casas. Claro que esta mudança não faz diferença se a multiplicação dos elementos das matrizes for comutativa, mas passa a fazer diferença precisamente quando os escalares são os quaterniões.
+
+Felizmente, esta é a última mudança necessária para definir a construção de Cayley-Dickinson: Se $\mathbb{A}_n$ é um conjunto no qual está definido uma soma, um produto e uma operação de conjugação, definimos $\mathbb{A_{n+1}}$ como sendo o conjunto das matrizes da forma
+\[\mathbb{A}_{n+1} = \left\{ \begin{bmatrix} a & b \\ -\overline{b} & \overline{a} \end{bmatrix} \;\middle|\; a, b \in \mathbb{A}_n \right\} \subseteq M(2 \times 2, \mathbb{A}_n),\]
+em que definimos a soma em $\mathbb{A}_{n+1}$ como a soma usual de matrizes, o produto como o produto modificado de matrizes $A \circ B$, e o conjugado como o transposto conjugado (transpôr a matriz e conjugar todos os seus elementos).
+
+Começando este processo com $\mathbb{A}_0 = \R$ obtemos $\mathbb{A}_1 = \C$, $\mathbb{A}_2 = \H$, $\mathbb{A}_3 = \O$, $\mathbb{A}_4 = \mathbb{S}$ (um conjunto de números chamados sedeniões), e assim por diante.
+
+Uma propriedade interessante desta sequência de conjuntos é que a regularidade da multiplicação vai ficando cada vez pior. Em todos os casos, a soma é comutativa e associativa, e verifica-se a propriedade distributiva $z(w_1 + w_2) = z w_1 + z w_2$. No entanto, verificar que $\mathbb{A}_{n+1}$ tem uma certa propriedade requer que $\mathbb{A}$ tenha uma propriedade mais forte, por exemplo:
+\begin{enumerate}[label=\roman*)]
+\item Para justificar que $\C$ é comutativo, é necessário usar o facto que em $\R$, $\overline{x} = x$,
+\item Para justificar que $\H$ é associativo (i.e. $(xy)z = x(yz)$) é necessário usar o facto que $\C$ é comutativo,
+\item Consequentemente, não é possível provar (porque não é verdade) que os octoniões $\O$ sáo associativos... Mas é possível justificar uma propriedade mais fraca, chamada alternância, que diz que se $z$ e $w$ são octoniões temos $z(zw) = (zz)w$ e $z(ww) = (zw)w$. Para justificar esta propriedade, é necessária a associatividade de $\H$,
+\item Pelo que alternância não se verifica nos sedeniões $\mathbb{S}$...
+\end{enumerate}
+
+A construção de Cayley-Dickinson não é normalmente exposta desta forma, assemelhando-se mais à definição dos complexos como pares. Normalmente define-se $\mathbb{A}_{n+1}$ como sendo o conjunto dos pares $(a,b)$, $a,b \in \mathbb{A}_n$, com multiplicação definida de certa forma. No entanto, a definição matricial tem o benefício de nos permitir usar certas ferramentas de álgebra linear, como determinantes, que nos podem dar informação extra sobre elementos destes objetos novos. O maior inconveniente é a necessidade de adaptar algumas das operações de modo aos $\mathbb{A}_n$ terem comportamentos razoáveis, mas felizmente este é um processo que converge após três passos.
+
+\end{document}
