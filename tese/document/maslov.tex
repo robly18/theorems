@@ -7,7 +7,7 @@ Let $H$ be a periodic Hamiltonian with flow $\phi_t$. The Maslov index is an int
 \begin{enumerate}[algorithm]\label{page:maslovalg}
 \item\label{maslovalg:step1} Since $\gamma$ is periodic, it may be seen as a smooth map $S^1 \to M$.
 \item Pick an embedding of the disk $D^2 \to M$ whose restriction to the border coincides with $\gamma$.
-\item Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a basis for $T_x M$.
+\item Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a symplectic basis for $T_x M$.
 \item Now that $T_{\gamma(t)} M$ has a chosen basis for each $t$, we may write the derivative of the flow at $x$, i.e. the map $(\dl \phi_t)_x$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
 \item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index.
 \end{enumerate}
@@ -164,13 +164,15 @@ To conclude this section, we present a further way to simplify the computations.
 \end{itemize}
 
 \begin{prop}\label{calcmaslov}
-Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$, $A(T) = W^\pm$. If $\trace A(t) > -2$ for all time, the Maslov index of $A$ is zero. Otherwise, there exists a partition of $\interval 0 T$ of the form
+Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$, $A(T) = W^\pm$. If $\trace A(t) \geq -2$ for all time, the Maslov index of $A$ is zero. Otherwise, there exists a partition of $\interval 0 T$ of the form
 \begin{equation}\label{calcmaslov:ab1}
 0 = a_0 < b_0 < a_1 < b_1 < a_2 < \dots < a_{N-1} < b_{N-1} < a_N = T
 \end{equation}
-which satisfies \begin{enumerate*}\item\label{calcmaslov:ab2} $\trace A(a_n) = (-1)^n 2$ [detalhe T], \item\label{calcmaslov:ab3} $\trace A(b_n) = 0$, \item\label{calcmaslov:ab4} Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.\end{enumerate*}
+which satisfies the properties
+\begin{enumerate}
+\item\label{calcmaslov:ab2} $(-1)^n \trace A(a_n) \geq 2$, \item\label{calcmaslov:ab3} $\trace A(b_n) = 0$, \item\label{calcmaslov:ab4} Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.\end{enumerate}
 
-For any such partition, the winding number of $\rho^2(A(t))$ is equal to
+For any such partition, the negative winding number of $\rho^2(A(t))$ is equal to
 \begin{equation}\label{calcmaslov:mu}
 \mu(A(t)) = \sum (-1)^n \sign(A(b_n)_{12}).
 \end{equation}
@@ -297,7 +299,9 @@ Let $H$ be an autonomous Morse function on a symplectic manifold $M$ whose time-
 Let $x$ be a critical point of $H$, i.e. $(\dl H)_x = 0$. Then, the periodic time-$T$ orbit starting at $x$ is precisely the constant orbit. We will show that this orbit is nondegenerate, so that we may compute its Maslov index.
 [...]
 
-As a consequence, if $Z_1, \dots, Z_{2n}$ is a basis of $T_x M$, we may consider $A(t)$ as the representation of $(\dl \phi_t)_x$ in this basis. (See steps \ref{maslovalg:step1} to \ref{maslovalg:step5}.)
+[Some theorem about in critical points $x$ of $H$, the path $A$ can be chosen to be $\exp(t J_0 S)$, where $S$ is the Hessian of $H$ at $x$ written in any basis.]
+
+As a consequence, if $Z_1, \dots, Z_{2n}$ is a basis of $T_x M$, we may consider $A(t)$ as the representation of $(\dl \phi_t)_x$ in this basis (see steps \ref{maslovalg:step1} to \ref{maslovalg:step5}).
 
 [Temporary? Kick the can up the road and just refer to Audin and Damian]
 
@@ -312,3 +316,162 @@ where $\Ind$ denotes the Morse index.
 \begin{proof}
 See \cite{audin}, proposition 7.2.1.
 \end{proof}
+
+\subsection{The Two-Dimensional Case}
+
+We will now use the tools developed in section \ref{sec:maslovsp2} to recompute the Maslov index of the critical points of $H$.
+
+[Nondegeneracy?]
+
+We have already shown that the Maslov index of such a critical point is given by the Conley-Zehnder index of the path
+\begin{equation}
+A(t) = \exp(t J_0 S), t \in \interval 0 T,
+\end{equation}
+with $S = \hessian H(x)$, i.e. $S_{ij} = \hessian H(x)(Z_i, Z_j) = Z_i \cdot (Z_j \cdot H)$. It is therefore to such a path that we will focus our attention.
+
+It is fortunate that the theory greatly simplifies in the two-dimensional case, allowing us to do the computations by hand.
+
+\begin{prop}\label{prop:sidentities}
+Let $S$ be a $2 \times 2$ symmetric matrix, and let $\Delta = \det S$. Then, the following identities hold.
+\begin{gather}
+J_0 S J_0 S = - \Delta I, \label{eq:j0sj0s}\\
+\exp(t J_0 S) = \begin{cases}
+\cos(\sqrt{\Delta} t) I + \frac1{\sqrt{\Delta}} \sin(\sqrt{\Delta} t) J_0 S, & \Delta > 0,\\
+I + t J_0 S, & \Delta = 0,\\
+\cosh(\sqrt{-\Delta} t) I + \frac1{\sqrt{-\Delta}} \sinh(\sqrt{-\Delta} t) J_0 S, & \Delta < 0.
+\end{cases} \label{eq:exptj0s}
+\end{gather}
+\end{prop}
+
+\begin{proof}
+The proof of \eqref{eq:j0sj0s} is simple computation. Using \eqref{eq:j0sj0s}, the identity \eqref{eq:exptj0s} can be obtained simply by expanding the Taylor series of the exponential and grouping terms as follows
+\begin{equation}
+\begin{aligned}
+\exp(t J_0 S) &= 
+I \color{black!60} + t J_0 S \color{black} + \frac12 t^2 (J_0 S)^2 \color{black!60} +\frac1{3!} t^3 (J_0 S)^3 \color{black} \cdots \\
+&= 
+I \color{black!60} + t J_0 S \color{black} - \frac12 t^2 \Delta I \color{black!60} -\frac1{3!} t^3 \Delta J_0 S \color{black} \cdots
+\end{aligned}
+\end{equation}
+
+Equation \eqref{eq:exptj0s} should now be evident: the black terms correspond to cosines or hyperbolic cosines and the gray terms correspond to sines or hyperbolic sines.
+\end{proof}
+
+Proposition \ref{prop:sidentities} gives us full knowledge about $\exp(t J_0 S)$ for $S = \hessian H(x)$.
+
+\begin{prop}
+Let $H$ be a Morse function and $x$ a critical point of $H$. Let $S = \hessian H(x)$. Then, the Maslov index $\mu(x)$ of the (constant) periodic orbit $x$ depends on the following way on the Morse index of $S$ and on the period $T > 0$:
+\begin{itemize}
+\item If $\Ind S = 1$ then $\mu(x) = 0$,
+\item If $\Ind S = 1 \pm 1$ then the periodic orbit is nondegenerate, assuming that $T \not \in \frac{2 \pi}{\sqrt\Delta} \Z$. In this case, the Maslov index is $\pm(2N+1)$, where
+\begin{equation}
+T \in \ointerval{\frac{2\pi}{\sqrt\Delta}N}{\frac{2\pi}{\sqrt\Delta}(N+1)}.
+\end{equation}
+
+Diagramatically, this can be represented as [to do fix diagram]
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (0,0)--(10.6,0) node[below left] {$T$};
+\draw[] (0,-0.200)--(0,0.200) node[above] {0};
+\foreach \i in {2,4,...,10}
+\draw[] (\i,-0.200)--(\i,0.200) node[above] {$\displaystyle \frac{\i\pi}{\sqrt\Delta}$};
+
+
+\foreach \i in {1,3,...,9}
+\draw[] (\i,0) node[below] {$\mu = \pm \i$};
+\end{tikzpicture}
+\caption{Representation of the Conley-Zehnder index of the path $\exp(t J_0 S)$, $t \in \interval 0 T$ as a function of $T > 0$.}
+\end{figure}
+\end{itemize}
+\end{prop}
+
+\begin{proof}
+We begin by solving the case $\Ind S = 1$. By inspection of equation \eqref{eq:exptj0s}, if $\Ind S = 1$ then both eigenvalues have distinct signs and $\det S = \Delta < 0$. Therefore, by \eqref{eq:exptj0s},
+\begin{equation}
+\trace \exp(t J_0 S) = 2 \cosh(\sqrt{-\Delta} t) \geq 2,
+\end{equation}
+where we used the trivially verified fact that $\trace(J_0 S) = 0$. Application of proposition \ref{calcmaslov} (to the extension of the path which ends in $W^-$) yields that, in this case, $\mu(x) = 0$.
+
+We now focus on the case $\Ind S = 1 \pm 1$. In this case, by a similar calculation we obtain $\Delta > 0$ and furthermore
+\begin{equation}
+\trace \exp(t J_0 S) = 2 \cos(\sqrt\Delta t).
+\end{equation}
+
+Therefore, by corollary \ref{sp2sgn} the path $\exp(t J_0 S)$ is degenerate iff $\cos(\sqrt \Delta T) = 1$, which happens iff $\sqrt\Delta T \in 2 \pi \Z$. This completes the proof of nondegeneracy.
+
+\smallskip
+
+To compute the Maslov index, we apply proposition \ref{calcmaslov}.
+
+There is an obstacle to the application of proposition \ref{calcmaslov}, which is that our path $A(t) = \exp(t J_0 S)$, $t \in \interval 0 T$, does not terminate at $W^\pm$. To rectify this, we work with the extension $\tilde A$, which consists of the path $A$ concatenated with a path from $A(T)$ to $W^\pm$. In the general case, this could cause us trouble because we might not know a lot about the extension, only that it exists. In this case, however, we can build this extension explicitly, in a manner that is convenient for computations.
+
+In order to construct $\tilde A(t)$, suppose that $A(t)$ terminates at $t = T$, and let $T \in I_N$, where
+\begin{equation}
+I_N = \ointerval[scaled]{\frac{2\pi}{\sqrt\Delta} N}{\frac{2\pi}{\sqrt\Delta} (N+1)}.
+\end{equation}
+
+In the following, let $T' = \frac{2\pi}{\sqrt\Delta}(N+\frac12)$. There are two cases in the construction of $\tilde A(t)$. If $T \leq T'$, simply construct $\tilde A(t)$ by extending $A(t)$, with the same expression, to values of $t \in \interval 0 {T'}$. Otherwise, if $T > T'$, we extend $A(t)$ to $\tilde A(t)$ by `doubling back', setting $\tilde A(T+\delta) = A(T-\delta)$, for $0 < \delta < T-T'$.
+
+In both cases, we have extended the path in such a way that the extension does not cross $Sp(2)^0$ any more than the original path $A(t)$ does, and the final value of $\tilde A(t)$ is, in both cases, $\exp(T J_0 S)$, which can be easily checked to equal $-I = W^+$. Therefore, the path $\tilde A(t)$ is in the conditions of proposition \ref{calcmaslov}, which we now apply.
+
+First, we construct the partition. Let $T''$ be the terminating time of the path $\tilde A(t)$. Then, we consider the partition
+\begin{equation}\label{autmaslov:thepartition}
+\begin{array}{c|c|c|c|c|c|c|c|c}
+a_0 & b_0 & a_1 & b_1
+& \cdots &
+b_{2N-1} & a_{2N} & b_{2N} & a_{2N+1} \\
+\hline
+0 & \frac12 \frac{\pi}{\sqrt\Delta} & \frac{\pi}{\sqrt\Delta} & \frac32 \frac{\pi}{\sqrt\Delta}
+& \cdots &
+\frac{2(2N-1)+1}2 \frac{\pi}{\sqrt\Delta} & 2N \frac{\pi}{\sqrt\Delta} & \frac{4N+1}2 \frac{\pi}{\sqrt\Delta} & T''
+\end{array}
+\end{equation}
+
+It is necessary to verify that we are in the conditions of proposition \ref{calcmaslov}.
+\begin{enumerate}
+\item ($(-1)^n \trace \tilde A(a_n) \geq 2$) For $n \leq 2N$, we have that
+\begin{equation}\label{eq:autmaslov1}
+\trace \tilde A(a_n) = \trace A(a_n) = 2 \cos(\sqrt\Delta a_n) = 2 \cos\left(\sqrt\Delta \frac{n \pi}{\sqrt\Delta}\right) = 2 (-1)^n,
+\end{equation}
+so we have equality. For $n = 2N+1$, simply notice that $\tilde A(a_{2N+1}) = \tilde A(T'') = W^+$, which has trace equal to $-2$.
+
+\item ($\trace \tilde A(b_n) = 0$) This property is a simple computation similar to \eqref{eq:autmaslov1}.
+
+\item (Whenever $\trace \tilde A(x) \geq 2$ and $\trace \tilde A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.) To prove this property, simply notice that the points when the trace of $\tilde A(t)$ is equal to $\pm 2$ are known. Indeed, the trace is equal to $+2$ exactly on the points $t = a_0, a_2, \dots, a_{2N}$. Likewise, the trace is equal to $-2$ exactly on the points $t = a_1, a_3, \dots, a_{2N+1}$, and it is possible that there might be a point where $\tilde A(t)$ has trace 2 between $b_{2N}$ and $a_{2N+1}$. Given this study, the desired property is evident.
+\end{enumerate}
+
+Now that we have shown that partition \eqref{autmaslov:thepartition} satisfies the conditions necessary to apply proposition \ref{calcmaslov}, we simply apply it. This proposition tells us that the Maslov index of $\tilde A(t)$ is given by
+\begin{equation}
+\mu(\tilde A(t)) = \sum_{n = 0}^{2N} (-1)^n \sign(\tilde A(b_n)_{12}).
+\end{equation}
+
+Now, we may compute $\tilde A(b_n)$ explicitly as
+\begin{equation}
+\tilde A(b_n) = A(b_n) = \frac1{\sqrt\Delta} \sin\left( \sqrt\Delta \frac{2n + 1}2 \frac\pi{\sqrt\Delta} \right) J_0 S = (-1)^n J_0 S.
+\end{equation}
+
+Consequently, we have the identity
+\begin{equation}
+\mu(A(t)) = \mu(\tilde A(t)) = (2N+1) \sign((J_0 S)_{12}),
+\end{equation}
+and so it remains to relate the sign of $(J_0 S)_{12}$ to the index of $S$.
+
+First, we make the trivial observation that $(J_0 S)_{12} = - S_{22}$, so we relate the sign of $S_{22}$ to the index of $S$.
+
+Furthermore, observe that $S_{22}$ and $S_{11}$ have the same sign, as
+\begin{equation}
+S_{11} S_{22} = \Delta + S_{12}^2 > 0.
+\end{equation}
+
+Finally, this sign coincides with the sign of both eigenvalues of $S$ (which have the same sign because $\lambda_1 \lambda_2 = \Delta > 0$), and both of these signs equal the sign of the trace of $S$. In conclusion,
+\begin{itemize}
+\item The sign of $S_{22}$ equals the sign of the trace of $S$, which equals the sign of both eigenvalues of $S$.
+\item Consequently, if $\Ind S = 0$ then these eigenvalues are positive, and therefore so is $S_{22}$ and therefore $(J_0 S)_{12} < 0$ and $\mu(A(t)) = -(2N+1)$.
+\item On the other hand, if $\Ind S = 2$ then these eigenvalues are both negative, and by the same argument $\mu(A(t)) = 2N+1$.
+\end{itemize}
+
+The proof is therefore complete.
+\end{proof}
+
+
