@@ -359,7 +359,7 @@ Equation \eqref{eq:exptj0s} should now be evident: the black terms correspond to
 
 Proposition \ref{prop:sidentities} gives us full knowledge about $\exp(t J_0 S)$ for $S = \hessian H(x)$.
 
-\begin{prop}
+\begin{prop}\label{maslovmorse}
 Let $H$ be a Morse function and $x$ a critical point of $H$. Let $S = \hessian H(x)$. Then, the Maslov index $\mu(x)$ of the (constant) periodic orbit $x$ depends on the following way on the Morse index of $S$ and on the period $T > 0$:
 \begin{itemize}
 \item If $\Ind S = 1$ then $\mu(x) = 0$,
@@ -368,7 +368,7 @@ Let $H$ be a Morse function and $x$ a critical point of $H$. Let $S = \hessian H
 T \in \ointerval{\frac{2\pi}{\sqrt\Delta}N}{\frac{2\pi}{\sqrt\Delta}(N+1)}.
 \end{equation}
 
-Diagramatically, this can be represented as [to do fix diagram]
+Diagramatically, this can be represented as
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
@@ -474,4 +474,67 @@ Finally, this sign coincides with the sign of both eigenvalues of $S$ (which hav
 The proof is therefore complete.
 \end{proof}
 
+We note that the usual result on $C^2$-small Morse functions can be recovered.
 
+\begin{corollary}
+Let $H$ be an autonomous Morse function on a 2-dimensional compact symplectic manifold $M$. Then, for small enough $\varepsilon > 0$, the function $\varepsilon H$ is a nondegenerate Hamiltonian, i.e. the time-one flow of $\varepsilon H$ is a nondegenerate Hamiltonian diffeomorphism. More precisely, the only periodic (time-one) orbits of $\varepsilon H$ are constants equal to critical points of $H$. In this case, the action functional of these constant orbits coincides with their value of $\varepsilon H$, and their Maslov index and Morse index are related by the formula
+\begin{equation}
+\mu(x) = \Ind(x) - 1.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+First we prove that, for small enough $\varepsilon$, the only time-one orbits of $\varepsilon H$ are the constants. Equivalently, it suffices to show that the periods of nonconstant orbits of $H$ are bounded from below, as the time-one orbits of $\varepsilon H$ coincide with the time-$\varepsilon$ orbits of $H$.
+
+[Write this sometime, or refer to \cite{audin}, proposition 6.1.6]
+
+Assume now that $\varepsilon$ is small enough that the only time-one orbits of $\varepsilon H$ are constants. Recall the definition of the action functional on a periodic orbit $x$,
+\begin{equation}
+\AA_{\varepsilon H}(x) = - \int_D \omega + \int_0^1 \varepsilon H(x(t)) \dl t,
+\end{equation}
+where $D$ is any map from the disk to $M$ whose border is $x$.
+
+Since $x$ is constant, we might as well take $D$ to be the constant map. This makes the pullmack of $\omega$ to the disk be null, and so the first term from the action functional vanishes. As for the second term, since $H$ is autonomous and $x$ is constant, we obtain simply
+\begin{equation}
+\AA_{\varepsilon H}(x) = \varepsilon H(x).
+\end{equation}
+
+Finally we show that, possibly by decreasing $\varepsilon$, the Maslov index of these constant orbits coincides up to a shift by one with their Morse index.
+
+Application of propositions \ref{to do} and \ref{maslovmorse} will show that in order for the relation $\mu(x) = \Ind(x) - 1$ to be verified it suffices that for every critical point $x$ of $H$ there exists a symplectic basis for $T_x M$ such that the determinant of the Hessian of $\varepsilon H$ in that basis\footnote{It is a trivial observation, yet unnecessary for our purposes, that the determinant of the Hessian of a smooth function is independent of the symplectic basis chosen.} is less than $4 \pi^2$. A simple computation will show that, for this effect, it suffices that
+\begin{equation}
+\varepsilon < \min \left( \frac{2\pi}{\sqrt{\det \hessian H(x)}}\right),
+\end{equation}
+where the minimum ranges over the critical points of $H$.
+\end{proof}
+
+A somewhat surprising corollary of proposition \ref{maslovmorse} is that the Maslov indices of critical points of autonomous Hamiltonians may only take odd values or zero. As a consequence of this and the fact that Floer homology must coincide with Morse homology, if any critical point of $H$ has Maslov index different from $-1$, $0$, and $1$, then the time-one flow of $H$ \emph{must} be degenerate. This allows us to prove the existence of orbits with almost all possible non-small periods.
+
+\begin{corollary}
+Let $H$ be a Morse function on the two-dimensional compact symplectic manifold $M$. Let $x_1, \dots, x_N$ be the critical points of $H$ \emph{with Morse index different from $0$}, i.e. the local maxima and minima.
+
+For each $i = 1, \dots, N$, define $\Delta_i = \det \hessian H(x_i)$, where the determinant is taken in an arbitrary symplectic basis of $T_{x_i} M$, and set $q_i = \frac{2\pi}{\sqrt{\Delta_i}}$ and $q_{\min} = \min q_i$. Then, for all $p \geq q_{\min}$, the time-$p$ flow of $H$ is a degenerate Hamiltonian diffeomorphism; equivalently, $p H$ is a degenerate Hamiltonian.
+
+Furthermore, if we let
+\begin{equation}
+A = \ointerval{q_{\min}}{\infty} \setminus \bigcup q_i \Z,
+\end{equation}
+then for all $p \in A$ there exists a time-$p$ nonconstant periodic orbit of $H$, though $p$ may in general not be a primitive period.
+
+[Should be able to prove that there exist orbits with periods greater than some $T$ constructed from the $\Delta_i$.]
+\end{corollary}
+
+\begin{proof}
+Consider the Hamiltonian $p H$, $p > 0$. It has the same critical points as $H$, with the same indices, and the determinants of the Hessians of the $x_i$ can be easily computed as
+\begin{equation}
+\det \hessian(pH)(x_i) = p^2 \Delta_i.
+\end{equation}
+
+We conclude from proposition \ref{maslovmorse} that if $p \geq \frac{2\pi}{\sqrt{\Delta_i}} = q_i$ then either the critical point $x_i$ is degenerate (in the Floer sense) or or it has Maslov index in $\Z \setminus \{-1,0,1\}$. Therefore, if $p \geq q_{\min}$ either some critical point is degenerate (in which case the Hamiltonian $pH$ is degenerate) or some critical point has Maslov index in $\Z \setminus \{-1,0,1\}$. We will now show that the latter also implies that $pH$ is degenerate.
+
+Assume for the sake of argument that $pH$ is a nondegenerate autonomous Hamiltonian which has a critical point $x$ with Maslov index $\mu(x) = m \not \in \{-1,0,1\}$. Then, the Floer complex is nontrivial at degree $m$, i.e. $\CF_m(pH) \neq \{0\}$. Therefore, since the Morse homology agrees with Floer homology, the boundary maps $\partial_m$ and $\partial_{k+1}$ must satisfy $\ker(\partial_m) = \image(\partial_{k+1})$. However, proposition \ref{maslovmorse} implies that no critical point can have Maslov index equal to $m \pm 1$, and therefore that $\CF_{m\pm1}(pH) = \{0\}$. As a consequence, $\ker(\partial_m) = \CF_m(pH)$ and $\image(\partial_{k+1}) = \{0\}$, hence $\HF_m(pH) = \CF_m(pH) \neq \{0\}$. This is a contradiction, because the Morse homology at index $m+1$ is necessarily null, as Morse indices may only take the values $0$, $1$, and $2$. This shows that $pH$ is necessarily degenerate for $p \geq q_{\min}$.
+
+\smallskip
+
+We now turn to showing that if $p \in A$ then there necessarily exists a $p$-periodic orbit of $H$. Indeed, as we have seen, if $p \in A$ then the Hamiltonian $pH$ is degenerate. However, if $p$ is not a multiple of $q_i$ for any $i$, then by proposition \ref{maslovmorse} every critical point of $H$ is a nondegenerate orbit. Therefore, there must be a degenerate time-one orbit of $pH$ which is not a constant, or, in other words, a non-constant time-$p$ orbit of $H$.
+\end{proof}
