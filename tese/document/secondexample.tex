@@ -238,6 +238,71 @@ f'(t) = - \frac{t - \sin(t)}{1 - \cos(t)}.
 Evidently, for $t > 0$, $f'(t) < 0$ where defined. Consequently, $f$ is a strictly decreasing function. Since $\lim_{t \to 0^+} f(t) = 2$, we obtain that $f(t) < 2$ for $t \in \ointerval 0 {\frac \pi 2}$, which completes the proof.
 \end{proof}
 
-We can now place the actions of the orbits on the real line.
+We can now place the actions of the orbits on the real line, see figure \ref{actionsh12}.
 
-[[place figure here]]
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=0.2, tick/.style={left=0.2cm}, value/.style={right=0.2cm}]
+\draw[->,thick] (0, -15) -- (0,15) node[above=0.1cm] {Action} node[tick] {Value} node[value]{Orbit};
+
+\foreach \x in {-12.56,-9.85,0,9.85,12.56}
+\draw (-1, \x) -- (1,\x);
+
+\draw (0,-12.56) node[tick] {$-4a$} node[value] {$B_0$};
+\draw (0,-9.85) node[tick] {$-4x_0^2 - 4 a \cos(x_0))$} node[value] {$C_0, C_1$};
+\draw (0,0) node[tick] {$0$} node[value] {$B_1, B_2$};
+\draw (0,9.85) node[tick] {$4x_0^2 + 4 a \cos(x_0)$} node[value] {$A_0, A_1$};
+\draw (0,12.56) node[tick] {$4a$} node[value]  {$B_3$};
+
+
+\end{tikzpicture}
+\caption{The actions of the contractible periodic orbits of $H_1$ in time $4a$. The figure is to scale, with $a = 3.14$. As $a$ gets closer to $2$, the value of $4x_0^2 + 4a \cos(x_0)$ gets closer to $4a$.}
+\label{actionsh12}
+\end{figure}
+
+\subsection{Their Maslov Indices}
+
+We will now use proposition \ref{calcmaslov} to compute the Maslov indices of the contractible orbits calculated above.
+
+We begin with the orbits $B_0, \dots, B_3$, which are present for all $a > 0$. On these, the derivative can be calculated in a way similar to the computations in page \pageref{rectpath1}. Using the same notation as therein to represent piecewise rectilinear paths, the derivative matrix $A(t)$ at each $B_i$ is given by
+\begin{equation}
+\begin{multlined}
+A(t):
+\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 & 0\\
+\pm_1 a & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 \pm_1 \pm_2 a^2 &  \pm_2 a\\
+\pm_1 a & 1
+\end{bmatrix}\\
+\to
+\begin{bmatrix}
+1 \pm_1 \pm_2 a^2 &  \pm_2 a\\
+\pm_1 2a \pm_2 a^3 & 1 \pm_1 \pm_2 a^2
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 \pm_1 \pm_2 3 a^2 + a^4 &  \pm_2 2 a \pm_1 a^3\\
+\pm_1 2a \pm_2 a^3 & 1 \pm_1 \pm_2 a^2
+\end{bmatrix},
+\end{multlined}
+\end{equation}
+where $\pm_1 1 = \cos(x)$ and $\pm_2 1 = \cos(y)$. We may now compute the trace of $A(t)$:
+\begin{equation}\label{tracebi}
+\trace A(t): 2 \to 2 \to 2 \pm_1 \pm_2 a^2 \to 2 \pm_1 \pm_2 2 a^2 \to 1 \pm_1 \pm_2 3 a^2 + a^4.
+\end{equation}
+
+\begin{prop}
+The Maslov indices of $(0,0)$ and $(\pi,\pi)$ are null.
+\end{prop}
+
+\begin{proof}
+In that case, using the notation of equation \eqref{tracebi}, $\pm_1 = \pm_2$ and therefore the trace is always greater than or equal to two. Per proposition \ref{calcmaslov}, this implies that the Maslov index is null.
+\end{proof}

@@ -17,10 +17,12 @@
 
 \setlist[enumerate,1]{label=\alph*)}
 
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
 \renewcommand{\H}{\mathbb{H}}
 \renewcommand{\O}{\mathbb{O}}
+\renewcommand{\S}{\mathbb{S}}
 
 \newcommand{\PP}{\mathbb{P}}
 \newcommand{\FF}{\mathcal{F}}
@@ -35,11 +37,13 @@
 
 \maketitle
 
-Ao longo dos séculos, os matemáticos criaram vários géneros de números. Os mais conhecidos são, entre outros, os números reais $\R$ e os números complexos $\C$, mas existem outros conjuntos, menos conhecidos, que extendem ainda mais a noção de número, como os quaterniões $\H$, os octoniões $\O$, entre outros.
+Ao longo da história, os matemáticos criaram e estudaram diversos géneros de números. Os mais úteis no dia-a-dia são os números inteiros $\Z$, reais $\R$ e complexos $\C$, mas existem outros conjuntos, estes menos conhecidos mas ainda com utilidade, como os quaterniões $\H$ e os octoniões $\O$.
 
-Todos estamos familiares com a vasta utilidade dos reais e complexos, e os quaterniões também encontram uso em áreas como a física e modelação 3D. O objetivo deste artigo não é falar dos quaterniões como objeto próprio, mas sim discutir como podemos construir os quaterniões, e de onde vêm os objetos mais complicados como os octoniões e acima.
+O objetivo deste artigo é falar destes conjuntos mais complicados, não sob a perspetiva de aplicações, mas sim sobre a perspetiva de como os construir e como essa construção pode ser generalizada, dando azo a conjuntos ainda maiores, como os sedeniões $\S$ e mais.
 
-Antes de responder a esta questão, é conveniente responder à questão: O que são os números complexos? Esta questão parece algo supérflua, dado que o leitor provavelmente já sabe a resposta, mas a sua utilidade surge porque se de alguma forma construímos os complexos a partir dos números reais, fará sentido iterar essa construção para obter conjuntos de números ainda maiores, que estarão para os números complexos como estes estão para os números reais. Assim sendo, apresentam-se algumas definições do conjunto dos números complexos $\C$:
+Começando com os números reais, estes conjuntos podem ser vistos como construídos uns em cima dos outros. Os complexos podem ser construídos a partir dos reais adicionando um elemento $i$ que satisfaz $i^2 = -1$. Os quaterniões podem ser vistos como adicionando mais dois elementos, $j$ e $k$, também satisfazendo $j^2 = k^2 = -1$. Os octoniões adicionam ainda mais quatro raízes quadradas de $-1$, os sedeniões adicionam oito, etc.
+
+Para perceber melhor estas construções, é conveniente começar pelo caso mais simples: Como podemos construír $\C$ a partir de $\R$? Esta questão poderá parecer supérflua, dado que todos sabemos o que são os números complexos, mas é uma questão importante porque se soubermos construir os complexos a partir dos reais poderemos tentar iterar essa construção, fazendo surgir os quaterniões e assim por diante. Assim sendo, apresentam-se algumas definições do conjunto dos números complexos $\C$:
 \begin{enumerate}[label=\roman*)]
 \item Definição `à engenheiro': Os números complexos são coisas da forma $a+bi$, com $a, b \in \R$ e $i^2 = -1$,
 \item Definição rigorosa simples: Identificar os complexos com $\R^2$, ou seja, ver o número complexo $a+bi$ como o par $(a,b)$. Definir a soma e o produto de complexos como intuido pela regra $i^2 = -1$, i.e.
@@ -60,11 +64,11 @@ satisfaz a identidade $J^2 = -I$, que é semelhante a $i^2 = -1$. Assim sendo, p
 Por outras palavras, definimos $\C$ como o conjunto das matrizes $2 \times 2$ da forma
 \[\C = \left\{ \begin{bmatrix} a & b \\ -b & a \end{bmatrix} \;\middle|\; a, b \in \R \right\} \subseteq M(2 \times 2, \R).\]
 
-As operações neste conjunto são as operações induzidas pela estrutura de matriz, sendo necessário verificar que somas e produtos de matrizes desta forma continuam a ser desta forma. Pelo lado positivo, recebemos algumas propriedades de graça, por exemplo a associatividade e distributividade do produto.
+As operações neste conjunto são as operações induzidas pela estrutura de matriz, sendo necessário verificar que somas e produtos de matrizes desta forma continuam a ser desta forma. Pelo lado positivo, recebemos algumas propriedades de graça, por exemplo a associatividade e distributividade do produto (mas não a comutatividade, que tem de ser verificada manualmente).
 
-A beleza da coisa é que recebemos também várias operações de graça, induzida a partir de operações de matrizes. Por exemplo:
+Um detalhe agradável é que várias operações nos números complexos podem ser vistas como induzida a partir de operações de matrizes. Por exemplo:
 \begin{enumerate}
-\item A operação de conjugado $z \mapsto \overline{z}$ coincide com a transposição de matrizes, vindo de graça a propriedade $\overline{zw} = \overline{z} \cdot \overline{w}$ da regra $(AB)^T = B^T A^T$,
+\item A operação de conjugado $z \mapsto \overline{z}$ coincide com a transposição de matrizes, sendo imediata a propriedade $\overline{zw} = \overline{z} \cdot \overline{w}$ da regra $(AB)^T = B^T A^T$,
 \item A norma pode ser calculada como $\lvert z \rvert^2 = \det z$, vindo de graça propriedades como $\lvert z w \rvert = \lvert z \rvert \lvert w \rvert$.
 \end{enumerate}
 
@@ -105,7 +109,7 @@ mas mais uma vez encontramos um problema.
 \[\begin{bmatrix} a & b \\ -\overline{b} & \overline{a} \end{bmatrix} \begin{bmatrix} c & d \\ -\overline{d} & \overline{c} \end{bmatrix} = \begin{bmatrix} ac - b \overline{d} & ac + b \overline{c} \\ -\overline{b}c - \overline{a} \overline{d} & -\overline{b} d + \overline{a} \, \overline{c} \end{bmatrix}\]
 e repare-se que \emph{em geral, a matriz obtida não é da forma} \eqref{oct1}, dado que
 \[\overline{ac - b\overline{d}} = \overline{c} \, \overline{a} - d \overline{b},\]
-que não é igual a $\overline{a}\,\overline{c} - \overline{b} d$ \emph{a não ser que a multiplicação das entradas seja comutativa}. Isto explica porque é que isto não foi um problema até os quaterniões, mas passa a ser a partir destes.
+que não é igual a $\overline{a}\,\overline{c} - \overline{b} d$ \emph{a não ser que a multiplicação das entradas seja comutativa}. Isto explica porque é que isto não foi um problema até os octoniões, mas passa a ser a partir destes.
 
 A solução parece excessiva, mas consiste em modificar ligeiramente a noção de produto de matrizes. A noção usual de produto de matrizes $2 \times 2$ é dada por
 \[\begin{bmatrix} a_1 & b_1 \\ c_1 & d_1 \end{bmatrix} \begin{bmatrix} a_2 & b_2 \\ c_2 & d_2 \end{bmatrix} = \begin{bmatrix} a_1 a_2 + b_1 c_2 & a_1 b_2 + b_1 d_2  \\ c_1 a_2 + d_1 c_2 & c_1 b_2 + d_1 d_2 \end{bmatrix}\]
