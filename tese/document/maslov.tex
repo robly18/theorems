@@ -163,14 +163,14 @@ To conclude this section, we present a further way to simplify the computations.
 \item And consequently, if for some $t_0, t_1$ we have $\trace A(t_0) = - \trace A(t_1) = \pm 2$ and $-2 < \trace A(t) < 2$ for $t_0 < t < t_1$, it suffices to compute $\rho(A(t))$ for a single value of $t \in \ointerval{t_0}{t_1}$.
 \end{itemize}
 
-\begin{prop}\label{calcmaslov}
+\begin{prop}\label{calcmaslov0}
 Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$, $A(T) = W^\pm$. If $\trace A(t) \geq -2$ for all time, the Maslov index of $A$ is zero. Otherwise, there exists a partition of $\interval 0 T$ of the form
 \begin{equation}\label{calcmaslov:ab1}
 0 = a_0 < b_0 < a_1 < b_1 < a_2 < \dots < a_{N-1} < b_{N-1} < a_N = T
 \end{equation}
 which satisfies the properties
 \begin{enumerate}
-\item\label{calcmaslov:ab2} $(-1)^n \trace A(a_n) \geq 2$, \item\label{calcmaslov:ab3} $\trace A(b_n) = 0$, \item\label{calcmaslov:ab4} Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.\end{enumerate}
+\item\label{calcmaslov:ab2} $(-1)^n \trace A(a_n) \geq 2$, \item\label{calcmaslov:ab3} $\trace A(b_n) \in \ointerval{-2}2$, \item\label{calcmaslov:ab4} Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.\end{enumerate}
 
 For any such partition, the negative winding number of $\rho^2(A(t))$ is equal to
 \begin{equation}\label{calcmaslov:mu}
@@ -187,60 +187,37 @@ Now, assume that $\trace A(t) \leq -2$ for some $t$. We prove that a partition \
 
 Let $U \subseteq \interval 0 T$ be the preimage under $\trace \circ A$ of $\ointerval{-2}\infty$, and $V$ the preimage of $\ointerval{-\infty}2$. Then, by standard Lebesgue number lemma arguments, there exists a partition 
 \begin{equation}
-0 = c_0 < c_1 < \dots < c_{N+1} = T,
+0 = b_{-1} < b_0 < \dots < b_{N-1} < b_N = T,
 \end{equation}
-such that each interval $\interval{c_n}{c_{n+1}}$ is entirely contained in $U$ or $V$. By removing unnecessary partitions, we may suppose without loss of generality that
+such that each interval $\interval{b_n}{b_{n+1}}$ is entirely contained in $U$ or $V$. By removing unnecessary partitions, we may suppose without loss of generality that
 \begin{equation}
-\interval{c_0}{c_1} \subseteq U, \interval{c_1}{c_2} \subseteq V, \interval{c_2}{c_3} \subseteq U, \dots,
+\interval{0}{b_0} \subseteq U, \interval{b_0}{b_1} \subseteq V, \interval{b_1}{b_2} \subseteq U, \dots,
 \end{equation}
-and furthermore that for each $n$ there exists some $t_n \in \ointerval{c_n}{c_{n+1}}$ such that $t_n \in U \setminus V$ or $t_n \in V \setminus U$. Without loss of generality pick $t_0 = c_0 = 0$ and $t_N = c_{N+1} = T$. (In this step, we are assuming that $0 \neq N$, which is why the case $\forall_t \trace A(t) > -2$ must be done separately.)
+and furthermore that for each $n$ there exists some $a_n \in \ointerval{b_{n-1}}{b_{n}}$ such that $a_n \in U \setminus V$ or $a_n \in V \setminus U$. Without loss of generality pick $a_0 = 0$ and $a_N = T$. (In this step, we are assuming that $0 \neq N$, which is why the case $\forall_t \trace A(t) > -2$ must be done separately.)
 
 We now have a sequence of numbers
 \begin{equation}\label{tcineq}
-0 = t_0 < c_1 < t_1 < c_2 < t_2 < \dots < t_{N-1} < c_{N-1} < t_{N} = T.
+0 = a_0 < b_1 < a_1 < b_2 < a_2 < \dots < a_{N-1} < b_{N-1} < a_{N} = T,
 \end{equation}
+which we will prove satisfies properties \ref{calcmaslov:ab2}, \ref{calcmaslov:ab3} and \ref{calcmaslov:ab4}.
 
-We will now perturb this sequence, in order to obtain the $a_n$ from the $t_n$ and the $b_n$ from the $c_n$.
+\begin{itemize}
+\item [\ref{calcmaslov:ab2}] Let $n$ be an even number. By hypothesis, $a_n \in U \setminus V$. Consequently, $a_n \not \in V$, i.e. $\trace A(a_n) \geq -2$. The proof is analogous for $n$ odd.
 
-Note that $\trace A(t_0) = 2$, $\trace(A(t_1)) \leq -2$, $\trace(A(t_2)) \geq 2$, and so on. By continuity, we may assume without loss of generality that these inequalities are equalities, and since $\trace(A(c_i)) \in \ointerval{-2}2$ we may assume that the inequalities \eqref{tcineq} still hold.
-
-The resulting sequence $t_0, t_1, \dots$ is renamed to $a_0, a_1, \dots$, and we now turn to constructing the sequence $b_1, b_1, \dots$
-
-By compacity, between each $a_n, a_{n+1}$ there exists a maximal $\alpha_n$ satisfying $\trace A(\alpha_n) = \trace A(a_n)$ and a minimal $\alpha'_{n+1}$ with $\trace A(\alpha'_{n+1}) = \trace A(a_{n+1})$. It is easy to check the inequalities
+\item [\ref{calcmaslov:ab3}] For $1 \leq n \leq N-1$,
 \begin{equation}
-a_n \leq \alpha_n < c_n <\alpha'_{n+1} \leq a_{n+1},
+b_n \in \interval{b_{n-1}}{b_n} \cap \interval{b_n}{b_{n+1}} \subseteq U \cap V,
 \end{equation}
-and therefore by continuity there exists some $b_n$ satisfying
-\begin{equation}
-\trace A(b_n) = 0, \quad \alpha_n < b_n < \alpha'_{n+1}.
-\end{equation}
+which implies that $\trace A(b_n) \in \ointerval{-2}2$.
 
-It is obvious that the inequalities \eqref{calcmaslov:ab1} hold, as well as properties \ref{calcmaslov:ab2} and \ref{calcmaslov:ab3}. It remains to prove property \ref{calcmaslov:ab4}, i.e., that whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$ there exists some $b_n$ between $x$ and $y$.
+\item [\ref{calcmaslov:ab4}] Let $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$. Then, $x \in V \setminus U$ and $y \in U \setminus V$, so they cannot both be in the same interval $\interval{b_n}{b_{n+1}}$. Therefore, there must be a value of $b_n$ (with $1 \leq n \leq N-1$) between them.
+\end{itemize}
 
-To prove property \ref{calcmaslov:ab4}, we make the following remark.
-\begin{lemma}\label{calcmaslov:lemma1}
-The sequence of intervals $\interval 0 {b_0}, \interval {b_0}{b_1}, \interval{b_1}{b_2}, \dots, \interval{b_{N-1}}T$ is alternatively contained in $U$ and in $V$.
-\end{lemma}
-
-\begin{lemmaproof}
-The proof of lemma \ref{calcmaslov:lemma1} is a simple but laborious application of the maximalities and minimalities of the $\alpha_n$ and $\alpha'_n$. As an example, we will prove that $\interval{b_0}{b_1} \subseteq V$.
-
-Suppose that $\trace A(t) \geq 2$ for some $t \in \interval{b_0}{b_1}$. By continuity, we may suppose without loss of generality that $\trace A(t) = 2$. Then, it is the case that either $t \in \interval{a_0}{a_1}$ or $t \in \interval{a_1}{a_2}$. In the first case, by maximality of $\alpha_0$, we have
-\begin{equation}
-t < \alpha_0 < b_0 \leq t,
-\end{equation}
-an obvious contradiction. The case where $t \in \interval{a_1}{a_2}$ is done in a similar way, applying the minimality of $\alpha'_2$.
-\end{lemmaproof}
-
-The proof of property \ref{calcmaslov:ab4} is a simple consequence of the fact that, under the hypotheses of this property, $x \in U \setminus V$ and $y \in V \setminus U$. Therefore, $x$ and $y$ must be in distinct intervals among those in the statement of lemma \ref{calcmaslov:lemma1} and thus must be separated by at least one value of $b_n$.
-
-\smallskip
-
-We now turn to the last part of the proof: We suppose that we have a partition $(a_n, b_n)$ satisfying \eqref{calcmaslov:ab1} and properties \ref{calcmaslov:ab2}, \ref{calcmaslov:ab3} and \ref{calcmaslov:ab4} and we prove formula \eqref{calcmaslov:mu}.
+We now prove that given a partition $(a_n, b_n)$ satisfying \eqref{calcmaslov:ab1} and properties \ref{calcmaslov:ab2}, \ref{calcmaslov:ab3} and \ref{calcmaslov:ab4}, formula \eqref{calcmaslov:mu} holds.
 
 First, observe that the winding number of $\rho^2(A(t))$ can be calculated in pieces, as the path $\rho^2 \circ A$ can be decomposed into its restriction to $\interval{a_0}{a_1}$, $\interval{a_1}{a_2}$, etc., so it suffices to calculate the winding number of $\rho^2(A(t))$ as $t$ varies from $a_n$ to $a_{n+1}$.
 
-For the sake of argument, suppose that $n$ is even. We apply property \ref{calcmaslov:ab4} and corollary \ref{sp2pm} to observe that between $a_n$ and $b_n$ the trace of $A$ is never $-2$, and consequently $\rho(A(t))$ is never $-1$. Since $S^1 \setminus \{-1\}$ is contractible, there is a homotopy between every path from $\rho(A(a_n)) = 1$ and $\rho(A(b_n)) = \pm\I$.\footnote{It is an easy consequence of equation \eqref{sp2pm:3} from corollary \ref{sp2pm} that whenever a matrix $A$ has null trace, $\rho(A) = \pm \I$.} Therefore, without change to the winding number of $\rho^2$, we may replace the path $\rho(A(t))$ in $\interval{a_n}{b_n}$ by a reparametrization of $\pm \e^{\I \theta}$, $\theta \in \interval 0 {\pi/2}$. By the same argument, the path $\rho(A(t))$ for $t \in \interval{b_n}{a_{n+1}}$ may be replaced by $\pm \e^{\I \theta}$, $\theta \in \interval{\pi/2}\pi$, and so, for $t \in \interval{a_n}{a_{n+1}}$ the path $\rho^2(A(t))$ is homotopic to $\pm \e^{2 \I \theta}$, $\theta \in \interval 0 \pi$, with winding number $\pm 1$, where the sign is the sign of $\Im \rho(A(b_n))$.
+For the sake of argument, suppose that $n$ is even. We apply property \ref{calcmaslov:ab4} and corollary \ref{sp2pm} to observe that between $a_n$ and $b_n$ the trace of $A$ is never $-2$, and consequently $\rho(A(t))$ is never $-1$. Since $S^1 \setminus \{-1\}$ is contractible, there is a homotopy between every path from $\rho(A(a_n)) = 1$ and $\rho(A(b_n)) = \exp(\pm \I \theta_n)$. Therefore, without change to the winding number of $\rho^2$, we may replace the path $\rho(A(t))$ in $\interval{a_n}{b_n}$ by a reparametrization of $\e^{\pm \I \theta}$, $\theta \in \interval 0 {\theta_n}\}$. By the same argument, the path $\rho(A(t))$ for $t \in \interval{b_n}{a_{n+1}}$ may be replaced by $\e^{\pm \I \theta}$, $\theta \in \interval{\theta_n}\pi$, and so, for $t \in \interval{a_n}{a_{n+1}}$ the path $\rho^2(A(t))$ is homotopic to $\e^{\pm 2 \I \theta}$, $\theta \in \interval 0 \pi$, with winding number $\pm 1$, where the sign is the sign of $\Im \rho(A(b_n))$.
 
 If $n$ is odd, the previous argument works the same way, but the expression for the winding number of $\rho^2(A(t))$ has the sign swapped, i.e. it becomes $- \Im \rho(A(b_n))$. Therefore, we conclude the formula
 \begin{equation}
@@ -250,7 +227,7 @@ If $n$ is odd, the previous argument works the same way, but the expression for 
 Note the sign swap from the definition of Maslov index. All that remains is to compute $\rho(A(b_n))$.
 
 \begin{lemma}
-Let $A$ be a $2 \times 2$ symplectic matrix with null trace. Then, $\rho(A) = -\sign(A_{12}) \cdot  \I$.
+Let $A$ be a $2 \times 2$ symplectic matrix with trace in $\ointerval{-2}2$. Then, $\sign \Im \rho(A) = -\sign(A_{12}) \cdot  \I$.
 \end{lemma}
 
 \begin{lemmaproof}
@@ -262,21 +239,29 @@ c & d
 \end{bmatrix}.
 \end{equation}
 
-Using the condition on the trace we obtain $d = -a$. Furthermore, the condition that $A$ is symplectic, i.e. its determinant is 1, yields
+We will construct a path $S(t)$ from $A$ to some $A'$ whose value of $\rho$ is known. Furthermore, we will ensure that $\trace S(t)$ is always in $\ointerval{-2}2$, so that $\rho(S(t))$ is never real and therefore the sign of $\Im \rho(S(t))$ never changes.
+
+First, observe that $b \neq 0$, for otherwise $A$ would be lower-diagonal with eigenvalues equal to $a$ and $d$, both of which are real. However, we have seen (proposition \ref{lambdafromtau}) that if the trace of $A$ is in $\ointerval{-2}2$ then its eigenvalues cannot be real.
+
+Now, consider the straight-line path from $A$ to the matrix with null trace given by
 \begin{equation}
-bc = -(1 + a^2),
+A_0 = \begin{bmatrix}
+a & b\\
+c-a \frac{a+d}b & -a
+\end{bmatrix}.
 \end{equation}
-and since $a$ is real the right-hand side can never be null, therefore $b, c \neq 0$ and $c$ can be written in terms of $a$ and $b$, yielding
+
+This path is obtained via continuously adding a multiple of the first line to the second line. This does not modify the determinant, hence the path so obtained is a path of symplectic matrices. Furthermore, the trace is changing linearly from $a+d \in \ointerval{-2}2$ to $0$, and so it remains in $\ointerval{-2}2$.
+
+Since the resulting matrix $A_0$ has determinant 1, it is easy to check that it is of the form
 \begin{equation}
-A = \begin{bmatrix}
+A_0 = \begin{bmatrix}
 a & b\\
 -\frac{1+a^2}b & -a
 \end{bmatrix}.
 \end{equation}
 
-To proceed, by equation \eqref{sp2pm:3} from corollary \ref{sp2pm}, $\rho(A) = \pm I$. Furthermore, this is true of any matrix $A$ with null trace, so if we continuously deform $A$ into some matrix $A'$ whose value of $\rho$ is well-known, without ever leaving the matrices with null trace, we $\rho(A) = \rho(A')$.
-
-To begin, we continuously deform $b$ from its current value to $\pm 1$, without passing through zero. Then, we continuously deform $a$ into 0. At the end, we obtain the matrix
+Furthermore, any matrix of this form has null trace and determinant equal to $-1$, so any continuous deformation of $A_0$ preserves the sign of the imaginary part of $\rho$. The parameter $a$ can vary over any real value, while $b$ can only vary in $\R \setminus \{0\}$. Hence, we can find a path from $A_0$ to a matrix of the form
 \begin{equation}
 A' = \begin{bmatrix}
 0 & \pm 1\\
@@ -285,12 +270,27 @@ A' = \begin{bmatrix}
 \end{equation}
 whose value of $\rho$ is known to be $\mp 1$ by property \ref{rhodef:xy} from theorem \ref{rhodef}. Since $\sign(b) = \pm 1$, we obtain the expected result
 \begin{equation}
-\rho(A) = - \sign(A_{12}).
+\sign \Im \rho(A) = - \sign(A_{12}).
 \end{equation}
 \end{lemmaproof}
-
 This concludes the proof of the proposition.
 \end{proof}
+
+The previous proposition requires using a path that terminates in $W^\pm$. The following corollary shores up that weakness.
+
+\begin{corollary}\ref{calcmaslov1}
+Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$ and $A(T) \in Sp(2)^*$. If $\trace A(t) \geq -2$ for all time, the Maslov index of $A$ is zero. Otherwise, there exists a partition of the form
+[[What do I want this partition to look like?]]
+\begin{equation}
+0 = a_0 < b_0 < a_1 < b_1 < a_2 < \dots < a_{2N-1} < b_{2N-1} < a_{2N} \leq T
+\end{equation}
+which satisfies the properties
+\begin{enumerate}
+\item $(-1)^n \trace A(a_n) \geq 2$,
+\item $\trace A(b_n) \in \ointerval{-2}2$,
+\item Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$.
+\end{enumerate}
+\end{corollary}
 
 \subsection{The Autonomous Case}
 
