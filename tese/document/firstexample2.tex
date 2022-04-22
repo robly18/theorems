@@ -95,7 +95,7 @@ To compute the Conley-Zehnder index of \eqref{rectpath1}, let us begin by lookin
 \begin{equation}
 \trace A(t) : 2 \to 2 \to 2 + a^2,
 \end{equation}
-which starts at $2$ and ends at a value greater than $2$. Therefore, $\rho(A(t))$ is constant equal to 1, and its winding number is null.\footnote{Technically we should instead work with an extension of $A(t)$ which ends at $W^-$. However, such an extension $\tilde A$ would be entirely contained in $Sp(2)^-$ and therefore $\rho \circ \tilde A$ would also be constant equal to 1.} Consequently, using obvious notation to denote the Maslov index of periodic orbits,
+which starts at $2$ and ends at a value greater than $2$. Therefore, applying corollary \ref{calcmaslov1} we immediately obtain that $\mu(A(t)) = 0$. Consequently, using obvious notation to denote the Maslov index of periodic orbits,
 \begin{equation}
 \mu(0,0) = \mu(\pi,\pi) = 0.
 \end{equation}
@@ -105,105 +105,28 @@ We now turn to the case $\pm_1 \pm_2 1 = -1$. In this case,
 \trace A(t) : 2 \to 2 \to 2 - a^2.
 \end{equation}
 
-The first step is to extend $A$ to a path ending in $W^+$, per corollaries \ref{sp2sgn} and \ref{sp2pm}. To the resulting path we would like to apply proposition \ref{calcmaslov}, but there is one obstacle: In the resulting decomposition $0 = a_0 < b_0 < a_1 = T$, we might not know \textit{a priori} what $A(b_0)$ looks like, because $b_0$ might lie outside the domain where the extension agrees with $A$. We will discuss how to get around this issue shortly, but first we will deal with the easy case where this is not a problem.
-
-[Maybe rephrase this because we already did such an example, kind of, in the autonomous case]
-
-\begin{prop}\label{easymaslov}
-Let $A(t)$, $t \in \interval02$, be the path
+We again apply corollary \ref{calcmaslov1}, picking $b_0 = a(1 + \varepsilon)$, where $\varepsilon$ is an arbitrary number in $\linterval 0 a$ such that $2 - \varepsilon a^2 > -2$. The conditions of corollary \ref{calcmaslov1} are trivial to verify, and we obtain
 \begin{equation}
-A(t):
-\begin{bmatrix}
-1 & 0\\
-0 & 1
-\end{bmatrix}
-\to
-\begin{bmatrix}
-1 & 0\\
-\pm a & 1
-\end{bmatrix}
-\to
-\begin{bmatrix}
-1 - a^2 &  \mp a\\
-\pm a & 1
-\end{bmatrix},
-\end{equation}
-where the linear interpolation has nodes at $0$, $1$ and $2$.
-
-Then, if $a \geq \sqrt2$, the Maslov index of $A$ is equal to $\mp 1$.
-\end{prop}
-
-\begin{proof}
-Let $\tilde A(t)$, $t \in \interval03$, be an extension of $A$ such that $\tilde A(3) = W^+$ and $\trace \tilde A(t) < 2$ for $t \in \interval23$. Apply proposition \ref{calcmaslov} to the path $\tilde A$, using the partition
-\begin{equation}
-a_0 = 0, b_0 = 1 + \frac2{a^2}, a_1 = 3.
+\mu(A(t)) = \sign(A(b_0)_{12}) = \sign(\pm_2 \varepsilon a) = \pm_2 1.
 \end{equation}
 
-Note: It is here that we use the hypothesis that $a \geq \sqrt2$, as otherwise the value of $b_0$ would be greater than $2$ and be in a section of $\tilde A$ over which we have no control.
-
-The verification that we are in the hypothesis of proposition \ref{calcmaslov} is mostly trivial, the most difficult property to check being \ref{calcmaslov:ab4}, i.e. that between any two points where one has trace in $\rinterval2\infty$ and the other has trace in $\linterval{-\infty}{-2}$ there exists a value of $b$, which in our case must be $b_0$. This is checked directly by evaluating at which points the trace may take such values.
-
-To compute the Maslov index, we apply formula \eqref{calcmaslov:mu}, still from proposition \ref{calcmaslov}, which tells us that
-\begin{equation}\label{easymaslov:eq1}
-\mu(\tilde A(t)) = \sign(\tilde A(b_0)_{12}).
-\end{equation}
-
-Since the Maslov index of $A$ coincides with the Maslov index of $\tilde A$, it suffices to compute the right-hand side of \eqref{easymaslov:eq1}. Note that
-\begin{equation}
-\tilde A(b_0) = A(b_0) = 
-\begin{bmatrix}
-1 & 0\\
-\pm a & 1
-\end{bmatrix}
-+
-\frac2{a^2}
-\begin{bmatrix}
-- a^2 &  \mp a\\
-0 & 0
-\end{bmatrix}
-=
-\begin{bmatrix}
--1 & \mp \frac2a\\
-\pm a & 1
-\end{bmatrix}.
-\end{equation}
-
-From this expression we may read off the sign of the element at index $12$, and hence conclude the result.
-\end{proof}
-
-To correct the deficiency of proposition \ref{easymaslov}, there are two expedite solutions. One of them would be to build the extension $\tilde A$ explicitly and do the corresponding computations. A second, easier way, is to exploit the independence of the Maslov index on the extension. It is this approach that we will take.
-
+Therefore, we conclude
 \begin{prop}
-Proposition \ref{easymaslov} also holds if $0 < a < \sqrt2$.
+The Maslov index of the fixed orbits of $H_1$ are as follows:
+\begin{equation}
+\begin{array}{c|c|c|c|c}
+\text{Orbit} & (0,0) & (0,\pi) & (\pi,0) & (\pi,\pi)\\
+\hline
+\text{Maslov Index} & 0 & -1 & 1 & 0
+\end{array}
+\end{equation}
 \end{prop}
 
-\begin{proof}
-The proof is exactly the same, but we modify the construction of $\tilde A$ slightly. First, we extend $A$ by continuing linear interpolation up to time $b_0 = 1 + \frac2{a^2} > 2$, that is,
-\begin{equation}
-\tilde A(t) = \begin{bmatrix}
-1 & 0\\
-\pm a & 1
-\end{bmatrix}
-+
-(t-1)
-\begin{bmatrix}
-- a^2 &  \mp a\\
-0 & 0
-\end{bmatrix}, \; t \in \interval1{1+\frac2{a^2}}.
-\end{equation}
+We are now ready to compute part of the filtered Floer complex of $H_1$, namely the vector spaces, though the boundary maps will have to wait.
 
-Then we finish the extension by connecting the end of the resulting path to $W^+$.
+These vector spaces are parametrized by $\lambda \in \R$, which represents the maximum value allowed for the action functional. They also have persistence homology structure induced by the inclusion, so we may represent them via barcodes. This is a much more concise way to represent these spaces, so in the future we will resort to barcodes for such descriptions. In this case, we will also exhibit a description `in words', for comparison.
 
-The rest of the proof follows exactly as in proposition \ref{easymaslov}.
-\end{proof}
-
-Since we know the contractible orbits of $H_1$ and their Maslov indices, we know the vector spaces of the filtered Floer complex of $H_1$.
-
-[This part could use some improvement.]
-
-These vector spaces are parametrized by $\lambda \in \R$, the maximum value allowed for the action functional. They also have persistence homology structure induced by the inclusion, so we may represent them via barcodes. This is a much more concise way to represent these spaces, so in the future we will resort to barcodes for such descriptions. In this case, we will also exhibit a description `in words', for comparison.
-
-We will also introduce new notation here: the concept of named bars. The idea is that (recall definition \ref{def:pmfrombarcode}) to each bar of the barcode associated to the vector spaces of the filtered Floer complex corresponds a generator of said vector spaces, i.e. a periodic orbit (or linear combination thereof). Therefore, we may associate to each bar a periodic orbit (or linear combination), which associates to it an element of the basis it may represent. Note that this choice of association is not unique in general.
+We also introduce new notation here: the concept of named bars. The idea is that (recall definition \ref{def:pmfrombarcode}) to each bar of the barcode associated to the vector spaces of the filtered Floer complex corresponds a generator of said vector spaces, i.e. a periodic orbit (or linear combination thereof). Therefore, we may associate to each bar a periodic orbit (or linear combination), which associates to it an element of the basis it may represent. Note that this choice of association is not unique in general.
 
 \begin{prop}
 The Hamiltonian $H_1$ has four periodic contractible orbits (in time $2a$), which are represented in the following figure, as well as the corresponding actions and Maslov indices.
