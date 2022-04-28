@@ -29,28 +29,30 @@ def drawNode(pos, name, **opts):
 
 
 class Barcode:
-    tags = []
+    def __init__(self):
+        self.tags = []
 
-    rows = []
-    currentrow = None
-    
-    margin = 2
-    minx, maxx = 0,0
-    
-    #parameters for drawing
-    tickHeight = 0.2
-    
-    startY = -0.5
-    spaceBetweenBars = -0.4
-    spaceBetweenRows = -0.6
-    
-    barcodeLabelMargin = 1
+        self.rows = []
+        self.currentrow = None
+        
+        self.margin = 2
+        self.minx, self.maxx = 0,0
+        
+        #parameters for drawing
+        self.tickHeight = 0.2
+        
+        self.startY = -0.5
+        self.spaceBetweenBars = -0.4
+        self.spaceBetweenRows = -0.6
+        
+        self.barcodeLabelMargin = 1
     
     def _updateBounds(self, pos):
         if pos==math.inf:
             return
         self.minx = min(pos,self.minx)
         self.maxx = max(pos,self.maxx)
+        
 
     def addTag(self, pos, name):
         self.tags.append((pos,name))
@@ -91,12 +93,51 @@ class Barcode:
             yield drawNode((self.maxx+self.margin+self.barcodeLabelMargin, labelY), name)
             currentY += self.spaceBetweenRows
 
-a = 2.5 / 2
+a = 3.1415
+
+def findroot(f, lo, hi, eps): #assumes f(lo) < 0 < f(hi)
+    mid = (lo + hi)/2
+    if -eps < f(mid) < eps:
+        return mid
+    elif f(mid) < 0:
+        return findroot(f,mid,hi,eps)
+    else:
+        return findroot(f,lo,mid,eps)
+
+x0 = findroot(lambda x: a*0.5*math.sin(x) - x, math.pi/2, 0, 0.00001)
+beta = a * math.cos(x0)
+
+midnode = 4*x0**2 + 4*beta - 1
 
 bcphi = Barcode().addTag(0,"0").addTag(2*a,"$2a$").addTag(-2*a,"$-2a$")
 bcphi.addRow("$(\CF_{-1})$").addBar(-2*a,math.inf,"$B_0$")
 bcphi.addRow("$(\CF_0)$").addBar(0,math.inf,"$B_1$").addBar(0,math.inf,"$B_2$")
 bcphi.addRow("$(\CF_1)$").addBar(2*a,math.inf,"$B_3$")
 
-print("\n".join(bcphi.printBarcode()))
+#print("\n".join(bcphi.printBarcode()))
+
+bcphi2 = Barcode().addTag(0,"0").addTag(-4*a,"$-4a$").addTag(4*a,"$4a$").addTag(-midnode,"$-4 x_0^2 - 4 \\beta$").addTag(midnode,"$4 x_0^2 + 4 \\beta$")
+bcphi2.addRow("$(\CF_{-2})$").addBar(-4*a,math.inf,"$B_0$")
+bcphi2.addRow("$(\CF_{-1})$").addBar(-midnode,math.inf,"$A_0$").addBar(-midnode,math.inf,"$A_1$")
+bcphi2.addRow("$(\CF_0)$").addBar(0,math.inf,"$B_1$").addBar(0,math.inf,"$B_2$")
+bcphi2.addRow("$(\CF_{1})$").addBar(midnode,math.inf,"$C_0$").addBar(midnode,math.inf,"$C_1$")
+bcphi2.addRow("$(\CF_{2})$").addBar(4*a,math.inf,"$B_3$")
+
+bcphi2.spaceBetweenRows = -1.35
+bcphi2.spaceBetweenBars = -1.2
+bcphi2.margin = 1.2
+bcphi2.barcodeLabelMargin = 3
+bcphi2.startY = -1.2
+
+#print("\n".join(bcphi2.printBarcode()))
+
+a = 0.8
+
+bcphi20 = Barcode().addTag(0,"0").addTag(-4*a,"$-4a$").addTag(4*a,"$4a$")
+bcphi20.addRow("$(\CF_{-1})$").addBar(-4*a,math.inf,"$B_0$")
+bcphi20.addRow("$(\CF_0)$").addBar(0,math.inf,"$B_1$").addBar(0,math.inf,"$B_2$")
+bcphi20.addRow("$(\CF_{1})$").addBar(4*a,math.inf,"$B_3$")
+
+
+print("\n".join(bcphi20.printBarcode()))
 
