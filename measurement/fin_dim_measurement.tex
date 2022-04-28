@@ -27,6 +27,7 @@
 \newtheorem{definition}{Definition}
 
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
 \newtheorem{prop}{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem*{idea}{Idea}
@@ -134,7 +135,7 @@ One of the implications is obvious. Indeed, if $m \subseteq n$, any subbasic ope
 
 Now, suppose that $m$ is \emph{not} a subset of $n$. We will construct an open which contains $m$ but not $n$.
 
-Since $m \nsubseteq n$, there is a point $x \in m \setminus n$. Now, since we are in a finite dimensional space, the complement of $n$ is an open set, let us call it $U$. Then, $\tilde U$ is an open set in $\Max A$, which obviously contains $m$ but not $n$.
+Let $U$ be the complement of $n$. Since we are in finite dimension, this is an open set, so that $\tilde U$ is an open set in $\Max A$. Then, $n \not \in \tilde U$, and furthermore the hypothesis that $m \nsubseteq n$ is equivalent to the claim that $m \cap U \neq \emptyset$, and so $m \in \tilde U$.
 \end{proof}
 
 With this in mind, properties \ref{leastelem} and \ref{binsup} become trivial. The least element is simply the zero subspace, and binary suprema are given by subspace sums. Slightly less trivial is \ref{contsup}:
@@ -148,7 +149,7 @@ is continuous.
 \begin{proof}
 To show that subspace addition is continuous, by unfurling the definition of product topology and subbasis it suffices to prove the following. Let $m,n \in \Max A$, and let $\tilde U$ be a subbasic neighborhood of $m+n$. Then, we wish to show that there exist neighborhoods $V$ and $W$ of $m$ and $n$ such that, for all $m' \in V$ and $n' \in W$, $m'+n' \in \tilde U$.
 
-To this effect, let us introduce an auxiliary tool into the problem. Since $A$ is a finite dimensional complex vector space, we may introduce on it a norm (simply pick an arbitrary basis and induce the Euclidean norm based on it), and it is known that all norms are equivalent on finite dimensional vector spaces.
+To this effect, let us introduce an auxiliary tool into the problem. Since $A$ is a finite dimensional complex vector space, we may introduce on it a norm (simply pick an arbitrary basis and take the Euclidean norm making it an orthonormal basis), and it is known that all norms are equivalent on finite dimensional vector spaces, so that this norm generates the topology of $V$.
 
 Now, suppose that $\tilde U$ is a subbasic neighborhood of $m+n$. Then, there exists some point $x+y \in U$, with $x \in m$ and $y \in n$. Consequently, some ball around $x+y$ is contained in $U$, with a positive radius $\delta$. That said, we may now define $V_0$ and $W_0$ as balls, around $x$ and $y$ respectively, of radius $\delta/2$. Then, it is trivial to check that $V = \tilde{V_0}$ and $W = \tilde{W_0}$ are the desired neighborhoods of $m$ and $n$.
 \end{proof}
@@ -169,7 +170,7 @@ Distributivity is also easy, as we have already seen that $m \lor n = m + n$. Th
 
 As in the proof of continuity of the join, it suffices to show: If $m,n \in \Max A$ and $U$ is an open in $A$ such that $mn \in \tilde U$, there exists a neighborhood $V$ of $m$ and a neighborhood $W$ of $n$ such that for all $m' \in V$ and $n' \in W$ we have $m'n' \in \tilde U$. The rest of the proof is also very simple, stemming from the continuity of matrix multiplication, with a minor change due to the fact that the elements of $mn$ are \emph{sums} of pairwise products.
 
-In short: pick some element of $mn$ which is in $U$. Say that such an element is $p = x_1 y_1 \dots + x_k y_k$; since $U$ is open, some ball of radius $\varepsilon$ around $p$ is contained in $U$. Now, by continuity of matrix multiplication, we may found some $\delta_1$ such that, if $x' \in B_{\delta_1}(x_1)$ and $y' \in B_{\delta_1}(y_1)$, then $x' y' \in B_{\varepsilon/k} (x_1 y_1)$. Repeat for the other indices, finding $\delta_2, \dots, \delta_k$. Finally, we may find our neighborhood of $m$ as
+In short: pick some element of $mn$ which is in $U$. Say that such an element is $p = x_1 y_1 \dots + x_k y_k$; since $U$ is open, some ball of radius $\varepsilon$ around $p$ is contained in $U$. Now, by continuity of matrix multiplication, we may find some $\delta_1$ such that, if $x' \in B_{\delta_1}(x_1)$ and $y' \in B_{\delta_1}(y_1)$, then $x' y' \in B_{\varepsilon/k} (x_1 y_1)$. Repeat for the other indices, finding $\delta_2, \dots, \delta_k$. Finally, we may find our neighborhood of $m$ as
 \[V = \widetilde{B_{\delta_1}(x_1)} \cap \dots \cap \widetilde{B_{\delta_k}(x_k)},\]
 and a similar construction yields $W$. The proof that for all $m' \in V$ and $n' \in W$ we have $m' n' \in \tilde U$ is simple repeated application of the triangle inequality and is left to the reader.
 \end{proof}
@@ -208,7 +209,7 @@ If $m \in \Max A$, then $\dim(m m^* m) \geq \dim(m)$.
 \end{theorem}
 
 \begin{proof}[Theorem \ref{propstrongsymmetry} implies Proposition \ref{propsymmetry}]
-Let $m \in \Max A$ satisfy $m m^* m \leq m$. Recall that the (specialization) order on $\Max A$ is the subset order, so we are assuming that $m m^* m$ is a subspace of $m$. However, proposition \ref{propstrongsymmetry} tells us that it is a subspace of $m$, with dimension at least $\dim(m)$. Consequently, basic linear algebra tells us that these two spaces must coincide.
+Let $m \in \Max A$ satisfy $m m^* m \leq m$. Recall that the (specialization) order on $\Max A$ is the subset order, so we are assuming that $m m^* m$ is a subspace of $m$. However, proposition \ref{propstrongsymmetry} tells us that $m m^* m$ is a subspace of $m$, with dimension at least $\dim(m)$. Consequently, basic linear algebra tells us that these two spaces must coincide.
 \end{proof}
 
 In preparation for the proof of theorem \ref{propstrongsymmetry}, consider the function
@@ -225,26 +226,67 @@ The function $\rho$ is injective.
 
 \begin{proof}
 We begin by recalling the spectral theorem on finite-dimensional complex spaces: Any self-adjoint matrix $T$ can be written in the form
-\[T = O^* D O,\]
-for $O$ unitary and $D$ diagonal. With this in mind, suppose that $x$ and $y$ satisfy $\rho(x) = \rho(y)$, that is,
+\[T = U^* D U,\]
+for $U$ a unitary matrix and $D$ a diagonal matrix. With this in mind, suppose that $x$ and $y$ satisfy $\rho(x) = \rho(y)$, that is,
 \[x x^* x = y y^* y.\]
 
 Notice that $\rho(x) \rho(x)^* = \rho(y) \rho(y)^*$, or, in other words,
 \[(x x^*)^3 = (y y^*)^3.\]
 
 Now, apply the spectral theorem to $T = x x^*$ and $S = y y^*$, writing
-\[x x^* = O^* D O, \quad y y^* = O'^* D' O',\]
+\[x x^* = U^* D U, \quad y y^* = U'^* D' U',\]
 and conclude therefore that
-\[O^* D^3 O = O'^* D'^3 O'.\]
+\[U^* D^3 U = U'^* D'^3 U'.\]
 
 We may rewrite this expression as
 \begin{equation}
-D^3 = O''^* D'^3 O'',\label{eq1}
+D^3 = U''^* D'^3 U'',\label{eq1}
 \end{equation}
-for $O'' = O' O^*$. The first part of our proof is to show that \eqref{eq1} implies that $D = O''^* D' O''$, and therefore that $x x^* = y y^*$.
+for $U'' = U' U^*$. The first part of our proof is to show that \eqref{eq1} implies that $D = U''^* D' U''$, and therefore that $x x^* = y y^*$.
 
+Let $w_1, \dots, w_n$ be the column vectors of $U''$. Then, \eqref{eq1} tells us that $\braket{w_i, D'^3 w_j} = 0$ for $i \neq j$, and furthermore $\braket{w_j, D'^3 w_j} = D_{jj}^3$. Consequently, given that $\{w_i\}$ is an orthonormal basis we conclude that $D'^3 w_j = D_{jj}^3 w_j$, i.e. $w_j$ is an eigenvector of $D'^3$. Consequently, $w_j$ is also an eigenvector of $D'$, because the indices $k$ such that $(w_j)_k \neq 0$ must be those such that $D'^3_{kk} = D_{jj}^3$, and therefore that $D'_{kk} = D_{jj}$. In conclusion, $\braket{w_k, D' w_j} = D_{kj}$, i.e. $D = U''^* D' U''$.
 
+We have now shown that $x x^* = y y^*$. We now show that $x = y$. Note that if $x x^*$ is invertible, the proof is complete, because
+\begin{equation}
+x = (x x^*)^{-1} x x^* x = (y y^*)^{-1} y y^* y = y. 
+\end{equation}
+
+We now work around this problem. Let $x x^* = y y^* = U^* D U$, for $U$ unitary and $D$ diagonal. Then, since $x x^* x = y y^* y$,
+\begin{equation}
+U^* D U x = U^* D U y \Rightarrow D U x = D U y.
+\end{equation}
+
+Let $x' = U x$ and $y' = U y$. Since $U$ is invertible, it suffices to show that $x' = y'$.
+
+For all $k$ such that $D_{kk} \neq 0$ we immediately have $y'_k = x'_k$. On the other hand, if $D_{kk} = 0$, given that
+\begin{equation}
+D = U x x^* U^* = x' x'^*,
+\end{equation}
+we get $x'_k = 0$. Likewise, $y'_k = 0$. This completes the proof that $x' = y'$, and hence that $x = y$ and finally that $\rho$ is injective.
 \end{proof}
+
+The proof of theorem 1 now follows from the following lemma, which comes from elementary differential geometry.
+
+\begin{lemma}\label{lemma1}
+Let $M$ and $N$ be smooth nonempty manifolds, and suppose that $f \colon M \to N$ is an injective smooth function. Then, $\dim N \geq \dim M$.
+\end{lemma}
+
+\begin{proof} (Sketch)
+Let $p$ be a point where $\dl f$ has maximal rank, say $R$. Then there exists a neighborhood of $p$ on which $\dl f$ has maximal rank. Restrict the function $f$ to this neighborhood, and apply the Rank theorem (5.13 from \cite{leesmooth}) to obtain the existence of coordinate neighborhoods of $p$ and $f(p)$ on which the coordinate representation of $f$ is of the form
+\begin{equation}
+(x_1, \dots, x_{\dim M}) \mapsto (x_1, \dots, x_R, 0, \dots, 0).
+\end{equation}
+
+The injectivity of $f$ guarantees that $R = \dim M$, and clearly $R \leq \dim N$, which completes the proof.
+\end{proof}
+
+\begin{proof}[Theorem \ref{propstrongsymmetry}]
+First, note that $\rho$ is a smooth function, and we have shown that it is injective. Furthermore, we can see $m$ as a submanifold of $A$ and it is easy to show that $\rho|_m$ is also a smooth function from $m$ to $m m^* m$. Therefore, by lemma \ref{lemma1}, $\dim(m m^* m) \geq \dim(m)$, which completes the proof.
+\end{proof}
+
+\section{Sobriety}
+
+xyz
 
 \nocite{measurement}
 
