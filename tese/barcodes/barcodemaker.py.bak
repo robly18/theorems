@@ -71,10 +71,12 @@ class Barcode:
         return self
         
     def printBar(self, start, end, label, y):
-        if end != math.inf:
-            pass
-        elif end == math.inf:
-            return drawCustom("{}--{} node[right] {{{}}}".format(renderPoint((start,y)),renderPoint((self.maxx+self.margin*0.85,y)), label), options="(-,thick")
+        tip="(-"
+        if end == math.inf:
+            end = self.maxx+self.margin*0.85
+        else:
+            tip="{(-]}"
+        return drawCustom("{}--{} node[right] {{{}}}".format(renderPoint((start,y)),renderPoint((end,y)), label), options=tip+",thick")
 
     def printBarcode(self): #add option to print vertically?
         yield drawLine((self.minx-self.margin,0),(self.maxx+self.margin,0),options="->,thick")
@@ -90,7 +92,8 @@ class Barcode:
                 currentY += self.spaceBetweenBars
             currentY -= self.spaceBetweenBars
             labelY = (labelY + currentY)/2
-            yield drawNode((self.maxx+self.margin+self.barcodeLabelMargin, labelY), name)
+            if name!="":
+                yield drawNode((self.maxx+self.margin+self.barcodeLabelMargin, labelY), name)
             currentY += self.spaceBetweenRows
 
 a = 3.1415
@@ -131,7 +134,21 @@ bcphi2.startY = -1.2
 
 #print("\n".join(bcphi2.printBarcode()))
 
-a = 1.2
+bcphi2h = Barcode().addTag(0,"0").addTag(-4*a,"$-4a$").addTag(4*a,"$4a$").addTag(-midnode,"$-4 x_0^2 - 4 \\beta$").addTag(midnode,"$4 x_0^2 + 4 \\beta$")
+bcphi2h.addRow("$(\HF_{-2})$").addBar(-4*a,-midnode,"")
+bcphi2h.addRow("$(\HF_{-1})$").addBar(-midnode,math.inf,"")
+bcphi2h.addRow("$(\HF_0)$").addBar(0,math.inf,"").addBar(0,math.inf,"")
+bcphi2h.addRow("$(\HF_{1})$").addBar(midnode,math.inf,"").addBar(midnode,4*a,"")
+
+bcphi2h.spaceBetweenRows = -1.35
+bcphi2h.spaceBetweenBars = -1.2
+bcphi2h.margin = 1.2
+bcphi2h.barcodeLabelMargin = 3
+bcphi2h.startY = -1.2
+
+print("\n".join(bcphi2h.printBarcode()))
+
+a = 0.8
 
 bcphi20 = Barcode().addTag(0,"0").addTag(-4*a,"$-4a$").addTag(4*a,"$4a$")
 bcphi20.addRow("$(\CF_{-1})$").addBar(-4*a,math.inf,"$B_0$")
@@ -139,5 +156,5 @@ bcphi20.addRow("$(\CF_0)$").addBar(0,math.inf,"$B_1$").addBar(0,math.inf,"$B_2$"
 bcphi20.addRow("$(\CF_{1})$").addBar(4*a,math.inf,"$B_3$")
 
 
-print("\n".join(bcphi20.printBarcode()))
+#print("\n".join(bcphi20.printBarcode()))
 

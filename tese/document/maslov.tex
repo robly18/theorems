@@ -543,3 +543,123 @@ Assume for the sake of argument that $pH$ is a nondegenerate autonomous Hamilton
 
 We now turn to showing that if $p \in A$ then there necessarily exists a $p$-periodic orbit of $H$. Indeed, as we have seen, if $p \in A$ then the Hamiltonian $pH$ is degenerate. However, if $p$ is not a multiple of $q_i$ for any $i$, then by proposition \ref{maslovmorse} every critical point of $H$ is a nondegenerate orbit. Therefore, there must be a degenerate time-one orbit of $pH$ which is not a constant, or, in other words, a non-constant time-$p$ orbit of $H$.
 \end{proof}
+
+\subsection{Relation to a construction by Hofer and Kriener}
+
+There is another construction of the Conley-Zehnder index, also specific to the 2-dimensional case, due to Hofer and Kriener. The original work can be found in section 3 of \cite{hoferkriener}, and a summary can be found in the appendix of \cite{hwz}. For convenience, we reproduce the construction.
+
+Let $A(t)$, $t \in \interval 0 T$, be the path of $2 \times 2$ symplectic matrices whose Conley-Zehnder we intend to compute. Given a nonzero complex number $z \in \C \cong \R^2$. we can consider the path of nonzero complex numbers given by $z(t) = A(t) z$. We may write this path in polar coordinates as
+\begin{equation}
+z(t) = \abs{z(t)} \exp(\I \theta(t)),
+\end{equation}
+where $\theta(t)$ is chosen to be continuous. Then, we define the winding of $z$ by
+\begin{equation}
+\Delta(z) = \theta(T) - \theta(0).
+\end{equation}
+
+Finally, we define the winding interval of $A(t)$ as
+\begin{equation}
+I(A) = \{\, \Delta(z) \mid z \in \C \setminus \{0\} \,\}.
+\end{equation}
+
+It will be shown that this set is a closed interval of length strictly less than $\pi$, and therefore it contains at most one multiple of $2\pi$. Then, we may define the CZ index \textit{a la} Hofer and Kriener as
+\begin{equation}
+\muhk(A) = \begin{cases}
+2 k, & 2 k \pi \in I(A),\\
+2k+1, & I(A) \subseteq \ointerval {2k\pi}{2(k+1)\pi}.
+\end{cases} 
+\end{equation}
+
+We begin by verifying the statements made above, in order to ensure that $\muhk$ is well-defined.
+
+Recall that the function $f(t) = \exp(\I t)$ is a covering map $\R \xrightarrow{f} S^1$. Therefore, the following proposition guarantees that for each $z$ a continuous argument for $z(t)$ can be found. [Is this necessary?]
+
+\begin{prop}[Path Lifting Property]
+Let $p \colon E \to B$ be a covering map and $\gamma \colon \interval01 \to B$ a curve. Then, for every $e \in p^{-1}(\gamma(0))$ there exists a unique continuous lift $\tilde \gamma \colon \interval01 \to E$ satisfying $\gamma = p \circ \tilde \gamma$.
+\end{prop}
+
+\begin{proof}
+See proposition 11.10 in \cite{leetopological}.
+\end{proof}
+
+\begin{corollary}
+Any continuous path $z(t)$ of nonzero complex numbers has a continuous argument. For any such choice, the winding of $z(t)$ is the same.
+\end{corollary}
+
+\begin{proof}
+To obtain the existence of a continuous argument, apply the path lifting property to the function $t \mapsto \frac{z(t)}{\abs{z(t)}}$, using the covering map $\exp(\I\,\cdot\,) \colon \R \to S^1$ and any value of $\theta_0 \in \R$ satisfying $\exp(\I \theta_0) = z(0)$.
+
+Now, we show that the value of $\Delta(z) = \theta(T) - \theta(0)$ does not depend on the chosen argument. Therefore, let $\theta'$ be another continuous argument of $z(t)$. Then, $\theta'(0)$ must be equal to $\theta(0) + 2 k \pi$ for some integer $k$, as $\exp(\I\theta'(0)) = z(0) = \exp(\I \theta(0))$. Consequently, we can show that $\theta'(t) = \theta(t) + 2 k \pi$, using the uniqueness of the lift relative to the starting point. As a consequence,
+\begin{equation}
+\theta'(T) - \theta'(0) = \theta(T) + 2 k \pi -  \theta(0) - 2 k \pi = \theta(T) - \theta(0),
+\end{equation}
+so that this value is independent of the chosen lift.
+\end{proof}
+
+Now that we have shown that $\Delta(z)$ is well-defined, we show that it is a continuous function of $z$. To do so, we apply a stronger lifting property.
+
+\begin{prop}[Lifting Criterion]
+Suppose $p \colon E \to B$ is a covering space. Let $X$ be a connected and locally path connected space, and let $f \colon X \to B$ be a continuous map. Given any points $x_0 \in X$ and $e_0 \in E$ such that $p(e_0) = f(x_0)$, $f$ has a lift $\tilde f \colon X \to E$ satisfying $\tilde f(x_0) = e_0$ if and only if $f_* \pi(X,x_0) \subseteq p_* \pi(E,e_0)$, where $\pi$ denotes the fundamental group.
+
+If this lift exists, it is unique.
+\end{prop}
+
+\begin{proof}
+For the proof of the first part, see theorem 11.15 in \cite{leetopological}.
+
+To prove uniqueness, we apply the path lifting property. It is a known fact from topology that if $X$ is connected and locally path connected then it is connected. As such, for any $x \in X$ there exists a path $\gamma$ from $x_0$ to $x$.
+
+If $\tilde f$ is a lift of $f$, then it is easy to check that $\tilde f \circ \gamma$ is a lift of the path $f \tilde \gamma$ which starts at $e_0$. The path lifting property guarantees that this lift is unique, and so $\tilde f(\gamma(t))$ is uniquely defined for every value of $t$. In particular, this determines $\tilde f(x)$, and since $x$ is arbitrary the lift $\tilde f$ is completely determined, i.e. such a lift is unique.
+\end{proof}
+
+\begin{prop}
+The winding number function $\Delta \colon \C \setminus \{0\} \to \R$ is continuous.
+\end{prop}
+
+\begin{proof}
+To help in the proof, we define $\Delta$ in an alternate way, using the lifting properties above, in such a way that it will be clear that $\Delta$ is continuous. In what follows, set $\C^* = \C \setminus \{0\}$.
+
+First, we consider the continuous function
+\begin{equation}
+\begin{aligned}
+f_0 \colon \C^* \times \interval0T &\to S^1\\
+(z,t) &\mapsto \frac{A(t) z}{\abs{A(t) z}}
+\end{aligned}
+\end{equation}
+and then set $f(z,t) = f_0(z,t) / f_0(z,0)$. Note that $f(z,0) = 1$ for all $z \in \C^*$.
+
+We intend to lift $f$ to a map $\tilde f \colon \C^* \times \interval0T \to \R$, using the lifting criterion above. For concreteness, we require that $\tilde f(1,0) = 0$. We apply the lifting criterion. Because $\C^* \times \interval0T$ satisfies all the connectivity assumptions, we need only verify the condition
+\begin{equation}
+f_* \pi(\C^* \times \interval0T, (1,0)) \subseteq p_* \pi(\R,0).
+\end{equation}
+
+Since $\R$ is simply connected, the right-hand side is the null group and so it is necessary to prove that
+\begin{equation}\label{eq:fstarpi0}
+f_* \pi(\C^* \times \interval0T, (1,0)) = \{0\}. 
+\end{equation}
+
+To do so, note that $\C^* \times \interval01$ can be retracted by deformation to $\C^* \times \{0\}$, and so every element of the fundamental group of $\C^* \times \interval0T$ has a representative in $\C^* \times \{0\}$. This set is mapped by $f$ to $\{1\} \subseteq S^1$, which proves that $f_*(\alpha)$ is homotopic to the constant path, for any $\alpha \in \pi(\C^* \times \interval0T,(1,0))$, and so we have proven \eqref{eq:fstarpi0}. Hence the lifting criterion is applicable and $f$ can be lifted to a map
+\begin{equation}
+\tilde f \colon \C^* \times \interval0T \to \R.
+\end{equation}
+
+We remark that, by continuity, $\tilde f(z,0) = 0$ for all $z$. Indeed, since $f(z,0) = 1$ for all $z$, $\tilde f(z,0) \in 2 \pi \Z$. Since this is a discrete space and $\C^*$ is connected, all values of $\tilde f(z,0)$ must be the same, and by hypothesis $\tilde f(1,0) = 0$.
+
+Finally, we prove that
+\begin{equation}\label{eq:deltatildef}
+\Delta(z) = \tilde f(z,T).
+\end{equation}
+
+To prove \eqref{eq:deltatildef}, it suffices to show that, if $\theta_0$ is an argument of $z$, then $\theta_0 + \tilde f(z,t)$ is an argument of $z(t)$. This is a trivial computation:
+\begin{equation}
+\begin{aligned}
+\exp(\I[\theta_0 + \tilde f(z,t)]) &= \exp(\I \theta_0) \exp(\I \tilde f(z,t))\\
+&= \frac z {\abs z} p(\tilde f(z,t))\\
+&= f_0(z,0) f(z,t)\\
+&= f_0(z,t)\\
+&= \frac{z(t)}{\abs{z(t)}}.
+\end{aligned}
+\end{equation}
+
+This completes the proof of \eqref{eq:deltatildef}, and therefore that $\Delta$ is a continuous function of $z$.
+\end{proof}
