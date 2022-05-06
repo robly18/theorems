@@ -563,7 +563,7 @@ I(A) = \{\, \Delta(z) \mid z \in \C \setminus \{0\} \,\}.
 \end{equation}
 
 It will be shown that this set is a closed interval of length strictly less than $\pi$, and therefore it contains at most one multiple of $2\pi$. Then, we may define the CZ index \textit{a la} Hofer and Kriener as
-\begin{equation}
+\begin{equation}\label{def:muhk}
 \muhk(A) = \begin{cases}
 2 k, & 2 k \pi \in I(A),\\
 2k+1, & I(A) \subseteq \ointerval {2k\pi}{2(k+1)\pi}.
@@ -612,7 +612,7 @@ To prove uniqueness, we apply the path lifting property. It is a known fact from
 If $\tilde f$ is a lift of $f$, then it is easy to check that $\tilde f \circ \gamma$ is a lift of the path $f \tilde \gamma$ which starts at $e_0$. The path lifting property guarantees that this lift is unique, and so $\tilde f(\gamma(t))$ is uniquely defined for every value of $t$. In particular, this determines $\tilde f(x)$, and since $x$ is arbitrary the lift $\tilde f$ is completely determined, i.e. such a lift is unique.
 \end{proof}
 
-\begin{prop}
+\begin{prop}\label{deltacontinuous}
 The winding number function $\Delta \colon \C \setminus \{0\} \to \R$ is continuous.
 \end{prop}
 
@@ -662,4 +662,93 @@ To prove \eqref{eq:deltatildef}, it suffices to show that, if $\theta_0$ is an a
 \end{equation}
 
 This completes the proof of \eqref{eq:deltatildef}, and therefore that $\Delta$ is a continuous function of $z$.
+\end{proof}
+
+\begin{corollary}
+The winding interval $I(A)$ is a compact interval.
+\end{corollary}
+
+\begin{proof}
+Recall that $I(A)$ is defined as the image under $\Delta$ of $\C \setminus \{0\}$. Furthermore, it is easy to check from the definition of $\Delta(z)$ that $\Delta(z) = \Delta(\alpha z)$ for any $\alpha \in \R \setminus \{0\}$. Therefore, we may also define $I(A)$ as the image under $\Delta$ of $S^1$. Since the image of a compact connected set is also compact and connected, $I(A)$ is a compact interval in $\R$.
+\end{proof}
+
+\begin{prop}
+The winding interval $I(A)$ has length strictly less than $\pi$.
+\end{prop}
+
+\begin{proof}
+Let $z_1$ and $z_2$ be complex numbers such that $\Delta(z_1) = \min I(A)$ and $\Delta(z_2) = \max I(A)$. We claim that $\Delta(z_2) - \Delta(z_1) < \pi$.
+
+Recall the function $\tilde f$ from the proof of proposition \ref{deltacontinuous}. Then, the statement that $\Delta(z_2) - \Delta(z_1) \geq \pi$ is equivalent to saying that
+\begin{equation}
+\tilde f(z_2, T) - \tilde f(z_1, T) \geq \pi.
+\end{equation}
+
+Using continuity in the time variable and the fact that
+\begin{equation}
+\tilde f(z_2, 0) - \tilde f(z_1, 0) = 0 - 0 = 0,
+\end{equation}
+we conclude that for every $\theta \in \interval 0 \pi$ there exists some time $\tau \in \interval 0 T$ satisfying
+\begin{equation}\label{eq:findtheta1}
+\tilde f(z_2, \tau) = \tilde f(z_1, \tau) + \theta.
+\end{equation}
+
+If we recall the notation $z_i(t) = A(t) z_i$, as well as the definition of $\tilde f$, equation \eqref{eq:findtheta1} implies that for all $\theta$ there exists $\tau$ such that
+\begin{equation}\label{eq:findtheta2}
+\frac{\abs{z_2}}{\abs{z_2(\tau)}} \frac{z_2(\tau)}{z_2} = \frac{\abs{z_1}}{\abs{z_1(\tau)}} \frac{z_1(\tau)}{z_1} \exp(\I \theta).	
+\end{equation}
+
+As such, if we pick $\theta$ such that $\exp(\I \theta)$ is a real (positive or negative) multiple of $z_1 / z_2$, we obtain that there exists $\tau$ such that $z_1(\tau)$ is a real multiple of $z_2(\tau)$, i.e.
+\begin{equation}
+z_1(\tau) = \alpha z_2(\tau), \alpha \in \R \setminus \{0\}.
+\end{equation}
+
+We can use the fact that scalar multiplication commutes with matrix multiplication, as well as the fact that $z_i = A(\tau)^{-1} z_i(\tau)$, to obtain that $z_1(t) = \alpha z_2(t)$ for all $t \in \interval 0 T$. As a consequence, any argument of $z_1(t)$ is an argument of $z_2$, possibly up to a shift by $\pi$, and so $\Delta(z_1) = \Delta(z_2)$, contradicting the hypothesis that $\Delta(z_2) - \Delta(z_1) \geq \pi$. This contradiction proves that $\Delta(z_2) - \Delta(z_1) < \pi$, and so the length of the winding interval is less than $\pi$.
+\end{proof}
+
+This shows that the Hofer and Kriener version of the Maslov index is well-defined. We will now prove that it is equal to the usual definition of the Maslov index, via application of corollary \ref{calcmaslov1}.
+
+\begin{theorem}
+If $A(t)$, $t \in \interval0T$ is a nondegenerate path of matrices, $\mu$ denotes the Maslov index and $\muhk$ denotes the Maslov index \textit{a la} Hofer and Kriener, we have
+\begin{equation}
+\mu(A(t)) = \muhk(A(t)).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We begin by recalling corollary \ref{calcmaslov1}. It tells us that either
+\begin{enumerate}[label=\alph*., ref=\alph*]
+\item\label{case:muhk1} $\trace A(t) > -2$ for all time and $\trace A(T) > 2$, or
+\item\label{case:muhk2} There exists a partition
+\begin{equation}\label{eq:muhkpartition}
+0 = a_0 < b_0 < a_1 < \dots < a_N < b_N \leq T
+\end{equation}
+satisfying:
+\begin{enumerate}[label=\roman*)]
+\item $(-1)^n \trace A(a_n) \geq 2$,
+\item $\trace A(b_n) \in \ointerval{-2}2$,
+\item Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$, and
+\item Exactly one of $\trace A(a_N)$ and $\trace A(T)$ is in $\rinterval2\infty$.
+\end{enumerate}
+\end{enumerate}
+
+We begin by considering the case \ref{case:muhk1}. Under these circumstances, this same corollary tells us that $\mu(A(t)) = 0$. On the other hand, the condition $\trace A(t) > -2$ tells us that $A(t)$ never has negative eigenvalues. As a consequence, for any chosen $z \neq 0$, any choice of continuous argument $\theta(t)$ for $z(t)$ will never take the values $\theta(0) \pm \pi$, and so
+\begin{equation}\label{eq:thetaininterval}
+\theta(t) \in \ointerval{\theta(0) - \pi}{\theta(0) + \pi}, \text{for all $t \in \interval0T$.}
+\end{equation}
+
+Furthermore, the condition $\trace A(T) > 2$ tells us that $A(T)$ has a positive eigenvalue. If $z$ is a corresponding eigenvector, $z(T) = \lambda z$ for some positive real number $\lambda$, and so $\theta(T) - \theta(0) \in 2 \pi \Z$. By \eqref{eq:thetaininterval}, $\theta(T) = \theta(0)$ and therefore $0 \in I(A)$. Thus, $\muhk(A(t)) = 0 = \mu(A(t))$, and so the statement is proved in case \ref{case:muhk1}.
+
+\smallskip
+
+Suppose now that we are in case \ref{case:muhk2}, and therefore that we have a partition as in \ref{eq:muhkpartition}. We begin by pointing out some elementary remarks the `winding interval at time $t$'. This interval is denoted by $I(A,t)$, and it is defined just like $I(A)$, except that instead of considering the image of $\Delta(z) = \tilde f(z,T)$ (as per notation of equation \eqref{eq:deltatildef}) we consider
+\begin{equation}
+I(A,t) = \{\, \tilde f(z,t) \mid z \in \C \setminus \{0\} \,\}.
+\end{equation}
+
+\begin{enumerate}
+\item For even values of $n$, $I(A,t)$ contains an integer multiple of $2\pi$.
+
+\item For odd values of $n$, $I(A,t)$ contains a point of the form $(2k+1)\pi$, $k \in \Z$.
+\end{enumerate}
 \end{proof}
