@@ -1,0 +1,80 @@
+
+\chapter{Barcodes from Filtered Floer Homology}
+
+\section{Introduction to Floer Homology}
+
+Let $(M, \omega)$ be a compact aspherical symplectic manifold. Let $\LL M$ be the space of smooth contractible loops on $M$, i.e. smooth maps $S^1 \to M$ which can be extended to the disk. Note that by the asphericity condition any such extensions are homotopic.
+
+Let $H$ be a smooth Hamiltonian on $M$. Through it, define the so-called action functional on $\LL M$. For $x \in \LL M$, set
+\begin{equation}
+\AA(x) = - \int_D \omega + \int_{S^1} H \circ x \dl3 t,
+\end{equation}
+where $D$ is any extension of $x$ to the disk. The value of $\AA$ does not depend on the extension by the Stokes theorem and the fact that $\omega$ is closed.
+
+It is possible to visualize $\LL M$ as a manifold (it's not) and the action functional as a (maybe) Morse function on this (not) manifold, and hence do Morse theory on it. With this in mind, it is useful to first intuit what the derivative of $\AA$ should be.
+
+In this metaphor, a `tangent vector to $x$' is a vector field $\xi$ on $x$. By this what is meant is a smooth collection of vectors $\xi(t) \in T_{x(t)} M$. With that, it is possible to compute
+\begin{equation}
+ (\dl A)_x(\xi) = - \int_{S^1} \xi \into \omega + \int_{S^1} (\dl H)_{x(t)} (\xi(t)) \dl3t. 
+\end{equation}
+
+It is easy to verify that this is null for all $\xi$ if and only if the orbit $x$ satisfies the equation
+\begin{equation}
+(\dl H)_{x(t)} = \dot x(t) \into \omega.
+\end{equation}
+
+Consequently, the periodic orbits correspond to critical points of the action functional. It is possible to define a notion of non-degenerate critical points, and therefore of `Morse action functional'. Since the action functional is obtained from the Hamiltonian, this non-degeneracy condition is attributed to the Hamiltonian. A Hamiltonian which induces a `Morse action functional' is said to be non-degenerate.
+
+For such a Hamiltonian, the only thing left to be able to do Morse theory on the space of loops is to establish an equivalent to Riemannian structure so that we may take (negative) gradients of functionals. A standard way to establish a Riemannian metric on a symplectic manifold is to establish a compatibly almost complex structure $J$ and set $\braket{v,w} := \omega(v, Jw)$. With this metric, one can also establish a `Riemannian metric' on the space of loops:
+\begin{equation}
+\braket{\xi, \zeta} = \int_{S^1} \braket{\xi(t), \zeta(t)} \dl3t.
+\end{equation}
+
+With this metric, the gradient of $A$ can be written as
+\begin{equation}
+\grad A(x) = J(\dot x - X_H),
+\end{equation}
+where $X_H$ satisfies $X_H \into \omega = - \dl H$. As a consequence, we may write the `ODE' necessary for a `path of orbits'
+\begin{equation}
+u(t,s) \colon S^1 \times \R \to M
+\end{equation}
+to be following the flow of the negative gradient of $A$. That is, the (metaphorical) $\diffp u s = - \grad A(u(\cdot, s))$. It can be rendered (more formally) as the PDE
+\begin{equation}
+\diffp u s + J \diffp u t = J X_H.
+\end{equation}
+
+A function $u$ which satisfies this PDE is said to be a pseudo-holomorphic curve.
+
+With this in mind, the only ingredient left to do Morse theory on $\LL M$ is a notion of (Maslov) index of a periodic orbit of $H$. The construction is not trivial, and is based on the so-called Conley-Zehnder index of a path of symplectic matrices. With it, it is possible to build the Floer chain complex (with coefficients in $\Z_2$)
+\begin{equation}
+\CF_k(M, H) := \braket{\text{periodic orbits of $H$ of degree $k$}},
+\end{equation}
+where the angled brackets denote the free vector space whose basis is the set inside the brackets.
+
+The differential of this chain complex is analogous to the one considered for Morse theory, where the differential of an orbit $x$ is given as the sum of all the orbits $y$ of degree one less than $x$, counted with multiplicity, such that there exists some pseudo-holomorphic curve $u$ whose limit as $s \to \infty$ is $y$ and whose limit as $s \to -\infty$ is $x$. (Does the differential depend on $J$?)
+
+It is a highly non-trivial fact that this does form a differential, and hence the complex $\CF_*$ is indeed a complex, from which one may construct the homology $\HF_*(M,H)$. It is possible to show that this homology does not depend on the chosen Hamiltonian, and that it coincides with the Morse homology of $M$.
+
+\section{Filtered Floer Homology}
+
+The notion of Floer homology, by itself, is inadequate for persistence homology, because there is no dependency of the homology on a time variable. The notion of filtered Floer homology is a way to remedy that.
+
+Note that the flow of the `gradient of the action functional' always decreases the value of the action. Therefore, for any cycle $x$, $\partial x$ will always be a combination of orbits $y$ with $\AA(y) \leq \AA(x)$. As a consequence, the differential may be restricted to the (space spanned by the) orbits with action less than some fixed $\lambda \in \R$. The resulting chain complex is denoted $\CF_*^\lambda$, and the resulting homology is the so-called \emph{filtered Floer homology} of $M$, which depends on the parameter $\lambda$. Unsurprisingly, unlike plain Floer homology, it also depends on the specific chosen Hamiltonian, as the orbits which are available at a given value of $\lambda$ depend explicitly on the chosen Hamiltonian. Somewhat surprisingly, it only depends on the time-one flow of $H$, $\phi_H$.
+
+\begin{definition}
+Let $(M,\omega)$ be a compact aspherical symplectic manifold and $H$ a Hamiltonian on $M$. The \emph{filtered Floer homology} of the Hamiltonian diffeomorphism $\phi_H$, denoted
+\begin{equation}
+\HF^\lambda_*(M,\phi_H), \quad \lambda \in \R
+\end{equation}
+is the homology of the chain complex $\CF^\lambda_*(M,H)$.
+\end{definition}
+
+This tool is adequate for application of persistence homology, as it gives us a collection of fields which depend on a time variable. To define a persistence module, it remains only to find natural maps $\pi_{ts} \colon \HF^t_* \to \HF^s_*$. Fortunately, there is a natural inclusion of chain complexes $\CF^t_* \subseteq \CF^s_*$ for $t \leq s$, which induces the desired maps in homology. This allows us to define the barcode of a Hamiltonian diffeomorphism (do the $\pi$ not depend on the chosen Hamiltonian?)
+
+\begin{definition}
+Let $(M,\omega)$ be a compact aspherical symplectic manifold and $\phi_H$ a Hamiltonian diffeomorphism on $M$. The \emph{barcode of $\phi_H$ in degree $*$}, denoted $\BB_*(\phi_H)$, is defined as the barcode associated to the persistence module given by the filtered Floer homology of $\phi_H$ in degree $*$.
+
+The \emph{total barcode of $\phi_H$}, denoted $\BB(\phi_H)$, is the union $\bigcup_{* \in \Z} \BB_*(\phi_H)$.
+\end{definition}
+
+The subject of study now becomes to obtain information about $\phi_H$ from its barcode and vice-versa.
