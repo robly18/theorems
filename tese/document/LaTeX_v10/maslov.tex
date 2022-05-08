@@ -572,7 +572,7 @@ It will be shown that this set is a closed interval of length strictly less than
 
 We begin by verifying the statements made above, in order to ensure that $\muhk$ is well-defined.
 
-Recall that the function $f(t) = \exp(\I t)$ is a covering map $\R \xrightarrow{f} S^1$. Therefore, the following proposition guarantees that for each $z$ a continuous argument for $z(t)$ can be found. [Is this necessary?]
+Recall that the function $f(t) = \exp(\I t)$ is a covering map $\R \xrightarrow{f} S^1$. Therefore, the following proposition guarantees that for each $z$ a continuous argument for $z(t)$ can be found.
 
 \begin{prop}[Path Lifting Property]
 Let $p \colon E \to B$ be a covering map and $\gamma \colon \interval01 \to B$ a curve. Then, for every $e \in p^{-1}(\gamma(0))$ there exists a unique continuous lift $\tilde \gamma \colon \interval01 \to E$ satisfying $\gamma = p \circ \tilde \gamma$.
@@ -706,12 +706,12 @@ z_1(\tau) = \alpha z_2(\tau), \alpha \in \R \setminus \{0\}.
 We can use the fact that scalar multiplication commutes with matrix multiplication, as well as the fact that $z_i = A(\tau)^{-1} z_i(\tau)$, to obtain that $z_1(t) = \alpha z_2(t)$ for all $t \in \interval 0 T$. As a consequence, any argument of $z_1(t)$ is an argument of $z_2$, possibly up to a shift by $\pi$, and so $\Delta(z_1) = \Delta(z_2)$, contradicting the hypothesis that $\Delta(z_2) - \Delta(z_1) \geq \pi$. This contradiction proves that $\Delta(z_2) - \Delta(z_1) < \pi$, and so the length of the winding interval is less than $\pi$.
 \end{proof}
 
-This shows that the Hofer and Kriener version of the Maslov index is well-defined. We will now prove that it is equal to the usual definition of the Maslov index, via application of corollary \ref{calcmaslov1}.
+This shows that the Hofer and Kriener version of the Maslov index is well-defined. We will now prove that it is equal to the usual definition of the Maslov index, up to sign, via application of corollary \ref{calcmaslov1}.
 
 \begin{theorem}
 If $A(t)$, $t \in \interval0T$ is a nondegenerate path of matrices, $\mu$ denotes the Maslov index and $\muhk$ denotes the Maslov index \textit{a la} Hofer and Kriener, we have
 \begin{equation}
-\mu(A(t)) = \muhk(A(t)).
+\mu(A(t)) = -\muhk(A(t)).
 \end{equation}
 \end{theorem}
 
@@ -732,7 +732,7 @@ satisfying:
 \end{enumerate}
 \end{enumerate}
 
-We begin by considering the case \ref{case:muhk1}. Under these circumstances, this same corollary tells us that $\mu(A(t)) = 0$. On the other hand, the condition $\trace A(t) > -2$ tells us that $A(t)$ never has negative eigenvalues. As a consequence, for any chosen $z \neq 0$, any choice of continuous argument $\theta(t)$ for $z(t)$ will never take the values $\theta(0) \pm \pi$, and so
+We begin by considering the case \ref{case:muhk1}. Under these circumstances, the same corollary tells us that $\mu(A(t)) = 0$. On the other hand, the condition $\trace A(t) > -2$ tells us that $A(t)$ never has negative eigenvalues. As a consequence, for any chosen $z \neq 0$, any choice of continuous argument $\theta(t)$ for $z(t)$ will never take the values $\theta(0) \pm \pi$, and so
 \begin{equation}\label{eq:thetaininterval}
 \theta(t) \in \ointerval{\theta(0) - \pi}{\theta(0) + \pi}, \text{for all $t \in \interval0T$.}
 \end{equation}
@@ -741,14 +741,64 @@ Furthermore, the condition $\trace A(T) > 2$ tells us that $A(T)$ has a positive
 
 \smallskip
 
-Suppose now that we are in case \ref{case:muhk2}, and therefore that we have a partition as in \ref{eq:muhkpartition}. We begin by pointing out some elementary remarks the `winding interval at time $t$'. This interval is denoted by $I(A,t)$, and it is defined just like $I(A)$, except that instead of considering the image of $\Delta(z) = \tilde f(z,T)$ (as per notation of equation \eqref{eq:deltatildef}) we consider
+Suppose now that we are in case \ref{case:muhk2}, and therefore that we have a partition as in \ref{eq:muhkpartition}. We begin by pointing out some elementary remarks regarding the `winding interval at time $t$'. This interval is denoted by $I(A,t)$, and it is defined just like $I(A)$, except that instead of considering the image of $\Delta(z) = \tilde f(z,T)$ (as per notation of equation \eqref{eq:deltatildef}) we consider
 \begin{equation}
 I(A,t) = \{\, \tilde f(z,t) \mid z \in \C \setminus \{0\} \,\}.
 \end{equation}
 
-\begin{enumerate}
-\item For even values of $n$, $I(A,t)$ contains an integer multiple of $2\pi$.
+\begin{lemma}\label{lemma:hk1}
+For every $t \in \interval0T$, $I(A,t)$ contains a point of the form $2k\pi$, for some integer $k$, if and only if $\trace A(t) \geq 2$. Likewise, $I(A,t)$ contains a point of the form $(2k+1)\pi$ if and only if $\trace A(t) \leq -2$.
+\end{lemma}
 
-\item For odd values of $n$, $I(A,t)$ contains a point of the form $(2k+1)\pi$, $k \in \Z$.
-\end{enumerate}
+\begin{lemmaproof}
+We prove only the first equivalence, as the second one is analogous.
+
+If $I(A,t)$ contains a point fo the form $2k\pi$, then there exists some $z$ such that the argument of $A(t) z$ is equal to the argument of $z$ plus a multiple of $2\pi$. In other words, $A(t) z = \lambda z$ for some positive real number $z$. Therefore $A(t)$ has a positive eigenvalue and so its trace is at least 2.
+
+On the other hand, if the trace of $A(t)$ is greater than or equal to 2 then $A(t)$ has a positive eigenvalue. The result follows by computing $\tilde f(z,t)$ for $z$ a corresponding eigenvector.
+\end{lemmaproof}
+
+To proceed, denote $B_i = \interval{b_{i-1}}{b_i}$, for $i = 0, \dots, N+1$, where we set $b_{-1} = 0$ and $b_{N+1} = T$.
+
+\begin{lemma}\label{lemma:hk2}
+For $t \in B_i$ with $i$ even, $I(A,t)$ does not contain a number of the form $(2k+1)\pi$.
+
+For $t \in B_i$ with $i$ odd, $I(A,t)$ does not contain a number of the form $2k\pi$.
+\end{lemma}
+
+\begin{lemmaproof}
+Apply lemma \ref{lemma:hk1} and properties \ref{calcmaslov:ab2} and \ref{calcmaslov:ab4} of the partition.
+\end{lemmaproof}
+
+From lemma \ref{lemma:hk2} it is possible to understand the behavior of the winding interval as time passes. At $t = 0$, it is the singleton set $\{0\}$. Then, as time advances, it moves about inside $\ointerval{-\pi}\pi$. At time $t = b_0$, it is entirely contained in either $\ointerval{-\pi}0$ or $\ointerval0\pi$. Therefore, for $t \in B_1$, $I(A,t)$ will either be entirely contained in $\ointerval{-2\pi}0$ or in $\ointerval0{2\pi}$, depending on $I(A,b_0)$. The pattern continues: for $t \in B_2$, $I(A,t)$ is either contained in $\ointerval{-3\pi}{-\pi}$, $\ointerval{-\pi}{\pi}$ or $\ointerval{\pi}{3\pi}$ depending on $I(A,b_2)$, and so on.
+
+Let us establish some more nomenclature. The \emph{bounding interval} of each $B_n$ is the interval of the form $\interval{-\pi}\pi + k_n \pi$ within which $I(A,t)$ is contained for $t \in B_i$. Note that $k_n$ has the same parity as $n$. We will say that a value of $b_n$ is \emph{ascending} if $k_{n+1} = k_n + 1$ and \emph{descending} if $k_{n+1} = k_n - 1$. Then, it is important to understand what makes a value of $b_n$ ascending or descending.
+
+\begin{lemma}\label{lemma:hk3}
+A value of $b_n$ is ascending when $(-1)^n A(b_n)_{12} < 0$ and descending when $(-1)^n A(b_n)_{12} > 0$.
+\end{lemma}
+
+\begin{lemmaproof}
+As per the two paragraphs above, to know whether $b_n$ is ascending or descending it suffices to discover whether $I(A,b_n)$ is contained in $\ointerval{-\pi}0 + k_n \pi$ or $\ointerval0\pi + k_n \pi$. To this effect, it is enough to calculate $\tilde f(z,b_n)$ for a single value of $z$. Moreover, all we need to know for such a value of $z$ is whether $\Im\left(\frac{A(b_n) z}z\right)$ is positive or negative, as that is enough to say which size-$\pi$ interval the argument of $\frac{A(b_n) z}z$ is in.
+
+Let $z = \I$. Then $A(b_n)z = A(b_n)_{12} + A(b_n)_{22} \I$. Dividing by $\I$, we obtain
+\begin{equation}
+\frac{A(b_n)z}z = A(b_n)_{22} - A(b_n)_{12} \I,
+\end{equation}
+whose imaginary part is $-A(b_n)_{12}$.
+
+To conclude the proof of the lemma, suppose that $n$ is even. Then, $I(A,b_n)$ is contained in either the left or right half of the interval $\ointerval{-\pi}\pi + 2 \frac{k_n}2 \pi$, with $\frac{k_n}2 \in \Z$. The left half corresponds to a negative imaginary part of $\frac{A(t) z}z$, i.e. $\sign(A(b_n)_{12}) = 1$, while the right half corresponds to the opposite. However, when $n$ is odd, we get that $I(A,b_n)$ is contained in an interval of the type $\ointerval{-\pi}\pi + 2 \frac{k_n - 1}2 \pi + \pi$, and so the roles of the left and right-hand side are switched, hence the $(-1)^n$ term.
+\end{lemmaproof}
+
+To conclude the proof, let us take a closer look at $I(A) = I(A,T)$. It is contained in the interval $\ointerval{-\pi}\pi + k_{N+1} \pi$, where, by lemma \ref{lemma:hk3} and the fact that $k_0 = 0$,
+\begin{equation}
+k_{N+1} = - \sum_{n = 0}^N (-1)^n \sign(A(b_n)_{12}).
+\end{equation}
+
+Per corollary \ref{calcmaslov1}, we may rewrite this as
+\begin{equation}
+I(A) \subseteq \ointerval{-\pi}\pi - \mu(A(t)) \pi.
+\end{equation}
+
+Now, as per definition \ref{def:muhk}, if $\mu(A(t))$ is odd we immediately obtain that $\muhk(A(t)) = -\mu(A(t))$. On the other hand, if $\mu(A(t))$ is even, we need to show that $\mu(A(t)) \in I(A)$. To this effect, we use property \ref{calcmaslov:ab5}. Note that if $\mu(A(t))$ is even then $N$ is odd. Therefore, $\trace A(a_N) \leq -2$, and so $\trace A(T) \geq 2$. As a consequence, $A(T)$ has a positive eigenvalue. If we let $z$ be a corresponding eigenvector, then $\Delta(z)$ is a multiple of $2\pi$ and must therefore be equal to $-\mu(A(t)) \pi$. Therefore, $-\mu(A(t)) \pi \in I(A)$ and so $\muhk(A(t)) = -\mu(A(t))$.
 \end{proof}
