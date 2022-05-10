@@ -10,13 +10,15 @@ To conclude, we relate this construction to another manner of computing CZ indic
 \section{The General Definition}
 
 Let $H$ be a periodic Hamiltonian with flow $\phi_t$. The Maslov index is an integer associated to a nondegenerate contractible $T$-periodic orbit $\gamma$. The process is involved, but in summary:
-\begin{enumerate}[algorithm]\label{page:maslovalg}
+\begin{algorithm}[Maslov Index of a Path]\label{alg:maslovalg}
+\begin{enumerate}[algorithm]
 \item\label{maslovalg:step1} Since $\gamma$ is periodic, it may be seen as a smooth map $S^1 \to M$.
-\item Pick an embedding of the disk $D^2 \to M$ whose restriction to the border coincides with $\gamma$.
-\item Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a symplectic basis for $T_x M$.
-\item Now that $T_{\gamma(t)} M$ has a chosen basis for each $t$, we may write the derivative of the flow at $x$, i.e. the map $(\dl \phi_t)_x$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
+\item\label{maslovalg:step2} Pick an embedding of the disk $D^2 \to M$ whose restriction to the border coincides with $\gamma$.
+\item\label{maslovalg:step3} Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a symplectic basis for $T_x M$.
+\item\label{maslovalg:step4} Now that $T_{\gamma(t)} M$ has a chosen basis for each $t$, we may write the derivative of the flow at $x$, i.e. the map $(\dl \phi_t)_x$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
 \item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index. Such a path is said to be \emph{non-degenerate}.
 \end{enumerate}
+\end{algorithm}
 
 In turn, it is now necessary to compute the Conley-Zehnder index of a non-degenerate path of matrices $A(t)$. To do so first requires one to establish the existence of a map from the symplectic matrices to $S^1$.
 
@@ -52,7 +54,7 @@ See \cite{audin}, Theorem 7.1.3 on page 192.
 \end{proof}
 
 We are now ready to define the Conley-Zehnder index of a non-degenerate path of symplectic matrices $A(t)$:
-
+\begin{algorithm}[Conley-Zehnder Index of a Path of Matrices]
 \begin{enumerate}[algorithm]
 \item Define $Sp(2n)^*$ as the collection of symplectic matrices that do not have 1 as an eigenvalue. It is a known fact \cite[proposition~7.1.4]{audin} that $Sp(2n)^*$ is composed of two path-connected components, $Sp(2n)^+$ and $Sp(2n)^-$, labeled by the sign of $\det(A-I)$. Note that $A(T) \in Sp(2n)^*$, so it must lie in one of these two components.
 \item\label{maslov:step2} Define the matrices $W^+$ and $W^-$ as
@@ -67,9 +69,12 @@ Note that $W^\pm \in Sp(2n)^\pm$, and so any matrix in $Sp(2n)^*$ can be connect
 \item Define $\alpha(t) = \rho(A(t))$ for $a \in \interval 0 {2T}$. By property \ref{rhodef:realev} from theorem \ref{rhodef}, $\rho(W^\pm) = \pm(-1)^n$, and also $\rho(I) = 1$. Therefore, $\rho \circ \alpha$ is a path in $S^1$ starting at $1$ and ending at $1$ or $-1$. Therefore, taking the square (viewing $S^1 \subseteq \C$) one obtains a loop $\rho^2 \circ \alpha$ starting and ending at $1$.
 \item Now that we have a loop in $S^1$, we can obtain an integer by considering its winding number: the number of times the loop does a full turn around the circle. It is necessary to establish which direction is positive. Generally, one considers the counterclockwise direction to be the positive direction, but for purposes of the Conley-Zehnder index we count the number of \emph{clockwise turns}.
 \end{enumerate}
+\end{algorithm}
 The integer resulting from the above procedure is called the Conley-Zehnder index of the path $A(t)$, denoted $\mu(A(t))$, and finally we define the Maslov index of the periodic orbit $\gamma$ above, also denoted with the symbol $\mu(\gamma)$, as the Conley-Zehnder index of the corresponding matrix path $A$.
 
 It is a very nontrivial fact that the corresponding integer does not depend on any of the choices done in the process, only on the path and on the Hamiltonian flow. The details may be found in \cite{audin}, whose whole 7th chapter is dedicated to the definition, and well-definition, of this index.
+
+The Conley-Zehnder index of a path of matrices is also sometimes referred to as the Maslov index of that path, such as in \cite{audin}. We will adopt this nomenclature.
 
 \section{The Particular Case of $Sp(2)$}\label{sec:maslovsp2}
 
@@ -113,7 +118,7 @@ To determine the sign of $\det(A-I)$, we compute it directly using a known formu
 \end{proof}
 
 \begin{remark}
-Note the counter-intuitive signs. If $\trace A > 2$ then $A \in Sp(2)^-$, not $Sp(2)^+$. The counter-intuitiveness extends to the $W^\pm$ matrices, given the unfortunate fact that $\rho(W^\pm) = \mp 1$.
+Note the counter-intuitive signs. If $\trace A > 2$ then $A \in Sp(2)^-$, not $Sp(2)^+$. The counter-intuitiveness extends to the $W^\pm$ matrices, given that $\rho(W^\pm) = \mp 1$.
 \end{remark}
 
 \begin{corollary}\label{sp2pm}
@@ -153,12 +158,13 @@ Due to corollary \ref{sp2rhoextension}, the algorithm to calculate the Maslov in
 
 \begin{prop}
 Let $A(t)$ be a path of matrices in $Sp(2)$ with $A(T)$ in $Sp(2)^*$. Then, the Maslov index of the path $A(t)$ can be computed as follows:
-
+\begin{algorithm}[Maslov Index of a Path of Matrices in $Sp(2)$]
 \begin{enumerate}[algorithm]
 \item Compute the path $\gamma(t) = \rho(A(t))$. 
 \item If $\gamma(1) \neq 1$, extend it by connecting $\gamma(1)$ to $-1$, without passing through 1, otherwise leave it as-is. Call the resulting curve $\gamma_0$.
 \item Compute the (clockwise) winding number of $\gamma_0^2$.
 \end{enumerate}
+\end{algorithm}
 \end{prop}
 
 To conclude this section, we present a further way to simplify the computations. The essential observations are the following.
@@ -223,7 +229,7 @@ We now prove that given a partition $(a_n, b_n)$ satisfying \eqref{calcmaslov:ab
 
 First, observe that the winding number of $\rho^2(A(t))$ can be calculated in pieces, as the path $\rho^2 \circ A$ can be decomposed into its restriction to $\interval{a_0}{a_1}$, $\interval{a_1}{a_2}$, etc., so it suffices to calculate the winding number of $\rho^2(A(t))$ as $t$ varies from $a_n$ to $a_{n+1}$.
 
-For the sake of argument, suppose that $n$ is even. We apply property \ref{calcmaslov:ab4} and corollary \ref{sp2pm} to observe that between $a_n$ and $b_n$ the trace of $A$ is never $-2$, and consequently $\rho(A(t))$ is never $-1$. Since $S^1 \setminus \{-1\}$ is contractible, there is a homotopy between every path from $\rho(A(a_n)) = 1$ and $\rho(A(b_n)) = \exp(\pm \I \theta_n)$. Therefore, without change to the winding number of $\rho^2$, we may replace the path $\rho(A(t))$ in $\interval{a_n}{b_n}$ by a reparametrization of $\e^{\pm \I \theta}$, $\theta \in \interval 0 {\theta_n}\}$. By the same argument, the path $\rho(A(t))$ for $t \in \interval{b_n}{a_{n+1}}$ may be replaced by $\e^{\pm \I \theta}$, $\theta \in \interval{\theta_n}\pi$, and so, for $t \in \interval{a_n}{a_{n+1}}$ the path $\rho^2(A(t))$ is homotopic to $\e^{\pm 2 \I \theta}$, $\theta \in \interval 0 \pi$, with winding number $\pm 1$, where the sign is the sign of $\Im \rho(A(b_n))$.
+For the sake of argument, suppose that $n$ is even. We apply property \ref{calcmaslov:ab4} and corollary \ref{sp2pm} to observe that between $a_n$ and $b_n$ the trace of $A$ is never $-2$ or less, and consequently $\rho(A(t))$ is never $-1$. Since $S^1 \setminus \{-1\}$ is contractible, there is a homotopy between every path from $\rho(A(a_n)) = 1$ and $\rho(A(b_n)) = \exp(\pm \I \theta_n)$. Therefore, without change to the winding number of $\rho^2$, we may replace the path $\rho(A(t))$ in $\interval{a_n}{b_n}$ by a reparametrization of $\e^{\pm \I \theta}$, $\theta \in \interval 0 {\theta_n}\}$. By the same argument, the path $\rho(A(t))$ for $t \in \interval{b_n}{a_{n+1}}$ may be replaced by $\e^{\pm \I \theta}$, $\theta \in \interval{\theta_n}\pi$, and so, for $t \in \interval{a_n}{a_{n+1}}$ the path $\rho^2(A(t))$ is homotopic to $\e^{\pm 2 \I \theta}$, $\theta \in \interval 0 \pi$, with winding number $\pm 1$, where the sign is the sign of $\Im \rho(A(b_n))$.
 
 If $n$ is odd, the previous argument works the same way, but the expression for the winding number of $\rho^2(A(t))$ has the sign swapped, i.e. it becomes $- \Im \rho(A(b_n))$. Therefore, we conclude the formula
 \begin{equation}
@@ -233,16 +239,13 @@ If $n$ is odd, the previous argument works the same way, but the expression for 
 Note the sign swap from the definition of Maslov index. All that remains is to compute $\rho(A(b_n))$.
 
 \begin{lemma}
-Let $A$ be a $2 \times 2$ symplectic matrix with trace in $\ointerval{-2}2$. Then, $\sign \Im \rho(A) = -\sign(A_{12}) \cdot  \I$.
+Let $A$ be a $2 \times 2$ symplectic matrix with trace in $\ointerval{-2}2$. Then, $\sign \Im \rho(A) = -\sign(A_{12})$.
 \end{lemma}
 
 \begin{lemmaproof}
 Let us name the entries of $A$. Suppose that
 \begin{equation}
-A = \begin{bmatrix}
-a & b\\
-c & d
-\end{bmatrix}.
+A = \begin{bmatrix} a & b\\ c & d \end{bmatrix}.
 \end{equation}
 
 We will construct a path $S(t)$ from $A$ to some $A'$ whose value of $\rho$ is known. Furthermore, we will ensure that $\trace S(t)$ is always in $\ointerval{-2}2$, so that $\rho(S(t))$ is never real and therefore the sign of $\Im \rho(S(t))$ never changes.
@@ -253,13 +256,13 @@ Now, consider the straight-line path from $A$ to the matrix with null trace give
 \begin{equation}
 A_0 = \begin{bmatrix}
 a & b\\
-c-a \frac{a+d}b & -a
+c-\frac{a+d}b a & -a
 \end{bmatrix}.
 \end{equation}
 
 This path is obtained via continuously adding a multiple of the first line to the second line. This does not modify the determinant, hence the path so obtained is a path of symplectic matrices. Furthermore, the trace is changing linearly from $a+d \in \ointerval{-2}2$ to $0$, and so it remains in $\ointerval{-2}2$.
 
-Since the resulting matrix $A_0$ has determinant 1, it is easy to check that it is of the form
+Since the resulting matrix $A_0$ has determinant 1, it is of the form
 \begin{equation}
 A_0 = \begin{bmatrix}
 a & b\\
@@ -316,9 +319,9 @@ It is tempting to throw away the last term $a_{N+1}$ to obtain the partition we 
 \begin{itemize}
 \item Suppose that $N$ is odd, i.e. that $\trace A(a_N) \leq -2$. Since the extension does not cross $Sp(2)^0$ and $\trace A(a_{N+1}) \geq 2$, we conclude that $\trace A(T) > 2$, and furthermore that $\trace A(t) > 2$ for $t \in \interval T {\tilde T}$. As a consequence, $b_N$ is already in $\interval{a_N}T$ and requires no perturbation. It is trivial to check that properties \ref{calcmaslov:ab2}, \ref{calcmaslov:ab3} and \ref{calcmaslov:ab4} hold (they are inherited from the original partition), and the fact that $\trace A(T) > 2$ guarantees that \ref{calcmaslov:ab5} holds.
 
-\item Suppose now that $N$ is even, i.e. that $\trace A(a_N) \geq 2$. Then, since the extension does not cross $Sp(2)^0$, we have $\trace A(T) < 2$, guaranteeing \ref{calcmaslov:ab5}. If $b_N \leq T$, it requires no perturbation and the partition obtained by throwing $a_{N+1}$ away has the desired properties.
+\item Suppose now that $N$ is even, i.e. that $\trace A(a_N) \geq 2$. Then, since the extension does not cross $Sp(2)^0$, we have $\trace A(T) < 2$, guaranteeing \ref{calcmaslov:ab5}. If $b_N \leq T$, it requires no perturbation and the partition obtained by throwing $a_{N+1}$ away has the desired properties. In particular, this is the case if $\trace A(T) \leq -2$, due to property \ref{calcmaslov:ab3}.
 
-On the other hand, suppose that $b_N > T$. If $\trace A(T) > -2$ then we change $b_N$ to equal $T$. Otherwise, if $\trace A(T) \leq -2$, we set $b_N$ to be the maximal value of $t \in \interval{a_N}T$ such that $\trace A(t) = 0$. It is straight-forward to verify that in either case the perturbed partition satisfies the necessary properties \ref{calcmaslov:ab2} to \ref{calcmaslov:ab5}.
+It remains to consider the case where $b_N > T$, and therefore that $\trace A(T) > -2$. In this case, change $b_N$ to equal $T$. It is straight-forward to verify that the perturbed partition satisfies the necessary properties \ref{calcmaslov:ab2} to \ref{calcmaslov:ab5}.
 \end{itemize}
 
 Note that from such a partition $a_0 < b_1 < \dots < b_N$ we can recover the partition $a_0 < b_1 < \dots < a_{N+1}$ required to apply proposition \ref{calcmaslov0} to $\tilde A(t)$, by defining $a_{N+1} = \tilde T$. Property \ref{calcmaslov:ab5} is necessary to ensure that $\trace A(a_{N+1})$ has the right sign. Applying formula \eqref{calcmaslov0:mu} we may compute the negative winding number of $\rho^2(\tilde A(t))$, and consequently the Maslov index of $A(t)$, yielding the formula \ref{calcmaslov:mu}.
@@ -328,8 +331,90 @@ Note that from such a partition $a_0 < b_1 < \dots < b_N$ we can recover the par
 
 Let $H$ be an autonomous Morse function on a symplectic manifold $M$ whose time-$T$ flow $\phi_T$ is a nondegenerate Hamiltonian diffeomorphism. In this section, we will compute the Maslov index of the critical points of $H$ and relate them to their Morse index. At the end, we will repeat the procedure for the two-dimensional case, as an example of application of the methods from section \ref{sec:maslovsp2}.
 
-Let $x$ be a critical point of $H$, i.e. $(\dl H)_x = 0$. Then, the periodic time-$T$ orbit starting at $x$ is precisely the constant orbit. We will show that this orbit is nondegenerate, so that we may compute its Maslov index.
-[...]
+Let $x$ be a critical point of $H$, i.e. $(\dl H)_x = 0$. Then, the periodic time-$T$ orbit starting at $x$ is precisely the constant orbit. In order to compute the Maslov index of this orbit (which we will call $x$, identifying the orbit and the point), we first calculate the relevant path of matrices.
+
+Recall algorithm \ref{alg:maslovalg} to compute the Maslov algorithm of a periodic orbit.
+\begin{enumerate}[algorithm]
+\item See $x$ as the constant map $S^1 \to M$ equal to $x$.
+\item Extend it to the disk as the constant map.
+\item Let $z_1, \dots, z_{2n}$ be a symplectic basis of $T_x M$. We define $Z_i(x) = z_i$ for $x \in D^2$.
+\item We will write $(\dl \phi_t)_x$ in matricial form as $A(t)$, using the basis $z_i$ in both the domain and codomain; see proposition \ref{prop:dphimatrix} below.
+\item Finally, we compute the Maslov index of $A(t)$.
+\end{enumerate}
+
+\begin{prop}\label{prop:dphimatrix}
+Let $z_1, \dots, z_{2n}$ be a symplectic basis of $T_x M$, where $x$ is a critical point of the Hamiltonian $H$. Let $A(t)$ be the matrix representing $(\dl \phi_t)_x$ in this basis, and let $S$ be the Hessian matrix of $H$ in this basis, i.e.
+\begin{equation}
+S_{ij} = \hessian H(z_i, z_j).
+\end{equation}
+
+Then, we have the formula
+\begin{equation}
+A(t) = \exp(t J_0 S),
+\end{equation}
+where $J_0$ is the matrix given in block notation by
+\begin{equation}
+J_0 = \begin{bmatrix} 0 & -I \\ I & 0 \end{bmatrix}.
+\end{equation}
+\end{prop}
+
+\begin{proof}
+To begin, let us extend the basis $\{z_i\}$ to a symplectic frame in a neighborhood of $x$, say $Z_1, \dots, Z_{2n}$ (not to be confused with the collection of functions $Z_i \colon D^2 \to TM$ above). With it, we may write the elements of $S$ explicitly as
+\begin{equation}
+S_{ij} = z_i \cdot (Z_j \cdot H).
+\end{equation}
+
+Now, let us compute the entries of $A(t)$. We may write
+\begin{equation}
+A(t)_{ij} = \left((\dl \phi_t) z_j \right)^i = -\omega(J z_i, (\dl \phi_t) z_j),
+\end{equation}
+where $J$ is the almost-complex structure satisfying $J Z_i = Z_{i+n}$ for $1 \leq i \leq n$. Note that it is represented in coordinates by the matrix $J_0$.
+
+Note that $A(0) = I$. We calculate the time derivative of $A(t)$:
+\begin{equation}
+\begin{aligned}
+\diff*{A(t)_{ij}}t &= - \diff*{\omega(J z_i, (\dl \phi_t) z_j)}t\\
+&= - \omega(J z_i, \diff*{(\dl \phi_t) z_j}t)\\
+&= - \omega(J z_i, - \Lie_{X^H} ((\dl \phi_t) Z_j))\\
+&= \omega(J z_i, [X^H,(\dl \phi_t) Z_j]_x),
+\end{aligned}
+\end{equation}
+
+where $\Lie_{X^H} ((\dl \phi_t)Z_j)$ denotes the Lie derivative of $(\dl \phi_t)Z_j$ with respect to $X^H$, the vector field associated to the Hamiltonian $H$.
+
+Now, recall the following classical formula for the exterior derivative of a one-form:
+\begin{equation}
+\dl \eta(X,Y) = X \cdot \eta(Y) - Y \cdot \eta(X) - \eta([X,Y]).
+\end{equation}
+
+We may solve for $\eta([X,Y])$ and apply it to $\eta = J Z_i \into \omega$, which yields (at $x$)
+\begin{equation}
+\omega(J z_i, [X^H, Z_j]_x) = \cancel{X^H \cdot \omega(J Z_i, ((\dl \phi_t)Z_j))} - ((\dl \phi_t) z_j) \cdot \omega(J Z_i, X^H) - \cancel{\dl(J Z_i \into \omega)(X^H, ((\dl \phi_t)Z_j))},
+\end{equation}
+where the first and third term cross out because, by hypothesis, $X^H = 0$ at $x$. Therefore, it remains to simplify the expression
+\begin{equation}
+- ((\dl \phi_t) z_j) \cdot \omega(J Z_i, X^H) = ((\dl \phi_t) z_j) \cdot \omega(X^H, J Z_i) = - ((\dl \phi_t) z_j) \cdot (\dl H)(J Z_i) = - ((\dl \phi_t) z_j) \cdot ((J Z_i) \cdot H).
+\end{equation}
+
+Now, let $(J_0)_{ij}$ be the entries of the matrix $J_0$. Recall that $J Z_i = \sum_k (J_0)_{ki} Z_k = -\sum_k (J_0)_{ik} Z_k$ and $(\dl \phi_t) z_j = \sum_\ell A(t)_{\ell j} z_\ell$ , and therefore
+\begin{equation}
+\begin{aligned}
+- ((\dl \phi_t) z_j) \cdot ((J Z_i) \cdot H) &= \sum_{k,\ell} A(t)_{\ell j} z_\ell \cdot ((J_0)_{ik} Z_k \cdot H)\\
+&= \sum_{k,\ell} A(t)_{\ell j} (J_0)_{ik} z_\ell \cdot (Z_k \cdot H)\\
+&= \sum_{k,\ell} (J_0)_{ik} S_{\ell k} A(t)_{\ell j}\\
+&= (J_0 S A(t))_{ij}.
+\end{aligned}
+\end{equation}
+
+In conclusion, the matrix $A(t)$ satisfies the ODE
+\begin{equation}
+\begin{cases}
+A(0) = I,\\
+\diff*{A(t)}t = J_0 S A(t),
+\end{cases}
+\end{equation}
+whose solution is known to be the matrix exponential $A(t) = \exp(t J_0 S)$. This concludes the proof.
+\end{proof}
 
 [Some theorem about in critical points $x$ of $H$, the path $A$ can be chosen to be $\exp(t J_0 S)$, where $S$ is the Hessian of $H$ at $x$ written in any basis.]
 
