@@ -1,0 +1,544 @@
+% !TeX root = Thesis.tex
+\chapter{A First Example: Computing a Barcode}
+\label{subsecautonomous}
+
+Let $H$ be an autonomous Hamiltonian on a compact symplectic manifold $M$. Assuming that $H$ is a non-degenerate Hamiltonian, what can we say about the barcode of $\phi_H$?
+
+We begin by characterizing the periodic orbits of $H$.
+
+\begin{prop}\label{authamfloermorse}
+If $H$ is a non-degenerate autonomous Hamiltonian, its only periodic orbits are fixed points, which coincide with the critical points of $H$. These critical points have non-degenerate Hessian, and therefore $H$ is a Morse function.
+
+Furthermore, the indices of these critical points (seeing $H$ as a Morse function) are related to their Maslov indices by the formula
+\begin{equation}
+\Ind(x) = \mu(x) + n,
+\end{equation}
+where $\mu$ is the CZ index and $M$ is $2n$-dimensional.
+\end{prop}
+
+\begin{proof}
+Suppose that $H$ has a non-constant periodic orbit $\gamma(t)$. Then, intuitively, every point of the form $\gamma(t)$ is a fixed point of $\phi$, where $\phi$ is the time-one flow of $H$, and thus the fixed points of $\phi$ are not isolated.
+
+As a more rigorous proof, we show that $H$ is a degenerate Hamiltonian directly. Since $\gamma$ is not constant, but it is the flow of the autonomous vector field $X^H$, the vector field $X^H$ must not vanish at any point of $\gamma$. In other words, if we set $x = \gamma(0)$, $X^H_x \neq 0$.
+
+Now, note that
+\begin{equation}\label{dlphixhxh}
+(\dl \phi)(X^H_x) = X^H_x,
+\end{equation}
+which shows that $(\dl \phi)_x$ has a one-eigenvalue, i.e. it is degenerate. To show \eqref{dlphixhxh}, simply note the equality $\phi(\gamma(t)) = \gamma(t)$, and differentiate both sides.
+
+This completes the proof that if $H$ is a non-degenerate autonomous Hamiltonian, its periodic orbits coincide with the critical points of $H$. Now we show that their Hessians are non-degenerate.
+
+Let $v$ and $w$ be two vectors tangent to $x$. Recall that the Hessian of $H$ at $x$, applied to $v$ and $w$, which we will denote $D^2 H(v,w)$, is defined as
+\begin{equation}
+D^2 H(v,w) = v \cdot (Y \cdot H) \text{, with $Y$ any extension of $w$.}
+\end{equation}
+
+In our case, this can be simplified as
+\begin{equation}\label{hessian1}
+D^2 H(v,w) = v \cdot (\dl H)(Y) = - v \cdot \omega(X^H, Y).
+\end{equation}
+
+To proceed, we apply a sort of Leibniz rule, in the sense that
+\begin{equation}\label{fakeleibniz}
+\text{``$v \cdot \omega(X^H, Y) = \omega(v \cdot X^H, Y) + \omega(X^H, v \cdot Y)$''.}
+\end{equation}
+
+Now, to make sense of \eqref{fakeleibniz}, we need to be able to interpret the expression $v \cdot X^H$. This can be taken as a Lie derivative, or equivalently, a Lie bracket, which requires extending $v$ to a vector field $X$. Furthermore, note that the second term, $\omega(X^H, [X,Y])$, vanishes because $X^H$ is null at $x$. Consequently, we aim to prove
+\begin{lemma}\label{leibniz1}
+Let $X$, $Y$ and $Z$ be vector fields in a neighborhood of $x$, and suppose that $Y_x = 0$. Then,
+\begin{equation}
+X \cdot \omega(Y,Z) = \omega([X,Y],Z).
+\end{equation}
+\end{lemma}
+
+\begin{lemmaproof}
+Define the auxilliary form $\eta = Z \into \omega$, and apply the well-known formula for the exterior derivative of a one-form
+\begin{equation}
+(\dl \eta)(X,Y) = X \cdot \eta(Y) - Y \cdot \eta(X) - \eta([X,Y]).
+\end{equation}
+
+Now, note that since $Y$ is null at $x$, two of these terms vanish, giving us the equation
+\begin{equation}
+X \cdot \eta(Y) = \eta([X,Y]) \equiv X \cdot \omega(Y,Z) = \omega([X,Y],Z),
+\end{equation}
+as desired.
+\end{lemmaproof}
+
+We may now use lemma \ref{leibniz1} to simplify \eqref{hessian1} as
+\begin{equation}
+D^2 H(v,w) = - v \cdot \omega(X^H, Y) = - \omega([X,X^H], w).
+\end{equation}
+
+The nondegeneracy of the Hessian will follow from the nondegeneracy of the symplectic form, from the moment that we show that $[X,X^H]_x \neq 0$ for every $X$ with $X_x \neq 0$.
+
+\begin{lemma}\label{bracketnondegen}
+If $[X,X^H] = 0$ then $(\dl \phi) v = v$.
+\end{lemma}
+
+\begin{lemmaproof}
+To investigate $(\dl \phi) v$, it is useful to recall that it is the time-one flow of $X^H$. Let $\phi_t$ be the flow at time $t$. We use this to set up an ODE for the expression $(\dl \phi_t) v$, but this has slight technical problems, so instead we set up an ODE for the expression
+\begin{equation}
+((\dl \phi_t) v) \cdot f\text{, for $f \colon M \to \R$.}
+\end{equation}
+
+To this effect, let $v(s)$ be a curve whose derivative at $s=0$ equals $v$. Then,
+\begin{equation}
+\begin{split}
+((\dl \phi_0) v) \cdot f &= v \cdot f,\\
+\diff*{((\dl \phi_t) v) \cdot f}t &= \diff{}t \left( \diff{}s[0] f(\phi_t(v(s))) \right)\\
+&= \diff{}s[0] \left( \diff{}t f(\phi_t(v(s)))\right)\\
+&= \diff{}s[0] X^H_{v(s)} \cdot f\\
+&= v \cdot (X^H \cdot f),
+\end{split}
+\end{equation}
+and since $X^H$ vanishes at $x$ it is obvious that
+\begin{equation}
+v \cdot (X^H \cdot f) = [X,X^H]_x \cdot f.
+\end{equation}
+
+As a consequence, if $[X,X^H]_x = 0$ then $((\dl \phi_t)v) \cdot f$ is constant equal to $v \cdot f$, and hence $(\dl \phi) v = v$.
+\end{lemmaproof}
+
+As a consequence of lemma \ref{bracketnondegen} and the nondegeneracy of $\phi$, $[X,X^H]$ does not vanish at $x$ unless $v = 0$, and consequently the Hessian of $H$ at $x$ is nondegenerate. This completes the proof that $H$ is a Morse function.
+
+The proof of the relation between the Morse and Maslov indices is ommitted for the time being, because I don't know how in depth I will want to go on that subject.
+\end{proof}
+
+We have now shown that under these circumstances, the Morse complex coincides with the Floer complex, at least in regards to the vector spaces. As it happens, this is still true if one considers the filtered complexes.
+
+\begin{prop}
+Let $\phi$ be a nondegenerate Hamiltonian diffeomorphism generated by the Morse function $H$. Then, the following vector spaces coincide
+\begin{equation}
+\CF^\lambda_*(M,\phi) = \MC^\lambda_*(M,H).
+\end{equation}
+\end{prop}
+
+\begin{proof}
+A simple calculation shows that if $x$ is a critical point of $H$, then its action (as a periodic orbit) coincides with $H(x)$.
+\end{proof}
+
+Unfortunately, the complexes, and therefore the homologies, need not coincide, because the differential is not necessarily the same. Indeed, it is easy to check that if $u(s)$ is an orbit connecting two critical points of $H$ then it induces a $J$-holomorphic curve connecting those two points as periodic orbits (assuming that the choice of Riemannian metric for Morse purposes is compatible with the complex structure chosen for Floer purposes), but it is possible that there are $J$-holomorphic curves which are not of the form $u(t,s) \equiv u(s)$.
+
+It is true that if the Hamiltonian is $C^2$-small enough, all $J$-holomorphic curves are in fact idependent of $t$, but the proof is tecnical. We refer to \cite{audin}, proposition 10.1.9.
+
+\begin{prop}
+If $H$ is $C^2$-small, the filtered Morse complex and the filtered Floer complex coincide, and consequently as do the filtered Morse and Floer homologies.
+\end{prop}
+
+In the general case, knowing that a Hamiltonian diffeomorphism is generated by an autonomous Hamiltonian gives us little information regarding its complex. However, little is not none, and the following proposition represents an obstruction for a Hamiltonian diffeomorphism to be generated by an autonomous Hamiltonian.
+
+\begin{prop}
+Let $\phi$ be a non-degenerate Hamiltonian diffeomorphism. For each $k \in \Z$, let
+\begin{equation}
+\mu_k = \inf \{\, \lambda \in \R \mid \HF_k^\lambda(M,\phi) \neq 0 \, \}.
+\end{equation}
+
+Then, if $\phi$ is generated by an autonomous Hamiltonian, $\mu_0 < \mu_k$ for all $k \neq 0$.
+
+[Note: The indices are iffy because we're using the Morse convention, not Maslov.]
+\end{prop}
+
+\begin{proof}
+Suppose that $\phi$ is generated by the autonomous Hamiltonian $H$. Let $m = \min H$.
+
+\begin{lemma}\label{mincritval}
+There exists $\varepsilon > 0$ such that every critical value of $H$ of index different from zero is at least $m+\varepsilon$.
+\end{lemma}
+
+\begin{lemmaproof}
+If $y$ is a critical value of index at least one, it cannot be a global minimum, as can easily be seen through a Morse neighborhood. Consequently, $y > m$, and the lemma follows since there are finitely many critical values.
+\end{lemmaproof}
+
+Clearly, for $k \neq 0$, $\mu_k > m+\varepsilon$, where $\varepsilon$ is as in lemma \ref{mincritval}. We claim that $\mu_0 < m+\frac\varepsilon2$.
+
+To show this fact, consider $\lambda = m+\frac\varepsilon2$, and look at the filtered Floer complex for this value of $\lambda$. By proposition \ref{authamfloermorse}, $\CF_*^\lambda(M,\phi) = \MC_*^\lambda(M,H)$, and the Morse complex is easily checked to be trivial at all degrees other than zero, and nontrivial at $*=0$. This therefore holds for the Floer complex, and even though we usually have no control over the differential, in this case we know that all differentials must be zero. In particular,
+\[\HF_0^\lambda(M,\phi) = \CF_0^\lambda(M,\phi) = \MC_*^\lambda(M,H) \cong \Z_2^n,\]
+where $n$ is the number of critical points with value below $\lambda$, which is at least one.
+\end{proof}
+
+\begin{corollary}\label{corautonomous}
+A necessary condition for a nondegenerate Hamiltonian diffeomorphism $\phi$ on a compact aspherical manifold to be generated by an autonomous Hamiltonian is that
+\begin{equation}
+\mu(\BB_0(\phi)) < \mu(\BB_*(\phi))\text{, for $* \neq 0$,}
+\end{equation}
+where we define $\mu$ of a barcode $B$ as the infimum of the lower endpoints of the bars of $B$.
+\end{corollary}
+
+
+\section{Application: A non-autonomous Hamiltonian (Part one)}
+
+In this section, we will do an in-depth study of a specific Hamiltonian diffeomorphism on the torus, concluding with an application of the results of \ref{subsecautonomous}, namely of corollary \ref{corautonomous}.
+
+First we introduce the object of study. Let $M = S^1 \times S^1$ be the torus with the usual symplectic form $\dl x \wedge \dl y$. We consider the $x$ and $y$ coordinates to be $2\pi$-periodic.
+
+On this manifold, a class of Hamiltonian diffeomorphisms is given by those diffeomorphisms of the form
+\begin{equation}
+\phi_f(x,y) = (x, y + f(x)),
+\end{equation}
+so long as $f$ is a smooth $2\pi$-periodic function with null mean. Indeed, it is easy to check that the Hamiltonian $H(x,y) = \int_0^x f(t) \dl3 t$ has the map $\phi_f$ as time-one flow.
+
+The same can be done in the other coordinate, and two functions of this type can be composed to yield Hamiltonian maps of the form
+\begin{equation}
+(x,y) \mapsto (x + g(y+f(x)), y+f(x)).
+\end{equation}
+
+To conclude, we define our object of study as the particular case when $f = g = a \sin$, where $a$ is a real parameter, yielding the Hamiltonian diffeomorphism
+\begin{equation}
+\phi(x,y) = ( x + a \sin(y + a \sin(x)), y + a \sin(x)).
+\end{equation}
+
+It is a classical result that composition of two Hamiltonian diffeomorphisms is itself a Hamiltonian diffeomorphism. A Hamiltonian corresponding to $\phi$ can be found by using a bump function to smooth the function
+\begin{equation}
+H_0(x,y,t) = \begin{cases}
+-\cos(x), & t < a,\\
+\cos(y), & t > a.
+\end{cases}
+\end{equation}
+
+More precisely, if we let $\varphi(t)$ be a function with compact support contained in $\ointerval 0 a$ and integral equal to $a$, the Hamiltonian given by
+\begin{equation}
+\label{h1def}
+H_1(x,y,t) = \begin{cases}
+-\cos(x) \varphi(t), & t \leq a,\\
+\cos(y) \varphi(t-\pi), & t \geq a.
+\end{cases}
+\end{equation}
+will have as time $2a$ flow the Hamiltonian diffeomorphism $\phi$.
+
+We also assume, without loss of generality, that $\varphi$ is symmetrical around $t = \pi/2$. This will be useful to simplify certain calculations, as it endows $H_1$ with several useful symmetries.
+
+\subsubsection{The contractible periodic orbits}
+
+The first step to compute the (filtered) Floer homology is to find the periodic orbits of the Hamiltonian $H_1$, in this case of time $2a$. This is the same as to find the fixed points of $\phi$, which amounts to solving the system
+\begin{equation}
+\begin{cases}
+x \equiv x + a \sin(y + a \sin(x)) &\mod 2\pi,\\
+y \equiv y + a \sin(x) &\mod 2\pi.
+\end{cases}
+\end{equation}
+
+However, the resulting fixed points will not necessarily correspond to contractible orbits. To solve this problem, note that $\R^2$ is the universal covering space of the torus. Consequently, any path in the torus can be lifted to one in $\R^2$, and the contractible paths are precisely those that start and end at the same point. Therefore, to find the contractible orbits it suffices to solve the system
+\begin{equation}
+\begin{cases}
+x = x + a \sin(y + a \sin(x)),\\
+y = y + a \sin(x).
+\end{cases}
+\end{equation}
+
+The following proposition is easy to check.
+
+\begin{prop}
+For $a > 0$, the Hamiltonian $H_1$ has exactly four contractible periodic orbits, all of which are constant at the points: $(0,0)$, $(0,\pi)$, $(\pi,0)$, and $(\pi,\pi)$.
+\end{prop}
+
+The computation of the action of each of these orbits is trivial to compute. Since they are constant orbits, the $\int_D \omega$ term in the definition of the action vanishes, and all that is left is to compute the integral of $H_1$ with respect to time in $\interval 0 {2a}$, which is equal to $a(\cos(y) - \cos(x))$.
+
+Now that we know the periodic orbits of $H_1$, all that remains is to compute their Maslov indices and differentials. To compute the Maslov indices it is necessary to take a detour, in order to build the tools necessary.
+
+Recall the Hamiltonian diffeomorphism
+\begin{equation}
+\phi(x,y) = ( x + a \sin(y + a \sin(x)), y + a \sin(x)),
+\end{equation}
+with $a > 0$, whose fixed points are $(0,0)$, $(0,\pi)$, $(\pi, 0)$ and $(\pi,\pi)$. We will now compute the filtered Floer homology of $\phi$.
+
+First, we compute the Maslov index of these fixed points, using a slightly modified version of the algorithm from page \pageref{page:maslovalg}. The essential insight is that the torus admits a global frame, so the choice of smooth functions $Z_i(x)$ is unnecessary: We have a default way to write $(\dl \phi_t)_x$ as a matrix.
+
+We present the simplified algorithm to compute the Maslov index in a manifold admitting a global frame.
+\begin{enumerate}[algorithm]\label{page:maslovalg2}
+\item Consider the linear map $(\dl \phi_t)_x$. Using the global matrix, represent it as a matrix $A(t)$.
+\item Compute the Conley-Zehnder index of the path $A(t)$.
+\end{enumerate}
+
+To proceed, we should compute $(\dl \phi_t)_{(x,y)}$ in matricial form. Recall that $\phi_t$ is the flow of the smooth Hamiltonian $H_1$, which is a smoothed version of the Hamiltonian
+\begin{equation}
+H_0(x,y,t) = \begin{cases}
+-\cos(x), & t < a,\\
+\cos(y), & t > a.
+\end{cases}
+\end{equation}
+
+The smoothing hypothesis is necessary for theoretical reasons, but for practical computations it is actually unnecessary, as it merely corresponds to a reparametrization of the flow. Therefore, in the computations that follow, we will be surreptitiously working with the flow of $H_0$ instead of the flow of $H_1$, as the computations become a lot more bearable.
+
+The flow of $H_0$ is written as
+\begin{equation}
+\phi_t(x,y) = \begin{cases}
+(x,y+t \sin(x)), & 0 \leq t \leq a,\\
+(x+t \sin(y+a \sin(x)), y + a \sin(x)), & a \leq t \leq 2a.
+\end{cases}
+\end{equation}
+
+The derivative of $\phi_t$ can be likewise written by cases
+\begin{equation}\label{dphi1}
+A(t) := (\dl \phi_t)_{(x,y)} = \begin{cases}
+\begin{bmatrix}
+1 & 0\\
+t \cos(x) & 1
+\end{bmatrix} & 0 \leq t \leq a,\\[1.3em]
+\begin{bmatrix}
+\scalebox{0.7}{$1+(t-a) a \cos(y+a \sin(x)) \cos(x)$} &  (t-a) \cos(y)\\
+a \cos(x) & 1
+\end{bmatrix}
+ & a \leq t \leq 2a.
+\end{cases}
+\end{equation}
+
+At this point, it should be obvious that the notation is becoming burdensome, so we present a clearer way to write paths of matrices such as \eqref{dphi1}.
+
+Here and in the rest of this article, we will use the following notation for such a path of matrices.
+\begin{equation}\label{rectpath}
+A(t) :
+\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 & 0\\
+a \cos(x) & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+\scalebox{0.7}{$1+ a^2 \cos(y+a \sin(x)) \cos(x)$} &  a \cos(y)\\
+a \cos(x) & 1
+\end{bmatrix}
+\end{equation}
+
+The notation of \eqref{rectpath} is intended to suggest a rectilinear path, where each arrow represents a section being linearly interpolated.
+
+For $(x,y)$ a fixed point of the flow of $H_0$, $\sin(x) = \sin(y) = 0$ and the cosines evaluate to $\pm 1$, and therefore \ref{rectpath} becomes
+\begin{equation}\label{rectpath1}
+A(t):
+\begin{bmatrix}
+1 & 0\\
+0 & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 & 0\\
+\pm_1 a & 1
+\end{bmatrix}
+\to
+\begin{bmatrix}
+1 \pm_1 \pm_2 a^2 &  \pm_2 a\\
+\pm_1 a & 1
+\end{bmatrix}
+\end{equation}
+where $\pm_1 1$ is $1$ if $x=0$ and $-1$ if $x = \pi$, and likewise for $\pm_2 1$ and $y$.
+
+To compute the Conley-Zehnder index of \eqref{rectpath1}, let us begin by looking at the trace of $A(t)$, specifically in the easy case where $\pm_1 \pm_2 1 = +1$. In this case, $\trace A(t)$ follows the piecewise rectilinear path
+\begin{equation}
+\trace A(t) : 2 \to 2 \to 2 + a^2,
+\end{equation}
+which starts at $2$ and ends at a value greater than $2$. Therefore, applying corollary \ref{calcmaslov1} we immediately obtain that $\mu(A(t)) = 0$. Consequently, using obvious notation to denote the Maslov index of periodic orbits,
+\begin{equation}
+\mu(0,0) = \mu(\pi,\pi) = 0.
+\end{equation}
+
+We now turn to the case $\pm_1 \pm_2 1 = -1$. In this case,
+\begin{equation}
+\trace A(t) : 2 \to 2 \to 2 - a^2.
+\end{equation}
+
+We again apply corollary \ref{calcmaslov1}, picking $b_0 = a(1 + \varepsilon)$, where $\varepsilon$ is an arbitrary number in $\linterval 0 a$ such that $2 - \varepsilon a^2 > -2$. The conditions of corollary \ref{calcmaslov1} are trivial to verify, and we obtain
+\begin{equation}
+\mu(A(t)) = \sign(A(b_0)_{12}) = \sign(\pm_2 \varepsilon a) = \pm_2 1.
+\end{equation}
+
+Therefore, we conclude
+\begin{prop}
+The Maslov index of the fixed orbits of $H_1$ are as follows:
+\begin{equation}
+\begin{array}{c|c|c|c|c}
+\text{Orbit} & (0,0) & (0,\pi) & (\pi,0) & (\pi,\pi)\\
+\hline
+\text{Maslov Index} & 0 & -1 & 1 & 0
+\end{array}
+\end{equation}
+\end{prop}
+
+We are now ready to compute part of the filtered Floer complex of $H_1$, namely the vector spaces, though the boundary maps will have to wait.
+
+These vector spaces are parametrized by $\lambda \in \R$, which represents the maximum value allowed for the action functional. They also have persistence homology structure induced by the inclusion, so we may represent them via barcodes. This is a much more concise way to represent these spaces, so in the future we will resort to barcodes for such descriptions. In this case, we will also exhibit a description `in words', for comparison.
+
+We also introduce new notation here: the concept of named bars. The idea is that (recall definition \ref{def:pmfrombarcode}) to each bar of the barcode associated to the vector spaces of the filtered Floer complex corresponds a generator of said vector spaces, i.e. a periodic orbit (or linear combination thereof). Therefore, we may associate to each bar a periodic orbit (or linear combination), which associates to it an element of the basis it may represent. Note that this choice of association is not unique in general.
+
+\begin{prop}
+The Hamiltonian $H_1$ has four periodic contractible orbits (in time $2a$), which are represented in the following figure, as well as the corresponding actions and Maslov indices.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.7, vertex/.style={draw,circle,thick,fill=red,inner sep=3pt}]
+\draw[->,thick] (-1,0) -- (2*pi+1,0);
+\draw[->,thick] (0,-1) -- (0,2*pi+1);
+\draw (0,0) rectangle (2*pi,2*pi);
+
+\draw (0,0) node[vertex] {} node[below left] {$B_1 (\AA = 0, \mu = 0)$};
+\draw (0,pi) node[vertex] {} node[below left] {$B_0 (\AA = -2a, \mu = -1)$};
+\draw (pi,0) node[vertex] {} node[below right] {$B_3 (\AA = 2a, \mu = 1)$};
+\draw (pi,pi) node[vertex] {} node[below right] {$B_2 (\AA = 0, \mu = 0)$};
+\end{tikzpicture}
+\caption{The periodic orbits of $H_1$ and their actions and Maslov indices}
+\label{orbitsh1}
+\end{figure}
+
+Consequently, the vector spaces of the Floer complex are given by
+\begin{equation}
+\begin{gathered}
+\CF_{-1}^\lambda(H_1) = \begin{cases}
+0, & \lambda \leq -2a,\\
+\braket{B_0} & \lambda > -2a,
+\end{cases}
+\\
+\CF_{0}^\lambda(H_1) = \begin{cases}
+0, & \lambda \leq 0,\\
+\braket{B_1,B_2} & \lambda > 0,
+\end{cases}
+\\
+\CF_{1}^\lambda(H_1) = \begin{cases}
+0, & \lambda \leq 2a,\\
+\braket{B_3} & \lambda  > 2a.
+\end{cases}
+\end{gathered}
+\end{equation}
+
+This information can be sumarily represented via the following barcode.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (-4.500,0.000)--(4.500,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (2.500,-0.200)--(2.500,0.200) node[above] {$2a$};
+\draw[] (-2.500,-0.200)--(-2.500,0.200) node[above] {$-2a$};
+\draw[(-,thick] (-2.500,-0.500)--(4.200,-0.500) node[right] {$B_0$};
+\node[] at (5.500,-0.500) {$(\CF_{-1})$};
+\draw[(-,thick] (0.000,-1.100)--(4.200,-1.100) node[right] {$B_1$};
+\draw[(-,thick] (0.000,-1.500)--(4.200,-1.500) node[right] {$B_2$};
+\node[] at (5.500,-1.300) {$(\CF_0)$};
+\draw[(-,thick] (2.500,-2.100)--(4.200,-2.100) node[right] {$B_3$};
+\node[] at (5.500,-2.100) {$(\CF_1)$};
+\end{tikzpicture}
+\caption{The barcode of the filtered Floer complex of $H_1$}
+\end{figure}
+\end{prop}
+
+All that remains is to compute the boundary maps $\partial$. By using the fact that Floer homology must coincide with Morse homology (as $\lambda \to \infty$) it is easy to conclude that these boundary maps must be null, but in order to illustrate a method which will be useful later we will show directly that they are null by exploiting symmetries of the space $M$ and the Hamiltonian $H_1$.
+
+\section{Symmetries}\label{sec:symmetries}
+
+We begin by recalling the definition of $\partial(b)$, where $b$ is a periodic orbit of $H_1$. First, one must compute the Maslov index $\mu(b)$. Then, $\partial(b)$ will be of the form
+\begin{equation}
+\partial(b) = \sum n(b,c) c,
+\end{equation}
+where the sum is taken over orbits $c$ whose Maslov index is $\mu(c) = \mu(b)-1$. The numbers $n(b,c)$ are computed by counting how many pseudo-holomorphic curves connect $b$ and $c$. A pseudo-holomorphic curve is a $C^\infty$ function $(x(t,s), y(t,s))$, $t \in \R / T$, $s \in \R$, satisfying
+\begin{equation}\label{pseudoholomorphic}
+\begin{cases}
+\displaystyle \diffp x s - \diffp y t = \diffp H x(x,y,t),\\[1em]
+\displaystyle \diffp y s + \diffp x t = \diffp H y(x,y,t).
+\end{cases}
+\end{equation}
+
+We say that such a curve $(x,y)$ connects the periodic orbits $b$ and $c$ if the following limits hold in the $C^\infty$ sense
+\begin{equation}
+\lim_{s \to -\infty} (x,y)(t,s) = b(t), \; \lim_{s \to \infty} (x,y)(t,s) = c(t).
+\end{equation}
+
+The set of such solutions, modulo translation of $s$, is denoted $\moduli(b,c)$.
+
+Now, we are only interested in the number of said curves modulo 2, so if we find any symmetries in $\moduli(b,c)$ in the form of an involution $F \colon \moduli(b,c) \to \moduli(b,c)$ we will only need to examine solutions which are symmetrical, i.e. $F(u) = u$. In our case, such involutions will come from well-chosen changes of variable.
+
+For example, suppose we wish to compute $n(B_3, B_1)$ (see figure \ref{orbitsh1}). The key is the axis of symmetry of the torus about the vertical line $x = \pi$. In other words, if $(x,y)(t,s)$ is a pseudo-holomorphic orbit connecting $B_3$ to $B_1$, i.e. an orbit of $\moduli(B_3,B_1)$, it is reasonable to conjecture that the orbit $(2\pi-x, y)(t,s) = (-x,y)(t,s)$ is also in $\moduli(B_3,B_1)$.
+
+The first thing that needs to be checked is that the $C^\infty$ limits as $s \to \pm \infty$ still coincide with $B_1$ and $B_3$. This is a trivial check, as the reflection about $x = \pi$ preserves the $C^\infty$ norm, as well as the orbits $B_1$ and $B_3$. Therefore, it suffices to check the pseudo-holomorphicity of the orbit $(-x,y)(t,s)$. Unfortunately, this is where we run into problems, because, in general,
+\begin{equation}
+\label{nottrue1}
+\begin{cases}
+\displaystyle \diffp{(-x)} s - \diffp y t = \diffp H x(-x,y,t),\\[1em]
+\displaystyle \diffp y s + \diffp{(-x)} t = \diffp H y(-x,y,t)
+\end{cases}
+\text{ is \emph{not} true!}
+\end{equation}
+
+In order to correct and prove a statement similar to \eqref{nottrue1}, it is first useful to consider what can be said about $\grad_{x,y} H(x,y,t)$. To do so, we investigate symmetries of $H_t$ in space (and eventually in time) and see how they are reflected in symmetries of $\grad_{x,y} H$.
+
+For example, the Hamiltonian $H_0(x,y,t)$, as well as its smoothing $H_1$, satisfies the symmetry
+\begin{equation}
+H(-x,y,t) = H(x,y,t).
+\end{equation}
+
+Consequently, taking partial derivatives, we obtain the symmetries
+\begin{equation}\label{eq:symmetries1}
+- \diffp H x(-x,y,t) = \diffp H x(x,y,t),\quad \diffp H y(-x,y,t) = \diffp H y (x,y,t).
+\end{equation}
+
+This points to how \eqref{nottrue1} might be fixed. For example, the right-hand side of the second equation of \eqref{nottrue1} equals
+\begin{equation}
+\diffp H y (-x,y,t) = \diffp H y (x,y,t) \stackrel{\text{$(x,y)$ pseudo-holom.}}{=} \diffp y s + \diffp{x} t,
+\end{equation}
+and the last term is not equal to $\diffp y s + \diffp{(-x)} t$ by a factor of $-1$ in the second term. An easy way to correct this factor is to swap the variable $t$ for $-t$. This creates another problem, because $H(-x,y,-t) \neq H(x,y,t)$, but a translation in time yields the symmetry
+\begin{equation}
+H(-x,y,a - t) = H(x,y,t).
+\end{equation}
+
+Therefore, \eqref{eq:symmetries1} can be modified to yield the slightly different symmetries
+\begin{equation}
+- \diffp H x(-x,y,a-t) = \diffp H x(x,y,t),\quad \diffp H y(-x,y,a-t) = \diffp H y (x,y,t).
+\end{equation}
+
+This finally allows us to define the involution. Given an orbit $(x,y)(t,s) \in \moduli(B_3,B_1)$, define
+\begin{equation}
+(\tilde x, \tilde y)(t,s) = (-x,y)(a-t,s).
+\end{equation}
+
+We verify that $(\tilde x, \tilde y) \in \moduli(B_3, B_1)$.
+\begin{itemize}
+\item The conditions at infinity are verified because the operator $(x,y)(t) \mapsto (-x,y)(a-t)$ preserves $C^\infty$ norm and the constant orbits $B_3$ and $B_1$.
+
+\item The curve $(\tilde x, \tilde y)$ is pseudo-holomorphic, as can be checked directly. As an example, we verify the first equation in \eqref{pseudoholomorphic}; the second equation is verified analogously.
+
+\begin{equation}
+\begin{aligned}
+\diffp{\tilde x}s - \diffp{\tilde y}t &= \diffp{(-x)(a-t,s)}s - \diffp{y(a-t,s)}t\\
+&= - \diffp x s(a-t, s) + \diffp y t(a-t, s)\\
+&= - \diffp H x (x(a-t,s), y(a-t,s), a-t)\\
+&= \diffp H x (\tilde x(t, s), \tilde y(t, s), t).
+\end{aligned}
+\end{equation}
+\end{itemize}
+
+This proves that the involution $(x,y) \mapsto (\tilde x, \tilde y)$ maps elements of $\moduli(B_3,B_1)$ to itself, so modulo 2 we need only count solutions which are symmetric with regard to this involution. We will now show that there are no such solutions.
+
+If $(x,y) = (\tilde x, \tilde y)$, note that $x(\tfrac a 2, s) = - x(\tfrac a 2, s)$ in the torus, i.e. modulo $2\pi$. Therefore,
+\begin{equation}
+x(\tfrac a 2, s) \in \{0,\pi\}, \mod 2\pi.
+\end{equation}
+
+Now, as $s \to -\infty$ this quantity must converge to $\pi$ and as $s \to \infty$ this quantity converges to $0$. This is a contradiction, because the space of possible values in which $x(\tfrac a 2, s)$ may be in is discrete, and since this quantity is continuous in $s$ it must be constant. Therefore, there are no symmetric solutions, and $n(B_3, B_1) = 0$.
+
+The same symmetry shows that $n(B_2, B_0) = 0$, and a similar argument with the variable change
+\begin{equation}
+x \to x, y \to -y, t \to a-t,
+\end{equation}
+shows that the other values of $n$ are also null. This completes the proof of
+
+\begin{prop}
+The boundary maps of the filtered Floer complex of $H_1$ are all null. Consequently, the barcode of its time-$2a$ flow coincides with the barcode of the Floer complex of $H_1$, which is represented in the following figure.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (-4.500,0.000)--(4.500,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (2.500,-0.200)--(2.500,0.200) node[above] {$2a$};
+\draw[] (-2.500,-0.200)--(-2.500,0.200) node[above] {$-2a$};
+\draw[(-,thick] (-2.500,-0.500)--(4.200,-0.500) node[right] {$B_0$};
+\node[] at (5.500,-0.500) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-1.100)--(4.200,-1.100) node[right] {$B_1$};
+\draw[(-,thick] (0.000,-1.500)--(4.200,-1.500) node[right] {$B_2$};
+\node[] at (5.500,-1.300) {$(\HF_0)$};
+\draw[(-,thick] (2.500,-2.100)--(4.200,-2.100) node[right] {$B_3$};
+\node[] at (5.500,-2.100) {$(\HF_1)$};
+\end{tikzpicture}
+\caption{The barcode of the time-$2a$ flow of $H_1$.}
+\end{figure}
+
+\end{prop}

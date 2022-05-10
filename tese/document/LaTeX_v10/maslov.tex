@@ -1,5 +1,11 @@
 % !TeX root = Thesis.tex
-\chapter{The Maslov Index}
+\chapter{The Maslov Index}\label{chap:maslov}
+
+In chapter \ref{chap:bffh} we discussed filtered Floer homology and the corresponding barcodes, though we postponed discussion of the grading of the Floer complex. This grading is based on the Maslov index of a periodic orbit of a Hamiltonian, which is the subject of this chapter. The Maslov index of a periodic orbit of $H$ is computed via the so-called Conley-Zehnder index of a certain path of symplectic matrices associated to $x$ and $H$.
+
+There exist straightforward recipes in the literature for computing Conley-Zehnder indices of paths of symplectic matrices, see for example definition 8.1.1 in \cite{polterovich}. However, these methods fail for the paths of matrices considered in the following chapters, because they assume a finite number of transversal crossings between the path of matrices being considered and the set $\Sigma \subseteq Sp(2n)$ of symplectic matrices with 1 as an eigenvalue, which is not the case for the piecewise linear paths we will be considering. Therefore, in this chapter we summarize the definition of the Maslov index of a path, as well as the definition of Conley-Zehnder index, and propose an alternative way to compute the CZ index of a path of symplectic matrices in dimension 2, which is well-adapted to concrete calculations. As an example of application, we compute the Maslov indices of critical points of an autonomous Hamiltonian.
+
+To conclude, we relate this construction to another manner of computing CZ indices which is specialized to the two-dimensional case, due to Hofer and Kriener in \cite{hoferkriener}.
 
 \section{The General Definition}
 
@@ -9,10 +15,10 @@ Let $H$ be a periodic Hamiltonian with flow $\phi_t$. The Maslov index is an int
 \item Pick an embedding of the disk $D^2 \to M$ whose restriction to the border coincides with $\gamma$.
 \item Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a symplectic basis for $T_x M$.
 \item Now that $T_{\gamma(t)} M$ has a chosen basis for each $t$, we may write the derivative of the flow at $x$, i.e. the map $(\dl \phi_t)_x$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
-\item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index.
+\item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index. Such a path is said to be \emph{non-degenerate}.
 \end{enumerate}
 
-In turn, it is now necessary to compute the Conley-Zehnder index of a path of matrices $A(t)$. To do so first requires one to establish the existence of a map from the symplectic matrices to $S^1$.
+In turn, it is now necessary to compute the Conley-Zehnder index of a non-degenerate path of matrices $A(t)$. To do so first requires one to establish the existence of a map from the symplectic matrices to $S^1$.
 
 \begin{theorem}\label{rhodef}
 There exists a unique map $\rho \colon Sp(2n) \to S^1$ which satisfies the following properties.
@@ -45,7 +51,7 @@ where the product is taken over the eigenvalues of $A$ with positive imaginary p
 See \cite{audin}, Theorem 7.1.3 on page 192.
 \end{proof}
 
-We are now ready to define the Maslov index of a path of symplectic matrices $A(t)$:
+We are now ready to define the Conley-Zehnder index of a non-degenerate path of symplectic matrices $A(t)$:
 
 \begin{enumerate}[algorithm]
 \item Define $Sp(2n)^*$ as the collection of symplectic matrices that do not have 1 as an eigenvalue. It is a known fact \cite[proposition~7.1.4]{audin} that $Sp(2n)^*$ is composed of two path-connected components, $Sp(2n)^+$ and $Sp(2n)^-$, labeled by the sign of $\det(A-I)$. Note that $A(T) \in Sp(2n)^*$, so it must lie in one of these two components.
@@ -58,7 +64,7 @@ W^+ = - I, \quad W^- \mleft[\begin{array}{c|c}
 \end{array}\mright].
 \end{equation}
 Note that $W^\pm \in Sp(2n)^\pm$, and so any matrix in $Sp(2n)^*$ can be connected via a path (in $Sp(2n)^*$) to either $W^+$ or $W^-$. Consequently, we extend $A(t)$ to the interval $\interval 0 {2T}$, where for $t \in \interval T {2T}$ the path $A(t)$ represents such a path connecting $A(2T)$ to $W^\pm$.
-\item Define $\alpha(t) = \rho(A(t))$ for $a \in \interval 0 {2T}$. It is trivial to check using property \ref{rhodef:realev} from theorem \ref{rhodef} that $\rho(W^\pm) = (-1)^n$, and also that $\rho(I) = 1$. Therefore, $\rho \circ \alpha$ is a path in $S^1$ starting at $1$ and ending at $1$ or $-1$. Therefore, taking the square (viewing $S^1 \subseteq \C$) one obtains a loop $\rho^2 \circ \alpha$ starting and ending at $1$.
+\item Define $\alpha(t) = \rho(A(t))$ for $a \in \interval 0 {2T}$. By property \ref{rhodef:realev} from theorem \ref{rhodef}, $\rho(W^\pm) = \pm(-1)^n$, and also $\rho(I) = 1$. Therefore, $\rho \circ \alpha$ is a path in $S^1$ starting at $1$ and ending at $1$ or $-1$. Therefore, taking the square (viewing $S^1 \subseteq \C$) one obtains a loop $\rho^2 \circ \alpha$ starting and ending at $1$.
 \item Now that we have a loop in $S^1$, we can obtain an integer by considering its winding number: the number of times the loop does a full turn around the circle. It is necessary to establish which direction is positive. Generally, one considers the counterclockwise direction to be the positive direction, but for purposes of the Conley-Zehnder index we count the number of \emph{clockwise turns}.
 \end{enumerate}
 The integer resulting from the above procedure is called the Conley-Zehnder index of the path $A(t)$, denoted $\mu(A(t))$, and finally we define the Maslov index of the periodic orbit $\gamma$ above, also denoted with the symbol $\mu(\gamma)$, as the Conley-Zehnder index of the corresponding matrix path $A$.
@@ -84,12 +90,12 @@ Consequently, the behavior of the spectrum can be qualitatively described as fol
 \end{prop}
 
 \begin{proof}
-Equation \eqref{lambdafromtau} is a trivial consequence of the fact that the characteristic polynomial of a $2 \times 2$ matrix $A$ is $p(\lambda) = \lambda^2 - (\trace A) \lambda + \det A$.
+Equation \eqref{lambdafromtau} is a consequence of the well-known fact that the characteristic polynomial of a $2 \times 2$ matrix $A$ is $p(\lambda) = \lambda^2 - (\trace A) \lambda + \det A$.
 
 The quantitative behavior is proved in two cases.
 \begin{itemize}
-\item Suppose that $\abs \tau \geq 2$. Then $\lambda_\pm$ is real. Furthermore, $\lambda_{\sign \tau}$ clearly has the same sign as $\tau$, and since $\lambda_+ \lambda_- = 1$, both eigenvalues must have the same sign.
-\item Suppose that $\abs \tau \leq 2$. Then, the square root term is purely imaginary and so the absolute value of $\lambda_\pm$ can be easily computed by the pythagorean theorem. Since the norm of $\lambda_\pm$ equals one and $\lambda_+ = 1/\lambda_-$, we conclude that $\lambda_+ = \conj{\lambda_-}$.
+\item Suppose that $\abs \tau \geq 2$. Then $\lambda_\pm$ is real. Furthermore, $\lambda_{\sign \tau}$ has the same sign as $\tau$, and since $\lambda_+ \lambda_- = 1$, both eigenvalues must have the same sign.
+\item Suppose that $\abs \tau \leq 2$. Then, the square root term is purely imaginary and so the absolute value of $\lambda_\pm$ can be computed by the pythagorean theorem, being equal to 1. Since $\lambda_+ = 1/\lambda_-$, we conclude that $\lambda_+ = \conj{\lambda_-}$.
 \end{itemize}
 \end{proof}
 
@@ -117,7 +123,7 @@ Let $A \in Sp(2)$. Then, $\rho(A) = 1$ iff $A \in Sp(2) \setminus Sp(2)^+$, i.e.
 \begin{proof}
 We divide the proof in three cases.
 \begin{itemize}
-\item If $\trace A \geq 2$, both eigenvalues of $A$ are positive, and so using property \ref{rhodef:realev} from theorem \ref{rhodef} one concludes $\rho(A) = 1$.
+\item If $\trace A \geq 2$, both eigenvalues of $A$ are positive, and so using property \ref{rhodef:realev} from theorem \ref{rhodef} we conclude $\rho(A) = 1$.
 \item If $\trace A \leq -2$, both eigenvalues of $A$ are negative, and so for the same reason $\rho(A) = -1$.
 \item If $-2 < \trace A < 2$, both eigenvalues are in $S^1 \setminus \R$. Furthermore, they are both distinct, and so we may apply equation \eqref{rhoformula} to compute
 \begin{equation}\label{sp2pm:3}
