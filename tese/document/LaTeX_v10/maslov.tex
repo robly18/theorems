@@ -76,7 +76,7 @@ It is a very nontrivial fact that the corresponding integer does not depend on a
 
 The Conley-Zehnder index of a path of matrices is also sometimes referred to as the Maslov index of that path, such as in \cite{audin}. We will adopt this nomenclature.
 
-\section{The Particular Case of $Sp(2)$}\label{sec:maslovsp2}
+\section{The Particular Case of \texorpdfstring{$Sp(2)$}{Sp(2)}}\label{sec:maslovsp2}
 
 The theory of the Maslov index simplifies greatly in the two-dimensional case. This is partly due to the much greater control over the spectrum of a matrix. In two dimensions, the symplectic matrices coincide with those whose determinant equals one, and so their spectrum is entirely determined by their trace.
 
@@ -338,11 +338,11 @@ Recall algorithm \ref{alg:maslovalg} to compute the Maslov algorithm of a period
 \item See $x$ as the constant map $S^1 \to M$ equal to $x$.
 \item Extend it to the disk as the constant map.
 \item Let $z_1, \dots, z_{2n}$ be a symplectic basis of $T_x M$. We define $Z_i(x) = z_i$ for $x \in D^2$.
-\item We will write $(\dl \phi_t)_x$ in matricial form as $A(t)$, using the basis $z_i$ in both the domain and codomain; see proposition \ref{prop:dphimatrix} below.
+\item We will write $(\dl \phi_t)_x$ in matricial form as $A(t)$, using the basis $z_i$ in both the domain and codomain; see theorem \ref{thm:dphimatrix} below.
 \item Finally, we compute the Maslov index of $A(t)$.
 \end{enumerate}
 
-\begin{prop}\label{prop:dphimatrix}
+\begin{theorem}\label{thm:dphimatrix}
 Let $z_1, \dots, z_{2n}$ be a symplectic basis of $T_x M$, where $x$ is a critical point of the Hamiltonian $H$. Let $A(t)$ be the matrix representing $(\dl \phi_t)_x$ in this basis, and let $S$ be the Hessian matrix of $H$ in this basis, i.e.
 \begin{equation}
 S_{ij} = \hessian H(z_i, z_j).
@@ -356,10 +356,10 @@ where $J_0$ is the matrix given in block notation by
 \begin{equation}
 J_0 = \begin{bmatrix} 0 & -I \\ I & 0 \end{bmatrix}.
 \end{equation}
-\end{prop}
+\end{theorem}
 
 \begin{proof}
-To begin, let us extend the basis $\{z_i\}$ to a symplectic frame in a neighborhood of $x$, say $Z_1, \dots, Z_{2n}$ (not to be confused with the collection of functions $Z_i \colon D^2 \to TM$ above). With it, we may write the elements of $S$ explicitly as
+To begin, we extend the basis $\{z_i\}$ to a symplectic frame in a neighborhood of $x$, say $Z_1, \dots, Z_{2n}$ (not to be confused with the collection of functions $Z_i \colon D^2 \to TM$ above). With it, we may write the elements of $S$ explicitly as
 \begin{equation}
 S_{ij} = z_i \cdot (Z_j \cdot H).
 \end{equation}
@@ -368,7 +368,7 @@ Now, let us compute the entries of $A(t)$. We may write
 \begin{equation}
 A(t)_{ij} = \left((\dl \phi_t) z_j \right)^i = -\omega(J z_i, (\dl \phi_t) z_j),
 \end{equation}
-where $J$ is the almost-complex structure satisfying $J Z_i = Z_{i+n}$ for $1 \leq i \leq n$. Note that it is represented in coordinates by the matrix $J_0$.
+where $J$ is the almost-complex structure satisfying $J Z_i = Z_{i+n}$ for $1 \leq i \leq n$. It is represented in coordinates by the matrix $J_0$.
 
 Note that $A(0) = I$. We calculate the time derivative of $A(t)$:
 \begin{equation}
@@ -416,35 +416,59 @@ A(0) = I,\\
 whose solution is known to be the matrix exponential $A(t) = \exp(t J_0 S)$. This concludes the proof.
 \end{proof}
 
-[Some theorem about in critical points $x$ of $H$, the path $A$ can be chosen to be $\exp(t J_0 S)$, where $S$ is the Hessian of $H$ at $x$ written in any basis.]
-
-As a consequence, if $Z_1, \dots, Z_{2n}$ is a basis of $T_x M$, we may consider $A(t)$ as the representation of $(\dl \phi_t)_x$ in this basis (see steps \ref{maslovalg:step1} to \ref{maslovalg:step5}).
-
-[Temporary? Kick the can up the road and just refer to Audin and Damian]
-
-\begin{theorem}
-If $S$ is an invertible symmetric matrix with operator norm $\norm S < \frac{2\pi}T$ and if $A(t) = \exp(t J_0 S)$, $t \in \interval 0 T$, then $A(T)$ is nondegenerate and
+\begin{prop}\label{prop:maslovexpjs}
+If $S$ is an invertible symmetric matrix and $T < \frac{2\pi}{\Norm S}$, where $\Norm S$ denotes the operator norm, the path $\exp(t J_0 S)$, $t \in \interval0T$ is nondegenerate and has Maslov index given by
 \begin{equation}
-\mu(A(t)) = \Ind(S) - n,
+\mu(\exp(t J_0 S)) = \Ind(S) - n,
 \end{equation}
-where $\Ind$ denotes the Morse index.
-\end{theorem}
+where $\Ind(S)$ denotes the usual Morse index, i.e. the number of negative eigenvalues of $S$.
+\end{prop}
 
 \begin{proof}
 See \cite{audin}, proposition 7.2.1.
 \end{proof}
 
+\begin{corollary}\label{cor:hammorse}
+If $H$ is a nondegenerate autonomous Hamiltonian on $M$, it is a Morse function.
+
+If $H$ is a Morse function on $M$, its critical points are nondegenerate orbits for small enough period $T$; equivalently, if we set $T = 1$, the critical points of $H$ are nondegenerate orbits of $\varepsilon H$ for $\varepsilon$ small enough.
+\end{corollary}
+
+\begin{proof}
+If $H$ is a nondegenerate autonomous Hamiltonian on $M$, then all of its orbits are nondegenerate, i.e. the derivative of the time-one flow has no eigenvalues equal to 1. In particular, this holds for the constant orbits, one for each critical point of $H$. Consequently, by theorem \ref{thm:dphimatrix}, if $S$ is the Hessian of $H$ at some critical point of $H$, in some symplectic basis, the matrix $\exp(T J_0 S)$ has no eigenvalues equal to 1. However, it is easy to see by taking the Taylor expansion of the exponential that if $v \in \ker(A)$ for some matrix $A$ then $\exp(A) v = v$. In other words, knowing that $\exp(T J_0 S)$ has no eigenvalue equal to 1 implies that $T J_0 S$ is invertible, and therefore that $S$ is invertible. In other words, the Hessian of $H$ at any critical point is nonegenerate, and so $H$ is a Morse function.
+
+Now, suppose that $H$ is a Morse function on $M$. Then $H$ has finitely many critical points, say $x_1, \dots, x_n$. By proposition \ref{prop:maslovexpjs}, for $T < \min\left(\frac{2\pi}{\Norm{S_i}}\right)$ (where $S_i$ is the Hessian of $x_i$ represented in an arbitrary symplectic basis) all critical points are nondegenerate orbits.
+\end{proof}
+
+Corollary \ref{cor:hammorse} sheds light on the relation between Morse functions and nondegenerate autonomous Hamiltonians, showing that every nondegenerate autonomous Hamiltonian is a Morse function. Furthermore, for small enough periods the constant periodic orbits of a Morse function $H$ are nondegenerate, but we still need to talk about the nonconstant orbits.
+
+\begin{prop}\label{prop:nonconstantorbits}
+If $H$ is a nondegenerate autonomous Hamiltonian, all its orbits are constant.
+
+If $H$ is a Morse function, there exists $T>0$ such that all nonconstant orbits have period greater than $T$. In conjunction with corollary \ref{cor:hammorse}, this shows that Morse functions are nondegenerate Hamiltonians for small enough periods.
+\end{prop}
+
+\begin{proof}
+Let $H$ be a nondegenerate autonomous Hamiltonian, and let $\gamma(t)$ be a periodic orbit starting at $x \in M$. Then, we claim that $\gamma$ is degenerate. In particular, we claim that $(\dl \phi_T)_x(\dot \gamma(0)) = \dot \gamma(0)$ (for any periodic orbit), and the fact that $\gamma$ is not constant guarantees that $\dot \gamma(0) \neq 0$ and so $(\dl \phi_T)_x$ has 1 as an eigenvalue.
+
+The claim is proven as follows: It is known that $\gamma(t) = \gamma(t+T)$. In other words, $\gamma(t) = \phi_T(\gamma(t))$. If we take the derivative of both sides at zeros, we obtain the desired equality.
+
+\smallskip
+
+The proof of the second part of the proposition can be found in \cite{audin}, proposition 6.1.6.
+
+[[I think I can make my own proof of this, which doesn't use e.g. Fourier or $C^2$ topology, is it worth?]]
+\end{proof}
+
 \section{The Two-Dimensional Case}
 
-We will now use the tools developed in section \ref{sec:maslovsp2} to recompute the Maslov index of the critical points of $H$.
+We will now use the tools developed in section \ref{sec:maslovsp2} to recompute the Maslov index of the critical points of a Morse function $H$.
 
-[Nondegeneracy?]
-
-We have already shown that the Maslov index of such a critical point is given by the Conley-Zehnder index of the path
+We have already shown that a path of matrices $A(t)$ associated to such a critical point is given by
 \begin{equation}
 A(t) = \exp(t J_0 S), t \in \interval 0 T,
 \end{equation}
-with $S = \hessian H(x)$, i.e. $S_{ij} = \hessian H(x)(Z_i, Z_j) = Z_i \cdot (Z_j \cdot H)$. It is therefore to such a path that we will focus our attention.
+with $S = \hessian H(x)$ in some symplectic basis $\{Z_i\}$, i.e. $S_{ij} = \hessian H(x)(Z_i, Z_j) = Z_i \cdot (Z_j \cdot H)$. Therefore, we investigate when such a path of matrices is nondegenerate and compute its Maslov index.
 
 It is fortunate that the theory greatly simplifies in the two-dimensional case, allowing us to do the computations by hand.
 
@@ -461,7 +485,7 @@ I + t J_0 S, & \Delta = 0,\\
 \end{prop}
 
 \begin{proof}
-The proof of \eqref{eq:j0sj0s} is simple computation. Using \eqref{eq:j0sj0s}, the identity \eqref{eq:exptj0s} can be obtained simply by expanding the Taylor series of the exponential and grouping terms as follows
+The proof of \eqref{eq:j0sj0s} is a simple computation. Using \eqref{eq:j0sj0s}, the identity \eqref{eq:exptj0s} can be obtained by expanding the Taylor series of the exponential and grouping terms as follows
 \begin{equation}
 \begin{aligned}
 \exp(t J_0 S) &= 
@@ -510,7 +534,7 @@ We begin by solving the case $\Ind S = 1$. By inspection of equation \eqref{eq:e
 \end{equation}
 where we used the fact that $\trace(J_0 S) = 0$. Application of corollary \ref{calcmaslov1} yields that, in this case, $\mu(x) = 0$.
 
-We now focus on the case $\Ind S = 1 \pm 1$. In this case, by a similar calculation we obtain $\Delta > 0$ and furthermore
+We now focus on the case $\Ind S = 1 \pm 1$. In this case, by a similar calculation we obtain $\Delta > 0$ and therefore
 \begin{equation}
 \trace \exp(t J_0 S) = 2 \cos(\sqrt\Delta t).
 \end{equation}
@@ -519,7 +543,7 @@ Therefore, by corollary \ref{sp2sgn} the path $\exp(t J_0 S)$ is degenerate iff 
 
 \smallskip
 
-To compute the Maslov index, we apply corollary \ref{calcmaslov1}. We have already seen that $\trace \exp(t J_0 S) = 2 \cos(\sqrt\Delta t)$, and so we may build the partition required by corollary \ref{calcmaslov1} explicitly. The interval $\interval 0 T$ can be divided into intervals of size $\frac\pi{\sqrt\Delta}$, on the extrema of which the trace is $\pm 2$. Therefore, we set $a_n = n \frac\pi{\sqrt\Delta}$. We may pick any $b_n$ between $a_n$ and $a_{n+1}$; for example their midpoints, on which the trace is zero. This ensures that properties \ref{calcmaslov:ab2} and \ref{calcmaslov:ab3} hold.
+To compute the Maslov index, we apply corollary \ref{calcmaslov1}. Since we have full knowledge of $\trace \exp(t J_0 S)$, we may build the partition required by corollary \ref{calcmaslov1} explicitly. The interval $\interval 0 T$ can be divided into intervals of size $\frac\pi{\sqrt\Delta}$, on the extrema of which the trace is $\pm 2$. Therefore, we set $a_n = n \frac\pi{\sqrt\Delta}$. We may pick any $b_n$ between $a_n$ and $a_{n+1}$; for example their midpoints, on which the trace is zero. This ensures that properties \ref{calcmaslov:ab2} and \ref{calcmaslov:ab3} hold.
 
 Note that (for all $T$ such that our path is non-degenerate) we have $\trace \exp(t J_0 S) \in \rinterval{-2}2$, so that in order to verify property \ref{calcmaslov:ab5} the last element of our sequence $a_n$ needs to satisfy $\trace \exp(a J_0 S) = 2$, and so we terminate our sequence at $a_{2N}$, even if $a_{2N+1}$ happens to be less than $T$. Finally, we pick $b_{2N}$ arbitrarily, as long as it is between $a_{2N}$ and $\min(T, a_{2N+1})$.
 
@@ -545,9 +569,9 @@ Corollary \ref{calcmaslov1} now tells us that the Maslov index of $A(t) = \exp(t
 
 We compute $A(b_n)$, for $n < 2N$ explicitly as
 \begin{equation}
-A(b_n) = \frac1{\sqrt\Delta} \sin\left( \sqrt\Delta \frac{2n + 1}2 \frac\pi{\sqrt\Delta} \right) J_0 S = (-1)^n J_0 S,
+A(b_n) = \frac1{\sqrt\Delta} \sin\left( \sqrt\Delta \frac{2n + 1}2 \frac\pi{\sqrt\Delta} \right) J_0 S = \frac1{\sqrt\Delta} (-1)^n J_0 S,
 \end{equation}
-and therefore $\sign(A(b_n)_{12}) = (-1)^n \sign((J_0 S)_12)$. The case $n = 2N$ requires a little extra consideration, but it is easy to verify that the conclusion is the same, and so we have the identity
+and therefore $\sign(A(b_n)_{12}) = (-1)^n \sign((J_0 S)_{12})$. The case $n = 2N$ requires a little extra consideration, but it can be verified that the conclusion is the same, and so we have the identity
 \begin{equation}
 \mu(A(t)) = (2N+1) \sign((J_0 S)_{12}),
 \end{equation}
@@ -570,7 +594,7 @@ Finally, this sign coincides with the sign of both eigenvalues of $S$ (which hav
 The proof is therefore complete.
 \end{proof}
 
-We note that the usual result on $C^2$-small Morse functions can be recovered.
+We note that the usual result on small multiples of Morse functions can be recovered.
 
 \begin{corollary}
 Let $H$ be an autonomous Morse function on a 2-dimensional compact symplectic manifold $M$. Then, for small enough $\varepsilon > 0$, the function $\varepsilon H$ is a nondegenerate Hamiltonian, i.e. the time-one flow of $\varepsilon H$ is a nondegenerate Hamiltonian diffeomorphism. More precisely, the only periodic (time-one) orbits of $\varepsilon H$ are constants equal to critical points of $H$. In this case, the action functional of these constant orbits coincides with their value of $\varepsilon H$, and their Maslov index and Morse index are related by the formula
@@ -580,9 +604,7 @@ Let $H$ be an autonomous Morse function on a 2-dimensional compact symplectic ma
 \end{corollary}
 
 \begin{proof}
-First we prove that, for small enough $\varepsilon$, the only time-one orbits of $\varepsilon H$ are the constants. Equivalently, it suffices to show that the periods of nonconstant orbits of $H$ are bounded from below, as the time-one orbits of $\varepsilon H$ coincide with the time-$\varepsilon$ orbits of $H$.
-
-[Write this sometime, or refer to \cite{audin}, proposition 6.1.6]
+For the fact that for small $\varepsilon$ the only time-one orbits of $\varepsilon H$ are the constants, see [[the proof of proposition \ref{prop:nonconstantorbits}, or]] proposition 6.1.6 in \cite{audin}.
 
 Assume now that $\varepsilon$ is small enough that the only time-one orbits of $\varepsilon H$ are constants. Recall the definition of the action functional on a periodic orbit $x$,
 \begin{equation}
@@ -590,26 +612,26 @@ Assume now that $\varepsilon$ is small enough that the only time-one orbits of $
 \end{equation}
 where $D$ is any map from the disk to $M$ whose border is $x$.
 
-Since $x$ is constant, we might as well take $D$ to be the constant map. This makes the pullmack of $\omega$ to the disk be null, and so the first term from the action functional vanishes. As for the second term, since $H$ is autonomous and $x$ is constant, we obtain simply
+Since $x$ is constant, we might as well take $D$ to be the constant map. This makes the pullback of $\omega$ to the disk be null, and so the first term from the action functional vanishes. As for the second term, since $H$ is autonomous and $x$ is constant, we obtain simply
 \begin{equation}
 \AA_{\varepsilon H}(x) = \varepsilon H(x).
 \end{equation}
 
 Finally we show that, possibly by decreasing $\varepsilon$, the Maslov index of these constant orbits coincides up to a shift by one with their Morse index.
 
-Application of propositions \ref{to do} and \ref{maslovmorse} will show that in order for the relation $\mu(x) = \Ind(x) - 1$ to be verified it suffices that for every critical point $x$ of $H$ there exists a symplectic basis for $T_x M$ such that the determinant of the Hessian of $\varepsilon H$ in that basis\footnote{It is a trivial observation, yet unnecessary for our purposes, that the determinant of the Hessian of a smooth function is independent of the symplectic basis chosen.} is less than $4 \pi^2$. A simple computation will show that, for this effect, it suffices that
+Application of proposition \ref{maslovmorse} will show that in order for the relation $\mu(x) = \Ind(x) - 1$ to be verified it suffices that for every critical point $x$ of $H$ there exists a symplectic basis for $T_x M$ such that the determinant of the Hessian of $\varepsilon H$ in that basis\footnote{It is a trivial observation, yet unnecessary for our purposes, that the determinant of the Hessian of a smooth function is independent of the symplectic basis chosen.} is less than $4 \pi^2$. In other words, it suffices that
 \begin{equation}
 \varepsilon < \min \left( \frac{2\pi}{\sqrt{\det \hessian H(x)}}\right),
 \end{equation}
 where the minimum ranges over the critical points of $H$.
 \end{proof}
 
-A somewhat surprising corollary of proposition \ref{maslovmorse} is that the Maslov indices of critical points of autonomous Hamiltonians may only take odd values or zero. As a consequence of this and the fact that Floer homology must coincide with Morse homology, if any critical point of $H$ has Maslov index different from $-1$, $0$, and $1$, then the time-one flow of $H$ \emph{must} be degenerate. This allows us to prove the existence of orbits with almost all possible non-small periods.
+A somewhat surprising corollary of proposition \ref{maslovmorse} is that the Maslov indices of critical points of autonomous Hamiltonians may only take odd values or zero. As a consequence of this and the fact that Floer homology must coincide with Morse homology, if any critical point of $H$ has Maslov index different from $-1$, $0$, and $1$, then the time-one flow of $H$ must be degenerate. This allows us to prove the existence of orbits with almost all possible non-small periods.
 
 \begin{corollary}
 Let $H$ be a Morse function on the two-dimensional compact symplectic manifold $M$. Let $x_1, \dots, x_N$ be the critical points of $H$ \emph{with Morse index different from $0$}, i.e. the local maxima and minima.
 
-For each $i = 1, \dots, N$, define $\Delta_i = \det \hessian H(x_i)$, where the determinant is taken in an arbitrary symplectic basis of $T_{x_i} M$, and set $q_i = \frac{2\pi}{\sqrt{\Delta_i}}$ and $q_{\min} = \min q_i$. Then, for all $p \geq q_{\min}$, the time-$p$ flow of $H$ is a degenerate Hamiltonian diffeomorphism; equivalently, $p H$ is a degenerate Hamiltonian.
+For each $i = 1, \dots, N$, define $\Delta_i = \det \hessian H(x_i)$, where the determinant is taken in an arbitrary symplectic basis of $T_{x_i} M$, set $q_i = \frac{2\pi}{\sqrt{\Delta_i}}$, and $q_{\min} = \min q_i$. Then, for all $p \geq q_{\min}$, the time-$p$ flow of $H$ is a degenerate Hamiltonian diffeomorphism; equivalently, $p H$ is a degenerate Hamiltonian.
 
 Furthermore, if we let
 \begin{equation}
@@ -621,7 +643,7 @@ then for all $p \in A$ there exists a time-$p$ nonconstant periodic orbit of $H$
 \end{corollary}
 
 \begin{proof}
-Consider the Hamiltonian $p H$, $p > 0$. It has the same critical points as $H$, with the same indices, and the determinants of the Hessians of the $x_i$ can be easily computed as
+Consider the Hamiltonian $p H$, $p > 0$. It has the same critical points as $H$, with the same indices, and the determinants of the Hessians of the $x_i$ are given by
 \begin{equation}
 \det \hessian(pH)(x_i) = p^2 \Delta_i.
 \end{equation}
@@ -639,7 +661,7 @@ We now turn to showing that if $p \in A$ then there necessarily exists a $p$-per
 
 There is another construction of the Conley-Zehnder index, also specific to the 2-dimensional case, due to Hofer and Kriener. The original work can be found in section 3 of \cite{hoferkriener}, and a summary can be found in the appendix of \cite{hwz}. For convenience, we reproduce the construction.
 
-Let $A(t)$, $t \in \interval 0 T$, be the path of $2 \times 2$ symplectic matrices whose Conley-Zehnder we intend to compute. Given a nonzero complex number $z \in \C \cong \R^2$. we can consider the path of nonzero complex numbers given by $z(t) = A(t) z$. We may write this path in polar coordinates as
+Let $A(t)$, $t \in \interval 0 T$, be the path of $2 \times 2$ symplectic matrices whose Maslov index we intend to compute. Given a nonzero complex number $z \in \C \cong \R^2$. we can consider the path of nonzero complex numbers given by $z(t) = A(t) z$. We may write this path in polar coordinates as
 \begin{equation}
 z(t) = \abs{z(t)} \exp(\I \theta(t)),
 \end{equation}
@@ -678,9 +700,9 @@ Any continuous path $z(t)$ of nonzero complex numbers has a continuous argument.
 \end{corollary}
 
 \begin{proof}
-To obtain the existence of a continuous argument, apply the path lifting property to the function $t \mapsto \frac{z(t)}{\abs{z(t)}}$, using the covering map $\exp(\I\,\cdot\,) \colon \R \to S^1$ and any value of $\theta_0 \in \R$ satisfying $\exp(\I \theta_0) = z(0)$.
+To obtain the existence of a continuous argument, apply the path lifting property to the function $t \mapsto \frac{z(t)}{\abs{z(t)}}$, using the covering map $\exp(\I\,\cdot\,) \colon \R \to S^1$ and any value of $\theta_0 \in \R$ satisfying $\exp(\I \theta_0) = \frac{z(0)}{\abs{z(0)}}$.
 
-Now, we show that the value of $\Delta(z) = \theta(T) - \theta(0)$ does not depend on the chosen argument. Therefore, let $\theta'$ be another continuous argument of $z(t)$. Then, $\theta'(0)$ must be equal to $\theta(0) + 2 k \pi$ for some integer $k$, as $\exp(\I\theta'(0)) = z(0) = \exp(\I \theta(0))$. Consequently, we can show that $\theta'(t) = \theta(t) + 2 k \pi$, using the uniqueness of the lift relative to the starting point. As a consequence,
+Now, we show that the value of $\Delta(z) = \theta(T) - \theta(0)$ does not depend on the chosen argument. Therefore, let $\theta'$ be another continuous argument of $z(t)$. Then, $\theta'(0)$ must be equal to $\theta(0) + 2 k \pi$ for some integer $k$, as $\exp(\I\theta'(0)) = z(0) = \exp(\I \theta(0))$. Consequently, we can show that $\theta'(t) = \theta(t) + 2 k \pi$, using the uniqueness of the lift relative to the starting point. Hence,
 \begin{equation}
 \theta'(T) - \theta'(0) = \theta(T) + 2 k \pi -  \theta(0) - 2 k \pi = \theta(T) - \theta(0),
 \end{equation}
@@ -700,7 +722,7 @@ For the proof of the first part, see theorem 11.15 in \cite{leetopological}.
 
 To prove uniqueness, we apply the path lifting property. It is a known fact from topology that if $X$ is connected and locally path connected then it is connected. As such, for any $x \in X$ there exists a path $\gamma$ from $x_0$ to $x$.
 
-If $\tilde f$ is a lift of $f$, then it is easy to check that $\tilde f \circ \gamma$ is a lift of the path $f \tilde \gamma$ which starts at $e_0$. The path lifting property guarantees that this lift is unique, and so $\tilde f(\gamma(t))$ is uniquely defined for every value of $t$. In particular, this determines $\tilde f(x)$, and since $x$ is arbitrary the lift $\tilde f$ is completely determined, i.e. such a lift is unique.
+If $\tilde f$ is a lift of $f$, then it is easy to check that $\tilde f \circ \gamma$ is a lift of the path $f \circ \gamma$ which starts at $e_0$. The path lifting property guarantees that this lift is unique, and so $\tilde f(\gamma(t))$ is uniquely defined for every value of $t$. In particular, this determines $\tilde f(x)$, and since $x$ is arbitrary the lift $\tilde f$ is completely determined, i.e. such a lift is unique.
 \end{proof}
 
 \begin{prop}\label{deltacontinuous}
@@ -784,7 +806,7 @@ we conclude that for every $\theta \in \interval 0 \pi$ there exists some time $
 \tilde f(z_2, \tau) = \tilde f(z_1, \tau) + \theta.
 \end{equation}
 
-If we recall the notation $z_i(t) = A(t) z_i$, as well as the definition of $\tilde f$, equation \eqref{eq:findtheta1} implies that for all $\theta$ there exists $\tau$ such that
+Recall the notation $z_i(t) = A(t) z_i$, as well as the definition of $\tilde f$. Then, equation \eqref{eq:findtheta1} implies that for all $\theta$ there exists $\tau$ such that
 \begin{equation}\label{eq:findtheta2}
 \frac{\abs{z_2}}{\abs{z_2(\tau)}} \frac{z_2(\tau)}{z_2} = \frac{\abs{z_1}}{\abs{z_1(\tau)}} \frac{z_1(\tau)}{z_1} \exp(\I \theta).	
 \end{equation}
@@ -838,7 +860,7 @@ I(A,t) = \{\, \tilde f(z,t) \mid z \in \C \setminus \{0\} \,\}.
 \end{equation}
 
 \begin{lemma}\label{lemma:hk1}
-For every $t \in \interval0T$, $I(A,t)$ contains a point of the form $2k\pi$, for some integer $k$, if and only if $\trace A(t) \geq 2$. Likewise, $I(A,t)$ contains a point of the form $(2k+1)\pi$ if and only if $\trace A(t) \leq -2$.
+For $t \in \interval0T$, $I(A,t)$ contains a point of the form $2k\pi$ for some integer $k$ if and only if $\trace A(t) \geq 2$. Likewise, $I(A,t)$ contains a point of the form $(2k+1)\pi$ if and only if $\trace A(t) \leq -2$.
 \end{lemma}
 
 \begin{lemmaproof}
@@ -863,7 +885,7 @@ Apply lemma \ref{lemma:hk1} and properties \ref{calcmaslov:ab2} and \ref{calcmas
 
 From lemma \ref{lemma:hk2} it is possible to understand the behavior of the winding interval as time passes. At $t = 0$, it is the singleton set $\{0\}$. Then, as time advances, it moves about inside $\ointerval{-\pi}\pi$. At time $t = b_0$, it is entirely contained in either $\ointerval{-\pi}0$ or $\ointerval0\pi$. Therefore, for $t \in B_1$, $I(A,t)$ will either be entirely contained in $\ointerval{-2\pi}0$ or in $\ointerval0{2\pi}$, depending on $I(A,b_0)$. The pattern continues: for $t \in B_2$, $I(A,t)$ is either contained in $\ointerval{-3\pi}{-\pi}$, $\ointerval{-\pi}{\pi}$ or $\ointerval{\pi}{3\pi}$ depending on $I(A,b_2)$, and so on.
 
-Let us establish some more nomenclature. The \emph{bounding interval} of each $B_n$ is the interval of the form $\interval{-\pi}\pi + k_n \pi$ within which $I(A,t)$ is contained for $t \in B_i$. Note that $k_n$ has the same parity as $n$. We will say that a value of $b_n$ is \emph{ascending} if $k_{n+1} = k_n + 1$ and \emph{descending} if $k_{n+1} = k_n - 1$. Then, it is important to understand what makes a value of $b_n$ ascending or descending.
+Let us establish some more nomenclature. The \emph{bounding interval} of each $B_n$ is the interval of the form $\ointerval{-\pi}\pi + k_n \pi$ within which $I(A,t)$ is contained for $t \in B_i$. Note that $k_n$ has the same parity as $n$. We will say that a value of $b_n$ is \emph{ascending} if $k_{n+1} = k_n + 1$ and \emph{descending} if $k_{n+1} = k_n - 1$. Then, it is important to understand what makes a value of $b_n$ ascending or descending.
 
 \begin{lemma}\label{lemma:hk3}
 A value of $b_n$ is ascending when $(-1)^n A(b_n)_{12} < 0$ and descending when $(-1)^n A(b_n)_{12} > 0$.
@@ -891,5 +913,5 @@ Per corollary \ref{calcmaslov1}, we may rewrite this as
 I(A) \subseteq \ointerval{-\pi}\pi - \mu(A(t)) \pi.
 \end{equation}
 
-Now, as per definition \ref{def:muhk}, if $\mu(A(t))$ is odd we immediately obtain that $\muhk(A(t)) = -\mu(A(t))$. On the other hand, if $\mu(A(t))$ is even, we need to show that $\mu(A(t)) \in I(A)$. To this effect, we use property \ref{calcmaslov:ab5}. Note that if $\mu(A(t))$ is even then $N$ is odd. Therefore, $\trace A(a_N) \leq -2$, and so $\trace A(T) \geq 2$. As a consequence, $A(T)$ has a positive eigenvalue. If we let $z$ be a corresponding eigenvector, then $\Delta(z)$ is a multiple of $2\pi$ and must therefore be equal to $-\mu(A(t)) \pi$. Therefore, $-\mu(A(t)) \pi \in I(A)$ and so $\muhk(A(t)) = -\mu(A(t))$.
+Now, as per definition \ref{def:muhk} of $\muhk$, if $\mu(A(t))$ is odd we immediately obtain that $\muhk(A(t)) = -\mu(A(t))$. On the other hand, if $\mu(A(t))$ is even, we need to show that $\mu(A(t)) \in I(A)$. To this effect, we use property \ref{calcmaslov:ab5}. Note that if $\mu(A(t))$ is even then $N$ is odd. Therefore, $\trace A(a_N) \leq -2$, and so $\trace A(T) \geq 2$. As a consequence, $A(T)$ has a positive eigenvalue. If we let $z$ be a corresponding eigenvector, then $\Delta(z)$ is a multiple of $2\pi$ and must therefore be equal to $-\mu(A(t)) \pi$. Therefore, $-\mu(A(t)) \pi \in I(A)$ and so $\muhk(A(t)) = -\mu(A(t))$.
 \end{proof}

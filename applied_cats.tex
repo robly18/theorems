@@ -1,0 +1,322 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage[a4paper]{geometry}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usepackage{fontspec}
+\setmonofont{Consolas}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,keepspaces=true,tabsize=4}
+
+\usepackage{hyperref}
+\usepackage{url}
+
+\title{Category Theory and Haskell}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+
+
+\newcommand{\Hask}{\mathrm{Hask}}
+\newcommand{\type}[1]{\mathrm{#1}}
+\newcommand{\cat}[1]{\mathrm{#1}}
+
+\DeclareMathOperator{\Hom}{Hom}
+
+\newcommand*\lsin{\lstinline}
+\newcommand*\lsmath[1]{\text{\lstinline|#1|}}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+In the 1930s, around the same time as Alan Turing published his work on what we nowadays call Turing machines, Alonzo Church published his own formalism for computability, which is called \emph{lambda calculus}. Around this time, it was also proven that these two notions of computability are equivalent. Today, Turing Machines serve as the `public face' of computability: we say that a function is computable if there exists a Turing machine which computes it, for example. As far as computational models go, Turing machines are very slow and unwieldy, but they match cleanly to our mental model of what computation is: a sequence of instructions which can be followed to turn inputs into outputs.
+
+Lambda calculus does not match our intuition as cleanly, being based on substitution of expressions in other expressions, but surprisingly turns out to be much more well behaved in practical terms. Starting with ALGOL around 1960, some programming languages have included some features originating from lambda calculus, such as first-class and anonymous functions, which will be explained later. This is especially noticeable in the programming language Haskell, whose first version was published in 1989, which at its core is simply a lambda calculus evaluator.
+
+Lambda calculus comes in several shapes, but the kind relevant for Haskell is the so-called \emph{typed lambda calculus}. It is typed in the sense that functions have well-defined domains and codomains, which are known at compilation time, and it is a syntatic error to compose functions whose domains and codomains do not match. In other words, Haskell is \emph{strongly typed}, in opposition to C, in which a function which recieves a floating-point number may instead accept an integer. As a consequence, functions in Haskell can be thought of as forming a category, with the domain and codomain of every function being known at compile time and composition only being allowed between functions of compatible types. This is part of the reason why there is such a strong relation between Haskell and category theory.
+
+Besides being strongly typed, another important feature of Haskell is \emph{purity}. Essentially, functions in Haskell are like mathematical functions, in the sense that the same function called with the same input will always return the same output, depending on nothing other than its input and doing nothing other than returning its output. This has wide and far-reaching consequences, both in terms of performance (since there is no implicit input or output, the compiler is free to rearrange the order of computations, or even have them done in parallel) and in terms of code maintainability (when changing pre-existing code, the developer does not need to have knowledge of any other part of the system, making it easier for several developers to work in isolation), but also means that a wide array of tools programmers rely on are inviabilized. For example, simulations of physical objects are often done by defining global variables representing the $x$ and $y$ coordinates of the objects at play, their velocities, etc., and then defining a function which advances the global state in time, calling that function on repeat until the desired amount of time has elapsed:
+\begin{lstlisting}
+x = 0
+y = 0
+vx = 0
+vy = 0
+t = 0
+while t < 1000:
+	vx, vy = force(x,y)
+	x = x + vx
+	y = y + vy
+print("At t = 1000, the object is at " + (x,y))
+\end{lstlisting}
+
+This is impossible in Haskell, as not only can global variables never be changed, but even if they could, this could not be done inside of a function, because functions cannot modify anything, only return an output. This requires that the programmer change their perspective: in this case, instead of defining a function which \emph{modifies} a few global variables, one instead defines a function which receives as input the state of the physical system at time $t$ and returns the state at time $t + \dl t$. 
+
+This is just an example of how purity requires a complete rearrangement of the way one thinks about a problem. In this case a solution was quickly found, but how does one receive input from the user? How does one write to a file? How does one implement an algorithm which relies on mutable state, e.g. marking the nodes of a graph as they are traversed? And most importantly, how does one do all of the above without making the code completely unreadable? This is a place where category theory has found surprising application, by providing powerful abstractions which pick up the slack left by the lack of global state and mutability, at the same time giving Haskell unprecedented amounts of type safety and generality. In the same way that many seemingly unrelated phenomena were found by category theorists to be expressions of a single phenomenon (for example, adjunctions, limits or colimits), computer theorists have found abstractions which encompass many programming strategies which on the surface seem to be completely distinct.
+
+In this essay, I hope to convince the reader that there are very real mathematical concepts underlying many tools used by in the day-to-day of a Haskell programmer. Furthermore, I also want to get across that these concepts are \emph{useful}, allowing for cleaner and more understandable code, at least so long as the programmer is familiar with the underlying math!
+
+\section{A Crash Course in Haskell}
+
+The following examples can be followed along by executing them in GHCi, the Glasgow Haskell Compiler interpreter, which is the \textit{de facto} implementation of Haskell and can be downloaded here: \url{https://www.haskell.org/downloads/}.
+
+As mentioned in the introduction, Haskell is at its core a lambda calculus evaluator, so we begin by introducing the most basic concept to lambda calculus: the lambda expression.
+
+\subsection{Lambda expressions}
+
+A lambda expression is something similar to the notation $a \mapsto f(a)$ for defining mathematical functions without giving them a name. For example, if I am talking about the function which squares a given number, I may write it as $a \mapsto a^2$. A lambda expression is the same, but it is written using a slightly different notation: the square function would be written as $\lambda a. a^2$. The $\lambda$ marks the beginning of the function, then the argument is given a name, and then an expression is written, in which the only free variable is the one in the argument.
+
+A lambda expression can be applied as a function. For example, we could write $(\lambda a. a^2) 2$; in lambda calculus, function application is written without parentheses. Whenever a lambda expression is juxtaposed to the left of another expression, it should be understood as applying the function defined by the lambda to the argument given by the expression. The above example can be written in Haskell as
+\begin{lstlisting}
+(\a -> a^2) 2
+output: 4
+\end{lstlisting}
+
+Note the changes in syntax: the lambda has been replaced by a backslash (it's like a lambda with one leg cut off), and the period has been replaced by an arrow. Also, note that the expression \lstinline|(\a -> a^2)| represents a Haskell function, but it has not been given a name. For this reason, lambda expressions in Haskell are also called \emph{anonymous functions}.
+
+The way that this works below the hood is that the Haskell interpreter is doing something called $\beta$-reduction. Formally, given an expression $f x$ where $f$ is a lambda expression of the form $(\lambda a. M)$, the Haskell interpreter rewrites it as $M[a=x]$, i.e. the expression $M$ where every instance of the variable $a$ has been replaced by $x$. In the above example, \lstinline|(\a -> a^2) 2| is $\beta$-reduced to \lstinline|2^2|, which is then evaluated to 4.
+
+The reason why this idea is so powerful is the following: \emph{in Haskell and in lambda calculus, lambda expressions are first class objects}. What this means is that functions can be stored in variables and given as arguments to other functions. For example, the following lambda expression takes as an argument another lambda expression, and returns its `square'. Mathematically, we would usually write it as $f \mapsto f \circ f$.
+\begin{lstlisting}
+\f -> (\x -> f (f x))
+\end{lstlisting}
+
+\subsection{Variables, Syntactic Sugar and Recursion}
+
+As we have seen, functions in Haskell do not need to be named, but that does not mean that they should not. If we want to use a function more than once, we do not want to rewrite its definition every time we do. Therefore, Haskell lets us name expressions so that we may reuse them later. For example,
+\begin{lstlisting}
+f = \a -> a^2
+x = 2
+f x
+output: 4
+\end{lstlisting}
+
+It is inconvenient to write lambda expressions whenever we want to define a function, so Haskell allows us to define functions using more convenient and slightly more standard notation
+\begin{lstlisting}
+f a = a^2
+\end{lstlisting}
+though it should be understood that beneath this expression is a definition via a lambda expression. Haskell contains many of these alternative notations, in which a common but cumbersome expression is given an alternative notation, which is unfurled to its underlying meaning before being passed to the Haskell interpreter. These kind of syntactic expansion rules are collectively referred to as \emph{syntactic sugar}.
+
+Another piece of syntactic sugar without which writing any program would be almost impossible is recursion. As an example, consider the following implementation of the factorial function
+\begin{lstlisting}
+factorial x = if x == 0 then 1 else x * factorial (x-1)
+\end{lstlisting}
+
+This is a valid definition in Haskell, but it is not easy to write it as a lambda expression, because the function is being called inside itself. If we were to naïvely write \lstinline|factorial| as an anonymous lambda expression, we would get
+\begin{lstlisting}
+\x -> if x == 0 then 1 else x * factorial (x-1),
+\end{lstlisting}
+which would require us to expand the definition of factorial inside the expression (since it is anonymous we cannot refer to it by name), obtaining a more complex expression which itself has a factorial, and so on. This tricky problem (expressing recursion in lambda calculus) has a solution via the so-called $Y$ combinator, which is a particular lambda expression which can be used to define the factorial as above. Fortunately, as a Haskell programmer we don't need to know about it, because recursive expressions are rewritten using the $Y$ combinator under the hood.
+
+\subsection{Types and Morphisms}
+
+As we said in the introduction, Haskell is strongly typed: every function has a domain and a codomain. This makes Haskell a category, which is usually called $\Hask$ (this is not exactly true; see \cite{haskisnotcat}), in which the types (examples: \lstinline|Int|, \lstinline|Char|, \lstinline|String|) are the objects and the functions (lambda expressions) are the morphisms.
+
+That said, what is the domain and codomain of the lambda expression \lstinline|\a -> a^2|? We have evaluated it on the number 2, which is an integer (i.e. of type \lstinline|Int|) and gotten an integer back, but we could also have applied it to the floating-point number 2.1 (of type \lstinline|Float|). We'll get back to this ambiguity later, but to assuage our concerns we can add type annotations explicitly using the following syntax
+\begin{lstlisting}
+f :: Int -> Int
+f a = a^2
+\end{lstlisting}
+
+This means that $f$ is a morphism with domain \lstinline|Int| and codomain \lstinline|Int|; mathematically, $f \in \Hask(\type{Int}, \type{Int})$. If we try to evaluate it on a non-integer such as 2.1, we get an error:\footnote{Strictly speaking, this isn't the error you'll actually get. You'll get something like \lstinline|No instance for (Fractional Int) arising from the literal '2.1'|, which is Haskell trying a little harder to make 2.1 into an integer.}
+\begin{lstlisting}
+f 2.1
+<interactive>:1:3: error:
+    • Couldn't match expected type 'Int' with actual type 'Float'
+    • In the first argument of 'f', namely 'x'
+      In the expression: f x
+      In an equation for 'it': it = f x
+\end{lstlisting}
+
+Haskell has a wide array of so-called primitive types, like \lstinline|Int|, \lstinline|Char| and so on, but it also allows us to make complex types out of simpler ones. We have already seen one: the humble arrow!
+
+The sequence of characters \lstinline|->| has the paper usually taken by $\Hom$ or $C$ in categorical texts: we may write \lsin|a -> b| to denote what we would usually call $\Hask(a,b)$. This is in itself a Haskell type. In other words, \emph{the $\Hask$ category has exponential objects}. This is the first taste of categorical language in Haskell.
+
+\subsection{Currying and Composition}
+
+So far, every function we have seen takes only one argument. This is also the case in lambda calculus: every lambda has exactly one variable. It also happens in, for example, the category of $\cat{Sets}$: an arrow $A \to B$ takes as argument exactly one element of $A$. Of course, we emulate our functions taking multiple arguments by using cartesian products: a function $f$ which receives two real numbers and returns another is denoted as
+\begin{equation}
+f \colon \R \times \R \to \R.
+\end{equation}
+
+A similar process can be done in Haskell, so that a function that receives, say, two integers, could have type \lsin|(Int,Int) -> Int|. The comma \lsin|(,)| denotes the categorical product in $\Hask$, and is another example of a type constructor. However, that is not what is usually done.
+
+The type of a pre-existing function can be found by writing \lsin|:t f| in GHCi. For example, using \lsin|f = (+)|, i.e. the predefined function which adds two numbers, we get\footnote{Again, the actual output isn't exactly the one shown, as addition is defined more generally than on the integers.}
+\begin{lstlisting}
+:t (+)
+output: (+) :: Int -> Int -> Int
+\end{lstlisting}
+
+What gives? This expression will be made clearer if we introduce parentheses. Haskell associates the \lsin|->| operator to the right, i.e. the above expression should be read as
+\begin{lstlisting}
+(+) :: Int -> (Int -> Int)
+\end{lstlisting}
+
+Aha! So what's happening here, in categorical terms, is simply that
+\begin{equation}
+(+) \in \Hask(\type{Int}, \Hask(\type{Int}, \type{Int})).
+\end{equation}
+
+Recall that, in sets, we have an adjunction between the functors
+\begin{equation}
+F(a) = a \times b, \quad G(c) = \Hom(b,c).
+\end{equation}
+
+In particular, $F \dashv G$, and the natural isomorphism given by the adjunction is defined as, say,
+\begin{equation}
+\begin{aligned}
+\phi \colon \Hom(a \times b, c) &\to \Hom(a, \Hom(b,c))\\
+f &\mapsto (x \mapsto (y \mapsto f(x,y))).
+\end{aligned}
+\end{equation}
+
+In Haskell, this isomorphism is called \lsin|curry|. We say functions in Haskell are \emph{curried}. The nomenclature is in honor of Haskell Curry, an important logician. We can inspect the type of this function in GHCi:
+\begin{lstlisting}
+:t curry
+output: curry :: ((a, b) -> c) -> a -> b -> c
+\end{lstlisting}
+
+This matches our expectation, but remember that parentheses are implicit on the right-hand side. Note the use of the so-called \emph{type variables}: any `type' whose name is a lower-case letter denotes a type variable, and may be substituted by any type. Therefore, \lsin|curry| isn't a function in and of itself: it is a family of functions, parametrized by three objects in $\Hask$: $a$, $b$ and $c$. This is similar to how the usual isomorphism in adjunctions is parametrized by a pair of objects, as in $\varphi_{xy}$. In Haskell, the parametrization is implicit: the compiler keeps the definition as ambiguous as possible at every moment, and deduces what $a$, $b$ and $c$ should be from context when necessary.
+
+Surprisingly, currying (and its inverse, \lsin|uncurry|) isn't used very often. Functions are almost always left curried, because this allows for a technique called partial application. We won't go into details, but it allows for expressions such as \lsin|(\a -> f 2 a)| to be shortened to \lsin|(f 2)|.
+
+Finally, let's talk about the most important categorical concept: function composition. It is a very surprising fact that almost no modern languages have a composition operator, but Haskell does. It is denoted with a single dot, as in \lsin|f . g|, as it is the closest a standard keyboard gets to the usual notation of composition, except perhaps for the hideous notation \lsin|f o g|. Unsurprisingly, the composition has type given by
+\begin{lstlisting}
+:t (.)
+output: (.) :: (b -> c) -> (a -> b) -> a -> c
+\end{lstlisting}
+
+Again, note the usage of type variables: the types written in lower case are a stand in for any type in $\Hask$.
+
+
+\section{Elementary Categorical Concepts}
+
+We have already seen a few examples of categorical concepts cropping up in Haskell. The types and morphisms form a category called $\Hask$ (kind of, see \cite{haskisnotcat}), the arrow operator \lsin|->| is the categorical exponent, the comma operator \lsin|(,)| is the categorical product, and these two functors (though we haven't realized them as functors yet) are adjoint to each other, with the bijection between hom-sets being given by \lsin|curry|.
+
+Another common categorical construction is the coproduct. In Haskell, this is realized by using the \lsin|Either| type constructor. The coproduct of two types $a$ and $b$ is denoted \lsin|Either a b|, and the coproduct diagram is the following, with the inclusions being denoted by \lsin|Left| and \lsin|Right|.
+\begin{equation}
+\begin{tikzcd}[column sep = large]
+\lsmath{a} \arrow[r, "\lsmath{Left}"] & \lsmath{Either a b} & \lsmath{b} \arrow[l, "\lsmath{Right}"']
+\end{tikzcd}
+\end{equation}
+
+We also present the product diagram of \lsin|(a,b)|.
+\begin{equation}
+\begin{tikzcd}[column sep=large]
+\lsmath{a} & \lsmath{(a,b)} \arrow[l, "\lsmath{fst}"'] \arrow[r, "\lsmath{snd}"] & \lsmath{b} 
+\end{tikzcd}
+\end{equation}
+
+As an example, \lsin|Either| is often used for error handling: a \lsin|Right| value represents a successful computation, while \lsin|Left| represents an error. For example, we can define a safe division:
+\begin{lstlisting}
+safediv :: Rational -> Rational -> Either String Rational
+safediv x y = if y == 0 then Left "Error! Division by zero."
+              else Right (x/y)
+              
+safediv 2 3
+output: Right (2 % 3)
+
+safediv 2 0
+output: Left "Error! Division by zero."
+\end{lstlisting}
+
+Note the Haskell notation for fractions: \lsin|2 % 3| means the rational number $2/3$.
+
+We may define a function on \lsin|Either a b| using \emph{pattern matching}. In categorical terms, if $i_1$ and $i_2$ are the inclusions in the coproduct, we define $f \colon a \amalg b \to c$ by defining $f(i_1(x))$ and $f(i_2(x))$.
+
+\begin{lstlisting}
+safeadd1 :: Either String Rational -> Either String Rational
+safeadd1 (Right y) = Right (y+1)
+safeadd1 (Left err) = Left ("Woah there! You have an error: " ++ err)
+
+
+safeadd1 (safediv 2 3)
+output: Right (5 % 3)
+
+safeadd1 (safediv 2 0)
+output: Left "Woah there! You have an error: Error! Division by zero."
+\end{lstlisting}
+
+Besides binary products and coproducts, Haskell also has empty (co)products, i.e. a final and an initial object.
+
+The final object is the type \lsin|()|, whose only element is the (unique) zero-uple, also denoted \lsin|()|. The only function \lsin|a -> ()| is defined by \lsin|\x -> ()|.
+
+The initial object is the type \lsin|Void|. There is no object of type \lsin|Void|, and the unique function \lsin|Void -> a| is called \lsin|absurd|.
+
+A particularly simple approach to error handling is to use \lsin|()| as the error type, i.e. considering \lsin|Either () a|, where \lsin|Left ()| gives us the information that an error has occurred, while telling us nothing about what it was. Categorically, this corresponds to taking the coproduct with the final object, i.e. `adding one element'. Haskell actually has another type constructor, called \lsin|Maybe|, which has the same semantics.
+
+Let \lsin|a| be a type. Then, we define \lsin|Maybe a| as the type whose elements are either of the form \lsin|Nothing| or \lsin|Just x|, where \lsin|x :: a| (i.e. $x$ has type $a$). In other words, we have the following coproduct diagram.
+\begin{equation}
+\begin{tikzcd}[column sep = large]
+\lsmath{a} \arrow[r, "\lsmath{Just}"] & \lsmath{Maybe a} & \lsmath{()} \arrow[l, "\lsmath{cn}"']
+\end{tikzcd}
+\end{equation}
+where \lsin|cn = \x -> Nothing|. A function defined on \lsin|Maybe a| is defined using the universal property, similarly to the coproduct.
+\begin{lstlisting}
+safediv2 :: Rational -> Rational -> Maybe Rational
+safediv2 x y = if y == 0 then Nothing
+              else Just (x/y)
+              
+safediv 2 3
+output: Just (2 % 3)
+
+safediv 2 0
+output: Nothing
+\end{lstlisting}
+
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
