@@ -2217,7 +2217,7 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	\[p_I(t_1, \dots, t_n) = \lt \text{ sse } \rho \Vdash p(t_1, \dots, t_n),\]
 	e pelo lema das variáveis omissas, tendo em conta que esta fórmula não tem variáveis,
 	\[\rho \Vdash p(t_1, \dots, t_n) \text{ sse } I \Vdash p(t_1, \dots, t_n),\]
-	como desejado.
+	donde $\Gamma^e \vdash p(t_1, \dots, t_n)$ sse $I \Vdash p(t_1, \dots, t_n)$, como desejado.
 	
 	Considere-se agora o caso de a fórmula $\varphi$ ser da forma $\neg \psi$. Então, por $\varphi$ ser fechada, $\psi$ também o é, pelo que podemos aplicar a hipótese de indução. Isto é,
 	\[\Gamma^e \vdash \psi \text{ sse } I \Vdash \psi.\]
@@ -2230,18 +2230,19 @@ Isto é o mesmo que dizer que não existe nenhum $u \in U_i$ tal que $\rho\!\dow
 	\begin{obstaculo}
 	A estrutura de interpretação sugerida até agora pode não jogar bem com quantificadores.
 	
-	Pela definição de interpretação de fórmulas com quantificadores, a condição necessária e suficiente para $I$ satisfazer uma fórmula da forma $\forall_{\bf x} \varphi$ é que, para qualquer $u$ no universo (isto é, para qualquer termo fechado) se tenha $\rho\!\downarrow^{\bf x}_u \Vdash \varphi$. Por outras palavras, intuitivamente, substituindo a variável $\bf x$ por qualquer termo fechado $u$ em $\varphi$ se obtenha sempre uma fórmula verdadeira.
+	Para perceber isto, é preciso fazer clara a distinção entre um termo fechado e um termo do universo. Em particular, é preciso perceber que \emph{existem elementos do universo que não podem ser representados por termos fechados}. Daremos um exemplo em breve, mas a conclusão que usar o conjunto dos termos fechados como universo pode não ser suficiente.
 	
-	Queremos que $I \Vdash \forall_{\bf x} \varphi$ sse $\Gamma^e \vdash \forall_{\bf x} \varphi$. Supondo que a hipótese de indução é aplicável, obtém-se uma condição algo forte no nosso universo de fórmulas para podermos fazer o passo de indução.
+	Considere-se um conjunto $\Gamma_\Z$ de fórmulas que representa o conjunto dos axiomas dos inteiros, numa assinatura cujos símbolos de função são apenas $\{0, 1, +\}$. Então, a partir das propriedades dos inteiros é possível provar que $\Gamma_\Z \vdash \exists_x(1+x = 0)$. No entanto, este elemento $x$ (que sabemos representar o inteiro $-1$) \emph{não pode ser representada por um termo fechado}.
 	
-	Usemos a seguinte notação (que será definida rigorosamente mais tarde) para substituição de variáveis. Dada uma fórmula $\varphi$, uma variável $\bf x$ e um termo $t$, denotamos a fórmula obtida de $\varphi$ por substituição de $\bf x$ por $t$ como $\varphi_{\bf x}[t]$. Com esta linguagem o que precisamos é que $\Gamma^e \vdash \forall_{\bf x} \varphi$ sse, para qualquer termo fechado $u$, $\Gamma^e \vdash \varphi_{\bf x}[u]$.
+	Vejamos outra forma na qual os termos fechados não são suficientes para representar os elementos do universo. Considere-se a fórmula $\varphi : 0 \leq x$, e defina-se a notação $\varphi_x[t]$, em que $t$ é um termo, para significar a fórmula $0 \leq t$. Portanto, por exemplo, $\varphi_x[1]$ é a fórmula (verdadeira) $0 \leq 1$ e $\varphi_x[1+1]$ é a fórmula (também verdadeira) $0 \leq 1+1$. Note-se que a nossa assinatura não nos permite escrever o número $-1$, por exemplo. De facto, \emph{para qualquer termo fechado $t$, $\Gamma_\Z \vdash \varphi_x[t]$}. No entanto, é óbvio que nos inteiros a fórmula $\varphi : 0 \leq x$ nem sempre é verdadeira.
 	
-	Uma das implicações ($\rightarrow$) é sempre verdade, como veremos mais tarde. De facto, a implicação $\forall_{\bf x} \varphi \imply \varphi_{\bf x}[t]$ é sempre uma fórmula verdadeira para termos $t$ fechados. A outra implicação é algo rara, e requer, em certo sentido, que hajam suficientes símbolos de constante no nosso universo.
-	
-	Vejamos um exemplo em que essa implicação falha. Considere-se um conjunto de axiomas $\Gamma_\Z$ que descreva os números inteiros, mas que tem apenas os símbolos de função $\{0, 1, +\}$. Isto é, excluímos o símbolo de função unário `$-$' que dá o simétrico de um elemento, e escrevemos o axioma que afirma a existência de simétrico na forma $\forall_x \exists_y (x + y = 0)$. Estes axiomas descreveriam os inteiros, mas o conjunto de termos expressíveis a partir da assinatura não engloba todos os inteiros possíveis. E de facto, para qualquer termo fechado $t$ temos que a fórmula $0 \leq t$ é verdadeira, visto que os únicos termos fechados representam números naturais, mas a fórmula $\forall_x (0 \leq x)$ é falsa nos inteiros. Por outras palavras, se $\varphi$ é a fórmula $0 \geq x$, temos que $\Gamma_\Z \vdash \varphi_x[t]$ para todo o termo fechado $t$, e no entanto $\Gamma_\Z \vdash \neg \forall_x \varphi$.
+	É este desfazamento entre os termos representáveis pela linguagem e os elementos que o universo tem de ter que faz a abordagem acima falhar, nomeadamente quando tentarmos fazer o passo de indução para passar de $\varphi$ para $\forall_{\bf x} \varphi$.
 	\end{obstaculo}
 	
-	Este último obstáculo mostra que será necessário adicionar termos fechados. Em particular, adicionaremos constantes suficientes para que a implicação `se $\Gamma \vdash \varphi_{\bf x}[t]$ para todo o $t$ então $\Gamma \vdash \forall_{\bf x} \varphi$' seja verdadeira.
+	O que será preciso adicionar para fazer o passo de indução? Ou seja, considere-se uma fórmula $\forall_{\bf x} \varphi$ e tente-se justificar que $\Gamma \vdash \forall_{\bf x} \varphi$ sse $I \Vdash \forall_{\bf x} \varphi$. O primeiro passo é averiguar o significado de $I \Vdash \forall_{\bf x} \varphi$. Desenrolando as definições, é possível verificar que $I \Vdash \forall_{\bf x} \varphi$ sse, para todos os elementos $u$ do universo $I$, $\rho \Vdash \varphi$, onde $\rho$ é uma valoração tal que $\rho(\bf x) = u$. No caso particular da estrutura de interpretação que estamos a construir o universo são os termos fechados, pelo que $u$ será um termo fechado $t$. Consequentemente, é possível provar (ver prova da proposição \ref{prop:gammahatsemantics} abaixo) que $\rho^F(\varphi) = \lt$ sse $\Gamma \vdash \varphi_{\bf x}[u]$, onde esta notação significa `substituir a variável $\bf x$ pelo termo $u$'. Assim sendo, desejamos mostrar:
+	\[
+	\Gamma \vdash \forall_{\bf x} \varphi \text{ sse } \Gamma \vdash \varphi_{\bf x}[u] \text{, para todo o termo fechado $u$.}
+	\]
 	
 	Note-se que através de um par de aplicações de contrarrecíproco e meta-contrarrecíproco, a afirmação acima é equivalente a dizer que, (no contexto de $\Gamma$ coerente e exaustivo) para qualquer $\varphi$, se $\Gamma \vdash \exists_{\bf x} \varphi$ então existe um termo fechado $t$ tal que $\Gamma \vdash \varphi_{\bf x}[t]$.
 	Por outras palavras, para todas as afirmações que afirmam a existência de um objeto que satisfaz uma certa propriedade existe pelo menos um termo fechado que a satisfaz. Normalmente referimo-nos a tais termos como `testemunhas'. Assim sendo, é razoável enumerar todas as afirmações verdadeiras da forma $\exists_{\bf x} \varphi$ e adicionar um símbolo de constante que servirá de sua testemunha. É esta a ideia por trás da chamada \emph{construção de Henkin}.
