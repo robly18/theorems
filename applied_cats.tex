@@ -28,7 +28,7 @@
 \lstset{basicstyle=\ttfamily\footnotesize,keepspaces=true,tabsize=4}
 
 \usepackage{hyperref}
-\usepackage{url}
+\usepackage{xurl}
 
 \title{Category Theory and Haskell}
 \author{Duarte Maia}
@@ -40,8 +40,12 @@
 \newtheorem{prop}{Prop}
 \renewtheorem*{prop*}{Prop}
 \newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+
+\newtheorem{joke}{Joke}
 
 \theoremstyle{nonumberplain}
+
 \theoremheaderfont{\itshape}
 \theorembodyfont{\upshape}
 \theoremseparator{:}
@@ -58,6 +62,7 @@
 \newcommand{\e}{\mathrm{e}}
 
 
+
 \DeclareMathOperator{\inte}{int}
 \DeclareMathOperator{\codim}{codim}
 \newcommand{\grad}{\nabla}
@@ -70,6 +75,11 @@
 \newcommand{\type}[1]{\mathrm{#1}}
 \newcommand{\cat}[1]{\mathrm{#1}}
 
+\newcommand{\blank}{{-}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\nto}{\Rightarrow}
+
 \DeclareMathOperator{\Hom}{Hom}
 
 \newcommand*\lsin{\lstinline}
@@ -78,6 +88,10 @@
 
 \begin{document}
 \maketitle
+\pagebreak
+
+\tableofcontents
+\pagebreak
 
 \section{Introduction}
 
@@ -181,7 +195,7 @@ f 2.1
 
 Haskell has a wide array of so-called primitive types, like \lstinline|Int|, \lstinline|Char| and so on, but it also allows us to make complex types out of simpler ones. We have already seen one: the humble arrow!
 
-The sequence of characters \lstinline|->| has the paper usually taken by $\Hom$ or $C$ in categorical texts: we may write \lsin|a -> b| to denote what we would usually call $\Hask(a,b)$. This is in itself a Haskell type. In other words, \emph{the $\Hask$ category has exponential objects}. This is the first taste of categorical language in Haskell.
+The sequence of characters \lstinline|->| has the role usually taken by $\Hom$ or $C$ in categorical texts: we may write \lsin|a -> b| to denote what we would usually call $\Hask(a,b)$. This is in itself a Haskell type. In other words, \emph{the $\Hask$ category has exponential objects}. This is the first taste of categorical language in Haskell.
 
 \subsection{Currying and Composition}
 
@@ -241,6 +255,8 @@ Again, note the usage of type variables: the types written in lower case are a s
 
 
 \section{Elementary Categorical Concepts}
+
+\subsection{A Few Limits and Colimits}\label{limcolim}
 
 We have already seen a few examples of categorical concepts cropping up in Haskell. The types and morphisms form a category called $\Hask$ (kind of, see \cite{haskisnotcat}), the arrow operator \lsin|->| is the categorical exponent, the comma operator \lsin|(,)| is the categorical product, and these two functors (though we haven't realized them as functors yet) are adjoint to each other, with the bijection between hom-sets being given by \lsin|curry|.
 
@@ -304,17 +320,176 @@ Let \lsin|a| be a type. Then, we define \lsin|Maybe a| as the type whose element
 \end{equation}
 where \lsin|cn = \x -> Nothing|. A function defined on \lsin|Maybe a| is defined using the universal property, similarly to the coproduct.
 \begin{lstlisting}
-safediv2 :: Rational -> Rational -> Maybe Rational
-safediv2 x y = if y == 0 then Nothing
-              else Just (x/y)
+safeadd1m :: Maybe Rational -> Maybe Rational
+safeadd1m (Just x) = Just (x+1)
+safeadd1m Nothing = Nothing
               
-safediv 2 3
-output: Just (2 % 3)
+safeadd1m (Just 1)
+output: Just (2 % 1)
 
-safediv 2 0
+safeadd1m Nothing
 output: Nothing
 \end{lstlisting}
 
+\subsection{Functors and Typeclasses}
+
+The type constructor \lsin|Maybe| is a particularly simple example, because it takes one type as an argument and returns another. In other words, it is a map from the objects of $\Hask$ to the objects of $\Hask$. This suggests that it could be made into a functor: all we need is to define an adequate map of type \lsin|(a -> b) -> (Maybe a -> Maybe b)|. This map exists, and it is called \lsin|fmap|.
+\begin{lstlisting}
+fmap :: (a -> b) -> (Maybe a -> Maybe b)
+fmap f (Just x) = Just (f x)
+fmap f Nothing = Nothing
+\end{lstlisting}
+
+Note the use of currying. It looks like we are defining a function of two arguments (one of type \lsin|a -> b| and the other \lsin|Maybe a|), but thanks to currying, this is the same as a function of one argument which returns a function. It is possible to make a definition that maps closer to our intuitive notion of `a function which takes a function as input and returns another function', but it requires introducing additional syntax. In the interest of keeping this essay short, we will forego this introduction, and keep ourselves in a relatively minimal subset of the language.
+
+Let's go back to the definition of \lsin|fmap|. By inspection, it is easy to deduce the functoriality conditions, i.e. \lsin|fmap (f . g) = fmap f . fmap g| and \lsin|fmap id = id| (where \lsin|id| is the identity map). Furthermore, this agrees with the categorical definition of the functor $(1 \amalg \blank)$ given by taking the coproduct with the final object, so this functor in particular is well represented in Haskell. This is not an isolated occurrence, but to explain how functors are represented generally in Haskell we need to talk about \emph{typeclasses}.
+
+In Haskell, a typeclass corresponds to additional structure that a type or type constructor can have. For example, for a given type \lsin|a|, Haskell may or may not know how to check that two elements of \lsin|a| are equal. It certainly knows how to check that two integers \lsin|Int| are the same, but it cannot check that two functions \lsin|Int -> Int| are the same: this is an undecidable problem! Therefore, the binary function \lsin|==| will be defined on \lsin|Int| but not on \lsin|Int -> Int|.
+
+Let us look at the type of \lsin|==|. If we check its type in GHCi using \lsin|:t|, we obtain
+\begin{lstlisting}
+:t (==)
+output: (==) :: Eq a => a -> a -> Bool
+\end{lstlisting}
+
+So what's happening here? As the reader might have already suspected, \lsin|==| is a binary function which returns a boolean value: that's what \lsin|a -> a -> Bool| means. However, we have that additional term \lsin|Eq a =>|. What that is saying is that the type signature that follows only applies when \lsin|a| is a type which satisfies the predicate \lsin|Eq|. We say that such types are \emph{in the typeclass \lsin|Eq|}. Most predefined types are in this typeclass, so the equality operator can be used on \lsin|Int|, \lsin|Float|, \lsin|Char|, etc., but not on \lsin|Int -> Int|.
+
+In short, to each typeclass there are a few functions which need to be defined in order for a type to be part of the typeclass: for a type \lsin|mytype| to be in \lsin|Eq|, we need to define \lsin|(==) :: mytype -> mytype -> Bool|. For it to be in \lsin|Ord| (i.e. ordered types) we need to define \lsin|(<=) :: mytype -> mytype -> Bool|, the `less than or equal operator'. To tell Haskell that \lsin|Maybe Int| is in the \lsin|Eq| typeclass, we would use the notation
+\begin{lstlisting}
+instance Eq (Maybe Int) where
+    Nothing == Nothing = True
+    Nothing == Just x = False
+    Just x == Nothing = False
+    Just x == Just y = x == y
+\end{lstlisting}
+to define equality. Fortunately, Haskell has built-in mechanisms to deduce that, for example, if \lsin|a| is in the \lsin|Eq| typeclass, so is \lsin|Maybe a|, so we seldom need to explicitly tell it how to define equality for a given type.
+
+What does this have to do with functors? Well, just like how a type can be in a given typeclass, there are also typeclasses for \emph{type constructors}. In particular, given a type constructor of kind \lsin|* -> *| (this means that it requires one type as argument and returns another type), it may or may not be in the \lsin|Functor| typeclass, which is defined as
+\begin{lstlisting}
+class Functor f where
+	fmap :: (a -> b) -> (f a -> f b)
+\end{lstlisting}
+
+In other words, for a type constructor (map from objects in $\Hask$ to objects in $\Hask$) to be in the \lsin|Functor| typeclass, we need to define how it acts on morphisms in $\Hask$. It is not (and can not be) enforced by the language that a given implementation of \lsin|fmap| is functorial, but it is generally understood that one should not implement such a pathological version of \lsin|fmap| which does not satisfy them, especially as the compiler might perform optimizations which rely on these laws.
+
+Now that we know about the \lsin|Functor| typeclass, we may list a few of its instances, most of which are familiar from category theory.
+\begin{itemize}
+\item We've already seen the \lsin|Maybe| functor, which is the coproduct with a one-element set,
+\item More generally, for a given type \lsin|a|, the coproduct with \lsin|a| is a functor. In other words, \lsin|Either a| is in the \lsin|Functor| typeclass. Note that this is \emph{not} to say that \lsin|Either| is in the \lsin|Functor| typeclass: \lsin|Either| itself is, categorically speaking, a \emph{bifunctor} in $\Hask$, and therefore in another typeclass called \lsin|Bifunctor|. Of course, technically speaking, this is just a functor $\Hask \times \Hask \to \Hask$, but everything we do is in the $\Hask$ category, which is why bifunctors get a different treatment. This also means that the \lsin|Functor| typeclass could perhaps be more aptly renamed to \lsin|Endofunctor|.
+
+A few more words on \lsin|Either|: since we see \lsin|Either a| as a functor, the instantiation of \lsin|fmap| to \lsin|Either a b| has the type
+\begin{lstlisting}
+fmap :: (b -> c) -> (Either a b) -> (Either a c)
+\end{lstlisting}
+
+In other words, \lsin|fmap f| will apply \lsin|f| to a \lsin|Right| value, and do nothing to a \lsin|Left| value. This is in keeping with the use of \lsin|Either| as an error handling tool: \lsin|fmap f| means `if we have a valid value, apply \lsin|f|. Otherwise, preserve the error message'.
+
+\item Another important functor in category theory is the hom-functor $\Hom(x, \blank)$. In Haskell, this is denoted as \lsin|(->) x|; it should be read as partially applying the type constructor \lsin|(->)|, which takes two arguments, to \lsin|x|, becoming a type constructor that takes a type \lsin|a| and returns the type \lsin|x -> a|. Applied to morphisms, this functor has a very simple definition
+\begin{lstlisting}
+fmap :: (a -> b) -> (x -> a) -> (x -> b)
+fmap f g = f . g
+\end{lstlisting}
+
+If one is in a particularly terse mood, they could simply write \lsin|fmap f = f .| or even \lsin|fmap = (.)|. This style of programming, in which one omits the arguments of a function as much as possible, is called \emph{point-free style}.
+
+The hom-functor as we've described has a contravariant sister: the contravariant hom-functor $\Hom(\blank, x)$. This functor is denoted \lsin|Op x|, and is not a member of the \lsin|Functor| typeclass, being instead in the \lsin|Contravariant| typeclass. The function corresponding to \lsin|fmap| is called \lsin|contramap|.
+
+Finally, we can see \lsin|->| as a functor $\Hask^\op \times \Hask \to \Hask$. The nomenclature used in Haskell for such an object is a \lsin|Profunctor|. This does not completely agree with the mathematical nomenclature: in category theory, a profunctor is a functor $D^\op \times C \to \cat{Sets}$. However, the category of types can be approximated by the category of sets (identify a type with the set of its elements), so the nomenclature \lsin|Profunctor| makes sense.
+
+\item Let \lsin|a| be a type. Then, there exists another type, called \lsin|[a]|, whose elements are \emph{lists of \lsin|a|}. In other words, \lsin|[]| is a map that turns a type into another type.
+
+Now, let \lsin|f :: a -> b|. Then, there is an obvious way to turn a list of \lsin|a| into a list of \lsin|b|: simply apply \lsin|f| to every element of the list. This operation is often referred to in programming circles as \emph{mapping $f$}, and can be found in Python with the syntax \lsin|map(f, list)|, in Mathematica with the syntax \lsin|Map[f, list]| and in Haskell with the syntax \lsin|map f list|. It is easy to check that this operation is functorial, so \lsin|map| is actually one of the most widespread examples of functors in programming. In fact, the notion of functor in Haskell actually began as a generalization of the list functor: see \cite{markjones}\footnote{This article is freely available at \url{https://www.cs.tufts.edu/comp/150GIT/archive/mark-jones/fpca93.pdf}.}, where the concept of typeclass is first introduced precisely for this task. The author also uses \lsin|map| to denote application of a functor to a morphism, which was presumably changed to \lsin|fmap| to avoid name collision.
+
+\item Lots of algorithms in computer science rely on some kind of global state in order to keep track of what has already been done, what has already been visited, etc. In Haskell, this can be done by using the product \lsin|(s,a)|, though we will see less cumbersome methods later on.
+
+To be more precise: let \lsin|s| be a type, which represents the global state necessary for our program. For example, where in an imperative language we would have a variable for an integer and another for a list of characters, we might set \lsin|s = (Int, [Char])|. Then, \lsin|(,) s| corresponds to the functor $(s \times \blank)$; \lsin|(,) s a| is a synonym for \lsin|(s,a)|. An element of type \lsin|(s,a)| can be seen as an element of \lsin|a| together with some `background state' of type \lsin|s|. Mapping a morphism \lsin|f :: a -> b| corresponds to modifying the element of type \lsin|a| without modifying the state, yielding a function \lsin|fmap f :: (s,a) -> (s,b)|.
+\end{itemize}
+
+There are many more examples of functors in the Haskell ecosystem. In particular, most types of containers (lists, trees, sets, databases, etc) are functors, as well as type constructors which represent computations, such as \lsin|(->) x|, as well as others we will see shortly, such as \lsin|IO| and random number generation.
+
+\subsection{Natural Transformations and Free Theorems}
+
+Let \lsin|f| and \lsin|g| be two \lsin|Functor|s. Then, a natural transformation between \lsin|f| and \lsin|g| would be a function of type
+\begin{lstlisting}
+eta :: f a -> g a
+\end{lstlisting}
+where the only free variable is \lsin|a|. We mentioned before the concept of type variables, where in the signature of a function we write lower-case letters instead of types, and the compiler will fill those letters in for whatever type makes sense at compile time. Another way to think of it is that our function is actually a function-making machine, which recieves as input a type (in this case \lsin|a|) and returns a function of appropriate type. This matches up with the usual notation for natural transformations $\eta_x$, where the subscript represents an object of the category, in this case a type. Sometimes, this type argument is written explicitly using the notation\footnote{Don't be confused with the name \lsin|forall|. Superficially it can be understood as the universal quantifier, but from the perspective of the compiler it reads as `\lsin|eta| recieves a type \lsin|a| and returns a function of type \lsin|f a -> g a|'. The reason behind the nomenclature \lsin|forall| has to do with an important theorem in logic called the Curry-Howard isomorphism, which is far beyond the scope of this essay.}
+\begin{lstlisting}
+eta :: forall a. f a -> g a
+\end{lstlisting}
+
+Let us look at an example. Consider the following natural transformation from \lsin|Maybe| to \lsin|[]|
+\begin{lstlisting}
+maybeToList :: Maybe a -> [a]
+maybeToList Nothing = []
+maybeToList (Just x) = [x]
+\end{lstlisting}
+
+It is easy to verify that this is indeed natural, i.e. that \lsin|maybeToList . (fmap f) = (fmap f) . maybeToList|. Note that in this expression \lsin|fmap| is used for two different functors. Now, it would be reasonable to ask whether it would be possible to define functions \lsin|f a -> g a| which are not natural transformations, and the very surprising answer turns out to be \emph{no}. This is in contrast to, for example, \lsin|fmap|, for which it is not very difficult to define instances of the \lsin|Functor| typeclass which do not satisfy the functor laws.
+
+This has to do with something called \emph{parametric polymorphism}. There is a very influential paper titled `Theorems for free!' \cite{theoremsforfree} by Philip Wadler, in which a method is explained for obtaining theorems about a function in typed lambda calculus from nothing but its signature. The intuitive reason behind this very unexpected result is that in lambda calculus and in Haskell a polymorphic function (i.e. one which has more than one type at once) must be defined with the same expression for all its instantiations. For example, consider a function \lsin|f :: a -> [a]|. The expression must for \lsin|f| must be the same whether we are considering \lsin|f :: Int -> [Int]| or \lsin|f :: () -> [()]|. As a consequence, \lsin|f| cannot do anything to its argument, because it has no guarantees that anything it can do to it is valid. Therefore, there is a very limited number of functions \lsin|f| may be: it may be the constant returning the empty list, it may be the function \lsin|\x -> [x]|, it may be \lsin|\x -> [x,x]|, etc., but no more. This is an example of how the type signature of a polymorphic function can tell us a lot about the function itself, yielding the so-called theorems for free. In the case of functions \lsin|eta :: f a -> g a|, with \lsin|f| and \lsin|g| functors, the free theorem obtained from the type signature is precisely the naturality of \lsin|eta|. \cite{parametric}
+
+\subsection{\texorpdfstring{$\Hask$}{Hask} is not Finitely Complete (Probably)}
+
+In \ref{limcolim} we discussed products and coproducts in Haskell. We showed that $\Hask$ has initial and final objects and is closed under binary products and coproducts. Consequently, $\Hask$ has all finite products and coproducts, so it makes sense to ask whether it has (co)equalizers, as if it did it would have all finite (co)limits. I have not found any definite source proving that the answer is negative, but this Stack Overflow answer strongly suggests that the answer is no: \url{https://stackoverflow.com/a/15113919/2997964}. In any case, the fact that after over 30 years of categorical language and methods being applied to the language there is still no mechanism, built in or otherwise, for constructing (co)equalizers strongly suggests that such a problem is, if solvable, very difficult.
+
+\section{The Kleisli Category}
+
+xxx
+
+
+\section{The Monad Family}
+
+We preface this section with a joke.
+
+\begin{joke}
+\leavevmode
+\begin{description}[labelindent=\parindent]
+\item[Novice learning Haskell:] What is a Monad?
+
+\item[Haskell expert:] Nothing special: it's just a monoid in the category of endofunctors!
+\end{description}
+\end{joke}
+
+We will spend the rest of this section explaining why this joke is funny.
+
+\subsection{Categorical Definition}
+
+We assume that the reader is already familiar with the concept of a monad, but in order to establish notation we will nevertheless give a brief introduction to the concept.
+
+\begin{definition}
+A monad in a category $X$ is an endofunctor $T \colon X \to X$, together with two natural transformations
+\begin{equation}
+\eta \colon \id_X \nto T, \quad \mu \colon T^2 \nto T,
+\end{equation}
+satisfying the equations
+\begin{gather}
+\mu \cdot T\mu = \mu \cdot \mu T,\\
+\mu \cdot \eta T = \mu \cdot T \eta = \id_T.
+\end{gather}
+\end{definition}
+
+Monads often, but not always, arise from adjunctions.
+
+\begin{prop}
+Let $F \colon X \to Y$ and $U \colon Y \to X$ be adjoint functors, with $F \dashv U$. Then, $T = UF$ is a monad, with $\eta$ the unit of the adjunction and $\mu = F \varepsilon U$, where $\varepsilon$ is the counit of the adjunction.
+\end{prop}
+
+Let us look at one particular example, which will be useful in the sequence. Let $F \colon \cat{Sets} \to \cat{Mon}$ be the free-monoid-generated-by functor, and $U \colon \cat{Mon} \to \cat{Sets}$ be the forgetful functor. In this case, $T = UF$ is the functor which, given a set $A$, returns the monad freely generated by $A$, without the monadic structure. In other words, we can see $T(A)$ as the collection of finite sequences of elements of $A$.
+
+In this case, $\eta \colon A \to T(A)$ is the function which, given an element $a$ of $A$, returns the one-element sequence `$a$'.
+
+The other natural transformation, $\mu$, is trickier. It is a function from $T(T(A))$ to $T(A)$. In other words, it receives sequences of sequences of elements of $A$, and returns a sequence of elements of $A$.\footnote{Strictly speaking, this is not necessarily true. The result is heavily dependent on how we represent the free monad generated by a set. Here we will be assuming that the free monad generated by $A$ is represented by the finite sequences of elements of $A$, with the operation given by concatenation.} It is not obvious, but can be deduced by expanding the definition of $\mu$ and $\eta$, that $\mu$ consists of sequence concatenation. In other words, suppose that $s = s_1 \dots s_n$ is an element of $T(A)$, with
+\begin{equation}
+s_i = a_{i1} \dots a_{i m_i}, \quad i = 1, \dots, n.
+\end{equation}
+
+Then, $\mu(s)$ is given by
+\begin{equation}
+\mu(s) = a_{11} \dots a_{1 m_1} a_{21} \dots a_{2 m_2} \dots a_{n1} \dots a_{n m_n}.
+\end{equation}
+
+[[write kleisli category first]]
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
