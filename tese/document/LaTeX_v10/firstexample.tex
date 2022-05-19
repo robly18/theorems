@@ -66,7 +66,9 @@ H_1(x,y,t) = \begin{cases}
 \end{equation}
 will have as time $2a$ flow the Hamiltonian diffeomorphism $\phi$.
 
+\begin{remark}\label{rmk:bump}
 The introduction of the bump function is inconvenient for calculations, but does not change anything significant about the flow. Indeed, the flow of $H_1$ is a reparametrization of the flow of $H_0$, so topologically nothing is lost by working with $H_0$ instead of $H_1$. Consequently, in the sequence we will be working with $H_0$, but it should be understood that it could (and should) all be done with $H_1$, at the cost of additional bookkeeping.
+\end{remark}
 
 \section{The Contractible Periodic Orbits and their Actions}
 
@@ -142,9 +144,9 @@ The action of a constant periodic orbit $(x,y)$ of the Hamiltonian under study i
 
 \section{The Maslov indices}
 
-Recall algorithm \ref{alg:maslovalg} for computing the Maslov index of a periodic orbit. We begin by observing that it can be simplified, under the condition that there exists a global symplectic frame for $M$.
+Recall algorithm \ref{alg:maslovalg} for computing the Maslov index of a periodic orbit. We begin by observing that this algorithm can be simplified, under the condition that there exists a global symplectic frame for $M$.
 
-\begin{algorithm}[Maslov Index of a Path, Using a Global frame]
+\begin{algorithm}[Maslov Index of a Path, Using a Global Frame]
 Let $\gamma \colon S^1 \to M$ be a periodic orbit of $H$, with flow $\phi_t$. Suppose that $Z_1, \dots, Z_{2n}$ is a global symplectic frame for $M$.
 \begin{enumerate}[algorithm]
 \item Define $A(t)$ as the representation of $(\dl \phi_t)_{\gamma(0)}$ in the frame $Z_1, \dots, Z_{2n}$.
@@ -152,43 +154,17 @@ Let $\gamma \colon S^1 \to M$ be a periodic orbit of $H$, with flow $\phi_t$. Su
 \end{enumerate}
 \end{algorithm}
 
-[[continue]]
-
-We apply it to our (constant) period orbits. Let $x_0$ be a constant periodic orbit of a Hamiltonian in the torus $M$.
-\begin{enumerate}[algorithm]
-\item We see $x_0$ as a (constant) smooth map $S^1 \to M$.
-\item We pick a map $f \colon D^2 \to M$ whose restriction to the border coincides with $x_0$. For our purposes, we may as well also take this map to be constant.
-\item Pick a basis for each $T_{f(x)} M$ in a way that is smooth in $x$. Since $f$ is constant, we simply pick the constant symplectic basis
-\item Compute $(\dl \phi_t)_{x_0}$ in the basis $z_1, \dots, z_{2n}$.
-\end{enumerate}
-
-First, we compute the Maslov index of these fixed points, using a slightly modified version of the algorithm from page \pageref{page:maslovalg}. The essential insight is that the torus admits a global frame, so the choice of smooth functions $Z_i(x)$ is unnecessary: We have a default way to write $(\dl \phi_t)_x$ as a matrix.
-
-We present the simplified algorithm to compute the Maslov index in a manifold admitting a global frame.
-\begin{enumerate}[algorithm]\label{page:maslovalg2}
-\item Consider the linear map $(\dl \phi_t)_x$. Using the global matrix, represent it as a matrix $A(t)$.
-\item Compute the Conley-Zehnder index of the path $A(t)$.
-\end{enumerate}
-
-To proceed, we should compute $(\dl \phi_t)_{(x,y)}$ in matricial form. Recall that $\phi_t$ is the flow of the smooth Hamiltonian $H_1$, which is a smoothed version of the Hamiltonian
-\begin{equation}
-H_0(x,y,t) = \begin{cases}
--\cos(x), & t < a,\\
-\cos(y), & t > a.
-\end{cases}
-\end{equation}
-
-The smoothing hypothesis is necessary for theoretical reasons, but for practical computations it is actually unnecessary, as it merely corresponds to a reparametrization of the flow. Therefore, in the computations that follow, we will be surreptitiously working with the flow of $H_0$ instead of the flow of $H_1$, as the computations become a lot more bearable.
+This is applicable to the torus, as it admits the global frame $(\partial_x, \partial_y)$. Therefore, the first step to computing the Maslov index of our periodic orbits is to compute $(\dl \phi_t)_{(x,y)}$ in matricial form. As per remark \ref{rmk:bump}, it does not matter which of the Hamiltonians $H_0$ or $H_1$ we use to compute the path $A(t)$, so we stick with $H_0$.
 
 The flow of $H_0$ is written as
 \begin{equation}
 \phi_t(x,y) = \begin{cases}
 (x,y+t \sin(x)), & 0 \leq t \leq a,\\
-(x+t \sin(y+a \sin(x)), y + a \sin(x)), & a \leq t \leq 2a.
+(x+(t-a) \sin(y+a \sin(x)), y + a \sin(x)), & a \leq t \leq 2a.
 \end{cases}
 \end{equation}
 
-The derivative of $\phi_t$ can be likewise written by cases
+The derivative of $\phi_t$ is given in coordinates by
 \begin{equation}\label{dphi1}
 A(t) := (\dl \phi_t)_{(x,y)} = \begin{cases}
 \begin{bmatrix}
@@ -203,10 +179,19 @@ a \cos(x) & 1
 \end{cases}
 \end{equation}
 
-At this point, it should be obvious that the notation is becoming burdensome, so we present a clearer way to write paths of matrices such as \eqref{dphi1}.
+The notation is becoming burdensome, so we present a clearer way to write paths of matrices such as \eqref{dphi1}.
 
-Here and in the rest of this article, we will use the following notation for such a path of matrices.
-\begin{equation}\label{rectpath}
+\begin{definition}\label{def:pwlinear}
+Let $I = \interval{t_0}{t_N}$ be a compact interval and $V$ a real vector space. We define the following notation to exhibit a piecewise linear function $f \colon I \to V$:
+\begin{equation}
+f(t) \colon v_0 \to v_1 \to \dots \to v_N.
+\end{equation}
+
+This notation shall denote the piecewise linear function with nodes at $t_0 < t_1 < \dots < t_N$, which are implied in the notation and usually clear from context, which satisfies $f(t_i) = v_i$ for $i = 0, \dots, N$.
+\end{definition}
+
+Using this notation, the matrix path $A(t)$ from \eqref{dphi1} may be represented as
+\begin{equation}\label{eq:rectpath}
 A(t) :
 \begin{bmatrix}
 1 & 0\\
@@ -223,10 +208,9 @@ a \cos(x) & 1
 a \cos(x) & 1
 \end{bmatrix}
 \end{equation}
+with the nodes at $0$, $a$, and $2a$.
 
-The notation of \eqref{rectpath} is intended to suggest a rectilinear path, where each arrow represents a section being linearly interpolated.
-
-For $(x,y)$ a fixed point of the flow of $H_0$, $\sin(x) = \sin(y) = 0$ and the cosines evaluate to $\pm 1$, and therefore \ref{rectpath} becomes
+For $(x,y)$ a fixed point of the flow of $H_0$, $\sin(x) = \sin(y) = 0$ and the cosines evaluate to $\pm 1$, and therefore \ref{eq:rectpath} becomes
 \begin{equation}\label{rectpath1}
 A(t):
 \begin{bmatrix}
@@ -246,7 +230,7 @@ A(t):
 \end{equation}
 where $\pm_1 1$ is $1$ if $x=0$ and $-1$ if $x = \pi$, and likewise for $\pm_2 1$ and $y$.
 
-To compute the Conley-Zehnder index of \eqref{rectpath1}, let us begin by looking at the trace of $A(t)$, specifically in the easy case where $\pm_1 \pm_2 1 = +1$. In this case, $\trace A(t)$ follows the piecewise rectilinear path
+To compute the Maslov index of \eqref{rectpath1}, let us begin by looking at the trace of $A(t)$, specifically in the easy case where $\pm_1 \pm_2 1 = +1$. In this case, $\trace A(t)$ follows the piecewise rectilinear path
 \begin{equation}
 \trace A(t) : 2 \to 2 \to 2 + a^2,
 \end{equation}
@@ -277,12 +261,11 @@ The Maslov index of the fixed orbits of $H_1$ are as follows:
 \end{equation}
 \end{prop}
 
-We are now ready to compute part of the filtered Floer complex of $H_1$, namely the vector spaces, though the boundary maps will have to wait.
+We are now ready to compute the vector spaces of the filtered Floer complex of $H_1$.
 
-These vector spaces are parametrized by $\lambda \in \R$, which represents the maximum value allowed for the action functional. They also have persistence homology structure induced by the inclusion, so we may represent them via barcodes. This is a much more concise way to represent these spaces, so in the future we will resort to barcodes for such descriptions. In this case, we will also exhibit a description `in words', for comparison.
+These vector spaces are parametrized by a parameter $\lambda \in \R$, which represents the maximum value allowed for the action functional. They also have persistence homology structure induced by the inclusion, so we may represent them via barcodes. This is a much more concise way to represent the spaces of the filtered Floer complex, so in the future we will resort to barcodes for such descriptions. In this case, we will also exhibit a description `in words', for comparison.
 
 We also introduce new notation here: the concept of named bars. The idea is that (recall definition \ref{def:pmfrombarcode}) to each bar of the barcode associated to the vector spaces of the filtered Floer complex corresponds a generator of said vector spaces, i.e. a periodic orbit (or linear combination thereof). Therefore, we may associate to each bar a periodic orbit (or linear combination), which associates to it an element of the basis it may represent. Note that this choice of association is not unique in general.
-
 \begin{prop}
 The Hamiltonian $H_1$ has four periodic contractible orbits (in time $2a$), which are represented in the following figure, as well as the corresponding actions and Maslov indices.
 \begin{figure}[H]
@@ -341,15 +324,34 @@ This information can be sumarily represented via the following barcode.
 \end{figure}
 \end{prop}
 
-All that remains is to compute the boundary maps $\partial$. By using the fact that Floer homology must coincide with Morse homology (as $\lambda \to \infty$) it is easy to conclude that these boundary maps must be null, but in order to illustrate a method which will be useful later we will show directly that they are null by exploiting symmetries of the space $M$ and the Hamiltonian $H_1$.
+\section{The Boundary Maps and Symmetries}\label{sec:symmetries}
 
-\section{Symmetries}\label{sec:symmetries}
+Now that we have computed the vector spaces of the filtered Floer complex associated to $H_1$, all that remains is to compute the boundary maps. In principle, these depend on a choice of almost-complex structure $J$, which in the case of the torus can be chosen to be the one associated to the usual Riemannian metric, i.e.
+\begin{equation}
+J(\partial_x) = \partial_y, \quad J(\partial_y) = \partial_x.
+\end{equation}
 
 We begin by recalling the definition of $\partial(b)$, where $b$ is a periodic orbit of $H_1$. First, one must compute the Maslov index $\mu(b)$. Then, $\partial(b)$ will be of the form
 \begin{equation}
 \partial(b) = \sum n(b,c) c,
 \end{equation}
-where the sum is taken over orbits $c$ whose Maslov index is $\mu(c) = \mu(b)-1$. The numbers $n(b,c)$ are computed by counting how many pseudo-holomorphic curves connect $b$ and $c$. A pseudo-holomorphic curve is a $C^\infty$ function $(x(t,s), y(t,s))$, $t \in \R / T$, $s \in \R$, satisfying
+where the sum is taken over orbits $c$ whose Maslov index is $\mu(c) = \mu(b)-1$. We will go back to the definition of $n(b,c) \in \Z_2$ shortly, but we remark that this information, together with the fact that Floer homology coincides with Morse homology, is sufficient to compute the boundary maps.
+
+\begin{prop}
+The boundary maps of the filtered Floer complex of $H_1$ are null.
+\end{prop}
+
+\begin{proof}
+It is known that Floer homology coincides with Morse homology, up to a shift in index. Furthermore, every periodic orbit of $H_1$ has action less than, say, $3a$, so the filtered Floer homology of $H_1$ with parameter $\lambda = 3a$ coincides with the Morse homology of the torus, which is known to be $\Z_2, \Z_2^2, \Z_2, 0, 0, \dots$, in degrees $0$, $1$, etc.
+
+Since the dimension of the spaces of the Floer complex of $H_1$ have dimensions $1$, $2$, and $1$ in the appropriate degrees, and 0 in the rest, the boundary maps must be zero, otherwise some dimensions would be lost in taking the quotient for computing the homology.
+\end{proof}
+
+Note: The preceding argument does not actually rely on the underlying field, so it would also work for homology taken in other fields. However, we have not defined the Floer homology for fields other than $\Z_2$, so we refrain from generalizing.
+
+In principle, we could end this section here, as we have full information about the Floer complex. However, in order to introduce a concept that will be used in the more complicated example of section \ref{chap:secondexample}, we present an alternative proof that the boundary maps are zero.
+
+We recall the definition of the numbers $n(b,c)$ in the definition of $\partial(b) = \sum n(b,c) c$. They are computed by counting how many pseudo-holomorphic curves connect $b$ and $c$. In the case of the torus, with the almost-complex structure $J$ defined above and a Hamiltionian $H$, a pseudo-holomorphic curve is a $C^\infty$ function $(x(t,s), y(t,s))$, $t \in \R / T\Z$, $s \in \R$, satisfying
 \begin{equation}\label{pseudoholomorphic}
 \begin{cases}
 \displaystyle \diffp x s - \diffp y t = \diffp H x(x,y,t),\\[1em]
@@ -380,7 +382,7 @@ The first thing that needs to be checked is that the $C^\infty$ limits as $s \to
 
 In order to correct and prove a statement similar to \eqref{nottrue1}, it is first useful to consider what can be said about $\grad_{x,y} H(x,y,t)$. To do so, we investigate symmetries of $H_t$ in space (and eventually in time) and see how they are reflected in symmetries of $\grad_{x,y} H$.
 
-For example, the Hamiltonian $H_0(x,y,t)$, as well as its smoothing $H_1$, satisfies the symmetry
+For example, the Hamiltonian $H_0(x,y,t)$, (as well as its smoothing $H_1$, if it is done with a symmetrical bump function), satisfies the symmetry
 \begin{equation}
 H(-x,y,t) = H(x,y,t).
 \end{equation}
