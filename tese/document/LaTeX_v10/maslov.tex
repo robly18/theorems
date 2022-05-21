@@ -1,11 +1,11 @@
 % !TeX root = Thesis.tex
 \chapter{The Maslov Index}\label{chap:maslov}
 
-In chapter \ref{chap:bffh} we discussed filtered Floer homology and the corresponding barcodes, though we postponed discussion of the grading of the Floer complex. This grading is based on the Maslov index of a periodic orbit of a Hamiltonian, which is the subject of this chapter. The Maslov index of a periodic orbit of $H$ is computed via the so-called Conley-Zehnder index of a certain path of symplectic matrices associated to $x$ and $H$.
+In chapter \ref{chap:bffh} we discussed filtered Floer homology and the corresponding barcodes, though we postponed discussion of the grading of the Floer complex. This grading is based on the Maslov index of a periodic orbit of a Hamiltonian, which is the subject of this chapter. The Maslov index of a periodic orbit $x$ of $H$ is computed via the so-called Conley-Zehnder index of a certain path of symplectic matrices associated to $x$ and $H$.
 
-There exist straightforward recipes in the literature for computing Conley-Zehnder indices of paths of symplectic matrices, see for example definition 8.1.1 in \cite{polterovich}. However, these methods fail for the paths of matrices considered in the following chapters, because they assume a finite number of transversal crossings between the path of matrices being considered and the set $\Sigma \subseteq Sp(2n)$ of symplectic matrices with 1 as an eigenvalue, which is not the case for the piecewise linear paths we will be considering. Therefore, in this chapter we summarize the definition of the Maslov index of a path, as well as the definition of Conley-Zehnder index, and propose an alternative way to compute the CZ index of a path of symplectic matrices in dimension 2, which is well-adapted to concrete calculations. As an example of application, we compute the Maslov indices of critical points of an autonomous Hamiltonian.
+There exist straightforward recipes in the literature for computing Conley-Zehnder indices of paths of symplectic matrices, see for example definition 8.1.1 in \cite{polterovich}. However, these methods fail for the paths of matrices considered in the following chapters, because they assume a finite number of transversal crossings between the path of matrices being considered and the set $Sp(2n)^0 \subseteq Sp(2n)$ of symplectic matrices with 1 as an eigenvalue, which is not the case for the piecewise linear paths we will be considering. Therefore, in this chapter we summarize the definition of the Maslov index of a periodic orbit of a Hamiltonian, as well as the definition of Conley-Zehnder index. Furthermore, we propose an alternative way to compute the Conley-Zehnder index of a path of symplectic matrices in dimension 2, which is well-adapted to concrete calculations. As an example of application, we compute the Maslov indices of critical points of an autonomous Hamiltonian.
 
-To conclude, we relate this construction to another manner of computing CZ indices which is specialized to the two-dimensional case, due to Hofer and Kriener in \cite{hoferkriener}.
+To conclude, we relate this construction to another manner of computing CZ indices which is specialized to the two-dimensional case, due to Hofer and Kriener in \cite{hoferkriener}. [[if i relate to the one in polterovich, write here]]
 
 \section{The General Definition}
 
@@ -14,8 +14,8 @@ Let $H$ be a periodic Hamiltonian with flow $\phi_t$. The Maslov index is an int
 \begin{enumerate}[algorithm]
 \item\label{maslovalg:step1} Since $\gamma$ is periodic, it may be seen as a smooth map $S^1 \to M$.
 \item\label{maslovalg:step2} Pick a smooth map $f \colon D^2 \to M$, where $D^2$ is the disk, whose restriction to the border coincides with $\gamma$.
-\item\label{maslovalg:step3} Pick smooth functions $Z_1(x), \dots, Z_{2n}(x) \colon D^2 \to TM$, such that $\{Z_i(x)\}$ forms a symplectic basis for $T_{f(x)} M$.
-\item\label{maslovalg:step4} Now that $T_{\gamma(t)} M$ has a chosen basis for each $t$, we may write the derivative of the flow at $\gamma(0)$, i.e. the map $(\dl \phi_t)_{\gamma(0)}$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
+\item\label{maslovalg:step3} Pick smooth functions $Z_1, \dots, Z_{2n} \colon D^2 \to TM$, such that, for each $x 	\in D^2$, $\{Z_i(x)\}$ forms a symplectic basis for $T_{f(x)} M$.
+\item\label{maslovalg:step4} Now that $T_{\gamma(t)} M$ has a chosen basis for each $t \in S^1$, we may write the derivative of the flow at $\gamma(0)$, i.e. the map $(\dl \phi_t)_{\gamma(0)}$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
 \item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index. Such a path is said to be \emph{non-degenerate}.
 \end{enumerate}
 \end{algorithm}
@@ -23,14 +23,14 @@ Let $H$ be a periodic Hamiltonian with flow $\phi_t$. The Maslov index is an int
 In turn, it is now necessary to compute the Conley-Zehnder index of a non-degenerate path of matrices $A(t)$. To do so first requires one to establish the existence of a map from the symplectic matrices to $S^1$.
 
 \begin{theorem}\label{rhodef}
-There exists a unique map $\rho \colon Sp(2n) \to S^1$ which satisfies the following properties.
+There exists a unique sequence of maps $\rho_n \colon Sp(2n) \to S^1$ (the $n$ is often omitted) which satisfies the following properties.
 \begin{enumerate}[label=\roman*)]
-\item If $A$ and $T$ are symplectic matrices, $\rho(T A T^{-1}) = \rho(A)$,
+\item If $A, T \in Sp(2n)$ then $\rho(T A T^{-1}) = \rho(A)$,
 \item If $A$ and $B$ are symplectic matrices,
 \begin{equation}
 \rho\left(\begin{bmatrix} A & 0 \\ 0 & B \end{bmatrix}\right) = \rho(A) \rho(B),
 \end{equation}
-\item\label{rhodef:xy} If $A$ is a symplectic matrix of the form $A = \begin{bmatrix} X & -Y \\ Y & X \end{bmatrix}$ then
+\item\label{rhodef:xy} If $A$ is a symplectic matrix of the form $A = \begin{bmatrix} X & -Y \\ Y & X \end{bmatrix}$, i.e. $A \in Sp(2n) \cap O(2n) \cong U(n)$, then
 \begin{equation}
 \rho(A) = \det(X + \I Y).
 \end{equation}
@@ -65,14 +65,14 @@ W^+ = - I, \quad W^- \mleft[\begin{array}{c|c}
 0 & -I
 \end{array}\mright].
 \end{equation}
-Note that $W^\pm \in Sp(2n)^\pm$, and so any matrix in $Sp(2n)^*$ can be connected via a path (in $Sp(2n)^*$) to either $W^+$ or $W^-$. Consequently, we extend $A(t)$ to the interval $\interval 0 {2T}$, where for $t \in \interval T {2T}$ the path $A(t)$ represents such a path connecting $A(2T)$ to $W^\pm$.
+Note that $W^\pm \in Sp(2n)^\pm$, and so any matrix in $Sp(2n)^*$ can be connected via a path (in $Sp(2n)^*$) to either $W^+$ or $W^-$. Consequently, we extend $A(t)$ to the interval $\interval 0 {2T}$, where for $t \in \interval T {2T}$ the path $A(t)$ represents such a path connecting $A(T)$ to $W^\pm$.
 \item Define $\alpha(t) = \rho(A(t))$ for $a \in \interval 0 {2T}$. By property \ref{rhodef:realev} from theorem \ref{rhodef}, $\rho(W^\pm) = \pm(-1)^n$, and also $\rho(I) = 1$. Therefore, $\rho \circ \alpha$ is a path in $S^1$ starting at $1$ and ending at $1$ or $-1$. Therefore, taking the square (viewing $S^1 \subseteq \C$) one obtains a loop $\rho^2 \circ \alpha$ starting and ending at $1$.
 \item Now that we have a loop in $S^1$, we can obtain an integer by considering its winding number: the number of times the loop does a full turn around the circle. It is necessary to establish which direction is positive. Generally, one considers the counterclockwise direction to be the positive direction, but for purposes of the Conley-Zehnder index we count the number of \emph{clockwise turns}.
 \end{enumerate}
 \end{algorithm}
 The integer resulting from the above procedure is called the Conley-Zehnder index of the path $A(t)$, denoted $\mu(A(t))$, and finally we define the Maslov index of the periodic orbit $\gamma$ above, also denoted with the symbol $\mu(\gamma)$, as the Conley-Zehnder index of the corresponding matrix path $A$.
 
-It is a very nontrivial fact that the corresponding integer does not depend on any of the choices done in the process, only on the path and on the Hamiltonian flow. The details may be found in \cite{audin}, whose whole 7th chapter is dedicated to the definition, and well-definition, of this index.
+It is a nontrivial fact that, under the assumption that the symplectic manifold $M$ is aspherical, the corresponding integer does not depend on any of the choices done in the process, only on the path and on the Hamiltonian flow. The details may be found in \cite{audin}, whose whole 7th chapter is dedicated to the definition, and well-definition, of this index.
 
 The Conley-Zehnder index of a path of matrices is also sometimes referred to as the Maslov index of that path, such as in \cite{audin}. We will adopt this nomenclature.
 
@@ -80,7 +80,7 @@ The Conley-Zehnder index of a path of matrices is also sometimes referred to as 
 
 The theory of the Maslov index simplifies greatly in the two-dimensional case. This is partly due to the much greater control over the spectrum of a matrix. In two dimensions, the symplectic matrices coincide with those whose determinant equals one, and so their spectrum is entirely determined by their trace.
 
-\begin{prop}
+\begin{prop}\label{prop:lambdafromtau}
 Let $A = \mleft[\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\mright]$ be a $2 \times 2$ symplectic matrix, that is, it satisfies the equation $ad - bc = 1$. Then, the spectrum of $A$ can be written in terms of its trace, $\tau = a+d$, as
 \begin{equation}\label{lambdafromtau}
 \lambda_\pm = \frac{\tau \pm \sqrt{\tau^2 - 4}}2.
@@ -109,7 +109,7 @@ A matrix $A \in Sp(2)$ is in $Sp(2)^*$ iff $\trace A \neq 2$. In this case, it i
 \end{corollary}
 
 \begin{proof}
-Using the notation of proposition \ref{lambdafromtau}, since $\lambda_+ \lambda_- = 1$, the only way for either eigenvalue to be equal to 1 is for both of them to be equal to 1. Therefore, if any eigenvalue is one, $\trace A = \lambda_+ + \lambda_- = 2$. On the other hand, if $\trace A = 2$, by \eqref{lambdafromtau} both eigenvalues are one.
+Using the notation of proposition \ref{prop:lambdafromtau}, since $\lambda_+ \lambda_- = 1$, the only way for either eigenvalue to be equal to 1 is for both of them to be equal to 1. Therefore, if any eigenvalue is one, $\trace A = \lambda_+ + \lambda_- = 2$. On the other hand, if $\trace A = 2$, by \eqref{lambdafromtau} both eigenvalues are one.
 
 To determine the sign of $\det(A-I)$, we compute it directly using a known formula for the characteristic polynomial
 \begin{equation}
@@ -130,7 +130,7 @@ We divide the proof in three cases.
 \begin{itemize}
 \item If $\trace A \geq 2$, both eigenvalues of $A$ are positive, and so using property \ref{rhodef:realev} from theorem \ref{rhodef} we conclude $\rho(A) = 1$.
 \item If $\trace A \leq -2$, both eigenvalues of $A$ are negative, and so for the same reason $\rho(A) = -1$.
-\item If $-2 < \trace A < 2$, both eigenvalues are in $S^1 \setminus \R$. Furthermore, they are both distinct, and so we may apply equation \eqref{rhoformula} to compute
+\item If $-2 < \trace A < 2$, both eigenvalues are in $S^1 \setminus \R$. Furthermore, they are distinct, and so we may apply equation \eqref{rhoformula} to compute
 \begin{equation}\label{sp2pm:3}
 \rho(A) = \lambda_+^\sigma,
 \end{equation}
@@ -197,11 +197,11 @@ By corollary \ref{sp2pm}, this hypothesis implies that $\rho(A(t))$ is never $-1
 
 Now, assume that $\trace A(t) \leq -2$ for some $t$. We prove that a partition \eqref{calcmaslov:ab1} satisfying \ref{calcmaslov:ab2}, \ref{calcmaslov:ab3} and \ref{calcmaslov:ab4} exists.
 
-Let $U \subseteq \interval 0 T$ be the preimage under $\trace \circ A$ of $\ointerval{-2}\infty$, and $V$ the preimage of $\ointerval{-\infty}2$. Then, by standard Lebesgue number lemma arguments, there exists a partition 
+Let $U \subseteq \interval 0 T$ be the preimage under $\trace \circ A$ of $\ointerval{-2}\infty$, and $V$ the preimage of $\ointerval{-\infty}2$. Then, by a standard Lebesgue number lemma argument\footnote{See for example the proof of the path lifting property in pages 184 and 185 of \cite{leetopological}.}, there exists a partition 
 \begin{equation}
 0 = b_{-1} < b_0 < \dots < b_{N-1} < b_N = T,
 \end{equation}
-such that each interval $\interval{b_n}{b_{n+1}}$ is entirely contained in $U$ or $V$. By removing unnecessary partitions, we may suppose without loss of generality that
+such that each interval $\interval{b_n}{b_{n+1}}$ is entirely contained in $U$ or $V$. By removing unnecessary points, we may suppose without loss of generality that
 \begin{equation}
 \interval{0}{b_0} \subseteq U, \interval{b_0}{b_1} \subseteq V, \interval{b_1}{b_2} \subseteq U, \dots,
 \end{equation}
@@ -260,7 +260,7 @@ c-\frac{a+d}b a & -a
 \end{bmatrix}.
 \end{equation}
 
-This path is obtained via continuously adding a multiple of the first line to the second line. This does not modify the determinant, hence the path so obtained is a path of symplectic matrices. Furthermore, the trace is changing linearly from $a+d \in \ointerval{-2}2$ to $0$, and so it remains in $\ointerval{-2}2$.
+This path is obtained via continuously adding a multiple of the first line to the second line. This does not modify the determinant, hence the path so obtained is a path of symplectic matrices. Furthermore, the trace is interpolating linearly from $a+d \in \ointerval{-2}2$ to $0$, and so it remains in $\ointerval{-2}2$.
 
 Since the resulting matrix $A_0$ has determinant 1, it is of the form
 \begin{equation}
@@ -270,7 +270,7 @@ a & b\\
 \end{bmatrix}.
 \end{equation}
 
-Furthermore, any matrix of this form has null trace and determinant equal to $-1$, so any continuous deformation of $A_0$ preserves the sign of the imaginary part of $\rho$. The parameter $a$ can vary over any real value, while $b$ can only vary in $\R \setminus \{0\}$. Hence, we can find a path from $A_0$ to a matrix of the form
+Furthermore, any matrix of this form has null trace and determinant equal to $1$, so any continuous deformation of $A_0$ preserves the sign of the imaginary part of $\rho$. The parameter $a$ can vary over any real value, while $b$ can only vary in $\R \setminus \{0\}$. Hence, we can find a path from $A_0$ to a matrix of the form
 \begin{equation}
 A' = \begin{bmatrix}
 0 & \pm 1\\
