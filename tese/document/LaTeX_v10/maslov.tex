@@ -475,9 +475,106 @@ For large enough $n$, $x_n \in V$ and $t_n < T$, where $T$ is as in lemma \ref{l
 
 Now, suppose that $X^H_x$ is nonzero. Then, one of its coordinates is nonzero. Without loss of generality, we may suppose $(X^H_x)^1 > 0$. By decreasing $U$ if necessary, we may assume that $(X^H)^1 > 0$ in all of $U$. Therefore, $U$ cannot contain any periodic orbit of $X^H$, as any orbit entirely contained in $U$ will have strictly increasing first coordinate.
 
-We conclude that small periodic orbits may only happen near a critical point $x$. Now we will show that they cannot happen there either. The idea is that near a critical point the orbits have to be moving slowly, so the only way for them to have a small period is to be turning very fast. We show that this would imply arbitrarily large derivative of the coordinates of $X^H$, which is impossible.
+We conclude that small periodic orbits may only happen near a critical point $x$. Now we will show that they cannot happen there either. The idea is that near a critical point the orbits have to be moving slowly, so the only way for them to have a small period is to be turning very fast. Hence, we use bounds on the derivative of $X^H$ (i.e. on the second derivative of $H$) to show that the velocity cannot vary too much, thereby obtaining a contradiction.
 
-Let $U$, $V$ and $T$ be as in lemma \ref{lemma:phitVsubseteqU}. If $x \in V$ satisfies $\phi_{t_0}(x)$ with $t_0 < T$, then 
+In what follows, assume that $x_n$, $t_n$ and $x$ are as above, and that $U$ is a coordinate neighborhood of $x$. All computations are done in coordinates, and it is assumed that $n$ is large enough that the orbits starting at $x_n$ never leave $U$.
+
+\begin{lemma}\label{lemma:boundsxh}
+By decreasing $U$ if necessary, there exist constants $0 < c < L$ such that, for $p, q \in U$,
+\begin{equation}\label{eq:boundsxh}
+c \Norm{p-q} \leq \Norm{X^H_p - X^H_q} \leq L \Norm{p-q}.
+\end{equation}
+\end{lemma}
+
+\begin{lemmaproof}
+We begin by proving the right inequality of \eqref{eq:boundsxh}:
+\begin{equation}
+\Norm{X^H_p - X^H_q} = \Norm*{\int_0^1 \diff*{X^H_{q + t(p-q)}}t \dl3 t} = \Norm*{\int_0^1 (\jacobian X^H)_{q+t(p-q)} (p-q) \dl3 t} \leq \max(\Norm{\jacobian X^H}) \Norm{p-q},
+\end{equation}
+where the norm in the last term should be interpreted as maximum of the operator norm of the Jacobian of $X^H \colon U \to \R^{2n}$, taken over $U$. By decreasing $U$ if necessary (by replacing it with precompact set), this maximum exists. It is the $L$ in \eqref{eq:boundsxh}.
+
+We move on to the other inequality. Again, we write
+\begin{equation}
+\Norm{X^H_p - X^H_q} = \Norm*{\int_0^1 (\jacobian X^H)_{q+t(p-q)} (p-q) \dl3 t}.
+\end{equation}
+
+Now, define $E(p) = (\jacobian X^H)_p - (\jacobian X^H)_x$. Again by decreasing $U$, we may suppose that $\Norm{E(p)} \leq \varepsilon$ for $\varepsilon$ of our choosing, by the continuity of the Jacobian of $X^H$. Therefore,
+\begin{equation}
+\begin{aligned}
+\Norm{X^H_p - X^H_q} &= \Norm*{\int_0^1 (\jacobian X^H)_{q+t(p-q)} (p-q) \dl3 t}\\
+&\geq \Norm*{\int_0^1 (\jacobian X^H)_{x} (p-q) \dl3 t} - \Norm*{\int_0^1 E(q + t(p-q)) (p-q) \dl3 t}\\
+&\geq \Norm*{(\jacobian X^H)_{x} (p-q)} - \int_0^1 \Norm{E(q + t(p-q)) (p-q)} \dl3 t\\
+&\geq \Norm*{(\jacobian X^H)_{x} (p-q)} - \varepsilon \Norm{p-q}.
+\end{aligned}
+\end{equation}
+
+Now we finally use fact that $H$ is a Morse function. We will show (see lemma \ref{lemma:jacobianxh} below) that $(\jacobian X^H)_x$ is invertible. In this case,
+\begin{equation}
+\begin{aligned}
+\Norm{X^H_p - X^H_q} &\geq \Norm*{(\jacobian X^H)_{x} (p-q)} - \varepsilon \Norm{p-q}\\
+&\geq \left( \frac1{\Norm{(\jacobian X^H)_x^{-1})}} - \varepsilon \right) \Norm{p-q},
+\end{aligned}
+\end{equation}
+hence for small enough $\varepsilon$ (so, by picking small enough $U$), there exists a positive constant $c$ such that $\Norm{X^H_p - X^H_q} \geq c \Norm{p-q}$.
+\end{lemmaproof}
+
+\begin{lemma}\label{lemma:jacobianxh}
+Let $U$ be a coordinate neighborhood of $x$, a critical point of the Morse function $H$. Let $\Omega$ be the matrix representation of the symplectic form $\omega$ in coordinates, i.e. $\Omega_{ij} = \omega(\partial_i, \partial_j)$. Recall that the nondegeneracy of the symplectic form implies that $\Omega$ is invertible. Then, the Jacobian of $X^H$ at $x$, seen as a function $U \to \R^n$ is given by
+\begin{equation}
+(\jacobian X^H)_x = - \Omega^{-1} S,
+\end{equation}
+where $S$ is the Hessian of $H$.
+
+In particular, $(\jacobian X^H)_x$ is invertible.
+\end{lemma}
+
+\begin{lemmaproof}
+The proof of this lemma is simple computation. We begin by recalling the definition of $X^H$ as a function of $\omega$ and $H$:
+\begin{equation}
+X^H \into \omega = - \dl H,
+\end{equation}
+which in coordinates becomes
+\begin{equation}
+\sum_i (X^H)_i \Omega_{ij} = - \partial_j H.
+\end{equation}
+
+In other words, $- (\dl H)^\transposed = \Omega X^H$, hence
+\begin{equation}\label{eq:xhincoords}
+X^H = - \Omega^{-1} (\dl H)^\transposed.
+\end{equation}
+
+Now, we take the Jacobian at $x$. The right-hand side of \eqref{eq:xhincoords} is a product, so in principle we should use the rule for the derivative of a product, but fortunately $x$ is a critical point of $H$. Consequently, $(\dl H)_x = 0$, and so all the terms with derivatives of $\Omega^{-1}$ are null. Hence,
+\begin{equation}
+\jacobian X^H = - \Omega^{-1} (\jacobian (\dl H)^\transposed) = - \Omega^{-1} S,
+\end{equation}
+with $S$ the Hessian matrix of $H$ at $x$.
+\end{lemmaproof}
+
+With lemma \ref{lemma:boundsxh} we are finally in a position to complete the proof, by showing that for large $n$ the orbits $\phi_t(x_n)$ cannot curve too much. We begin with the bound:
+\begin{equation}\label{eq:normxh1}
+\Norm{X^H_{x_n} - X^H_{\phi_t(x_n)}} \leq L \Norm{x_n - \phi_t(x_n)} \leq L t_n \max(\Norm{X^H}),
+\end{equation}
+where the maximum is taken over the points of the orbit starting at $x_n$. Note that we implicitly assumed $0 \leq t < t_n$; this can be done without loss of generality by periodicity. If $\tau$ is the time that maximizes $\Norm{X^H}$, we obtain
+\begin{equation}\label{eq:normxh2}
+\max(\Norm{X^H}) = \Norm{X^H_{\phi_\tau(x)}} \leq \Norm{X^H_{x_n}} + \Norm{X^H_{\phi_\tau(x)} - X^H_{x_n}} \leq L \Norm{x_n - x} + L t_n \max(\Norm{X^H}),
+\end{equation}
+and so, for $n$ large such that $L t_n < 1/2$, joining \eqref{eq:normxh1} and \eqref{eq:normxh2} we obtain
+\begin{equation}
+\Norm{X^H_{x_n} - X^H_{\phi_t(x_n)}} \leq 2 L^2 t_n \Norm{x_n - x}.
+\end{equation}
+
+Now, let us use the lower bound from \eqref{eq:boundsxh}. With it, we conclude that
+\begin{equation}
+c \Norm{x_n - x} \leq \Norm{X^H_{x_n}},
+\end{equation}
+and therefore, for large $n$,
+\begin{equation}
+\Norm{X^H_{x_n} - X^H_{\phi_t(x_n)}} \leq \frac{2 L^2 t_n}c \Norm{X^H_{x_n}}.
+\end{equation}
+
+This proves that for large $n$, the velocity in the orbit $\phi_t(x_n)$ does not vary by at most a factor of $\frac{2 L^2 t_n}c$ of its original value. If this value is picked small enough, let us say smaller than a half, then the velocity of $\phi_t(x_n)$ will always be pointing roughly in the same direction as $X^H_{x_n}$, and therefore does not have enough room to turn around (within the coordinate neighborhood) and be periodic. This is the contradiction that was being sought, which proves that there are no orbits of arbitrarily small period. This completes the proof.
+
+To make the preceding paragraph more rigorous, one may consider the periodic function $f(t) = \braket{\phi_t(x_n), X^H_{x_n}}$. For large enough $n$ as in the previous paragraph one can show $f'(t) > 0$ for all $t$, which contradicts the periodicity of $f$.
 \end{proof}
 
 \section{The Two-Dimensional Case}
@@ -624,7 +721,7 @@ Let $H$ be an autonomous Morse function on a 2-dimensional compact symplectic ma
 \end{corollary}
 
 \begin{proof}
-For the fact that for small $\varepsilon$ the only time-one orbits of $\varepsilon H$ are the constants, see [[the proof of proposition \ref{prop:nonconstantorbits}, or]] proposition 6.1.6 in \cite{audin}.
+For the fact that for small $\varepsilon$ the only time-one orbits of $\varepsilon H$ are the constants, proposition \ref{prop:nonconstantorbits}.
 
 Assume now that $\varepsilon$ is small enough that the only time-one orbits of $\varepsilon H$ are constants. Recall the definition of the action functional on a periodic orbit $x$,
 \begin{equation}
