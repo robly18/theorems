@@ -25,7 +25,7 @@
 \usepackage{fontspec}
 \setmonofont{Consolas}
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily\footnotesize,keepspaces=true,tabsize=4}
+\lstset{basicstyle=\ttfamily\footnotesize,keepspaces=true,tabsize=4,breaklines=true}
 
 \usepackage{hyperref}
 \usepackage{xurl}
@@ -117,7 +117,7 @@ print("At t = 1000, the object is at " + (x,y))
 
 This is impossible in Haskell, as not only can global variables never be changed, but even if they could, this could not be done inside of a function, because functions cannot modify anything, only return an output. This requires that the programmer change their perspective: in this case, instead of defining a function which \emph{modifies} a few global variables, one instead defines a function which receives as input the state of the physical system at time $t$ and returns the state at time $t + \dl t$. 
 
-This is just an example of how purity requires a complete rearrangement of the way one thinks about a problem. In this case a solution was quickly found, but how does one receive input from the user? How does one write to a file? How does one implement an algorithm which relies on mutable state, e.g. marking the nodes of a graph as they are traversed? And most importantly, how does one do all of the above without making the code completely unreadable? This is a place where category theory has found surprising application, by providing powerful abstractions which pick up the slack left by the lack of global state and mutability, at the same time giving Haskell unprecedented amounts of type safety and generality. In the same way that many seemingly unrelated phenomena were found by category theorists to be expressions of a single phenomenon (for example, adjunctions, limits or colimits), computer theorists have found abstractions which encompass many programming strategies which on the surface seem to be completely distinct.
+This is just an example of how purity requires a complete rearrangement of the way one thinks about a problem. In this case a solution was quickly found, but how does one receive input from the user? How does one write to a file? How does one implement an algorithm which relies on mutable state, e.g. marking the nodes of a graph as they are traversed? And most importantly, how does one do all of the above without making the code completely unreadable? This is a place where category theory has found surprising application, by providing powerful abstractions which pick up the slack left by the lack of global state and mutability, and at the same time giving Haskell unprecedented amounts of type safety and generality. In the same way that many seemingly unrelated phenomena were found by category theorists to be expressions of a single phenomenon (for example, adjunctions, limits or colimits), computer theorists have found abstractions which encompass many programming strategies which on the surface seem to be completely distinct.
 
 In this essay, I hope to convince the reader that there are very real mathematical concepts underlying many tools used by in the day-to-day of a Haskell programmer. Furthermore, I also want to get across that these concepts are \emph{useful}, allowing for cleaner and more understandable code, at least so long as the programmer is familiar with the underlying math!
 
@@ -139,7 +139,7 @@ output: 4
 
 Note the changes in syntax: the lambda has been replaced by a backslash (it's like a lambda with one leg cut off), and the period has been replaced by an arrow. Also, note that the expression \lstinline|(\a -> a^2)| represents a Haskell function, but it has not been given a name. For this reason, lambda expressions in Haskell are also called \emph{anonymous functions}.
 
-The way that this works below the hood is that the Haskell interpreter is doing something called $\beta$-reduction. Formally, given an expression $f x$ where $f$ is a lambda expression of the form $(\lambda a. M)$, the Haskell interpreter rewrites it as $M[a=x]$, i.e. the expression $M$ where every instance of the variable $a$ has been replaced by $x$. In the above example, \lstinline|(\a -> a^2) 2| is $\beta$-reduced to \lstinline|2^2|, which is then evaluated to 4.
+The way that this works under the hood is that the Haskell interpreter is doing something called $\beta$-reduction. Formally, given an expression $f x$ where $f$ is a lambda expression of the form $(\lambda a. M)$, the Haskell interpreter rewrites it as $M[a=x]$, i.e. the expression $M$ where every instance of the variable $a$ has been replaced by $x$. In the above example, \lstinline|(\a -> a^2) 2| is $\beta$-reduced to \lstinline|2^2|, which is then evaluated to 4.
 
 The reason why this idea is so powerful is the following: \emph{in Haskell and in lambda calculus, lambda expressions are first class objects}. What this means is that functions can be stored in variables and given as arguments to other functions. For example, the following lambda expression takes as an argument another lambda expression, and returns its `square'. Mathematically, we would usually write it as $f \mapsto f \circ f$.
 \begin{lstlisting}
@@ -175,7 +175,7 @@ which would require us to expand the definition of factorial inside the expressi
 
 \subsection{Types and Morphisms}
 
-As we said in the introduction, Haskell is strongly typed: every function has a domain and a codomain. This makes Haskell a category, which is usually called $\Hask$ (this is not exactly true; see \cite{haskisnotcat}), in which the types (examples: \lstinline|Int|, \lstinline|Char|, \lstinline|String|) are the objects and the functions (lambda expressions) are the morphisms.
+As we said in the introduction, Haskell is strongly typed: every function has a domain and a codomain. This makes Haskell a category\footnote{This is not exactly true; see \cite{haskisnotcat}.}, which is usually called $\Hask$, in which the types (examples: \lstinline|Int|, \lstinline|Char|, \lstinline|String|) are the objects and the functions (lambda expressions) are the morphisms.
 
 That said, what is the domain and codomain of the lambda expression \lstinline|\a -> a^2|? We have evaluated it on the number 2, which is an integer (i.e. of type \lstinline|Int|) and gotten an integer back, but we could also have applied it to the floating-point number 2.1 (of type \lstinline|Float|). We'll get back to this ambiguity later, but to assuage our concerns we can add type annotations explicitly using the following syntax
 \begin{lstlisting}
@@ -188,14 +188,14 @@ This means that $f$ is a morphism with domain \lstinline|Int| and codomain \lsti
 f 2.1
 <interactive>:1:3: error:
     • Couldn't match expected type 'Int' with actual type 'Float'
-    • In the first argument of 'f', namely 'x'
-      In the expression: f x
-      In an equation for 'it': it = f x
+    • In the first argument of 'f', namely '2.1'
+      In the expression: f 2.1
+      In an equation for 'it': it = f 2.1
 \end{lstlisting}
 
 Haskell has a wide array of so-called primitive types, like \lstinline|Int|, \lstinline|Char| and so on, but it also allows us to make complex types out of simpler ones. We have already seen one: the humble arrow!
 
-The sequence of characters \lstinline|->| has the role usually taken by $\Hom$ or $C$ in categorical texts: we may write \lsin|a -> b| to denote what we would usually call $\Hask(a,b)$. This is in itself a Haskell type. In other words, \emph{the $\Hask$ category has exponential objects}. This is the first taste of categorical language in Haskell.
+The sequence of characters \lstinline|->| has the role usually taken by $\Hom$ or $C$ in categorical texts: we write \lsin|a -> b| to denote what we would usually call $\Hask(a,b)$. This is in itself a Haskell type. In other words, \emph{the $\Hask$ category has exponential objects}. This is the first taste of categorical language in Haskell.
 
 \subsection{Currying and Composition}
 
@@ -204,15 +204,15 @@ So far, every function we have seen takes only one argument. This is also the ca
 f \colon \R \times \R \to \R.
 \end{equation}
 
-A similar process can be done in Haskell, so that a function that receives, say, two integers, could have type \lsin|(Int,Int) -> Int|. The comma \lsin|(,)| denotes the categorical product in $\Hask$, and is another example of a type constructor. However, that is not what is usually done.
+A similar process can be done in Haskell, so that a function that receives, say, two integers, could have type \lsin|(Int,Int) -> Int|. The comma \lsin|(,)| denotes the categorical product in $\Hask$, and is another example of a type constructor. However, functions receiving multiple arguments are usually handled another way.
 
-The type of a pre-existing function can be found by writing \lsin|:t f| in GHCi. For example, using \lsin|f = (+)|, i.e. the predefined function which adds two numbers, we get\footnote{Again, the actual output isn't exactly the one shown, as addition is defined more generally than on the integers.}
+The type of a pre-existing function \lsin|f| can be found by writing \lsin|:t f| in GHCi. For example, using \lsin|f = (+)|, i.e. the predefined function which adds two numbers, we get\footnote{Again, the actual output isn't exactly the one shown, as addition is defined more generally than on the integers.}
 \begin{lstlisting}
 :t (+)
 output: (+) :: Int -> Int -> Int
 \end{lstlisting}
 
-What gives? This expression will be made clearer if we introduce parentheses. Haskell associates the \lsin|->| operator to the right, i.e. the above expression should be read as
+What gives? This expression will be made clearer if we introduce parentheses. Haskell associates the \lsin|->| operator to the right, so the above expression should be read as
 \begin{lstlisting}
 (+) :: Int -> (Int -> Int)
 \end{lstlisting}
@@ -243,7 +243,7 @@ output: curry :: ((a, b) -> c) -> a -> b -> c
 
 This matches our expectation, but remember that parentheses are implicit on the right-hand side. Note the use of the so-called \emph{type variables}: any `type' whose name is a lower-case letter denotes a type variable, and may be substituted by any type. Therefore, \lsin|curry| isn't a function in and of itself: it is a family of functions, parametrized by three objects in $\Hask$: $a$, $b$ and $c$. This is similar to how the usual isomorphism in adjunctions is parametrized by a pair of objects, as in $\varphi_{xy}$. In Haskell, the parametrization is implicit: the compiler keeps the definition as ambiguous as possible at every moment, and deduces what $a$, $b$ and $c$ should be from context when necessary.
 
-Surprisingly, currying (and its inverse, \lsin|uncurry|) isn't used very often. Functions are almost always left curried, because this allows for a technique called partial application. We won't go into details, but it allows for expressions such as \lsin|(\a -> f 2 a)| to be shortened to \lsin|(f 2)|.
+Surprisingly, currying (and its inverse, \lsin|uncurry|) isn't used very often. Functions are almost always left curried, because this allows for a technique called partial application. We won't go into details, but for example expressions such as \lsin|(\a -> f 2 a)| are usually shortened to \lsin|(f 2)|.
 
 Finally, let's talk about the most important categorical concept: function composition. It is a very surprising fact that almost no modern languages have a composition operator, but Haskell does. It is denoted with a single dot, as in \lsin|f . g|, as it is the closest a standard keyboard gets to the usual notation of composition, except perhaps for the hideous notation \lsin|f o g|. Unsurprisingly, the composition has type given by
 \begin{lstlisting}
@@ -354,7 +354,7 @@ output: (==) :: Eq a => a -> a -> Bool
 
 So what's happening here? As the reader might have already suspected, \lsin|==| is a binary function which returns a boolean value: that's what \lsin|a -> a -> Bool| means. However, we have that additional term \lsin|Eq a =>|. What that is saying is that the type signature that follows only applies when \lsin|a| is a type which satisfies the predicate \lsin|Eq|. We say that such types are \emph{in the typeclass \lsin|Eq|}. Most predefined types are in this typeclass, so the equality operator can be used on \lsin|Int|, \lsin|Float|, \lsin|Char|, etc., but not on \lsin|Int -> Int|.
 
-In short, to each typeclass there are a few functions which need to be defined in order for a type to be part of the typeclass: for a type \lsin|mytype| to be in \lsin|Eq|, we need to define \lsin|(==) :: mytype -> mytype -> Bool|. For it to be in \lsin|Ord| (i.e. ordered types) we need to define \lsin|(<=) :: mytype -> mytype -> Bool|, the `less than or equal operator'. To tell Haskell that \lsin|Maybe Int| is in the \lsin|Eq| typeclass, we would use the notation
+In short, to each typeclass there are a few functions which need to be defined in order for a type to be part of the typeclass: for a type \lsin|mytype| to be in \lsin|Eq|, we need to define \lsin|(==) :: mytype -> mytype -> Bool|. For it to be in \lsin|Ord| (totally ordered types) we need to define \lsin|(<=) :: mytype -> mytype -> Bool|, the `less than or equal operator'. To tell Haskell that \lsin|Maybe Int| is in the \lsin|Eq| typeclass, we would use the notation
 \begin{lstlisting}
 instance Eq (Maybe Int) where
     Nothing == Nothing = True
@@ -425,17 +425,73 @@ maybeToList Nothing = []
 maybeToList (Just x) = [x]
 \end{lstlisting}
 
-It is easy to verify that this is indeed natural, i.e. that \lsin|maybeToList . (fmap f) = (fmap f) . maybeToList|. Note that in this expression \lsin|fmap| is used for two different functors. Now, it would be reasonable to ask whether it would be possible to define functions \lsin|f a -> g a| which are not natural transformations, and the very surprising answer turns out to be \emph{no}. This is in contrast to, for example, \lsin|fmap|, for which it is not very difficult to define instances of the \lsin|Functor| typeclass which do not satisfy the functor laws.
+It is easy to verify that this is indeed natural, i.e. that
+\begin{lstlisting}
+maybeToList . (fmap f) = (fmap f) . maybeToList
+\end{lstlisting}
+Note that in this expression \lsin|fmap| is used for two different functors. Now, it would be reasonable to ask whether it would be possible to define functions \lsin|f a -> g a| which are not natural transformations, and the very surprising answer turns out to be \emph{no}. This is in contrast to, for example, \lsin|fmap|, for which it is not very difficult to define instances of the \lsin|Functor| typeclass which do not satisfy the functor laws.
 
-This has to do with something called \emph{parametric polymorphism}. There is a very influential paper titled `Theorems for free!' \cite{theoremsforfree} by Philip Wadler, in which a method is explained for obtaining theorems about a function in typed lambda calculus from nothing but its signature. The intuitive reason behind this very unexpected result is that in lambda calculus and in Haskell a polymorphic function (i.e. one which has more than one type at once) must be defined with the same expression for all its instantiations. For example, consider a function \lsin|f :: a -> [a]|. The expression must for \lsin|f| must be the same whether we are considering \lsin|f :: Int -> [Int]| or \lsin|f :: () -> [()]|. As a consequence, \lsin|f| cannot do anything to its argument, because it has no guarantees that anything it can do to it is valid. Therefore, there is a very limited number of functions \lsin|f| may be: it may be the constant returning the empty list, it may be the function \lsin|\x -> [x]|, it may be \lsin|\x -> [x,x]|, etc., but no more. This is an example of how the type signature of a polymorphic function can tell us a lot about the function itself, yielding the so-called theorems for free. In the case of functions \lsin|eta :: f a -> g a|, with \lsin|f| and \lsin|g| functors, the free theorem obtained from the type signature is precisely the naturality of \lsin|eta|. \cite{parametric}
+This has to do with something called \emph{parametric polymorphism}. There is a very influential paper titled `Theorems for free!' \cite{theoremsforfree} by Philip Wadler, in which a method is explained for obtaining theorems about a function in typed lambda calculus from nothing but its type signature. The intuitive reason behind this very unexpected result is that in lambda calculus and in Haskell a polymorphic function (i.e. one which has more than one type at once) must be defined with the same expression for all its instantiations. For example, consider a function \lsin|f :: a -> [a]|. The expression must for \lsin|f| must be the same whether we are considering \lsin|f :: Int -> [Int]| or \lsin|f :: () -> [()]|. As a consequence, \lsin|f| cannot do anything to its argument, because it has no guarantees that anything it can do to it is valid. Therefore, there is a very limited number of functions \lsin|f| may be: it may be the constant returning the empty list, it may be the function \lsin|\x -> [x]|, it may be \lsin|\x -> [x,x]|, etc., but no more. This is an example of how the type signature of a polymorphic function can tell us a lot about the function itself, yielding the so-called theorems for free. In the case of functions \lsin|eta :: f a -> g a|, with \lsin|f| and \lsin|g| functors, the free theorem obtained from the type signature is precisely the naturality of \lsin|eta|. \cite{parametric}
 
 \subsection{\texorpdfstring{$\Hask$}{Hask} is not Finitely Complete (Probably)}
 
 In \ref{limcolim} we discussed products and coproducts in Haskell. We showed that $\Hask$ has initial and final objects and is closed under binary products and coproducts. Consequently, $\Hask$ has all finite products and coproducts, so it makes sense to ask whether it has (co)equalizers, as if it did it would have all finite (co)limits. I have not found any definite source proving that the answer is negative, but this Stack Overflow answer strongly suggests that the answer is no: \url{https://stackoverflow.com/a/15113919/2997964}. In any case, the fact that after over 30 years of categorical language and methods being applied to the language there is still no mechanism, built in or otherwise, for constructing (co)equalizers strongly suggests that such a problem is, if solvable, very difficult.
 
-\section{The Kleisli Category}
+\section{Kleisli Categories}
 
-xxx
+\subsection{The Motivation}
+
+Suppose that one is implementing a complicated algorithm and wishes to keep a log of what the algorithm is doing for debugging purposes. Then, classically, one keeps a global `log' variable, to which one writes as the algorithm proceeds. In pseudocode:
+\begin{lstlisting}
+log = ""
+def factorial(n):
+	let output = 1
+	log.append("We start with 1. ")
+	for i = 1 ... n:
+		log.append("We multiply by " ++ i ++ ". ")
+		output = output * i
+		log.append("We get " ++ output ++ ". ")
+	log.append("This is the final result.")
+	return output
+
+factorial(3)
+output: 6
+log: We start with 1. We multiply by 1. We get 1. We multiply by 2. We get 2. We multiply by 3. We get 6. This is the final result.
+\end{lstlisting}
+
+In Haskell, this could be dealt with by having our \lsin|factorial| function return a pair \lsin|(String, Int)|. If the function whose performance we wish to log refers to other functions, we would need to modify those functions as well, and the code would quickly get unwieldy. If the function \lsin|f| does some computation and returns a log of what it did, and the function \lsin|g| wants to call \lsin|f| and compose its own logs with the ones from \lsin|f|, one needs to do ugly constructions to separate the logs of \lsin|f| from the output, do the computations, and return the logs mixed with the result. This is doable but cumbersome, as the following example shows.
+\begin{lstlisting}
+logAdd1 :: Int -> (String, Int)
+logAdd1 x = ("Added 1 to " ++ show x, x+1)
+
+logMul2 :: Int -> (String, Int)
+logMul2 x = ("Multiplied " ++ show x ++ " by 2", 2*x)
+
+log2nplus1 :: Int -> (String, Int)
+log2nplus1 x = let (logmul2, xmul2) = logMul2 x in
+               let (logadd1, result) = logAdd1 xmul2 in
+               (logmul2 ++ logadd1, result)
+\end{lstlisting}
+
+\subsection{The Solution}
+
+Let us solve the problem of composing functions 
+
+\subsection{Example: Tracing an Algorithm}
+
+((garbage i put here))
+
+As an example, consider the following function \lsin|safeLogIndex| which extracts the \lsin|n|-th element of a list if it exists, returning Nothing otherwise.
+
+We introduce a method of defining functions on lists. Such a function can be defined recursively, by defining how it acts on the empty list \lsin|[]| and how it acts on a composite list with more than one element. Such a list is represented by \lsin|c:cs|, where \lsin|c| represents the first element (called the \emph{head} of the list) and \lsin|cs| represents the list of the remaining elements.
+\begin{lstlisting}
+safeLogIndex :: Show a => Int -> [a] -> (String, Maybe a)
+safeLogIndex i [] = ("Reached empty list! The index was too big...", Nothing)
+safeLogIndex 0 (c:cs) = ("Found it! The element was " ++ show c ++ ". ", c)
+safeLogIndex i (c:cs) = let msg1 = show i ++ " elements to go... " in
+                        let (log, result) = safeLogIndex (i-1) cs in
+                        (msg1 ++ log, result)
+\end{lstlisting}
 
 
 \section{The Monad Family}
