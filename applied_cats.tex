@@ -44,6 +44,7 @@
 
 \newtheorem{joke}{Joke}
 
+
 \theoremstyle{nonumberplain}
 
 \theoremheaderfont{\itshape}
@@ -437,7 +438,9 @@ This has to do with something called \emph{parametric polymorphism}. There is a 
 
 In \ref{limcolim} we discussed products and coproducts in Haskell. We showed that $\Hask$ has initial and final objects and is closed under binary products and coproducts. Consequently, $\Hask$ has all finite products and coproducts, so it makes sense to ask whether it has (co)equalizers, as if it did it would have all finite (co)limits. I have not found any definite source proving that the answer is negative, but this Stack Overflow answer strongly suggests that the answer is no: \url{https://stackoverflow.com/a/15113919/2997964}. In any case, the fact that after over 30 years of categorical language and methods being applied to the language there is still no mechanism, built in or otherwise, for constructing (co)equalizers strongly suggests that such a problem is, if solvable, very difficult.
 
-\section{Kleisli Categories}
+\section{A Kleisli Category: The Writer Monad}
+
+The reader might recognize the names `monad' and `Kleisli category' from the mathematical terminology, and indeed the concepts we are about to discuss coincide with these mathematical notions. However, since they have not yet been explained, the reader should see these as mere names; an explanation will have to wait until section \ref{sec:monads}.
 
 \subsection{The Motivation}
 
@@ -459,13 +462,13 @@ output: 6
 log: We start with 1. We multiply by 1. We get 1. We multiply by 2. We get 2. We multiply by 3. We get 6. This is the final result.
 \end{lstlisting}
 
-In Haskell, this could be dealt with by having our \lsin|factorial| function return a pair \lsin|(String, Int)|. If the function whose performance we wish to log refers to other functions, we would need to modify those functions as well, and the code would quickly get unwieldy. If the function \lsin|f| does some computation and returns a log of what it did, and the function \lsin|g| wants to call \lsin|f| and compose its own logs with the ones from \lsin|f|, one needs to do ugly constructions to separate the logs of \lsin|f| from the output, do the computations, and return the logs mixed with the result. This is doable but cumbersome, as the following example shows.
+In Haskell, this could be dealt with by having our \lsin|factorial| function return a pair \lsin|(String, Int)|, but this solution quickly gets unwieldy when considering complex systems. For example, function composition can no longer be done via the \lsin|(.)| operator. Indeed, composition of functions with an attached log becomes a complicated endeavor: if the function \lsin|f| does some computation and returns a log of what it did, and the function \lsin|g| wants to call \lsin|f| and compose its own logs with the ones from \lsin|f|, one needs to do ugly constructions to separate the logs of \lsin|f| from the output, do the computations, and return the logs mixed with the result. This is doable but cumbersome, as the following example shows.
 \begin{lstlisting}
 logAdd1 :: Int -> (String, Int)
-logAdd1 x = ("Added 1 to " ++ show x, x+1)
+logAdd1 x = ("Added 1", x+1)
 
 logMul2 :: Int -> (String, Int)
-logMul2 x = ("Multiplied " ++ show x ++ " by 2", 2*x)
+logMul2 x = ("Multiplied by 2", 2*x)
 
 log2nplus1 :: Int -> (String, Int)
 log2nplus1 x = let (logmul2, xmul2) = logMul2 x in
@@ -473,28 +476,103 @@ log2nplus1 x = let (logmul2, xmul2) = logMul2 x in
                (logmul2 ++ logadd1, result)
 \end{lstlisting}
 
+Kleisli categories offer a solution to this issue.
+
 \subsection{The Solution}
 
-Let us solve the problem of composing functions 
-
-\subsection{Example: Tracing an Algorithm}
-
-((garbage i put here))
-
-As an example, consider the following function \lsin|safeLogIndex| which extracts the \lsin|n|-th element of a list if it exists, returning Nothing otherwise.
-
-We introduce a method of defining functions on lists. Such a function can be defined recursively, by defining how it acts on the empty list \lsin|[]| and how it acts on a composite list with more than one element. Such a list is represented by \lsin|c:cs|, where \lsin|c| represents the first element (called the \emph{head} of the list) and \lsin|cs| represents the list of the remaining elements.
+Let us begin by recapping the problem. We have functions which, besides computing some value, return a log of the computation. In other words, they are of type
 \begin{lstlisting}
-safeLogIndex :: Show a => Int -> [a] -> (String, Maybe a)
-safeLogIndex i [] = ("Reached empty list! The index was too big...", Nothing)
-safeLogIndex 0 (c:cs) = ("Found it! The element was " ++ show c ++ ". ", c)
-safeLogIndex i (c:cs) = let msg1 = show i ++ " elements to go... " in
-                        let (log, result) = safeLogIndex (i-1) cs in
-                        (msg1 ++ log, result)
+f :: a -> (String, b)
+g :: b -> (String, c)
 \end{lstlisting}
 
+We want to compose \lsin|f| and \lsin|g| and obtain a composite log, but clearly the expression \lsin|g . f| does not make sense. In order to deal with logging functions in a reasonable way we need to change the notion of composition, and hence the category at hand.
 
-\section{The Monad Family}
+\begin{definition}\label{def:kleisli}
+Let $W$ be the category such that:
+\begin{itemize}
+\item The objects of $W$ coincide with the objects of $\Hask$,
+\item Let $f \colon a \twoheadrightarrow b$ mean that $f$ is a morphism in $W$. We say $f \colon a \twoheadrightarrow b$ if $f$ is a map (in $\Hask$) of type $f \colon a \to (\type{String}, b)$. In other words,
+\begin{equation}
+W(a,b) := \Hask(a, (\type{String},b)).
+\end{equation}
+\item The composition of two maps $f \colon a \twoheadrightarrow b$ and $g \colon b \twoheadrightarrow c$ is given by
+\begin{lstlisting}
+h :: a -> (String, c)
+h x = let (logg, y) = g x in
+      let (logf, z) = f y in
+      (logg ++ logf, z)
+\end{lstlisting}
+\end{itemize}
+\end{definition}
+
+It is clear that $W$ is a category: composition is associative because string concatenation is associative, and the identities on $W$ are simply given by
+\begin{lstlisting}
+idW :: a -> (String, a)
+idW x = ("", x)
+\end{lstlisting}
+
+In fact, a little thought will show that the construction of $W$ can be generalized, by replacing \lsin|String| with any type which has an associative binary operation and a null element. In other words, we need a \emph{monoid}.
+
+Monoids in Haskell are represented by the \lsin|Monoid| typeclass. For a type \lsin|w| to be in the \lsin|Monoid| typeclass, there must exist a constant
+\begin{lstlisting}
+mempty :: w
+\end{lstlisting}
+and a binary function
+\begin{lstlisting}
+(<>) :: w -> w -> w
+\end{lstlisting}
+satisfying the axioms for a monoid (associativity of \lsin|<>|, etc). Like in the case for functors, the language does not enforce the monoid axioms: it is the responsibility of the programmer, when defining a new monoid, to ensure that they hold.
+
+That said, we can now define the so-called \emph{Kleisli category for the \lsin|Writer| monad}:
+
+\begin{definition}
+Let \lsin|w| be a type in the \lsin|Monoid| typeclass. We define \emph{the Kleisli category for the monad \lsin|Writer w|}, denoted $W$, as follows.
+\begin{itemize}
+\item The objects of $W$ coincide with the objects of $\Hask$,
+\item A morphism $f \colon a \to b$, with $a$ and $b$ types, is a map (in $\Hask$ of type $f \colon a \to (w, b)$. In other words,
+\begin{equation}
+W(a,b) = \Hask(a, (w,b)).
+\end{equation}
+
+Again using $f \colon a \twoheadrightarrow b$ to mean $f \in W(a,b)$,
+\item The composition of two maps $f \colon a \twoheadrightarrow b$ and $g \colon b \twoheadrightarrow c$ is given by
+\begin{lstlisting}
+h :: a -> (w, c)
+h x = let (logg, y) = g x in
+      let (logf, z) = f y in
+      (logg <> logf, z)
+\end{lstlisting}
+\end{itemize}
+\end{definition}
+
+In Haskell, the writer monad is already present in the \lsin|Control.Monad.Writer| package. Instead of \lsin|(w,a)|, for historical reasons the notation \lsin|Writer w a| is used, so a Kleisli arrow would actually be of type
+\begin{lstlisting}
+f :: a -> Writer w b
+\end{lstlisting} 
+and composition in the Kleisli category is given by the so-called `fish operator'
+\begin{lstlisting}
+(>=>) :: (b -> Writer w c) -> (a -> Writer w b) -> a -> Writer w c
+\end{lstlisting}
+where \lsin|f >=> g| is implemented as the \lsin|h| above.
+
+\subsection{The Tools of the Trade}
+
+So far, we've defined the \lsin|Writer| monad (for a fixed monoid \lsin|w|) and described the corresponding Kleisli category, so that we are able to compose functions of type \lsin|a -> Writer w b|. However, composition alone does not lend itself to very readable programs, so Haskell gives us an array of tools that let us structure our programs better, to make them more readable and easier to write.
+
+Before we begin, it is important to mention the function \lsin|writer|. We said earlier that we use the notation \lsin|Writer w a| instead of \lsin|(w,a)| as in the examples. The different notation corresponds to a different type, but this type is isomorphic to \lsin|(w,a)|, and \lsin|writer| is the isomorphism.
+
+Well, actually, for historical reasons, the argument of \lsin|writer| actually has the product swapped, i.e. it has type \lsin|(a,w) -> Writer w a|. Obviously this is of no real consequence, as \lsin|(a,w)| is isomorphic to \lsin|(w,a)|. The following diagram shows the isomorphisms between the three types \lsin|(w,a)|, \lsin|(a,w)|, and \lsin|Writer w a|.
+
+\begin{equation}
+\begin{tikzcd}[column sep = large]
+\lsmath{(w,a)} \arrow[r, bend left, "\lsmath{swap}"] & \arrow[l, bend left, "\lsmath{swap}"] \lsmath{(a,w)} \arrow[r, bend left, "\lsmath{writer}"] & \lsmath{Writer w a} \arrow[l, bend left, "\lsmath{runWriter}"]
+\end{tikzcd}
+\end{equation}
+
+An essential observation is that logging and computing can be separated. If we wish to do some computation and log some result, we can define a function which does the relevant logging and computes nothing, another which 
+
+\section{The Monad Family}\label{sec:monads}
 
 We preface this section with a joke.
 
