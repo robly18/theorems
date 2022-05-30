@@ -20,12 +20,20 @@
 \setlist[enumerate,1]{label=\alph*)}
 
 \usepackage{tikz-cd}
+\usetikzlibrary{positioning}
 \usepackage{float}
 
 \usepackage{fontspec}
 \setmonofont{Consolas}
 \usepackage{listings}
-\lstset{basicstyle=\ttfamily\footnotesize,keepspaces=true,tabsize=4,breaklines=true}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+moredelim=**[is][\color{blue}]{@}{@},
+columns=fullflexible
+}
 
 \usepackage{hyperref}
 \usepackage{xurl}
@@ -74,6 +82,7 @@
 
 \newcommand{\Hask}{\mathrm{Hask}}
 \newcommand{\type}[1]{\mathrm{#1}}
+\newcommand{\typecons}[1]{\mathop{\mathrm{#1}}}
 \newcommand{\cat}[1]{\mathrm{#1}}
 
 \newcommand{\blank}{{-}}
@@ -332,7 +341,7 @@ safeadd1m Nothing
 output: Nothing
 \end{lstlisting}
 
-\subsection{Functors and Typeclasses}
+\subsection{Functors and Typeclasses}\label{sec:functors}
 
 The type constructor \lsin|Maybe| is a particularly simple example, because it takes one type as an argument and returns another. In other words, it is a map from the objects of $\Hask$ to the objects of $\Hask$. This suggests that it could be made into a functor: all we need is to define an adequate map of type \lsin|(a -> b) -> (Maybe a -> Maybe b)|. This map exists, and it is called \lsin|fmap|.
 \begin{lstlisting}
@@ -427,9 +436,9 @@ maybeToList (Just x) = [x]
 \end{lstlisting}
 
 It is easy to verify that this is indeed natural, i.e. that
-\begin{lstlisting}
-maybeToList . (fmap f) = (fmap f) . maybeToList
-\end{lstlisting}
+\begin{equation}
+\lsmath{maybeToList . (fmap f) = (fmap f) . maybeToList}
+\end{equation}
 Note that in this expression \lsin|fmap| is used for two different functors. Now, it would be reasonable to ask whether it would be possible to define functions \lsin|f a -> g a| which are not natural transformations, and the very surprising answer turns out to be \emph{no}. This is in contrast to, for example, \lsin|fmap|, for which it is not very difficult to define instances of the \lsin|Functor| typeclass which do not satisfy the functor laws.
 
 This has to do with something called \emph{parametric polymorphism}. There is a very influential paper titled `Theorems for free!' \cite{theoremsforfree} by Philip Wadler, in which a method is explained for obtaining theorems about a function in typed lambda calculus from nothing but its type signature. The intuitive reason behind this very unexpected result is that in lambda calculus and in Haskell a polymorphic function (i.e. one which has more than one type at once) must be defined with the same expression for all its instantiations. For example, consider a function \lsin|f :: a -> [a]|. The expression must for \lsin|f| must be the same whether we are considering \lsin|f :: Int -> [Int]| or \lsin|f :: () -> [()]|. As a consequence, \lsin|f| cannot do anything to its argument, because it has no guarantees that anything it can do to it is valid. Therefore, there is a very limited number of functions \lsin|f| may be: it may be the constant returning the empty list, it may be the function \lsin|\x -> [x]|, it may be \lsin|\x -> [x,x]|, etc., but no more. This is an example of how the type signature of a polymorphic function can tell us a lot about the function itself, yielding the so-called theorems for free. In the case of functions \lsin|eta :: f a -> g a|, with \lsin|f| and \lsin|g| functors, the free theorem obtained from the type signature is precisely the naturality of \lsin|eta|. \cite{parametric}
@@ -530,12 +539,10 @@ That said, we can now define the so-called \emph{Kleisli category for the \lsin|
 Let \lsin|w| be a type in the \lsin|Monoid| typeclass. We define \emph{the Kleisli category for the monad \lsin|Writer w|}, denoted $W$, as follows.
 \begin{itemize}
 \item The objects of $W$ coincide with the objects of $\Hask$,
-\item A morphism $f \colon a \to b$, with $a$ and $b$ types, is a map (in $\Hask$ of type $f \colon a \to (w, b)$. In other words,
+\item A morphism $f \colon a \twoheadrightarrow b$, with $a$ and $b$ types, is a map (in $\Hask$) of type $f \colon a \to (w, b)$. In other words,
 \begin{equation}
 W(a,b) = \Hask(a, (w,b)).
 \end{equation}
-
-Again using $f \colon a \twoheadrightarrow b$ to mean $f \in W(a,b)$,
 \item The composition of two maps $f \colon a \twoheadrightarrow b$ and $g \colon b \twoheadrightarrow c$ is given by
 \begin{lstlisting}
 h :: a -> (w, c)
@@ -546,23 +553,19 @@ h x = let (logg, y) = g x in
 \end{itemize}
 \end{definition}
 
-In Haskell, the writer monad is already present in the \lsin|Control.Monad.Writer| package. Instead of \lsin|(w,a)|, for historical reasons the notation \lsin|Writer w a| is used, so a Kleisli arrow would actually be of type
+In Haskell, the \lsin|Writer| monad is already present in the \lsin|Control.Monad.Writer| package. Instead of \lsin|(w,a)|, for historical reasons the notation \lsin|Writer w a| is used, so a Kleisli arrow would actually be of type
 \begin{lstlisting}
 f :: a -> Writer w b
 \end{lstlisting} 
 and composition in the Kleisli category is given by the so-called `fish operator'
 \begin{lstlisting}
-(>=>) :: (b -> Writer w c) -> (a -> Writer w b) -> a -> Writer w c
+(<=<) :: (b -> Writer w c) -> (a -> Writer w b) -> a -> Writer w c
 \end{lstlisting}
-where \lsin|f >=> g| is implemented as the \lsin|h| above.
+where \lsin|f <=< g| is implemented as the \lsin|h| above.
 
-\subsection{The Tools of the Trade}
+Until now, we have been using pairs \lsin|(w,a)| to store data and logs. However, the \lsin|Writer| monad uses instead the type \lsin|Writer w a|. This is a distinct type, but it is isomorphic to \lsin|(w,a)|, and the isomorphism is given by the \lsin|writer| function.
 
-So far, we've defined the \lsin|Writer| monad (for a fixed monoid \lsin|w|) and described the corresponding Kleisli category, so that we are able to compose functions of type \lsin|a -> Writer w b|. However, composition alone does not lend itself to very readable programs, so Haskell gives us an array of tools that let us structure our programs better, to make them more readable and easier to write.
-
-Before we begin, it is important to mention the function \lsin|writer|. We said earlier that we use the notation \lsin|Writer w a| instead of \lsin|(w,a)| as in the examples. The different notation corresponds to a different type, but this type is isomorphic to \lsin|(w,a)|, and \lsin|writer| is the isomorphism.
-
-Well, actually, for historical reasons, the argument of \lsin|writer| actually has the product swapped, i.e. it has type \lsin|(a,w) -> Writer w a|. Obviously this is of no real consequence, as \lsin|(a,w)| is isomorphic to \lsin|(w,a)|. The following diagram shows the isomorphisms between the three types \lsin|(w,a)|, \lsin|(a,w)|, and \lsin|Writer w a|.
+Well, actually, for historical reasons, the argument of \lsin|writer| actually has the product swapped. More concretely, \lsin|writer| is a function of type \lsin|(a,w) -> Writer w a|. Obviously this is of no real consequence, as \lsin|(a,w)| is isomorphic to \lsin|(w,a)|. The following diagram shows the isomorphisms between the three types \lsin|(w,a)|, \lsin|(a,w)|, and \lsin|Writer w a|.
 
 \begin{equation}
 \begin{tikzcd}[column sep = large]
@@ -570,7 +573,360 @@ Well, actually, for historical reasons, the argument of \lsin|writer| actually h
 \end{tikzcd}
 \end{equation}
 
-An essential observation is that logging and computing can be separated. If we wish to do some computation and log some result, we can define a function which does the relevant logging and computes nothing, another which 
+\subsection{Examples}
+
+\paragraph{Factorial}
+The following function \lsin|factorial| computes the factorial of its argument and logs the products computed on the way.
+
+\begin{lstlisting}
+logProduct :: Int -> Int -> Writer String Int
+logProduct x y = writer (x*y, "Compute " ++ show x ++ "*" ++ show y ++ ". ")
+
+factorial :: Int -> Writer String Int
+factorial n = if n == 0 then
+                  writer (1, "0! is 1. ") 
+              else
+                  ((logProduct n) <=< factorial) (n-1)
+
+runWriter (factorial 4)
+output: (24,"0! is 1. Compute 1*1. Compute 2*1. Compute 3*2. Compute 4*6. ")
+\end{lstlisting}
+
+\paragraph{Other Monoids}
+
+Instead of using the \lsin|String| monoid, one could instead use \mbox{\lsin|[String]|}, with the operation of list concatenation. This could be useful for preventing weird formatting (such as the leading space in the previous example) or to make it clearer where one message ends and the other begins. We present a version of the \lsin|factorial| function above using this method; we highlight in {\color{blue} blue} the significant changes.
+\begin{lstlisting}
+logProduct :: Int -> Int -> Writer @[String]@ Int
+logProduct x y = writer (x*y,  @["Product"]@)
+
+factorial :: Int -> Writer @[String]@ Int
+factorial n = if n == 0 then
+                  writer (1, @["0! is 1"]@) 
+              else
+                  ((logProduct n) <=< factorial) (n-1)
+
+runWriter (factorial 4)
+output: (24,@["0! is 1","Product","Product","Product","Product"]@)
+\end{lstlisting}
+
+If for some reason we want to get our logging in reverse order, we can use the \lsin|Dual| type constructor. If \lsin|w| is a monoid, \lsin|Dual w| is essentially the same monoid, but the arguments of \lsin|<>| are swapped. The function \lsin|Dual| (not to be confused with the type constructor) is the identity \lsin|w -> Dual w|, and \lsin|getDual| is its inverse.
+\begin{lstlisting}
+logProduct :: Int -> Int -> Writer (@Dual@ [String]) Int
+logProduct x y = writer (x*y,  @Dual@ ["Product"])
+
+factorial :: Int -> Writer (@Dual@ [String]) Int
+factorial n = if n == 0 then
+                  writer (1, @Dual@ ["0! is 1"]) 
+              else
+                  ((logProduct n) <=< factorial) (n-1)
+
+runWriter (factorial 4)
+output: (24,Dual {getDual = @["Product","Product","Product","Product","0! is 1"]@})
+\end{lstlisting}
+
+\paragraph{Separation of Concerns}
+The \lsin|writer| function does two things at the same time: it records the result of a computation, and it writes a log. However, it is possible to do each of these separately.
+
+First observe that, as we've seen, \lsin|Writer w a| is effectively the same as \lsin|(w,a)|. In other words we can identify \lsin|Writer w| with \lsin|(,) w|, making \lsin|Writer w| a functor, and so there exists an instance of \lsin|fmap|:
+\begin{lstlisting}
+fmap :: (a -> b) -> (Writer w a -> Writer w b)
+\end{lstlisting}
+
+We can interpret this instantiation of \lsin|fmap| in practical terms: if \lsin|f :: a -> b| then \lsin|fmap f :: Writer w a -> Writer w b| is the function which takes an \lsin|a| together with a log, and applies \lsin|f| to the \lsin|a| without modifying the log. In other words, \emph{\lsin|fmap f| computes \lsin|f| without logging anything}.
+
+\smallskip
+
+Another (orthogonal) way to interpret the expression `do computation without logging' is to take a value of type \lsin|a| and turn it into one of type \lsin|Writer w a|, by simply attaching an empty log to the value. This is actually the identity arrow in the Kleisli category, and it is called return:
+\begin{lstlisting}
+return :: Monoid w => a -> Writer w a
+return x = (mempty, x)
+\end{lstlisting}
+
+Note the identity:
+\begin{equation}
+\lsmath{(return <=< f) = (f <=< return) = f}
+\end{equation}
+
+\smallskip
+
+Now, let us discuss how we can print to the log without doing any computation. To this effect, consider the following function
+\begin{lstlisting}
+say :: Monoid w => (a -> w) -> a -> Writer w a
+say tellfunc x = writer (x, tellfunc x)
+\end{lstlisting}
+
+This function is not part of the standard Haskell library; we will see later the built-in Haskell way to log without computing. In any case, with \lsin|fmap| and \lsin|say| we may rewrite our factorial function more neatly.\footnote{Of course, neatness is in the eye of the beholder.}
+\begin{lstlisting}
+logProduct :: Int -> Int -> Writer [String] Int
+logProduct = @curry (
+                 say (\x -> ["Output " ++ show res])
+                 <=< fmap (uncurry (*)) . return
+                 <=< say (\p -> ["Product " ++ show p])
+             )@
+
+factorial :: Int -> Writer @[String]@ Int
+factorial n = if n == 0 then
+                  @say (\x -> ["0! is 1"]) 1@
+              else
+                  ((logProduct n) <=< factorial) (n-1)
+
+runWriter (factorial 4)
+output: (24,["0! is 1","Product (1,1)","Output 1","Product (2,1)","Output 2","Product (3,2)","Output 6","Product (4,6)","Output 24"])
+\end{lstlisting}
+
+\paragraph{Counting Operations}
+We will now use the \lsin|Writer| monad to compare implementations of the Fibonacci sequence $F_n$, $n \geq 0$. To measure roughly the efficiency of such an algorithm, we will count how many times we perform sums of the form $F_{n-1} + F_n$.
+
+We will use the \lsin|Writer| monad with the \lsin|Sum Int| monoid, which is the integers with addition (as opposed to \lsin|Product Int|, which would be the integers with multiplication). Mind the injection \lsin|Sum :: Int -> Sum Int| and its inverse \lsin|getSum :: Sum Int -> Int|).
+
+In order to shorten the code, we define the alias \lsin|WSII| for \lsin|Writer (Sum Int) Int|. The code below is not very idiomatic, in particular the function \lsin|logAdd|: it is usually bad form to work directly with the logs, being better to let the fish operator \lsin|<=<| do the compositions itself. However, the tools that let us write \lsin|logAdd| in a more idiomatic fashion will have to wait until we talk about monads in general; see section \ref{sec:monads} below.
+
+\begin{lstlisting}
+type WSII = Writer (Sum Int) Int
+
+logAdd :: WSII -> WSII -> WSII
+logAdd x y = let (xval, xlog) = runWriter x in
+             let (yval, ylog) = runWriter y in
+               writer (xval + yval, xlog <> ylog <> Sum 1)
+
+naiveFib :: Int -> WSII
+naiveFib n = if n <= 1 then
+                 writer (n, Sum 0)
+             else
+                 logAdd (naiveFib (n-1)) (naiveFib (n-2))
+
+optFib :: Int -> WSII
+optFib n = aux n 1 0 1
+
+aux :: Int -> Int -> Int -> Int -> WSII
+aux n iter prev now = if iter == n then
+                       return now
+                      else
+                       ((aux n (iter+1) now)<=<(logAdd (return now) . return)) prev
+                        
+--
+
+runWriter (naiveFib 10)
+output: (55,Sum {getSum = 88})
+runWriter (naiveFib 20)
+output: (6765,Sum {getSum = 10945})
+
+runWriter (optFib 10)
+output: (55,Sum {getSum = 9})
+runWriter (optFib 20)
+output: (6765,Sum {getSum = 19})
+\end{lstlisting}
+
+Clearly, \lsin|naiveFib| is very naïve indeed, with the number of additions growing very fast with its argument!
+
+\section{The \texorpdfstring{\texttt{IO}}{IO} Monad}
+
+We've talked about the purity of Haskell, how it inviabilizes a few common programming constructs, and a few ways that category theory gives us alternatives via powerful abstractions. Now let's talk about the concept that suffers the most from the introduction of purity: \emph{input and output}.
+
+Recall that functions in Haskell are only mathematical functions: they receive an input and they return an output. Since a Haskell program is only a composition of Haskell functions, and hence a function itself, it could do nothing upon execution other than a single computation. Let's look over some things that cannot be done under the umbrella of purity:
+\begin{itemize}
+\item Print messages to the screen (implicit output)
+\item Get input from the user (implicit input)
+\item Draw an image on screen (implicit output)
+\item Read/write files in disk (implicit input and output)
+\item Generate random numbers (unless we want the same numbers every time we run the program, we need implicit input)
+\item Get the time and date (implicit input)
+\item Execute other programs (implicit input and output)
+\item Internet functionality (implicit input and output)
+\item The list goes on...
+\end{itemize}
+
+All of these problems are partially or totally solved by the so-called \lsin|IO| monad.
+
+\subsection{The Solution}
+
+So how do we make a Haskell program, whose functions must all be pure, interact with the outside world? The built-in Haskell way to interact with the outside world is through the \lsin|IO| monad. There are many ways to interpret or explain the \lsin|IO| monad: see \cite{so1} for a few, \cite{ioinside} for another and \cite{burritos} for an article on the difficulty of teaching \lsin|IO| and monads to novices. For concreteness and conciseness we will only look at one of these interpretations, which can be found in \cite{so1}.
+
+The idea is the following. Under the assumption that Haskell is pure without exception, a Haskell program can do nothing but compute a Haskell value, which is the same every time the program is run. The idea is to postulate the existence of a Haskell type which represents a (possibly impure) program. Let us call this hypothetical type \lsin|Program|.
+
+Then, our Haskell program would do its computations, culminating in a value of type \lsin|Program|, and this value would be passed to an external interpreter who would then execute it. This way, with the help of this external interpreter, Haskell remains a pure engine of computation (as the returned \lsin|Program| is the same every time it is executed) but it becomes capable of interaction with the external world. See figure \ref{fig:program} for a visual representation of this process.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance = 1.6cm]
+\node[matrix, draw=blue, very thick, row sep = 1em] (I)
+{
+\node{External Interpreter};\\
+\node[draw, inner sep = 1em] (H) {Haskell};\\[2em]
+\node[draw] (P) {\texttt{Program}};\\
+};
+\draw[->] (H)--(P);
+\node (Inp) [left=of I] {User input};
+\node (IL) at (I.west) {};
+\draw[->, thick] (Inp) -- (IL);
+\draw[->, thick] (IL) -- (P);
+\node (Out) [right=of I] {Output (screen, disk, etc.)};
+\node (IR) at (I.east) {};
+\draw[->, thick] (P) -- (IR);
+\draw[->, thick] (IR) -- (Out);
+\end{tikzpicture}
+\caption{Visual representation of the (fictitious) external interpreter connecting to Haskell to run a \lsin|Program|}\label{fig:program}
+\end{figure}
+
+One thing that we ought to be able to do with \lsin|Program|s is compose them. For example, suppose that we have a program \lsin|askName :: Program| and another \lsin|greet :: String -> Program|, the first of which asks the user for their name, and the second of which, given a name, will print `Hello, \textit{name}' on the screen. It is reasonable to want to build a composite program, \lsin|askAndGreet :: Program|, which asks the user for their name and proceeds to greet them. How could we define \lsin|askAndGreet| starting from \lsin|askName| and \lsin|greet|?
+
+Unfortunately, we can't, because the \lsin|Program| abstraction is missing one critical thing: \lsin|Program|s are unable to pass the results of their computations onwards to other \lsin|Program|s. In this case, \lsin|askName| should be able to give its output (the user input) to \lsin|greet|. Therefore, we now allow a different kind of \lsin|Program|, which besides its implicit input and output (via effects on the world) also has an explicit output, which can be passed onwards to other \lsin|Program|s. This new kind of program is called \lsin|IO|, or rather, \lsin|IO a|, with \lsin|a| a Haskell type. To recap:
+\begin{itemize}
+\item A value of type \lsin|Program| is an instruction or sequence of instructions built by Haskell, which the external interpreter executes,
+\item However, since this formalism does not have a built-in way to pass outcomes of some programs to others, we add a new type of program: \lsin|IO|.
+\item A value of type \lsin|IO a|, with \lsin|a| a Haskell type, is an instruction or sequence of instructions built by Haskell, which the external interpreter executes, which culminates in a value of type \lsin|a|.
+\end{itemize}
+
+There is but one short hop before we understand how Haskell deals with side effects: the type \lsin|Program| does not actually exist. Indeed, a program which does not culminate in any value can be identified with a program that culminates in an object of a trivial type, such as \lsin|()|. For example, the Haskell function \lsin|putStrLn| is of type \lsin|String -> IO ()|.
+
+\subsection{Working with \texorpdfstring{\texttt{IO}}{IO} and a few Examples}
+
+Let us look at a couple of the simplest \lsin|IO| functions in Haskell:
+\begin{lstlisting}
+getLine :: IO String
+putStrLn :: String -> IO ()
+\end{lstlisting}
+
+These types should be interpreted as: \lsin|getLine| is a program which goes off into the world and comes back to Haskell with a \lsin|String|, usually input that the user has written into the console. On the other hand, \lsin|putStrLn| isn't a program in its own right: it is a function which receives a \lsin|String| and returns a program, which in turn does some action on the outside world (printing the \lsin|String|) and returns no information.
+
+\paragraph{Hello World}
+Our first program with side effects will be the classical `Hello world!':
+\begin{lstlisting}
+main :: IO ()
+main = putStrLn "Hello world!"
+\end{lstlisting}
+
+This program, when compiled, results in an executable which, when run, prints the string `Hello world!' to the screen. Note the use of \lsin|main|. A Haskell file will typically define many functions, so we need to tell the compiler which of them builds the \lsin|IO ()| value it is meant to execute, so it looks for a value of type \lsin|IO ()| and name \lsin|main|.
+
+\paragraph{Echo and Bind}
+Let us now make a program which receives input from the user and repeats it back to them. To get the input from the user we want the \lsin|IO String| action \lsin|getLine|, and we want to feed its output (a \lsin|String|) to the \lsin|putStrLn| function. Unfortunately, it's not as easy as writing \lsin|putStrLn . getLine|, as the types don't match. In terms of purity, this would require knowing the result of \lsin|getLine| at the time that we are executing the pure Haskell code, and this is implicit input.
+
+What we really need is a function that does the following: given an \lsin|IO| action which culminates in a value of type \lsin|a|, and a function which turns such a value into another computation of type \lsin|IO b|, we want to write the program `do this thing, feed the \lsin|a| into this function, and do that other thing'. The operator that does this composition is called \emph{bind}:
+\begin{lstlisting}
+(>>=) :: IO a -> (a -> IO b) -> IO b
+\end{lstlisting}
+
+This is the tool necessary to do the echo program:
+\begin{lstlisting}
+main = getLine >>= putStrLn
+\end{lstlisting}
+
+\paragraph{Prompting and Prettying: Using Lambdas}
+
+We will now make a less rude program. Instead of simply getting input and saying it right back like a petulant child, we will kindly ask the user for their name, and upon getting it with the use of \lsin|getLine|, we will return a greeting `Hello, \textit{name}!'.
+
+First, we define the \lsin|IO ()| action which consists of prompting the user:
+\begin{lstlisting}
+askName :: IO ()
+askName = putStrLn "Hello! What is your name?"
+\end{lstlisting}
+
+Then, we define a function which gets the user input and returns a greeting. To this effect, we need to modify the input (turning the name into a pretty message) before printing it. To do this, we could first define an auxilliary function, which is then composed with \lsin|getLine|:
+\begin{lstlisting}
+greet :: String -> IO ()
+greet name = putStrLn ("Hello, " ++ name ++ "!")
+
+getNameAndGreet :: IO ()
+getNameAndGreet = getLine >>= greet
+\end{lstlisting}
+
+However, in order to avoid cluttering our code with functions that are only ever used once, it is sometimes better to instead use a lambda expression in place of \lsin|greet|:
+\begin{lstlisting}
+getNameAndGreet :: IO ()
+getNameAndGreet = getLine >>= (\name -> putStrLn ("Hello, " ++ name ++ "!"))
+\end{lstlisting}
+
+Finally, we compose \lsin|askName| and \lsin|getNameAndGreet|. However, we cannot use \lsin|>>=|: for that to work, we would need that \lsin|getNameAndGreet| be of type \lsin|() -> IO ()|, and not \lsin|IO ()|. The fix is simple, however: instead of writing \lsin|getNameAndGreet| on the right-hand side of \lsin|>>=| we write a function which takes one argument of type \lsin|()|, ignores it, and returns the \lsin|IO| action \lsin|getNameAndGreet|.
+\begin{lstlisting}
+main = askName >>= (\x -> getNameAndGreet)
+\end{lstlisting}
+
+Of course, writing this is slightly silly and verbose for something as simple as `run this program then run this one', so Haskell offers an alternative, via the \lsin|>>| operator, which can be read as `and then':
+\begin{lstlisting}
+(>>) :: IO a -> IO b -> IO b
+a1 >> a2 = a1 >>= (\x -> a2)
+\end{lstlisting}
+
+We may write our greeting program without any auxilliary functions, to see it in all its glory:
+\begin{lstlisting}
+main = putStrLn "Hello! What is your name?" >>
+       getLine >>=
+       (\name -> putStrLn ("Hello, " ++ name ++ "!"))
+\end{lstlisting}
+
+
+\paragraph{\texttt{IO} is a Functor}
+
+In the previous example, we got user input and forwarded it, using \lsin|>>=|, to another function which processed it and returned another \lsin|IO| action. However, sometimes it is more appropriate to associate the processing to the left-hand side of \lsin|>>=| than to the right-hand side.
+
+As an example, consider the following scenario: we wish to make a program that receives an integer input by the user, doubles it, and prints it on the screen. Let us take for granted that there exists a function \lsin|strToInt :: String -> Int| which reads an integer off of a string.\footnote{In Haskell, there is the \lsin|read| function which does just that, but it is unsafe as it crashes the program if it is fed invalid input. There are other, safer alternatives, but it should suffice to say that they exist.} Then, our program could be written as
+\begin{lstlisting}
+main = getLine >>= (putStrLn . strToInt)
+\end{lstlisting}
+
+However, suppose that we want to isolate the `get an integer from the user' action. In other words, we want to build a Haskell object of type \lsin|IO Int|, using \lsin|getLine :: IO String| and \lsin|strToInt :: String -> Int|. Again, we cannot simply construct a composite \lsin|strToInt . getLine|, as the types don't match, but if we could build a function \lsin|IO String -> IO Int| out of \lsin|strToInt| our problem would be solved. Interpreting this in the program framework, this function would take an \lsin|IO String|, i.e. a sequence of instructions for the external interpreter telling it how to fetch a \lsin|String| from the outside world, and add to the very end of these instructions `when you're done getting that \lsin|String|, apply the function \lsin|strToInt| to it'. 
+
+This function exists, and can be constructed via \lsin|fmap strToInt|. Yes, this is the same \lsin|fmap| as in \ref{sec:functors}: \lsin|IO| is a functor! In other words, if we define a map $F \colon \Hask \to \Hask$ given by
+\begin{itemize}
+\item If $a$ is a type, $F(a) = \typecons{IO} a$,
+\item If $f \colon a \to b$, define $F(f) \colon F(a) \to F(b)$ as in the previous paragraph,
+\end{itemize}
+then $F$ is a functor. In other words, \lsin|fmap| satisfies the functor laws.\footnote{Strictly speaking, this is not necessarily true. There might be a small difference between \lsin|action :: IO a| and \lsin|fmap id action|: the former is a sequence of instructions, and the latter is the same sequence \emph{followed by} `and then, apply \lsin|id| to the result'. Of course, this is obviously of no consequence, except perhaps for an infinitesimal delay in execution, and it is very likely that the compiler would optimize away such a frivolous instruction anyway. Regardless of whether there exists a difference or not, there is no harm in accepting the fiction that \lsin|IO| is a functor, in much the same way that engineers do not need to correct for relativistic effects.}
+
+In conclusion, we are now able to define an \lsin|IO Int| action which reads an integer from the console, as
+\begin{lstlisting}
+getInt :: IO Int
+getInt = fmap strToInt getLine
+\end{lstlisting}
+
+\paragraph{The Monad Laws}
+
+From the discussion above, we are able to conclude a very important fact relating \lsin|>>=| and \lsin|fmap| which will be very important later on: doing an \lsin|IO|-free computation is the same before or after \lsin|>>=| is irrelevant. In other words, if \lsin|act1 = IO a|, \lsin|f :: a -> b| and \lsin|act2 = a -> IO b| then
+\begin{equation}
+\lsmath{act >>= (act2 . f) = (fmap f act) >>= act2}
+\end{equation}
+
+This is the most important of the so-called \emph{monad laws}, which will be heavily discussed in section \ref{sec:monads}.
+
+\subsection{Conclusion}
+
+In this section, we discussed what a value of type \lsin|IO a| is (it is a sequence of instructions for the interpreter to go out into the world and get Haskell an object of type \lsin|a|), how to compose \lsin|IO| actions with functions that take their results and return other \lsin|IO| actions via the \lsin|>>=| operator, and how \lsin|IO| is a functor.
+
+The \lsin|>>=| operator changes our metaphor slightly, because it allows for the outside world to talk to Haskell. For example, consider the program
+\begin{lstlisting}
+main = getLine >>= (\in -> if in == "jackpot" then putStrLn "You hit the jackpot!" else putStrLn "...")
+\end{lstlisting}
+
+Then, when the interpreter executes this program, first it gets user input, and then it consults Haskell `hey, I got this input, what do I do now?', and Haskell replies with another \lsin|IO| action. Consequently, figure \ref{fig:program} could be improved, leading to figure \ref{fig:program2}, which represents Haskell not as a box which is executed once to yield a \lsin|Program|, but rather as an engine the interpreter is in constant conversation with, executing actions, showing their results to Haskell, and consulting it about what to do next.
+\begin{figure}
+\centering
+\begin{tikzpicture}[node distance = 1.6cm]
+\node[matrix, draw=blue, very thick, row sep = 1em] (I) at (0,0)
+{
+\node{External Interpreter};\\
+\node[draw, inner sep = 1em] (H) {Haskell};\\[2em]
+\node[draw] (P1) at (-1,0) {\texttt{IO a}};
+\node[draw] (P2) at (1,0) {\texttt{IO b}};\\
+};
+\draw[->] (P1)--(H) node[midway, fill=white] {\texttt{a}};
+\draw[->] (H)--(P2) node[midway, fill=white] {output};
+\node (Inp) at (-5,0) {User input};
+\node (IL) at (I.west) {};
+\draw[->, thick] (Inp) -- (IL);
+\draw[->, thick] (IL) -- (P1);
+\node (Out) at (5,0) {Output};
+\node (IR) at (I.east) {};
+\draw[->, thick] (P2) -- (IR);
+\draw[->, thick] (IR) -- (Out);
+
+\node (BO) [below=4cm of Out] {};
+\node (BI) [below=4cm of Inp] {};
+
+\draw[->] (Out) .. controls (BO) and (BI) .. (Inp);
+\end{tikzpicture}
+\caption{Visual representation of the ongoing conversation between Haskell and the (fictitious) interpreter}\label{fig:program2}
+\end{figure}
+
 
 \section{The Monad Family}\label{sec:monads}
 

@@ -146,7 +146,7 @@ bcphi2h.margin = 1.5
 bcphi2h.barcodeLabelMargin = 3
 bcphi2h.startY = -1.2
 
-print("\n".join(bcphi2h.printBarcode()))
+#print("\n".join(bcphi2h.printBarcode()))
 
 a = 0.8
 
@@ -158,3 +158,10 @@ bcphi20.addRow("$(\CF_{1})$").addBar(4*a,math.inf,"$B_3$")
 
 #print("\n".join(bcphi20.printBarcode()))
 
+bct1 = Barcode().addTag(0,"$z_1$").addTag(1,"$z_2$").addTag(2,"$z_3$").addTag(3,"$z_4$")
+bct1.addRow("").addBar(1,math.inf,"").addBar(2,math.inf,"")
+
+bct1.spaceBetweenBars = -0.3
+bct1.margin = 0.3
+
+print("\n".join(bct1.printBarcode()))

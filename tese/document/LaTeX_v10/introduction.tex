@@ -1,5 +1,102 @@
+% !TeX root = Thesis.tex
+
 \chapter{Introduction}
 
-This is a first draft and not intended to be quality work. It is heavily based on \cite{polterovich}.
+\section{Context}
 
-To do: Add a motivating example.
+\paragraph{Persistence Homology}
+Persistence Homology is a relatively recent area of mathematics. It was borne from the need to approximate homology of spaces in data science, but flourished into a tool applicable to many areas of mathematics, including differential and symplectic geometry. For a historical overview see \cite{historypersistence}.
+
+To understand persistence homology, it is instructive to first look at a concrete example. Consider a torus embedded vertically in $\R^3$ as in figure \ref{fig:torus1}, with the critical values of the height function at 
+$z_1 < z_2 < z_3 < z_4$. Classical homology (which does not care how the torus is embedded in $\R^3$) tells us that the torus has one connected component, two holes in dimension 1, and one hole in dimension 2. Persistence homology goes further, by telling us roughly where these holes are located.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\draw[->] (-2,-3) -- (-2,3.5) node[right] {$z$};
+
+\draw (0,0) ellipse (1.5 and 2.7);
+  \begin{scope}
+    \clip (1.4,0) ellipse (1.8 and 3);
+    \draw[name path global=p1] (-1,0) ellipse (1.2 and 2);
+  \end{scope}
+  \begin{scope}
+    \clip (-1,0) ellipse (1.2 and 2);
+    \draw[name path global=p2] (1,0) ellipse (1.2 and 2);
+  \end{scope}
+\draw[dashed] (0, 2.7) -- (-1.9, 2.7);
+\draw (-1.9,2.7) -- (-2.1,2.7) node[left] {$z_4$};
+
+\draw[dashed] (0, -2.7) -- (-1.9, -2.7);
+\draw (-1.9,-2.7) -- (-2.1,-2.7) node[left] {$z_1$};
+
+\node (origin) at (0,0) {};
+\node (tr) at (-1.9,0) {};
+\node (tl) at (-2.1,0) {};
+
+
+\path [name intersections={of=p1 and p2}];
+
+
+\draw[dashed] (origin |- intersection-1) -- (tr |- intersection-1);
+\draw (tr |- intersection-1) -- (tl |- intersection-1) node[left] {$z_3$};
+
+\draw[dashed] (origin |- intersection-2) -- (tr |- intersection-2);
+\draw (tr |- intersection-2) -- (tl |- intersection-2) node[left] {$z_2$};
+
+
+\end{tikzpicture}
+\caption{An embedding of a torus in $\R^3$}\label{fig:torus1}
+\end{figure}
+
+Define $X_t$, for $t \in \R$, as the subset of the torus $T$ given by
+\begin{equation}
+X_t = \{ (x,y,z) \in T \mid z < t \}.
+\end{equation}
+
+This is an example of a \emph{filtration of the torus}: a decomposition of $T$ as an increasing union of suitable spaces. If we compute, say, the first homology of the spaces $X_t$, we get a family of modules
+\begin{equation}
+V_t = H_1(X_t), t \in \R,
+\end{equation}
+which give us far more information that $H_1(T)$ alone.
+
+From this point onward, we restrict our attention to the case of homology with coefficients in a field $\FF$, as the theory on persistence homology over other rings is much sparser.
+
+The inclusion maps $i_{ts} \colon X_t \hookrightarrow X_s$ for $t \leq s$ induce linear maps $\pi_{ts} \colon V_t \to V_s$, and these maps satisfy the equation
+\begin{equation}
+\pi_{sr} \circ \pi_{ts} = \pi_{tr}, \quad t < s < r,
+\end{equation}
+as well as $\pi_{tt} = \id$. Such a collection of data (a real-indexed family of vector spaces and maps $\pi_{ts}$ as above) is called a \emph{persistence module} and besides giving us information on the topological features of the space, it gives us an idea of where they are located.
+
+Let us look at the example of the torus from figure \ref{fig:torus1}. Its persistence homology is (up to isomorphism) given by the following description. For $t \leq z_1$, $X_t$ is empty, and for $z_1 < t \leq z_2$, $X_t$ is homeomorphic to a disk. Therefore, for $t \leq z_2$, $X_t = \{0\}$. At $t = z_2$, the disk suddenly becomes closed, so $V_t$ becomes isomorphic to $\FF$. Finally, at $t = z_3$ the second handle is closed, so $V_t$ becomes $\FF^2$.
+
+This concludes the computation of the spaces $V_t$, but it is also necessary to specify the linear maps $\pi_{ts} \colon V_t \to V_s$. In this case, it is easy to check that they are the inclusions $\FF^n \hookrightarrow \FF^m$, where $m$ and $n$ are as appropriate. Thus, we have the persistence module of first homology the torus $T$ (associated to the particular embedding from figure \ref{fig:torus1}), but we do not yet have a good representation for it.
+
+Enter barcodes and the Normal Form Theorem. A barcode is a simple combinatorial object, given by a finite multiset\footnote{This is a set whose elements are counted with multiplicity} of intervals in $\R$. To each barcode $B$ is associated a persistence module denoted $\FF(B)$ in a natural way, it is a surprising fact that, under reasonable finiteness assumptions, to each persistence module is associated a unique barcode:
+\begin{theorem*}[Normal form theorem]
+Let $V = (\{V_t\}_{t \in \R}, \{\pi_{ts}\}_{t<s})$ be a persistence module of finite type. Then, there exists a unique barcode $B$ such that $V$ is isomorphic to $\FF(B)$.
+\end{theorem*}
+
+This theorem may be applied to the persistence module of the torus computed before, yielding a barcode with two bars, which is represented in figure \ref{fig:bctorus}.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[xscale=3]
+\draw[->,thick] (-0.300,0.000)--(3.300,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {$z_1$};
+\draw[] (1.000,-0.200)--(1.000,0.200) node[above] {$z_2$};
+\draw[] (2.000,-0.200)--(2.000,0.200) node[above] {$z_3$};
+\draw[] (3.000,-0.200)--(3.000,0.200) node[above] {$z_4$};
+\draw[(-,thick] (1.000,-0.500)--(3.255,-0.500) node[right] {};
+\draw[(-,thick] (2.000,-0.800)--(3.255,-0.800) node[right] {};
+\end{tikzpicture}
+\caption{Visual representation of the barcode associated to the first homology of the torus in \ref{fig:torus1}.}\label{fig:bctorus}
+\end{figure}
+
+This correspondence is akin to a very familiar fact from linear algebra: every finite-dimensional vector space is uniquely identified by a single natural number, its dimension. Persistence modules are a bit more complicated than vector spaces, so they are represented by a more complex object, but it is still surprising that all the information in a (finite type) persistence module can be summarized in such a simple object.
+
+
+
+\paragraph{Symplectic Geometry and Floer Homology}
+
+x
