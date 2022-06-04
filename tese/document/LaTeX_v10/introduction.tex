@@ -3,7 +3,7 @@
 \chapter{Introduction}
 
 \paragraph{Persistence Homology}
-Persistence Homology is a relatively recent area of mathematics. It was borne from the need to approximate homology of spaces in data science, but flourished into a tool applicable to many areas of mathematics, including differential and symplectic geometry. For a historical overview see \cite{historypersistence}.
+Persistence Homology is a relatively recent area of mathematics. It was borne from the need to approximate homology of spaces in data science, but flourished into a tool applicable to many areas of mathematics, including differential and symplectic geometry. For a historical overview see \cite{historypersistence}. For a recent exposition of persistence homology applied to geometry and topological function theory see \cite{polterovich}.
 
 To understand persistence homology, it is instructive to look at a concrete example. Consider a torus embedded vertically in $\R^3$ as in figure \ref{fig:torus1}, with the critical values of the height function at 
 $z_1 < z_2 < z_3 < z_4$. Classical homology (which does not care how the torus is embedded in $\R^3$) tells us that the torus has one connected component, two holes in dimension 1, and one hole in dimension 2. Persistence homology goes further, by telling us roughly where these holes are located.
@@ -22,6 +22,8 @@ $z_1 < z_2 < z_3 < z_4$. Classical homology (which does not care how the torus i
     \clip (-1,0) ellipse (1.2 and 2);
     \draw[name path global=p2] (1,0) ellipse (1.2 and 2);
   \end{scope}
+  
+  
 \draw[dashed] (0, 2.7) -- (-1.9, 2.7);
 \draw (-1.9,2.7) -- (-2.1,2.7) node[left] {$z_4$};
 
@@ -147,7 +149,7 @@ In an effort to fill this gap in the literature, we compute in detail the barcod
 
 We have already briefly gone over the process for computing the barcode of the time-one flow of $H$: First, compute the contractible time-one periodic orbits of $H$, then compute their actions and Maslov indices, and finally compute the differential maps. Of these steps, computation of the differential maps is the one which is most difficult, as it requires counting solutions of certain PDEs with boundary conditions at infinity, which is no easy task. Fortunately, in simple enough cases such as the ones we work with in this thesis, the barcode is actually fully determined by the fact that Floer homology (and hence filtered Floer homology for high values of $\lambda$) agrees with the usual homology of the space.
 
-The most difficult part of computing barcodes then becomes, in our case, computing the Maslov indices of our orbits. We did not find many approaches to computing Maslov indices which proved suitable to calculation: the best we found is a formula based on signed crossings between a certain path of symplectic matrices and a certain space $\Sigma$ (see def. 8.1.1 in \cite{polterovich}), but that approach proved unsuitable for the paths that we will be dealing with, as they cross $\Sigma$ an infinite number of times and hence the formula is not applicable. Therefore, we devised a new (to the best of our knowledge) way to compute Maslov indices, specialized to dimension two, which is based on computing the trace and entries of a certain path of matrices, all of which are readily accessible when computing particular examples.
+The most difficult part of computing barcodes then becomes, in our case, computing the Maslov indices of our orbits. We did not find many approaches to computing Maslov indices which proved suitable to calculation: the best we found is a formula based on signed crossings between a certain path of symplectic matrices and a certain space $\Sigma$ (see def. 8.1.1 in \cite{polterovich} or page 7 of \cite{robbin1993maslov}), but that approach proved unsuitable for the paths that we will be dealing with, as they cross $\Sigma$ an infinite number of times and hence the formula is not applicable. Therefore, we devised a new (to the best of our knowledge) way to compute Maslov indices, specialized to dimension two, which is based on computing the trace and entries of a certain path of matrices, all of which are readily accessible when computing particular examples.
 
 Let us be a bit more specific. Let $\gamma(t)$ be a periodic orbit of a Hamiltonian $H$, whose time-$t$ flow we call $\phi_t$, and we suppose that it satisfies a technical condition called nondegeneracy, the details of which are not relevant at the moment. To define the Maslov index of $\gamma$, we begin by picking an appropriate symplectic basis $Z_1(t), \dots, Z_{2n}(t)$ for the tangent space at each $\gamma(t)$, and compute the path of symplectic matrices $A(t)$ satisfying
 \begin{equation}

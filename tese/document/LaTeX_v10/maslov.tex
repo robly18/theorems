@@ -1035,3 +1035,106 @@ I(A) \subseteq \ointerval{-\pi}\pi - \mu(A(t)) \pi.
 
 Now, as per definition \ref{def:muhk} of $\muhk$, if $\mu(A(t))$ is odd we immediately obtain that $\muhk(A(t)) = -\mu(A(t))$. On the other hand, if $\mu(A(t))$ is even, we need to show that $\mu(A(t)) \in I(A)$. To this effect, we use property \ref{calcmaslov:ab5}. Note that if $\mu(A(t))$ is even then $N$ is odd. Therefore, $\trace A(a_N) \leq -2$, and so $\trace A(T) \geq 2$. As a consequence, $A(T)$ has a positive eigenvalue. If we let $z$ be a corresponding eigenvector, then $\Delta(z)$ is a multiple of $2\pi$ and must therefore be equal to $-\mu(A(t)) \pi$. Therefore, $-\mu(A(t)) \pi \in I(A)$ and so $\muhk(A(t)) = -\mu(A(t))$.
 \end{proof}
+
+\section{Relation to a construction by Robbin and Salamon}
+
+Robbin and Salamon introduce in \cite{robbin1993maslov} (remark 5.4) a construction of the Maslov index (therein called Conley-Zehnder index) which is suitable for computation, under the assumption that the paths under consideration are regular enough.
+
+\begin{definition}
+Let $A(t)$, $t \in \interval0T$ be a differentiable path of symmetric matrices in $Sp(2n)$, with $A(0) = I$ and $A(T) \in Sp(2n)^*$. A value of $t \in \interval0T$ is said to be a \emph{crossing} if  $A(t) \in Sp(2n)^0$, i.e. $A(t)$ has 1 as an eigenvalue.
+
+To each crossing $t$ we associate the matrix $S = J_0 \dot A(t)$, with
+\begin{equation}
+J_0 = \begin{bmatrix} 0 & -I \\ I & 0 \end{bmatrix}.
+\end{equation}
+
+We will show (lemma \ref{lemma:rs1} below) that $S$ determines a symmetric 2-tensor $\Gamma(A,t)$ on the set of one-eigenvectors of $A$, which we will henceforth refer to as
+\begin{equation}
+V := \ker(A - I).
+\end{equation}
+
+Given a symmetric 2-tensor $\Gamma(A,t) \colon V \times V \to \R$, we may, by applying the spectral theorem, find a basis $v_1, \dots, v_k$ such that
+\begin{equation}
+\Gamma(A,t)(v_i, v_j) = \lambda_i \delta_{ij},
+\end{equation}
+where $\delta_{ij}$ denotes the Kronecker delta. In other words, $\Gamma(A,t)$ is diagonal in this basis.
+
+If any of the $\lambda_i$ equals zero, the 2-tensor is said to be \emph{degenerate}, and in this case we say that the crossing $t$ is degenerate. Otherwise, we denote
+\begin{equation}
+\sign(\Gamma(A,t)) = \#\{\lambda_i > 0\} - \#\{\lambda_i < 0\}.
+\end{equation}
+
+By inspecting how the matrix of $\Gamma(A,t)$ changes under change of basis it is possible to check that its characteristic polynomial is independent of basis, and hence that the notions of degeneracy and sign of $\Gamma(A,t)$ are well-defined.
+
+If $A$ is a path whose crossings are all nondegenerate, (lemma Y below) there exists a finite number of crossings, and in this case we define the \emph{Maslov index \textit{a la} Robbin and Salamon} as
+\begin{equation}
+\murs(A(t)) = \frac12 \sign(\Gamma(A,0)) + \sum_{\text{$t$ crossing in $\ointerval0T$}} \sign(\Gamma(A,t)).
+\end{equation}
+\end{definition}
+
+In this section we show, using corollary \ref{calcmaslov1}, that in the two-dimensional case, [[...]]. But first, we prove the lemmas necessary to ensure that the Maslov index \textit{a la} Robbin and Salamon is well-defined.
+
+\begin{remark}\label{rmk:degendef}
+The definition we gave above for degeneracy of the 2-tensor $\Gamma(A,t)$ is that the matrix which represents it in an arbitrary basis of $V$ has no zero eigenvalues. It is possible to check that this definition is equivalent to the following:
+\begin{equation}
+\text{For all $v \in V$ with $v \neq 0$ there exists $w \in V$ such that $\Gamma(A,t)(v,w) \neq 0$.}
+\end{equation}
+\end{remark}
+
+\begin{lemma}\label{lemma:rs1}
+Let $A$ be a differentiable path of symplectic matrices and define $\Gamma(A,t)$ and $V$ as above, where $t$ is a crossing. Then, $\Gamma(A,t)$ is symmetric on $V$.
+\end{lemma}
+
+\begin{proof}
+We begin with the simple observation: Since $A(t)$ is a path of symplectic matrices, $A(t)^\transposed J_0 A(t)$ is constant equal to $J_0$. As a consequence, its time-derivative is null, i.e.
+\begin{equation}\label{eq:dotat}
+\dot A(t)^\transposed J_0 A(t) + A(t)^\transposed J_0 \dot A(t) = 0.
+\end{equation}
+
+Now, by definition, for $v,w \in V$ we have
+\begin{equation}
+\Gamma(A,t)(v,w) = v^\transposed J_0 \dot A(t) w,
+\end{equation}
+and since $v \in V$ we may write $v = A(t) v$, hence
+\begin{equation}\label{eq:gammaat1}
+\Gamma(A,t)(v,w) = v^\transposed A(t)^\transposed J_0 \dot A(t) w.
+\end{equation}
+
+Now we may apply \eqref{eq:dotat} and rewrite \eqref{eq:gammaat1} as
+\begin{equation}
+\Gamma(A,t)(v,w) = v^\transposed \dot A(t)^\transposed J_0 A(t) w = v^\transposed \dot A(t)^\transposed J_0 w.
+\end{equation}
+
+Finally, since this is a real number it equals its own transpose, which is, by definition, $\Gamma(A,t)(w,v)$. This completes the proof that $\Gamma(A,t)$ is symmetric.
+\end{proof}
+
+\begin{lemma}
+Let $A(t)$ be a smooth path of symplectic matrices, and $t_0 \in \interval0T$ a smooth crossing. Then, there exists a neighborhood of $t_0$ in which $t_0$ is the only crossing. In particular, there exists a finite number of crossings in $\interval0T$.
+\end{lemma}
+
+\begin{proof}
+Suppose that there exists a sequence of crossings $t_n \to t_0$, with $t_n \neq t_0$ for all $n$. For each crossing, pick $v_n \neq 0$ such that $A(t_n) v_n = v_n$. Without loss of generality, we may pick all $v_n$ to have norm equal to one, and hence, since the unit ball is compact, by taking a subsequence we may assume that $v_n$ converges to some $v$. By taking the limit on both sides of $A(t_n) v_n = v_n$, we conclude that $v \in V$, i.e. $A(t_0) v = v$.
+
+Suppose furthermore that $\Gamma(A,t_0)$ is nondegenerate. Then, by remark \ref{rmk:degendef}, there exists some $w \in V$ such that
+\begin{equation}
+w^\transposed J_0 \dot A(t) v \neq 0.
+\end{equation}
+
+As a consequence, we conclude
+\begin{equation}\label{eq:derivativegamma}
+\lim \frac{w^\transposed J_0 A(t_n) v_n - w^\transposed J_0 A(t) v_n}{t_n - t} \neq 0.
+\end{equation}
+
+However, notice the following. Since $A(t_n) v_n = v_n$, we conclude $w^\transposed J_0 A(t_n) v_n = w^\transposed J_0 v_n$. Furthermore, by lemma \ref{lemma:rs1},
+\begin{equation}
+w^\transposed J_0 A(t) v_n = w^\transposed A(t)^\transposed J_0 v_n = w^\transposed J_0 v_n,
+\end{equation}
+where we used the fact that $w \in V$ to remove $A(t)^\transposed$.
+
+In conclusion, \eqref{eq:derivativegamma} cannot hold, as
+\begin{equation}
+\lim \frac{w^\transposed J_0 v_n - w^\transposed J_0 v_n}{t_n - t} = \lim \frac{w^\transposed J_0 A(t_n) v_n - w^\transposed J_0 A(t) v_n}{t_n - t} = 0.
+\end{equation}
+
+This contradiction proves that a nondegenerate crossing cannot have arbitrarily close crossings.
+\end{proof}

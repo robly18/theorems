@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11	pt]{article}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -563,7 +563,7 @@ and composition in the Kleisli category is given by the so-called `fish operator
 \end{lstlisting}
 where \lsin|f <=< g| is implemented as the \lsin|h| above.
 
-Until now, we have been using pairs \lsin|(w,a)| to store data and logs. However, the \lsin|Writer| monad uses instead the type \lsin|Writer w a|. This is a distinct type, but it is isomorphic to \lsin|(w,a)|, and the isomorphism is given by the \lsin|writer| function.
+Until now, we have been using pairs \lsin|(w,a)| to store data and logs. However, the \lsin|Writer| monad uses instead the type \lsin|Writer w a|. This is a distinct type, but it is isomorphic to \lsin|(w,a)|, and the isomorphism is given by a function called \lsin|writer|.
 
 Well, actually, for historical reasons, the argument of \lsin|writer| actually has the product swapped. More concretely, \lsin|writer| is a function of type \lsin|(a,w) -> Writer w a|. Obviously this is of no real consequence, as \lsin|(a,w)| is isomorphic to \lsin|(w,a)|. The following diagram shows the isomorphisms between the three types \lsin|(w,a)|, \lsin|(a,w)|, and \lsin|Writer w a|.
 
@@ -799,7 +799,7 @@ main = putStrLn "Hello world!"
 This program, when compiled, results in an executable which, when run, prints the string `Hello world!' to the screen. Note the use of \lsin|main|. A Haskell file will typically define many functions, so we need to tell the compiler which of them builds the \lsin|IO ()| value it is meant to execute, so it looks for a value of type \lsin|IO ()| and name \lsin|main|.
 
 \paragraph{Echo and Bind}
-Let us now make a program which receives input from the user and repeats it back to them. To get the input from the user we want the \lsin|IO String| action \lsin|getLine|, and we want to feed its output (a \lsin|String|) to the \lsin|putStrLn| function. Unfortunately, it's not as easy as writing \lsin|putStrLn . getLine|, as the types don't match. In terms of purity, this would require knowing the result of \lsin|getLine| at the time that we are executing the pure Haskell code, and this is implicit input.
+Let us now make a program which receives input from the user and repeats it back to them. To get the input from the user we want the \mbox{\lsin|IO String|} action \lsin|getLine|, and we want to feed its output (a \lsin|String|) to the \lsin|putStrLn| function. Unfortunately, it's not as easy as writing \lsin|putStrLn . getLine|, as the types don't match. In terms of purity, this would require knowing the result of \lsin|getLine| at the time that we are executing the pure Haskell code, and this is implicit input.
 
 What we really need is a function that does the following: given an \lsin|IO| action which culminates in a value of type \lsin|a|, and a function which turns such a value into another computation of type \lsin|IO b|, we want to write the program `do this thing, feed the \lsin|a| into this function, and do that other thing'. The operator that does this composition is called \emph{bind}:
 \begin{lstlisting}
