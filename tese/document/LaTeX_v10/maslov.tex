@@ -1040,7 +1040,7 @@ Now, as per definition \ref{def:muhk} of $\muhk$, if $\mu(A(t))$ is odd we immed
 
 Robbin and Salamon introduce in \cite{robbin1993maslov} (remark 5.4) a construction of the Maslov index (therein called Conley-Zehnder index) which is suitable for computation, under the assumption that the paths under consideration are regular enough.
 
-\begin{definition}
+\begin{definition}\label{def:murs}
 Let $A(t)$, $t \in \interval0T$ be a differentiable path of symmetric matrices in $Sp(2n)$, with $A(0) = I$ and $A(T) \in Sp(2n)^*$. A value of $t \in \interval0T$ is said to be a \emph{crossing} if  $A(t) \in Sp(2n)^0$, i.e. $A(t)$ has 1 as an eigenvalue.
 
 To each crossing $t$ we associate the matrix $S = J_0 \dot A(t)$, with
@@ -1064,10 +1064,10 @@ If any of the $\lambda_i$ equals zero, the 2-tensor is said to be \emph{degenera
 \sign(\Gamma(A,t)) = \#\{\lambda_i > 0\} - \#\{\lambda_i < 0\}.
 \end{equation}
 
-By inspecting how the matrix of $\Gamma(A,t)$ changes under change of basis it is possible to check that its characteristic polynomial is independent of basis, and hence that the notions of degeneracy and sign of $\Gamma(A,t)$ are well-defined.
+See lemma \ref{lemma:signgamma} below for a proof that this integer does not depend on the basis in which $\Gamma(A,t)$ is represented.
 
 If $A$ is a path whose crossings are all nondegenerate, (lemma Y below) there exists a finite number of crossings, and in this case we define the \emph{Maslov index \textit{a la} Robbin and Salamon} as
-\begin{equation}
+\begin{equation}\label{eq:mursdef}
 \murs(A(t)) = \frac12 \sign(\Gamma(A,0)) + \sum_{\text{$t$ crossing in $\ointerval0T$}} \sign(\Gamma(A,t)).
 \end{equation}
 \end{definition}
@@ -1075,14 +1075,69 @@ If $A$ is a path whose crossings are all nondegenerate, (lemma Y below) there ex
 In this section we show, using corollary \ref{calcmaslov1}, that in the two-dimensional case, [[...]]. But first, we prove the lemmas necessary to ensure that the Maslov index \textit{a la} Robbin and Salamon is well-defined.
 
 \begin{remark}\label{rmk:degendef}
-The definition we gave above for degeneracy of the 2-tensor $\Gamma(A,t)$ is that the matrix which represents it in an arbitrary basis of $V$ has no zero eigenvalues. It is possible to check that this definition is equivalent to the following:
+The notion of degeneracy of the 2-tensor $\Gamma(A,t)$ given in definition \ref{def:murs} is that the matrix which represents it in an arbitrary basis of $V$ has no zero eigenvalues. It is possible to check that this definition is equivalent to the following:
 \begin{equation}
 \text{For all $v \in V$ with $v \neq 0$ there exists $w \in V$ such that $\Gamma(A,t)(v,w) \neq 0$.}
 \end{equation}
 \end{remark}
 
+\begin{remark}
+The definition given for the matrix $S = J_0 \dot A(t)$ differs from the one given in \cite{polterovich}, who uses $S = J_0 \dot A(t) A(t)^{-1}$ instead. This is of no consequence for computation: since $\Gamma(A,t)$ is defined precisely on the one-eigenvectors of $A(t)$, the $A(t)^{-1}$ term does not change $\Gamma(A,t)$.
+\end{remark}
+
+\begin{lemma}\label{lemma:signgamma}
+Let $\eta \colon V \times V \to \R$ be a symmetric bilinear map, with $V$ finite-dimensional. Let $v_1, \dots, v_n$ be a basis of $V$ such that $\eta(v_i, v_j) = \lambda_i \delta_{ij}$. Then, the number of indices such that $\lambda_i$ is less than, greater than, and equal to zero, does not depend on the chosen basis.
+\end{lemma}
+
+\begin{proof}
+In order to prove this lemma, we find a basis-independent characterization of how mani eigenvalues have each sign.
+
+We begin with the case $\lambda_i = 0$. We claim that the number of $\lambda_i$ which are equal to zero coincides with the dimension of $V_0$, where
+\begin{equation}
+V_0 := \{v \mid \forall_w\, \eta(v,w) = 0\}.
+\end{equation}
+
+To be more precise, we prove that
+\begin{equation}
+V_0 =  \braket{v_i \mid \lambda_i = 0}.
+\end{equation}
+
+Indeed, every such $v_i$ is in $V_0$. On the other hand, let $v \in V_0$. It may be written in the basis $v_i$ as
+\begin{equation}
+v = \sum a_i v_i.
+\end{equation}
+
+Now, by definition, for each $v_j$ we have $\eta(v,v_j) = a_j \lambda_j$, but also since $v \in V_0$ we have $\eta(v,v_j) = 0$. Therefore, for all $j$ such that $\lambda_j \neq 0$ we have $a_j = 0$, and hence $v \in \braket{v_i \mid \lambda_i = 0}$.
+
+\smallskip
+
+Now we characterize the number of positive and negative $\lambda_i$. More precisely, let $V_+$ be a subspace of $V$ with maximal dimension satisfying the condition
+\begin{equation}\label{eq:etavvgt0}
+\text{For all $v \in V_+$ with $v \neq 0$ we have $\eta(v,v) > 0$}
+\end{equation}
+
+Define $V_-$ as a space satisfying a similar condition, but with $\eta(v,v) < 0$.
+
+Evidently, $V_+$, $V_0$ and $V_-$ are all linearly independent spaces, i.e. their pairwise intersection is null. As a consequence,
+\begin{equation}
+\dim V_+ + \dim V_0 + \dim V_- = \dim V.
+\end{equation}
+
+Now, consider the subspace of $V$ spanned by all the $v_i$ such that $\lambda_i > 0$. This subspace satisfies \eqref{eq:etavvgt0}, and hence
+\begin{equation}
+\dim V_+ \geq \#\{\lambda_i > 0\}.
+\end{equation}
+
+A similar argument shows that $\dim V_- \geq \#\{\lambda_i < 0\}$, and hence
+\begin{equation}
+\dim V = \dim V_+ + \dim V_0 + \dim V_- \leq \#\{\lambda_i > 0\} + \#\{\lambda_i = 0\} + \#\{\lambda_i < 0\} = \dim V.
+\end{equation}
+
+From here, it is easy to prove that $\dim V_+ = \#\{\lambda_i > 0\}$ and likewise for $V_-$, which concludes the proof that the number of positive and negative eigenvalues does not depend on the chosen basis.
+\end{proof}
+
 \begin{lemma}\label{lemma:rs1}
-Let $A$ be a differentiable path of symplectic matrices and define $\Gamma(A,t)$ and $V$ as above, where $t$ is a crossing. Then, $\Gamma(A,t)$ is symmetric on $V$.
+Let $A$ be a differentiable path of symplectic matrices and define $\Gamma(A,t)$ and $V$ as in definition \ref{def:murs}, where $t$ is a crossing. Then, $\Gamma(A,t)$ is symmetric on $V$.
 \end{lemma}
 
 \begin{proof}
@@ -1137,4 +1192,103 @@ In conclusion, \eqref{eq:derivativegamma} cannot hold, as
 \end{equation}
 
 This contradiction proves that a nondegenerate crossing cannot have arbitrarily close crossings.
+\end{proof}
+
+We have now shown that, for $A$ smooth whose crossings are all nondegenerate, $\murs(A(t))$ is well-defined by \eqref{eq:mursdef}. As build-up for the proof that [...] in the two-dimensional case, we simplify the construction of $\murs$ for paths of $2\times2$ matrices, by detemining the integers $\sign \Gamma(A,t)$ in terms of the entries of $A$ and $\dot A$.
+
+\begin{prop}
+Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A(0) = I$ and $A(T) \in Sp(2)$. Then, its crossings coincide with the values of $t$ such that $\trace A(t) = 2$.
+
+Let $t_0$ be a crossing. We will say that it is of \emph{type two} if $A(t_0) = I$, and of \emph{type one} otherwise.
+\begin{itemize}
+\item If $t_0$ is of type two, it is a degenerate crossing iff $\det \dot A(t_0) = 0$. Otherwise,
+\begin{equation}
+\sign \Gamma(A,t_0) = \begin{cases}
+0 &\text{if $\det \dot A(t_0) < 0$,}\\
+2 \sign \trace(J_0 \dot A(t_0)) &\text{if $\det \dot A(t_0) > 0$.}
+\end{cases}
+\end{equation}
+
+\item If $t_0$ is of type one, it is degenerate iff $\trace \dot A(t_0) = 0$. Otherwise,
+\begin{equation}
+\sign \Gamma(A,t_0) = - \sign \trace(J_0 A) \times \sign \trace(\dot A)..
+\end{equation}
+\end{itemize}
+\end{prop}
+
+\begin{proof}
+A crossing of $A$ is a value of $t_0$ such that $A(t_0)$ has an eigenvalue equal to one, but since both eigenvalues of $A(t_0)$ are inverses to each other this is equivalent to both eigenvalues of $A(t_0)$ being one, which implies that $\trace A(t_0) = 2$. The converse is also true by proposition \ref{prop:lambdafromtau}.
+
+Now, let $t_0$ be a crossing of $A$. Then, $V = \ker(A(t_0) - I)$ is either one-dimensional or two-dimensional.
+
+\begin{enumerate}[label={Case \arabic*.}]
+\item ($\dim V = 2$) This case coincides with $A(t_0) = I$. In this event, the sign of the form $\Gamma(A,t_0)$ equals the sign of the symmetric matrix $J_0 \dot A$.
+
+If the determinant of $J_0 \dot A$ is negative, both of its eigenvalues have opposite signs and hence the sign is null. By the multiplicativity of the determinant and the fact that $\det J_0 = 1$, we conclude
+\begin{equation}
+\text{If $\det \dot A(t_0) < 0$ then the sign of the crossing $t_0$ is 0.}
+\end{equation}
+
+On the other hand, if $\det \dot A > 0$ then both eigenvalues of $J_0 \dot A$ have the same sign, and therefore the sign of $\Gamma(A,t_0)$ is $\pm 2$. The sign is determined by the sign of both eigenvalues of $J_0 \dot A$, which coincides with the sign of $\trace(J_0 \dot A)$. Therefore,
+\begin{equation}
+\text{If $\det \dot A(t_0) > 0$ then the sign of the crossing $t_0$ is $2 \sign \trace(J_0 \dot A(t_0))$.}
+\end{equation}
+
+Finally, if $\det \dot A = 0$ then $\Gamma(A,t_0)$ has a null eigenvalue and therefore is degenerate.
+
+\item ($\dim V = 1$) This case coincides with $A(t_0) \neq I$. Let $v$ be an eigenvector of $A(t_0)$, with eigenvalue 1. Since $V$ is one-dimensional (and generated by $v$), the sign of $\Gamma(A,t_0)$ equals the sign of $v^\transposed J_0 \dot A(t_0) v$.
+
+To proceed with the computations, let us name the entries of $v$ and $A$. For the remainder of this proof, the evaluation of $A$ and its entries on $t$ is implicit. Define:
+\begin{equation}
+v = (v_1, v_2), \quad
+A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}.
+\end{equation}
+
+Then, the sign of $\Gamma(A,t_0)$ may be computed explicitly in terms of these entries:
+\begin{equation}\label{eq:sgngamma1}
+v^\transposed J_0 \dot A v = - \dot c v_1^2 - \dot d v_1 v_2 + \dot a v_1 v_2 + \dot b v_2^2.
+\end{equation}
+
+Now, let us use the following facts to get rid of the dependency on $v$.
+\begin{itemize}
+\item Since $A$ is a path of symplectic matrices, $\det A$ is constant equal to one, and hence its derivative is null, yielding the equality
+\begin{equation}
+\dot a d + a \dot d = \dot b c + b \dot c.
+\end{equation}
+\item Since $v$ is a 1-eigenvector of $A$, we have
+\begin{equation}
+\begin{cases}
+(a-1)v_1 = - b v_2,\\
+(d-1)v_2 = - c v_1.
+\end{cases}
+\end{equation}
+\item Since $A$ has trace equal to 2, $(a-1) = - (d-1)$.
+\item Since $A-I$ is singular, $(a-1)(d-1) = bc$.
+\end{itemize}
+
+We may now simplify \eqref{eq:sgngamma1}, by multiplying the right-hand side by $\trace(J_0 A) = b-c$. Using the facts above we may simplify the resulting expression, yielding
+\begin{equation}\label{eq:sgngamma2}
+(b-c) v^\transposed J_0 \dot A v = - (v_1^2 + v_2^2)(\dot a + \dot d).
+\end{equation}
+
+Since $v$ is an eigenvalue, $v_1^2 + v_2^2 > 0$. Furthermore, since $A \neq I$, it is possible to check (also using the above facts) that $b-c \neq 0$, so $\Gamma(A,t_0)$ is degenerate iff $\dot a + \dot d = \trace \dot A$ is zero. Finally, multiplying both sides by $b-c$ one concludes the formula
+\begin{equation}
+\sign(v^\transposed J_0 \dot A v) = - \sign \trace(J_0 A) \times \sign \trace(\dot A).
+\end{equation}
+\end{enumerate}
+\end{proof}
+
+\begin{prop}
+Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A(0) = I$ and $A(T) \in Sp(2)$, whose crossings are all nondegenerate. Then, we have
+\begin{equation}
+\murs(A(t)) = ... \mu(A(t)).
+\end{equation}
+\end{prop}
+
+\begin{proof}
+First, let $0 = t_0 < t_1 < \dots < t_N$ be the crossings of $A$. We begin by describing the behavior of $\trace A(t)$ at a crossing $t$, in particular its first and second time derivatives.
+
+\begin{itemize}
+\item Suppose that $t$ is a nondegenerate crossing of type one. Then, by definition, $\trace \dot A(t) = \diff{}t[t] \trace A(t)$ is not zero.
+\end{itemize}
 \end{proof}
