@@ -1211,7 +1211,7 @@ Let $t_0$ be a crossing. We will say that it is of \emph{type two} if $A(t_0) = 
 
 \item If $t_0$ is of type one, it is degenerate iff $\trace \dot A(t_0) = 0$. Otherwise,
 \begin{equation}
-\sign \Gamma(A,t_0) = - \sign \trace(J_0 A) \times \sign \trace(\dot A)..
+\sign \Gamma(A,t_0) = - \sign \trace(J_0 A(t_0)) \times \sign \trace(\dot A(t_0)).
 \end{equation}
 \end{itemize}
 \end{prop}
@@ -1289,6 +1289,57 @@ Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A
 First, let $0 = t_0 < t_1 < \dots < t_N$ be the crossings of $A$. We begin by describing the behavior of $\trace A(t)$ at a crossing $t$, in particular its first and second time derivatives.
 
 \begin{itemize}
-\item Suppose that $t$ is a nondegenerate crossing of type one. Then, by definition, $\trace \dot A(t) = \diff{}t[t] \trace A(t)$ is not zero.
+\item Suppose that $t$ is a nondegenerate crossing of type one. Then, by definition, $\trace \dot A(t) = \diff{}t[t] \trace A(t)$ is not zero. Therefore, such a crossing will always swap the sign of $\trace A(t) - 2$.
+
+\item Suppose that $t$ is a nondegenerate crossing of type two. Then, it is possible to verify from the fact that $\diff{}t[t] \det(A(t))$ and $A(t) = I$ we have
+\begin{equation}
+\begin{cases}
+\diff{}t[t] \trace A(t) = 0,\\
+\diff[2]{}t[t] \trace A(t) = - 2 \det \dot A(t).
+\end{cases}
+\end{equation}
+
+As a consequence, the behavior of the trace near nondegenerate crossings of type two is either: If $\det \dot A(t) < 0$, the trace is above 2 just before and just after the crossing; If $\det \dot A(t) > 0$, the trace is below 2 just before and after the crossing, touching 2 only for an instant.
 \end{itemize}
+
+These conclusions are summarized in figure \ref{fig:trace}.
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\draw[->, thick] (0,-2) -- (0,2) node[right] {$\trace A(t)$};
+\draw[thick] (-0.4, 0) node[left] {$2$} -- (12, 0);
+
+\begin{scope}[xshift=1.5cm]
+\draw (-1,-1.5) -- (1,1.5);
+\draw (0,-2) node {Type one} (0,-2.5) node {$\trace \dot A(t) > 0$};
+\end{scope}
+\begin{scope}[xshift=4.5cm]
+\draw (-1,1.5) -- (1,-1.5);
+\draw (0,-2) node {Type one} (0,-2.5) node {$\trace \dot A(t) < 0$};
+\end{scope}
+\begin{scope}[xshift=7.5cm]
+\draw (-1,1.5) parabola bend (0,0) (1,1.5);
+\draw (0,-2) node {Type two} (0,-2.5) node {$\det \dot A(t) < 0$};
+\end{scope}
+\begin{scope}[xshift=10.5cm]
+\draw (-1,-1.5) parabola bend (0,0) (1,-1.5);
+\draw (0,-2) node {Type two} (0,-2.5) node {$\det \dot A(t) > 0$};
+\end{scope}
+\end{tikzpicture}
+\caption{Representation of the behavior of $\trace A(t)$ near the different types of crossing.}\label{fig:trace}
+\end{figure}
+
+This allows us to define the partition to be used for application of corollary \ref{calcmaslov1}.
+\begin{algorithm}[Construction of the partition]
+\begin{enumerate}[algorithm]
+\item Set $a_0 = 0$, $j = 0$, and $k = 0$.
+\item If $\det \dot A(0) < 0$, go to \ref{alg1:up}. Otherwise go to \ref{alg1:down}.
+
+\item\label{alg1:up} Set $k \leftarrow k+1$.
+\item If $t_k$ is of type two, ignore it and return to \ref{alg1:up}. Otherwise, set $a_j = t_k$ and $j \leftarrow j+1$. Go to \ref{alg1:down}
+
+\item\label{alg1:down} Set $k \leftarrow k+1$.
+\item If $t_k$ is of type two, 
+\end{enumerate}
+\end{algorithm}
 \end{proof}
