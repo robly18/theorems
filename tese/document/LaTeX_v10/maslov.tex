@@ -5,7 +5,7 @@ In chapter \ref{chap:bffh} we discussed filtered Floer homology and the correspo
 
 There exist straightforward recipes in the literature for computing Conley-Zehnder indices of paths of symplectic matrices, see for example definition 8.1.1 in \cite{polterovich}. However, these methods fail for the paths of matrices considered in the following chapters, because they assume a finite number of transversal crossings between the path of matrices being considered and the set $Sp(2n)^0 \subseteq Sp(2n)$ of symplectic matrices with 1 as an eigenvalue, which is not the case for the piecewise linear paths we will be considering. Therefore, in this chapter we summarize the definition of the Maslov index of a periodic orbit of a Hamiltonian, as well as the definition of Conley-Zehnder index. Furthermore, we propose an alternative way to compute the Conley-Zehnder index of a path of symplectic matrices in dimension 2, which is well-adapted to concrete calculations. As an example of application, we compute the Maslov indices of critical points of an autonomous Hamiltonian.
 
-To conclude, we relate this construction to another manner of computing CZ indices which is specialized to the two-dimensional case, due to Hofer and Kriener in \cite{hoferkriener}. [[if i relate to the one in polterovich, write here]]
+To conclude, we relate this construction to another two definitions of the Maslov index: one which is also specialized to the two-dimensional case, due to Hofer and Kriener in \cite{hoferkriener}, and one which is suitable for computation on sufficiently regular paths of matrices due to Robbin and Salamon in \cite{robbin1993maslov}.
 
 \section{The General Definition}
 
@@ -1048,9 +1048,9 @@ To each crossing $t$ we associate the matrix $S = J_0 \dot A(t)$, with
 J_0 = \begin{bmatrix} 0 & -I \\ I & 0 \end{bmatrix}.
 \end{equation}
 
-We will show (lemma \ref{lemma:rs1} below) that $S$ determines a symmetric 2-tensor $\Gamma(A,t)$ on the set of one-eigenvectors of $A$, which we will henceforth refer to as
+We will show (lemma \ref{lemma:rs1} below) that $S$ determines a symmetric 2-tensor $\Gamma(A,t)$ on the set of one-eigenvectors of $A(t)$, which we will henceforth refer to as
 \begin{equation}
-V := \ker(A - I).
+V := \ker(A(t) - I).
 \end{equation}
 
 Given a symmetric 2-tensor $\Gamma(A,t) \colon V \times V \to \R$, we may, by applying the spectral theorem, find a basis $v_1, \dots, v_k$ such that
@@ -1064,25 +1064,29 @@ If any of the $\lambda_i$ equals zero, the 2-tensor is said to be \emph{degenera
 \sign(\Gamma(A,t)) = \#\{\lambda_i > 0\} - \#\{\lambda_i < 0\}.
 \end{equation}
 
-See lemma \ref{lemma:signgamma} below for a proof that this integer does not depend on the basis in which $\Gamma(A,t)$ is represented.
+See lemma \ref{lemma:signgamma} below for a proof that this integer, as well as the notion of degeneracy, does not depend on the basis in which $\Gamma(A,t)$ is represented.
 
-If $A$ is a path whose crossings are all nondegenerate, (lemma Y below) there exists a finite number of crossings, and in this case we define the \emph{Maslov index \textit{a la} Robbin and Salamon} as
+If $A$ is a path whose crossings are all nondegenerate there exists a finite number of crossings (lemma \ref{lemma:ndcrossisolated} below), and in this case we define the \emph{Maslov index \textit{a la} Robbin and Salamon} as
 \begin{equation}\label{eq:mursdef}
-\murs(A(t)) = \frac12 \sign(\Gamma(A,0)) + \sum_{\text{$t$ crossing in $\ointerval0T$}} \sign(\Gamma(A,t)).
+\murs(A(t)) = \frac12 \sign(\Gamma(A,0)) + \sum_{\substack{\text{$t$ crossing}\\\text{in $\ointerval0T$}}} \sign(\Gamma(A,t)).
 \end{equation}
 \end{definition}
 
-In this section we show, using corollary \ref{calcmaslov1}, that in the two-dimensional case, [[...]]. But first, we prove the lemmas necessary to ensure that the Maslov index \textit{a la} Robbin and Salamon is well-defined.
+In this section we show using corollary \ref{calcmaslov1} that, in the two-dimensional case, $\murs(A(t)) = \mu(A(t))$. But first, we prove the lemmas necessary to ensure that the Maslov index \textit{a la} Robbin and Salamon is well-defined.
 
 \begin{remark}\label{rmk:degendef}
-The notion of degeneracy of the 2-tensor $\Gamma(A,t)$ given in definition \ref{def:murs} is that the matrix which represents it in an arbitrary basis of $V$ has no zero eigenvalues. It is possible to check that this definition is equivalent to the following:
+The notion of degeneracy of the 2-tensor $\Gamma(A,t)$ given in definition \ref{def:murs} is that the matrix which represents it in an arbitrary basis of $V$ has no zero eigenvalues. It is possible to check (see lemma \ref{lemma:signgamma} below) that this definition is equivalent to the following:
 \begin{equation}
 \text{For all $v \in V$ with $v \neq 0$ there exists $w \in V$ such that $\Gamma(A,t)(v,w) \neq 0$.}
 \end{equation}
 \end{remark}
 
 \begin{remark}
-The definition given for the matrix $S = J_0 \dot A(t)$ differs from the one given in \cite{polterovich}, who uses $S = J_0 \dot A(t) A(t)^{-1}$ instead. This is of no consequence for computation: since $\Gamma(A,t)$ is defined precisely on the one-eigenvectors of $A(t)$, the $A(t)^{-1}$ term does not change $\Gamma(A,t)$.
+This definition is also present in \cite{polterovich} (definition 8.1.1), who describes it in more concrete terms than \cite{robbin1993maslov}. In \cite{polterovich}, however, the definition given for the matrix $S$ is
+\begin{equation}
+S = J_0 \dot A(t) A(t)^{-1},
+\end{equation}
+which differs from our choice of $S = J_0 \dot A(t)$. This is of no consequence for computation: since $\Gamma(A,t)$ is defined precisely on the one-eigenvectors of $A(t)$, the $A(t)^{-1}$ term does not change $\Gamma(A,t)$.
 \end{remark}
 
 \begin{lemma}\label{lemma:signgamma}
@@ -1090,7 +1094,7 @@ Let $\eta \colon V \times V \to \R$ be a symmetric bilinear map, with $V$ finite
 \end{lemma}
 
 \begin{proof}
-In order to prove this lemma, we find a basis-independent characterization of how mani eigenvalues have each sign.
+In order to prove this lemma, we find a basis-independent characterization of how many eigenvalues have each sign.
 
 We begin with the case $\lambda_i = 0$. We claim that the number of $\lambda_i$ which are equal to zero coincides with the dimension of $V_0$, where
 \begin{equation}
@@ -1128,7 +1132,7 @@ Now, consider the subspace of $V$ spanned by all the $v_i$ such that $\lambda_i 
 \dim V_+ \geq \#\{\lambda_i > 0\}.
 \end{equation}
 
-A similar argument shows that $\dim V_- \geq \#\{\lambda_i < 0\}$, and hence
+A similar argument shows that $\dim V_- \geq \#\{\lambda_i < 0\}$, and therefore
 \begin{equation}
 \dim V = \dim V_+ + \dim V_0 + \dim V_- \leq \#\{\lambda_i > 0\} + \#\{\lambda_i = 0\} + \#\{\lambda_i < 0\} = \dim V.
 \end{equation}
@@ -1163,14 +1167,14 @@ Now we may apply \eqref{eq:dotat} and rewrite \eqref{eq:gammaat1} as
 Finally, since this is a real number it equals its own transpose, which is, by definition, $\Gamma(A,t)(w,v)$. This completes the proof that $\Gamma(A,t)$ is symmetric.
 \end{proof}
 
-\begin{lemma}
-Let $A(t)$ be a smooth path of symplectic matrices, and $t_0 \in \interval0T$ a smooth crossing. Then, there exists a neighborhood of $t_0$ in which $t_0$ is the only crossing. In particular, there exists a finite number of crossings in $\interval0T$.
+\begin{lemma}\label{lemma:ndcrossisolated}
+Let $A(t)$ be a smooth path of symplectic matrices, and $t_0 \in \interval0T$ a nondegenerate crossing. Then, there exists a neighborhood of $t_0$ in which $t_0$ is the only crossing. In particular, there exist finitely many crossings in $\interval0T$.
 \end{lemma}
 
 \begin{proof}
-Suppose that there exists a sequence of crossings $t_n \to t_0$, with $t_n \neq t_0$ for all $n$. For each crossing, pick $v_n \neq 0$ such that $A(t_n) v_n = v_n$. Without loss of generality, we may pick all $v_n$ to have norm equal to one, and hence, since the unit ball is compact, by taking a subsequence we may assume that $v_n$ converges to some $v$. By taking the limit on both sides of $A(t_n) v_n = v_n$, we conclude that $v \in V$, i.e. $A(t_0) v = v$.
+Suppose that there exists a sequence of crossings $t_n \to t_0$, with $t_n \neq t_0$ for all $n$. For each crossing, pick $v_n \neq 0$ such that $A(t_n) v_n = v_n$. Without loss of generality, we may pick all $v_n$ to have norm equal to one, and since the unit ball in $\R^{2n}$ is compact, by taking a subsequence we may assume that $v_n$ converges to some $v$. By taking the limit on both sides of $A(t_n) v_n = v_n$, we conclude that $v \in V$, i.e. $A(t_0) v = v$.
 
-Suppose furthermore that $\Gamma(A,t_0)$ is nondegenerate. Then, by remark \ref{rmk:degendef}, there exists some $w \in V$ such that
+We are assuming that $\Gamma(A,t_0)$ is nondegenerate. By remark \ref{rmk:degendef}, there exists some $w \in V$ such that
 \begin{equation}
 w^\transposed J_0 \dot A(t) v \neq 0.
 \end{equation}
@@ -1180,7 +1184,7 @@ As a consequence, we conclude
 \lim \frac{w^\transposed J_0 A(t_n) v_n - w^\transposed J_0 A(t) v_n}{t_n - t} \neq 0.
 \end{equation}
 
-However, notice the following. Since $A(t_n) v_n = v_n$, we conclude $w^\transposed J_0 A(t_n) v_n = w^\transposed J_0 v_n$. Furthermore, by lemma \ref{lemma:rs1},
+However, since $A(t_n) v_n = v_n$, we have $w^\transposed J_0 A(t_n) v_n = w^\transposed J_0 v_n$. Furthermore, by lemma \ref{lemma:rs1},
 \begin{equation}
 w^\transposed J_0 A(t) v_n = w^\transposed A(t)^\transposed J_0 v_n = w^\transposed J_0 v_n,
 \end{equation}
@@ -1188,30 +1192,30 @@ where we used the fact that $w \in V$ to remove $A(t)^\transposed$.
 
 In conclusion, \eqref{eq:derivativegamma} cannot hold, as
 \begin{equation}
-\lim \frac{w^\transposed J_0 v_n - w^\transposed J_0 v_n}{t_n - t} = \lim \frac{w^\transposed J_0 A(t_n) v_n - w^\transposed J_0 A(t) v_n}{t_n - t} = 0.
+\lim \frac{w^\transposed J_0 A(t_n) v_n - w^\transposed J_0 A(t) v_n}{t_n - t} = \lim \frac{w^\transposed J_0 v_n - w^\transposed J_0 v_n}{t_n - t} = 0.
 \end{equation}
 
 This contradiction proves that a nondegenerate crossing cannot have arbitrarily close crossings.
 \end{proof}
 
-We have now shown that, for $A$ smooth whose crossings are all nondegenerate, $\murs(A(t))$ is well-defined by \eqref{eq:mursdef}. As build-up for the proof that [...] in the two-dimensional case, we simplify the construction of $\murs$ for paths of $2\times2$ matrices, by detemining the integers $\sign \Gamma(A,t)$ in terms of the entries of $A$ and $\dot A$.
+We have now shown that, for $A$ smooth whose crossings are all nondegenerate, $\murs(A(t))$ is well-defined by \eqref{eq:mursdef}. As build-up for the proof that $\murs(A(t)) = \mu(A(t))$ in the two-dimensional case, we simplify the construction of $\murs$ for paths of $2\times2$ matrices, by determining the integers $\sign \Gamma(A,t)$ in terms of the entries of $A$ and $\dot A$.
 
 \begin{prop}
-Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A(0) = I$ and $A(T) \in Sp(2)$. Then, its crossings coincide with the values of $t$ such that $\trace A(t) = 2$.
+Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A(0) = I$ and $A(T) \in Sp(2)^*$. Then, its crossings coincide with the values of $t$ such that $\trace A(t) = 2$.
 
-Let $t_0$ be a crossing. We will say that it is of \emph{type two} if $A(t_0) = I$, and of \emph{type one} otherwise.
+Let $t_0$ be a crossing. We will say that it is of \emph{type one} $A(t_0) \neq I$, and of \emph{type one} if $A(t_0) = I$.
 \begin{itemize}
+\item If $t_0$ is of type one, it is degenerate iff $\trace \dot A(t_0) = 0$. Otherwise,
+\begin{equation}
+\sign \Gamma(A,t_0) = - \sign \trace(J_0 A(t_0)) \times \sign \trace(\dot A(t_0)).
+\end{equation}
+
 \item If $t_0$ is of type two, it is a degenerate crossing iff $\det \dot A(t_0) = 0$. Otherwise,
 \begin{equation}
 \sign \Gamma(A,t_0) = \begin{cases}
 0 &\text{if $\det \dot A(t_0) < 0$,}\\
 2 \sign \trace(J_0 \dot A(t_0)) &\text{if $\det \dot A(t_0) > 0$.}
 \end{cases}
-\end{equation}
-
-\item If $t_0$ is of type one, it is degenerate iff $\trace \dot A(t_0) = 0$. Otherwise,
-\begin{equation}
-\sign \Gamma(A,t_0) = - \sign \trace(J_0 A(t_0)) \times \sign \trace(\dot A(t_0)).
 \end{equation}
 \end{itemize}
 \end{prop}
@@ -1222,7 +1226,9 @@ A crossing of $A$ is a value of $t_0$ such that $A(t_0)$ has an eigenvalue equal
 Now, let $t_0$ be a crossing of $A$. Then, $V = \ker(A(t_0) - I)$ is either one-dimensional or two-dimensional.
 
 \begin{enumerate}[label={Case \arabic*.}]
-\item ($\dim V = 2$) This case coincides with $A(t_0) = I$. In this event, the sign of the form $\Gamma(A,t_0)$ equals the sign of the symmetric matrix $J_0 \dot A$.
+\item ($\dim V = 2$) We begin with this case because it is the easiest. This case coincides with $A(t_0) = I$.
+
+Since $V = \R^2$, the sign of the form $\Gamma(A,t_0)$ equals the sign of the symmetric matrix $J_0 \dot A$.
 
 If the determinant of $J_0 \dot A$ is negative, both of its eigenvalues have opposite signs and hence the sign is null. By the multiplicativity of the determinant and the fact that $\det J_0 = 1$, we conclude
 \begin{equation}
@@ -1236,7 +1242,7 @@ On the other hand, if $\det \dot A > 0$ then both eigenvalues of $J_0 \dot A$ ha
 
 Finally, if $\det \dot A = 0$ then $\Gamma(A,t_0)$ has a null eigenvalue and therefore is degenerate.
 
-\item ($\dim V = 1$) This case coincides with $A(t_0) \neq I$. Let $v$ be an eigenvector of $A(t_0)$, with eigenvalue 1. Since $V$ is one-dimensional (and generated by $v$), the sign of $\Gamma(A,t_0)$ equals the sign of $v^\transposed J_0 \dot A(t_0) v$.
+\item ($\dim V = 1$) This case coincides with $A(t_0) \neq I$. Let $v$ be an eigenvector of $A(t_0)$, with eigenvalue 1. Since $V$ is one-dimensional (and generated by $v$), the sign of $\Gamma(A,t_0)$ equals the sign of the real number $v^\transposed J_0 \dot A(t_0) v$.
 
 To proceed with the computations, let us name the entries of $v$ and $A$. For the remainder of this proof, the evaluation of $A$ and its entries on $t$ is implicit. Define:
 \begin{equation}
@@ -1271,7 +1277,7 @@ We may now simplify \eqref{eq:sgngamma1}, by multiplying the right-hand side by 
 (b-c) v^\transposed J_0 \dot A v = - (v_1^2 + v_2^2)(\dot a + \dot d).
 \end{equation}
 
-Since $v$ is an eigenvalue, $v_1^2 + v_2^2 > 0$. Furthermore, since $A \neq I$, it is possible to check (also using the above facts) that $b-c \neq 0$, so $\Gamma(A,t_0)$ is degenerate iff $\dot a + \dot d = \trace \dot A$ is zero. Finally, multiplying both sides by $b-c$ one concludes the formula
+Since $v$ is an eigenvalue, $v_1^2 + v_2^2 > 0$. Furthermore, since $A \neq I$, it is possible to check (also using the above facts and the fact that $A(t) \neq I$) that $b-c$ is always nonzero, so $\Gamma(A,t_0)$ is degenerate iff $\dot a + \dot d = \trace \dot A$ is zero. Finally, multiplying both sides of \eqref{eq:sgngamma2} by $b-c$ one concludes the formula
 \begin{equation}
 \sign(v^\transposed J_0 \dot A v) = - \sign \trace(J_0 A) \times \sign \trace(\dot A).
 \end{equation}
@@ -1281,21 +1287,21 @@ Since $v$ is an eigenvalue, $v_1^2 + v_2^2 > 0$. Furthermore, since $A \neq I$, 
 \begin{prop}
 Let $A(t)$, $t \in \interval0T$, be a smooth path of symplectic matrices with $A(0) = I$ and $A(T) \in Sp(2)$, whose crossings are all nondegenerate. Then, we have
 \begin{equation}
-\murs(A(t)) = ... \mu(A(t)).
+\murs(A(t)) = \mu(A(t)).
 \end{equation}
 \end{prop}
 
 \begin{proof}
-First, let $0 = t_0 < t_1 < \dots < t_N$ be the crossings of $A$. We begin by describing the behavior of $\trace A(t)$ at a crossing $t$, in particular its first and second time derivatives.
+We begin this proof by describing the behavior of $\trace A(t)$ at a crossing $t$, in particular its first and second time derivatives.
 
 \begin{itemize}
 \item Suppose that $t$ is a nondegenerate crossing of type one. Then, by definition, $\trace \dot A(t) = \diff{}t[t] \trace A(t)$ is not zero. Therefore, such a crossing will always swap the sign of $\trace A(t) - 2$.
 
-\item Suppose that $t$ is a nondegenerate crossing of type two. Then, it is possible to verify from the fact that $\diff{}t[t] \det(A(t))$ and $A(t) = I$ we have
+\item Suppose that $t$ is a nondegenerate crossing of type two. Then, it is possible to verify from the fact that $\diff{}t[t] \det(A(t)) = \diff[2]{}t[t] \det(A(t)) = 0$ and $A(t) = I$ that we have
 \begin{equation}
 \begin{cases}
-\diff{}t[t] \trace A(t) = 0,\\
-\diff[2]{}t[t] \trace A(t) = - 2 \det \dot A(t).
+\displaystyle \diff{}t[t] \trace A(t) = 0,\\[1em]
+\displaystyle \diff[2]{}t[t] \trace A(t) = - 2 \det \dot A(t).
 \end{cases}
 \end{equation}
 
@@ -1329,17 +1335,123 @@ These conclusions are summarized in figure \ref{fig:trace}.
 \caption{Representation of the behavior of $\trace A(t)$ near the different types of crossing.}\label{fig:trace}
 \end{figure}
 
-This allows us to define the partition to be used for application of corollary \ref{calcmaslov1}.
-\begin{algorithm}[Construction of the partition]
+Now that we have investigated the behavior of $\trace A$ near a crossing, let us look at $\trace(J_0 A)$.
+
+\begin{lemma}\label{lemma:smtrace}
+Let $A$ be a symplectic matrix with $-2 < \trace A < 2$. Then,
+\begin{equation}
+\sign(\trace(J_0 A)) = \sign(A_{12}) = -\sign(A_{21}) \neq 0.
+\end{equation}
+\end{lemma}
+
+\begin{lemmaproof}
+Since $A$ is a symplectic matrix, its determinant is equal to 1. Therefore,
+\begin{equation}
+A_{12} A_{21} = A_{11} A_{22} - 1.
+\end{equation}
+
+Now, a little bit of calculus will show that $A_{11} A_{22} \leq \frac{(A_{11} + A_{22})^2}4 < 1$. Hence,
+\begin{equation}
+A_{12} A_{21} < 0,
+\end{equation}
+and so $A_{12} A_{21}$ have opposite signs, neither of which is zero.
+
+To conclude, it is easy to compute $\trace(J_0 A) = A_{12} - A_{21}$, and since $A_{12}$ and $-A_{21}$ have the same sign, the sign of $\trace(J_0 A)$ is the same as these.
+\end{lemmaproof}
+
+Lemma \ref{lemma:smtrace} tells us that the geometry of $Sp(2)$ looks something like figure \ref{fig:smgeom}. To be more specific, define the following three open subsets of $Sp(2)$:
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+
+\fill[color=magenta!10] (2,-3) -- (2,3) -- (4,3) -- (4,-3) -- cycle;
+\fill[color=blue!10] (2,0) to [bend right] (-2,0) -- (-2,3) -- (2,3) -- cycle;
+\fill[color=cyan!10] (2,0) to [bend left] (-2,0) -- (-2,-3) -- (2,-3) -- cycle;
+\fill[color=gray!10] (-2,-3) -- (-2,3) -- (-4,3) -- (-4,-3) -- cycle;
+
+\draw[white, very thick] (-2,-3)--(-2,3) (2,-3)--(2,3);
+\draw (2,0) to [bend left] (-2,0) to [bend left] (2,0);
+
+\node at (0,2) {$B_+$};
+\node at (0,-2) {$B_-$};
+\node at (3, 1.5) {$C$};
+
+\draw (2,0) node[below right] {$2$};
+\draw (-2,0) node[below left] {$-2$};
+
+\draw[thick, ->] (-5,0) -- (5,0) node[below] {$\trace A$};
+\end{tikzpicture}
+\caption{A diagram representing the space of symplectic matrices of dimension 2.}\label{fig:smgeom}
+\end{figure}
+
+\begin{equation}
+\begin{gathered}
+B_+ = \{A \in Sp(2) \mid  -2 < \trace A < 2, \trace(J_0 A) > 0\},\\
+B_- = \{A \in Sp(2) \mid -2 < \trace A < 2, \trace(J_0 A) < 0\},\\
+C = \{A \in Sp(2) \mid \trace A > 2\}.
+\end{gathered}
+\end{equation}
+
+Then, if $t$ is any nondegenerate crossing (i.e. $\trace A(t) = 2$), then for values of $s$ slightly smaller than $t$, $A(t)$ is in either $B_+$, $B_-$ or $C$, and likewise for values of $s$ slightly larger than $t$. Therefore, we can see each crossing as a transition between two of these sets, and which sets are being transitioned between can be discened by looking at the type of crossing.
+
+\begin{definition}
+Let $t \in \ointerval0T$ be a crossing. We say that $t$ is \emph{from $X$ to $Y$}, with $X, Y \in \{B_+, B_-, C\}$, if for small enough values of $\varepsilon > 0$ we have $A(t-\varepsilon) \in X$ and $A(t+\varepsilon) \in Y$.
+
+The crossing at $t = 0$ is `from nowhere', as $A(t-\varepsilon)$ is not defined. However, it can be said that the crossing at $t = 0$ goes to $Y$, for some $Y \in \{B_+, B_-, C\}$.
+\end{definition}
+
+Crossings of type one are always from $B_\pm$ to $C$ or vice-versa. Crossings of type two, $t=0$ excluded, are always from $B_{\pm}$ to $B_{\mp}$ or $C$ and itself. It is easy to check, but not relevant for the proof, that there are no transitions from $B_\pm$ to itself.
+
+One last remark is in order before we construct the partition used for application of corollary \ref{calcmaslov1}. Suppose that $t_k$ and $t_{k+1}$ are consecutive crossings such that $t_k$ crosses to $B_{\pm}$ and $t_{k+1}$ crosses from $B_{\mp}$. Then, we claim that somewhere between $t_k$ and $t_{k+1}$ lies a value of $s$ such that $\trace(A(s)) = -2$. Indeed, by continuity and lemma \ref{lemma:smtrace} there must be a value between $t_k$ and $t_{k+1}$ where $\trace(A)$ takes the value $\pm 2$, and since $t_k$ and $t_{k+1}$ are consecutive crossings the only way for this to hold is for $\trace(A)$ to take the value $-2$.
+
+
+
+\begin{algorithm}[Construction of the partition]\label{alg:p}
+Let $0 = t_0 < t_1 < \dots < t_N < T$ be the crossings of $A$.
 \begin{enumerate}[algorithm]
-\item Set $a_0 = 0$, $j = 0$, and $k = 0$.
-\item If $\det \dot A(0) < 0$, go to \ref{alg1:up}. Otherwise go to \ref{alg1:down}.
+\item\label{alg:pstep1} Between any two consecutive crossings $t_k$ and $t_{k+1}$ with $t_k$ crossing to $B_{\pm}$ and $t_{k+1}$ crossing to $B_{\mp}$, pick a value $a_{2k+1} \in \ointerval{t_k}{t_{k+1}}$ such that $\trace A(a_{2k+1}) = -2$.
 
-\item\label{alg1:up} Set $k \leftarrow k+1$.
-\item If $t_k$ is of type two, ignore it and return to \ref{alg1:up}. Otherwise, set $a_j = t_k$ and $j \leftarrow j+1$. Go to \ref{alg1:down}
-
-\item\label{alg1:down} Set $k \leftarrow k+1$.
-\item If $t_k$ is of type two, 
+Choose also some $b_{2k}$ slightly larger than $t_k$ such that $A(s)$ is in $B_{\pm}$ for $s \in \linterval{t_k}{b_{2k}}$ and likewise pick $b_{2k+1}$ slightly smaller than $t_{k+1}$ satisfying a similar property.
+\item\label{alg:pstep2} If $t_k$ and $t_{k+1}$ are two consecutive crossings, with $t_k$ crossing to $B_{\pm}$ and $t_{k+1}$ crossing from $B_{\mp}$, there may or may not be a value of $s$ between them with $\trace A(s) = -2$. If there is, set $a_{2k+1}$ equal to this value and repeat the construction of the $b_{2k}$ and $b_{2k+1}$ in the previous item.
+\item Between two consecutive $b_{2k+1}$ and $b_{2\ell}$, $k<\ell$, set $a_{2k}$ to be any of the crossings between $b_{2k+1}$ and $b_{2\ell}$.
+\item Set $a_0 = 0$.
+\item\label{alg:pprelast} If the last crossing $t_N$ is to $B_{\pm}$, set $a_{2N} = t_N$ and $b_{2N} = t_N + \varepsilon$ with small $\varepsilon$.
+\item We now have a list $a_0 < b_{i_1} < a_{i_1+1} < b_{i_1 + 1} < a_{i_1+1} < b_{i_2} < \dots$, whose indices are in increasing order but not necessarily in sequence. To conclude the construction, reassign the indices in increasing order.
 \end{enumerate}
 \end{algorithm}
+
+The preceding algorithm creates a partition to which corollary \ref{calcmaslov1} is applicable, with an important edge-case: if all crossings are of type 2 with $\det \dot A < 0$, the resulting partition is invalid, as it has no values of $b$. However, in this case it is easy to check that both definitions of Maslov index agree: since all the crossings go to $C$, the trace never gets below $2$, so by corollary \ref{calcmaslov1} we have $\mu(A(t)) = 0$. On the other hand, crossings of type two satisfying $\det \dot A(t) < 0$ have null sign, so $\murs(A(t))$ is also zero. Therefore, in the following we assume that the resulting partition is valid, and we show that it satisfies the conditions of corollary \ref{calcmaslov1}.
+
+The requirements \ref{calcmaslov:ab2} and \ref{calcmaslov:ab3} on the traces of $A(a_i)$ and $A(b_i)$ are direct by construction. Step \ref{alg:pprelast} ensures that property \ref{calcmaslov:ab5} holds, and property \ref{calcmaslov:ab4} is a consequence of the fact that steps \ref{alg:pstep1} and \ref{alg:pstep2} create consecutive values of $b_i$ before and after any sections on which the trace of $A$ reaches the value $-2$, while ensuring that there are no crossings between these two values so that the trace of $A$ never reaches $2$.
+
+Now, we will compare the values of the Robbin-Salamon Maslov index vs. the computation given by corollary \ref{calcmaslov1}, i.e.
+\begin{equation}
+\murs = \frac12 \sign(\Gamma(A,0)) + \sum_{i>0} \sign(\Gamma(A,t_i)) \text{ vs. } \mu = \sum_j (-1)^j \sign(A(b_j)_{12}).
+\end{equation}
+
+Note: By lemma \ref{lemma:smtrace}, the right-hand side equals
+\begin{equation}
+\mu = \sum_j (-1)^j \sign \trace(J_0 A(b_j)).
+\end{equation}
+
+To this effect, we will find a correspondence between the terms of the sum on the left-hand side and the terms of the sum on the right-hand side. For this purpose it will be convenient to use the indexation on the $b_j$ as they were originally defined, instead of the version with the adjusted indices. Therefore, from now on we assume that \emph{the indices of the $b_j$ are as pre-indexation}, i.e. each $b_{2k}$ is immediately after the crossing $t_k$ and each $b_{2k+1}$ is immediately before the crossing $t_{k+1}$.
+
+As an extension of this idea, we will add a few `fictional' values of $b_i$. Indeed, as it stands, every $b_{2k}$ is associated to a crossing to $B_\pm$ and every $b_{2k+1}$ is associated to a crossing from $B_\pm$, but not the other way around: there exist crossings to and from $B_\pm$ which have no $b_i$ associated. However, we claim that the addition of new values of $b_i$ in order to ensure a one-to-one correspondence between the $b_i$ and the crossings to/from $B_\pm$ does not alter the value of the sum defining $\mu$.
+
+To justify this fact, note that the only crossings $t_k$, $t_{k+1}$ to $B_{\pm_1}$ and from $B_{\pm_2}$ respectively which have no $b_k$, $b_{k+1}$ associated to them by algorithm \ref{alg:p} are those such that $\pm_1 = \pm_2$ and $\trace A(t)$ never takes the value $-2$ between $t_k$ and $t_{k+1}$. Furthermore, a value of $b_i$ associated to a crossing to or from $B_\pm$ has a contribution of $\pm (-1)^i$ to the sum which defines $\mu$. Therefore, two values of $b_{2k}$ and $b_{2k+1}$ which are associated to crossings to/from the same $B_\pm$ will cancel each other out. As such, there is no harm in adding all $b_i$ associated to such crossings, and therefore \emph{we assume that there is a one-to-one correspondence between values of $b_{2k}$ and crossings to $B_\pm$ and values of $b_{2k+1}$ and crossings from $B_\pm$}. Mind the special case of the last crossing; step \ref{alg:pprelast} in algorithm \ref{alg:p} ensures that this correspondence holds for it.
+
+The previous paragraphs show the equality:
+\begin{equation}
+\mu(A(t)) = \sum (-1)^j \sign \trace(J_0 A(b_j)) = \sum_{\substack{t_i \text{ crossing}\\\text{to } B_\pm}} \pm 1 \;\;\;- \sum_{\substack{t_i \text{ crossing}\\\text{from } B_\pm}} \pm 1.
+\end{equation}
+
+To complete the proof, we show that the sign of a crossing $t > 0$ may be computed as follows:
+\begin{algorithm}[Sign of a crossing $t$]\label{alg:scrossing}
+Start with zero. If the crossing goes to $B_\pm$, add $\pm 1$. If the crossing comes from $B_\pm$, subtract $\pm 1$.
+\end{algorithm}
+
+This can be checked by looking over the four types of crossing and verifying that the statement holds. For example, a crossing of type one satisfying $\trace \dot A > 0$ comes from $B_\pm$ and goes to $C$. The sign of $B_\pm$ can be found by noticing that $\trace(J_0 A)$ is nonzero at the crossing, and therefore preserves its sign in a neighborhood of it. Therefore, $\sign \trace(J_0 A) = \pm 1$ and thus the sign of the crossing is $\mp 1$. Therefore, the output of algorithm \ref{alg:scrossing} agrees with the sign of the crossing.
+
+The same process can be repeated with the other types of crossing. The crossing at $t = 0$ is an important exception: it may only be a crossing to $B_\pm$, but never from. However, since it's always a crossing of type two its sign is always even, and it is not difficult to verify that in that case the outcome of algorithm \ref{alg:scrossing} equals $\frac12 \sign(\Gamma(A,0))$. This completes the proof.
 \end{proof}
