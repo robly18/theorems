@@ -1,4 +1,4 @@
-\documentclass[11	pt]{article}
+\documentclass[11pt]{article}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -38,17 +38,19 @@ columns=fullflexible
 \usepackage{hyperref}
 \usepackage{xurl}
 
-\title{Category Theory and Haskell}
+\title{Applied Category Theory\\
+Monads and Haskell}
 \author{Duarte Maia}
 %\date{}
 
 \theorembodyfont{\upshape}
 \theoremseparator{.}
 \newtheorem{theorem}{Theorem}
-\newtheorem{prop}{Prop}
-\renewtheorem*{prop*}{Prop}
+\newtheorem{prop}{Proposition}
+\renewtheorem*{prop*}{Proposition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
 
 \newtheorem{joke}{Joke}
 
@@ -133,7 +135,9 @@ In this essay, I hope to convince the reader that there are very real mathematic
 
 \section{A Crash Course in Haskell}
 
-The following examples can be followed along by executing them in GHCi, the Glasgow Haskell Compiler interpreter, which is the \textit{de facto} implementation of Haskell and can be downloaded here: \url{https://www.haskell.org/downloads/}.
+The following examples are all valid Haskell code, which was implemented and executed in GHCi, the Glasgow Haskell Compiler interpreter, which is the \textit{de facto} implementation of Haskell and can be downloaded here: \url{https://www.haskell.org/downloads/}. The reader can also try Haskell online without downloading anything on \url{https://tryhaskell.org/}.
+
+(A disclaimer: If the reader tries the examples below, some of them might yield output which is different from the one shown, in particular in regards to types of functions. This is because some functions are much more general than we present them as, but an explanation of this generality must wait until we discuss typeclasses in \ref{sec:functors}. In any case, the reader is assured that where the output of code in this essay is wrong, it is at most a particular case of the truth.)
 
 As mentioned in the introduction, Haskell is at its core a lambda calculus evaluator, so we begin by introducing the most basic concept to lambda calculus: the lambda expression.
 
@@ -447,7 +451,7 @@ This has to do with something called \emph{parametric polymorphism}. There is a 
 
 In \ref{limcolim} we discussed products and coproducts in Haskell. We showed that $\Hask$ has initial and final objects and is closed under binary products and coproducts. Consequently, $\Hask$ has all finite products and coproducts, so it makes sense to ask whether it has (co)equalizers, as if it did it would have all finite (co)limits. I have not found any definite source proving that the answer is negative, but this Stack Overflow answer strongly suggests that the answer is no: \url{https://stackoverflow.com/a/15113919/2997964}. In any case, the fact that after over 30 years of categorical language and methods being applied to the language there is still no mechanism, built in or otherwise, for constructing (co)equalizers strongly suggests that such a problem is, if solvable, very difficult.
 
-\section{A Kleisli Category: The Writer Monad}
+\section{A Kleisli Category: The Writer Monad}\label{sec:kleisli}
 
 The reader might recognize the names `monad' and `Kleisli category' from the mathematical terminology, and indeed the concepts we are about to discuss coincide with these mathematical notions. However, since they have not yet been explained, the reader should see these as mere names; an explanation will have to wait until section \ref{sec:monads}.
 
@@ -535,7 +539,7 @@ satisfying the axioms for a monoid (associativity of \lsin|<>|, etc). Like in th
 
 That said, we can now define the so-called \emph{Kleisli category for the \lsin|Writer| monad}:
 
-\begin{definition}
+\begin{definition}\ref{def:kleisli}
 Let \lsin|w| be a type in the \lsin|Monoid| typeclass. We define \emph{the Kleisli category for the monad \lsin|Writer w|}, denoted $W$, as follows.
 \begin{itemize}
 \item The objects of $W$ coincide with the objects of $\Hask$,
@@ -719,7 +723,7 @@ output: (6765,Sum {getSum = 19})
 
 Clearly, \lsin|naiveFib| is very naïve indeed, with the number of additions growing very fast with its argument!
 
-\section{The \texorpdfstring{\texttt{IO}}{IO} Monad}
+\section{The \texorpdfstring{\texttt{IO}}{IO} Monad}\label{sec:io}
 
 We've talked about the purity of Haskell, how it inviabilizes a few common programming constructs, and a few ways that category theory gives us alternatives via powerful abstractions. Now let's talk about the concept that suffers the most from the introduction of purity: \emph{input and output}.
 
@@ -796,12 +800,12 @@ main :: IO ()
 main = putStrLn "Hello world!"
 \end{lstlisting}
 
-This program, when compiled, results in an executable which, when run, prints the string `Hello world!' to the screen. Note the use of \lsin|main|. A Haskell file will typically define many functions, so we need to tell the compiler which of them builds the \lsin|IO ()| value it is meant to execute, so it looks for a value of type \lsin|IO ()| and name \lsin|main|.
+When compiled, this program results in an executable which, when run, prints the string `Hello world!' to the screen. Note the use of \lsin|main|. A Haskell file will typically define many functions, so we need to tell the compiler which of them builds the \lsin|IO ()| value it is meant to execute, so it looks for a value of type \lsin|IO ()| and name \lsin|main|.
 
 \paragraph{Echo and Bind}
-Let us now make a program which receives input from the user and repeats it back to them. To get the input from the user we want the \mbox{\lsin|IO String|} action \lsin|getLine|, and we want to feed its output (a \lsin|String|) to the \lsin|putStrLn| function. Unfortunately, it's not as easy as writing \lsin|putStrLn . getLine|, as the types don't match. In terms of purity, this would require knowing the result of \lsin|getLine| at the time that we are executing the pure Haskell code, and this is implicit input.
+Let us now make a program which receives input from the user and repeats it back to them. To get the input from the user we want the \mbox{\lsin|IO String|} action \lsin|getLine|, and we want to feed its output (a \lsin|String|) to the \lsin|putStrLn| function. Unfortunately, it's not as easy as writing \lsin|putStrLn . getLine|, as \lsin|getLine| returns an \lsin|IO String| and \lsin|putStrLn| requires a \lsin|String|.
 
-What we really need is a function that does the following: given an \lsin|IO| action which culminates in a value of type \lsin|a|, and a function which turns such a value into another computation of type \lsin|IO b|, we want to write the program `do this thing, feed the \lsin|a| into this function, and do that other thing'. The operator that does this composition is called \emph{bind}:
+A `program composition operator' must behave as follows: given an \lsin|IO| action which culminates in a value of type \lsin|a|, and a function which turns such a value into another computation of type \lsin|IO b|, we want to write the program `do this thing, feed the \lsin|a| into this function, and do that other thing'. The operator that does this composition is called \emph{bind}:
 \begin{lstlisting}
 (>>=) :: IO a -> (a -> IO b) -> IO b
 \end{lstlisting}
@@ -857,21 +861,22 @@ main = putStrLn "Hello! What is your name?" >>
 
 \paragraph{\texttt{IO} is a Functor}
 
-In the previous example, we got user input and forwarded it, using \lsin|>>=|, to another function which processed it and returned another \lsin|IO| action. However, sometimes it is more appropriate to associate the processing to the left-hand side of \lsin|>>=| than to the right-hand side.
+In the previous example, we got user input and forwarded it using \lsin|>>=| to another function, which processed it and returned another \lsin|IO| action. However, sometimes it is appropriate to associate the processing to the left-hand side of \lsin|>>=| rather than to the right-hand side.
 
-As an example, consider the following scenario: we wish to make a program that receives an integer input by the user, doubles it, and prints it on the screen. Let us take for granted that there exists a function \lsin|strToInt :: String -> Int| which reads an integer off of a string.\footnote{In Haskell, there is the \lsin|read| function which does just that, but it is unsafe as it crashes the program if it is fed invalid input. There are other, safer alternatives, but it should suffice to say that they exist.} Then, our program could be written as
+As an example, consider the following scenario: we wish to make a program that receives an integer input by the user, doubles it, and prints it on the screen. Let us take for granted that there exists a function \lsin|strToInt :: String -> Int| which reads an integer off of a string,\footnote{In Haskell, there is the \lsin|read| function which does just that, but it is unsafe as it crashes the program if it is fed invalid input. There are other, safer alternatives, but it should suffice to say that they exist.} as well as a function \lsin|print :: Int -> IO ()| which prints an integer to the screen.\footnote{Actually, the function \lsin|print| has type \lsin|print :: Show a => a -> IO ()|. The \lsin|Show| typeclass consists of types which may be represented as a string; to represent a value as a string one uses the function \lsin|show :: Show a => a -> String|. With it, one defines \lsin|print = putStrLn . show|.} Then, our program could be written as
 \begin{lstlisting}
-main = getLine >>= (putStrLn . strToInt)
+main = getLine >>= (print . (\x -> 2*x) . strToInt)
 \end{lstlisting}
 
-However, suppose that we want to isolate the `get an integer from the user' action. In other words, we want to build a Haskell object of type \lsin|IO Int|, using \lsin|getLine :: IO String| and \lsin|strToInt :: String -> Int|. Again, we cannot simply construct a composite \lsin|strToInt . getLine|, as the types don't match, but if we could build a function \lsin|IO String -> IO Int| out of \lsin|strToInt| our problem would be solved. Interpreting this in the program framework, this function would take an \lsin|IO String|, i.e. a sequence of instructions for the external interpreter telling it how to fetch a \lsin|String| from the outside world, and add to the very end of these instructions `when you're done getting that \lsin|String|, apply the function \lsin|strToInt| to it'. 
+
+However, suppose that we want to isolate the `get an integer from the user' action. In other words, we want to build a Haskell object of type \lsin|IO Int|, using \lsin|getLine :: IO String| and \lsin|strToInt :: String -> Int|. We cannot simply construct a composite \lsin|strToInt . getLine|, as the types don't match, but if we could build a function \lsin|IO String -> IO Int| out of \lsin|strToInt| our problem would be solved. Interpreting this in the program framework, this function would take an \lsin|IO String|, i.e. a sequence of instructions for the external interpreter telling it how to fetch a \lsin|String| from the outside world, and add to the very end of these instructions `when you're done getting that \lsin|String|, apply the function \lsin|strToInt| to it'. 
 
 This function exists, and can be constructed via \lsin|fmap strToInt|. Yes, this is the same \lsin|fmap| as in \ref{sec:functors}: \lsin|IO| is a functor! In other words, if we define a map $F \colon \Hask \to \Hask$ given by
 \begin{itemize}
 \item If $a$ is a type, $F(a) = \typecons{IO} a$,
 \item If $f \colon a \to b$, define $F(f) \colon F(a) \to F(b)$ as in the previous paragraph,
 \end{itemize}
-then $F$ is a functor. In other words, \lsin|fmap| satisfies the functor laws.\footnote{Strictly speaking, this is not necessarily true. There might be a small difference between \lsin|action :: IO a| and \lsin|fmap id action|: the former is a sequence of instructions, and the latter is the same sequence \emph{followed by} `and then, apply \lsin|id| to the result'. Of course, this is obviously of no consequence, except perhaps for an infinitesimal delay in execution, and it is very likely that the compiler would optimize away such a frivolous instruction anyway. Regardless of whether there exists a difference or not, there is no harm in accepting the fiction that \lsin|IO| is a functor, in much the same way that engineers do not need to correct for relativistic effects.}
+then $F$ is a functor. In other words, \lsin|fmap| satisfies the functor laws.\footnote{Strictly speaking, this is not necessarily true. There might be a small difference between \lsin|action :: IO a| and \lsin|fmap id action|: the former is a sequence of instructions, and the latter is the same sequence \emph{followed by} `and then, apply \lsin|id| to the result'. Of course, this is obviously of no consequence, except perhaps for an infinitesimal delay in execution, and it is very likely that the compiler would optimize away such a frivolous instruction anyway. Regardless of whether there exists a difference or not, there is no harm in accepting the fiction that \lsin|IO| is a functor, in much the same way that engineers do not need to correct for relativistic effects when building bridges.}
 
 In conclusion, we are now able to define an \lsin|IO Int| action which reads an integer from the console, as
 \begin{lstlisting}
@@ -881,7 +886,7 @@ getInt = fmap strToInt getLine
 
 \paragraph{The Monad Laws}
 
-From the discussion above, we are able to conclude a very important fact relating \lsin|>>=| and \lsin|fmap| which will be very important later on: doing an \lsin|IO|-free computation is the same before or after \lsin|>>=| is irrelevant. In other words, if \lsin|act1 = IO a|, \lsin|f :: a -> b| and \lsin|act2 = a -> IO b| then
+From the discussion above, we are able to conclude a very important fact relating \lsin|>>=| and \lsin|fmap| which will be very important later on: doing an \lsin|IO|-free computation before or after \lsin|>>=| is irrelevant. In other words, if \lsin|act1 = IO a|, \lsin|f :: a -> b| and \lsin|act2 = a -> IO b| then
 \begin{equation}
 \lsmath{act >>= (act2 . f) = (fmap f act) >>= act2}
 \end{equation}
@@ -892,7 +897,7 @@ This is the most important of the so-called \emph{monad laws}, which will be hea
 
 In this section, we discussed what a value of type \lsin|IO a| is (it is a sequence of instructions for the interpreter to go out into the world and get Haskell an object of type \lsin|a|), how to compose \lsin|IO| actions with functions that take their results and return other \lsin|IO| actions via the \lsin|>>=| operator, and how \lsin|IO| is a functor.
 
-The \lsin|>>=| operator changes our metaphor slightly, because it allows for the outside world to talk to Haskell. For example, consider the program
+The \lsin|>>=| operator changes the \lsin|IO| metaphor slightly, because it allows for the outside world to talk to Haskell. For example, consider the program
 \begin{lstlisting}
 main = getLine >>= (\in -> if in == "jackpot" then putStrLn "You hit the jackpot!" else putStrLn "...")
 \end{lstlisting}
@@ -928,7 +933,7 @@ Then, when the interpreter executes this program, first it gets user input, and 
 \end{figure}
 
 
-\section{The Monad Family}\label{sec:monads}
+\section{Monads}\label{sec:monads}
 
 We preface this section with a joke.
 
@@ -941,13 +946,11 @@ We preface this section with a joke.
 \end{description}
 \end{joke}
 
-We will spend the rest of this section explaining why this joke is funny.
-
 \subsection{Categorical Definition}
 
-We assume that the reader is already familiar with the concept of a monad, but in order to establish notation we will nevertheless give a brief introduction to the concept.
+Before talking about the applications to programming, we give a very brief introduction to the concept of monad. For a more in depth but still light introduction, see chapter VI of \cite{maclane}.
 
-\begin{definition}
+\begin{definition}\label{def:monad}
 A monad in a category $X$ is an endofunctor $T \colon X \to X$, together with two natural transformations
 \begin{equation}
 \eta \colon \id_X \nto T, \quad \mu \colon T^2 \nto T,
@@ -961,17 +964,17 @@ satisfying the equations
 
 Monads often, but not always, arise from adjunctions.
 
-\begin{prop}
-Let $F \colon X \to Y$ and $U \colon Y \to X$ be adjoint functors, with $F \dashv U$. Then, $T = UF$ is a monad, with $\eta$ the unit of the adjunction and $\mu = F \varepsilon U$, where $\varepsilon$ is the counit of the adjunction.
+\begin{prop}\label{prop:monadj}
+Let $F \colon X \to Y$ and $U \colon Y \to X$ be adjoint functors, with $F \dashv U$. Then, $T = UF$ is a monad, with $\eta$ the unit of the adjunction and $\mu = U \varepsilon F$, where $\varepsilon$ is the counit of the adjunction.
 \end{prop}
 
-Let us look at one particular example, which will be useful in the sequence. Let $F \colon \cat{Sets} \to \cat{Mon}$ be the free-monoid-generated-by functor, and $U \colon \cat{Mon} \to \cat{Sets}$ be the forgetful functor. In this case, $T = UF$ is the functor which, given a set $A$, returns the monad freely generated by $A$, without the monadic structure. In other words, we can see $T(A)$ as the collection of finite sequences of elements of $A$.
+Let us look at one particular example, which will be useful in the sequence. Let $F \colon \cat{Sets} \to \cat{Mon}$ be the free-monoid-generated-by functor, and $U \colon \cat{Mon} \to \cat{Sets}$ the forgetful functor. In this case, $T = UF$ is the functor which, given a set $A$, returns the monad freely generated by $A$, without the monadic structure. In other words, we can see $T(A)$ as the collection of finite sequences of elements of $A$.
 
 In this case, $\eta \colon A \to T(A)$ is the function which, given an element $a$ of $A$, returns the one-element sequence `$a$'.
 
-The other natural transformation, $\mu$, is trickier. It is a function from $T(T(A))$ to $T(A)$. In other words, it receives sequences of sequences of elements of $A$, and returns a sequence of elements of $A$.\footnote{Strictly speaking, this is not necessarily true. The result is heavily dependent on how we represent the free monad generated by a set. Here we will be assuming that the free monad generated by $A$ is represented by the finite sequences of elements of $A$, with the operation given by concatenation.} It is not obvious, but can be deduced by expanding the definition of $\mu$ and $\eta$, that $\mu$ consists of sequence concatenation. In other words, suppose that $s = s_1 \dots s_n$ is an element of $T(A)$, with
+The other natural transformation, $\mu$, is trickier. It is a function from $T(T(A))$ to $T(A)$. In other words, it receives sequences of sequences of elements of $A$, and returns a sequence of elements of $A$.\footnote{Strictly speaking, this is not necessarily true. The result is heavily dependent on how we represent the free monad generated by a set. Here we will be assuming that the free monad generated by $A$ is represented by the finite sequences of elements of $A$, with the operation given by concatenation.} It is not obvious, but can be deduced by expanding the definition of $\mu$ and $\eta$, that $\mu$ consists of sequence concatenation. In other words, suppose that $s = s_1 \dots s_n$ is an element of $T(T(A))$, with
 \begin{equation}
-s_i = a_{i1} \dots a_{i m_i}, \quad i = 1, \dots, n.
+s_i = a_{i1} \dots a_{i m_i}, \quad i = 1, \dots, n, \quad a_{ij} \in A.
 \end{equation}
 
 Then, $\mu(s)$ is given by
@@ -979,7 +982,401 @@ Then, $\mu(s)$ is given by
 \mu(s) = a_{11} \dots a_{1 m_1} a_{21} \dots a_{2 m_2} \dots a_{n1} \dots a_{n m_n}.
 \end{equation}
 
-[[write kleisli category first]]
+\subsection{A Monad in Haskell: Lists}
+
+\paragraph{Lists as Sequences}
+
+We have seen that a simple example of a monad consists of the functor which takes a set $A$ and returns the collection of finite sequences of elements of $A$. As it happens, we have already seen such an object in Haskell: the list functor!\footnote{This is not technically true. Since Haskell is lazy, it is possible (and oftentimes useful) to construct infinite lists. Therefore, the list functor does not correspond exactly to the monad associated to the free monoid constructor. However, it is close enough that the exposition does not suffer for it.}
+
+The list functor $\type{List} \colon \Hask \to \Hask$ takes a type \lsin|a| and returns the type \lsin|[a]|, and it takes a function \lsin|f :: a -> b| and returns the function \lsin|fmap f :: [a] -> [b]| which applies \lsin|f| to all the elements of its input. To see it as a monad, by analogy with the example seen above we set
+\begin{lstlisting}
+eta :: a -> [a]
+eta x = [x]
+
+mu :: [[a]] -> [a]
+mu = concat
+\end{lstlisting}
+where \lsin|concat| takes a list of lists and returns the result of their concatenation. This shows that Haskell already contains the natural transformation $\mu$ for the list functor, and it also contains $\eta$ in the form of the function \lsin|return :: a -> [a]|.
+
+\paragraph{Lists as Output of Nondeterministic Computations}
+
+An important example of list usage is when some query has more than one possible response. For some applications, only one response is enough, but sometimes it is useful to know all possible responses to a query.
+
+As an example, consider the following game. Start with a composite integer $n$. At each step, pick a divisor $1 < d < n$ of $n$ and replace $n$ with $d-1$. The game halts whenever we reach a prime number $n$, or $1$. We wish to find, for a positive integer $n$, the maximal number of moves until the game halts.
+
+To a first approximation, let us implement a simple strategy to play the game: at each step of the game we pick the biggest divisor of $n$. Our code will execute this strategy and return the number of moves necessary to halt.
+\begin{lstlisting}
+step :: Int -> Maybe Int
+step n = let divisors = filter (\d -> n `mod` d == 0) [n-1,n-2..2] in
+           fmap (\d -> d-1) (listToMaybe divisors)
+
+stepsToHalt :: Int -> Int
+stepsToHalt n = aux (step n)
+
+aux :: Maybe Int -> Int
+aux Nothing = 0
+aux (Just n) = 1 + aux (step n)
+
+stepsToHalt 73
+output: 0
+
+stepsToHalt 766
+output: 8
+\end{lstlisting}
+
+Some explanation on the functions and notation used in the code above:
+\begin{itemize}
+\item The function \lsin|filter :: (a -> Bool) -> [a] -> [a]| takes a predicate \lsin|p| and a list \lsin|x| and returns the elements of the list which satisfy \lsin|p|. In this case the predicate is that \lsin|n `mod` d == 0|, i.e. that \lsin|d| be a divisor of \lsin|n|.
+
+\item The expression \lsin|[n-1,n-2..2]| represents the list that is suggested by the notation.
+
+\item The function \lsin|listToMaybe| takes a list and returns \lsin|Just| the first element of the list if it exists, and \lsin|Nothing| otherwise.
+\end{itemize}
+
+Now, evidently our strategy is not optimal. For example, suppose we start with $n = 48$. The current implementation goes $48 \to 23$, and so halts in one step. However, there is a better set of moves: $48 \to 15 \to 4 \to 1$.
+
+With this in mind, let us implement a nondeterministic solver, where instead of picking a move and sticking with it, all possible moves are tried in parallel.
+
+In preparation for this nondeterministic solver, we consider how to represent a state of the game at hand. There are two cases: either the game is still ongoing, in which case we want to store how many steps have elapsed since the start, and the value of $n$ we currently have; or the game has already terminated, in which case we just want to store how many steps it took us to get where we are.
+\begin{lstlisting}
+type UnhaltedState = (Int, Int)
+type HaltedState = Int
+type GameState = Either HaltedState UnhaltedState
+\end{lstlisting}
+
+Now, our nondeterministic step function takes an unhalted game and returns a list which contains all possible states of the game after one step; in the special case where the value of $n$ which is input is prime or 1, it returns a singleton list, representing that the only possible next step is to halt.
+\begin{lstlisting}
+stepND :: UnhaltedState -> [GameState]
+stepND (s,n) = let divisors = filter (\d -> n `mod` d == 0) [n-1,n-2..2] in
+               if divisors == [] then [Left s]
+               else fmap (\d -> (Right (s+1,d-1))) divisors
+\end{lstlisting}
+
+Now we implement the function \lsin|stepsFromStateND|, which, given a state \lsin|s|, outputs all possible numbers of moves until halting:
+\begin{lstlisting}
+stepsFromStateND :: GameState -> [Int]
+stepsFromStateND (Left s) = return s
+stepsFromStateND (Right st) = concat (fmap stepsFromStateND (stepND st))
+\end{lstlisting}
+
+Finally, we may extract the maximum number of moves by using the \lsin|maximum| function.
+\begin{lstlisting}
+stepsToHaltND :: Int -> Int
+stepsToHaltND n = maximum (stepsFromStateND (Right (0,n)))
+\end{lstlisting}
+
+We can see that the nondeterministic version does fare better than the deterministic version.
+\begin{lstlisting}
+filter (\(x,y,z) -> y<z)
+ (fmap (\n -> (n, stepsToHalt n, stepsToHaltND n)) [1..100])
+ 
+output: [(28,1,2),(36,1,2),(40,1,2),(48,1,3),(58,2,3),(60,1,3),(64,1,3),(74,2,3),(75,2,3),(76,1,3),(82,2,3),(84,1,3),(87,2,3),(88,1,3),(96,1,3),(98,2,4)]
+\end{lstlisting}
+
+\paragraph{Nondeterministic Functions as Kleisli Arrows}
+
+In the previous example, we used monadic structure explicitly in the function \lsin|stepsFromStateND|. Now we present another way to look at the problem.
+
+Recall that in section \ref{sec:kleisli} we introduced the idea of different function compositions. In that section, we considered functions of type \lsin|a -> Writer m b|, which took an input and returned an output together with a log, and defined the fish operator \lsin|<=<| which computes `logged functions' by composing their logs appropriately.
+
+We will now do a similar thing: we will redefine the concept of function composition in order to allow for composition of nondeterministic functions.
+
+To be more precise, suppose that \lsin|f :: a -> [b]| is a nondeterministic function, which takes an \lsin|a| as input and returns possibly many (or none) values of \lsin|b| as output. Likewise, let \lsin|g :: b -> [c]|. Then, we define the nondeterministic composition of \lsin|g| and \lsin|f| as
+\begin{lstlisting}
+(<=<) :: (b -> [c]) -> (a -> [b]) -> a -> [c]
+g <=< f = \x -> concat (fmap g (f x))
+\end{lstlisting}
+
+Note the fact that we are reusing the fish operator. This is no accident: as it happens, \lsin|Writer m| is also a monad, and if we'll look at the typing of the fish operator in GHCi:
+\begin{lstlisting}
+:t (<=<)
+output: (<=<) :: Monad m => (b -> m c) -> (a -> m b) -> a -> m c
+\end{lstlisting}
+
+In other words, the fish operator is defined for pairs of functions of types \lsin|b -> m c| and \lsin|a -> m b| with \lsin|m| a monad. We have already seen the implementation for lists, and we will see that it generalizes trivially for a general monad \lsin|m|.
+
+We can rewrite the function \lsin|stepsFromStateND| using the fish operator:
+\begin{lstlisting}
+stepsFromStateND :: GameState -> [Int]
+stepsFromStateND (Left s) = return s
+stepsFromStateND (Right st) = (stepsFromStateND <=< stepND) st
+\end{lstlisting}
+
+\paragraph{Nondeterministic Input}
+
+Let us look at a third way to see nondeterministic functions, which is often more useful for practical programming.
+
+In practice, programmers don't always have the opportunity to write their functions as neat compositions of other functions. Sometimes dependencies are used multiple times, and it is much easier to store data in a variable and then reuse that variable multiple times than coming up with convoluted ways to carry the data across function compositions to where it needs to be. In other words, function application is useful.
+
+This presents a problem to nondeterministic programming, because if \lsin|y :: [b]| is the (nondeterministic) output of a function \lsin|f :: a -> [b]|, and we want to feed \lsin|y| as input to another function \lsin|g :: b -> [c]|, simply writing \lsin|g y| will not do. We need some kind of new `nondeterministic function application' which, given nondeterministic input and a nondeterministic function, applies the function to all elements of the input.
+
+Enter the bind operator, \lsin|>>=|. Yes, this is the same bind operator as in section \ref{sec:io}, but now it has type
+\begin{lstlisting}
+(>>=) :: [a] -> (a -> [b]) -> [b]
+\end{lstlisting}
+or, more generally,
+\begin{lstlisting}
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+\end{lstlisting}
+
+For lists, it is defined by
+\begin{lstlisting}
+(>>=) :: [a] -> (a -> [b]) -> [b]
+y >>= g = concat (fmap g y)
+\end{lstlisting}
+and \lsin|stepsFromStateND| may be rewritten using bind:
+\begin{lstlisting}
+stepsFromStateND :: GameState -> [Int]
+stepsFromStateND (Left s) = return s
+stepsFromStateND (Right st) = stepND st >>= stepsFromStateND
+\end{lstlisting}
+
+\subsection{It All Ties Together (Categorically)}
+
+We have seen that the $\type{List}$ type constructor is a monad, and from that we were able to define the fish operator \lsin|<=<| and the bind operator \lsin|>>=|. Now, we will show that the converse holds, so that, for example, \lsin|<=<| can be used to compose functions \lsin|a -> IO b| with \lsin|b -> IO c|, or that \lsin|>>=| can be used to feed a \lsin|Writer m a| into a function of type \lsin|Writer m b|. It is an interesting exercise to understand how these operations are interpreted, but for the sake of conciseness we will only show that the bind and fish operators induce different, but equivalent, ways to define monads.
+
+\begin{theorem}\label{thm:mon1}
+Let $X$ be a category. The following data are equivalent.
+\begin{itemize}
+\item A functor $T \colon X \to X$ together with natural transformations
+\begin{equation}
+\eta \colon I \Rightarrow T, \quad \mu \colon T^2 \Rightarrow T
+\end{equation}
+such that
+\begin{gather}
+\mu \cdot \mu T = \mu \cdot T \mu, \label{eq:mu1}\\
+\quad \mu \cdot \eta T = \mu \cdot T \eta = \id_T. \label{eq:mu2}
+\end{gather}
+
+\item A functor $T \colon X \to X$, together with a natural transformation
+\begin{equation}
+\eta \colon I \Rightarrow T
+\end{equation}
+and an associative binary operation $(g,f) \mapsto g \odot f$, defined for $f, g \in X_1$ satisfying
+\begin{equation}
+f \colon x \to T y, \quad g \colon y \to T z,
+\end{equation}
+with $g \odot f \colon x \to Tz$, and such that for all such $f$ and $g$ we have
+\begin{equation}
+f \odot \eta_x = \eta_y \odot f = f.
+\end{equation}
+
+Furthermore, it relates to usual composition by
+\begin{gather}
+(h \odot g) \circ f = h \odot (g \circ f),\label{eq:odot3}\\
+Th' \circ (g' \odot f') = Th' \odot (Tg' \circ f').\label{eq:odot4}
+\end{gather}
+whenever $f$, $g$ and $h$ compose appropriately, and likewise for $f'$, $g'$ and $h'$.
+
+\item A functor $T \colon X \to X$, together with a natural transformation
+\begin{equation}
+\eta \colon I \Rightarrow T
+\end{equation}
+and an operator $\beta_{xy} \colon X(x, Ty) \to X(Tx, Ty)$ which satisfies
+\begin{gather}
+Tf = \beta_{xy}(\eta_y \circ f),\label{eq:beta1}\\
+\beta_{xy}(f) \circ \eta_x = f,\label{eq:beta2}\\
+\beta_{yz}(g) \circ \beta_{xy}(f) = \beta_{xz}(\beta_{yz}(g) \circ f).\label{eq:beta3}
+\end{gather}
+\end{itemize}
+\end{theorem}
+
+\begin{remark}
+Before going through with the proof, it is worth it to look at how these concepts are reflected in Haskell.
+
+All three of the definitions start with a functor and a natural transformation $\eta$. In Haskell, the functor is a type constructor, e.g. \lsin|[]|, \lsin|Writer m|, \lsin|IO|, and the $\eta$ is represented by the function \lsin|return :: a -> m a|.
+
+The first definition contains an additional natural transformation, denoted $\mu$. In Haskell, this is represented by the function \lsin|join :: m m a -> m a|.
+
+The second definition contains the binary operator $\odot$. In Haskell, this is represented by the fish operator \lsin|<=<|.
+
+The third definition is the one which is a little further away from its Haskell counterpart. In Haskell, $\beta$ is represented by the bind operator
+\begin{lstlisting}
+(>>=) :: m a -> (a -> m b) -> m b
+\end{lstlisting}
+whose typing is not the same as $\beta$. To get from one to the other, one must first invert the order of the arguments, yielding the function
+\begin{lstlisting}
+(=<<) :: (a -> m b) -> (m a -> m b)
+(=<<) = curry ((uncurry (>>=)) . swap)
+\end{lstlisting}
+
+This one maps directly to $\beta$.
+
+The reason that this mental gymnastics is necessary is because the original typing of bind only makes sense in nice enough categories, namely those with exponentiation. The modified definition is more general, being applicable to any category.
+\end{remark}
+
+\begin{proof}
+Since all definitions provide the functor $T$ and natural transformation $\eta \colon I \Rightarrow T$, it suffices to construct the following three pieces of data from one another: $\mu$, $\odot$, and $\beta$.
+
+\begin{itemize}
+\item (Build $\odot$ from $\mu$) Let $f \colon x \to T y$ and $g \colon y \to T z$. Then, set
+\begin{equation}
+g \odot f := \mu_z \circ Tg \circ f.
+\end{equation}
+
+We need to verify that $\odot$ is associative and that $\eta$ is a neutral element.
+
+To show associativity, we compute $(h \odot g) \odot f$, for $f \colon x \to Ty$, $g \colon y \to Tz$ and $h \colon z \to Tw$:
+\begin{equation}
+\begin{aligned}
+(h \odot g) \odot f &= \mu_w \circ T(h \odot g) \circ f\\
+&= \mu_w \circ T\mu_w \circ TTh \circ Tg \circ f\\
+&= \mu_w \circ \mu_{Tw} \circ TTh \circ Tg \circ f &&\text{(by \eqref{eq:mu1})}\\
+&= \mu_w \circ Th \circ \mu_{z} \circ Tg \circ f &&\text{(Naturality)} \\
+&= \mu_w \circ Th \circ (g \odot f)\\
+&= h \odot (g \odot f).
+\end{aligned}
+\end{equation}
+
+Now, we prove that $f \odot \eta_x = f$:
+\begin{equation}
+\begin{aligned}
+f \odot \eta_x &= \mu_y \circ Tf \circ \eta_x\\
+&= \mu_y \circ \eta_{Ty} \circ f &&\text{(Naturality)} \\
+&= \id_{T y} \circ f &&\text{(by \eqref{eq:mu2})}\\
+&= f.
+\end{aligned}
+\end{equation}
+
+The proof that $\eta_y \odot f = f$ is similar, and so we turn to showing \eqref{eq:odot3}.
+\begin{equation}
+\begin{aligned}
+(h \odot g) \circ f &= (\mu_w \circ Th \circ g) \circ f\\
+&= \mu_z \circ Th \circ (g \circ f)\\
+&= h \odot (g \circ f).
+\end{aligned}
+\end{equation}
+
+Finally, we prove \eqref{eq:odot4}.
+\begin{equation}
+\begin{aligned}
+Th \circ (g \odot f) &= Th \circ \mu_z \circ Tg \circ f \\
+&= \mu_w \circ T^2 h \circ Tg \circ f && \text{(Naturality)}\\
+&= Th \odot (Tg \circ f).
+\end{aligned}
+\end{equation}
+
+The first part of the proof is complete. The rest of the proof is mostly similar algebraic manipulations, so we omit them when they are simple.
+
+\item (Build $\beta$ from $\odot$) Simply set
+\begin{equation}
+\beta_{xy}(f) = f \odot \id_{Tx}.
+\end{equation}
+
+To prove \eqref{eq:beta1}, we compose with an appropriate identity:
+\begin{equation}
+\begin{aligned}
+\beta(\eta_y \circ f) &= (\eta_y \circ f) \odot \id_{Tx} \\
+&= T \id_y \circ (\eta_y \circ f) \odot \id_{Tx}\\
+&= T \id_y \odot (T\eta_y \circ Tf \circ \id_{Tx})&&\text{(by \eqref{eq:odot4})}\\
+&= T \id_y \odot (T\eta_y \circ Tf)\\
+&= T \id_y \circ (\eta_y \odot Tf)&&\text{(by \eqref{eq:odot4})}\\
+&= f.
+\end{aligned}
+\end{equation}
+
+The proof of \eqref{eq:beta2} is trivial, so we now prove \eqref{eq:beta3}:
+\begin{equation}
+\begin{aligned}
+\beta(g) \circ \beta(f) &= (g \odot \id_{Ty}) \circ (f \odot \id_{Tx})\\
+&= g \odot (f \odot \id_{Tx}) && \text{(by \eqref{eq:odot3})}\\
+&= (g \odot f) \odot \id_{Tx}) && \text{(Associativity)}\\
+&= ((g \odot \id_{Ty}) \circ f) \odot \id_{Tx} && \text{(by \eqref{eq:odot3})}\\
+&= \beta(\beta(g) \circ f).
+\end{aligned}
+\end{equation}
+
+\item (Build $\mu$ from $\beta$) Define $\mu_x$, for $x \in X_0$, by
+\begin{equation}
+\mu_x = \beta(\id_{Tx}).
+\end{equation}
+
+The proofs of naturality of $\mu$ and \eqref{eq:mu1} and \eqref{eq:mu2} are left to the reader.
+\end{itemize}
+
+Now that we have constructed $\odot$ from $\mu$, $\beta$ from $\odot$ and $\mu$ from $\beta$, it remains to show that these constructions preserve information. In other words, if we start from $\mu$, build $\odot$, then $\beta$, and then a new $\overline{\mu}$, we need to show that $\mu = \overline{\mu}$, and likewise for the other two constructions. The proof of this fact is straight-forward and left to the reader.
+\end{proof}
+
+\begin{remark}
+It should be noted that the proof of theorem \ref{thm:mon1} gives us more than the statement: it actually tells us how to construct each piece of data from the others. This translates to implementation. For example, in Haskell a monad is defined in terms of the bind operator \lsin|>>=| (in the nomenclature above, $\beta$), and the fish operator \lsin|<=<| (in the notation above, $\odot$) is defined on all monads using bind.
+\end{remark}
+
+\begin{remark}
+The definition in terms of $T$, $\eta$ and $\beta$ can actually be further simplified. Indeed, by \eqref{eq:beta1} the definition of $T$ on morphisms can be induced solely from the rest of the data. Therefore, if we remove the hypothesis that $T$ is a functor and replace the hypothesis \eqref{eq:beta1} by something else, we actually obtain a leaner definition of monad:
+
+\begin{theorem}\label{thm:mon2}
+Let $X$ be a category. The following data is equivalent:
+\begin{itemize}
+\item A monad $(T, \eta, \beta)$,
+\item A map $T \colon X_0 \to X_0$, a collection of maps $\eta_x \colon x \to Tx$, and a collection of maps $\eta_{xy} \colon X(x, Ty) \to X(Tx,Ty)$, satisfying the so-called \emph{monad laws}:
+\begin{gather}
+\beta(\eta) = \id,\label{eq:betaeta}\\
+\beta(f) \circ \eta = f,\\
+\beta(g) \circ \beta(f) = \beta(\beta(g) \circ f).
+\end{gather}
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Evidently a monad induces such data. On the other hand, from this data we may define $T$ on morphisms via \eqref{eq:beta1}, and functoriality of the resulting $T$ is easy to verify; note that \eqref{eq:betaeta} is necessary to prove that $T(\id) = \id$.
+\end{proof}
+
+Theorem \ref{thm:mon2} is actually the reason behind an interesting historical accident. As it happens, functors and monads were both introduced in version 1.3 of the Haskell report (the official standard for the language), in 1996. Now, it was already known all the way back to 1989\footnote{See \cite{moggi1}, definition 3.2.1 (which corresponds to our definition via $\beta$) and proposition 3.2.4 (which establishes the equivalence between this definition and the classical one based on on functors). See also \cite{kleisli} for another proof of equivalence, way back in 1964.} that every monad was a functor, but it was only in 2015, with the so-called `\lsin|Applicative => Monad| proposal' (AMP) \cite{amp}, that the language itself enforced that \lsin|fmap| be defined for every instance of \lsin|Monad|. 
+\end{remark}
+
+\subsection{How Programming Inspires Math}
+
+When we introduced monads in definition \ref{def:monad} we remarked (proposition \ref{prop:monadj}) that every adjunction induces a monad. On the other hand, it has been known since at least 1964 \cite{kleisli} that every monad is induced by an adjunction.
+
+Historically, this all happened long before monads were applied to programming languages, but as it happens the work we have done leaves us but a short step away from this theorem.
+
+We begin by remarking that every monad induces a category in a natural way: if we combine theorem \ref{thm:mon1} with ideas from definition \ref{def:kleisli}, we conclude that, given a monad $M = (T,\eta,\odot)$ on $T$, the collections
+\begin{equation}
+W_0 = X_0, \quad W(x,y) = X(x,Ty)
+\end{equation}
+form a category $W$ with $\odot$ as the composition and $\eta$ as the identities. This is called the \emph{Kleisli category for the monad $M$}. We may define $F \colon X \to W$ and $U \colon W \to X$ as
+\begin{equation}\label{eq:fudef}
+\begin{aligned}
+&F(x) = x, && F(f) = \eta_y \circ f,\\
+&U(x) = Tx, && U(f) = \beta(f) = f \odot \id_{Tx}.
+\end{aligned}
+\end{equation}
+
+It is worth it to take a step back and interpret $W$, $F$ and $U$ in computational terms, and the list monad $T$ is particularly enlightening in this respect. We saw that a function \lsin|a -> [b]| can be interpreted as a nondeterminstic functions, and hence in this case \emph{the Kleisli category is the category whose morphisms are nondeterministic functions}, with the appropriate composition. The functor $F$ takes a deterministic function and turns it into a `deterministic nondeterministic function', whose list of outputs contains only one element. On the other hand, the functor $U$ takes a nondeterministic function and turns it into a deterministic function, by seeing the nondeterministic results for what they are: lists. In breaking the nondeterministic metaphor, it must turn a function in $W(x,y)$ into a function whose output is a nondeterministic $y$, i.e. $U \colon W(x,y) \to X(?, Ty)$. By consistency, $U$ must act on all objects by $T$, and we have already seen that $\beta$ acts on $W(x,y) = X(x,Ty)$ in an appropriate way. Interpreting $\beta$ computationally, $U$ goes to a category which does not know how to perform nondeterministic computations, so $U$ itself teaches the functions how to accept nondeterministic inputs using $\beta$.
+
+Anyway, it is not too difficult to verify that $F$ and $U$ form an adjoint pair, which in turn originates the monad we started with. We already have the candidate for the unit, which is $\eta$, and so all that remains is to find the candidate for the counit, i.e. to solve the equation
+\begin{equation}\label{eq:mufeu}
+\mu_x = U(\varepsilon_{F(x)}).
+\end{equation}
+
+Expanding \eqref{eq:mufeu} using \eqref{eq:fudef}, we obtain
+\begin{equation}
+\mu_x = \beta(\varepsilon_{x}),
+\end{equation}
+and so we may use equation \eqref{eq:beta2} to recover $\varepsilon$ via
+\begin{equation}
+\varepsilon_y = \beta(\varepsilon_y) \circ \eta_{Ty} = \mu_y \circ \eta_{Ty},
+\end{equation}
+and hence, by \eqref{eq:mu2},
+\begin{equation}
+\varepsilon_y = \id_{Ty}.
+\end{equation}
+
+It is not difficult to show that $\eta$ and $\varepsilon$ satisfy the triangular equalities, and therefore $(F, U, \eta, \varepsilon)$ forms an adjunction, whose associated monad is $M$. Therefore, we have just shown:
+
+\begin{theorem}
+Every monad is induced by an adjunction in the sense of proposition \ref{prop:monadj}.
+\end{theorem}
+
+The proof that we have presented is due to Kleisli \cite{kleisli}. It is not the only construction; see for example VI.2 in \cite{maclane} for another, due to Eilenberg-Moore.
+
+\section{Closing Remarks}
+
+The connection between Haskell and category theory is a rather interesting one, and not only for its content. First of all, it is of note that we have barely touched on the computational part of the theory behind Haskell, such as lambda calculus and type theory. Those are interesting areas in their own right, and they have a remarkable intersection with category theory, for example when it comes to theorems for free \cite{theoremsforfree}. Furthermore, in this essay we have been working with `idealized Haskell', in which all functions terminate and there are no infinite loops or errors, which is of course an unreasonable assumption; domain theory helps us account for this, by providing better descriptions of what kind of thing can be output by a program. For example, formally, each type is inhabited by at least one element, called bottom and denoted $\bot$. This type represents a computation which does not terminate, and since Haskell is a \emph{lazy} language (a term which we have not had the opportunity to define or explore) the notion of bottom is more nuanced than it would seem at first sight. For example, the pair $(\bot, \bot)$ is different from $(\bot, 1)$, which is different from $(\bot, 2)$, and all of these are different from $\bot$ (the undefined pair).
+
+Another interesting thing about using mathematics to describe Haskell is that it approaches physics in a sense. This is because Haskell is a \emph{real} programming language, and the real world is messy. Haskell is riddled with minor exceptions, concessions to practicality which break otherwise ironclad rules: the reader will have noticed that this essay is riddled with footnotes saying `well, actually...' In this sense, any description of Haskell (short of the official documentation) will be only an approximation, and much like how Newtonian and relativistic physics both have their place as descriptions of the world to better or worse approximation, so do idealized Haskell and more complex models. In this way, the content of this essay is applied category theory in a quite literal sense, which goes to show that even the most abstract areas of mathematics may eventually find application in the real world.
+
+As a last remark on category theory, in this essay we have gone to reasonable depth on monads in particular as a programming abstraction. No other categorical concept has found as wide application, except of course for the notion of morphism and perhaps the notion of functor, but that does not mean that other categorical concepts go unused. For a great reference, see \cite{catforprog}, in which concepts such as comonads and coalgebras are used as a formalism for, for example, random number generation and object inspection (lenses), both of which very useful notions in practice.
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
