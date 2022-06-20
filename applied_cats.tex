@@ -137,7 +137,7 @@ In this essay, I hope to convince the reader that there are very real mathematic
 
 The following examples are all valid Haskell code, which was implemented and executed in GHCi, the Glasgow Haskell Compiler interpreter, which is the \textit{de facto} implementation of Haskell and can be downloaded here: \url{https://www.haskell.org/downloads/}. The reader can also try Haskell online without downloading anything on \url{https://tryhaskell.org/}.
 
-(A disclaimer: If the reader tries the examples below, some of them might yield output which is different from the one shown, in particular in regards to types of functions. This is because some functions are much more general than we present them as, but an explanation of this generality must wait until we discuss typeclasses in \ref{sec:functors}. In any case, the reader is assured that where the output of code in this essay is wrong, it is at most a particular case of the truth.)
+(A disclaimer: If the reader tries the examples below, some of them might yield output which is different from the one shown, in particular in regards to types of functions. This is because some functions are more general than we present them as, but an explanation of this generality must wait until we discuss typeclasses in \ref{sec:functors}. In any case, the reader is assured that where the output of code in this essay is wrong, it is at most a particular case of the truth.)
 
 As mentioned in the introduction, Haskell is at its core a lambda calculus evaluator, so we begin by introducing the most basic concept to lambda calculus: the lambda expression.
 
@@ -236,12 +236,12 @@ Aha! So what's happening here, in categorical terms, is simply that
 (+) \in \Hask(\type{Int}, \Hask(\type{Int}, \type{Int})).
 \end{equation}
 
-Recall that, in sets, we have an adjunction between the functors
+Recall that in $\cat{Sets}$ we have an adjunction between the functors
 \begin{equation}
 F(a) = a \times b, \quad G(c) = \Hom(b,c).
 \end{equation}
 
-In particular, $F \dashv G$, and the natural isomorphism given by the adjunction is defined as, say,
+In particular, $F \dashv G$, and the natural isomorphism given by the adjunction is defined as
 \begin{equation}
 \begin{aligned}
 \phi \colon \Hom(a \times b, c) &\to \Hom(a, \Hom(b,c))\\
@@ -255,7 +255,7 @@ In Haskell, this isomorphism is called \lsin|curry|. We say functions in Haskell
 output: curry :: ((a, b) -> c) -> a -> b -> c
 \end{lstlisting}
 
-This matches our expectation, but remember that parentheses are implicit on the right-hand side. Note the use of the so-called \emph{type variables}: any `type' whose name is a lower-case letter denotes a type variable, and may be substituted by any type. Therefore, \lsin|curry| isn't a function in and of itself: it is a family of functions, parametrized by three objects in $\Hask$: $a$, $b$ and $c$. This is similar to how the usual isomorphism in adjunctions is parametrized by a pair of objects, as in $\varphi_{xy}$. In Haskell, the parametrization is implicit: the compiler keeps the definition as ambiguous as possible at every moment, and deduces what $a$, $b$ and $c$ should be from context when necessary.
+This matches our expectation, but remember that parentheses are implicit on the right-hand side. Note the use of the so-called \emph{type variables}: any `type' whose name is a lower-case letter denotes a type variable, and may be substituted by any type. Therefore, \lsin|curry| isn't a function in and of itself: it is a family of functions, parametrized by three objects in $\Hask$: $a$, $b$ and $c$. This is similar to how the usual isomorphism in adjunctions is parametrized by a pair of objects, as in $\phi_{xy}$. In Haskell, the parametrization is implicit: the compiler keeps the definition as ambiguous as possible at every moment, and deduces what $a$, $b$ and $c$ should be from context when necessary.
 
 Surprisingly, currying (and its inverse, \lsin|uncurry|) isn't used very often. Functions are almost always left curried, because this allows for a technique called partial application. We won't go into details, but for example expressions such as \lsin|(\a -> f 2 a)| are usually shortened to \lsin|(f 2)|.
 
@@ -303,7 +303,7 @@ output: Left "Error! Division by zero."
 
 Note the Haskell notation for fractions: \lsin|2 % 3| means the rational number $2/3$.
 
-We may define a function on \lsin|Either a b| using \emph{pattern matching}. In categorical terms, if $i_1$ and $i_2$ are the inclusions in the coproduct, we define $f \colon a \amalg b \to c$ by defining $f(i_1(x))$ and $f(i_2(x))$.
+We may define a function on \lsin|Either a b| using \emph{pattern matching}. In categorical terms, if $i_1$ and $i_2$ are the inclusions in the coproduct, we define $f \colon a \amalg b \to c$ by defining $f(i_1(x))$ and $f(i_2(x))$, i.e. by applying the universal property of the coproduct.
 
 \begin{lstlisting}
 safeadd1 :: Either String Rational -> Either String Rational
@@ -324,9 +324,9 @@ The final object is the type \lsin|()|, whose only element is the (unique) zero-
 
 The initial object is the type \lsin|Void|. There is no object of type \lsin|Void|, and the unique function \lsin|Void -> a| is called \lsin|absurd|.
 
-A particularly simple approach to error handling is to use \lsin|()| as the error type, i.e. considering \lsin|Either () a|, where \lsin|Left ()| gives us the information that an error has occurred, while telling us nothing about what it was. Categorically, this corresponds to taking the coproduct with the final object, i.e. `adding one element'. Haskell actually has another type constructor, called \lsin|Maybe|, which has the same semantics.
+A particularly simple approach to error handling is to use \lsin|()| as the error type, i.e. considering \lsin|Either () a|, where \lsin|Left ()| gives us the information that an error has occurred, while telling us nothing about what it was. Categorically, this corresponds to taking the coproduct with the final object, that is, `adding one element'. Haskell actually has another type constructor, called \lsin|Maybe|, which has the same semantics.
 
-Let \lsin|a| be a type. Then, we define \lsin|Maybe a| as the type whose elements are either of the form \lsin|Nothing| or \lsin|Just x|, where \lsin|x :: a| (i.e. $x$ has type $a$). In other words, we have the following coproduct diagram.
+Let \lsin|a| be a type. We define \lsin|Maybe a| as the type whose elements are either of the form \lsin|Nothing| or \lsin|Just x|, where \lsin|x :: a| (i.e. $x$ has type $a$). In other words, we have the following coproduct diagram.
 \begin{equation}
 \begin{tikzcd}[column sep = large]
 \lsmath{a} \arrow[r, "\lsmath{Just}"] & \lsmath{Maybe a} & \lsmath{()} \arrow[l, "\lsmath{cn}"']
@@ -354,7 +354,7 @@ fmap f (Just x) = Just (f x)
 fmap f Nothing = Nothing
 \end{lstlisting}
 
-Note the use of currying. It looks like we are defining a function of two arguments (one of type \lsin|a -> b| and the other \lsin|Maybe a|), but thanks to currying, this is the same as a function of one argument which returns a function. It is possible to make a definition that maps closer to our intuitive notion of `a function which takes a function as input and returns another function', but it requires introducing additional syntax. In the interest of keeping this essay short, we will forego this introduction, and keep ourselves in a relatively minimal subset of the language.
+Note the use of currying. It looks like we are defining a function of two arguments (one of type \lsin|a -> b| and the other \lsin|Maybe a|), but thanks to currying, this is the same as a function of one argument which returns a function. It is possible to make a definition that maps closer to our intuitive notion of `a function which takes a function as input and returns another function', but it requires introducing additional syntax. In the interest of keeping this essay short we will keep ourselves in a relatively minimal subset of the language.
 
 Let's go back to the definition of \lsin|fmap|. By inspection, it is easy to deduce the functoriality conditions, i.e. \lsin|fmap (f . g) = fmap f . fmap g| and \lsin|fmap id = id| (where \lsin|id| is the identity map). Furthermore, this agrees with the categorical definition of the functor $(1 \amalg \blank)$ given by taking the coproduct with the final object, so this functor in particular is well represented in Haskell. This is not an isolated occurrence, but to explain how functors are represented generally in Haskell we need to talk about \emph{typeclasses}.
 
@@ -408,18 +408,18 @@ If one is in a particularly terse mood, they could simply write \lsin|fmap f = f
 
 The hom-functor as we've described has a contravariant sister: the contravariant hom-functor $\Hom(\blank, x)$. This functor is denoted \lsin|Op x|, and is not a member of the \lsin|Functor| typeclass, being instead in the \lsin|Contravariant| typeclass. The function corresponding to \lsin|fmap| is called \lsin|contramap|.
 
-Finally, we can see \lsin|->| as a functor $\Hask^\op \times \Hask \to \Hask$. The nomenclature used in Haskell for such an object is a \lsin|Profunctor|. This does not completely agree with the mathematical nomenclature: in category theory, a profunctor is a functor $D^\op \times C \to \cat{Sets}$. However, the category of types can be approximated by the category of sets (identify a type with the set of its elements), so the nomenclature \lsin|Profunctor| makes sense.
+Finally, we can see \lsin|->| as a functor $\Hask^\op \times \Hask \to \Hask$. The nomenclature used in Haskell for such an object is a \lsin|Profunctor|. This does not completely agree with the mathematical nomenclature: in category theory, a profunctor is a functor $D^\op \times C \to \cat{Sets}$. However, the category of Haskell types can be approximated by the category of sets (identify a type with the set of its elements), so the nomenclature \lsin|Profunctor| makes sense.
 
 \item Let \lsin|a| be a type. Then, there exists another type, called \lsin|[a]|, whose elements are \emph{lists of \lsin|a|}. In other words, \lsin|[]| is a map that turns a type into another type.
 
-Now, let \lsin|f :: a -> b|. Then, there is an obvious way to turn a list of \lsin|a| into a list of \lsin|b|: simply apply \lsin|f| to every element of the list. This operation is often referred to in programming circles as \emph{mapping $f$}, and can be found in Python with the syntax \lsin|map(f, list)|, in Mathematica with the syntax \lsin|Map[f, list]| and in Haskell with the syntax \lsin|map f list|. It is easy to check that this operation is functorial, so \lsin|map| is actually one of the most widespread examples of functors in programming. In fact, the notion of functor in Haskell actually began as a generalization of the list functor: see \cite{markjones}\footnote{This article is freely available at \url{https://www.cs.tufts.edu/comp/150GIT/archive/mark-jones/fpca93.pdf}.}, where the concept of typeclass is first introduced precisely for this task. The author also uses \lsin|map| to denote application of a functor to a morphism, which was presumably changed to \lsin|fmap| to avoid name collision.
+Now, let \lsin|f :: a -> b|. Then, there is an obvious way to turn a list of \lsin|a| into a list of \lsin|b|: simply apply \lsin|f| to every element of the list. This operation is often referred to in programming circles as \emph{mapping $f$}, and can be found in Python with the syntax \lsin|map(f, list)|, in Mathematica with the syntax \lsin|Map[f, list]| and in Haskell with the syntax \lsin|map f list|. It is easy to check that this operation is functorial, so the list functor is actually one of the most widespread examples of functors in programming. In fact, the notion of functor in Haskell actually began as a generalization of the list functor: see \cite{markjones}\footnote{This article is freely available at \url{https://www.cs.tufts.edu/comp/150GIT/archive/mark-jones/fpca93.pdf}.}, where the concept of typeclass is first introduced precisely for this task. The author also uses \lsin|map| to denote application of a functor to a morphism, which was presumably changed to \lsin|fmap| to avoid name collision.
 
-\item Lots of algorithms in computer science rely on some kind of global state in order to keep track of what has already been done, what has already been visited, etc. In Haskell, this can be done by using the product \lsin|(s,a)|, though we will see less cumbersome methods later on.
+\item Lots of algorithms in computer science rely on some kind of global state in order to keep track of what has already been done, what has already been visited, etc. In Haskell, this can be done by using the product \lsin|(s,a)|.
 
 To be more precise: let \lsin|s| be a type, which represents the global state necessary for our program. For example, where in an imperative language we would have a variable for an integer and another for a list of characters, we might set \lsin|s = (Int, [Char])|. Then, \lsin|(,) s| corresponds to the functor $(s \times \blank)$; \lsin|(,) s a| is a synonym for \lsin|(s,a)|. An element of type \lsin|(s,a)| can be seen as an element of \lsin|a| together with some `background state' of type \lsin|s|. Mapping a morphism \lsin|f :: a -> b| corresponds to modifying the element of type \lsin|a| without modifying the state, yielding a function \lsin|fmap f :: (s,a) -> (s,b)|.
 \end{itemize}
 
-There are many more examples of functors in the Haskell ecosystem. In particular, most types of containers (lists, trees, sets, databases, etc) are functors, as well as type constructors which represent computations, such as \lsin|(->) x|, as well as others we will see shortly, such as \lsin|IO| and random number generation.
+There are many more examples of functors in the Haskell ecosystem. In particular, most types of containers (lists, trees, sets, databases, etc) are functors, as well as type constructors which represent computations, such as \lsin|(->) x|, as well as others we will see shortly, such as \lsin|IO|, and even random number generation.
 
 \subsection{Natural Transformations and Free Theorems}
 
@@ -427,7 +427,7 @@ Let \lsin|f| and \lsin|g| be two \lsin|Functor|s. Then, a natural transformation
 \begin{lstlisting}
 eta :: f a -> g a
 \end{lstlisting}
-where the only free variable is \lsin|a|. We mentioned before the concept of type variables, where in the signature of a function we write lower-case letters instead of types, and the compiler will fill those letters in for whatever type makes sense at compile time. Another way to think of it is that our function is actually a function-making machine, which recieves as input a type (in this case \lsin|a|) and returns a function of appropriate type. This matches up with the usual notation for natural transformations $\eta_x$, where the subscript represents an object of the category, in this case a type. Sometimes, this type argument is written explicitly using the notation\footnote{Don't be confused with the name \lsin|forall|. Superficially it can be understood as the universal quantifier, but from the perspective of the compiler it reads as `\lsin|eta| recieves a type \lsin|a| and returns a function of type \lsin|f a -> g a|'. The reason behind the nomenclature \lsin|forall| has to do with an important theorem in logic called the Curry-Howard isomorphism, which is far beyond the scope of this essay.}
+where the only free variable is \lsin|a|. We mentioned before the concept of type variables, where in the signature of a function we write lower-case letters instead of types, and the compiler will fill those letters in for whatever type makes sense at compile time. Another way to think of it is that our function is actually a function-making machine, which recieves a type as input (in this case \lsin|a|) and returns a function of appropriate type. This matches up with the usual notation for natural transformations $\eta_x$, where the subscript represents an object of the category, in this case a type. Sometimes, this type argument is written explicitly using the notation\footnote{Don't be confused with the name \lsin|forall|. Superficially it can be understood as the universal quantifier, but from the perspective of the compiler it reads as `\lsin|eta| recieves a type \lsin|a| and returns a function of type \lsin|f a -> g a|'. The reason behind the nomenclature \lsin|forall| has to do with an important theorem in logic called the Curry-Howard isomorphism, which is far beyond the scope of this essay.}
 \begin{lstlisting}
 eta :: forall a. f a -> g a
 \end{lstlisting}
@@ -539,7 +539,7 @@ satisfying the axioms for a monoid (associativity of \lsin|<>|, etc). Like in th
 
 That said, we can now define the so-called \emph{Kleisli category for the \lsin|Writer| monad}:
 
-\begin{definition}\ref{def:kleisli}
+\begin{definition}\label{def:kleisli2}
 Let \lsin|w| be a type in the \lsin|Monoid| typeclass. We define \emph{the Kleisli category for the monad \lsin|Writer w|}, denoted $W$, as follows.
 \begin{itemize}
 \item The objects of $W$ coincide with the objects of $\Hask$,
@@ -598,7 +598,7 @@ output: (24,"0! is 1. Compute 1*1. Compute 2*1. Compute 3*2. Compute 4*6. ")
 
 \paragraph{Other Monoids}
 
-Instead of using the \lsin|String| monoid, one could instead use \mbox{\lsin|[String]|}, with the operation of list concatenation. This could be useful for preventing weird formatting (such as the leading space in the previous example) or to make it clearer where one message ends and the other begins. We present a version of the \lsin|factorial| function above using this method; we highlight in {\color{blue} blue} the significant changes.
+Instead of using the \lsin|String| monoid, one could instead use \mbox{\lsin|[String]|}, with the operation of list concatenation. This could be useful for preventing weird formatting (such as the space at the end in the previous example) or to make it clearer where one message ends and the other begins. We present a version of the \lsin|factorial| function above using this method; we highlight in {\color{blue} blue} the significant changes.
 \begin{lstlisting}
 logProduct :: Int -> Int -> Writer @[String]@ Int
 logProduct x y = writer (x*y,  @["Product"]@)
@@ -659,13 +659,13 @@ say :: Monoid w => (a -> w) -> a -> Writer w a
 say tellfunc x = writer (x, tellfunc x)
 \end{lstlisting}
 
-This function is not part of the standard Haskell library; we will see later the built-in Haskell way to log without computing. In any case, with \lsin|fmap| and \lsin|say| we may rewrite our factorial function more neatly.\footnote{Of course, neatness is in the eye of the beholder.}
+This function is not part of the standard Haskell library; Haskell has its own way to log without computing, which would require introducing additional notation. In any case, with \lsin|fmap| and \lsin|say| we may rewrite our factorial function more neatly.\footnote{Of course, neatness is in the eye of the beholder.}
 \begin{lstlisting}
 logProduct :: Int -> Int -> Writer [String] Int
 logProduct = @curry (
-                 say (\x -> ["Output " ++ show res])
-                 <=< fmap (uncurry (*)) . return
-                 <=< say (\p -> ["Product " ++ show p])
+                 say (\res -> ["Output " ++ show res])
+                 <=< fmap (uncurry (*))
+                 . say (\p -> ["Product " ++ show p])
              )@
 
 factorial :: Int -> Writer @[String]@ Int
@@ -1214,7 +1214,7 @@ Since all definitions provide the functor $T$ and natural transformation $\eta \
 g \odot f := \mu_z \circ Tg \circ f.
 \end{equation}
 
-We need to verify that $\odot$ is associative and that $\eta$ is a neutral element.
+We need to verify that $\odot$ is associative and that $\eta$ is a neutral element, as well as the relation between $\odot$ and composition.
 
 To show associativity, we compute $(h \odot g) \odot f$, for $f \colon x \to Ty$, $g \colon y \to Tz$ and $h \colon z \to Tw$:
 \begin{equation}
@@ -1251,12 +1251,12 @@ Finally, we prove \eqref{eq:odot4}.
 \begin{equation}
 \begin{aligned}
 Th \circ (g \odot f) &= Th \circ \mu_z \circ Tg \circ f \\
-&= \mu_w \circ T^2 h \circ Tg \circ f && \text{(Naturality)}\\
+&= \mu_{Tw} \circ T^2 h \circ Tg \circ f && \text{(Naturality)}\\
 &= Th \odot (Tg \circ f).
 \end{aligned}
 \end{equation}
 
-The first part of the proof is complete. The rest of the proof is mostly similar algebraic manipulations, so we omit them when they are simple.
+The first part of the proof is complete.
 
 \item (Build $\beta$ from $\odot$) Simply set
 \begin{equation}
@@ -1294,11 +1294,11 @@ The proof of \eqref{eq:beta2} is trivial, so we now prove \eqref{eq:beta3}:
 The proofs of naturality of $\mu$ and \eqref{eq:mu1} and \eqref{eq:mu2} are left to the reader.
 \end{itemize}
 
-Now that we have constructed $\odot$ from $\mu$, $\beta$ from $\odot$ and $\mu$ from $\beta$, it remains to show that these constructions preserve information. In other words, if we start from $\mu$, build $\odot$, then $\beta$, and then a new $\overline{\mu}$, we need to show that $\mu = \overline{\mu}$, and likewise for the other two constructions. The proof of this fact is straight-forward and left to the reader.
+Now that we have constructed $\odot$ from $\mu$, $\beta$ from $\odot$ and $\mu$ from $\beta$, it remains to show that these constructions do not lose information. In other words, if we start from $\mu$, build $\odot$, then $\beta$, and then a new $\overline{\mu}$, we need to show that $\mu = \overline{\mu}$, and likewise for the other two constructions. The proof of this fact is straight-forward and left to the reader.
 \end{proof}
 
 \begin{remark}
-It should be noted that the proof of theorem \ref{thm:mon1} gives us more than the statement: it actually tells us how to construct each piece of data from the others. This translates to implementation. For example, in Haskell a monad is defined in terms of the bind operator \lsin|>>=| (in the nomenclature above, $\beta$), and the fish operator \lsin|<=<| (in the notation above, $\odot$) is defined on all monads using bind.
+It should be noted that the proof of theorem \ref{thm:mon1} gives us more than the statement: it actually tells us how to construct each piece of data from the others. This translates to implementation. For example, in Haskell a monad is defined in terms of the bind operator \lsin|>>=| (in the nomenclature above, $\beta$), and the fish operator \lsin|<=<| (in the notation above, $\odot$) is defined on all monads using bind, as is \lsin|join| ($\mu$).
 \end{remark}
 
 \begin{remark}
@@ -1307,8 +1307,8 @@ The definition in terms of $T$, $\eta$ and $\beta$ can actually be further simpl
 \begin{theorem}\label{thm:mon2}
 Let $X$ be a category. The following data is equivalent:
 \begin{itemize}
-\item A monad $(T, \eta, \beta)$,
-\item A map $T \colon X_0 \to X_0$, a collection of maps $\eta_x \colon x \to Tx$, and a collection of maps $\eta_{xy} \colon X(x, Ty) \to X(Tx,Ty)$, satisfying the so-called \emph{monad laws}:
+\item A monad $(T, \eta, \beta)$ on $X$,
+\item A map $T \colon X_0 \to X_0$, a collection of maps $\eta_x \colon x \to Tx$, and a collection of maps $\beta_{xy} \colon X(x, Ty) \to X(Tx,Ty)$, satisfying the so-called \emph{monad laws}:
 \begin{gather}
 \beta(\eta) = \id,\label{eq:betaeta}\\
 \beta(f) \circ \eta = f,\\
@@ -1328,9 +1328,9 @@ Theorem \ref{thm:mon2} is actually the reason behind an interesting historical a
 
 When we introduced monads in definition \ref{def:monad} we remarked (proposition \ref{prop:monadj}) that every adjunction induces a monad. On the other hand, it has been known since at least 1964 \cite{kleisli} that every monad is induced by an adjunction.
 
-Historically, this all happened long before monads were applied to programming languages, but as it happens the work we have done leaves us but a short step away from this theorem.
+Historically, this all happened long before monads were applied to programming languages, but as it happens the work we have already done in a programming context leaves us but a short step away from this theorem.
 
-We begin by remarking that every monad induces a category in a natural way: if we combine theorem \ref{thm:mon1} with ideas from definition \ref{def:kleisli}, we conclude that, given a monad $M = (T,\eta,\odot)$ on $T$, the collections
+We begin by remarking that every monad induces a category in a natural way: if we combine theorem \ref{thm:mon1} with ideas from definition \ref{def:kleisli2}, we conclude that, given a monad $M = (T,\eta,\odot)$ on $T$, the collections
 \begin{equation}
 W_0 = X_0, \quad W(x,y) = X(x,Ty)
 \end{equation}
@@ -1342,9 +1342,9 @@ form a category $W$ with $\odot$ as the composition and $\eta$ as the identities
 \end{aligned}
 \end{equation}
 
-It is worth it to take a step back and interpret $W$, $F$ and $U$ in computational terms, and the list monad $T$ is particularly enlightening in this respect. We saw that a function \lsin|a -> [b]| can be interpreted as a nondeterminstic functions, and hence in this case \emph{the Kleisli category is the category whose morphisms are nondeterministic functions}, with the appropriate composition. The functor $F$ takes a deterministic function and turns it into a `deterministic nondeterministic function', whose list of outputs contains only one element. On the other hand, the functor $U$ takes a nondeterministic function and turns it into a deterministic function, by seeing the nondeterministic results for what they are: lists. In breaking the nondeterministic metaphor, it must turn a function in $W(x,y)$ into a function whose output is a nondeterministic $y$, i.e. $U \colon W(x,y) \to X(?, Ty)$. By consistency, $U$ must act on all objects by $T$, and we have already seen that $\beta$ acts on $W(x,y) = X(x,Ty)$ in an appropriate way. Interpreting $\beta$ computationally, $U$ goes to a category which does not know how to perform nondeterministic computations, so $U$ itself teaches the functions how to accept nondeterministic inputs using $\beta$.
+It is worth it to take a step back and interpret $W$, $F$ and $U$ in computational terms, and the list monad $T$ is particularly enlightening in this respect. We saw that a function \lsin|a -> [b]| can be interpreted as a nondeterminstic function, and hence in this case \emph{the Kleisli category is the category whose morphisms are nondeterministic functions}, with the appropriate composition. The functor $F$ takes a deterministic function and turns it into a `deterministic nondeterministic function', whose list of outputs contains only one element. On the other hand, the functor $U$ takes a nondeterministic function and turns it into a deterministic function, by seeing the nondeterministic results for what they are: lists. In breaking the nondeterministic metaphor, it must turn a function in $W(x,y)$ into a function whose output is a nondeterministic $y$, i.e. $U \colon W(x,y) \to X(?, Ty)$. By consistency, $U$ must act on all objects by $T$, and we have already seen that $\beta$ acts on $W(x,y) = X(x,Ty)$ in an appropriate way. Interpreting $\beta$ computationally, $U$ goes to a category which does not know how to perform nondeterministic computations, so $U$ itself teaches the functions how to accept nondeterministic inputs using $\beta$.
 
-Anyway, it is not too difficult to verify that $F$ and $U$ form an adjoint pair, which in turn originates the monad we started with. We already have the candidate for the unit, which is $\eta$, and so all that remains is to find the candidate for the counit, i.e. to solve the equation
+We will now verify that $F$ and $U$ form an adjoint pair, which in turn originates the monad we started with. We already have the candidate for the unit of the adjunction, which is $\eta$, and so all that remains is to find the candidate for the counit, i.e. to solve the equation
 \begin{equation}\label{eq:mufeu}
 \mu_x = U(\varepsilon_{F(x)}).
 \end{equation}
@@ -1362,13 +1362,13 @@ and hence, by \eqref{eq:mu2},
 \varepsilon_y = \id_{Ty}.
 \end{equation}
 
-It is not difficult to show that $\eta$ and $\varepsilon$ satisfy the triangular equalities, and therefore $(F, U, \eta, \varepsilon)$ forms an adjunction, whose associated monad is $M$. Therefore, we have just shown:
+It is not difficult to show that $\eta$ and $\varepsilon$ satisfy the triangular equalities, and therefore $(F, U, \eta, \varepsilon)$ forms an adjunction, whose associated monad is $M = (T,\eta,\odot)$. Therefore, we have just shown:
 
 \begin{theorem}
 Every monad is induced by an adjunction in the sense of proposition \ref{prop:monadj}.
 \end{theorem}
 
-The proof that we have presented is due to Kleisli \cite{kleisli}. It is not the only construction; see for example VI.2 in \cite{maclane} for another, due to Eilenberg-Moore.
+The proof that we have presented is due to Kleisli \cite{kleisli}. It is not the only construction; see for example VI.2 in \cite{maclane} for another, due to Eilenberg and Moore.
 
 \section{Closing Remarks}
 
@@ -1376,7 +1376,7 @@ The connection between Haskell and category theory is a rather interesting one, 
 
 Another interesting thing about using mathematics to describe Haskell is that it approaches physics in a sense. This is because Haskell is a \emph{real} programming language, and the real world is messy. Haskell is riddled with minor exceptions, concessions to practicality which break otherwise ironclad rules: the reader will have noticed that this essay is riddled with footnotes saying `well, actually...' In this sense, any description of Haskell (short of the official documentation) will be only an approximation, and much like how Newtonian and relativistic physics both have their place as descriptions of the world to better or worse approximation, so do idealized Haskell and more complex models. In this way, the content of this essay is applied category theory in a quite literal sense, which goes to show that even the most abstract areas of mathematics may eventually find application in the real world.
 
-As a last remark on category theory, in this essay we have gone to reasonable depth on monads in particular as a programming abstraction. No other categorical concept has found as wide application, except of course for the notion of morphism and perhaps the notion of functor, but that does not mean that other categorical concepts go unused. For a great reference, see \cite{catforprog}, in which concepts such as comonads and coalgebras are used as a formalism for, for example, random number generation and object inspection (lenses), both of which very useful notions in practice.
+As a last remark on category theory, in this essay we have gone to reasonable depth on monads in particular as a programming abstraction. No other categorical concept has found as wide application, except of course for the notion of morphism and perhaps the notion of functor, but that does not mean that other categorical concepts go unused. For a great reference, see \cite{catforprog}, in which concepts such as comonads and coalgebras are used as a formalism for, for example, random number generation and object inspection (lenses), both of which very useful notions in practice. There is also another concept which neither we nor \cite{catforprog} touch on, which is the notion of \emph{monad transformer}, which is a way to deal with the fact that composition of monads is not, in general, a monad; this is an active area of research.
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
