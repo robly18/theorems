@@ -214,11 +214,11 @@ Let $(M,\omega)$ be a compact aspherical symplectic manifold and let $H$ be a no
 \begin{equation}
 \CF_k^\lambda(M, H) = \braket{\, x \mid \text{$x$ is a periodic orbit of $H$ with $\mu(x) = k$ and $\AA(x) < \lambda$}\,},
 \end{equation}
-where the bracket represents the free vector space over an arbitrary field $\FF$, and the differential $\CF_k^\lambda(M,H) \xrightarrow{\partial(M,H,J)} \CF_{k-1}^\lambda(M,H)$ is given by
+where the bracket represents the free vector space over an arbitrary field $\FF$, and the differential
 \begin{equation}
-\partial(x) = \sum n(x,y) y,
+\partial(M,H,J) \colon \CF_k^\lambda(M,H) \to \CF_{k-1}^\lambda(M,H)
 \end{equation}
-where the sum ranges over those periodic orbits $y$ with $\mu(y) = \mu(x) - 1$ and $n(x,y)$ counts the number of pseudo-holomorphic curves connecting $x$ and $y$ (cf. definition \ref{def:pseudohol}). In the general case, some care must be taken to count the orbits with a proper orientation, but to sidestep these issues we set $\FF = \Z_2$.
+is given by $\partial(x) = \sum n(x,y) y$, where the sum ranges over those periodic orbits $y$ with $\mu(y) = \mu(x) - 1$ and $n(x,y)$ counts the number of pseudo-holomorphic curves connecting $x$ and $y$ (cf. definition \ref{def:pseudohol}). In the general case, some care must be taken to count the orbits with a proper orientation, but to sidestep these issues we set $\FF = \Z_2$.
 
 It is a highly nontrivial fact that the structure described above is well-defined and defines a chain complex, i.e. $\partial \circ \partial = 0$. This is true, however, and hence we may consider its homology, which is the so-called filtered Floer homology of $H$, denoted $\HF_*^\lambda(M,H,J)$.
 \end{definition}
@@ -256,4 +256,222 @@ The study of what properties of a Hamiltonian diffeomorphism can be deduced from
 
 \section{This Work}
 
-Despite being an active area of research, albeit perhaps due to it being relatively recent, there are remarkably few concrete computations of barcodes of Hamiltonian diffeomorphisms. Indeed, the only example found by the author consists of 8.2.4 in \cite{polterovich}, in which it is shown that the barcode of a $C^\infty$-small autonomous Hamiltonian may be computed via Morse theory.
+\subsection{Overview}
+
+Despite being an active area of research, perhaps due to it being relatively recent, there are remarkably few concrete computations of barcodes of Hamiltonian diffeomorphisms. Indeed, the only example found by the author consists of 8.2.4 in \cite{polterovich}, in which it is shown that the barcode of a $C^\infty$-small autonomous\footnote{This means that it has no dependence on time.} Hamiltonian may be computed via Morse theory.
+
+\begin{prop}
+Let $H$ be a $\C^\infty$-small nondegenerate autonomous Hamiltonian on a compact symplectic manifold. Then, $H$ is a Morse function and the filtered Floer homology of $H$ agrees with the filtered Morse homology of $H$.
+\end{prop}
+
+Given this state of affairs, the author sought to partially fill this gap by computing the filtered Floer homologies of two nontrivial classes of Hamiltonian diffeomorphisms on the torus; see section \ref{sec:compute} below for details.
+
+There are five main steps to computing the filtered Floer homology of a Hamiltonian $H$:
+\begin{itemize}
+\item First, it is necessary to compute the periodic orbits of $H$. This is not very difficult, as it requires only solving an ODE.
+
+\item Then, we need to discern which of these are contractible (recall that $\LL M$ consists of the \emph{contractible} loops in $M$); for this we applied some light machinery from covering space theory to reduce the problem to finding fixed points of a certain function.
+
+\item Afterwards, it is necessary to compute the actions of these contractible orbits. This is mere application of the definition.
+
+\item It is then necessary to grade the orbits using the Maslov index. This is where we find our first difficulties, because the definition of Maslov index is reasonably technical. Therefore, as part of this work we found an equivalent characterization of the Maslov index which is suitable for computations of the kind necessary in this thesis; see section \ref{sec:maslov} for more details.
+
+\item Finally, it is necessary to compute the differential maps. In theory, this is the hardest part, as it requires counting the number of solutions to certain PDEs with conditions at infinity. Fortunately, in our case we were able to sidestep this issue, either by applying symmetries of our particular space and Hamiltonians, or by exploiting the fact that, for large enough values of $\lambda$, the filtered Floer homology $\HF_*^\lambda$ agrees with the usual homology.
+\end{itemize}
+
+\subsection{The Maslov Index}\label{sec:maslov}
+
+In this section, we summarize the contents of chapter 4 of the thesis.
+
+Let $x$ be a nondegenerate\footnote{Recall that this means that time differential of the time-one flow of $H$ at $x(0)$ does not have $1$ as an eigenvalue.} periodic orbit of a given Hamiltonian $H$. The Maslov index of $x$, denoted $\mu(x)$, is computed via the following (intricate) process:
+\begin{algorithm}[Maslov Index of a Path]\label{alg:maslovalg}
+\begin{enumerate}[algorithm]
+\item\label{maslovalg:step1} Since $x$ is periodic, it may be seen as a smooth map $S^1 \to M$.
+\item\label{maslovalg:step2} Pick a smooth map $f \colon D^2 \to M$, where $D^2$ is the disk, whose restriction to the border coincides with $\gamma$.
+\item\label{maslovalg:step3} Pick smooth functions $Z_1, \dots, Z_{2n} \colon D^2 \to TM$, such that, for each $z \in D^2$, $\{Z_i(z)\}$ forms a symplectic basis for $T_{f(z)} M$.
+\item\label{maslovalg:step4} Now that $T_{x(t)} M$ has a chosen basis for each $t \in S^1$, we may write the derivative of the flow at $x(0)$, i.e. the map $(\dl \phi_t)_{x(0)}$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
+\item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index.
+\end{enumerate}
+\end{algorithm}
+
+\begin{remark}
+The above algorithm is simplified if the manifold $M$ at hand admits a global symplectic frame $\{B_i\}$, because in that case we may simply set $Z_i(z) = B_i(f(z))$.
+\end{remark}
+
+This reduces the problem to defining the so-called Conley-Zehnder index of a path of symplectic matrices. This index is also sometimes referred to in the literature as the Maslov index \cite{audin}, so that we have the Maslov index of a periodic orbit and the Maslov index of a path of symplectic matrices. We will now present the definition of Maslov index which can be found in a textbook such as \cite{audin}, but first that requires establishing the existence of a certain family of functions.
+
+\begin{theorem}\label{rhodef}
+There exists a unique sequence of maps $\rho_n \colon Sp(2n) \to S^1$ (the $n$ is often omitted) which satisfies the following properties.
+\begin{enumerate}[label=\roman*)]
+\item If $A, T \in Sp(2n)$ then $\rho(T A T^{-1}) = \rho(A)$,
+\item If $A$ and $B$ are symplectic matrices,
+\begin{equation}
+\rho\left(\begin{bmatrix} A & 0 \\ 0 & B \end{bmatrix}\right) = \rho(A) \rho(B),
+\end{equation}
+\item\label{rhodef:xy} If $A$ is a symplectic matrix of the form $A = \begin{bmatrix} X & -Y \\ Y & X \end{bmatrix}$, i.e. $A \in Sp(2n) \cap O(2n) \cong U(n)$, then
+\begin{equation}
+\rho(A) = \det(X + \I Y).
+\end{equation}
+\item\label{rhodef:realev} If all eigenvalues of $A$ are real, then
+\begin{equation}
+\rho(A) = (-1)^{m_0/2},
+\end{equation}
+where $m_0$ is the number of negative eigenvalues, counted with multiplicity,
+\item $\rho(A^\transposed) = \rho(A^{-1}) = \conj{\rho(A)}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Theorem 7.1.3 of \cite{audin}.
+\end{proof}
+
+\begin{algorithm}[Conley-Zehnder Index of a Path of Matrices]
+\begin{enumerate}[algorithm]
+\item Define $Sp(2n)^*$ as the collection of symplectic matrices that do not have 1 as an eigenvalue. It is a known fact \cite[proposition~7.1.4]{audin} that $Sp(2n)^*$ is composed of two path-connected components, $Sp(2n)^+$ and $Sp(2n)^-$, labeled by the sign of $\det(A-I)$. Note that $A(T) \in Sp(2n)^*$, so it must lie in one of these two components.
+\item\label{maslov:step2} Define the matrices $W^+$ and $W^-$ as
+\begin{equation}
+W^+ = - I, \quad W^- \mleft[\begin{array}{c|c}
+\begin{matrix} 2 & 0 \\ 0 & 1/2 \end{matrix} & 0\\
+\hline
+0 & -I
+\end{array}\mright].
+\end{equation}
+Note that $W^\pm \in Sp(2n)^\pm$, and so any matrix in $Sp(2n)^*$ can be connected via a path (in $Sp(2n)^*$) to either $W^+$ or $W^-$. Consequently, we extend $A(t)$ to the interval $\interval 0 {2T}$, where for $t \in \interval T {2T}$ the path $A(t)$ represents such a path connecting $A(T)$ to $W^\pm$.
+\item Define $\alpha(t) = \rho(A(t))$ for $a \in \interval 0 {2T}$. By property \ref{rhodef:realev} from theorem \ref{rhodef}, $\rho(W^\pm) = \pm(-1)^n$, and also $\rho(I) = 1$. Therefore, $\rho \circ \alpha$ is a path in $S^1$ starting at $1$ and ending at $1$ or $-1$. Therefore, taking the square (viewing $S^1 \subseteq \C$) one obtains a loop $\rho^2 \circ \alpha$ starting and ending at $1$.
+\item Now that we have a loop in $S^1$, we can obtain an integer by considering its winding number: the number of times the loop does a full turn around the circle. It is necessary to establish which direction is positive. Generally, one considers the counterclockwise direction to be the positive direction, but for purposes of the Conley-Zehnder index we count the number of \emph{clockwise turns}.
+\end{enumerate}
+\end{algorithm}
+
+This definition is not very practical for computation, as not only does it rely on the map $\rho$ (which is not trivial to compute in practice; the simplest formula the author has found for computing $\rho(A(t))$ requires knowing the spectral decomposition of $A(t)$ for all $t$), but also it requires extending the path $A(t)$ to finish at $W^\pm$, which adds additional complication.
+
+The main result of section 4 consists of the following characterization of the Maslov index of a path of $2 \times 2$ symplectic matrices:
+\begin{prop}[Corollary 4]
+Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$ and $\trace A(T) \neq 2$.\footnote{We show that a matrix $A$ is in $Sp(2n)^*$ if and only if $\trace A \neq 2$.} If $\trace A(t) > -2$ for all time and $\trace A(T) > 2$, the Maslov index of $A$ is zero. Otherwise, there exists a partition of the form
+\begin{equation}
+0 = a_0 < b_0 < a_1 < b_1 < a_2 < \dots < a_N < b_N \leq T
+\end{equation}
+which satisfies the properties
+\begin{enumerate}
+\item $(-1)^n \trace A(a_n) \geq 2$,
+\item $\trace A(b_n) \in \ointerval{-2}2$,
+\item Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$,
+\item\label{calcmaslov:ab5} Exactly one of $\trace A(a_N)$ and $\trace A(T)$ is in $\rinterval 2 \infty$.
+\end{enumerate}
+
+For any such partition, we have the formula
+\begin{equation}\label{calcmaslov:mu}
+\mu(A(t)) = \sum (-1)^n \sign(A(b_n)_{12})
+\end{equation}
+\end{prop}
+
+The main benefit of this approach is that it requires only inspection of the entries of the path of matrices. Its main drawback is its specificity: it only applies to the case of paths of $2 \times 2$ matrices.
+
+This is not the first version of the Maslov index which is suitable for computation. Of note is a characterization by Robbin and Salamon \cite{robbin1993maslov} which allows for easy computation of the Maslov index of sufficiently regular paths of matrices. This method has the advantage of working in any dimension, but we have not found it applicable to the paths of matrices we shall be working with, because they fail the nondegeneracy conditions necessary for its application. We go over this method in section 4.6 of the thesis, and prove that it is equivalent to the method given by Corollary 4 when both are applicable.
+
+Another equivalent construction of the Maslov index which is worthy of note is one by Hofer and Kriener \cite{hoferkriener}, which, like ours, is specific to the case of $2 \times 2$ matrices, though we have not found it as easy to compute as the Maslov index via Corollary 4. Regardless, in section 4.5 we carefully review the definition, verifying that it is well-defined, and prove that it is equivalent to our method.
+
+\subsection{The Barcodes}
+
+In the search for appropriate Hamiltonians whose filtered Floer homologies to compute, the following criteria were applied:
+\begin{itemize}
+\item The problem of computing barcodes for autonomous Hamiltonians is effectively solved, so we sought non-autonomous Hamiltonians.
+\item The underlying manifold should be as simple as possible. The lowest nontrivial dimension a symplectic manifold may have is $2$, so the first manifolds that come to mind are the sphere and the torus. The condition of asphericity forces our choice, so we consider a Hamiltonian on the torus.
+\item Consider coordinates $(x,y)$ on the torus, where $x$ and $y$ are $2\pi$-periodic. The simplest possible Hamiltonians are those which depend solely on one of the coordinates. It is possible to show that such Hamiltonians induce Hamiltonian diffeomorphisms of the following form.
+\begin{prop}\label{prop:ham1}
+Let $f \colon \R \to \R$ be a $2\pi$-periodic smooth map with null mean. Then, both of the following maps are Hamiltonian diffeomorphisms on the torus.
+\begin{equation}
+(x,y) \mapsto (x + f(y), y), \quad (x,y) \mapsto (x, y + f(x)).
+\end{equation}
+\end{prop}
+\item Unfortunately, the Hamiltonian diffeomorphisms given by proposition \ref{prop:ham1} are generated by autonomous Hamiltonians, which goes against the first item of these criteria. However, it is a known fact that Hamiltonian diffeomorphisms are closed under composition, but autonomous Hamiltonian diffeomorphisms are not. This motivates the inspection of Hamiltonian diffeomorphisms of the following type.
+\begin{prop}\label{prop:ham2}
+Let $f \colon \R \to \R$ and $g \colon \R \to \R$ be $2\pi$-periodic smooth maps with null mean. Then, the following map is a Hamiltonian diffeomorphism on the torus.
+\begin{equation}
+(x,y) \mapsto (x + g(y + f(x)), y + f(x)).
+\end{equation}
+\end{prop}
+\item A particularly simple but nontrivial family of maps $f$ and $g$ in the conditions of proposition \ref{prop:ham2} is given by
+\begin{equation}
+f(x) = g(x) = a \sin(x),
+\end{equation}
+with $a$ a real parameter. Therefore, we decide to study the map given by
+\begin{equation}
+\phi(x,y) = (x + a \sin(y + a \sin(x)), y + a \sin(x)),
+\end{equation}
+where $a > 0$ is a real parameter.
+\end{itemize}
+
+We study this map $\phi$ in chapter 6 of the thesis, culminating in the following proposition.
+\begin{prop}
+For all $a > 0$, the map $\phi$ defined above is a nondegenerate Hamiltonian, and its filtered Floer homology is represented by the following barcode:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (-4.500,0.000)--(4.500,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (2.500,-0.200)--(2.500,0.200) node[above] {$2a$};
+\draw[] (-2.500,-0.200)--(-2.500,0.200) node[above] {$-2a$};
+\draw[(-,thick] (-2.500,-0.500)--(4.200,-0.500);
+\node[] at (5.500,-0.500) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-1.100)--(4.200,-1.100);
+\draw[(-,thick] (0.000,-1.500)--(4.200,-1.500);
+\node[] at (5.500,-1.300) {$(\HF_0)$};
+\draw[(-,thick] (2.500,-2.100)--(4.200,-2.100);
+\node[] at (5.500,-2.100) {$(\HF_1)$};
+\end{tikzpicture}
+\caption{The barcode of $\phi$.}
+\end{figure}
+\end{prop}
+
+Finally, in chapter 7 of the thesis we investigate $\phi^2 = \phi \circ \phi$. This map displays additional interesting structure: while $\phi$ retains the same appearance and fixed points as $a \to \infty$, $\phi^2$ gets more complicated as $a$ increases. For this reason, we only study values of $0 < a < \pi$.
+
+\begin{prop}\label{prop:bc2}
+For $0 < a < \pi$, the Hamiltonian diffeomorphism $\phi^2$ is degenerate when $a = 2$ and nondegenerate otherwise.
+
+When $0 < a < 2$, the barcode of $\phi^2$ is given by
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (-5.200,0.000)--(5.200,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (-3.200,-0.200)--(-3.200,0.200) node[above] {$-4a$};
+\draw[] (3.200,-0.200)--(3.200,0.200) node[above] {$4a$};
+\draw[(-,thick] (-3.200,-0.500)--(4.900,-0.500);
+\node[] at (6.200,-0.500) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-1.100)--(4.900,-1.100);
+\draw[(-,thick] (0.000,-1.500)--(4.900,-1.500);
+\node[] at (6.200,-1.300) {$(\HF_0)$};
+\draw[(-,thick] (3.200,-2.100)--(4.900,-2.100);
+\node[] at (6.200,-2.100) {$(\HF_{1})$};
+\end{tikzpicture}
+\caption{The barcode of the filtered Floer homology of $\phi^2$, for $0<a<2$.}
+\end{figure}
+
+When	$2<a<\pi$, the barcode of $\phi^2$ is given by
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.33]
+\draw[->,thick] (-14.066,0.000)--(14.066,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (-12.566,-0.200)--(-12.566,0.200) node[above] {$-4a$};
+\draw[] (12.566,-0.200)--(12.566,0.200) node[above] {$4a$};
+\draw[] (-8.870,-0.200)--(-8.870,0.200) node[above] {$-4 x_0^2 - 4 \beta$};
+\draw[] (8.870,-0.200)--(8.870,0.200) node[above] {$4 x_0^2 + 4 \beta$};
+\draw[{(-]},thick] (-12.566,-1.200)--(-8.870,-1.200) node[right] {};
+\node[] at (17.066,-1.200) {$(\HF_{-2})$};
+\draw[(-,thick] (-8.870,-2.700)--(13.841,-2.700) node[right] {};
+\node[] at (17.066,-2.700) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-4.200)--(13.841,-4.200) node[right] {};
+\draw[(-,thick] (0.000,-5.400)--(13.841,-5.400) node[right] {};
+\node[] at (17.066,-4.800) {$(\HF_0)$};
+\draw[(-,thick] (8.870,-6.900)--(13.841,-6.900) node[right] {};
+\draw[{(-]},thick] (8.870,-8.100)--(12.566,-8.100) node[right] {};
+\node[] at (17.066,-7.500) {$(\HF_{1})$};
+\end{tikzpicture}
+\caption{The barcode of the filtered Floer homology of $\phi^2$, for $2<a<\pi$.}
+\end{figure}
+\end{prop}
+
+We can draw a few conclusions from proposition \ref{prop:bc2}. For example, while there are many parallels between Floer and Morse homology, in filtered Morse homology the homologies of negative dimension are always null, because Morse indices are always non-negative. This translates to the analogous conjecture in filtered Floer homology, which is that the filtered Floer homologies of dimension less than $-n$ (where the manifold has dimension $2n$) are always null. However, proposition \ref{prop:bc2} disproves this conjecture.
+
+Moreover, from proposition \ref{prop:bc2} it is possible to show that the Hamiltonian diffeomorphism $\phi$ is non-autonomous for some values of $a$. Indeed, in section 4.4 of the thesis we show that the filtered Floer homology of a nondegenerate autonomous Hamiltonian is always null except possibly in dimensions $-n$ to $n$ (see previous paragraph), and since this is not the case for $\phi^2$ for $2 < a < \pi$ we conclude that for these values of the parameter $\phi^2$ is non-autonomous, and hence so is $\phi$.
