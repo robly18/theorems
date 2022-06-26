@@ -164,4 +164,9 @@ bct1.addRow("").addBar(1,math.inf,"").addBar(2,math.inf,"")
 bct1.spaceBetweenBars = -0.3
 bct1.margin = 0.3
 
-print("\n".join(bct1.printBarcode()))
+#print("\n".join(bct1.printBarcode()))
+
+bcex = Barcode().addTag(0,"$0$").addTag(1,"$1$").addTag(2,"$2$")
+bcex.addRow("").addBar(0,1,"").addBar(1,math.inf,"").addBar(2,math.inf,"")
+
+print("\n".join(bcex.printBarcode()))

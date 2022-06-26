@@ -1,0 +1,239 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows, positioning, intersections}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+%\usepackage{cite}
+
+\usepackage[utf8]{inputenc}
+\usepackage[margin=3cm]{geometry}
+
+%\setlist[enumerate,1]{label=\alph*)}
+
+\title{Handout: Thesis Presentation\\
+Computing Masliv Indices in Two Dimensions and\\
+Filtered Floer Homology of a few Hamiltonians on the Torus}
+\author{Author: Duarte Maia\\
+Supervisor: Prof. Miguel Abreu}
+\date{July 5, 2022}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{idea}{Idea}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{definition}{Definition}
+\newtheorem{ex}{Example}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\FF}{\mathbb{F}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\LL}{\mathrm{L}}
+\renewcommand{\AA}{\mathrm{A}}
+\newcommand{\BB}{\mathrm{B}}
+
+
+\newcommand{\CF}{\mathrm{CF}}
+\newcommand{\HF}{\mathrm{HF}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\Ix}{\mathop{\mathrm{I\mkern0.7mu x}}}
+%\newcommand{\Ix}{\mathop{\mathrm{ix}}}
+
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\HH}{\mathrm{H}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+\newcommand{\into}{\mathbin{\lrcorner}}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\newcommand{\asidesize}{\scriptsize}
+
+\begin{document}
+
+\maketitle
+
+\section{Background}
+
+\subsection{Symplectic Geometry and Floer Homology}
+
+A symplectic manifold is a $2n$-dimensional manifold $M$ together with a symplectic form $\omega$. The actual definition of symplectic form is not relevant to understand the content of this presentation, but the important thing to retain is that \emph{a symplectic form is a machine that turns smooth real functions into smooth vector fields}, essentially by `taking the derivative and rotating it $90^\circ$'.
+
+A real function on a symplectic manifold is called a \emph{Hamiltonian}, and is usually denoted $H \colon M \to \R$. The vector field induced by $H$ may be denoted $X^H$, and given a vector field it is possible to take its flow, inducing the so-called Hamiltonian flow $\phi_t \colon M \to M$ for $t \in \R$. Ignoring issues of domain, the maps $\phi_t$ are diffeomorphisms. To be more precise, they are said to be \emph{symplectomorphisms}, as they preserve the symplectic form $\omega$ in some sense. But even within the world of symplectomorphisms, the maps $\phi_t$ are very special: the collection of maps obtained in this manner is referred to as the set of \emph{autonomous Hamiltonian diffeomorphisms}.
+
+The area of symplectic geometry originated from physics. There is a particular formulation of classical mechanics, called the Hamiltonian formulation, which postulates that a classical system is a Hamiltonian manifold. To very rough approximation, defining a real-valued function $H$ on such a manifold consists of defining a potential, which in turn induces motion in the system. This is the physical interpretation behind the flow: it consists of `running time forward in a physical system'.
+
+In a real physical system, the potential may change over time. For example, one may consider a marble in a bowl; this induces a Hamiltonian $H$ because gravity pulls the marble down. However, an outside user might go over and jiggle the bowl, or tilt it; this changes the Hamiltonian. Hence, a very natural generalization of the notion defined above consists of extending it to \emph{time-dependent Hamiltonians}. In other words, we consider functions $H \colon \R \times M \to \R$; for each given $t \in \R$, the symplectic form induces from $H_t$ a vector field $X_t$, and we may take the flow $\phi_t$ of this time-dependent vector field. Again ignoring issues of domain, the resulting maps form an important class of symplectomorphisms, which are called \emph{Hamiltonian symplectomorphisms}.
+
+Many important theorems and conjectures in symplectic geometry are about the group of Hamiltonian diffeomorphisms in one way or another. A very important example of such a conjecture is called the \emph{Arnol'd conjecture}. It refers to periodic Hamiltonians, i.e. Hamiltonians $H$ such that, say, $H_{t+1} = H_t$. These periodic Hamiltonians induce periodic vector fields, and in such cases mathematicians are often interested in the periodic orbits of the corresponding ODEs, in this case values of $x \in M$ such that $\phi_1(x) = x$.
+
+\begin{conjecture}[Arnol'd]
+Let $H$ be a periodic Hamiltonian on the compact symplectic manifold $M$. Then, $H$ has at least as many periodic orbits as the stable Morse number of $M$, which is a positive integer which depends only on the differential structure of $M$.
+\end{conjecture}
+
+The Arnol'd conjecture was posed in the 80's, and to the best of my knowledge there is currently no published proof or counterexample in the general case. However, a major development happened in 1988, when Andreas Floer introduced a new tool (now called Floer homology) which allowed him to prove the following version of the Arnol'd conjecture:
+\begin{theorem}
+Let $H$ be a periodic Hamiltonian on the compact symplectic manifold $M$, and suppose furthermore that $M$ is aspherical (see below for definition and motivation). Moreover, assume that $H$ is nondegenerate (in a sense that will be discussed later). Then, $H$ has at least as many periodic orbits as the total Betti number of $M$, which is a positive integer which depends only on the topological structure of $M$.
+\end{theorem}
+
+Floer homology has since become an important object of study in its own right, and one of its cousins, filtered Floer homology, is one of the main subjects of this thesis.
+
+\subsection{Filtered Floer Homology and Barcodes}
+
+Filtered Floer homology and persistence modules are objects from two very distinct areas of mathematics, but they complement each other very nicely. Filtered Floer homology uses heavy machinery from analysis and symplectic geometry to give us data about a symplectic manifold, and persistence offers a very convenient way to represent that data.
+
+Let us briefly discuss unfiltered Floer homology. Floer homology draws information about a compact symplectic manifold $M$ by using the periodic orbits of a given Hamiltonian. The resulting information is stored in a countable collection of vector spaces over a field $\FF$,\footnote{This is a simplification. In general, the resulting data will be a module over a chosen ring, but for our purposes we need to work with vector spaces, as it is only in this context that the normal form theorem is applicable.} denoted $\HF_k(M,H,\FF)$, for $k \in \Z$ and with $H$ an arbitrary nondegenerate Hamiltonian (again, we will talk about the meaning of nondegeneracy later). The definition of Floer homology is rather intricate, but the basic ideas should become clear when we do an example later on. However, before moving on there is a very important ingredient of Floer homology that we have to discuss: the action functional.
+
+Let $M$ be a symplectic manifold. We denote by $\LL M$ the space of all contractible smooth loops, i.e. maps $x \colon S^1 \to M$ which are homotopic to a constant map. Equivalently, we may see $\LL M$ as the space of maps $S^1 \to M$ which can be extended to maps $D^2 \to M$, where $D^2$ is the closed disk. Evidently, this extension is not unique, but we make the following technical requirement to ensure that it is essentially unique: \emph{Moving forward, we hypothesize that $M$ is an \emph{aspherical} manifold, i.e. $\pi_2(M) = 0$}. In english, any map from $S^2$ to $M$ is homotopic to the constant map, and therefore any two extensions of $x \colon S^1 \to M$ are homotopic to each other. An example of an aspherical manifold, which will be the main character in what follows, is the torus, while an example of a manifold which is not aspherical is the sphere itself.
+
+Let $H$ be a Hamiltonian on $M$. The action functional, denoted $\AA$, is a map induced by $H$ which goes from $\LL M \to \R$. Given an orbit $x \in \LL M$, $\AA(x)$ is computed via
+\begin{equation}
+\AA(x) = - \int_D \omega + \int_{S^1} H(t,x(t)) \dl t,
+\end{equation}
+where $D$ is any extension of $x$ to $D^2$ and $S^1$ is seen as the interval $\interval01$ whose ends have been glued together. The asphericity of $M$ is essential to ensure that the action functional is well-defined, in the sense that it guarantees that $\int_D \omega$ does not depend on the chosen extension $D$.
+
+The action functional has its origins in physics, and its importance to problems pertaining to periodic orbits of $H$ is the following: it is possible to formally compute `the derivative of $\AA$' in some sense, and it is furthermore possible to prove that $x$ is a periodic orbit of $H$ if and only if $(\dl \AA)_x = 0$. In other words, the critical points of $\AA$ are precisely the periodic orbits of $H$. This is what connects the action functional to questions pertaining the periodic orbits of $H$.
+
+{\asidesize
+The action functional is also a very important motivation behind the definition of Floer homology. There is an object in differential geometry called Morse homology, which draws information about a manifold by looking at the critical points of a regular enough function $f \colon M \to \R$. Floer homology may be seen as a formal analogue of Morse homology, with $f$ replaced by the action functional.
+}
+
+In summary: Floer homology $\HF_k(M,H,\FF)$ gives us topological information about $M$ using the orbits of a nondegenerate Hamiltonian $H$. In some manner, this uses the action functional, which in turn requires adding the hypothesis that $M$ is aspherical. Moreover, for technical reasons we require that $M$ is compact, and in these conditions the following theorem is true:
+\begin{theorem}
+Let $M$ be a compact aspherical symplectic manifold of dimension $2n$. Then $\HF_k(M,H,\FF)$ does not depend on the chosen nondegenerate Hamiltonian $H$, and furthermore the Floer homology is isomorphic to the homology of $M$ (with coefficients) up to a shift:
+\begin{equation}
+\HF_k(M,H,\FF) \cong \HH_{k+n}(M,\FF).
+\end{equation}
+\end{theorem}
+
+Finally, we will briefly talk about filtered Floer homology. As we have said, Floer homology draws information from the periodic orbits of a Hamiltonian $H$ by using the action functional $\AA$. A particularity of this process is that it can be \emph{filtered} in the following sense. Let $\lambda \in \R$, and suppose that we throw away all of the periodic orbits of $H$ whose action is greater than or equal to $\lambda$, retaining only those orbits which satisfy $\AA(x) < \lambda$. Then, the process used to construct the Floer homology goes through without modification, though at the end a different object is obtained, which depends on the chosen value of $\lambda$. The object thereby obtained is denoted $\HF_k^\lambda(M,H,\FF)$, and the collection of all $\HF_k^\lambda(M,H,\FF)$ as $\lambda \in \R$ varies is referred to as \emph{the filtered Floer homology of $H$}.
+
+\begin{theorem}
+The filtered Floer homology of $H$ is well-defined in the same conditions as the Floer homology.
+
+The filtered Floer homology is more sensitive than the unfiltered version: while the Floer homology $\HF_k(M,H,\FF)$ does not depend on $H$, $\HF_k^\lambda(M,H,\FF)$ might. However, if $H$ and $K$ are two Hamiltonians whose time-one flow coincides, their filtered Floer homology agrees. In this sense, while Floer homology can be said to be a property of the symplectic manifold, the filtered Floer homology is a property of a Hamiltonian diffeomorphism.
+
+Finally, a nondegenerate Hamiltonian $H$ has finitely many orbits. As a consequence, for large enough $\lambda$ (specifically, $\lambda > \max_{\text{$x$ orbit}} \AA(x)$) the filtered Floer homology agrees with the unfiltered Floer homology.
+\end{theorem}
+
+The filtered Floer homology of $H$ is a slightly complicated object. Persistence algebra is an area of mathematics that was born in data science, and it allows us to organize the data contained in the filtered Floer homology in a convenient fashion, called a barcode.
+
+{\asidesize
+\begin{definition}
+A persistence module is a family of vector spaces $\{V_t\}_{t \in \R}$ (over a field $\FF$), together with maps $\pi_{st} \colon V_s \to V_t$ for $s \leq t$, such that
+\begin{align}
+\pi_{tt} &= \id,\\
+\pi_{tr} \circ \pi_{st} &= \pi_{sr}, \quad s \leq t \leq r.
+\end{align}
+
+Moreover, a persistence module $(\{V_t\}_{t \in \R}, \{\pi_{st}\}_{s\leq t})$ is said to be of \emph{finite type} if the following three conditions are satisfied:
+\begin{enumerate}
+\item For all but finitely many $t$ there exists a neighborhood $U$ of $t$ such that $\pi_{st}$ is an isomorphism for $s, t \in U$,
+\item For all $t \in \R$ there exists $\varepsilon$ such that $\pi_{(t-\delta), t}$ is an isomorphism for all $0 \leq \delta < \varepsilon$,
+\item\label{pm3} For all $t \in \R$ close enough to $-\infty$, $V_t = 0$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+A \emph{barcode} is a finite multiset\footnote{A multiset is a set whose elements are counted with multiplicity.} of intervals of type $\linterval a b$, with $-\infty < a < b \leq +\infty$. We work under the convention that $\linterval a \infty = \ointerval a \infty$.
+\end{definition}
+
+\begin{definition}
+Let $B = \{I_1, \dots, I_n\}$ be a barcode. Define the persistence module $\FF(B) = (\{V_t\}_{t \in \R}, \{\pi_{st}\}_{s \leq t})$ as follows
+\begin{itemize}
+\item Define $V_t = \braket{\,i \mid t \in I_i\,}$, where the brackets denote the free vector space over $\FF$,
+\item For $s \leq t$, define $\pi_{st} \colon V_s \to V_t$ by defining it on the basis elements of $V_s$. For every $i$ such that $s \in I_i$,
+\begin{itemize}
+\item If $t \in I_i$, set $\pi_{st}(i) = i$,
+\item Otherwise, set $\pi_{st}(i) = 0$.
+\end{itemize}
+\end{itemize}
+\end{definition}
+}
+
+\begin{theorem}[Normal Form Theorem]
+Every persistence module of finite type is isomorphic to $\FF(B)$ for exactly one barcode $B$, and for every barcode $B$ the persistence module $\FF(B)$ is of finite type.
+\end{theorem}
+
+\begin{idea}
+In summary, the Normal Form theorem is akin to the theorem in linear algebra which states that a vector space of finite dimension is uniquely identifed up to isomorphism by its dimension, which is a natural number. A persistence module is a more complex object, and so would be have a more complicated representation. The Normal Form theorem shows that this form of representation is given by barcodes.
+\end{idea}
+
+{\asidesize
+\begin{ex}
+Let us see how barcodes may be used to visualize a persistence module. Let $V_t$ be given by
+\begin{itemize}
+\item $V_t = 0$ for $t \leq 0$,
+\item $V_t = \FF$ for $0 < t \leq 2$,
+\item $V_t = \FF^2$ for $t > 2$,
+\end{itemize}
+and let $\pi_{st}$ be given by the obvious inclusions, except when $s \leq 2 < t$, in which case it is the zero map. Then, it is possible to verify that the barcode corresponding to this persistence module is given by
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=2]
+\draw[->,thick] (-2.000,0.000)--(4.000,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {$0$};
+\draw[] (1.000,-0.200)--(1.000,0.200) node[above] {$1$};
+\draw[] (2.000,-0.200)--(2.000,0.200) node[above] {$2$};
+\draw[{(-]},thick] (0.000,-0.500)--(1.000,-0.500) node[right] {};
+\draw[(-,thick] (1.000,-0.900)--(3.700,-0.900) node[right] {};
+\draw[(-,thick] (2.000,-1.300)--(3.700,-1.300) node[right] {};
+\end{tikzpicture}
+\caption{The barcode of the persistence module just defined.}
+\end{figure}
+
+Let us see how this barcode represents the persistence module $(\{V_t\}, \{\pi_{st}\})$. First, note that it is possible to find the dimension of $V_t$ for all $t$, by looking at how many bars are present at time $t$. Moreover, it is possible to draw conclusions about $\pi$. The fact that the bars between $1$ and $\infty$ are unbroken tells us that $\pi$ is injective in that range, while the fact that all bars are broken at $1$ tells us that $\pi$ is null when crossing from before $1$ to after $1$.
+\end{ex}
+}
+
+\section{This Work}
+
+\nocite{polterovich}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

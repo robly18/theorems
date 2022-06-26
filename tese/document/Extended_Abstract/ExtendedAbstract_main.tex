@@ -14,7 +14,7 @@ Persistence homology is a tool developed around 1992 for the purpose of data sci
 
 This raises the question of which radius $r$ to pick, which requires careful analysis of the data: too small $r$ and the datapoints will be disconnected, too large $r$ and the dataset degenerates into a large ball. However, persistence homology offers an alternative: consider all positive radii at once.
 
-For $k \in \Z$ and $r > 0$, define $H_k^r(X) = H_k(X^{(r)})$, and for $r \leq 0$ set $H_k^r(X) = 0$. These spaces allow us to visualize how the shape of $X^{(r)}$ changes as $r$ increases. Moreover, for $r < s$ the inclusion $X^{(r)} \subseteq X^{(s)}$ induces a natural map $H_k^r(X) \to X_k^s(X)$. This data forms an object which is called a \emph{persistence module}. In the sequence we will be working exclusively with vector spaces, so assume that the homology is taken with coefficients over a field $\FF$.
+For $k \in \Z$ and $r > 0$, define $H_k^r(X) = H_k(X^{(r)})$, and for $r \leq 0$ set $H_k^r(X) = 0$. These spaces allow us to visualize how the shape of $X^{(r)}$ changes as $r$ increases. Moreover, for $r < s$ the inclusion $X^{(r)} \subseteq X^{(s)}$ induces a natural map $H_k^r(X) \to H_k^s(X)$. This data forms an object which is called a \emph{persistence module}. In the sequence we will be working exclusively with vector spaces, so we assume that the homology is taken with coefficients over a field $\FF$.
 
 \begin{definition}
 A persistence module is a family of vector spaces $\{V_t\}_{t \in \R}$ (over a field $\FF$), together with maps $\pi_{st} \colon V_s \to V_t$ for $s \leq t$, such that
@@ -61,7 +61,7 @@ The normal form theorem is the persistence analogous to the classical theorem in
 
 Another example, this one of a more geometrical nature, consists of considering a topological space equipped with a sufficient regular fibration, such as one induced by a Morse function. More concretely, let $X$ be a compact manifold and $f \colon X \to \R$ a Morse function on $X$. Define $X_t$, for $t \in \R$, as
 \begin{equation}
-X^t = \{\, x \in X \mid f(x) < t \,\}.
+X_t = \{\, x \in X \mid f(x) < t \,\}.
 \end{equation}
 
 Then, for $k \in \Z$ we may define a persistence module by
@@ -119,7 +119,7 @@ Then, the filtration $X_t$ has the following behavior:
 \item For $t \leq z_1$, $X_t = \emptyset$, whose first homology is null;
 \item For $z_1 < t \leq z_2$, $X_t$ is a disk, whose first homology is null;
 \item For $z_2 < t \leq z_3$, $X_t$ is homeomorphic to a cylinder, and therefore its first homology is $\FF$,
-\item At $t = z_3$, a handle is closed, and therefor for $z_3 < t \leq z_4$, $X_t$ has first homology equal to $\FF^2$,
+\item At $t = z_3$, a handle is closed, and therefore for $z_3 < t \leq z_4$, $X_t$ has first homology equal to $\FF^2$,
 \item Finally, for $t > z_4$ we obtain the full torus, whose first homology is $\FF^2$.
 \end{itemize}
 
@@ -150,15 +150,15 @@ Floer homology can be seen as an analogue of Morse homology happening in contrac
 Let $(M,\omega)$ be a compact aspherical\footnote{This technical restriction means that any map from the sphere $S^2$ to $M$ is contractible.} symplectic manifold. Define $\LL M$ as the space of contractible smooth loops in $M$, i.e. smooth maps $S^1 \to M$. In order to investigate the number of periodic orbits of a given (possibly time-dependent but periodic) Hamiltonian $H \colon S^1 \times M \to \R$, the so-called \emph{action functional} is introduced:
 \begin{equation}
 \begin{aligned}
-\AA \colon \LL M &\to \R\\
-x &\mapsto -\int_D \omega + \int_{S^1} H(t, x(t)) \dl3 t,
+\AA \colon \LL M &\longrightarrow \R\\
+x &\longmapsto -\int_D \omega + \int_{S^1} H(t, x(t)) \dl3 t,
 \end{aligned}
 \end{equation}
 where $D$ is any extension of $x$ to the disk. The asphericity of $M$ guarantees that that the action functional is well-defined.
 
-Note: For the moment, we identify $S^1$ with the interval $\interval01$, whose ends have been glued together. Later it will be convenient to introduce orbits with different periods; in that case $S^1$ should be seen as a quotient of $\interval0T$, where $T$ is the period under consideration.
+Note: We identify $S^1$ with the interval $\interval01$ with ends glued together, so that a function whose domain is $S^1$ may be seen as a $1$-periodic function whose domain is $\R$.
 
-The reason behind the introduction of this object is that the periodic orbits of $H$ correspond to `critical points of the action functional', in a sense. We will now clarify what this means.
+The reason behind the introduction of the action functional is that the periodic orbits of $H$ correspond to `critical points of the action functional', in a sense. We will now clarify what this means.
 
 Morally, it is possible to see $\LL M$ as a sort of infinite-dimensional manifold, and $\AA$ as a real-valued function on $\LL M$. A tangent vector to a loop $x \in \LL M$ consists of a mapping $\xi \colon S^1 \to TM$ such that $\xi(t) \in T_{x(t)} M$, and the differential of $\AA$ may be formally calculated, yielding
 \begin{equation}
@@ -170,7 +170,7 @@ It is not difficult to verify that $(\dl \AA)_x$ is the null functional exactly 
 With this context, it is possible to apply ideas from Morse theory to obtain the so-called Floer homology of $H$, and a filtration may be introduced to obtain the so-called filtered Floer homology. We briefly go over the missing ingredients:
 
 \begin{itemize}
-\item Morse theory must be applied on Morse functions, so we need to ensure that the action functional $\AA$ is nondegenerate in some sense. The necessary condition is the following:
+\item Morse theory must be applied to Morse functions, not arbitrary smooth functions, so we need to ensure that the action functional $\AA$ is nondegenerate in some sense. The necessary condition is the following:
 \begin{definition}
 Let $H \colon S^1 \times M \to \R$ be a Hamiltonian, and $\phi_t \colon M \to M$ its time-$t$ flow. Then, $H$ is said to be \emph{degenerate} if there exists a periodic orbit $x$ of $H$ such that $(\dl \phi_1)_{x(0)}$ has $1$ as an eigenvalue. This definition makes sense because $(\dl \phi_1)$ is an automorphism of $T_{x(0)} M$.
 \end{definition}
@@ -183,13 +183,13 @@ As in Morse theory, the pair $(H, J)$ must satisfy certain transversality condit
 
 \item It is necessary to associate a $\Z$-grading to the critical points of $\AA$, that is, to the periodic orbits of $H$. This grading is called the Maslov index, and it is one of the main subjects of this thesis; we will go over it in more detail below in \ref{sec:maslov}.
 
-The Maslov index of an orbit $x$ is denoted $\mu(x)$.
+The Maslov index of an orbit $x$ is denoted $\mu(x) \in \Z$.
 
 \item An important concept in Morse theory is the following: given two critical points $x$ and $y$ of a Morse function $f$, an \emph{orbit connecting $x$ and $y$} is a map $u \colon \R \to M$ such that
 \begin{equation}
 \begin{cases}
-\lim_{t \to +\infty} u(t) = y,\\
-\lim_{t \to -\infty} u(t) = x,\\
+\displaystyle \lim_{t \to +\infty} u(t) = y,\\
+\displaystyle \lim_{t \to -\infty} u(t) = x,\\
 \dot u(t) = - \grad f(u(t)).
 \end{cases}
 \end{equation}
@@ -200,8 +200,8 @@ Floer homology has a formal analogue, where now $x$ and $y$ are contractible loo
 Let $x$ and $y$ be contractible orbits of the Hamiltonian $H$, and let $J$ be an appropriate almost-complex structure. A \emph{pseudo-holomorphic curve connecting $x$ and $y$} is a smooth map $u \colon \R \times S^1 \to M$ such that
 \begin{equation}
 \begin{cases}
-\lim_{t \to +\infty} u(t) = y,\\
-\lim_{t \to -\infty} u(t) = x,\\[0.1cm]
+\displaystyle \lim_{s \to +\infty} u(t,s) = y(t),\\
+\displaystyle \lim_{s \to -\infty} u(t,s) = x(t),\\[0.2cm]
 \displaystyle \diffp u s + J \diffp u t = - \grad H,
 \end{cases}
 \end{equation}
@@ -210,9 +210,9 @@ where the limits are taken in the $C^\infty$ sense.
 \end{itemize}
 
 \begin{definition}
-Let $(M,\omega)$ be a compact aspherical symplectic manifold and let $H$ be a nondegenerate periodic Hamiltonian on $M$. Let $J$ be a suitable almost-complex structure on $M$, $k$ an integer and $\lambda$ a real number. Then, we define the so-called filtered Floer complex (in degree $k$ with parameter $\lambda$) as the chain complex whose vector spaces are given by
+Let $(M,\omega)$ be a compact aspherical symplectic manifold and let $H$ be a nondegenerate periodic Hamiltonian on $M$. Let $J$ be a suitable almost-complex structure on $M$ and $\lambda$ a real number. Then, we define the so-called filtered Floer complex (with parameter $\lambda$) as the chain complex whose vector spaces are given by
 \begin{equation}
-\CF_k^\lambda(M, H) = \braket{\, x \mid \text{$x$ is a periodic orbit of $H$ with $\mu(x) = k$ and $\AA(x) < \lambda$}\,},
+\CF_k^\lambda(M, H) = \braket{\, x \mid \text{$x$ is a periodic orbit of $H$ with $\mu(x) = k$ and $\AA(x) < \lambda$}\,}, k \in \Z,
 \end{equation}
 where the bracket represents the free vector space over an arbitrary field $\FF$, and the differential
 \begin{equation}
@@ -224,7 +224,7 @@ It is a highly nontrivial fact that the structure described above is well-define
 \end{definition}
 
 \begin{prop}
-The filtered Floer homology is well-defined. The number of periodic orbits of a nondegenerate Hamiltonian is finite, and hence for large enough $\lambda$ the filtered Floer homology stabilizes. The filtered Floer homology for large enough $\lambda$ is referred to simply as the Floer homology of $H$.
+The filtered Floer homology is well-defined. Moreover, the number of periodic orbits of a nondegenerate Hamiltonian is finite, and hence for large enough $\lambda$ the filtered Floer homology stabilizes. The filtered Floer homology for large enough $\lambda$ is referred to simply as the Floer homology of $H$.
 
 The filtered Floer homology does not depend on the chosen almost-complex structure. In general, it depends on the chosen Hamiltonian, but if $H_1$ and $H_2$ are Hamiltonians whose time-one flow agrees, their filtered Floer homology agrees. Therefore, the filtered Floer homology can be considered a property of a Hamiltonian diffeomorphism $\phi$ and is thereby denoted $\HF_k^\lambda(\phi)$.
 
@@ -232,7 +232,7 @@ The Floer homology (i.e. for large enough $\lambda$) does not depend on the chos
 \begin{equation}
 \HF_k(M) \cong \HH_{k+n}(M),
 \end{equation}
-where $\HH$ denotes the simplicial homology.
+where $\HF$ denotes the Floer homology and $\HH$ denotes the simplicial homology.
 \end{prop}
 
 \begin{proof}
@@ -283,14 +283,14 @@ There are five main steps to computing the filtered Floer homology of a Hamilton
 
 In this section, we summarize the contents of chapter 4 of the thesis.
 
-Let $x$ be a nondegenerate\footnote{Recall that this means that time differential of the time-one flow of $H$ at $x(0)$ does not have $1$ as an eigenvalue.} periodic orbit of a given Hamiltonian $H$. The Maslov index of $x$, denoted $\mu(x)$, is computed via the following (intricate) process:
+Let $x$ be a nondegenerate\footnote{Recall that this means that time differential of the time-one flow of $H$ at $x(0)$ does not have $1$ as an eigenvalue.} periodic orbit of a given Hamiltonian $H$, on the symplectic manifold $M$ which has dimension $2n$. The Maslov index of $x$, denoted $\mu(x)$, is computed via the following process:
 \begin{algorithm}[Maslov Index of a Path]\label{alg:maslovalg}
 \begin{enumerate}[algorithm]
 \item\label{maslovalg:step1} Since $x$ is periodic, it may be seen as a smooth map $S^1 \to M$.
-\item\label{maslovalg:step2} Pick a smooth map $f \colon D^2 \to M$, where $D^2$ is the disk, whose restriction to the border coincides with $\gamma$.
+\item\label{maslovalg:step2} Pick a smooth map $f \colon D^2 \to M$, where $D^2$ is the disk, whose restriction to the border coincides with $x$.
 \item\label{maslovalg:step3} Pick smooth functions $Z_1, \dots, Z_{2n} \colon D^2 \to TM$, such that, for each $z \in D^2$, $\{Z_i(z)\}$ forms a symplectic basis for $T_{f(z)} M$.
-\item\label{maslovalg:step4} Now that $T_{x(t)} M$ has a chosen basis for each $t \in S^1$, we may write the derivative of the flow at $x(0)$, i.e. the map $(\dl \phi_t)_{x(0)}$, as a $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
-\item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index.
+\item\label{maslovalg:step4} Now that $T_{x(t)} M$ has a chosen basis for each $t \in S^1$, we may write the derivative of the flow at $x(0)$, i.e. the map $(\dl \phi_t)_{x(0)}$, as a time-dependent $2n \times 2n$ symplectic matrix, which we will call $A(t)$. Note that $A(t)$ will not be periodic.
+\item\label{maslovalg:step5} Given a path of symplectic matrices, such as $A(t)$, where $A(T)$ has no eigenvalue equal to one, it is possible to associate to it an integer called the Conley-Zehnder index. This integer is the Maslov index of $x$.
 \end{enumerate}
 \end{algorithm}
 
@@ -298,7 +298,7 @@ Let $x$ be a nondegenerate\footnote{Recall that this means that time differentia
 The above algorithm is simplified if the manifold $M$ at hand admits a global symplectic frame $\{B_i\}$, because in that case we may simply set $Z_i(z) = B_i(f(z))$.
 \end{remark}
 
-This reduces the problem to defining the so-called Conley-Zehnder index of a path of symplectic matrices. This index is also sometimes referred to in the literature as the Maslov index \cite{audin}, so that we have the Maslov index of a periodic orbit and the Maslov index of a path of symplectic matrices. We will now present the definition of Maslov index which can be found in a textbook such as \cite{audin}, but first that requires establishing the existence of a certain family of functions.
+This reduces the problem to defining the so-called Conley-Zehnder index of a path of symplectic matrices. This index is also sometimes referred to in the literature as the Maslov index \cite{audin}, so that we have the Maslov index of a periodic orbit and the Maslov index of a path of symplectic matrices; it is this nomenclature that we use in the thesis. We will now present the definition of Maslov index which can be found in a textbook such as \cite{audin}, but first that requires establishing the existence of a certain family of functions.
 
 \begin{theorem}\label{rhodef}
 There exists a unique sequence of maps $\rho_n \colon Sp(2n) \to S^1$ (the $n$ is often omitted) which satisfies the following properties.
@@ -366,11 +366,11 @@ For any such partition, we have the formula
 
 The main benefit of this approach is that it requires only inspection of the entries of the path of matrices. Its main drawback is its specificity: it only applies to the case of paths of $2 \times 2$ matrices.
 
-This is not the first version of the Maslov index which is suitable for computation. Of note is a characterization by Robbin and Salamon \cite{robbin1993maslov} which allows for easy computation of the Maslov index of sufficiently regular paths of matrices. This method has the advantage of working in any dimension, but we have not found it applicable to the paths of matrices we shall be working with, because they fail the nondegeneracy conditions necessary for its application. We go over this method in section 4.6 of the thesis, and prove that it is equivalent to the method given by Corollary 4 when both are applicable.
+This is not the first version of the Maslov index which is suitable for computation. Of note is a characterization by Robbin and Salamon \cite{robbin1993maslov} which allows for easy computation of the Maslov index of sufficiently regular paths of matrices. This method has the advantage of working in any dimension, but we have not found it applicable to the paths of matrices we work with in this thesis, because they fail the nondegeneracy conditions necessary for its application. We go over this method in section 4.6 of the thesis, and prove that it is equivalent to the method given by Corollary 4 when both are applicable.
 
 Another equivalent construction of the Maslov index which is worthy of note is one by Hofer and Kriener \cite{hoferkriener}, which, like ours, is specific to the case of $2 \times 2$ matrices, though we have not found it as easy to compute as the Maslov index via Corollary 4. Regardless, in section 4.5 we carefully review the definition, verifying that it is well-defined, and prove that it is equivalent to our method.
 
-\subsection{The Barcodes}
+\subsection{The Barcodes}\label{sec:compute}
 
 In the search for appropriate Hamiltonians whose filtered Floer homologies to compute, the following criteria were applied:
 \begin{itemize}
