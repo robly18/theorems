@@ -18,8 +18,11 @@
 
 \usepackage{cancel}
 \usepackage{interval}
+\usepackage{mleftright}
 
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
+\SetEnumitemKey{algorithm}{label={Step \Roman*.}, ref=\Roman*, labelindent=0pt, labelsep=!, leftmargin=*, align=left,itemindent=0pt}
+\setlist[enumerate,1]{label=\roman*)}
 
 %\usepackage{cite}
 
@@ -38,8 +41,8 @@ Supervisor: Prof. Miguel Abreu}
 \theorembodyfont{\upshape}
 \theoremseparator{.}
 \newtheorem{theorem}{Theorem}
-\newtheorem{prop}{Prop}
-\renewtheorem*{prop*}{Prop}
+\newtheorem{prop}{Proposition}
+\renewtheorem*{prop*}{Proposition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{idea}{Idea}
@@ -89,6 +92,15 @@ Supervisor: Prof. Miguel Abreu}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\transposed}{\top}
+\DeclareMathOperator{\trace}{Tr}
+
+\DeclareMathOperator{\sign}{sign}
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
 
 \newcommand{\asidesize}{\scriptsize}
 
@@ -229,9 +241,170 @@ Let us see how this barcode represents the persistence module $(\{V_t\}, \{\pi_{
 \end{ex}
 }
 
+\begin{idea}
+The data contained in the usual Floer homology may be represented by a collection of integers, i.e. the dimensions of $\HF_k(M)$. These are the Betti numbers of $M$.
+
+The data contained in the filtered Floer homology may be represenetd by a collection of barcodes.
+\end{idea}
+
 \section{This Work}
 
-\nocite{polterovich}
+There is already a body of research on the barcodes of Hamiltonian diffeomorphisms: see for example \cite{polterovich}, \cite{kislev2022bounds}, \cite{roux2018barcodes}, and \cite{polterovich2016autonomous}. However, there is not much data on computation of particular diffeomorphisms, save for example 8.2.4 of \cite{polterovich}, in which it is shown that computation of barcodes of autonomous Hamiltonian diffeomorphisms is relatively trivial by using Morse theory.
+
+In this thesis, we sought to fill this gap by computing slightly more nontrivial barcodes, namely those of two classes of Hamiltonians on the torus. As a way to shed some light on the work that was done, as well as give a very superficial overview of filtered Floer homology and how to compute it, we present the simplest of these examples.
+
+Set coordinates $(x,y)$ on the torus, with $x$ and $y$ being $2\pi$-periodic. Then, a very simple and class of Hamiltonians consists of those which depend on only one variable, e.g. $H(x,y) = f(x)$, where $f$ is a $2\pi$-periodic function. Then, it is possible to verify that the time-one flow of this Hamiltonian is given by
+\begin{equation}
+\phi_1(x,y) = (x, y + f'(x)).
+\end{equation}
+
+Such Hamiltonian diffeomorphisms are particularly simple, but if we compose a function such as $\phi_1$ with one such as $\phi_2(x,y) = (x+g'(y), y)$ we obtain a more complicated class of Hamiltonian diffeomorphisms. If we let $a$ be a positive real parameter and set $f(t) = g(t) = a \cos(t)$, we obtain the Hamiltonian diffeomorphisms of study
+\begin{equation}
+\phi(x,y) = (x + a \sin(y + a \sin(x)), y + a \sin(x)).
+\end{equation}
+
+Now, let us walk through the process of constructing the barcode of $\phi$. The first important thing to do is to compute the periodic contractible orbits of $\phi$. This is different from computing the fixed points of $\phi$, because for example we need to disallow `looping around the torus'. However, the periodic contractible orbits can be computed, and there are exactly four; see figure \ref{fig:po1} below.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.7, vertex/.style={draw,circle,thick,fill=red,inner sep=3pt}]
+\draw[->,thick] (-1,0) -- (2*pi+1,0) node[above] {$x$};
+\draw[->,thick] (0,-1) -- (0,2*pi+1) node[left] {$y$};
+\draw (0,0) rectangle (2*pi,2*pi);
+
+\draw (2*pi,0) node[below] {$2\pi$};
+\draw (0,2*pi) node[left] {$2\pi$};
+
+\draw (0,0) node[vertex] {} node[below left] {$B_1$};
+\draw (0,pi) node[vertex] {} node[below left] {$B_0$};
+\draw (pi,0) node[vertex] {} node[below right] {$B_3$};
+\draw (pi,pi) node[vertex] {} node[below right] {$B_2$};
+\end{tikzpicture}
+\caption{The periodic orbits of $H_1$ and their actions and Maslov indices}
+\label{fig:po1}
+\end{figure}
+
+The actions of these orbits can be easily computed by direct application of the formula. We organize their actions in a line, forming the so-called \emph{action spectrum}, which will be important shortly.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=2]
+\draw[->,thick] (-2.000,0.000)--(2.000,0.000);
+\draw[] (-1.000,-0.200)--(-1.000,0.200) node[above] {$-2a$};
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {$0$};
+\draw[] (1.000,-0.200)--(1.000,0.200) node[above] {$2a$};
+
+\node at (-1, -0.5) {$B_0$};
+\node at (0,-0.5) {$B_1$};
+\node at (0, -1.0) {$B_2$};
+\node at (1,-0.5) {$B_3$};
+\end{tikzpicture}
+\caption{The action spectrum of $\phi$.}
+\end{figure}
+
+Now, let us begin computing the barcode of $\phi$. In truth, there is not one barcode but many, one for each integer value of $k$, and each orbit will contribute to either the creation or destruction of a bar. For example, since $B_0$ is the orbit with least action, it necessarily corresponds to the creation of a bar (because there are no bars to destroy). But the question remains about which barcode this bar starts in.
+
+To answer this question it is necessary to know about something called the Maslov index of an orbit. This is an integer number which is associated to a periodic orbit $x$ of a Hamiltonian, and it is denoted $\mu(x)$. Roughly speaking, to compute $\mu(x)$ one writes $(\dl \phi_t)_x$ as a (time-dependent) matrix and calculates the so-called Conley-Zehnder index of this path of matrices.
+
+The Conley-Zehnder index of a path of (symplectic) matrices has a rather technical definition (see e.g. chap. 7 of \cite{audin}), and it is not feasible in most cases to compute it by direct application of its definition. There are alternative definitions which are more amenable to computation but require certain regularity assumptions, as in \cite{robbin1993maslov}. Since these regularity assumptions do not hold for the paths of matrices necessary to compute $\mu(B_i)$, $i = 0,\dots, 3$, I had to find a feasible way to compute Conley-Zehnder indices which would work for the case at hand.
+
+I now present the main result of my thesis in this respect. It is not without limitations, as it only works in the case of $2 \times 2$ matrices, but it was sufficient here given that the manifold in question is the two-dimensional torus. However, its power comes from that fact that it works directly with the entries of the matrix path, without need for something like spectral decomposition of the path of matrices.
+
+\begin{prop}[Corollary 4]
+Let $A(t)$, $t \in \interval 0 T$ be a path of matrices with $A(0) = I$ and $\trace A(T) \neq 2$.\footnote{We show that a matrix $A$ is in $Sp(2n)^*$ if and only if $\trace A \neq 2$.} If $\trace A(t) > -2$ for all time and $\trace A(T) > 2$, the Maslov index of $A$ is zero. Otherwise, there exists a partition of the form
+\begin{equation}
+0 = a_0 < b_0 < a_1 < b_1 < a_2 < \dots < a_N < b_N \leq T
+\end{equation}
+which satisfies the properties
+\begin{enumerate}
+\item $(-1)^n \trace A(a_n) \geq 2$,
+\item $\trace A(b_n) \in \ointerval{-2}2$,
+\item Whenever $\trace A(x) \geq 2$ and $\trace A(y) \leq -2$, there exists some $b_n$ between $x$ and $y$,
+\item\label{calcmaslov:ab5} Exactly one of $\trace A(a_N)$ and $\trace A(T)$ is in $\rinterval 2 \infty$.
+\end{enumerate}
+
+For any such partition, we have the formula
+\begin{equation}\label{calcmaslov:mu}
+\mu(A(t)) = \sum (-1)^n \sign(A(b_n)_{12})
+\end{equation}
+\end{prop}
+
+Using this proposition, it is possible to verify that $\mu(B_0) = -1$, $\mu(B_1) = \mu(B_2) = 0$, and $\mu(B_3) = 1$. As a consequence, we know that $B_0$ induces the creation of a bar at $-2a$, in the barcode of index $-1$.
+
+Now, let us look at $B_1$ and $B_2$. Each of them could create a new bar or destroy the one which already exists, induced by $B_0$.\footnote{An orbit $x$ will either create a bar in the barcode of index $\mu(x)$, or destroy a bar in the barcode of index $\mu(x)-1$.} However, this is where the fact that filtered Floer homology agrees (for large $\lambda$) with the usual Floer homology, which in turn agrees with homology in the usual sense. Because of this, it is possible to verify that, at infinity, the barcode of $\phi$ will have exactly four bars. Consequently, for this particular barcode, as there are only four periodic orbits \emph{there can be no destruction of bars}. Therefore, both $B_1$ and $B_2$, as well as $B_3$, induce creation of bars at appropriate time on the appropriate barcode, and so the barcode of $\phi$ is given by the one in figure \ref{fig:bc1}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\draw[->,thick] (-4.500,0.000)--(4.500,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (2.500,-0.200)--(2.500,0.200) node[above] {$2a$};
+\draw[] (-2.500,-0.200)--(-2.500,0.200) node[above] {$-2a$};
+\draw[(-,thick] (-2.500,-0.500)--(4.200,-0.500);
+\node[] at (5.500,-0.500) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-1.100)--(4.200,-1.100);
+\draw[(-,thick] (0.000,-1.500)--(4.200,-1.500);
+\node[] at (5.500,-1.300) {$(\HF_0)$};
+\draw[(-,thick] (2.500,-2.100)--(4.200,-2.100);
+\node[] at (5.500,-2.100) {$(\HF_1)$};
+\end{tikzpicture}
+\caption{The barcode of $\phi$.}\label{fig:bc1}
+\end{figure}
+
+To conclude, let us present a more complicated example. In the case of $\phi$, the appearance of the barcode does not depend qualitatively on the value of $a$ chosen, as long as $a > 0$. However, if we consider the diffeomorphism $\phi^2 = \phi \circ \phi$, this changes, with large numbers of periodic orbits appearing as $a \to \infty$.
+
+In my thesis, I studied $\phi^2$ for values of the parameter $0 < a < \pi$. Within this range, there is a phase change at $a = 2$. For $a < 2$ the barcode is uninteresting, looking a lot like figure \ref{fig:bc1}, but for $2 < a < \pi$ we get more interesting results. We present a diagram with the contractible periodic orbits of $\phi^2$, as well as its barcode.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.7, vertex/.style={draw,circle,thick,fill=red,inner sep=3pt}]
+\draw[->,thick] (-1,0) -- (2*pi+1,0);
+\draw[->,thick] (0,-1) -- (0,2*pi+1);
+\draw (0,0) rectangle (2*pi,2*pi);
+
+\draw (0,0) node[vertex] {};
+\draw (0,pi) node[vertex] {};
+\draw (pi,0) node[vertex] {};
+\draw (pi,pi) node[vertex] {};
+
+\node[vertex,fill=blue!60] (A0) at (1,pi-1) {};
+\node[vertex,fill=blue!60] (A1) at (2*pi-1,pi+1) {};
+\draw[->] (0,pi-1) -- (A0);
+\draw[->] (A0) -- (1,pi+1) -- (0,pi+1);
+\draw[->] (2*pi,pi+1) -- (A1);
+\draw[->] (A1) -- (2*pi-1,pi-1) -- (2*pi,pi-1);
+
+\node[vertex,fill=green!60] (C0) at (pi+1,1) {};
+\node[vertex,fill=green!60] (C1) at (pi-1,2*pi-1) {};
+\draw[->] (C0) -- (pi+1,0);
+\draw[->] (pi-1,0) -- (pi-1,1) -- (C0);
+\draw[->] (C1) -- (pi-1,2*pi);
+\draw[->] (pi+1,2*pi) -- (pi+1,2*pi-1) -- (C1);
+\end{tikzpicture}
+\caption{The eight contractible periodic orbits of $\phi^2$ ($2 < a < \pi$).}
+\label{orbitsh12}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[yscale=0.33, xscale=0.4]
+\draw[->,thick] (-14.066,0.000)--(14.066,0.000);
+\draw[] (0.000,-0.200)--(0.000,0.200) node[above] {0};
+\draw[] (-12.566,-0.200)--(-12.566,0.200) node[above] {$-4a$};
+\draw[] (12.566,-0.200)--(12.566,0.200) node[above] {$4a$};
+\draw[] (-8.870,-0.200)--(-8.870,0.200);
+\draw[] (8.870,-0.200)--(8.870,0.200);
+\draw[{(-]},thick] (-12.566,-1.200)--(-8.870,-1.200) node[right] {};
+\node[] at (17.066,-1.200) {$(\HF_{-2})$};
+\draw[(-,thick] (-8.870,-2.700)--(13.841,-2.700) node[right] {};
+\node[] at (17.066,-2.700) {$(\HF_{-1})$};
+\draw[(-,thick] (0.000,-4.200)--(13.841,-4.200) node[right] {};
+\draw[(-,thick] (0.000,-5.400)--(13.841,-5.400) node[right] {};
+\node[] at (17.066,-4.800) {$(\HF_0)$};
+\draw[(-,thick] (8.870,-6.900)--(13.841,-6.900) node[right] {};
+\draw[{(-]},thick] (8.870,-8.100)--(12.566,-8.100) node[right] {};
+\node[] at (17.066,-7.500) {$(\HF_{1})$};
+\end{tikzpicture}
+\caption{The barcode of the filtered Floer homology of $\phi^2$, for $2<a<\pi$.}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
