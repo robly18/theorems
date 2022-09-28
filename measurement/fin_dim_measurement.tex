@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{mathtools}
 
 \usepackage{enumitem}
 
@@ -32,6 +33,7 @@
 \newtheorem{prop}{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem*{idea}{Idea}
+\newtheorem*{remark}{Remark}
 
 \theoremstyle{nonumberplain}
 \theorembodyfont{\upshape}
@@ -43,6 +45,8 @@
 \DeclareMathOperator{\ext}{ext}
 \DeclareMathOperator{\Max}{Max}
 \DeclareMathOperator{\Aut}{Aut}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
@@ -96,7 +100,7 @@ Let $X$ be a topological space. A nonempty closed set $C \subseteq X$ is said to
 Let $X$ be a topological space. We order its points by the specialization order: $x \leq y$ iff every open which contains $x$ also contains $y$. This is a partial order so long as $X$ is $T_0$.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{def:ms}
 A measurement space is a topological space $M$ such that:
 \begin{enumerate}[label=\roman*)]
 \item \label{msober} $M$ is sober,
@@ -115,42 +119,46 @@ A measurement space is a topological space $M$ such that:
 \end{enumerate}
 \end{definition}
 
-The goal of this chapter is to show the following proposition:
+The goal of this document is to show the following proposition:
 
 \begin{prop*}
 Let $A$ be an involutive algebra of matrices, that is, a linear subspace of $M_{n \times n}(\C)$ which is closed under products and conjugate transposition. Then, $\Max A$, equipped with the operations of definition \ref{defmaxa}, is a measurement space.
 \end{prop*}
 
+\begin{remark}
+Properties \ref{msober} to \ref{contsup} refer only to the topological structure of $M$, and not to its operations. Therefore, they remain valid as properties of $\Max V$, where $V$ is a complex vector space (which is not necessarily an involutive algebra). Therefore, in the sequence we will, when appropriate, state the results for vector spaces $V$ as opposed to involutive algebras of matrices $A$.
+
+Whenever the letter $A$ appears below, it should be assumed to represent an involutive algebra of matrices.
+\end{remark}
+
 \subsection{The Specialization Order}
 
-First, we study the specialization order on $\Max A$, in order to prove properties \ref{leastelem}, \ref{binsup} and \ref{contsup}. The following results are valid in the case where $A$ is a finite dimensional vector space; the algebra operations are not relevant.
-
-Indeed, the specialization order is very simply the subset order.
+First, we study the specialization order on $\Max V$, where $V$ is a complex vector space, in order to prove properties \ref{leastelem}, \ref{binsup} and \ref{contsup}. To begin, we show that the specialization order is simply the subset order.
 
 \begin{prop}
-Let $m$ and $n$ be elements of $\Max A$, that is, subspaces of $A$. Then, $m \leq n$ iff $m \subseteq n$.
+Let $m$ and $n$ be elements of $\Max V$, that is, subspaces of $V$. Then, $m \leq n$ iff $m \subseteq n$.
 \end{prop}
 
 \begin{proof}
-One of the implications is obvious. Indeed, if $m \subseteq n$, any subbasic open $\tilde U$ which contains $m$ must also contain $n$, for if $U$ intersects $m$ it also intersects $n$. This result can be extended to arbitrary opens, as if $W$ is an open in $\Max A$, and $m \in W$, then there exists an intersection of subbasic opens $B = \tilde U_1 \cup \dots \tilde U_k$ with $m \in B \subseteq W$, and trivially $n \in B \subseteq W$ as well.
+One of the implications is obvious. Indeed, if $m \subseteq n$, any subbasic open $\tilde U$ which contains $m$ must also contain $n$, for if $U$ intersects $m$ it also intersects $n$. This result can be extended to arbitrary opens, as if $W$ is an open in $\Max V$, and $m \in W$, then there exists an intersection of subbasic opens $B = \tilde U_1 \cup \dots \tilde U_k$ with $m \in B \subseteq W$, and trivially $n \in B \subseteq W$ as well.
 
 Now, suppose that $m$ is \emph{not} a subset of $n$. We will construct an open which contains $m$ but not $n$.
 
-Let $U$ be the complement of $n$. Since we are in finite dimension, this is an open set, so that $\tilde U$ is an open set in $\Max A$. Then, $n \not \in \tilde U$, and furthermore the hypothesis that $m \nsubseteq n$ is equivalent to the claim that $m \cap U \neq \emptyset$, and so $m \in \tilde U$.
+Let $U$ be the complement of $n$. Since we are in finite dimension, this is an open set, so that $\tilde U$ is an open set in $\Max V$. Then, $n \not \in \tilde U$, and furthermore the hypothesis that $m \nsubseteq n$ is equivalent to the claim that $m \cap U \neq \emptyset$, and so $m \in \tilde U$.
 \end{proof}
 
 With this in mind, properties \ref{leastelem} and \ref{binsup} become trivial. The least element is simply the zero subspace, and binary suprema are given by subspace sums. Slightly less trivial is \ref{contsup}:
 
 \begin{prop}
-Let $A$ be a finite dimensional complex vector space. Then, the operation of subspace addition
+Let $V$ be a finite dimensional complex vector space. Then, the operation of subspace addition (which coincides with the join $\vee$ in the specialization order)
 \[ + \colon \Max A \times \Max A \to \Max A\]
 is continuous.
 \end{prop}
 
 \begin{proof}
-To show that subspace addition is continuous, by unfurling the definition of product topology and subbasis it suffices to prove the following. Let $m,n \in \Max A$, and let $\tilde U$ be a subbasic neighborhood of $m+n$. Then, we wish to show that there exist neighborhoods $V$ and $W$ of $m$ and $n$ such that, for all $m' \in V$ and $n' \in W$, $m'+n' \in \tilde U$.
+To show that subspace addition is continuous, by unfurling the definition of product topology and subbasis it suffices to prove the following. Let $m,n \in \Max V$, and let $\tilde U$ be a subbasic neighborhood of $m+n$. Then, we wish to show that there exist neighborhoods $V$ and $W$ of $m$ and $n$ such that, for all $m' \in V$ and $n' \in W$, $m'+n' \in \tilde U$.
 
-To this effect, let us introduce an auxiliary tool into the problem. Since $A$ is a finite dimensional complex vector space, we may introduce on it a norm (simply pick an arbitrary basis and take the Euclidean norm making it an orthonormal basis), and it is known that all norms are equivalent on finite dimensional vector spaces, so that this norm generates the topology of $V$.
+To this effect, let us introduce an auxiliary tool into the problem. Since $V$ is a finite dimensional complex vector space, we may introduce on it a norm (simply pick an arbitrary basis and take the Euclidean norm making it an orthonormal basis), and it is known that all norms are equivalent on finite dimensional vector spaces, so that this norm generates the topology of $V$.
 
 Now, suppose that $\tilde U$ is a subbasic neighborhood of $m+n$. Then, there exists some point $x+y \in U$, with $x \in m$ and $y \in n$. Consequently, some ball around $x+y$ is contained in $U$, with a positive radius $\delta$. That said, we may now define $V_0$ and $W_0$ as balls, around $x$ and $y$ respectively, of radius $\delta/2$. Then, it is trivial to check that $V = \tilde{V_0}$ and $W = \tilde{W_0}$ are the desired neighborhoods of $m$ and $n$.
 \end{proof}
@@ -287,17 +295,15 @@ First, note that $\rho$ is a smooth function, and we have shown that it is injec
 
 \section{Sobriety}
 
-We now show that $\Max A$ is a sober topological space. To do so, we recall the definition: $\Max A$ is said to be sober if the map $x \mapsto \overline{\{x\}}$ which takes the elements of $\Max A$ to its irreducible closed sets is a bijection.
+We now show that $\Max V$ is a sober topological space, when $V$ is a finite dimensional complex vector space. To do so, we recall the definition: $\Max V$ is said to be sober if the map $x \mapsto \overline{\{x\}}$ which takes the elements of $\Max V$ to its irreducible closed sets is a bijection.
 
-Note that this definition does not in any way use the operations of the involutive complex algebra $A$, so it also makes sense in the case of a simple vector space. So in fact, we will prove the following, more general fact:
-
-\begin{theorem}
+\begin{theorem}\label{thm:sober}
 Let $V$ be a finite dimensional vector space. Then, $\Max V$ is a sober topological space.
 \end{theorem}
 
 We begin with a standard fact which establishes injectivity of the map $x \mapsto \overline{\{x\}}$.
 
-\begin{lemma}
+\begin{lemma}\label{lemma:2}
 If $X$ is a $T_0$ topological space, the map $x \mapsto \overline{\{x\}}$ is injective.
 \end{lemma}
 
@@ -327,19 +333,72 @@ Now, let us suppose that $m'$ is a subspace of $V$ which is not contained in $m$
 
 Now, let us investigate the structure of an irreducible closed set.
 
-\begin{lemma}
-Let $F$ be an irreducible closed subset of $\Max V$, and let $m$ be an element of $F$ of maximal dimension. Then, $F$ is the collection of subspaces of $m$. In particular, $m$ is uniquely determined by $F$.
+\begin{lemma}\label{lemma:big}
+Let $F$ be an irreducible closed subset of $\Max V$, and let $m$ be an element of $F$ of maximal dimension. Then, $F$ is the collection of subspaces of $m$. In particular, $m$ is uniquely determined by $F$, and $F = \overline{\{m\}}$.
 \end{lemma}
 
 \begin{proof}
-Defining $m$ as above, it is evident that $F$ contains all subspaces of $m$, given that it contains $\overline{\{m\}}$. Therefore, by contradiction, we suppose that $F$ contains some element $m'$ which is not a subspace of $m$.
+Defining $m$ as above, it is evident that $F$ contains all subspaces of $m$, given that it contains $\overline{\{m\}}$. Therefore, we suppose that $F$ contains some element $m'$ which is not a subspace of $m$, and we will show that $F$ is in fact reducible, a contradiction with the hypothesis that $F$ is irreducible. Without loss of generality, pick $m'$ of maximal dimension.
 
-(this needs fixing)
+The proof now divides into two cases: either $m'$ has the same dimension as $m$, or it has a smaller dimension.
 
-In order to find a contradiction, we show that $F$ is not irreducible by decomposing it as a union of two proper closed sets. One of these is $F_1 = \overline{\{m\}}$, and the other is $F_2 = F \setminus \{m\}$. It is obvious that $F_1 \cup F_2 = F$ and that both of these proper, so the only thing left to verify is that $F_2$ is a closed set.
+If $\dim m' < \dim m$, we decompose $F = F_0 \cup F_1$, with $F_0 = \overline\{m\}$ and $F_1 = F \setminus \{m\}$. Evidently, $F_0$ is closed and neither $F_0$ or $F_1$ are equal to $F$, so all that remains to show is that $F_1$ is closed. To this effect, note that $F_1 = F \cap G$, where $G$ is the collection of subspaces of $V$ with dimension less than $\dim m$, so it suffices to show that $G$ is closed, i.e. that $G^c$, the collection of spaces whose dimension is at least $\dim m$, is open.
 
-To show that $F_2$ is closed, we show that for any $n \in \Max V \setminus F_2$ there exists a neighborhood of $n$ which does not intersect $F_2$. This is obvious for all $n \neq m$ (just use the complement of $F$), so it suffices to show this property for $m$.
+Given some space $w \in G^c$, with $G$ as above, we will find a basic neighborhood of $w$ whose elements are all at least $k$-dimensional, where $k = \dim m$. Indeed, since $\dim w \geq k$, we may find $k$ linearly independent vectors $e_1, \dots, e_k \in w$. Intuitively, small enough perturbations of these vectors are still linearly independent, and so if we consider small enough opens $U_1, \dots, U_k$ around $e_1, \dots, e_k$, any element of $\tilde U_1 \cap \dots \cap \tilde U_k$ will contain $k$ linearly independent vectors, thereby having at least $k$ dimensions and hence being an element of $G^c$.
+
+So, let $e_1, \dots, e_k$ be $k$ linearly independent elements of $V$. Extending these to a basis of $V$ and applying the corresponding isomorphism between $V$ and $\C^n$ (with $n = \dim V$), we may without loss of generality assume that $e_1, \dots, e_k$ are the first $k$ elements of the canonical basis of $\C^n$. For $i = 1, \dots, k$, set $U_i$ equal to the open ball of radius $\frac1k$ around $e_i$ (in the canonical Euclidean norm). Now, we claim that if $v_1, \dots, v_k \in V$ such that $v_i \in U_i$ for $i = 1, \dots, k$ then the $v_i$ are linearly independent. Indeed, consider some linear combination of the $v_i$ that equals zero:
+\begin{equation}
+z_1 v_1 + \dots + z_k v_k = 0.
+\end{equation}
+
+Of the coefficients $z_i$, suppose without loss of generality that $z_1$ is maximal in absolute value. Then, we claim that $z_1 = 0$. To this effect, consider the inner product between the above linear combination and $e_1$:
+\begin{equation}\label{eq:thesum}
+z_1 \braket{v_1,e_1} + \dots + z_k \braket{v_k, e_1} = 0.
+\end{equation}
+
+Now, through application of the Cauchy-Schwarz inequality and seeing the $v_i$ as perturbations of the $e_i$, it is possible to conclude that
+\begin{equation}
+\braket{v_i, e_j} = \delta_{ij} + E_{ij}, \quad \abs{E_{ij}} < \frac1n.
+\end{equation}
+
+Therefore, the sum \eqref{eq:thesum} is, up to an error of absolute value strictly less than $\frac{\abs{z_1} + \dots + \abs{z_k}}k$, equal to $z_1$. Since the absolute value of the error is strictly less than $\abs{z_1}$, \eqref{eq:thesum} implies that $z_1 = 0$.  This completes the proof that $G^c$ is open, and hence that (if $\dim m' < \dim m$) $F$ is not irreducible.
+
+\medskip
+
+Let us now consider the case where $\dim m' = \dim m = k$. In this event, we will prove a property which is reminiscent of the Hausdorff property: If $m, m' \in \Max V$ are distinct elements with the same dimension, there exist neighborhoods $W, W'$ of $m$ and $m'$ respectively whose intersection does not contain any $k$-dimensional element.
+
+This proof will reuse some ideas from the previous case. To begin, consider $e_1, \dots, e_p$ a basis of $m \cap m'$; note that by hypothesis $p < k$. Then, extend it through $e_{p+1}, \dots, e_k$ to a basis of $m$, and through $e_{k+1}, \dots, e_{2k-p}$ to a basis of $m'$.
+
+As above, we may without loss of generality assume that $e_1, \dots, e_{2k-p}$ form a subset of the canonical basis of $\C^n$. Also as above, define $U_i$ as the ball of radius $\frac1{2k-p}$ around $e_i$. To conclude, set
+\begin{equation}
+\begin{gathered}
+W_0 = \tilde U_1 \cap \dots \cap \tilde U_p,\\
+W = W_0 \cap \tilde U_{p+1} \cap \dots \cap \tilde U_k, \qquad W' = W_0 \cap \tilde U_{k+1} \cap \dots \cap \tilde U_{2k-p}.
+\end{gathered}
+\end{equation}
+
+Evidently, $W$ and $W'$ are neighborhoods of $m$ and $m'$ respectively. Moreover, using the same argument as in the previous case, we may conclude every element of $W \cap W' = \tilde U_1 \cap \dots \cap \tilde U_{2k-p}$ has dimension equal to at least $2k-p \geq k+1$. This completes the proof of the `Hausdorff-like property'.
+
+Now we may show that, under the assumption that $\dim m' = \dim m$, $F$ is not irreducible. Indeed, simply set $F = (F \setminus W) \cup (F \setminus W')$.
+
+\medskip
+
+Starting with the assumption that $F \neq \overline{\{m\}}$, we have proven that $F$ is reducible, which yields the desired contradiction and concludes the proof.
 \end{proof}
+
+We may now finish the proof of theorem \ref{thm:sober}.
+
+\begin{proof}[$\Max V$ is sober]
+Lemmas \ref{lemma:2} and \ref{maxist0} show that the map $m \mapsto \overline{\{m\}}$ is injective, for $m \in \Max V$. Moreover, lemma \ref{lemma:big} establishes surjectivity, as if $F$ is an irreducible closed set it shows that $F = \overline{\{m\}}$, where $m$ is the unique element of $F$ with maximal dimension.
+\end{proof}
+
+\section{Conclusion}
+
+We have shown that if $A$ is an involutive algebra of matrices then $\Max A$ satisfies all items in definition \ref{def:ms}, i.e. $\Max A$ is a measurement space.
+
+This theorem extends easily to any finite-dimensional involutive algebra, as it is a standard theorem [reference?] that every finite-dimensional involutive algebra is isomorphic to an algebra of matrices.
+
+This is also true in the infinite-dimensional case, under the hypothesis that $A$ is a $C^*$ algebra, but by that point heavier machinery is necessary to prove the result. We refer the reader to Theorem 4.7 in \cite{measurement2} [more references?].
 
 \nocite{measurement}
 

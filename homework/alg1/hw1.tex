@@ -1,0 +1,146 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Title}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+
+\DeclareMathOperator{\spec}{spec}
+
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Prove that $\spec S$ is nonempty.
+\item Show that if $S$ forms an algebra then $\mu \in \spec S$ is an algebra homomorphism $S \to \kk$.
+\item Let $\mu_1, \dots, \mu_r \in \spec S$ all distinct. Suppose $v_1 + \dots + v_r = 0$ with all $v_i \in V_{\mu_i}$. Then, every $v_i$ is null.
+\item Show that if all operators $s \in S$ are diagonalizable then $V = \bigoplus_{\mu \in \spec S} V_\mu$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item{} [Note: It is necessary to add the hypothesis that $V \neq 0$.]
+
+We perform strong induction in $\dim V$. We rephrase the problem in the following (obviously equivalent) manner: We wish to find at least one eigenvector in $V$ common to all $s \in S$. [From it, we construct $\mu(s) = \frac{s(v)}v$, where this fraction has the obvious meaning; then $v \in V_\mu$ and hence $V_\mu \neq 0$.]
+
+Base case ($\dim V = 1$): In this case any nonzero vector is an eigenvector to any operator, so picking any $v \in V \setminus 0$ will do.
+
+Induction step: If every $s \in S$ is a scalar, picking any $v \in \setminus 0$ will do. This includes the case $S = \emptyset$. Otherwise, pick $s_0 \in S$ which is not a scalar. Pick an eigenvalue $\lambda$ of $s_0$, and let $W$ be the corresponding eigenspace (note $W \neq 0$).
+
+We claim that all $s \in S$ restrict to endomorphisms of $W$. This is justified by the following calculation, which uses the fact that all operators in $S$ commute:
+\begin{equation}
+s_0(s(w)) = s(s_0(w)) = s(\lambda w) = \lambda s(w).
+\end{equation}
+
+Let $S'$ be the collection of restrictions of $s \in S$ to $W$. Clearly, $(S', W)$ are in the conditions of the induction hypothesis (here we use that $s_0$ is not a scalar to have $\dim W < \dim V$), and so there exists some $v \in W$ which is an eigenvector of all $s \in S'$. It is evident that this same $v$ is also an eigenvector of all $s \in S$. This completes the proof.
+
+\item Let $v \in V_\mu$ be a nonzero vector. Then, $v$ uniquely determines $\mu$ by the `expression'
+\begin{equation}
+\mu(s) = \frac{s(v)}v.
+\end{equation}
+
+In general, division of one vector by another does not make sense, but since $v$ is a common eigenvector to all $s \in S$ it does make sense (assuming $v\neq0$, which is the case).
+
+Then, we can verify the desired properties (of algebra homomorphism) directly. In the following, $e$ is the identity, $s_1, s_2 \in S$, and $\lambda \in \kk$.
+
+\begin{itemize}
+\item $\mu(e) = \frac vv = 1$,
+\item $\mu(s_1 + s_2) = \frac{(s_1 + s_2)(v)}v = \frac{s_1(v)}v + \frac{s_2(v)}v = \mu(s_1) + \mu(s_2)$,
+\item $\mu(\lambda s_1) = \frac{\lambda s_1(v)}v = \lambda \frac{s_1(v)}v = \lambda \mu(s_1)$,
+\item $\mu(s_1 s_2) = \frac{s_1(s_2(v))}v = \frac{s_1\left(\frac{s_2(v)}v v\right)}v = \frac{s_1(\mu(s_2) v)}v = \mu(s_2) \frac{s_2(v)}v = \mu(s_1) \mu(s_2)$.
+\end{itemize}
+
+\item We perform induction on $r$. Evidently, the statement is true for $r = 1$, so we do the induction step.
+
+Suppose that the statement is proved for some fixed $r$; we shall prove it for $r+1$. Let $\mu_1, \dots, \mu_{r+1}$ be distinct elements of $\spec S$. Let
+\begin{equation}\label{eq:eq1}
+v_1 + \dots + v_{r+1} = 0
+\end{equation}
+with each $v_i \in V_{\mu_i}$.
+
+Since all $\mu_i$ are distinct, then in particular $\mu_1$ and $\mu_{r+1}$ must disagree on at least one point $s \in S$. Keeping this particular $s$ in mind, it is evident that both of the following expressions hold, the first by multiplying \eqref{eq:eq1} by $s(\mu_{r+1})$ and the second by applying $s$ to both sides of $\eqref{eq:eq1}$ and simplifying:
+\begin{gather}
+s(\mu_{r+1}) v_1 + \dots + s(\mu_{r+1}) v_{r+1} = 0,\\
+s(\mu_1) v_1 + \dots + s(\mu_{r+1}) v_{r+1} = 0.
+\end{gather}
+
+Subtracting one expression from the other, we obtain
+\begin{equation}
+(s(\mu_{r+1})-s(\mu_1)) v_1 + \dots + (s(\mu_{r+1})-s(\mu_{r})) v_{r} = 0,
+\end{equation}
+and so all terms of this sum must be null by the induction hypothesis. In particular, since $s(\mu_{r+1}) \neq s(\mu_1)$, $v_1 = 0$ in \eqref{eq:eq1}. Now, we may apply the induction hypothesis on the collection $\mu_2, \dots, \mu_{r+1}$ using the fact that, by \eqref{eq:eq1}, $v_2 + \dots + v_{r+1} = 0$, yielding that all other $v_i$ are zero.
+
+\item The previous item shows that the spaces $V_\mu$ are independent, so it suffices to show that they span $V$.
+
+In the following we will use the following rephrasing of the statement `the spaces $V_\mu$ span $V$': there exists a spanning set of $V$ whose elements are eigenvectors of all $s \in S$.
+
+We perform strong induction on the dimension of $V$. The case $\dim V = 1$ is evident, as $V_\mu \neq 0$ and hence is the entire space (for any given $\mu \in \spec S$, which exists by (i)). [We could also have started with $\dim V = 0$; in this case $V=0$ is not a problem.]
+
+Now, suppose that the proposition has been shown for all vector spaces with dimension less than the dimension of a given space $V$. As in the proof of (i), if all $s \in S$ are scalars the proposition is evident (if $\mu(s)$ is the scalar corresponding to $s$ for all $s$, $V_\mu = V$). Hence, we may without loss of generality assume that $s_0$ is a fixed nonscalar element of $S$.
+
+Since $s_0$ is diagonalizable, its eigenspaces span $V$. Therefore, it suffices to show that the $\bigoplus V_\mu$ spans all eigenspaces of $s_0$. Therefore, pick any eigenspace $W$ of $s_0$; to it we will apply the induction hypothesis.
+
+As in (i), by the commutativity of the operators all $s \in S$ restrict to operators on $W$, hence by the induction hypothesis there exists a spanning set of $W$ composed of eigenvectors common to all $s \in S$ [Technically they are eigenvectors of the restrictions of $s$ to $W$, but this is also an eigenvector of $s$], let us call this set $A_W$.
+
+By taking the union $A = \bigcup A_W$ over all eigenspaces of $s_0$, we obtain a collection of common eigenvectors which span all eigenspaces of $s_0$, and so, by diagonalizability, span all of $V$. This completes the proof.
+\end{enumerate}
+\end{sol}
+
+\end{document}
