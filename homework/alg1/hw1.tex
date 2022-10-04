@@ -13,12 +13,13 @@
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
 
 \usepackage{cancel}
+\usepackage{interval}
 
 \usepackage{enumitem}
 
 \setlist[enumerate,1]{label=(\roman*)}
 
-\title{Title}
+\title{Algebra Homework 1}
 \author{Duarte Maia}
 %\date{}
 
@@ -41,6 +42,8 @@
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
 
 \newcommand{\kk}{\Bbbk}
 
@@ -377,6 +380,136 @@ m =
 \end{bmatrix},
 \end{equation}
 which is a rotation matrix. Hence, $M$ rotates the plane $\braket{e_2, e_3}$ around the vector $e_1$ by an angle of $\alpha$. This concludes the proof.
+\end{sol}
+
+\begin{ex}
+Given $U$ an open neighborhood of the identity $e$ of a connected topological group $G$, show that $\bigcup U^n = G$.
+\end{ex}
+
+\begin{sol}
+Let $X = \bigcup U^n$. Evidently, $X$ is open because for any $x \in X$, since $x \in U^n$, we have $Ux \subseteq U^{n+1} \subseteq X$; since multiplication by $x$ is a continuous map and $U$ contains the identity, $Ux$ is a neighborhood of $x$.
+
+Now, to show that $X$ is closed, suppose that $g \in G \setminus X$, but moreover that any neighborhood of $g$ intersects $X$. Then, in particular, $U^{-1} g$ intersects $X$ (this is a neighborhood of $g$ by a similar argument, with the added step that the inverse operator preserves open sets because it is a homeomorphism). If $x \in X \cap U^{-1} g$, then there exists some $u \in U$ such that $x = u^{-1} g$, hence $g = u x$. Moreover, since $x \in X$ then $x \in U^n$ for some $n$. Hence, we conclude $g \in U^{n+1} \subseteq X$, which is a contradiction with the assumption that $g \not \in X$.
+
+In conclusion, $X$ is both an open and a closed subset of $G$, and by connectedness, since $X$ is nonempty, $X = G$.
+\end{sol}
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Prove that if $G$ is path connected then any discrete normal subgroup of $G$ is contained within the center of $G$.
+\item Prove that the connected component of the identity is a normal subgroup of $G$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item Let $N \subseteq G$ be a discrete normal subgroup, and let $n \in N$.  Given $g \in G$, pick a path $\gamma(t)$ from $e$ to $g$. Then, by normality, the path $\gamma(t) n \gamma(t)^{-1}$ is always contained in $N$, and since $N$ is discrete it must be a constant path. Since it equals $n$ at $t = 0$, we conclude that it equals $n$ for all time $t$, including $t = 1$, whence we conclude $g n g^{-1} = n$ and therefore $gn = ng$ for all $g \in G$. In other words, $n$ is in the center of $G$.
+\item Define the connected component of the identity, call it $N$, as the maximal connected set which contains the identity. Then, in order to show that some set is contained within $N$ it suffices to show that it is connected and contains the identity.
+\begin{itemize}
+\item $N$ is closed under inverses because $N^{-1}$ is connected (inversion is a homeomorphism and hence preserves connectedness) and contains the identity.
+\item $N$ is closed under multiplication because, given $n \in N$, $nN$ isconnected (multiplication by $n$ is a homeomorphism) and contains the identity (because $n^{-1} \in N$). Therefore, for any $n, n' \in N$ we have $nn' \in nN \subseteq N$.
+\item $N$ is normal because conjugation is a homeomorphism and preserves the identity, so the conjugation of $N$ by any $g \in G$ will be contained in $N$.
+\end{itemize}
+
+This concludes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Let $H$ be a discrete subgroup of $V$, an $\R$-vector space. Show that there exist $e_1, \dots, e_d$, all linearly independent such that $H = \braket{e_1, \dots, e_d}_\Z$. (This is equivalent to the given statement; just extend this linearly independent set to a basis.)
+\end{ex}
+
+\begin{sol}
+We induct on the dimension of $V$.
+
+For $\dim V = 1$, $V$ is isomorphic to the real line. We identify $V$ with $\R$ in what follows. If $H \neq 0$ (otherwise the statement is trivial), consider $x = \inf_{h \in H \setminus 0} \norm h < \infty$. Note that $x > 0$ by discreteness, which implies that there exists a neighborhood of $0$ without any other elements of $H$. Moreover, note that the
+re are no elements of $H$ in $\ointerval 0 x$, as if there were $x$ would not be the minimum. Furthermore, there is at most one element of $H$ in $\ointerval x {2x}$, because otherwise you could subtract one from the other and obtain an element of $H$ which has norm less than $x$, also a contradiction. Finally note that, since there are elements of $H$ arbitrarily close to $x$, $x$ itself must be an element of $H$.
+
+To complete the proof of the $\dim V = 1$ case, we show that $H = \braket{x}_\Z$. Indeed, if $h \in H$ were not an integer multiple of $x$, we could find an appropriate $k \in \Z$ such that $h + k x \in \ointerval 0 x$, which is a contradiction with the definition of $x$.
+
+\smallskip
+
+Now we perform the induction step. In the general case of $n$-dimensional $V$, if $H = 0$ the statement is trivial. Therefore, begin by considering some $h \in H$, $h \neq 0$.
+
+Define $L = \braket{h}_\R$. Then, consider the group $H \cap L$, which is a nontrivial subgroup of the one-dimensional vector space $L$. Apply the case for $\dim V = 1$ to find $h_0 \in L$ such that $H \cap L = \braket{h_0}_\Z$.
+
+Now consider the quotient $V/L$. In a slight abuse of notation, define $H/L$ as the subgroup of $V/L$ given by the image of $H$ under the projection.
+
+If we can show that $H/L$ is a discrete subgroup of $V/L$, the argument proceeds as follows. Apply the induction hypothesis to find some $[e_1], \dots, [e_d] \in H/L$ (with $e_i \in H$) such that the $[e_i]$ are linearly independent and generate $H/L$ over $\Z$. Then, consider the list $h_0, e_1, \dots, e_d$.
+
+This list is linearly independent, because given a null linear combination, applying the projection and linear independence of $[e_i]$ shows that the coefficients of the $e_i$ are null, and the fact that $h_0 \neq 0$ shows that the coefficient of $h_0$ is null.
+
+This list generates $H$ over $\Z$ because, given some $h \in H$, by the definition of the $[e_i]$ we have $[h] = \sum a_i [e_i]$ for some $a_i \in \Z$. Therefore, $h = \left( \sum a_i e_i \right) + \ell$ for some $\ell \in L$, but solving for $\ell$ we find $\ell \in L \cap H$, and hence $\ell = k h_0$ for some $h \in \Z$. Thus, we have just written $H$ as an integral linear combinations of elements in $h_0, e_1, \dots, e_d$.
+
+Now, we prove that $H/L$ is indeed a discrete subgroup of $V/L$.\footnote{It is a known fact that the quotient topology on $V/L$ coincides with the natural topology on this vector space.} To do so, it suffices to show that there exists a neighborhood of $[0]$ which contains no elements of $H/L$, because this neighborhood can be translated by elements of $H/L$ to show that every element of $H/L$ is isolated.
+
+Let $W$ be a complementary subspace of $L$ in $V$. Then, to say that $[0] \in H/L$ is not isolated is to say that there exists a sequence $h_n \in H$ such that $[h_n] \to [0]$ in $V/L$. We write each $h_n$ as $w_n + x_n h_0$, with $w_n \in W$. Now consider the following: since $x_n$ can be replaced by any element of $x_n + \Z$ (this may require modifying the sequence $h_n$), we may without loss of generality suppose that $x_n \in [0,1]$ for all $n$. As a consequence, $x_n$ has a converging subsequence. If we pass to this subsequence in $h_n$, we conclude that $h_n$ converges to some $\ell \in L$.
+
+Now, consider the following. For each $n$, pick some $N(n) > n$ such that $[h_n] \neq [h_{N(n)}]$. This exists because, if it did not, $h_n$ would be eventually constant, but it cannot be because it converges to $[0]$ without ever actually being $[0]$. Now define $h'_n = h_n - h_{N(n)}$. This sequence is never null by definition of $N(n)$, and yet its limit is $\ell - \ell = 0$. Thus, we have a sequence of elements of $H$ which is never null and yet converges to zero, contradicting the hypothesis that $H$ is discrete. This contradiction, which stems from the assumption that $[0] \in H/L$ is not isolated, proves that $H/L$ is a discrete subgroup of $V/L$ and hence the induction step as described above follows through, and we have finished the solution.
+\end{sol}
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Prove that any continuous group homomorphism $f \colon \R \to \R^n$ is of the form $t \mapsto tv$.
+\item Prove that any continuous group homomorphism $S^1 \to C^*$ is given by taking an integer power.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Define $v = f(1)$. Then, if $n$ is a positive integer we see that
+\begin{equation}
+f(n) = f(1+\dots+1) = f(1)+\dots+f(1) = n f(1) = nv
+\end{equation}
+
+This could also have been verified more rigorously by induction. Moreover, the formula $f(n) = nv$ also holds for $n = 0$ trivially, and it also holds for negative $n$ because $f(-n) = -f(n)$.
+
+A similar argument to above will show that, for any real $x$,
+\begin{equation}\label{eq:fnx}
+f(nx) = n f(x),
+\end{equation}
+hence, plugging $x = \frac1n$ for $n \neq 0$ we obtain $f(\frac1n) = \frac1n v$, and applying \eqref{eq:fnx} once again we can show that
+\begin{equation}
+f(\frac pq) = \frac pq v,
+\end{equation}
+and hence $f(x) = x v$ for all $x \in \Q$.
+
+The argument is completed by using a limiting argument: given $x \in \R$, find a sequence of rationals $x_n$ which converges to $x$, and take the limit on both sides of $f(x_n) = x_n v$ to obtain $f(x) = x v$ for all $x \in \R$.
+
+\item Since $S^1 \cong \R / 2\pi\Z$, a continuous map $f \colon S^1 \to \C^*$ is the same as a $2\pi$-periodic map $\R \to \C^*$.
+
+Consider $f(1)$. Then, by an argument as in the previous item, for $n \in \Z$ we have $f(n) = f(1)^n$. Now, note that $S^1$ is compact, so the image of $f$ must be compact, and hence bounded. Therefore, $f(1)$ must have unit norm (otherwise we could get unbounded images by making $n \to \pm \infty$). The same argument holds if $1$ is replaced by any other real number, so we conclude that $f$ is actually a $2\pi$-periodic map $\R \to S^1$.
+
+Now, we apply covering space theory. Let $p \colon \R \to S^1$ be the universal covering of $S^1$, with $p(x) = \e^{\I x}$. Then, since $\R$ (the domain of $f$) is simply connected, $f$ lifts uniquely to a map $\tilde f \colon \R \to \R$ with $\tilde f(0) = 0$.
+
+We prove that $\tilde f$ is a homomorphism. Indeed, by definition $\tilde f(0) = 0$, so it suffices to show that $\tilde f(x+y) = \tilde f(x) + \tilde f(y)$. To this effect, consider $\gamma$ a path in $\R$ connecting $0$ to $x$ and $\eta$ a path connecting $0$ to $y$.
+
+Define $\zeta(t)$ as follows: for $t \in [0,1]$, let $\zeta(t) = \gamma(t)$, and for $t \in [1,2]$ let $\zeta(t) = x + \eta(t-1)$. By the pasting lemma this is indeed a path, and it connects $0$ to $x+y$. Therefore, $\tilde f(x+y)$ may be found by lifting $\e^{\I \zeta(t)}$ to a path in $\R$ starting at $0$ and looking at its endpoint.
+
+We write this lift explicitly. Write $\tilde \zeta(t) = \tilde \gamma(t)$ for $t \in [0,1]$ (where $\tilde \gamma$ is the lift of $p \circ \gamma$ starting at $0$) and set $\tilde \zeta(t) = \tilde f(x) + \tilde \eta(t-1)$ for $t \in [1,2]$ (where $\tilde \eta$ is analogously defined). This is evidently a continuous path, so it suffices to show that $p(\tilde \zeta(t)) = f(\zeta(t))$. For $t \in [0,1]$ this is true by definition of $\tilde \gamma$. For $t \in [1,2]$,
+\begin{multline}
+p(\tilde \zeta(t)) = p(\tilde f(x) + \tilde \eta(t-1)) = p(\tilde f(x)) p(\tilde \eta(t-1))\\
+= f(x)f(\eta(t-1)) = f(x + \eta(t-1)) = f(\zeta(t)).
+\end{multline}
+
+Hence, $\tilde \zeta$ is indeed a lift of $\zeta$, and so
+\begin{equation}
+\tilde f(x+y) = \tilde zeta(2) = \tilde f(x) + \tilde \eta(1) = \tilde f(x) + \tilde f(y).
+\end{equation}
+
+To conclude, we have lifted $f \colon \R \to S^1$ to a continuous homomorphism $\tilde f \colon \R \to \R$. By the previous item, we know $\tilde f$ is of the form $\tilde f(t) = tv$ for some $v \in \R$. Hence, $f(t) = \e^{\I t v}$ for some $v \in \R$. However, we also know that $f$ is $2\pi$-periodic, whence (by using $f(2\pi) = f(0)$) we conclude that $v$ is of the form $2\pi k$ for some $k \in \Z$. As such, $f(t) = (\e^{\I t})^k$, and so if we see the domain of $f$ as $S^1$ instead of $\R$ we get $f(z) = z^k$. This completes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Give an example of a discrete subgroup of $\R^2$ whose projection on $\R$ is not discrete.
+\end{ex}
+
+\begin{sol}
+Let $H = \braket{(1,0), (\sqrt2, 1)}_\Z$. This is a discrete subgroup, because by using a change of basis it can be seen as the lattice $\Z \times \Z$, which is discrete.
+
+Its projection on the first coordinate is $\Z[\sqrt2]$, which is known to be dense in $\R$ and therefore is not discrete.
 \end{sol}
 
 \end{document}
