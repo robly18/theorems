@@ -8,6 +8,7 @@
 \usepackage[thmmarks, amsmath]{ntheorem}
 
 \usepackage{graphicx}
+\usepackage{float}
 
 \usepackage{diffcoeff}
 \diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
@@ -76,7 +77,7 @@
 \begin{document}
 \maketitle
 
-\begin{ex}[0:0]
+\begin{ex}[0:4]
 Show that if $A$ is a weak deformation retract of $X$ then $A$ and $X$ are homotopically equivalent.
 \end{ex}
 
@@ -111,7 +112,40 @@ Still assuming that $F$ exists, pick a sequence $(x_n, y_n) \in X$ which converg
 
 However, this is impossible because the second coordinate of $F_{t_n}(x_n,y_n)$ is always null, while $y_0 > 0$. This is a contradiction, which proves that $F$ cannot exist.
 
-\item To show that $Y$ is contractible
+\item To show that $Y$ is contractible, we begin by solving (c) (see below). Since $Z$ is contractible (it is homeomorphic to the real line), it is possible to find a homotopy between $\id_Y$ and a constant map by: for $t \in [0,\frac12]$, do the weak deformation of $Y$ to $Z$, and for $t \in [\frac12,1]$ compose it with a retraction of $Z$ to a point.
+
+To show that $Y$ is does not deformation retract onto any point, we show that if such a thing happened then we would have a contradiction with (a).
+
+Suppose $Y$ deformation retracts to $p$. Then, $p$ will be in one of the copies of $X$. If $p \in Z$, it is actually in two copies of $X$; choose the one in which $p$ is in the `comb-y area', and not in the base.
+
+Now, we claim that there is a retraction of $Y$ to this copy of $X$. It may be built explicitly as follows. Consider the infinite horizontal strip in which $Y$ is contained (actually the closure of $Y$). Within this strip, consider the triangle in which $X$ is contained (the closure of $X$). Then, there is a retraction of this rectangle onto this triangle, given by horizontal projection. Next, it suffices to show (and it is obvious) that this retraction, when restricted to $Y$, has image in $X$, and therefore is a retraction of $Y$ to $X$.
+
+Now, if $Y$ deformation retracted to $p$, by composing this deformation with the retraction outlined in the previous paragraph, we would obtain a deformation retraction of $X$ to $p$, which contradicts (a). The proof of (this part of) (b) is complete.
+
+\item To solve this exercise, we take advantage of the following fact: the copies of $X$ in $Y$ are mostly independent from one another. More specifically, to check continuity of a map $Y \times I \to Y$ it suffices to verify that its restriction to $X_n \times I$ is continuous, where $X_n$ is any of the copies of $X$ that make up $Y$. This is trivially true by the pasting lemma, as the union all of these spaces makes up $X$ and each of them individually is closed in $X$.
+
+Now, we will define an auxilliary map $F \colon X \times \R \to X$ by defining it on each $X_n \times \R$ as follows. In the sequence, assume that the $X_n$ are ordered left to right, so $X_{n+1}$ is directly to the right of $X_n$.
+
+\begin{itemize}
+\item For all $t \in \linterval{-\infty}{n-1}$, let $F_t$ be the identity on $X_n$. Then, for $t \in [n-\frac12,n]$, let $F_t$ be the linear retraction of $X_n$ onto its base.
+
+\item Then, we let $F_{n+\frac12}$ be the vertical projection of $X_n$ onto $X_n \cap Z$, with $F_t$ interpolating continuously between $F_n$ and $F_{n+\frac12}$ by moving the points through $Z$. To be more explicit, any point $x \in X_n$ has its trajectory going as follows: first, follow the `hairs' to the base of $X_n$, then move to the left along $Z$ to the vertical projection of $x$ on $Z$.
+
+\item From hereon out it gets kind of complicated to explain with words, so just see the following picture. At each step we show the image of four segments in $X_n$ as they travel through $X$, colored in red, green, blue and dark blue. The gray `ghost $X$' is just there as a referential. In the second row, we have a copy of this picture but reflected vertically; it represents what this deformation does to $X_{n+1}$. It is juxtaposed with what it does to $X_n$ so that it is clear that the motions are compatible, i.e. the restriction to $X_n \cap X_{n+1}$ is well-defined.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{combs}
+\end{figure}
+
+\item Anyway, for $t > n+2$, $F_t$ does not move anymore.
+\end{itemize}
+
+So this complicated function which I just described is a function $F \colon X \times \R \to X$. It can be extended to $X \times [-\infty, \infty]$, because from the perspective of each $X_n \times \R$ it does not move before or past a certain point, so it can be extended to $-\infty$ as the identity and to $+\infty$ as the vertical projection on $Z$. Since $[-\infty, \infty] \cong I$, we have a homotopy of maps. The first one is $F_{-\infty}$, which is the identity. The second is $F_{+\infty}$, which is the vertical projection on $Z$. Moreover, note that in the description of $F$ above, a point which starts on $Z$ never leaves $Z$, so $F$ is a weak deformation retraction.
+
+\medskip
+
+Now, let us show that $Z$ cannot be a strong deformation retraction of $Y$. As in (b), if there were, we could compose this deformation retraction with a retraction of $Y$ onto (any copy of) $X$, in order to obtain a strong deformation retraction of $X$ onto $[0,1] \times \{0\} \cup \{0\} \times [0,1]$. This subset of $X$, in turn, can be retracted by deformation to $(0,1)$, and composing these two motions we would have a deformation retraction of $X$ to a point not in the base, which is impossible. This completes the proof.
 \end{enumerate}
 \end{sol}
 
@@ -151,14 +185,29 @@ Evidently $F$ is continuous on $X_n \times I$ by the pasting lemma, and so by th
 \end{lemmaproof}
 
 This completes the solution of the exercise.
-\end{sol
+\end{sol}
 
-\begin{ex}[1.1:6]
-Show that $\Phi \colon \pi(X,x_0) \to [S^1, X]$ is surjective if $X$ is path-connected and that $\Phi([f]) = \Phi([g])$ iff $f$ and $g$ are conjugate to each other.
+\begin{ex}[0:20]
+Show that the self-intersecting Klein bottle is homotopy equivalent to $S^1 \wedge S^1 \wedge S^2$.
 \end{ex}
 
 \begin{sol}
+Proof by pictures. In the following figure, each step consists of collapsing or uncollapsing some contractible subcomplex of the Klein bottle with an appropriately chosen CW structure. Thus, each step is a homotopy equivalence by propositions 0.17 and 0.16 of Hatcher. The figure should be read left to right.
 
+\begin{figure}[H]
+\centering
+\includegraphics{klein}
+\end{figure}
+
+The end state is evidently $S^1 \wedge S^1 \wedge S^2$.
+\end{sol}
+
+\begin{ex}[0:23]
+Show that a CW complex is contractible if it is the union of two contractible subcomplexes whose intersection is also contractible.
+\end{ex}
+
+\begin{sol}
+Let $A$ and $B$ be the subcomplexes in question. Then, by propositions 0.17 and 0.16 of Hatcher, $A \cup B$ is homotopy equivalent to $(A \cup B)/A$. This in turn is homeomorphic to $B/(A \cap B)$,\footnote{This is readily seen because the corresponding CW complexes are the same.} which is equivalent to $B$ by the same propositions, and likewise $B$ is equivalent to $B/B = *$. This concludes the proof.
 \end{sol}
 
 \begin{ex}[1.1:6]
