@@ -1,0 +1,439 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Homework 2}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Find a left and a right invariant measure on $\Aff(\R)$.
+\item Give an example of a finite dimensional representation of $\Aff(\R)$ which is not completely reducible.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item We may see $\Aff(\R)$ as the collection of points $(a,b) \in \R^2$ with $a \neq 0$, equipped with the group operation
+\begin{equation}
+(a,b) \circ (c,d) = (ac, ad+b).
+\end{equation}
+
+We wish to find a measure on this subset of $\R^2$ which is left (or right) invariant. As an \textit{ansatz}, we assume that this measure is absolutely continuous, and hence of the form $\dl \mu = f(x,y) \dl2 x \dl2 y$.
+
+We begin by finding a left-invariant measure $\mu$. This must satisfy
+\begin{equation}
+\mu(L_{(a,b)} E) = \mu(E).
+\end{equation}
+When we expand the left-hand side in terms of $f$, we get
+\begin{equation}\label{eq:mu1}
+\int f(x,y) \chi_{L_{(a,b)} E}(x,y) \dl2x \dl2y = \int f(x,y) \chi_E((a,b)^{-1} \circ (x,y)) \dl2x \dl2y.
+\end{equation}
+
+We can find an appropriate change of variables $(z,w) = (a,b)^{-1} \circ (x,y)$, and upon changing variables we get
+\begin{equation}
+\eqref{eq:mu1} = \int f(az, aw+b) \chi_E(z,w) a^2 \dl z \dl w,
+\end{equation}
+and since we want this to equal $\mu(E)$, we desire to solve the functional equation
+\begin{equation}
+f(z,w) = a^2 f(az, aw+b).
+\end{equation}
+
+A solution to this equation is $f(z,w) = \frac1{z^2}$, and so our measure becomes
+\begin{equation}
+\dl \mu = \frac1{a^2} \dl2a \dl2b.
+\end{equation}
+
+\smallskip
+
+Now, let us find a right-invariant measure $\mu$. Similar computations hold until the change of variable, at which point, if we set $(z,w) = (x,y) \circ (a,b)^{-1}$, we obtain
+\begin{equation}
+\begin{cases}
+z = \frac xa,\\
+w = y - \frac ba x.
+\end{cases}
+\end{equation}
+
+Then, upon applying change of variable, \eqref{eq:mu1} develops as
+\begin{equation}
+\eqref{eq:mu1} = \int_E f(az,bz+w) \abs a \dl2z \dl2 w,
+\end{equation}
+so that we wish to solve the functional equation
+\begin{equation}
+f(z,w) = \abs a f(az,bz+w).
+\end{equation}
+
+A solution to this equation is given by $f(z,w) = \frac1{\abs z}$. Thus, we get the right-invariant measure
+\begin{equation}
+\dl\mu = \frac1{\abs a} \dl2a \dl2b.
+\end{equation}
+
+\item Consider the two-dimensional representation given by
+\begin{equation}
+\rho(ax+b) = \begin{bmatrix}
+a & b \\
+0 & 1
+\end{bmatrix}.
+\end{equation}
+
+Claim: This representation is reducible.
+
+Proof of claim: The subspace $0 \times \C$ is evidently closed under the action. This can be seen from the fact that the matrix is upper triangular.
+
+Claim: This representation cannot be decomposed as a direct sum of irreps.
+
+Proof of claim: Suppose that it were. Since $\rho$ is reducible, this direct sum would have at least two terms. By dimensional considerations, it would have exactly two one-dimensional terms. Let $V$ and $W$ be these irreps, so that $\C^2 = V \oplus W$ and both are $\rho$-invariant.
+
+Now, at least one of them must contain an element of the form $(z,w)$ with $w \neq 0$, as otherwise the vector $(0,1)$ would not be in their span. We will prove that this is a contradiction: if $V$ (wlog) is a subspace of $\C^2$ which is invariant under $\rho$ and contains some vector $(z,w)$ with $w \neq 0$, then $V = \C^2$.
+
+To see this, there are two cases. If $z = 0$, then note that $V$ has both $(z,w) = (0,w)$ and $(1x+1) \cdot (0,w) = (w,w)$. Now, since $w \neq 0$, the vectors $(0,w)$ and $(w,w)$ are linearly independent, and so $V$ has dimension at least two and hence is $\C^2$.
+
+On the other hand, if $z \neq 0$, we note that $V$ has both $(z,w)$ and $(2x+0) \cdot (z,w) = (2z,w)$. Again, elementary linear algebra shows that (using $z \neq 0$) these two vectors are linearly independent, and so again $V = \C^2$.
+
+This concludes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Find a bi-invariant measure on $\GL_n(\R)$.
+\end{ex}
+
+\begin{sol}
+If $\mu$ is the measure such that $\dl \mu = f(x) \dl2x$, using an argument similar to the one used in 1(i), we get that $\mu$ is left invariant iff $f$ satisfies the functional equation
+\begin{equation}
+f(x) = \abs*{\diff{Ax}{x}} f(Ax).
+\end{equation}
+
+The first part of the problem is to compute the change of variable term. This term is the absolute value of the determinant of the Jacobian of the map
+\begin{equation}
+Y(x) = Ax,
+\end{equation}
+where care must be taken because $x$ lives in the space of matrices, not in $\R^n$! Thus, we need to look at this map slightly differently, as though $x$ were in $\R^{n^2}$ and not in the space of matrices.
+
+To this effect, suppose that we organize the entries of $x$ in a large vector, stacking the columns of $x$. Let us call the columns $x_1, x_2, \dots, x_n$. Then, we can see how $Y(x)$ behaves by using the following formula (block matrix multiplication)
+\begin{equation}
+A \begin{bmatrix} x_1 & \dots & x_n \end{bmatrix} = \begin{bmatrix} A x_1 & \dots & A x_n \end{bmatrix},
+\end{equation}
+and therefore we get
+\begin{equation}
+Y\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} = \begin{pmatrix} A x_1 \\ A x_2 \\ \vdots \\ A x_n \end{pmatrix} =
+\begin{bmatrix}
+A & 0 & \cdots & 0 \\
+0 & A & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & A
+\end{bmatrix}
+\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}.
+\end{equation}
+
+If $B$ is that big matrix, then the term we seek is $\abs*{\diff{Y(x)}x} = \abs{\det B}$. By the formula for the determinant of a diagonal block matrix, this is precisely $\abs{\det A}^n$, and hence we seek to solve the functional equation
+\begin{equation}
+f(x) = \abs{\det A}^n f(Ax).
+\end{equation}
+
+This admits exactly one solution up to constant, which is determined by plugging in $x = I$. If we set $f(I) = 1$, the unique solution is $f(x) = \abs{\det x}^{-n}$.
+
+Now, if we repeat the same computations for right-invariance, we would get that $f$ must satisfy the functional equation
+\begin{equation}
+f(x) = \abs{\det(A^{-1})}^n f(x A^{-1}),
+\end{equation}
+and evidently the $f$ we have picked also satisfies this equation
+
+Thus, the bi-invariant measure on $\GL_n(\R)$ becomes
+\begin{equation}
+\dl\mu = \frac1{\abs{\det x}^n} \dl x.
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Check that if $\left[\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\right] \in \SL_2(\R)$ then $z \mapsto \frac{az+b}{cz+d}$ preserves $\Hp$. Find an $\SL_2(\R)$-invariant measure on $\Hp$.
+\end{ex}
+
+\begin{sol}
+Let $z = x + \I y$ with $y > 0$. We compute the sign of $\Im(\frac{az+b}{cz+d})$. If we multiply by $\abs{cz+d}^2 = (cz+d)(c\conj z + d)$, which is nonzero because $z$ is nonreal, the sign does not change, so it is enough to compute the sign of $\Im((az+b)(c \conj z + d))$. If we discard obviously real terms in this product, we deduce that we wish to compute the sign of $\Im(adz + bc \conj z)$, which is readily checked to equal $(ad-bc) \Im(z) = \Im(z)$, which is positive by definition. This proves that the action of $\SL_2(\R)$ on $\Hp$ is well-defined.
+
+\smallskip
+
+Let's move on to invariance. So I've already caught onto the pattern. If I want a measure $f(z) \dl z$ to be left-invariant under $\SL_2(\R)$ it must satisfy the functional equation
+\begin{equation}
+f(z) = \abs*{\frac{\dl (g \cdot z)}{\dl z}} f(g \cdot z),
+\end{equation}
+for all $g \in \SL_2(\R)$. This could be deduced again as in exercise 1(i).
+
+Let $g = \left[\begin{smallmatrix} a & b \\ c & d \end{smallmatrix}\right]$. We could compute the map $G(z) = g \cdot z$ in Cartesian coordinates and then compute the Jacobian and its determinant by hand, but instead we will use the fact that this map is holomorphic. This tells us what the Jacobian is by elementary complex analysis, and crucially, the determinant of the Jacobian is simply $\abs{G'(z)}^2$, so our job is now a lot simpler.
+
+The complex derivative of $G$ cam be computed through elementary means as
+\begin{equation}
+G'(z) = \frac{(\cancel{acz} + ad) - (\cancel{acz} + bc)}{(cz+d)^2} = \frac1{(cz+d)^2},
+\end{equation}
+whose norm squared is given by
+\begin{equation}
+\abs{G'(z)}^2 = \abs{cz+d}^{-4}.
+\end{equation}
+
+Thus, our functional equation becomes
+\begin{equation}\label{eq:f3}
+f(z) = \abs{cz+d}^{-4} f\left(\frac{az+b}{cz+d}\right).
+\end{equation}
+
+It can be solved directly by plugging $z = \I$. If we fix $f(\I) = 1$, we obtain that any solution must satisfy
+\begin{equation}
+f\left(\frac{a\I+b}{c\I+d}\right) = (c^2 + d^2)^{2},
+\end{equation}
+and if we restrict ourselves to $c = 0$, whence $d = \frac1a$, we obtain
+\begin{equation}
+f(a^2 \I + ab) = a^{-4}.
+\end{equation}
+
+Thus, we shall choose the function
+\begin{equation}
+f(z) = (\Im(z))^{-2}.
+\end{equation}
+
+We will now check directly that \eqref{eq:f3} holds:
+\begin{equation}
+\begin{multlined}
+f\left(\frac{az+b}{cz+d}\right) = \left(\Im\left(\frac{az+b}{cz+d}\right)\right)^{-2} = \left(\Im\left(\frac1{\abs{c z + d}^2} (az+b)(c \conj z + d) \right)\right)^{-2} \\ = \abs{c z + d}^4 (\Im(ac \abs{z}^2 + d + adz + bc \conj z))^2 = \abs{c z + d}^4 (\Im(z))^2 = \abs{c z + d}^4 f(z),
+\end{multlined}
+\end{equation}
+where the penultimate step uses the same argument as in the start of this execise, where we simplify the imaginary part by throwing away real terms and noticing that $ad-bc = 1$.
+
+In conclusion, the $\SL_2(\R)$-invariant measure on $\Hp$ is given by
+\begin{equation}
+\dl \mu = (\Im z)^{-2} \dl2 z = y^{-2} \dl2 x \dl2 y
+\end{equation}
+\end{sol}
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Classify the continuous group homomorphisms $T \to \C^*$.
+\item Prove that these homomorphisms are orthonormal in $L^2(T)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item Let $f \colon T \to \C^*$ be a continuous homomorphism. If $z = (z_1, \dots, z_r)$ is an element of $T$, then we have the decomposition
+\begin{equation}\label{eq:f4}
+f(z) = f_1(z_1) \dots f_r(z_r),
+\end{equation}
+where $f_i(w) = f(1,\dots, w, \dots, 1)$, where $w$ is in the $i$-th component.
+
+Note that each $f_i$ is a continous group homomorphism, and hence, by the previous homework's exercise 9(ii), each of them must be of the form $f_i(w) = w^{m_i}$ for some integer $m_i$. Thus, combining this with \eqref{eq:f4}, we get that
+\begin{equation}
+f(z) = z_1^{m_1} \dots z_n^{m_r}
+\end{equation}
+for some vector of integers $m = (m_1, \dots, m_r)$.
+
+\item To compute $\int_T \chi_m \conj{\chi_n}$, we apply Fubini's theorem and shuffle terms around to get
+\begin{equation}
+\int_T \chi_m \conj \chi_n = \int_0^{2\pi} \e^{\I(m_1-n_1) \theta_1} \dl \theta_1 \dots \int_0^{2\pi} \e^{\I(m_r-n_r) \theta_r} \dl \theta_r.
+\end{equation}
+
+Now, each of these integrals may be explicitly computed, as $\int_0^{2\pi} \e^{\I(m_i-n_i) \theta_i} \dl \theta_i$ is $2\pi$ if $m_i = n_i$, and zero otherwise. Thus, the only way for $\int_T \chi_m \conj{\chi_n}$ to not be zero is if all the terms are $2\pi$, and hence $m = n$ and the result becomes $(2\pi)^r$. This completes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Show that if $G$ is abelian all (finite dimensional complex) irreps of $G$ are one-dimensional.
+\item Show that all irreps of the torus are of the form $\chi_m$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item Let $\rho \colon G \to \GL(V)$ be a finite dimensional irrep. Let $S$ be the image of $G$. Using the fact that $G$ is abelian, all elements of $S$ commute. Thus, we are in the conditions of problem 1 of the previous homework.
+
+Let $\mu$ be an element of the spectrum of $S$. Then, $V_\mu$ is evidently $S$-invariant, and thus $G$-invariant. Therefore, by the fact that the action is irreducible (and $V_\mu \neq 0$ by definition), we obtain that $V_\mu = V$. Thus, all elements of $G$ act on $V$ by scalar multiplication. Hence, any subspace of $V$ is a subrep of $V$, and since $V$ is irreducible it must be one-dimensional (as to not have any nontrivial subspaces). 
+
+\item By (i), any continuous irrep is (isomorphic to) a map $\rho \colon G \to \GL(\C)$, i.e. a continuous group homomorphism $\rho \colon G \to \C^*$. Applying 4(i) we obtain the desired result.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}\leavevmode
+\begin{enumerate}
+\item Show that $f^\otimes := f_1 \otimes \dots \otimes f_n$ is well-defined.
+\item Show that if all $V_i$ are finite dimensional and each of the operators $f_i$ is diagonalizable then so is $f^\otimes$.
+\item Show that the eigenvalues of $f^\otimes$, counted with multiplicity, coincide with the possible products of: an eigenvalue from $f_1$, an eigenvalue from $f_2$, etc. (counted with multiplicity).
+\end{enumerate}
+\end{ex}
+
+\begin{sol}\leavevmode
+\begin{enumerate}
+\item We wish to show that if a formal sum $S = \sum c_i v_1^{(i)} \otimes \dots \otimes v_n^{(i)}$ is equal to zero, then so is $f^\otimes(S) = \sum c_i f_1(v_1^{(i)}) \otimes \dots f_n(v_n^{(i)})$.
+
+We recall that the collection of formal sums which are identified with zero is generated (as a subspace of the vector space of all formal sums) by the following formal sums:
+\begin{equation}
+\begin{aligned}
+c (v_1 \otimes \dots \otimes v_n) &- (c v_1) \otimes v_2 \otimes \dots \otimes v_n,\\
+&\vdotswithin{-}\\
+c (v_1 \otimes \dots \otimes v_n) &- v_1 \otimes \dots \otimes v_{n-1} \otimes (c v_n),\\
+(v_1 \otimes \dots \otimes v_n) + (v_1' \otimes v_2 \otimes \dots \otimes v_n) &- (v_1+v_1') \otimes \dots \otimes v_n,\\
+&\vdotswithin{-}\\
+(v_1 \otimes \dots \otimes v_n) + (v_1 \otimes \dots \otimes v_{n-1} \otimes v_n') &- v_1 \otimes \dots \otimes (v_n + v_n').
+\end{aligned}
+\end{equation}
+
+This, it suffices to show that applying $f^\otimes$ to all of these yields formal sums which are identified with zero in the tensor product. This is busywork. To prove that I know how to perform it, I will show it for the first one with three terms.
+
+Applying $f^\otimes$ to it, we obtain
+\begin{equation}
+\begin{aligned}
+f_1(v_1) &\otimes f_2(v_2) \otimes \dots \otimes f_n(v_n)\\
++ f_1(v_1') &\otimes f_2(v_2) \otimes \dots \otimes f_n(v_n)\\
+- f_1(v_1+v_1') &\otimes f_2(v_2) \otimes \dots \otimes f_n(v_n),
+\end{aligned}
+\end{equation}
+which is readily seen to equal $0 \otimes f_2(v_2) \otimes \dots = 0$, by applying the linearity of the tensor product in the first factor.
+
+Repeating this way for all generators of the `tensor-kernel', we get that indeed $f^\otimes$ takes any linear dependence in $\bigotimes V_i$ into another.
+
+\item Let $v_i^j$, $j \in \{1, \dots, \dim V_i\}$, be a basis of $V_i$ by eigenvectors of $f_i$. Then, it is a known fact from multilinear algebra that given a basis of each factor of a tensor product, a basis of the tensor product itself is obtained by taking products of basis elements in all possible ways. Thus, an element of (this particular) basis of $\bigotimes V_i$ would be given by
+\begin{equation}\label{eq:vij}
+v_1^{j_1} \otimes \dots \otimes v_n^{j_n},
+\end{equation}
+for some admissible collection $j_1, \dots, j_n$. Now, it suffices to show that all elements of this basis are eigenvectors, but a trivial direct computation shows that \eqref{eq:vij} is an eigenvector of $f^\otimes$ with eigenvalue equal to the product of the eigenvalues of the factors.
+
+Thus, we have shown that $\bigotimes V_i$ admits a basis by eigenvectors of $f^\otimes$, which is hence diagonalizable.
+
+\item To solve this exercise I will do the case $n = 2$, because otherwise the notation becomes extremely burdensome. In any case, one may argue using associativity of the tensor product that once this problem is solved for $n = 2$ it is solved for all $n$.
+
+I will use the following (easy to prove) result from multilinear algebra: let $M$ and $N$ be matrix representations of $f_1$ and $f_2$ in some bases $v_1^i$ and $v_2^i$. Then, the matrix representation of $f_1 \otimes f_2$ in the basis $v_1^i \otimes v_2^j$ (with the pairs $(i,j)$ ordered lexicographically as: $(1,1), (2,1), \dots$) is given by `the matrix tensor product $M \otimes N$', which is given by the following formula. If the entries of $N$ are named $n_{ij}$ and $d = \dim V_2$, we define $M \otimes N$ as the block matrix
+\begin{equation}
+M \otimes N = \begin{bmatrix}
+n_{11} M & \cdots & n_{1d} M \\
+\vdots & \ddots & \vdots \\
+n_{d1} M & \cdots & n_{dd} M
+\end{bmatrix}.
+\end{equation}
+
+Now, to count eigenvalues, we use the fact from elementary linear algebra that given any endomorphism of a complex vector space (or any vector space over an algebraically closed field) there exists a basis in which the endomorphism is represented as an upper triangular matrix. Thus, we find such a basis for $V_1$ and $V_2$, so that $M$ and $N$ are both upper triangular matrices. Note that in this case the eigenvalues of $f_1$ and $f_2$ may be read as the diagonal elements of $M$ and $N$, with multiplicities.
+
+Now, if $M$ and $N$ are both upper triangular, it is easy to verify that $M \otimes N$ is also upper triangular, so the eigenvalues of $f_1 \otimes f_2$ may be read off as the diagonal elements of $M \otimes N$. But these diagonal elements are precisely the possible products of one diagonal element from $M$ with one diagonal element from $N$, i.e. all possible products of one eigenvalue from each operator. This completes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Let $G$ be a compact subgroup of $\GL_n(\R)$. Show that given two disjoint $G$-invariant compact subsets $X, Y$ of $\R^n$, there exists a $G$-invariant polynomial in $n$ variables with complex coefficients $f$ such that $f(X)$ and $f(Y)$ are disjoint.
+\end{ex}
+
+\begin{sol}
+First, let $F \colon X \cup Y$ be the function which is null on $X$ and constant equal to $1$ on $Y$. This is a continuous function because $X$ and $Y$ are disjoint and compact, so they are both clopen in $X \cup Y$.
+
+Now, use Stone-Weierstrass to find a polynomial $f_0$ (we can actually do this with real coefficients) which deviates from $F$ by at most $\frac13$. In this manner, $f_0(X) \subseteq \ointerval{-\frac13}{\frac13}$ and $f_0(Y) \subseteq \ointerval{\frac23}{\frac43}$. This actually solves the problem in the case that $G = \{e\}$.
+
+To solve the general case, we simply set $f$ as the $G$-average of $f_0$.\footnote{Insert analysis here: $G$ is locally compact Hausdorff (as it is a subspace of $\GL_n$, which is locally compact Hausdorff), hence admits a Haar measure.} In other words,
+\begin{equation}
+f(x) = \Av(f_0)(x) = \frac1{\vol G} \int f_0(gx) \dl2 g.
+\end{equation}
+
+Note: Here, $x$ is a vector in $\R^n$.
+
+Lemma 2.4.5 guarantees that the resulting function is $G$-invariant. Once we verify that $f$ is indeed a polynomial, we are done, because $f(X)$ and $f(Y)$ will respectively be contained in $\ointerval{-\frac13}{\frac13}$ and $\ointerval{\frac23}{\frac43}$ because, e.g., if $x \in X$ we have $gx \in X$ for all $g \in G$, hence $f_0(gx)$ is always between $-\frac13$ and $\frac13$, and since inequalities pass to the integral by positivity we have the desired result.
+
+To show that the average of a polynomial is still a polynomial, we recall the following fact from class. If $p(x)$ is a homogeneous polynomial of degree $d$ and $g \in \GL_n(\R)$ then $p(gx)$ is also a homogeneous polynomial of degree $d$. Thus, the expression $\int p(gx) \dl2 g$ is the integral of a polynomial of degree $d$ in the variables $x_1, \dots, x_n$ and variable coefficients which depend continuously on $g$ (we saw in class that they depend polynomially in the entries of $g$). We can separate out the polynomial and integrate only on the coefficients; formally, we have
+\begin{equation}
+\int \sum_{\alpha_1 + \dots + \alpha_n = d} c_{\alpha}(g) x_1^{\alpha_1} \dots x_n^{\alpha_n} \dl2 g = \sum_{\alpha_1 + \dots + \alpha_n = d} \int c_{\alpha}(g) \dl2g \; x_1^{\alpha_1} \dots x_n^{\alpha_n},
+\end{equation}
+which is evidently a homogeneous polynomial itself. Thus, we are done: we have shown that averaging takes homogeneous polynomials into polynomials, and hence takes any polynomial into a polynomial. This proves that $f$ is a polynomial itself and hence the exercise is complete.
+\end{sol}
+
+\begin{ex}
+Let $G$ be abelian with connected component of $e$ isomorphic to $S^1$ and $G/S^1 \cong \Z/m$. Prove that $G$ is isomorphic to $S^1 \times \Z/m$.
+\end{ex}
+
+\begin{sol}
+Pick a generator $[x]$ of $G/S^1$. Consider $z = x^m$. Since $[x]^m = [e]$, we obtain $z \in S^1$. Pick an $m$-th root of $z$ in $S^1$, call it $\zeta$, and finally consider $y = \zeta^{-1} z$.
+
+We claim that any element of $G$ can be written uniquely as $y^n s$, with $n \in \{0, \dots, m-1\}$ and $s \in S^1$. Indeed, given $g \in G$, we know that $[g]$ can be written uniquely as $[x]^n = [y]^n$, and so $g y^{-n} \in S^1$, and so we set $s = g y^{-n}$. This shows that any element can be written in this way; for uniqueness, suppose $y^n s = y^{n'} s'$. Without loss of generality suppose $n' > n$. Then, by rearranging we have $y^{n'-n} = s (s')^{-1}$; by taking the quotient we readily see that $n'-n$ is divisible by $m$ and hence must be zero, and thus $s (s')^{-1} = e$ whence $s = s'$.
+
+An important thing about this representation is that it respects the group operation, in that $(y^n s) (y^{n'} s') = y^{n+n'} s s'$, where the exponent is taken mod $m$. Thus, the following map is a bijective homomorphism:
+\begin{equation}
+\begin{aligned}
+f \colon \Z/m \times S^1 &\to G\\
+(n,s) &\mapsto y^n s.
+\end{aligned}
+\end{equation}
+
+This homomorphism is continuous. This can be seen by writing it as a composition of projections (continuous by definition), product in $G$ (continuous by definition), and the map $n \mapsto y^n$ (continuous because $\Z/m$ has the discrete topology. Moreover, the inverse homomorphism is also continuous. To see this it sufficient to see that each coordinate is continuous. The map that obtains $n$ is continuous because it is just the projection onto the quotient $G/S^1$. The map that obtains $s$ is continuous because it is continuous (in particular, the identity) on each connected component (which are the cosets of $S^1$).
+\end{sol}
+
+\end{document}
