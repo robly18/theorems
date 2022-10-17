@@ -16,6 +16,8 @@
 \usepackage{cancel}
 \usepackage{interval}
 
+\usepackage{array}
+
 \usepackage{enumitem}
 
 \setlist[enumerate,1]{label=(\alph*)}
@@ -207,27 +209,57 @@ Construct a two-sheeted covering space $Y \to \tilde X$ such that the compositio
 \end{ex}
 
 \begin{sol}
+Consider the space $Y$ and map $g$ in the following picture.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{rings1}
+\end{figure}
 
+To the left, we just have infinitely many copies of the hawaiian rings, which are mapped in the obvious way to the rings below them on the picture. Likewise, the two `base lines' are both mapped to the base line below.
+
+Then, on the right, we have `intertwined hawaiian rings', with the number of rings which connect to the opposite basepoint increasing by $1$ with each step to the left.
+
+First, we claim that $g$ is a covering map. Indeed, for the vast majority of points, finding an evenly covered neighborhood is trivial. Indeed, if you remove the points where the circles are all bunched up, topologically both spaces are just a union of countably many copies of an open line segment, and $g$ simply indentifies these lines pairwise. This is obviously a covering map, and since the subspaces in question are open subspaces of $\tilde X$ and $Y$, every such point of $\tilde X$ is evenly covered. It remains to verify that the points of $\tilde X$ at the bunched up circles also have evenly covered neighborhoods.
+
+To do so, consider a fixed such point as in the below figure.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{rings2}
+\end{figure}
+
+Then, build a small enough neighborhood of this point which encompasses only partially the rings which, in $Y$, are connected to another basepoint. Then, it is easy to see that such a neighborhood is evenly covered (twice); see figure below.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\linewidth]{rings3}
+\end{figure}
+
+Now, let us show that the composite $f \circ g$, where $f$ is the map $\tilde X \to X$, is not a covering map. The problem is going to be at the point of $X$ where all the circles are bunched up, call it $p$.
+
+Suppose that there is some evenly covered neighborhood $U$ of $p$. We remark on the following fact about the hawaiian rings: \emph{any neighborhood $U$ of $p$ will contain infinitely many rings in their entirety.}
+
+Now, consider $(f \circ g)^{-1}(U)$. We will show that this is not a union of disjoint sets all of which are homeomorphic to $U$ by $p$. To do so, pick some ring $r$ which is entirely contained in $U$. Then, go far enough to the right in $Y$ that this ring becomes a segment between two distinct basepoints. Thus, you may find a path between two distinct points in $(f \circ g)^{-1}(p)$ which is contained in $(f \circ g)^{-1}(U)$. Of course, this is a contradiction, because such a thing cannot happen in an evenly covered neighborhood. (By taking the preimages of the $U_\alpha$ you would obtain a contradiction with the connectedness of the interval.) Thus, the exercise is complete.
 \end{sol}
 
 \begin{ex}[1.3:10]
-Find all connected $2$-sheeted and $3$-sheeted covering spaces of $S^1 \wedge S^1$, up to isomorphism without basepoint.
+Find all connected $2$-sheeted and $3$-sheeted covering spaces of $S^1 \vee S^1$, up to isomorphism without basepoint.
 \end{ex}
 
 \begin{sol}
-We do this process geometrically, starting with the $2$-sheeted covers. We know that $S^1 \wedge S^1$ is a graph, and therefore so is any of its covering spaces, with vertices in the cover corresponding to vertices in the base space and likewise for edges. Moreover, two sheetedness means that the number of edges and vertices are doubled, so we have two vertices and four edges to `distribute between the vertices'.
+We do this process geometrically, starting with the $2$-sheeted covers. We know that $S^1 \vee S^1$ is a graph, and therefore so is any of its covering spaces, with vertices in the cover corresponding to vertices in the base space and likewise for edges. Moreover, two sheetedness means that the number of edges and vertices are doubled, so we have two vertices and four edges to `distribute between the vertices'.
 
-For the sake of definiteness, let the two (oriented) edges of $S^1 \wedge S^1$ be labeled $a$ and $b$. Then, in the covering space, there are two (oriented) edges also labeled $a$ and $b$. Since the graph is connected, there must be an edge going from one of the vertices to the other. Without loss of generality, we suppose that it is an $a$ edge; at the end we may obtain the missing covering spaces by swapping $a$ and $b$. Now, both vertices look locally like the vertex of $S^1 \wedge S^1$, so they must both have one $a$ going in and one $a$ going out (and likewise for $b$). Hence, the one $a$ edge we have determines the other, so so far our covering space looks like this.
+For the sake of definiteness, let the two (oriented) edges of $S^1 \vee S^1$ be labeled $a$ and $b$. Then, in the covering space, there are two (oriented) edges also labeled $a$ and $b$. Since the graph is connected, there must be an edge going from one of the vertices to the other. Without loss of generality, we suppose that it is an $a$ edge; at the end we may obtain the missing covering spaces by swapping $a$ and $b$. Now, both vertices look locally like the vertex of $S^1 \vee S^1$, so they must both have one $a$ going in and one $a$ going out (and likewise for $b$). Hence, the one $a$ edge we have determines the other, so so far our covering space looks like this.
 \begin{figure}[H]
 \centering
 \includegraphics{cov1}
 \end{figure}
 
-Now, all that remains is to complete the $b$ edges. There are evidently two, and only two, possible arrangements. Taking those two arrangements and taking the symmetric wrt $a$ and $b$, we obtain a total of three two-sheeted connected coverings of $S^1 \wedge S^1$, pictured below.
+Now, all that remains is to complete the $b$ edges. There are evidently two, and only two, possible arrangements. Taking those two arrangements and taking the symmetric wrt $a$ and $b$, we obtain a total of three two-sheeted connected coverings of $S^1 \vee S^1$, pictured below.
 \begin{figure}[H]
 \centering
 \includegraphics{cov2}
 \end{figure}
+
+Note: All of these are distinct because they correspond to distinct subgroups of $\braket{a,b} = \pi(S^1, v)$, respectively (from left to right): $\braket{b,a^2, aba^{-1}}$, $\braket{a,b^2,bab^{-1}}$, and $\braket{a^2, b^2, ab}$. These can be distinguished by querying whether $a$ and $b$ are in each group, arguing by parity that e.g. neither is in the last subgroup.
 
 \medskip
 
@@ -245,23 +277,98 @@ On the left case (case L), by connectedness, the $b$ edges of $3$ must connect t
 \includegraphics[width=\linewidth]{cov4}
 \end{figure}
 
-Now, let us inspect case $R$. In this case, the $a$ edges form a loop. (continue)
+Now, let us inspect case $R$. In this case, the $a$ edges form a loop. Moreover, we may assume without loss of generality that the $b$ edges do not have the same structure as the $a$ edges do in case $L$ (because we will already have those cases covered when we swap $a$ and $b$). Thus, we assume that either the $b$ edges have no self-loops (i.e. they are always from and to distinct vertices) or that they have more than one self-loop (in which case they must all be self-loops). In the case where there are no self-loops, the $b$ edges form a cycle, which may have the same orientation as the $a$ loop or opposite. Thus, we obtain the following three cases for case $R$.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{cov5}
+\end{figure}
+
+We conclude this exercise thus: The classification of three-sheeted coverings of $S^1 \vee S^1$ is given by the five coverings above outlined, as well as their `$a$-$b$ mirrors', in the sense of replacing $a$ edges with $b$ and vicer versa. Some of these coverings are symmetric, so we obtain only 7 coverings at the end. The following picture displays these coverings as well as some subgroups of $\braket{a,b}$ they correspond to, until I got bored. Then I just wrote why I'm sure they are distinct: evidently the Galois covers are different from non-Galois, and inside each group I wrote some property of the corresponding subgroup of $\pi(S^1 \vee S^1, v)$ which lets us distinguish this cover from others.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{cov6}
+\end{figure}
 \end{sol}
 
 \begin{ex}[1.3:13]
-
+Determine the covering space of $S^1 \vee S^1$ which corresponds to the subgroup of $\pi(S^1 \vee S^1)$ generated by the cubes of all elements.
 \end{ex}
 
 \begin{sol}
+As proposed by the problem statement, we represent this covering space, which we call $S$, as a graph embedded in the torus. We use the same pictorial notation for the covering as in the previous exercise. Note that this torus is not a rectangle with edges identified, but rather two glued equilateral triangles.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{cov7}
+\end{figure}
 
+We will now show that this covering space $S$ does correspond to the subgroup generated by all cubes. Let $G_1$ be the subgroup of $\braket{a,b}$ that corresponds to the covering space above (pick some basepoint, it doesn't really matter which), and let $H$ be the subgroup of $\braket{a,b}$ generated by all cubes. We intend to show that $G_1 = H$.
+
+First, let us show that $G_1 \subseteq H$. To do so, we note that $G_1$ is a finite graph, and hence its free group is a free group in some number of generators. If we can find such a set of generators, we can easily verify individually that each of them is in $H$. To do so, the first step is to pick a spanning tree; then, each edge not in the tree represents a generator (given by following the tree to one of the vertices, going through the edge, and then following the tree to the basepoint). Thus, we begin by picking a spaning tree; it is purple in the figure below. In red, we point out and number the edges which correspond to generators.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{cov82}
+\end{figure}
+
+Now, we simply manually check, for each of these edges, what element of $G_1$ they correspond to, and verify that such an element is in $H$ by writing it as the cube of something. We do so in the following table.
+\begin{center}
+\setlength\extrarowheight{0.6ex}
+\[
+\begin{array}{c | c | c}
+\text{Edge} & \text{Generator} & \text{In $H$ because equals} \\
+\hline
+\hline
+1 & aba(a)b^2 a^{-1} b^{-1} a^{-1} b a^{-1} & ab \left[ [a^{-1} (a^3 b^3 (b^{-1} a^{-1})^3) a] b^3 \right] (ab)^{-1} \\
+\hline
+2 & ab (a^{-1}) b^2 a^{-1} b^{-1} a^{-1} b a^{-1} & ab \left[ [a^{-1} (b^3 (b^{-1} a^{-1})^3) a] b^3 \right] (ab)^{-1} \\
+\hline
+3 & ab^{-1} a b^{-1} (b^{-1}) b^{-1} a^{-1} b a^{-1} & (a b^{-1} a) (b^{-1})^3 (a b^{-1} a)^{-1} \\
+\hline
+4 & a b a (b^{-1}) a^{-1} b^{-1} a b a & aba (b^{-1} a^{-1})^3 (aba)^{-1} (aba)^3 \\
+\hline
+5 & a^{-1} b^{-1} a^{-1} b a (a) a b^{-1} a b a & (a^{-1} b^{-1} a^{-1} b) a^3 (a^{-1} b^{-1} a^{-1} b)^{-1} \\
+\hline
+6 & a^{-1} b^{-1} a^{-1} (a^{-1}) b a^{-1} b^{-1} a^{-1} b a^{-1} & ???
+\end{array}
+\]
+\end{center}
+
+Ok so I lost patience to finish this table. But assuming the statement is true, after enough time I would have a finished and correct table which would prove the statement I'm trying to show. Maybe it would be nicer with a more well chosen spanning tree but none stood out as simplifying the problem drastically. Now I am bored so I'll just pretend that this part of the solution is done and move on to the second part of the proof.
+
+\smallskip
+
+Now, let us show that $H \subseteq G_1$. It suffices to show that all generators of $H$ are in $G_1$. So, consider some generator of the form $x^3$. We will show that the deck action of $x^3$ on the basepoint of $S$ is null (which shows that $x^3$ is in $G_1$).
+
+We do case checking based on where a chosen basepoint $p$ of $S$ goes after the action of $x$. Suppose for the sake of argument that $p$ is the bottom vertex of a blue triangle. Then, after the action of $x$, $p$ may or may not be the bottom vertex of a blue triangle. If it is not, then it is easy to check that the displacement from $xp$ to $x^2 p$ is a $\pm 120^\circ$ degree rotation of the displacement from $p$ to $xp$ (Proof sketch: Induct on the length of the word $y \in \braket{a,b}$ to show that the displacement $q$ to $yq$ is a rotation of the displacement from $p$ to $yp$, where $q$ is a non-bottom vertex of a blue triangle), and the same holds for the displacement from $x^2 p$ to $x^3 p$ rel the displacement $xp$ to $x^2 p$, so the displacement from $p$ to $x^3 p$ is a sum of a vector with its two $180^\circ$ rotations, which is null. Hence, the deck action of $x^3$ is null, and so $x^3 \in G_1$.
+
+On the other hand, we can also show by induction on the length of $y$ that if $p$ and $q$ are both lower vertices of a triangle, the displacement between $p$ and $yp$ is the same as the one between $q$ and $yq$. Thus, the displacement between $p$ and $x^3 p$ is thrice the displacement between $p$ and $xp$. Now, a bit of case checking (there's nine cases, which is easily reduced to four) will show that the displacement between any two bottom vertices of blue triangles, when tripled, is null in the torus. Thus, $p = x^3 p$.
+
+This concludes the proof that the deck action of $x^3$ on the basepoint of $S$ is always null, and therefore that the action itself is null, hence that $x^3 \in G_1$, and by arbitraryness of $x$ that $H \subseteq G_1$. Therefore, $H = G_1$ and thus $S$ is the covering space that corresponds to $H$.
 \end{sol}
 
 \begin{ex}[1.3:31]
-
+Show that the normal covering spaces of the wedge of $n$ circles are the Cayley graphs of groups with $n$ generators.
 \end{ex}
 
 \begin{sol}
+Let $X$ be the wedge of $n$ circles, and let $p \colon \tilde X \to X$ be a normal covering. Let $G = \pi(X, *)$ where $*$ is the basepoint of $X$, and $H$ be the subgroup of $G$ that $\tilde X$ corresponds to. There is no ambiguity in this statement because $H$ is normal and thus invariant under conjugation/change of basepoint in $\tilde X$.
 
+We know that the group of deck transformations of $\tilde X$ is canonically isomorphic to $G / H$. Moreover, if we fix a basepoint $e \in \tilde X$, there is a canonical bijection between $G/H$ and $p^{-1}(*)$, given by $[g] \mapsto g \cdot e$. We will show that in fact $\tilde X$ is the Cayley graph of $G/H$, with the generating set being the (projections of the) (canonical) generators of $G$.
+
+Indeed, given an edge from $g \cdot e$ to $h \cdot e$, we know that this edge corresponds to an edge of $X$, and thus to a generator $a$ of $G$ (or its inverse). It is obvious by definition that $a \cdot (g \cdot e) = h \cdot e$, and hence that $h = ga$ (ah crap why am I writing a right action with left action notation. Sorry.) Therefore, \emph{every edge in the graph corresponds to a generator of $G$, and it goes from the element corresponding to $q \in G/H$ to $[a] q$}, where $a$ is a generator of $G$.
+
+On the other hand, it is obvious that given a vertex, any generator of $G$ corresponds to an edge of this vertex.
+
+In conclusion, any normal covering $\tilde X$ corresponds to a Cayley graph in $n$ generators. We now turn to showing the converse.
+
+\smallskip
+
+Let $Q$ be a group in $n$ generators, and let $\tilde X$ be its Cayley graph. Now, define $p \colon \tilde X \to X$ as follows: all vertices are taken to $* \in X$, edges corresponding to generators are taken to the corresponding circle in $X$ [assuming we've previously assigned each generator of $Q$ to a circle in $X$], and edges corresponding to inverses of generators are taken to the corresponding circles, but backwards.
+
+This is a covering space. Indeed, we may find an evenly covered neighborhood of any point in $X$ manually, by separating $X$ into `basepoint' and `not the basepoint' and doing separate but obvious constructions accordingly.
+
+Finally, we need to show that it is a normal covering space. To do so, we show that the subgroup it corresponds to is the kernel of the obvious map $f$ from $\pi(X,*)$, i.e. the free group in $n$ generators, to $Q$. Indeed, an element of the kernel is a word in $n$ generators which, when followed in the graph $\tilde X$, goes from the identity to the identity. Thus, it corresponds to a loop in $\tilde X$, and thus to an element of the subgroup of $\pi(X,*)$ corresponding to $\tilde X$. On the other hand, an element of the subgroup of $\pi(X,*)$ corresponding to $\tilde X$ is a word in $n$ generators which, when followed in $\tilde X$, becomes a loop, and therefore goes from the identity to the identity. Hence, by definition of the Cayley graph, $f$ of this is null, and thus it is in the kernel of $f$.
+
+This completes the correspondence between normal coverings of $X$ and Cayley graphs in $n$ generators.
 \end{sol}
 
 \end{document}
