@@ -1,0 +1,281 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Homework 4}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\fbox{\text{Yay!}}}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\spec}{spec}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\newcommand{\HH}{\mathcal{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Show that for graded vector spaces $V_i$ and homogeneous operators $a_i$ we have
+\begin{equation}\label{eq:ex1}
+\trace(a_1 \otimes \dots \otimes a_n, t) = \trace(a_1, t) \dots \trace(a_n, t).
+\end{equation}
+\end{ex}
+
+\begin{sol}
+Okay, well, by expanding the power series we get that to show equation \eqref{eq:ex1} is equivalent to showing that, for all degrees $d$, we have the equation
+\begin{equation}
+\trace\left[ (a_1 \otimes \dots \otimes a_n)|_{\text{degree $d$}} \right] = \sum_{d_1 + \dots + d_n = d} \prod_{i=1}^n \trace(a_i^{(d_i)}).
+\end{equation}
+
+But this is easy enough, because if we expand $a_1 \otimes \dots \otimes a_n$ we get that its degree $d$ component is precisely $\sum_{d_1 + \dots + d_n = d} \bigotimes_{i=1}^n a_i^{(d_i)}$, and the trace is linear (so goes inside the sum) and the trace of a tensor product of operators is the product of the traces (it is easy to show this using exercise 6(iii) from homework 2).
+
+This concludes the proof.
+\end{sol}
+
+\setcounter{ex}{2}
+
+\begin{ex}
+Prove the identities
+\begin{equation}
+\frac{H'(t)}{H(t)} = \frac{E'(t)}{E(t)} = P(t) = \sum_{i=1}^\infty \frac{x_i}{1-x_i t}.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+We begin by noticing the following fact: the Leibniz rule holds for infinitary products, at least in the case of $H$ and $E$. A proof of this is a little laborious to write, but an outline of a proof could go as follows: If we set all but finitely many variables $x_i = 0$, we obtain finitary products for which Leibniz holds. From that, we can compute the coefficients of any monomial in $H'(t)$, say, and verify that it agrees with the coefficient of the same monomial in
+\begin{equation}\label{eq:dh}
+\tilde H(t) = \sum_{i=1}^\infty \frac{x_i}{(1-x_i t)^2} \prod_{j \neq i} \frac1{1-x_i t}.
+\end{equation}
+
+Now, in \eqref{eq:dh} it is easy to see that
+\begin{equation}
+\tilde H(t) = H'(t) = \sum_{i=1}^\infty \frac{x_i}{1-x_i t} H(t),
+\end{equation}
+hence we obtain
+\begin{equation}
+\frac{H'(t)}{H(t)} = \sum_{i=1}^\infty \frac{x_i}{1-x_i t},
+\end{equation}
+which is one of the identities we sought.
+
+If we apply the same line of thinking to $E$, we obtain
+\begin{equation}
+E'(-t) = \sum_{i=1}^\infty x_i \prod_{j \neq i} (1-x_i t) = \sum \frac{x_i}{1-x_i t} E(-t),
+\end{equation}
+which, dividing both sides by $E(-t)$, also yields one of the desired identities.
+
+Finally, to look at $P$, we observe that $\sum_{r=1}^\infty x_i^r t^{r-1}$ is a (formal) geometric series which amounts to
+\begin{equation}
+\sum_{r=1}^\infty x_i^r t^{r-1} = x_i \sum_{r=0}^\infty (x_i t)^r \frac{x_i}{1-x_i t},
+\end{equation}
+and with this equality it is trivial to simplify $P$ to obtain the third desired identity.
+
+\smallskip
+
+To deduce Newton's identities, we first note that as a consequence of our identities we have
+\begin{equation}
+E'(t) = P(-t) E(t).
+\end{equation}
+
+Thus, expanding $E$ and $P$ in terms of $e_r$ and $p_r$ we get
+\begin{equation}
+\sum_n n e_n t^{n-1} = \sum_n \sum_{a+b = n} p_{a+1} (-t)^a \, e_b t^b,
+\end{equation}
+and the right-hand side can be massaged in order to obtain the desired equality.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that
+\begin{equation}
+\trace(T(a), t) = \frac1{1- t \trace(a)}, \quad \trace(\Sym(a), t) = H(t), \quad \trace(\wedge(a), t) = E(t).
+\end{equation}
+\item Deduce a closed formula for $\trace( I_V, t)$, where $V = T(\kk^n)$, $\kk[x_1, \dots, x_n]$, and $\wedge(\kk^n)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Okay, let's begin by computing $\trace(T(a),t)$. We're really interested in computing the trace of $a^{\otimes d}$ in order to find $\trace(T(a),t) = \sum \trace(a^{\otimes d}) t^d$, but we've seen before that $\trace(a^{\otimes d}) = \trace(a)^d$, so that
+\begin{equation}
+\trace(T(a), t) = \sum_d \trace(a)^d t^d = \sum_d (\trace(a) t)^d,
+\end{equation}
+and the latter expression is known to be given by the geometric series, which coincides exactly with $\frac1{1- \trace(a) t}$, as desired.
+
+\smallskip
+
+Now, let's look at the symmetric case, $\trace(\Sym(a), t)$. Again, we begin by computing the eigenvalues of $\Sym^d(a)$, i.e. the automorphism induced by $a$ on $\Sym^d(V)$. For this one, fix a basis $e_1, \dots, e_n$ of $V$, on which the matrix which represents $a$ is upper-diagonal, and thus the diagonal elements are the eigenvalues of $a$. Now, it is known from multilinear algebra that this basis induces a canonical basis on $\Sym^n(V)$: as in the tensor case, we consider all possible products of $d$ basis elements, but since now the order in which we take the products does not matter, we do not repeat permutations of the same product. In order to have a canonical representative of each basis element, we commit to writing basis elements with increasing indices, i.e. a generic basis element is of the form $e_{i_1} \dots e_{i_d}$, with $i_1 \leq \dots \leq i_d$.
+
+Now, in this basis, it is easy to check that $\Sym^d(a)$ is also upper triangular, so we can compute the trace of $\Sym^d(a)$ by adding up the diagonal elements of the matrix that represents $\Sym^d(a)$, and in turn, by inspecting how $\Sym^d(a)$ acts on an element $e_{i_1} \dots e_{i_d}$, we obtain that the corresponding diagonal element is $x_{i_1} \dots x_{i_d}$. Thus, we conclude
+\begin{equation}
+\trace(\Sym^d(a)) = \sum_{i_1 \leq \dots \leq i_d} x_{i_1} \dots x_{i_d} = \sum_{\alpha_1 + \dots + \alpha_n = d} x_1^{\alpha_1} \dots x_n^{\alpha_n}.
+\end{equation}
+
+Now, let us rewrite the power series $\trace(\Sym(a), t)$ in a smart way:
+\begin{equation}
+\begin{aligned}
+\trace(\Sym(a), t) &= \sum_d t^d \sum_{\alpha_1 + \dots + \alpha_n = d} x_1^{\alpha_1} \dots x_n^{\alpha_n}\\
+&= \sum_d \sum_{\alpha_1 + \dots + \alpha_n = d} (t x_1)^{\alpha_1} \dots (t x_n)^{\alpha_n}\\
+&=\sum_{\alpha_1 = 0}^\infty \cdots \sum_{\alpha_n=0}^\infty (t x_1)^{\alpha_1} \dots (t x_n)^{\alpha_n}\\
+&= \prod_{i = 1}^n \sum_{\alpha = 0}^\infty (t x_i)^\alpha\\
+&= \prod_{i=1}^n \frac1{1 - t x_i} = H(t).
+\end{aligned}
+\end{equation}
+
+\smallskip
+
+Finally, we do it for the antisymmetric algebra of $V$. A very similar argument applies, where we build a basis of $V^{\wedge d}$ by considering products of elements of a basis of $V$, except now the indices $i_1, \dots, i_d$ must be \emph{strictly} increasing. However, in the same fashion, if the basis $e_1, \dots, e_n$ makes the matrix of $a$ upper diagonal, it also makes the matrix of $a^{\wedge d}$ upper diagonal, and the diagonal elements of this matrix can easily be computed, yielding that
+\begin{equation}
+\trace(a^{\wedge d}) = \sum_{i_1 < \dots < i_d} x_{i_1} \dots x_{i_d} = \sum_{I \subseteq \binom d n} x_I,
+\end{equation}
+where `$I \subseteq \binom d n$' means `$I$ is a subset of $\{1, \dots, n\}$ of cardinality $d$', and if $I = \{i_1, \dots, i_d\}$ (in increasing order) then $x_I$ means $x_{i_1} \dots x_{i_d}$.\footnote{If $I$ is empty then $x_I = 1$.}
+
+Now, we perform a similar computation as previously:
+\begin{equation}
+\begin{aligned}
+\trace(\wedge(a), t) &= \sum_d t^d \sum_{I \subseteq \binom n d} x_I\\
+&= \sum_d \sum_{I \subseteq \binom n d} (t x)_I\\
+&= \sum_{I \subseteq \{1,\dots,n\}} (t x)_I\\
+&= (1 + t x_1) \dots (1 + t x_n) = E(t).
+\end{aligned}
+\end{equation}
+
+This concludes the first part.
+
+\item Well, this is easy right? In this case all $x_i$ are equal to one, so
+\begin{equation}
+\begin{gathered}
+\trace(I_{T(\kk^n)}, t) = \frac1{1-n t},\\
+\trace(I_{\kk[x_1, \dots, x_n]}, t) = \trace(I_{\Sym(\kk^n)}, t) = \left(\frac1{1-t}\right)^n,\\
+\trace(I_{\wedge(\kk^n)}, t) = (1-t)^n,
+\end{gathered}
+\end{equation}
+where in the second line we used the isomorphism between $\kk[x_1, \dots, x_n]$ and $\Sym(\kk^n)$ (and the fact that the Poincaré series is obviously invariant under graded isomorphism).
+\end{enumerate}
+\end{sol}
+
+\setcounter{ex}{5}
+
+\begin{ex}
+Show that an ideal of a finitely generated commutative $\C$-algebra $A$ is maximal iff it is the kernel of an algebra homomorphism $\chi \colon A \to \C$.
+\end{ex}
+
+\begin{sol}
+($\rightarrow$) Note that $A/I$ inherits a $\C$-algebra structure from $A$. Moreover, since $A$ is finitely generated, it has at most countable dimension over $\C$ (a generating set is all finite products of the generators), and therefore so does $A/I$. Finally, since $I$ is maximal, $A/I$ is a field, and in particular is a division ring. Thus, by part (3) of the spectral theorem, there is an isomorphism $A/I \to \C$. Composing this isomorphism with $\pi \colon A \to A/I$, we obtain the desired map $\chi$.
+
+\medskip
+
+($\leftarrow$) Suppose that $I$ is the kernel of some algebra homomorphism $\chi \colon A \to \C$. Then, $I \neq A$ because $\chi(1_A) = 1$.
+
+Now, by the first isomorphism theorem, $A/I$ is isomorphic to the image of $\chi$. The image of $\chi$ is a nontrivial $\C$-algebra, namely a subalgebra of $\C$ itself, and the only one is $\C$ itself... Thus, $A/I \cong \C$, which is a field, and therefore $I$ is maximal.
+\end{sol}
+
+\begin{ex}
+Show that an ideal of $\C[x_1, \dots, x_n]$ is maximal iff it is the set of polynomials that vanish at a fixed point $c$.
+\end{ex}
+
+\begin{sol}
+($\leftarrow$) Suppose that $I$ is the set of polynomials that fix at $c \in \C^n$. Then, it can be checked directly that $I$ is an ideal. To show that $I$ is maximal, first note that $I$ is a proper ideal because it does not contain the constant polynomial $1$, and moreover it is maximal because if $J$ is an ideal that strictly contains $I$, then it will contain some element of the form $p(x)$ with $p(c) \neq 0$. Then, since $I$ contains $p(x)-p(c)$, $J$ must contain the constant polynomial equal to $p(c)$, and since this is a unit $J$ must be the entire space.
+
+\medskip
+
+($\rightarrow$) Let $I$ be a maximal ideal. Then, by the previous exercise, it is the kernel of some $\chi \colon \C[x_1, \dots, x_n] \to \C$. Now, let $c_i = \chi(x_i)$ for $i = 1, \dots, n$. Since $\chi$ is an algebra homomorphism, it is easy to check that $\chi(p) = p(c)$, hence the ideal we started with is precisely the collection of polynomials that vanish at $c$.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}[label={(\arabic*)}]
+\item Build a bijection between $Z_J$ and the maximal ideals of $A = \C[x_1, \dots, x_n]/J$.
+\addtocounter{enumi}{1}
+\item Prove that if no power of $g \in \C[x_1, \dots, x_n]$ is in the ideal $J$, then there exists $\lambda \neq 0$ such that $\lambda - [g]$ is not invertible in $A$.
+\item Prove the Nullstellensatz.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}[label={(\arabic*)}]
+\item The maximal ideals of $A$ are in one-to-one correspondence to maximal ideals of $P = \C[x_1, \dots, x_n]$ which contain $J$. Now, maximal ideals of $P$ correspond to the set of polynomials that make some fixed $c \in \C^n$ vanish, and the condition that a maximal ideal of this form contains $J$ implies that all polynomials in $J$ vanish on $c$. In other words, that $c \in Z_J$.
+\addtocounter{enumi}{1}
+\item First, we remark that $P$ has countable dimension over $\C$, and therefore so does $A$. As a consequence, the spectral theorem applies, and $\spec([g]) \neq \emptyset$. Moreover, also as a consequence of the spectral theorem, if $\spec([g])$ contains only zero then $[g]$ is nilpotent, which is equivalent to saying that some power of $g$ is in $J$. As a consequence, there exists some $\lambda \neq 0$ in $\spec([g])$, which proves precisely what we want.
+
+\item Suppose that $p(x)$ vanishes on $Z_J$, but no power of $p(x)$ is in $J$. Then, by the previous item, there exists $\lambda \neq 0$ such that $\lambda - [p]$ is not invertible in $A = P/J$. As a consequence, there exists a maximal ideal of $A$ which contains $\lambda - [p]$. This maximal ideal corresponds to a point $c \in Z_J$ by the first item, and the fact that $\lambda - [p]$ is in this ideal is equivalent to saying that $p(c) = \lambda \neq 0$, which contradicts the hypothesis that $p$ vanishes on $Z_J$. This contradiction shows that some power of $p$ is in $J$.
+\end{enumerate}
+\end{sol}
+
+\end{document}

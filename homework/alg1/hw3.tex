@@ -49,6 +49,7 @@
 
 \newcommand{\PP}{\mathbb{P}}
 \newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
 
 \newcommand{\I}{\mathrm{i}}
 \newcommand{\e}{\mathrm{e}}
@@ -175,10 +176,85 @@ Construct a $G$-invariant inner product $\beta$ on $P_n$ which makes $P^i_n \per
 \end{ex}
 
 \begin{sol}
-We set
+We begin by considering the obvious isomorphism
 \begin{equation}
-\beta(p,q) = \int_G 
+\begin{aligned}
+\phi \colon P_n &\to \DD_n\\
+x^\alpha &\mapsto \partial^\alpha,
+\end{aligned}
 \end{equation}
+where $\DD_n$ is the space of differential operators on $\R^n$ and $\alpha$ is an arbitrary multiindex. We saw in class that this is an isomorphism so I'm not bothering to prove it.
+
+Now, set
+\begin{equation}
+\beta_0(p,q) = \phi(p)(\conj q)(0).
+\end{equation}
+
+It is obvious that $\beta_0$ is $\C$-linear in the first entry and conjugate-linear in the second. To show symmetry, we restrict ourselves to the case where $p = x^\alpha$ and $q = x^\sigma$ for multiindices $\alpha$ and $\sigma$, as these generate the whole space. In this case,
+\begin{equation}\label{eq:betabasic}
+\beta_0(p,q) = \phi(p)(q)(0) = (\partial^\alpha x^\sigma)(0) = \begin{cases}
+\alpha! & \text{if $\alpha = \sigma$,}\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+
+This is evidently symmetric in $\alpha$ and $\sigma$, which shows that $\beta_0$ is hermitian. Note the multiindex notation: $\alpha!$ means $\alpha_1! \dots \alpha_n!$
+
+To show that the product is positive definite, let $p(x) = \sum_\alpha c_\alpha x^\alpha$ be an arbitrary polynomial. Then, by \eqref{eq:betabasic} we have
+\begin{equation}
+\beta_0(p,p) = \sum_\alpha \abs{c_\alpha}^2 \alpha!,
+\end{equation}
+which is obviously non-negative, and strictly positive so long as any coefficient is positive.
+
+Now that we have done this, we may now define
+\begin{equation}
+\beta(p,q) = \frac1{\vol G} \int_G \beta_0(g^* p, g^* q) \dl2 g.
+\end{equation}
+
+All properties of a real inner product (bilinearity, hermitian, positive definiteness) are trivially checked for $\beta$ using those same properties of $\beta_0$ and some properties of the integral.
+
+It is also easy to verify that $\beta$ is $G$-invariant, using the property that $\int_G f(gh) \dl2 g = \int_G f(g) \dl2 g$ for any $h \in G$.
+
+\smallskip
+
+Now, we show that under this inner product we have $\HH(G) = I^\perp$. To do this, we take a detour.
+
+First, a fact. It is obvious that the differential operators evaluated at zero form a subset of $P^*$. We claim that they coincide.
+
+To this effect, it suffices to show that all the elementary elements of the dual are differential operator, so let us show that there exists a diff. operator $\lambda$ which makes $\lambda(x^\alpha) = 1$ for some fixed multiindex $\alpha$, and $\lambda(x^\beta) = 0$ for all other multiindices $\beta$. We can actually build it explicitly: it is $\lambda = \frac1{\alpha!} \partial_\alpha$.
+
+Okay, now. We will show a weaker (in principle) statement than we desire: we will show that $\HH(G) \perp I$ (wrt the inner product $\beta$). To this effect, in what follows, let $h \in \HH(G)$. We want to show that for any $f \in I$ we have $\beta(h,f) = 0$.
+
+Now, let's look at the definition of `$h$ is $G$-harmonic'. This means that, if $V$ is the collection of $G$-invariant differential operators, then for all $v \in V$ we have $v(h) = 0$. But by exercise 4, this is the same as: if $u \in I_V$ we have $u(h)(0) = 0$. In other words, any element of $P^*$ which corresponds to a differential operator in $I_V$ will kill $h$.
+
+Now, we consider the following element of $P^*$:
+\begin{equation}
+\lambda_f(h) = \beta(h,f).
+\end{equation}
+
+All we need to show is that whenever $f \in I$ we have $\lambda_f \in I_V$, and we will be done.
+
+Now, if $f \in I$ it is a sum of the form $f = \sum p_i q_i$, with $p_i$ an arbitrary polynomial and $q_i$ a $G$-invariant polynomial with no constant term. Thus, we have
+\begin{equation}
+\lambda_f = \sum \lambda_{p_i q_i}.
+\end{equation}
+
+Now, let us show that if $q$ is $G$-invariant then $\lambda_{q}$ is $G$-invariant. Let $r$ be an arbitrary polynomial; then
+\begin{equation}
+\lambda_q(g^* r) = \beta(g^* r, q) = \beta(r, (g^{-1})^* q) = \beta(r,q) = \lambda_q(r).
+\end{equation}
+
+Thus, $\lambda_q$ is $G$-invariant.
+
+[I'm tired of writing so I'll just say some words which would help solve the exercise if true. I do write some more math later, do read that one please.]
+
+Hopefully, the fact that $\lambda_q$ is $G$-invariant means that it actually corresponds to a $G$-invariant differential operator, and the fact that it has no constant term means that $\lambda_q(1) = 0$ and hence the diff. operator corresponding to $q$ has no constant term. Moreover, hopefully there is some way of showing that $\lambda_{pq}$ as a diff. operator is a multiple of $\lambda_q$; maybe $\lambda_{pq} = \lambda_p \lambda_q$? Anyway, if this happens, we do have that $f \in I$ implies $f \in I_V$, which proves that $\HH(G) \perp I$.
+
+[Back to actual math]
+
+Now that we've `shown' $\HH(G) \perp I$, we finish the argument by dimensional considerations. Indeed, since the inner product $\beta$ makes different degree polynomials orthogonal (can be seen by integrating \eqref{eq:betabasic}) the orthogonal complement of $I$ can be taken separately in each degree. Then, it is a matter of checking dimensions to ensure that $\dim(\HH(G) \cap P_d) + \dim(I \cap P_d) = \dim P_d$, and then linear algebra guarantees that these two spaces are orthogonal complements.
+
+[Actually I don't really want to calculate the dimensions of these things, so yeah, this is all you get. Thanks for reading.]
 \end{sol}
 
 \begin{ex}
@@ -189,7 +265,20 @@ Show that
 \end{ex}
 
 \begin{sol}
+Pick a basis $v_1, \dots, v_n$ of $V$, and let $\omega^1, \dots, \omega^n$ be its dual basis. Then, we may write the trace of $\rho(g)$ as
+\begin{equation}
+\trace(\rho(g)) = \sum \omega^i(\rho(g)(v_i)) = \sum \omega^i(g \cdot v_i).
+\end{equation}
 
+Thus, we get
+\begin{equation}
+\frac1{\vol(G)} \int_G \trace(\rho(g)) \dl2 g = 
+\sum_i \frac1{\vol(G)} \int_G \omega^i(g \cdot v_i) \dl2 g =
+\sum_i \omega^i(\Av_\rho(v_i)) = \trace(\Av_\rho),
+\end{equation}
+which proves the first equality. (In the middle step we used the fact that the integral commutes with linear transformations.)
+
+To prove the second equality, we use the well known and easily proved fact from algebra: the trace of a projection operator is equal to the dimension of its image. And since the image of $\Av_\rho$ is $V^G$, the exercise is complete.
 \end{sol}
 
 \end{document}
