@@ -1,0 +1,236 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Homework 5}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+\newcommand{\schur}{\mathbf{s}}
+\newcommand{\reg}{\mathit{reg}}
+\newcommand{\regl}{{\mathit{reg}_\ell}}
+\newcommand{\cg}{\vee}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\sign}{sign}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\newcommand{\HH}{\mathcal{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $\lambda \in \Lambda$ the following statements are equivalent:
+\begin{gather}
+\nabla_\lambda \neq 0,\label{eq:c1}\\
+\text{$\lambda$ is strictly decreasing},\label{eq:c2}\\
+\exists_{\mu \in \Lambda} \lambda = \rho + \mu.\label{eq:c3}
+\end{gather}
+\item Prove that the polynomials $\nabla_\lambda$ \emph{with strictly decreasing $\lambda$} are orthogonal and have norm equal to $n!$, under the inner product on the polynomials which makes the monic monomials an orthonormal basis.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item It is obvious that \eqref{eq:c1} implies \eqref{eq:c2}, because if $\lambda$ were not strictly decreasing, then the matrix whose determinant $\nabla_\lambda$ is would have two equal columns, and therefore $\nabla_\lambda$ would be zero.
+
+Now, we show that \eqref{eq:c2} implies \eqref{eq:c3}. Indeed, if $\lambda$ is strictly decreasing, then $\mu = \lambda - \rho$ is positive nonstrictly decreasing. This can be seen as follows: first, note that $\mu_n = \lambda_n - \rho_n = \lambda_n \geq 0$, and so it suffices to show that it is nonstrictly decreasing. To this effect, note that
+\begin{equation}
+\mu_{k+1} = \lambda_{k+1} + k < \lambda_k + k,
+\end{equation}
+and the last inequality is equivalent to saying (because everything here is integers)
+\begin{equation}
+\mu_{k+1} \leq \lambda_k + k - 1 = \mu_k.
+\end{equation}
+
+Thus, $\lambda = \mu + \rho$ with $\mu \in \Lambda$.
+
+Now, note that \eqref{eq:c3} implies \eqref{eq:c2} is obvious (adding a strictly decreasing sequence to one which is nonstrictly decreasing yields a strictly decreasing sequence) so it suffices to show that \eqref{eq:c2} implies \eqref{eq:c1}. To do this, recall the formula
+\begin{equation}\label{eq:nabla}
+\nabla_\lambda = \sum_{s \in S_n} \sign(s) x^{s(\lambda)},
+\end{equation}
+and since $\lambda$ is strictly decreasing, all monomials $x^{s(\lambda)}$ are distinct, and a sum of more than zero distinct nonzero monomials can never be zero.
+
+\item Once again we use expression \eqref{eq:nabla}. Expanding the expression $\braket{\nabla_\lambda, \nabla_\mu}$ in terms of \eqref{eq:nabla} we get
+\begin{equation}
+\braket{\nabla_\lambda, \nabla_\mu} = \sum_{s \in S_n} \sum_{t \in S_n} \sign(s) \sign(t) \braket{x^{s(\lambda)}, x^{t(\mu)}}.
+\end{equation}
+
+Now, the only nonzero terms in the sum are when $s(\lambda) = t(\mu)$. In other words, $\lambda = s^{-1} t(\mu)$. But both $\lambda$ and $\mu$ are strictly decreasing, and the only permutation of a strictly decreasing sequence which is strictly decreasing itself is the identity. Therefore, the only nonzero terms are precisely when $s = t$, so we get
+\begin{equation}
+\braket{\nabla_\lambda, \nabla_\mu} = \sum_{s \in S_n} \sign(s)^2 \braket{x^{\lambda}, x^{\mu}}.
+\end{equation}
+
+Now, note that the sign squared is always 1, and $\braket{x^\lambda, x^\mu}$ is nonzero exactly when $\lambda = \mu$. Thus, we conclude that $\braket{\nabla_\lambda, \nabla_\mu} = n!$ precisely when $\lambda = \mu$, and zero otherwise.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Prove that the Schur polynomials $\schur_\mu$ form a $\Z$-basis of the symmetric polynomials with integer coefficients.
+\end{ex}
+
+\begin{sol}
+Recall that multiplication by $\nabla_\rho$ is an isomorphism between $P^{S_n}$ and $P^{\sign_n}$. Thus, it suffices to show that the polynomials $\schur_\mu \nabla_\rho = \nabla_{\mu + \rho}$ form a $\Z$-basis of the skew-symmetric polynomials.
+
+Linear independence of these polynomials is guaranteed by the previous exercise, using the same proof that shows that an orthonormal set in an Euclidean vector space is linearly independent. (Given a null linear combination of the vectors, take the inner product with one of the vectors, obtain that the corresponding coefficient is null.)
+
+To show that they are a generating set, let $p(x)$ be an arbitrary skew-symmetric polynomial. Given any monomial in $p(x)$, we may consider its orbit under the signed action $s \cdot q(x) = \sign(s) q(s(x))$. This orbit is composed entirely of monomials, and by the skew-symmetry of $p(x)$, all their coefficients in $p(x)$ are the same up to sign. Thus, we may write $p(x)$ as a linear combination of the $\nabla_{\lambda + \rho}$ as follows: look at all monomials in $p$ of the form $x^{\lambda + \rho}$, and let $c_\lambda$ be the corresponding (integer!) coefficient. Then, we obtain by the above argument
+\begin{equation}
+p(x) = \sum c_\lambda \nabla_{\lambda + \rho}(x).
+\end{equation}
+
+This proves that these polynomials are a $\Z$-basis of the skew-symmetric polynomials with integer coefficients, and hence that the Schur polynomials are a $\Z$-basis of the symmetric polynomials.
+\end{sol}
+
+\setcounter{ex}{3}
+
+\begin{ex}
+Find the character associated to $\reg$.
+\end{ex}
+
+\begin{sol}
+Given the basis $\{\delta_g\}$ of $R$, we let $\{\omega^g\}$ be the corresponding dual basis. We find $\trace(\reg(g,h))$ explicitly, for $(g,h) \in G \times G$.
+
+This trace is given by the expression
+\begin{equation}
+\trace(\reg(g,h)) = \sum_{z \in G} \omega^z(\reg(g,h)(\delta_z)) = \sum_{z \in G} \omega^z \delta_{g z h^{-1}}.
+\end{equation}
+
+Now, by definition of the dual basis, this is precisely the number of values of $z$ for which $z = g z h^{-1}$, or equivalently, $g = z h z^{-1}$.
+\end{sol}
+
+\begin{ex}
+Show that $\braket{\trace_\reg, \trace_{\rho \boxtimes \sigma^\cg}}$ equals $\braket{\sigma, \rho}$ when $\rho$ and $\sigma$ are reps of the finite group $G$. (This leads directly to what we wish to prove by the orthogonality relations.)
+\end{ex}
+
+\begin{sol}
+We just expand the definition of the bracket in the case of a finite group:
+\begin{equation}
+\braket{\trace_\reg, \trace_{\rho \boxtimes \sigma^\cg}} = \frac1{\abs{G}^2} \sum_{g, h \in G} \left( \sum_{\substack{z \in G \\ g = z h z^{-1}}} 1 \right) \conj{\trace(\rho(g) \otimes \sigma^{\cg}(h))}
+\end{equation}
+
+Now, we simplify $\trace(\rho(g) \otimes \sigma^\cg(h)) = \trace(\rho(g)) \trace(\sigma^\cg(h))$, and we use lemma 4.6.4 to get $\trace(\sigma^\cg(h)) = \conj{\trace(\sigma(h))}$. As such, we obtain
+\begin{equation}
+\braket{\trace_\reg, \trace_{\rho \boxtimes \sigma^\cg}} = \frac1{\abs{G}^2} \sum_{g, h \in G} \left( \sum_{\substack{z \in G \\ g = z h z^{-1}}} 1 \right) \conj{\trace(\rho(g))}\trace(\sigma(h))
+\end{equation}
+
+Now, let us play around with the sums. We can get rid of the parentheses and have the sum be over triples $g, h, z \in G$, satisfying the condition $g = z h z^{-1}$. Now, this is the same as indexing only over pairs $h, z \in G$ and replacing all instances of $g$ with $z h z^{-1}$. However, $g$ only appears inside the character of $\rho$, and the character is invariant under conjugation, so we get
+\begin{equation}
+\braket{\trace_\reg, \trace_{\rho \boxtimes \sigma^\cg}} = \frac1{\abs{G}^2} \sum_{h, z \in G} \conj{\trace(\rho(h))}\trace(\sigma(h)).
+\end{equation}
+
+Thus, since $z$ is not being referred to in the summand, we may take the sum as being only over $h$, as long as we multiply by $\abs{G}$ to make up for the fact that terms are being summed with redundance because of $z$. Therefore, we obtain
+\begin{equation}
+\braket{\trace_\reg, \trace_{\rho \boxtimes \sigma^\cg}} = \frac1{\abs{G}} \sum_{h \in G} \conj{\trace(\rho(h))}\trace(\sigma(h)) = \braket{\sigma, \rho}.
+\end{equation}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $\braket{\trace_\regl, \trace_\rho} = \dim(\rho)$.
+\item Show that $\abs{G} = \sum_{\rho \in \textrm{Irr}(G)} (\dim \rho)^2$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We compute it directly.
+\begin{equation}
+\braket{\trace_\regl, \trace_\rho} = \frac1{\abs{G}} \sum_{g \in G} \trace(\regl(g)) \conj{\trace(\rho(g))}
+\end{equation}
+
+Now, the trace of $\regl(g)$ can be easily computed as the trace of $\reg(g,h)$ was, as counting the number of values of $z \in G$ such that $zg = z$. Clearly this is null if $g \neq e$, and $\abs{G}$ if $g = e$, so we get
+\begin{equation}
+\braket{\trace_\regl, \trace_\rho} = \conj{\trace(\rho(e))} = \trace(\id_V) = \dim(\rho).
+\end{equation}
+
+\item We compute $\braket{\trace_\regl, \trace_\regl}$ in two ways. One of them consists of applying the previous item directly to get $\dim \regl = \abs{G}$.
+
+For the second way, write $\regl$ as a sum of irreducibles. By the previous item, and using the fact that $\trace_{\rho \oplus \sigma} = \trace_\rho + \trace_\sigma$, we get that $\braket{\trace_\regl, \trace_\regl} = \sum_{\rho} \dim \rho$, where the sum is taken over all irreducibles in the decomposition of $\regl$. By the formula for the multiplicity of an irrep in a representation, this is the same as
+\begin{equation}
+\braket{\trace_\regl, \trace_\regl} = \sum_{\rho \in \mathrm{Irr}(G)} \braket{\trace_\regl, \rho} \times \dim \rho = \sum_{\rho \in \mathrm{Irr}(G)} (\dim \rho)^2.
+\end{equation}
+
+This concludes the proof.
+\end{enumerate}
+\end{sol}
+
+\end{document}

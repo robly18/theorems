@@ -124,7 +124,7 @@ Since the map \eqref{eq:iso} is an isomorphism between a free group on countably
 
 \smallskip
 
-Another way to see this solution: inductively we rewrite the equations \eqref{eq:rels} to all be of the form $bt_n = (\cdots)$, where the expression on the right-hand side depends only on the generators we've been discussing, and then we may simply remove all the generators $bt_n$, $n \neq 0$, together with the relations that tell us how to write them in terms of the others; this preserves the group up to isomorphism because adding generators and relations telling us how to write these generators in terms of the previous ones does not add any elements to the group.
+Another way to see this solution: inductively we rewrite the equations \eqref{eq:rels} to all be of the form $bt_n = (\cdots)$, where the expression on the right-hand side depends only on the generators we've been discussing, and then we may simply remove all the generators $bt_n$, $n \neq 0$, together with the relations that tell us how to write them in terms of the others; this preserves the group up to isomorphism because adding generators and relations telling us how to write these generators in terms of the previous ones does not add any elements or identifications to the group.
 \end{sol}
 
 \begin{ex}[1.3:9]
@@ -146,24 +146,167 @@ I mean... You just repeat the argument in the previous exercise right? It follow
 \end{sol}
 
 \begin{ex}[2.1:5]
-
+Compute the simplicial homology groups of the Klein bottle using the $\Delta$-complex furnished by Hatcher.
 \end{ex}
 
 \begin{sol}
+By looking at the figure on page 102 of hatcher, we see that the chain complex of this $\Delta$-complex is given as follows:
+\begin{gather}
+C_0 = \braket{v},\\
+C_1 = \braket{a,b,c},\\
+C_2 = \braket{U,L},
+\end{gather}
+which already tells us that the zeroth homology is $H_0 = C_0 = \braket{v} \cong \Z$.
+
+The boundary maps on $C_1$ and $C_2$ are given by
+\begin{gather}
+\partial(a) = \partial(b) = \partial(c) = 0,\\
+\partial(U) = b - c + a, \quad \partial(L) = a - b + c.
+\end{gather}
+
+Therefore, $Z_1 = \braket{a,b,c}$ and $B_1 = \braket{b-c+a, a-b+c} = \braket{2a,a-b+c}$. Thus, $H_1$ is presented as
+\begin{equation}
+H_1 \cong \braket{a,b,c \mid 2a = e, a = b-c}.
+\end{equation}
+
+Now, in this presentation it is obvious that we can remove the generator $a$, and obtain the presentation
+\begin{equation}
+H_1 \cong \braket{b,c \mid 2b = 2c}.
+\end{equation}
+
+If instead of the generators $b$ and $c$ we use the generators $b$ and $z = c-b$, we obtain instead
+\begin{equation}
+H_1 \cong \braket{b,z \mid 2z = 0} \cong \Z \oplus \Z/2,
+\end{equation}
+which completes the computation of the first simplicial homology.
+
+Finally, the second simplicial homology is just the kernel of $\partial \colon C_2 \to C_1$. To this effect, we find the pairs of integers $x,y$ for which
+\begin{equation}
+\begin{aligned}
+& \partial(xU + yL) = 0\\
+\iff & (x+y) a + (x - y)b + (y-x) c = 0\\
+\iff & x+y = 0 \text{ and } x-y = 0,
+\end{aligned}
+\end{equation}
+and this equation can easily be solved to yield $x = y = 0$. Thus, $Z_2 = 0$ and hence $H_2 = 0$.
 \end{sol}
 
 \begin{ex}[2.2:12]
-
+Show that the quotient map $q \colon T \to S^2$ which collapses $S^1 \vee S^1$ to a point is not nulhomotopic by showing that it is an isomorphism on $H_2$. On the other hand, show that any map $S^2  \to T$ is nulhomotopic.
 \end{ex}
 
 \begin{sol}
+We use the long exact sequence. Since $(T,S^1 \vee S^1)$ is a CW pair, it is a good pair, hence we have that this sequence is exact:
+\begin{equation}
+H_2(S^1 \vee S^1) \to H_2(T) \xrightarrow{q_*} H_2(S^2) \xrightarrow{\partial} H_1(S^1 \vee S^1) \xrightarrow{i_*} H_1(T)
+\end{equation}
+
+Now, using simplicial or cellular homology we see trivially that $H_2(S^1 \vee S^1$ is null, whence $q_*$ is injective.
+
+We note that injectivity of $q_*$ is enough to show that the quotient map is not nulhomotopic, but the exercise asks to show that it is a homomorphism, so we proceed.
+
+We see that surjectivity of $q_*$ is equivalent to $\partial$ being null, which is equivalent to $i_*$ being surjective. Now, this can be verified by using simplicial homology, using the standard $\Delta$-complexes on $S^1 \vee S^1$ and $T$. Indeed, since the inclusion $i \colon S^1 \vee S^1 \to T$ is the inclusion of the one-skeleton of $T$ in its two skeleton, we obtain that $i_*$ is a quotient map, which is evidently surjective. (It's actually an isomorphism but we don't need that right now.)
+
+Anyway, this finishes the proof that $q_*$ is an isomorphism of abelian groups.
+
+\medskip
+
+Now, let $f \colon S^2 \to T$. Since $S^2$ is simply connected and Very Nice, $f$ lifts to a map to the universal covering of $T$, which is $\R^2$. This lift is nulhomotopic, and composing it with $p \colon \R^2 \to T$ we conclude that $f$ itself is nulhomotopic.
 \end{sol}
 
 \begin{ex}[2.2:29]
+[Note: This solution was written before I saw that the exercise had changed, but Danny let me submit it regardless.]
 
+Compute the homology groups of $X$ using the Mayer-Vietoris sequence for the given decomposition of $X$ into two copies of $R$. Compute also the relative groups $H_i(R,M)$ with $M = M_g$.
 \end{ex}
 
 \begin{sol}
+We begin by noting that $(X,M)$ is a good pair, because $(R, M)$ is a good pair. Let $U$ be a neighborhood of $M$ in $X$ which deformation retracts to $M$. Now, let $A = R \cup U$ and $B = R \cup U$, where each of them refers to a distinct copy of $R \subseteq X$. I know the notation is silly, but I'm sure the reader will understand what I mean.
+
+Now, $X = A \cup B$ and both $A$ and $B$ are open, so the Mayer-Vietoris sequence applies
+\begin{equation}
+\cdots \to H_n(A \cap B) \to H_n(A) \oplus H_n(B) \to H_n(X) \to H_{n-1}(A \cap B) \to \cdots
+\end{equation}
+
+Now, note that $A$ and $B$ are both homotopically equivalent to $R$, which retracts by deformation to a wedge of $g$ circles,, and $A \cap B$ is homotopically equivalent to $M$. This means that we know pretty well the homologies of $A$, $B$, and $A \cap B$:
+\begin{equation}
+\begin{aligned}
+H_n(A) \cong H_n(B) &\cong \begin{cases}
+0 & \text{if $n > 1$,}\\
+\Z^g & \text{if $n = 1$,}\\
+\Z & \text{if $n = 0$,}
+\end{cases}\\
+H_n(A \cap B) &\cong \begin{cases}
+0 & \text{if $n > 2$,}\\
+\Z & \text{if $n = 2$,}\\
+\Z^{2g} & \text{if $n = 1$,}\\
+\Z & \text{if $n = 0$,}
+\end{cases}
+\end{aligned}
+\end{equation}
+where the computation of $H_n(A \cap B) \cong H_n(M)$ is done in example 2.36 of Hatcher.
+
+With this data, we see that the Mayer-Vietoris sequence looks like
+\begin{equation}
+\begin{aligned}
+\cdots &\to 0 \to 0 \oplus 0 \to H_3(X) \to \\
+&\to \Z \to 0 \oplus 0 \to H_2(X) \to\\
+&\to \Z^{2g} \to \Z^{g} \oplus \Z^{g} \to H_1(X) \to\\
+&\to \Z \to \Z \oplus \Z \to H_0(X) \to 0.
+\end{aligned}
+\end{equation}
+
+We see immediately that $H_3(X) \cong \Z$. Moreover, $H_2(X)$ is identified with a subgroup of $\Z^{2g}$, namely the kernel of the map $\Z^{2g} \to \Z^g \oplus \Z^g$, so we had better find out what this map is.
+
+This map has two components, each of which is induced by the inclusion $M \hookrightarrow R$. This can be seen as an inclusion of CW complexes, but it is not an inclusion of the two-skeleton into the three-skeleton. To make it work, we need to first `slice $R$ up into a bunch of balls'. To see what this means, see the following figure.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{mt3}
+\end{figure}
+
+Now, note that the wedge of $g+1$ spheres has null first homology, hence $i_* = 0$, and by functoriality the map $\Z^{2g} \to \Z^g$ is null. As a consequence, $H_2(X) \cong \Z^{2g}$, and moreover we have the exact sequence
+\begin{equation}
+\xrightarrow{0} \Z^g \oplus \Z^g \to H_1(X) \to \Z \to \Z \oplus \Z \to (H_0(X) \cong \Z) \to 0,
+\end{equation}
+where $H_0(X)$ is isomorphic to $\Z$ because $X$ is path connected and nonempty.
+
+Now, if we can show that the map $\Z \to \Z \oplus \Z$ is null, we have the exercise done. We could do this directly, but instead we will use the following trick: use Mayer-Vietoris for reduced homology instead! If we do this, the zeroth homology of $A \cap B$ becomes null, and we instead have the exact sequence
+\begin{equation}
+\xrightarrow{0} \Z^g \oplus \Z^g \to H_1(X) \to 0,
+\end{equation}
+which proves that $H_1 \cong \Z^g \oplus \Z^g \cong \Z^{2g}$. This completes the computation of the homology of $X$:
+\begin{equation}
+H_n(X) \cong \begin{cases}
+0 & \text{if $n > 3$,}\\
+\Z & \text{if $n = 3$,}\\
+\Z^{2g} & \text{if $n = 2$,}\\
+\Z^{2g} & \text{if $n = 1$,}\\
+\Z & \text{if $n = 0$.}
+\end{cases}
+\end{equation}
+
+\medskip
+
+Now, to compute the relative groups, we use the long exact sequence for the pair $(R,M)$. It looks very similar, because where before we had $H_n(A \cap B)$ we now have the isomorphic $H_n(M)$, and where we had $H_n(A) \oplus H_n(B) \cong H_n(R) \oplus H_n(R)$ we now have just $H_n(R)$.
+\begin{equation}
+\begin{aligned}
+\cdots &\to 0 \to 0 \to H_3(R,M) \to \\
+&\to \Z \to 0 \to H_2(R,M) \to\\
+&\to \Z^{2g} \to \Z^{g} \to H_1(R,M) \to\\
+&\to \Z \to \Z \to H_0(R,M) \to 0.
+\end{aligned}
+\end{equation}
+
+Now, the same arguments that before showed that certain maps were null still hold, and therefore we have, by exactly the same reasons,
+\begin{equation}
+H_n(R,M) \cong \begin{cases}
+0 & \text{if $n > 3$,}\\
+\Z & \text{if $n = 3$,}\\
+\Z^{2g} & \text{if $n = 2$,}\\
+\Z^{g} & \text{if $n = 1$,}\\
+\Z & \text{if $n = 0$.}
+\end{cases}
+\end{equation}
 \end{sol}
 
 \end{document}
