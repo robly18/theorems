@@ -71,6 +71,7 @@
 
 \DeclareMathOperator{\inte}{int}
 \DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
 \newcommand{\grad}{\nabla}
 
 
@@ -266,13 +267,32 @@ Show that if $X$ is a finite simplicial complex whose first homology has nontriv
 \end{ex}
 
 \begin{sol}
-Let $A$ be this neighborhood, and let $B = \R^3 \setminus X$. Since $A \cup B = \R^3$ which has null homology, the Mayer-Vietoris sequence simply gives us that $H_1(A \cap B) \cong H_1(A) \oplus H_1(B)$. Now, $A \cap B$ is homeomorphic to the mapping cylinder of a map from $S$ to $X$, with the bottom removed, i.e. $S \times \left]0,1\right] \simeq S$, and by the classification of closed orientable surfaces we know that $H_1(A \cap B) \cong H_1(S)$ has no torsion. This means that $H_1(A)$ cannot have torsion, and since $A \simeq X$ we get that $H_1(X)$ cannot have torsion either, which completes the proof.
+Let $A$ be the interior of this neighborhood (which is homeomorphic to the mapping cylinder with the top removed), and let $B = \R^3 \setminus X$. Since $A \cup B = \R^3$ which has null homology, the Mayer-Vietoris sequence simply gives us that $H_1(A \cap B) \cong H_1(A) \oplus H_1(B)$. Now, $A \cap B$ is homeomorphic to the mapping cylinder of a map from $S$ to $X$, with the bottom and top removed, i.e. $S \times \left]0,1\right[ \simeq S$, and by the classification of closed orientable surfaces we know that $H_1(A \cap B) \cong H_1(S)$ has no torsion. This means that $H_1(A)$ cannot have torsion, and since $A \simeq X$ we get that $H_1(X)$ cannot have torsion either, which completes the proof.
 \end{sol}
 
 \begin{ex}[2.C:4]
+Show that the Euler characteristic of the set of fixed points $Y$ of a simplicial homeomorphism $f \colon X \to X$ is the Lefschetz number of $f$.
 \end{ex}
 
 \begin{sol}
+First, let $X'$ be the (once) barycentric subdivision of $X$. Then, we claim that $Y$ is a subcomplex of $X'$. Indeed, to this effect, it suffices to prove the following lemma: given a linear endomorphism of the $N$-simplex, the set of fixed points of this endomorphism is a subcomplex of the barycentric subdivision of the simplex. Once this lemma is proven, we perform the following procedure on $X$. We look at each simplex, and see if it is taken to itself. If not, then its interior has no fixed points. Otherwise, $f$ restricts to an automorphism of this simplex and thus the lemma applies.
+
+To show the lemma, we first note that we can characterize the set of fixed points very well. Since a linear endomorphism of the $N$-simplex $\Delta$ is determined by a permutation of the vertices, and therefore of the barycentric coordinates, we can characterize it as follows. Decompose this permutation into its cycles. Then, for each cycle, all the coordinates must coincide, and if this holds for all cycles of the permutation then we have a fixed point. Thus, the set of fixed points is determined by a collection of equations of the form $x_i = x_j$. The set of solutions to any such equation is (by construction and induction) a subcomplex of $\Delta'$, and finally, intersections of subcomplexes are themselves subcomplexes.
+
+Now that the lemma is proven, we may assume that $Y$ is a subcomplex of $X$ without loss of generality. Now, we apply the definition of $\tau(f)$:
+\begin{equation}
+\tau(f) = \sum (-1)^i \trace f_i,
+\end{equation}
+and we apply the formula $\trace f_k = \trace f_{\sharp Z k} - \trace f_{\sharp B k}$, where $f_{\sharp Z k}$ is the map induced by $f$ on $Z_k$ and likewise for $f_{\sharp B k}$ (and soon, for $f_{\sharp C k}$).
+
+Moreover, we also have the formula $\trace f_{\sharp Z k} + \trace f_{\sharp B (k-1)} = \trace f_{\sharp C k}$, so applying the same tricks we use in the proof that the Euler number of a space equals the thing with the cells of each dimension, we obtain
+\begin{equation}
+\tau(f) = \sum (-1)^i \trace f_{\sharp C k}.
+\end{equation}
+
+Now, note that since $f$ is a simplicial homeomorphism, its matricial representation in $C_k$ is a matrix with just a bunch of ones, exactly one per column. As such, the trace counts exactly how many ones there are in the diagonal, that is, how many simplices of dimension $k$ are kept fixed by $f$. In other words, \emph{the number of simplices of dimension $k$ in $Y$}.
+
+With these last few words we can just apply the definition of Euler characteristic for a CW/$\Delta$ complex, and we are done.
 \end{sol}
 
 \end{document}

@@ -1,0 +1,253 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\fbox{\text{Yay!}}}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+\DeclareMathOperator{\Lie}{Lie}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\transpose}{\top}
+\DeclareMathOperator{\spec}{spec}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\newcommand{\HH}{\mathcal{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Prove that for fixed $a, b \in A$ and all large enough integers $n$ one has
+\begin{gather}
+\exp(\frac1n a) \exp(\frac1n b) = \exp(\frac1n(a + b + \alpha_n)),\\
+\exp(\frac1n a) \exp(\frac1n b) \exp(-\frac1n(a+b)) = \exp(\frac1{n^2} (\frac{[a,b]}2 + \beta_n)),
+\end{gather}
+where $\alpha_n$ and $\beta_n$ converge to zero.
+\end{ex}
+
+\begin{sol}
+To show that $\alpha_n$ and $\beta_n$ converge, we apply the logarithm. Indeed, for $n$ large enough, $\exp(\frac1n a)$ and $\exp(\frac1n b)$ are close enough to one, and the product is continuous, so $\exp(\frac1n a) \exp(\frac1n b)$ has a well-defined logarithm $\ell_n$, and thus we set $\alpha_n = n \ell_n - a - b$. A similar argument works to define $\beta_n$.
+
+Now, we show that these sequences converge to zero. To do so, we write down an explicit expression for $\alpha_n$ with $n$ large:
+\begin{equation}
+\alpha_n = n \left( \log(\exp(\frac1n a) \exp(\frac1n b)) - \frac1n a - \frac1n b \right).
+\end{equation}
+
+Now, we write this out using the power series expansion for $\log$ and $\exp$, with two caveats. The first is that we keep $a$ and $b$ fixed, with the only variable being $n$. The second is that we don't care about terms of order higher than one (in $\frac1n$), so we disregard them. In other words, all that will be written next will be done modulo $O(n^{-2})$, including inside the $\log$:
+\begin{equation}
+\begin{aligned}
+\frac1n \alpha_n &= \log(\exp(\frac1n a) \exp(\frac1n b)) - \frac1n a - \frac1n b\\
+&= \log\left( \left(1 + \frac1n a \right) \left(1 + \frac1n b \right) \right) - \frac1n a - \frac1n b\\
+&= \log \left(1 + \frac1n a + \frac1n b \right) - \frac1n a - \frac1n b \\
+&= \left( \frac1n a + \frac1n b\right) - \frac1n a - \frac1n b = 0.
+\end{aligned}
+\end{equation}
+
+Thus, $\frac1n \alpha_n$ is null modulo a second order term, i.e. $\frac1n \alpha_n = O(n^{-2})$ hence $\alpha_n = O(n^{-2})$ and thus $\alpha_n \to 0$.
+
+\medskip
+
+Now, we do the same process for $\beta_n$. Now, we write $n^2 \beta_n$ modulo $O(n^{-3})$:
+\begin{equation}
+\begin{aligned}
+\frac1{n^2} \beta_n &= \log\left( \exp(\frac1n a) \exp(\frac1n b) \exp(-\frac1n(a+b)) \right) - \frac{ab-ba}2\\
+&= \log\left( {\scriptstyle (1+\frac1n a + \frac1{2 n^2} a^2) (1+\frac1n b + \frac1{2 n^2} b^2) (1-\frac1n (a+b) + \frac1{2 n^2} (a+b)^2)} \right) - \frac1{n^2}\frac{ab-ba}2\\
+&= \log\left( 1 + \frac1{n^2} (ab - a(a+b) - b(a+b)) + \frac1{2n^2}(a^2 + b^2 + (a+b)^2) \right) - \frac1{n^2}\frac{ab-ba}2\\
+&= \log\left( 1 + \frac1{n^2} (- a^2 - ba - b^2) + \frac1{2n^2}(2 a^2 + 2 b^2 + ab + ba) \right) - \frac1{n^2}\frac{ab-ba}2\\
+&= \log\left( 1 + \frac1{2n^2} (ab - ba) \right) - \frac1{n^2}\frac{ab-ba}2\\
+&= \frac1{2n^2} (ab-ba) + \frac1{4n^4}(ab-ba)^2 - \frac1{n^2}\frac{ab-ba}2\\
+&= 0.
+\end{aligned}
+\end{equation}
+
+Thus, $\frac1{n^2} \beta_n = O(n^{-3})$, hence $\beta_n = O(n^{-1})$.
+\end{sol}
+
+\begin{ex}
+Show that $\log(\exp(a)) = a$ and $\exp(\log(1+a)) = 1+a$ for small enough $a$.
+\end{ex}
+
+\begin{sol}
+The composites are well-defined for small enough $a$, in the first case by continuity of $\exp$ and in the second you don't even need that. Now, to show that the composites are what you expect them to, we observe the following: composite of power series works formally; i.e. in a Banach algebra, given $f(x)$ and $g(x)$ formal power series with positive radius of convergence and $g(0) = 0$, we have $f(g(x))$ coincides with the formal power series $(f \circ g)(x)$. Now, in the Banach algebra $\R$, we know from calculus that $\log(\exp(a)) = a$ and $\exp(\log(1+a)) = 1+a$. Therefore, by uniqueness of power series expansions, e.g. the formal composite $\log \circ \exp$ is just $x$. Therefore $\log(\exp(a)) = a$ holds in any Banach algebra, and likewise for the other equation.
+\end{sol}
+
+\begin{ex}
+Prove that continuous group homomorphisms $f \colon (\R, +) \to A^\times$ are of the form $t \mapsto \exp(t a)$ for some $a \in A$.
+\end{ex}
+
+\begin{sol}
+First, pick $x_0 \in \R$, $x_0 \neq 0$, small enough that $a_0 = \log x_0$ is well-defined. Now, for all $n \in \Z_{> 0}$ we have
+\begin{equation}
+f(x_0/n)^n = f(x_0) = \exp(a_0),
+\end{equation}
+hence, taking the logarithm on both sides,
+\begin{equation}
+\log(f(x_0/n)) = a_0 / n,
+\end{equation}
+and thus $f(x_0/n) = \exp(a_0 / n)$.
+
+On the other hand, $f(m x_0 / n) = f(x_0 / n)^m = \exp(a_0 / n)^m = \exp(m a_0 / n)$. Therefore, we conclude
+\begin{equation}
+f(q x_0) = \exp(q a_0),
+\end{equation}
+for all $q \in Q$, and by continuity this holds for all $q \in \R$. Finally, we have $f(t) = \exp(t a)$ for $a = a_0 / x_0$.
+\end{sol}
+
+\begin{ex}
+Find the Lie algebras of $O_n$, $U_n$, and $SU_n$ and compute their dimensions.
+\end{ex}
+
+\begin{sol}
+We begin by claiming that the Lie algebra of $O_n$ is the collection of skew-symmetric $n \times n$ matrices.
+
+First, note that $\exp(a)^\transpose = \exp(a^\transpose)$ (this is seen directly by expanding the power series). Hence, if $a$ is skew-symmetric, then $\exp(t a) \exp(t a)^\transpose = \exp(t a) \exp(t a^\transpose) = \exp(t a) \exp(-t a) = I$. Thus, any skew-symmetric matrix is in the Lie algebra of $O_n$.
+
+Now, suppose that $a$ is in the Lie algebra of $O_n$, so that $\exp(t a) \exp(t a^\transpose) = I$ for all $t \in \R$. If we take $t = \frac1n \to 0$ and apply the first formula in the first exercise, we get
+\begin{equation}
+\frac1n{a + a^\transpose + \alpha_n} = 0,
+\end{equation}
+for all values of $n$. Thus, $a + a^\transpose + \alpha_n = 0$, and taking the limit we obtain that $a$ is skew-symmetric.
+
+Finally, to obtain the dimension of this Lie algebra: an arbitrary skew-symmetric matrix has all diagonal elements equal to zero, the elements above the diagonal are arbitrary, and the elements below the diagonal are determined by the ones above. Thus, the dimension of this space is the number of elements above the diagonal, which is $\frac{n (n-1)}2$.
+
+\smallskip
+
+The same argument with transpose replaced by conjugate transpose shows that the Lie algebra of $U_n$ is the $n \times n$ skew-hermitian matrices, i.e. those that satisfy $a + a^* = 0$. By a similar but slightly modified argument, we get that the (real) dimension of this Lie algebra is $n^2$, because the diagonal elements are free as long as they are purely imaginary, and the ones above the diagonal are free and determine those below it.
+
+\smallskip
+
+Finally, we determine the Lie algebra of $SU_n$. We claim that it consists of the skew-hermitian matrices whose trace is null.
+
+To this effect, suppose that $a$ is a skew-hermitian matrix. We already know that $\exp(t a)$ is always unitary, so it suffices to check when its determinant is always one. This is certainly true for $t = 0$, so this is equivalent to verifying whether $\diff{}t \det(\exp(ta)) = 0$. We will do so by using the chain rule. Of course, we already know that $\diff{}t \exp(ta) = a \exp(ta) = \exp(ta) a$, so we focus on computing the derivative of the determinant.
+
+We know that the determinant is smooth (just look at the expression), and computing its partial derivatives at the identity is pretty easy. Indeed, if $e_{ij}$ is the matrix whose entries are all null except the $ij$-th, which is one, then it is trivial that $\det(I + t e_{ij}) = 1 + t \delta_{ij}$ (this is the Kronecker delta), hence $\partial_{ij} \det(I) = \delta_{ij}$. From this it is easy to compute the derivative of the determinant at the identity in the sense of multivariable calculus, and we end up with $(\dl \det)_I(A) = \trace A$.
+
+By the multiplicativity of the determinant we may extend this result to the determinant at any invertible matrix $A \in \GL_n$, as on the one hand since $\det \circ L_A = \det(A) \times \det$ we obtain $(\dl (\det \circ L_A))_I(B) = \det(A) \times \trace(B)$, and on the other using the chain rule we get
+\begin{equation}
+(\dl (\det \circ L_A))_I(B) = (\dl \det)_A (\dl L_A)_I (B) = (\dl \det)_A (AB).
+\end{equation}
+
+Thus, setting $C = AB$ we obtain $(\dl \det)_A(C) = \det(A) \trace(A^{-1} B)$.
+
+So, back to computing the derivative, we obtain
+\begin{equation}
+\diff{}t \det(\exp(ta)) = (\dl \det)_{\exp(ta)}(\exp(ta) a) = \det(\exp(ta)) \trace(\exp(-ta) \exp(ta) a) = \det(\exp(ta)) \trace(a).
+\end{equation}
+
+Thus, to guarantee that $\det(\exp(ta))$ is constant equal to zero it is necessary and sufficient that $\trace(a) = 0$, which proves that the Lie algebra of $SU_n$ consists of the skew-hermitian matrices with null trace.
+
+The condition that the trace is null adds one condition (it determines the last diagonal element from the others), so reduces the dimension by one. Hence, the dimension of the Lie algebra of $SU_n$ is $n^2 - 1$.
+\end{sol}
+
+\begin{ex}
+Show that the multiplicative subgroup $A^\times$ is an open subset of $A$, and that the product and inverse are continuous in it.
+\end{ex}
+
+\begin{sol}
+To show openness, we show that if $a \in A$ is invertible then so is anything of the form $a - x$ for $x$ small enough. We do this by writing an explicit expression for the inverse. Let $b(x)$ be defined by
+\begin{equation}
+b(x) = \sum_{i \geq 0} a^{-1} (x a^{-1})^i.
+\end{equation}
+
+Then, this power series converges absolutely for small values of $x$, namely $\norm{x} < \frac1{\norm{a^{-1}}}$, as in this case if we take the norm of the partial sums and apply the multiplicative triangular inequality, we obtain a bound by a geometric sum of ratio $\norm x \norm{a^{-1}}$. Moreover, if we take the product of this power series on the left by $a$ and $x$ we obtain respectively
+\begin{equation}
+a b(x) = \sum_{i \geq 0} (x a^{-1})^i, \quad x b(x) = \sum_{i \geq 1} (x a^{-1})^i
+\end{equation}
+both of which are also absolutely convergent and so we can subtract them nicely and the only term which survives is $(x a^{-1})^0 = 1$. Hence, we have an expression for the inverse.
+
+Now, using this same expression we can also show that the inverse is continuous, but first notice that the product is obviously continuous because $\norm{(a_0 + \delta_0)(a_1 + \delta_1) - a_0 a_1} \leq \norm{\delta_0} \norm{a_1} + \norm{a_0} \norm{\delta_1} + \norm{\delta_0} \norm{\delta_1}$, which goes to zero with $\delta_0$ and $\delta_1$ small.
+
+Thus, we may write the expression for the inverse as a composite of a geometric power series
+\begin{equation}
+J(x) = \sum_{i \geq 0} x^i
+\end{equation}
+with multiplication by $a^{-1}$ inside and outside $J$. We've seen that multiplication is continuous, but also so is $J$ (near the origin) because it is a power series of positive radius of convergence. Thus taking inverses is locally continuous, which is equivalent to continuous.
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\end{document}
