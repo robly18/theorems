@@ -1,0 +1,334 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Homework 7}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+\newcommand{\schur}{\mathbf{s}}
+\newcommand{\reg}{\mathit{reg}}
+\newcommand{\regl}{{\mathit{reg}_\ell}}
+\newcommand{\cg}{\vee}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\diag}{diag}
+\renewcommand{\lg}[1]{\mathrm{#1}}
+\newcommand{\la}[1]{\mathrm{#1}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Check that $\lg{SU}_2$ has the form in the problem statement and find the kernel of $\rho$.
+\item Find $(\dl \rho)_e \colon \la{sl}_2 \to \la{o}_3$.
+\item Show that $\rho(\lg{SU}_2) = \lg{SO}_3$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item A matrix in $\lg{SU}_2$ is of the form $\left(\begin{smallmatrix} a & b \\ c & d\end{smallmatrix}\right)$ with $a,b,c,d \in \C$, $ad-bc = 1$, and
+\begin{equation}
+a \conj a + b \conj b = c \conj c + d \conj d = 1, \quad a \conj c + b \conj d = 0.
+\end{equation}
+
+Now, for such a matrix, notice that
+\begin{equation}
+\begin{aligned}
+a &= a(\conj a \conj d - \conj b \conj c)\\
+&= a \conj a \conj d - a \conj b \conj c \\
+&= (1 - b \conj b) \conj d + b \conj b \conj d\\
+&= \conj d,
+\end{aligned}
+\end{equation}
+and likewise we have
+\begin{equation}
+\begin{aligned}
+c &= c (\conj a \conj d - \conj b \conj c)\\
+&= c \conj a \conj d - c \conj b \conj c\\
+&= - \conj b d \conj d - (1 - d \conj d) \conj b\\
+&= - \conj b.
+\end{aligned}
+\end{equation}
+
+This proves that the original matrix is of the form $\left(\begin{smallmatrix} a & b \\ - \conj b & \conj a\end{smallmatrix}\right)$, and the requirement that it have determinant 1 tells us that $\abs{a}^2 + \abs{b}^2 = 1$. On the other hand, such a matrix is obviously in $\lg{SU}_2$, so this group is exactly the set of matrices of this form.
+
+\smallskip
+
+Now, to find the kernel of $\rho$, we wish to know for which $g \in \lg{SU}_2$ do we have $\rho(g)(x) = x$ for all $x \in \bbH$. This is equivalent to saying that $gx = xg$, or that $[g,x] = 0$. Since commutation with $g$ is linear, we can check whether $\rho(g) = I$ by checking if linear operator $[g,\cdot]$ is null, and we can do so by looking at what this operator does to the following basis of $\bbH$:
+\begin{equation}
+m_1 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}, \quad m_2 = \begin{pmatrix}0&1\\1&0\end{pmatrix} \quad m_3 = \begin{pmatrix}0&\I\\-\I&0\end{pmatrix}.
+\end{equation}
+
+If we let $g = \left(\begin{smallmatrix} a & b \\ - \conj b & \conj a\end{smallmatrix}\right)$ we have
+\begin{align}
+[g, m_1] = g m_1 - m_1 g &= - 2 \begin{pmatrix} 0 & b \\ \conj b & 0 \end{pmatrix},\\
+[g, m_2] = g m_2 - m_2 g &= 2 \begin{pmatrix} \Re b & \Im a \\  \Im a & - \Re b \end{pmatrix},\\
+[g, m_3] = g m_3 - m_3 g &= 2 \I \begin{pmatrix} - \Im b & \Im a \\ \Im a & \Im b \end{pmatrix}.
+\end{align}
+
+Now, if $[g, \cdot]$ is null, all three of the above must be zero. This obviously implies that $b = \Im a = 0$, so $g$ must be of the form $\left( \begin{smallmatrix} a & 0 \\ 0 & \conj a \end{smallmatrix}\right)$ with $a$ real of norm one. Thus, $a = \pm 1$, and so the $g = \pm I$. Thus, the kernel of $\rho$ contains at most $I$ and $-I$, but it is obvious that these are in the kernel of $\rho$ because they are in the center of $M_2$. As such, we obtain
+\begin{equation}
+\ker \rho = \{I, -I\}.
+\end{equation}
+
+\item We find $(\dl \rho)_e$ using the rule
+\begin{equation}
+(\dl \rho)_e(A) = \diff{}t[0] \rho(\exp(t A)).
+\end{equation}
+
+Moreover, by linearity, it suffices to compute $(\dl \rho)_e(A)$ for $A$ in a basis of $\la{sl}_2$. For convenience, we pick the basis (over $\R$)
+\begin{equation}
+s_1 = \begin{pmatrix} \I & 0 \\ 0 & -\I \end{pmatrix},
+\quad
+s_2 = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix},
+\quad
+s_3 = \begin{pmatrix} 0 & \I \\ \I & 0 \end{pmatrix}.
+\end{equation}
+
+A very convenient property of this basis is that all $s_i$ satisfy $s_i^2 = -I$, and thus $\exp(t s_i)$ is easily computed by the power series as
+\begin{equation}
+\exp(t s_i) = \cos(t) I + \sin(t) s_i.
+\end{equation}
+
+Moreover, note that $(\exp(t s_i))^{-1} = \exp(-t s_i)$. Thus, we have
+\begin{equation}
+\begin{aligned}
+\rho(\exp(t s_i))(x) &= (\cos(t) I + \sin(t) s_i) x (\cos(t) I - \sin(t) s_i)\\
+&=\cos(t)^2 x + \sin(t) \cos(t) (s_i x - x s_i) - \sin(t)^2 s_i x s_i.
+\end{aligned}
+\end{equation}
+
+The derivative at $t = 0$ is easily computed and we get
+\begin{equation}
+(\dl \rho)_e(s_i)(x) = \diff{}t[0] \rho(\exp(t s_i))(x) = s_i x - x s_i = [s_i, x].
+\end{equation}
+
+Thus, by linearity on both sides, we conclude
+\begin{equation}
+(\dl \rho)_e(A)(x) = [A, x] = \ad(A)(x),
+\end{equation}
+
+where $\ad(A)$ is seen as a map $\bbH \to \bbH$ which, as a linear transformation in $\R^3 \cong \bbH$, is an element of $\la{o}_3$.
+
+\item First, the image is contained in $\lg{SO}_3$ because $\lg{SU}_2$ is connected and so its image must be contained in the connected component of the identity, which is precisely $\lg{SO}_3$.
+
+To show equality, we use problem 8 from homework 6, which gives us that (since both $\lg{SU}_2$ and $\lg{SO}_3$ are compact\footnote{They are given by cartesian equations so they are closed, and all their entries have norm at most $1$.}) it suffices to show that $\dl \rho \colon \la{su}_2 \to \la{so}_3 ( = \la{o}_3)$ is surjective. Now, we have computed the dimensions of both the domain and codomain in the previous pset, which is $3$ in both cases, and since linear maps are super nices it then suffices to show that $\dl \rho$ is injective, or in other words that its kernel is null.
+
+So, suppose that $a \in \ker \dl \rho$. Then, $\dl \rho(t a) = 0$ for all $t \in \R$. Thus, $\exp(\dl \rho(t a)) = I$, and hence $\rho(\exp(t a)) = I$. We computed in (i) that this implies that $\exp(t a) = \pm I$ for all $t$, but by connectedness (and setting $t = 0$) this means that $\exp(t a) = I$ for all $t$. Since $\exp$ is an isomorphism near zero, for small enough $t$ this implies that $t a = 0$ and so $a$ itself must be zero. Thus, the kernel of $\dl \rho$ contains only zero, and so $\dl \rho$ is injective and the rest of the proof follows.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Show that the exponential map is surjective $\la{gl}_n(\C) \to \lg{GL}_n(\C)$ but not $\la{sl}_n(\R) \to \lg{SL}_n(\R)$.
+\end{ex}
+
+\begin{sol}
+First we show surjectivity in the complex realm.
+
+Consider some invertible complex matrix. Then, we can do a change of basis to put it in Jordan canonical form, and since the exponential behaves nicely with respect to block diagonal matrices, it suffices to show that a Jordan block is in the image of $\exp$.
+
+So, let $A$ be a Jordan block, with diagonal elements equal to $\lambda$, so we may write $A = \lambda I + B$, with $B$ being the Jordan block with zeros on the diagonal. In other words, we have $A = \lambda (I + N)$ with $\lambda \neq 0$ and $N = B / \lambda$ nilpotent. Now, note that $\lambda$ is the exponent of some complex number $z$, because $\exp \colon \C \to \C^*$ is surjective, so if we are able to write $I + N = \exp(M)$ for some matrix $M$ we have
+\begin{equation}
+A = \e^z \exp(M) = \exp(z I + M).
+\end{equation}
+
+(Note: the above equality uses the fact that $z I$ commutes with $M$ and also $\e^z I = \exp(z I)$.)
+
+Thus, it suffices to prove the following lemma: If $N$ is nilpotent, then $I+N = \exp(M)$ for some $M$.
+
+We prove the lemma by considering $M = \sum_{k \geq 1} (-1)^{k+1} \frac1k N^k$, i.e. `compute $\log(I + N)$ using the power series'. Note that there are no issues of convergence because this sum is finite. Moreover, note that $M$ itself is also nilpotent, as $M^n$ is a sum of powers of $N$, the smallest of which is $N^n$ itself. Thus, $\exp(M) = \exp(\log(I+N))$ is a finite power sum, which can be computed using the formal composite power series of $\exp$ and $\log(1+t)$ because there are no issues of convergence. Finally, we know from $\R$ that $\exp(\log(1+t))$ is equal to $1+t$ as a function (for $t$ near $0$), so the composite power series is also equal to $1+t$, and thus we conclude $\exp(M) = \exp(\log(I+N)) = I+N$, which completes the proof.
+
+\medskip
+
+Now, to show that $\exp$ is not surjective $\la{sl}_n(\R) \to \lg{SL}_n(\R)$ we consider the particular case $n = 2$ (indeed, the statement is not true in general, e.g. it is true that $\exp$ is surjective $\la{sl}_1 \to \lg{SL}_1$). In particular, we will show that $D = \diag(c,1/c)$ is not in the image of $\exp$ for $c < 0$, $c \neq -1$.
+
+To do so, we will see what $\exp(A)$ can look like for $A \in \la{sl}_2(\R)$. First, look at the eigenvalues of $A$. There are two of them, and since their sum (the trace) is null, these eigenvalues are of the form $\lambda$ and $-\lambda$, for $\lambda \in \C$.
+
+Now, if $\lambda = 0$, then $A$ has a null eigenvalue, and therefore $\exp(A)$ has a one-eigenvalue (proof: if $Av=0$ then $\exp(A)v = v$ by the power series). Since $D$ does not have any one-eigenvalue, $\exp(A)$ cannot be $D$.
+
+If $\lambda \neq 0$, then $A$ is diagonalizable because all its eigenvalues are distinct. Thus, the eigenvalues of $\exp(A)$ are $\exp(\lambda)$ and $\exp(-\lambda)$. Now, if $\lambda$ is real, these are both positive numbers, and so cannot be $c$ and $1/c$. On the other hand, if $\lambda$ is not real, we see that it is purely imaginary, as roots of real polynomials come in conjugate pairs and thus $-\lambda = \conj \lambda$. But then $\exp(\lambda)$ and $\exp(-\lambda)$ must have norm equal to one, which is not the case for $c < 0$, $c \neq -1$. Therefore, in this case $\exp(A)$ can also not be $D$.
+
+In every case, $\exp(A) \neq D$ and so $D$ is not in the image of the exponential map.
+\end{sol}
+
+\setcounter{ex}{3}
+
+\begin{ex}
+Let $U = \mathcal{U}(e,h,f)$.
+\begin{enumerate}
+\item Show that for any finite dimensional $U$-module $V$ there exists a nonzero eigenvector $v \in V$ of $h$ such that $ev=0$.
+\item Find a formula for $e v_i$ and $h v_i$. Deduce about $\lambda$.
+\item Classify all simple finite dimensional $U$-modules up to isomorphism.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Since we're in the complex finite dimensional realm, $h$ has an eigenvector $v^0$ with $h v^0 = \lambda v^0$. If $e v^0 = 0$ we're done. Otherwise, if $v^1 = e v^0$, we have
+\begin{equation}
+h v^1 = h e v^0 = e h v^0 + 2 e v^0 = (\lambda + 2) e v^0 = (\lambda + 2) v^1,
+\end{equation}
+i.e. $v^1$ itself is also an eigenvector of $h$ wih a different eigenvalue. We may iterate this process, but note that, since we're in finite dimension, this process halts in a finite number of steps, because $h$ must have a finite number of eigenvalues. Now, when I say that it halts, what I actually mean is that at some point $e v^N = 0$, with $v^N \neq 0$. This is the $v = v^N$ we seek.
+
+\item We know that $e v_0 = 0$ and $h v_0 = \lambda v_0$. To begin, we claim that $h v_n = (\lambda - 2n) v_n$. This is true for $n = 0$, and we prove for general $n$ by induction:
+\begin{multline}
+h v_{n+1} = h \frac{f v_n}{n+1} = \frac1{n+1} f h v_n - 2 \frac1{n+1} f v_n \\= \frac1{n+1} (f (\lambda-2n) v_n - 2 f v_n) = (\lambda - 2n - 2) \frac1{n+1} f v_n = (\lambda - 2(n+1)) v_{n+1}.
+\end{multline}
+
+We also claim that $e v_n = (\lambda - n + 1) v_{n-1}$, for $n \geq 1$. This is true for $n = 1$ because $e v_1 = e f v_0 = f e v_0 + h v_0 = \lambda v_0$, and again we do induction on the other cases
+\begin{equation}
+\begin{aligned}
+e v_{n+1} &= e \frac{ f v_n }{n+1} \\
+&= \frac{h v_n}{n+1} + \frac{f e v_n}{n+1} \\
+&= \frac1{n+1} ( (\lambda - 2n) v_n + f (\lambda - n + 1) v_{n-1}) \\
+&= \frac1{n+1} ( (\lambda - 2n) v_n + f (\lambda - n + 1) v_{n-1})\\
+&= \frac1{n+1} ( (\lambda - 2n) v_n + (\lambda - n + 1) n v_n) \\
+&= \frac1{n+1} ( \lambda (1+n) - 2n - n^2 + n) v_n \\
+&= (\lambda - n) v_n.
+\end{aligned}
+\end{equation}
+
+Note: the equality $e v_n = (\lambda - n + 1) v_{n-1}$ extends to $n = 0$ under the convention that $v_{-1} = 0$.
+
+\smallskip
+
+Now, using a reasoning similar to (i), since all $v_n$ are eigenvectors of $h$ for distinct eigenvalues, all but finitely many of them are zero. Of course, if $v_n = 0$ for some $n$, then all $v_N = 0$ for $N > n$. Moreover, we know $v_0 \neq 0$. Thus, there exists some $n \geq 0$ such that $v_n \neq 0$ and $v_{n+1} = 0$. But then, $e v_{n+1} = (\lambda - n) v_n$, and since the left-hand side is zero but $v_n \neq 0$ we conclude $\lambda = n$ which is a nonnegative integer, and so the proof is complete.
+
+\item Let $V$ be such a simple finite module. Then, we find a vector $v$ as in (i), and look at $V' = \braket{v_0, v_1, \dots} \subseteq V$. By the formulas in (ii), we get that $V'$ is closed under multiplication by $e$ and $h$, and it is obviously closed under multiplication by $f$, so it is a $U$-submodule of $V$, and it is nontrivial as $v_0 \neq 0$. Thus, since $V$ is simple, $V = V'$. In other words, any simple module is of the form $\braket{v_0, \dots, v_\lambda}$, with multiplication by elements of $U$ defined as: multiplication by $f$ is given by $f v_n = n v_{n+1}$, unless $n = \lambda$ in which case $f v_\lambda = 0$. Then, multiplication by $e$ and $h$ is defined using the relations as in (ii).
+
+This description describes a $U$-module parametrized by $\lambda \in \N$, and any simple module must be of this form. On the other hand, all modules of this form are simple, because given any module $V$ of this form, and given any nontrivial submodule $V' \subseteq V$, we may find some $v \in V'$ as in (i). But this $v$ satisfies $e v = 0$, and the only element of $V$ that satisfies this is multiples of $v_0$, and by multiplication by appropriate powers of $f$ we conclude that $V'$ contains all $v_n$, and so $V' = V$. In conclusion, the only nontrivial submodule of $V$ is $V$ itself, and thus $V$ is simple. Hence, all simple $U$-modules are parametrized by $\lambda \in \N$ as above.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Find the dimension of the space of homogeneous harmonic polynomials of degree $d$.
+\item Prove that the map given is an isomorphism of graded algebras.
+\item Prove that the composite map is a graded vector space isomorphism.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, a lemma: the Laplacian operator $\Delta \colon P_d \to P_{d-2}$ is surjective.
+
+Proof of lemma: Lexicographic induction. To be more precise, it suffices to show that all monomials $x_1^{\alpha_1} \dots x_n^{\alpha_n}$ with $\sum \alpha_i = d-2$ are in the image of $\Delta$. Suppose that this is false, and let $\alpha = (\alpha_1, \dots, \alpha_n)$ be lexicographically minimal such that $x^\alpha$ is not in the image of $\Delta$. Then, consider
+\begin{equation}
+\Delta(x_1^{\alpha_1} \dots x_{n-1}^{\alpha_{n-1}} x_n^{\alpha_n + 2}) = x^\alpha + \text{(other terms)},
+\end{equation}
+where all the other terms are multiples of monomials of the form $x^\beta$ with $\beta$ lexicographically smaller than $\alpha$. All of these terms are thus in the image of $\Delta$, and by taking the difference we get that $x^\alpha$ is itself in the image of $\Delta$. This concludes the proof of the lemma.
+
+Now the dimension of the harmonic polynomials can easily be computed using the rank-nullity lemma, as
+\begin{equation}
+\dim H = \dim \ker \Delta = \dim P_d - \dim \image \Delta = \dim P_d - \dim P_{d-2}.
+\end{equation}
+
+The desired dimension now follows from a little combinatorics, which shows that $\dim P_d = \binom{d+n-1}d$, and hence
+\begin{equation}
+\dim H = \binom{d+n-1}d - \binom{d+n-3}d.
+\end{equation}
+
+\item I could not show that it is an isomorphism, but I was able to show that the dimensions match up. From here, it would be a matter of proving either injectivity or surjectivity.
+
+One caveat: for the problem to make sense, it is necessary to grade $\C[t]$ by $2\times$ the degree, not the degree itself.
+
+With this in mind, the $d$-th degree component of $\C[t] \otimes H$ is of the form $\bigoplus_{2a + b = d} \braket{t^{a}} \otimes H_b \cong \bigoplus_{2a+b=d} H_b$, whose dimension is given by
+\begin{multline}
+\dim H_d + \dim H_{d-2} + \dots =\\
+= \left(\binom{d+n-1}d - \binom{d+n-3}d\right) + \left(\binom{d+n-3}d - \binom{d+n-5}d\right) + \dots
+\end{multline}
+and this is evidently a telescopic sum whose total is precisely $\binom{d+n-1}d$, which is exactly the dimension of $P_d$.
+
+\item Identify $P$ with $\C[t] \otimes H$ as in (ii). Then, the map $H \hookrightarrow P$ is seen as the inclusion $f \mapsto 1 \otimes f$. On the other hand, the map $P \to P/(R-1)P$ will take any expression $\phi(R) f$ to just the equivalence class of $f$ itself.
+
+(I do not know how to complete this exercise.)
+\end{enumerate}
+\end{sol}
+
+\end{document}

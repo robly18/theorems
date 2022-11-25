@@ -1,0 +1,169 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebraic Topology Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\grad}{\nabla}
+
+
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[3.2:4]
+Show that every map $f \colon \C P^n \to \C P^n$ has a fixed point if $n$ is even, and show that this also holds if $n$ is odd unless $f^*(\alpha) = -\alpha$ for $\alpha$ a generator of $H^2(\C P^n, \Z)$.
+\end{ex}
+
+\begin{sol}
+The first part of the proof follows whether $n$ is even or odd.
+
+Let $f^*(\alpha) = d \alpha$ for $d \in \Z$. Moreover, recall that (this is in Hatcher) the cohomology ring of $\C P^n$ is given by $\Z[\alpha]/\alpha^{n+1}$ and that all homologies of $\C P^n$ are free (indeed, $\Z$ in even dimensions up to $2n$), hence $h \colon H^* \to (H_*)^*$ is an isomorphism.
+
+Now, we know then that $f^*(\alpha^k) = (f^*(\alpha))^k = d^k \alpha^k$. Moreover, using the naturality of $h$, we get that the map $f_* \colon H_k \to H_k$ (with $k = 0, \dots, 2n$) is given by multiplication by $d^k$. As such, the trace of $f_* \colon H_k \to H_k$ is itself $d^k$, and so the Lefschetz constant of $f$ is given by
+\begin{equation}
+\tau(f) = 1 + d + \dots + d^n.
+\end{equation}
+
+Now, the Lefschetz fixed point theorem guarantees that $f$ will have a fixed point so long as $\tau(f)$ is nonzero. If $d = 1$ this is obvious, and likewise for all $d \neq {-1,1}$ (as $d$ will not divide $\tau(f)$ but $d \mid 0$). The only remaining case is that of $d = -1$, and this is where the evenness of $n$ matters, as if $n$ is even $\tau(f)$ will be a telescopic sum totaling $\tau(f) = 1$, and only if $n$ is odd may $\tau(f)$ be zero after all, and so may $f$ have a fixed point. And again, this only happens if $f^*(\alpha) = -\alpha$, as desired.
+\end{sol}
+
+\begin{ex}[3.2:14]
+I'm not doing this one. Sorry.
+\end{ex}
+
+\begin{sol}
+N/A
+\end{sol}
+
+\begin{ex}[3.2:15]
+Show that $p(X \times Y) = p(X) p(Y)$. Compute the Poincaré series for [a bunch of spaces].
+\end{ex}
+
+\begin{sol}
+There is a missing hypothesis in the theorem, namely that the cohomologies of $X$ and $Y$ are finite-dimensional in all degrees, otherwise their Poincaré series will not make sense.
+
+That said, since we're over a field, the cohomologies are all free, so the Künneth formula applies, and hence
+\begin{equation}
+H^i(X \times Y) \cong \bigoplus_{a+b=i} H^a(X) \otimes H^b(Y),
+\end{equation}
+whose dimension is precisely $\sum_{a+b=i} (\dim H^a(X))(\dim H^b(Y))$, which is exactly the $i$-th coefficient of $p(X) p(Y)$.
+
+\medskip
+
+I'm not going to compute the Poincaré series for eight different spaces. I mean, for $S^n$ it is trivially $1+x^n$, and for the projective spaces it will be a nice geometric sum (in finite dimension) or geometric series (in infinite dimension). But I'm not doing the details.
+\end{sol}
+
+\begin{ex}[3.3:3]
+Show that every covering space of an orientable manifold is itself orientable.
+\end{ex}
+
+\begin{sol}
+We do so by inducing an orientation on $\tilde M$ using an orientation in $M$.
+
+Let $\tilde x \in \tilde M$, $x = p(\tilde x) \in M$. The generator of $H_n(M \mid x)$ induces a canonical generator of $H_n(U \mid x)$ by excision, where $U$ is a small enough evenly covered neighborhood of $x$. Take the preimage of $U$, and let $\tilde U$ be a subspace of $p^{-1}(U)$ which contains $\tilde x$ and such that $p|_{\tilde U}$ is a homeomorphism onto $U$. Then, $p$ induces an isomorphism $H_n(U \mid x) \cong H_n(\tilde U \mid \tilde x)$. Again, by excision, the latter is canonically isomorphic to $H_n(\tilde M \mid \tilde x)$. Thus, we have a canonical isomorphism (induced by $p$) between $H_n(\tilde M \mid \tilde x)$ and $H_n(M \mid x)$, and so picking a generator of the latter induces a natural choice of generator on the former.
+
+Naturality properties and the fact that $p$ is a covering space will show that these choices of local orientations on $\tilde M$ are coherent and so induce an orientation on $\tilde M$.
+\end{sol}
+
+\begin{ex}[3.3:3]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[3.3:3]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[3.3:3]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[3.3:3]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\end{document}

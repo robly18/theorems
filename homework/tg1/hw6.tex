@@ -1,0 +1,245 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebraic Topology Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\grad}{\nabla}
+
+
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[3.1:1]
+Show that $\Ext$ is a contravariant functor in the first coordinate and a covariant functor in the second. (I interpret this as asking me to define it on maps.)
+\end{ex}
+
+\begin{sol}
+For the first part, let $f \colon G \to G'$ be a group homomorphism, and $H$ a group. First, we pick a free resolution $F$ of $H$ ($F$ itself represents an exact chain complex). Then, dualize. In the following, a star $*$ means dualizing in $G$, and a dagger $\dag$ means dualizing in $G'$. The map $f$ induces a chain map $f_\sharp \colon F^* \to F^\dag$, and applying the `second homology' functor to this diagram we obtain a map $f_* \colon \Ext(H,G) \to \Ext(H, G')$.
+
+We would like to show that this map does not depend on the free resolution chosen. To do so, we need to be a bit more specific about what this means. Let $F'$ be another free resolution of $H$, and let $E$ and $E'$ be the second homologies of $(F')^*$ and $(F')^\dag$ respectively. Then, by lemma 3.1, we have canonical isomorphisms between $E$ and $\Ext(H,G)$ and likewise for $E'$. More precisely, these isomorphisms are induced by any chain maps $i \colon F' \to F$ and $j \colon F \to F'$ whose zeroth coordinate is the identity on $H$. So anyway, we have the diagram (which is not commutative!)
+\[\begin{tikzcd}
+F^* \arrow[d, "f_\sharp"] \arrow[r, "i^*"] & (F')^* \arrow[d, "f_\sharp"] \\
+F^\dag                                     & (F')^\dag \arrow[l, "j^\dag"]
+\end{tikzcd}\]
+
+Now, even though this diagram is not commutative, when we apply the $H_2$ functor to it we do get a commutative diagram, and this is what we mean when we say that $f_*$ is unique: when we define it using distinct free extensions it must be equal up to commutative isomorphisms.
+
+To show that applying $H_2$ we get a commutative diagram, we note that $j^\dag f_\sharp i^* = f_\sharp (ij)^*$ (this is checked directly by expanding the definitions). Moreover, $H_2$ is functorial, and $(ij)^*$ is chain-homotopic to the identity (because by lemma 3.1 $ij$ is chain-homotopic to the identity and chain homotopies dualize), so $H_2( (ij)^* ) = \id$ and thus we have $H_2(j^\dag f_\sharp i^*) = H_2(f_\sharp)$, i.e. independence. Therefore $f_*$ is well-defined. Also the whole construction was covariantly functorial so $f_*$ is covariantly functorial, i.e. $\Ext$ is covariantly functorial in the second coordinate.
+
+\medskip
+
+Now we repeat the process for the second part. Given a map $\alpha \colon H \to H'$ and free resolutions $F$ and $F'$ of $H$ and $H'$ resp, it induces a map $\alpha_\sharp \colon F \to F'$ which is unique up to homotopy. Thus, it induces a dual map, still unique up to homotopy, $\alpha_\sharp^* \colon (F')^* \to F^*$, which induces canonical map once we apply the $H_2$ functor, namely $\alpha_* \colon \Ext(H',G) \to \Ext(H,G)$.
+
+Like before, we show independence on free resolution. Indeed, given another pair of free resolutions $\tilde F$ and $\tilde F'$, we have the chain homotopies $i \colon \tilde F \to F$ and $j \colon F' \to \tilde F'$. Moreover, we have some map $\tilde \alpha_\sharp \colon \tilde F \to \tilde F'$ induced by $\alpha$, and if we set $\alpha_\sharp = j \tilde \alpha_\sharp i$ (which is a valid $\alpha_\sharp$ as above; checked directly) we have a commutative diagram of chain maps
+\[\begin{tikzcd}
+F \arrow[d, "\alpha_\sharp"] \arrow[r, "i"] & \tilde F \arrow[d, "\tilde \alpha_\sharp"] \\
+F'                                          & \tilde F' \arrow[l, "j"]                  
+\end{tikzcd}\]
+and so we can apply the $H_2$ functor to obtain that the map we built originally coincides with the one built from the new free resolutions, if we pass through the canonical isomorphisms on the two pairs of copies of $\Ext$.
+\end{sol}
+
+\begin{ex}[3.1:2]
+Show that if $n$ is an integer then $\Ext(n,G) = n$ and $\Ext(H,n) = n$ (identifying $n$ with the `multiplication by $n$' map where appropriate).
+\end{ex}
+
+\begin{sol}
+For the first one, we pick a free resolution of $H$, say $F$, and consider the chain map $n \colon F \to F$. It restricts to $n$ in $H$. Now, the dual of $n$ is also $n$, so we get $n \colon F^* \to F^*$, which induces $n$ in all homologies, in particular in the second homology, so we get $\Ext(n,G) = n$.
+
+For the second one, we again pick a free resolution $F$ of $H$. Then, we get the map $n_\sharp \colon F^* \to F^*$ by the notation of the previous exercise, but this is obviously just $n$. Again, applying the second homology map, we get $\Ext(H,n) = n$.
+\end{sol}
+
+\begin{ex}[3.1:5]
+Regarding a $1$-cochain $\varphi$ as a function on paths, show that
+\begin{enumerate}
+\item $\varphi(fg) = \varphi(f) + \varphi(g)$,
+\item $\varphi$ is null on constant paths,
+\item $\varphi(f) = \varphi(g)$ if $f$ and $g$ are homotopic,
+\item $\varphi$ is a coboundary iff $\varphi(f)$ depends only on the endpoints of $f$ for all $f$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item (Assuming that $f$ and $g$ are composable) There is a map $H \colon \Delta^2 \to X$ such that its first and third sides are $f$ and $g$, and its second side is $fg$. Hatcher does this at some point. Anyhow, then we have $\varphi(\delta(H)) = 0$, but this is $\varphi(f) + \varphi(g) - \varphi(fg) = 0$.
+
+\item Apply above with $f = g = c$.
+
+\item If $f$ and $g$ are homotopic, there is a map $H \colon \Delta^2 \to X$ such that its first face is $f$, its second face is $g$, and its third face is constant. Hatcher also does it. $H$ is built easily from the homotopy. Anyway, the fact that $\varphi(\delta(H)) = 0$, together with the second item, gives us that $\varphi(f) = \varphi(g)$.
+
+\item The right-implication is trivial. For the left implication, suppose that $\varphi(f) = \psi(f(0), f(1))$ for some map $\psi$. Then, pick a point $x_\alpha$ on each connected component of $X$, and define $\eta(p) = \psi(x_p,p)$ where $x_p$ is the $x_\alpha$ in the same connected component as $p$.
+
+We claim that $\varphi = \delta \eta$. To this effect, pick a path $f$. Then $\delta \eta(f) = \eta(f(1) - f(0)) = \eta(f(1)) - \eta(f(0)) = \psi(x, f(1)) - \psi(x,f(0))$. Now, since $\varphi(f^{-1}) = - \varphi(f)$ for all $f$, we get that $\psi$ is skew-symmetric, hence
+\begin{equation}
+\delta \eta(f) = \psi(x,f(1)) + \psi(f(0), x) = \phi(\gamma_1) + \phi(\gamma_2),
+\end{equation}
+where $\gamma_1$ and $\gamma_2$ are paths connecting $x$ to $f(1)$ and $f(0)$ to $x$. Finally, we apply the first property to get that $\phi(\gamma_1) + \phi(\gamma_2) = \phi(\gamma_1 \gamma_2)$, which has as endpoints $f(0)$ and $f(1)$ and thus we have
+\begin{equation}
+\delta \eta(f) = \phi(f),
+\end{equation}
+as desired.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[3.1:10]
+Compute the cohomology of the lens space $L_m(\ell_1, \dots, \ell_n)$ using the cellular cochain complex and taking coefficients in $\Z$, $\Q$, $\Z/m$ and $\Z/p$ for $p$ prime. Compute it also using the UCT.
+\end{ex}
+
+\begin{sol}
+We know (Hatcher does it) that the cellular chain complex of this lens space is given by
+\begin{equation}
+0 \to \Z \xrightarrow 0 \Z \xrightarrow m \Z \xrightarrow 0 \dots \xrightarrow 0 \Z \xrightarrow m \Z \xrightarrow 0 \Z \to 0,
+\end{equation}
+where there are $2n$ copies of $\Z$. Now, the dual of this (wrt the group $G$) is given by
+\begin{equation}
+0 \leftarrow G \xleftarrow 0 G \xleftarrow m G \xleftarrow 0 \dots \xleftarrow 0 G \xleftarrow m G \xleftarrow 0 G \leftarrow 0.
+\end{equation}
+
+The cohomology groups are thus as follows. The zeroth dimensional one is just $G$ itself. Then, the odd-dimensional ones until $2n-1$ exclusive are all given by the set of elements $g \in G$ such that $mg = 0$; we will henceforth call this subgroup $G\{m\}$. The odd-dimensional ones until $2n$ exclusive are $G/mG$. Finally, the $2n-1$-th cohomology is again $G$ itself, and all higher dimensional cohomologies are null.
+
+\smallskip
+
+Now, let's do this same computation using the UCT. It tells us that
+\begin{equation}\label{eq:eq1}
+H^k \cong H_k^* \oplus \Ext(H_{k-1}, G).
+\end{equation}
+
+Now, we know what the homology of the lens space looks like. On dimensions $0$ and $2n-1$ it is $\Z$, on the odd dimensions in between it is $\Z/m$, and on the even dimensions in between it is null. In particular, the only dimension in which both $H_k$ and $H_{k-1}$ are nonzero is $k = 1$, but in this case $\Ext(H_{k-1}, G) = \Ext(\Z, G) = 0$. As such, the right-hand side of \eqref{eq:eq1} always consists of at most one term.
+
+For $k = 0$ we have $H^k \cong H_k^* = \Z^* \cong G$. For $k = 2n$ we have $H^k \cong \Ext(H_{k-1},G) = \Ext(\Z,G) = 0$. For $k > 2n$ everything is zero. For $k = 2n-1$ we have $H^k \cong H_k^* \cong \Z^* \cong G$. For $k$ odd between $0$ and $2n-1$ exclusive we have $H^k \cong H_k^* \cong (\Z/m)^*$. Finally, for $k$ even in this range we have $H^k \cong \Ext(\Z/m, G) \cong G/mG$. As a final observation, $\Z/m^*$ is the collection of homomorphisms from $\Z/m$ to $G$. Such a map is determined by where it takes $1$, and this element must necessarily satisfy $mx = 0$. As such, we conclude that $\Z/m^* \cong G\{m\}$, which shows that we obtain the same cohomology using the UCT and cellular cohomology, as we ought to.
+
+Anyway, now to compute for the particular given groups, well. The computation is already basically done, we just need to finalize by calculating $G/mG$ and $G\{m\}$.
+
+For $\Z$ these are $\Z/m$ and $0$ respectively. For $\Q$ these are both $0$. For $\Z/m$ these are both $\Z/m$. Finally, for $\Z/p$ the answer depends on whether $p \mid m$. If so, they are both $\Z/p$ because $m \equiv 0$ mod $p$. Otherwise, they are both zero because $m$ is invertible mod $p$.
+\end{sol}
+
+\begin{ex}[3.1:13]
+Show that $( \cdot )_* \colon \braket{X,K(G,1)} \to H^1(X,G)$ is a bijection.
+\end{ex}
+
+\begin{sol}
+Let $\varphi \in H^1(X,G)$. Equivalently, this is a map $\varphi \colon H_1(X) \to G$. We may precompose $\varphi$ with the abelianization to obtain a map $f \colon \pi_1(X) \to G \cong \pi(K(G,1))$. By proposition 1B.9, $f$ is induced by some (surjectivity) unique up to basepoint homotopy (injectivity) map $F \colon X \to K(G,1)$, in the sense that $F_{*\pi} = f$, where $F_{*\pi}$ is the induced map in the fundamental group. Now, $F_{*\pi}$ factors uniquely through $H_1(X)$ because $G$ is abelian, but we know that this factor is $\varphi$ by definition of $f$. Thus, $F_* = \varphi$.
+\end{sol}
+
+\begin{ex}[3.2:1]
+Assuming as known the cup product structure on the torus, compute the cup product structure on $H^*(M_g)$.
+\end{ex}
+
+\begin{sol}
+By the universal coefficients theorem, we may recover the cohomology of $M_g$. Indeed, all its homologies are free, so their $\Ext$ is null, hence $H^n(M_g) \cong H_n(M_g)^*$, which is nontrivial only for $n = 0, 1, 2$. For $n = 0, 2$ we have $\Z^* = G$ and for $n = 1$ we have $(\Z^{2g})^* = G^{2g}$.
+
+Moreover, we know that $\varepsilon \in H^1(M_g)$ is the identity for the cup product, where $\varepsilon$ recieves a zero-chain $\sum n_i p_i$ and returns $\sum n_i$. Thus, since $H^1 = \braket{\varepsilon}$, we know what the cup product looks like on $H^1 \times H^k$ for any $k$.
+
+Furthermore, we also know what the product looks like on $H^1 \times H^2$, $H^2 \times H^1$, and $H^2  \times H^2$: it must be zero because $H^3 = H^4 = 0$. As such, the only nontrivial thing we need to deduce about the cup product is how it acts on $H^1 \times H^1$.
+
+Consider the projection map $p$ outlined in the statement. Applying the cohomology functor, we get a homomorphism from the cohomology ring of the wedge of $g$ tori, which by example 3.14 is the same as $\prod H^*(T)$, where $H^*(T)$ is the cohomology ring of the torus. Note: All spaces here have free homology groups, all $\Ext$ are null, and so $H^k$ is canonically isomorphically to $H_k^*$. Moreover, this isomorphism is natural in that $p^*$ is the dual of $p_*$. In particular, we know that $p_*$ is an isomorphism between $H_1(M_g)$ and $H_1(T^{\wedge g})$, so $p^*$ is an isomorphism between $H^1(M_g)$ and $H^1(T)^g$, and it respects the ring structure, so if $\varphi, \psi \in H^1(M_g)$ we can find $\varphi \cup \psi$ by writing $\varphi = p^*(\alpha)$, $\psi = p^*(\beta)$, and using $\varphi \cup \psi = p^*(\alpha \cup \beta)$. In this manner, we know what the cup product looks like on the cohomology ring of $M_g$.
+\end{sol}
+
+\begin{ex}[3.2:2]
+Show that if $X$ is the union of contractible subspaces $A_1, \dots, A_n$, then all $n$-fold cup products of positive dimensional cohomology classes are null.
+\end{ex}
+
+\begin{sol}
+The long exact sequence in reduced cohomology gives us that, for all $i = 1, \dots, n$ and $k \geq 0$,
+\begin{equation}
+\tilde H^k(A_i) \xrightarrow{\delta} H^{k+1}(X,A_i) \to H^{k+1}(X) \to H^{k+1}(A_i).
+\end{equation}
+
+Now, both ends are zero because $A$ is contractible, so we have for all $k \geq 1$,
+\begin{equation}
+H^k(X,A_i) \xrightarrow{\cong} H^k(X).
+\end{equation}
+
+Now, we also know that the cup product goes from $H^k(X,B_1) \times H^\ell(X,B_2)$ to $H^{k+\ell}(X,B_1 \cup B_2)$, so by induction we see that the $n$-fold cup product goes
+\begin{equation}
+\bigotimes H^{k_i}(X,A_i) \to H^{\sum k_i}(X, \bigcup A_i) = H^{\sum k_i}(X,X) = 0.
+\end{equation}
+
+The result follows because the long exact sequence respects cup product structure and hence the following diagram commutes:
+\begin{equation}
+\begin{tikzcd}
+{\bigotimes H^{k_i}(X,A_i) \to H^{\sum k_i}(X, \bigcup A_i)} \arrow[d,"0"] \arrow[r,"\cong"] & \bigotimes H^{k_i}(X) \arrow[d,"\cup"] \\
+{H^{\sum k_i}(X,X)} \arrow[r,"0"]                                                    & H^{\sum k_i}(X)                
+\end{tikzcd}
+\end{equation}
+\end{sol}
+
+\end{document}
