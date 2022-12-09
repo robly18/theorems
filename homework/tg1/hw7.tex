@@ -69,7 +69,8 @@
 \newcommand{\conj}[1]{\overline{#1}}
 \newcommand{\close}[1]{\overline{#1}}
 
-\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
 \DeclareMathOperator{\codim}{codim}
 \DeclareMathOperator{\trace}{tr}
 \newcommand{\grad}{\nabla}
@@ -142,28 +143,65 @@ Let $\tilde x \in \tilde M$, $x = p(\tilde x) \in M$. The generator of $H_n(M \m
 Naturality properties and the fact that $p$ is a covering space will show that these choices of local orientations on $\tilde M$ are coherent and so induce an orientation on $\tilde M$.
 \end{sol}
 
-\begin{ex}[3.3:3]
+\begin{ex}[3.3:7]
+Show that for any connected closed orientable $n$-manifold $M$ there is a map $f \colon M \to S^n$ such that $f_*([M]) = [S^n]$.
 \end{ex}
 
 \begin{sol}
+Pick a triangulation of $M$. This triangulation corresponds to the fundamental class of $M$. Now, consider the map $f \colon M \to S^n$ which consists of collapsing all triangles except one. This takes $[M]$ to an $n$-cycle in $S^n$ such that all but one of its simplices are constant equal to some point $p$.
+
+We claim that any such cycle is a generator of $H_n(S^n)$. This can be seen as follows. First, we know that (for $n \neq 0$, but that case is false anyway) $H_n(S^n) \cong H_n(S^n, p)$. Now, in $H_n(S^n, p)$, all the constant simplices equal to $p$ vanish in the quotient, so $f_*([M])$ is equal in homology to (the equivalence class of) the cycle with only one simplex which covers all of $S^n$. But we know that this cycle is a generator of $H_n(S^n)$, and so we have shown that our $f$ takes $[M]$ to $[S^n]$.
 \end{sol}
 
-\begin{ex}[3.3:3]
+\begin{ex}[3.3:22]
+Show that $H^n_c(X \times \R; G) \cong H^{n-1}_c(X;G)$.
 \end{ex}
 
 \begin{sol}
+As in example 3.34 in Hatcher, to compute compact cohomology it suffices to take the colimit as the compacts range over a directed compact cover of $X$. As such, consider the directed compact cover of $X \times \R$ given by sets of the form $K \times [-a,a]$ with $K$ compact and $a \geq 0$. Thus, we have
+\begin{equation}
+H^n_c(X \times \R) \cong \colim H^n(X \times \R \mid K \times [-a,a]).
+\end{equation}
+
+Moreover, we know from category theory that `colimits in two variables can be separated', so we have
+\begin{multline}\label{eq:eq1}
+\colim_{K \times [-a,a]} H^n(X \times \R \mid K \times [-a,a]) = \\
+= \colim_K \left( \colim_{[-a,a]} H^n(X \times \R \mid K \times [-a,a]) \right).
+\end{multline}
+
+Now, we claim that $H^n(X \times \R \mid K \times [-a,a])$ is naturally isomorphic to $H^{n-1}(X \mid K)$, so \eqref{eq:eq1} simplifies to
+\begin{equation}
+\colim_K H^{n-1}(X \mid K) =: H^{n-1}_c(X).
+\end{equation}
+
+To prove our claim, we use the relative Künneth formula. We may do this because the relative cohomology ring $H^*(\R \mid [-a,a])$ is simply $\braket{\alpha \mid \alpha^2 = 0}$ with $\abs{\alpha} = 1$ (this can be seen by the universal coefficients theorem or by excision) so in particular all its cohomologies are free of finite rank.  With it, we get
+\begin{equation}
+H^*(X \times \R \mid K \times [-a,a]) = H^*(X \mid K) \otimes H^*(\R \mid [-a,a]).
+\end{equation}
+
+Now, since $H^*(\R \mid [-a,a])$ is null except on dimension 1, where it is $G$, we obtain by definition of graded tensor
+\begin{equation}
+H^*(X \times \R \mid K \times [-a,a]) = H^{*-1}(X \mid K),
+\end{equation}
+which completes the proof.
 \end{sol}
 
-\begin{ex}[3.3:3]
+\begin{ex}[3.3:25]
+Show that if $M$ is a closed orientable manifold of dimension $2k$, if $H_{k-1}(M;\Z)$ is torsionfree then so is $H_k(M;\Z)$.
 \end{ex}
 
 \begin{sol}
+Poincaré Duality gives $H_{k-1} = H^{k+1}$. Therefore, $H^{k+1} = \Ext(H_k, \Z) \oplus H_{k+1}^*$ is torsionfree, and thus $\Ext(H_k,\Z)$ is torsionfree. But since compact manifolds have finitely generated homologies, $H_k$ is a finitely generated abelian group, and by their classification $\Ext(H_k,\Z) = \mathrm{Tor}(H_k)$, which, by definition, is torsionfree iff it is zero, iff $H_k$ itself is torsionfree.
 \end{sol}
 
-\begin{ex}[3.3:3]
+\begin{ex}[3.3:26]
+Compute the cup product structure of $H^*(S^2 \times S^8 \sharp S^4 \times S^6;\Z)$.
 \end{ex}
 
 \begin{sol}
+From exercise 6a), the Künneth formula, and the universal coefficients theorem, we are able to compute that the cohomology of this space (which we will call $X$) is $\Z$ in dimensions $0, 2, 4, 6, 8, 10$, but I don't know how to compute the cup product structure. I will say what few observations I can make though.
+
+We know that the generator of the zeroth cohomology is the identity wrt the cup product; this is a general fact when $H^0 = \Z$. Moreover, we know that the cup product is null when the dimensions add up to more than 10. Finally, if we let $g_k$ be the generator of the $k$-th cohomology, I conjecture that $g_2 \cup g_8 = g_4 \cup g_6 = g_10$, and that all other cup products are null.
 \end{sol}
 
 \end{document}

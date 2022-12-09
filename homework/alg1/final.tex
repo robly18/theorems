@@ -1,0 +1,235 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Algebra Final}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\DeclareMathOperator{\inte}{int}
+\DeclareMathOperator{\codim}{codim}
+\newcommand{\grad}{\nabla}
+\newcommand{\schur}{\mathbf{s}}
+\newcommand{\reg}{\mathit{reg}}
+\newcommand{\regl}{{\mathit{reg}_\ell}}
+\newcommand{\cg}{\vee}
+
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Av}{Av}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\Lie}{Lie}
+\newcommand{\transpose}{\top}
+
+
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\ad}{ad}
+
+
+\DeclareMathOperator{\Aff}{Aff}
+
+\newcommand{\HH}{\mathcal{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\Hp}{\mathrm{H}}
+
+\newcommand{\gl}{\mathrm{gl}}
+\renewcommand{\sl}{\mathrm{sl}}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $g \colon \R \to \GL_n(\R)$ be a smooth map. Prove that
+\begin{equation}
+\frac1{\det g(t)} \diff{\det(g(t))}t = \trace\left(g(t)^{-1} \diff g t \right).
+\end{equation}
+\end{ex}
+
+\begin{sol}
+I will use a lemma I have proven in homework 6. In my solution to exercise 4, I proved the following:
+
+Suppose that we see the determinant $\det \colon M_n(\R) \to \R$ as a function $\det \colon \R^{n^2} \to \R$. Then, it is a smooth function, and its derivative in the sense of multivariable calculus may be computed at any invertible matrix $A$ as
+\begin{equation}
+(\dl \det)_A(C) = \det(A) \trace(A^{-1} B).
+\end{equation}
+
+With this, the statement to be proven is trivial by the multivariable calculus chain rule:
+\begin{equation}
+\begin{aligned}
+\diff{\det(g(t))}t &= (\dl \det)_g(t)(\dot g(t))\\
+&= \det(g(t)) \trace(g(t)^{-1} \dot g(t)),
+\end{aligned}
+\end{equation}
+and solving for $\trace(g(t)^{-1} \dot g(t))$ we obtain the desired result.
+\end{sol}
+
+For completeness, here is copypaste of the lemma I proved in homework 6. (I only saw the hint now but this is just stuff I had already written anyway.)
+
+\begin{proof}
+We know that the determinant is smooth (just look at the expression), and computing its partial derivatives at the identity is pretty easy. Indeed, if $e_{ij}$ is the matrix whose entries are all null except the $ij$-th, which is one, then it is trivial that $\det(I + t e_{ij}) = 1 + t \delta_{ij}$ (this is the Kronecker delta), hence $\partial_{ij} \det(I) = \delta_{ij}$. From this it is easy to compute the derivative of the determinant at the identity in the sense of multivariable calculus, and we end up with $(\dl \det)_I(A) = \trace A$.
+
+By the multiplicativity of the determinant we may extend this result to the determinant at any invertible matrix $A \in \GL_n$, as on the one hand since $\det \circ L_A = \det(A) \times \det$ we obtain $(\dl (\det \circ L_A))_I(B) = \det(A) \times \trace(B)$, and on the other using the chain rule we get
+\begin{equation}
+(\dl (\det \circ L_A))_I(B) = (\dl \det)_A (\dl L_A)_I (B) = (\dl \det)_A (AB).
+\end{equation}
+
+Thus, setting $C = AB$ we obtain $(\dl \det)_A(C) = \det(A) \trace(A^{-1} B)$.
+\end{proof}
+
+\pagebreak
+
+\begin{ex}
+Fix $F \in \GL_n(\R)$ and define
+\begin{equation}
+G_F = \{\, g \in M_n(\R) \mid F^{-1} g^\transpose F g = I \,\}
+\end{equation}
+find an explicit description of the Lie algebra of $G_F$.
+\end{ex}
+
+\begin{sol}
+We wish to find out: for which values of $a \in M_n(\R)$ do we have
+\begin{equation}
+F^{-1} \exp(t a)^\transpose F \exp(t a) = I, \text{ for all $t \in \R$?}
+\end{equation}
+
+Now, this equation is evidently true for $t = 0$, so the question is equivalent to asking when the left-hand side is constant. The answer to this may be found by computing its time derivative and asking when it is constant equal to zero. This derivative is computed easily using the chain rule (and also the fact that $\exp$ commutes with transposition) to get
+\begin{equation}
+\diff{\text{LHS}}t = 0 \text{ iff } F^{-1} \exp(t a)^\transpose a^\transpose F a \exp(t a) = 0.
+\end{equation}
+
+Now, if we factor out the invertible matrices $F^{-1}$ and exponents, we obtain that this derivative is null iff $a^\transpose F a = 0$ (a condition which does not depend on $t$).
+
+I would consider this a reasonable answer, but in keeping with the wording of the problem, let us rewrite this as a collection of linear equations. We want all entries of $a^\transpose F a$ to be null, so we have $n^2$ equations, of which the $ij$th equation is that
+\begin{equation}\label{eq:eq1}
+\sum_{k = 0}^n \sum_{\ell = 0}^n a_{ki} F_{k \ell} a_{\ell j} = 0.
+\end{equation}
+
+Then, $\Lie(G_F)$ is the set of $n \times n$ matrices which satisfy \eqref{eq:eq1} for $i, j = 1, \dots, n$.
+\end{sol}
+
+\pagebreak
+
+\begin{ex}
+Find the kernel and the image of $t \mapsto \exp(t a)$.
+\end{ex}
+
+\begin{sol}
+We know from class stuff that this matrix $a \in M_2(\R)$ is identified with the $1 \times 1$ matrix $\I$ in $M_1(\C) = \C$. And so $\exp(t a)$ can be seen as the complex number $\exp(\I t)$. And we know from basic complex number theory that this is $1$ iff $t \in 2 \pi \Z$, and that the image is the unit circle.
+
+As such, the kernel of our map is $2 \pi \Z$, and the image (now going back to $M_2(\R)$ is the set of matrices of the form $R(\theta) = \left(\begin{smallmatrix}\sin \theta & \cos\theta \\ -\cos\theta & \sin\theta\end{smallmatrix}\right)$, which coincides with the collection orthogonal matrices of determinant one, that is, $\SO_2(\R)$.
+
+Anyway, this is the answer. If this identification of some matrices with complex numbers is uncomfortable, we could also show explicitly using the power series for $\exp$ and the fact that $a^2 = -I$ that $\exp(\I t) = R(t)$ and we get exactly the same result.
+\end{sol}
+
+\pagebreak
+
+\begin{ex}
+Let the unitary group $U_n$ act on $\sl_n(\C)$ by conjugation $\Ad$. Prove that the resulting representation of $U_n$ is irreducible.
+\end{ex}
+
+\begin{sol}
+We proved in homework 1 that $U_n$ is connected. Therefore, $\Ad \colon U_n \to \GL(\sl_n(\C))$ is an irrep iff $\dl \Ad \colon u_n \to \gl(\sl_n(\C))$ is an irrep. Moreover, recall that (exercise 6 homework 6) $\dl \Ad = \ad$.
+
+Now, we want to show that this rep of $u_n$ is irreducible. But notice that $u_n$ is actualy a real form of $\gl_n(\C)$. Indeed, recall that (exercise 4 homework 6) $u_n$ is the collection of skew-hermitian matries. As such, $\I u_n$ is the collection of self-hermitian matrices. Finally, any complex matrix $a$ can be written uniquely as a sum of a skew-hermitian and a hermitian matrix, as $a = \frac{a - a^*}2 + \frac{a + a^*}2$, the former being skew-hermitian and the latter being self-hermitian. This decomposition is unique because the above formulas will actually recover the skew-hermitian and self-hermitian part of any decomposition of $a$ into two such matrices.
+
+Now, we know from class that a holomorphic Lie algebra representation is irreducible iff its restriction to any of its real parts is irreducible. As such, it suffices to show that $\ad \colon \gl_n(\C) \to \gl(\sl_n(\C))$ is an irreducible Lie algebra homomorphism.
+
+This seems like an easier problem, but I was unable to do it.
+\end{sol}
+
+\pagebreak
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Find $\trace_{P^m}(g)$ for $g = \left(\begin{smallmatrix} z & 0 \\ 0 & z^{-1} \end{smallmatrix}\right)$ for $z \in S^1$.
+\item Prove an isomorphism of representations of $\SU_2$.
+\begin{equation}
+P^3 \otimes P^3 \cong P^6 \oplus P^4 \oplus P^2 \oplus P^0.
+\end{equation}
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Consider the basis of $P^m$ given by the monomials $x^n y^{m-n}$. Then, $g$ acts on such a monomial by multiplication by $z^n z^{n-m} = z^{2n-m}$. As such, the trace we seek can be computed in this basis as
+\begin{equation}\label{eq:eq2}
+\trace(g) = \sum_{n=0}^m z^{2n-m} = \frac{1 + z^2 + \dots + z^{2m}}{z^m} = \frac{z^{2m + 2} - 1}{(z^2 - 1)z^m}.
+\end{equation}
+\item By results from class, we know that representations of $\SU_2$ are completely reducible (it is compact), and also the irreps of $\SU_2$ are $P^0, P^1,$ etc. because the irreps of $\SU_2$ are in one-to-one correspondence with the irreps of $\SL_2(\R)$, and we saw in class that there was one such irrep for each positive dimension, and that they are the polynomial representations. From the irreps of $\SL_2(\R)$ we can find the irreps of $\SU_2$ by passing through $\SL_2(\C)$.
+
+As such, to prove the isomorphism we desire, it suffices by the Schur lemma to compute $\braket{P^3 \otimes P^3, P^m}$ for each $m = 0, 1, \dots$
+
+This is made easier because $\trace_{P^3 \otimes P^3} = (\trace_{P^3})^2$. 	Moreover, we have previously computed $\trace_{P^m}$ on diagonal matrices, but all matrices in $\SU_2$ can be diagonalized, and moreover their eigenvalues are inverses of each other. As such, we already have enough information to compute $\trace_{P^m}(g)$ in full generality; it is simply given by the expression \eqref{eq:eq2} with $z$ equal to either eigenvalue of $g$, and these eigenvalues can be found by looking at the trace of $g$. Indeed, if $T$ is the trace of $g$ as a $2 \times 2$ matrix, we get that $z + z^{-1} = T$, hence $z^2 = Tz - 1$.
+
+I think that from this you might be able to simplify $\trace_{P^m}(g)$ enough in terms of the trace of $G$, but I was unable to do it, and so I could not complete this exercise.
+\end{enumerate}
+\end{sol}
+
+\end{document}
