@@ -1,0 +1,243 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 2}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\let\radical\relax
+\DeclareMathOperator{\radical}{rad}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $R$ be a Noetherian ring and $I$ a radical ideal. Show that $I$ is the intersection of finitely many prime ideals.
+\end{ex}
+
+\begin{sol}
+We prove by Noetherian induction the statement: If $I \subseteq R$ is \emph{any} ideal, then $\radical I$ is the intersection of finitely many prime ideals.
+
+To this effect, by Noetherian induction we assume that the statement is false, and consider a maximal counterexample $I$. Of course, if $I$ is a counterexample, then so is $\radical I$, so it is the case that $I$ is a radical ideal.
+
+If $I$ were prime itself, it would not be a counterexample. Thus, $I$ is not prime and we can find $a, b \not \in I$ such that $ab \in I$. Thus, $\radical \braket{I,a}$ and $\radical \braket{I,b}$ are both the intersection of finitely many prime ideals, so to finish the proof it suffices to show that $\radical \braket{I,a} \cap \radical \braket{I,b} = I$.
+
+Thus, suppose that $r \in R$ belongs to this intersection, so that there exist two integers $n$ and $m$ such that $r^n \in \braket{I,a}$ and $r^m \in \braket{I,b}$. Without loss of generality, $m = n$ and so $r^n \in \braket{I,a} \cap \braket{I,b}$. Therefore, since $I$ is radical, it suffices to show that $\braket{I,a} \cap \braket{I,b} = I$.
+
+Pick some element in this intersection, say $j = i_0 + r a = i_1 + s b$. Then, by expanding, $j^2$ is easily seen to be in $I$. But then, since $I$ is radical, we conclude that $j$ itself is in $I$, completing the proof.
+\end{sol}
+
+\begin{ex}
+The Zariski topology on $\Aff^2$ is not the product topology on $\Aff^1 \times \Aff^1$.
+\end{ex}
+
+\begin{sol}
+Lemma: $\kk$ has infinitely many elements.
+
+Proof of lemma: If $\kk = \{k_1, \dots, k_n\}$ then consider some root of the polynomial $\left(\prod (x - k_i) \right) + 1$. This yields a contradiction.
+
+\smallskip
+
+Lemma: Let $F$ be a closed set in $\Aff^1 \times \Aff^1$, and suppose that there is a sequence of points $(x_n, y_n) \in F$ such that all $x_n$ are distinct from each other and likewise for all $y_n$. Then, $F$ is the whole space.
+
+Proof of lemma: By expanding the definitions, we may characterize a closed set $F \subseteq \Aff^1 \times \Aff^1$ as an arbitrary intersection of basic closed sets, where a basic closed set is of the form
+\begin{equation}
+C = F_1 \times \Aff^1 \cup \Aff^1 \times F_2,
+\end{equation}
+with $F_1$ and $F_2$ closed in $\Aff^1$. Thus, $F_1$ and $F_2$ are both finite, or the whole space.
+
+Now, the lemma is evidently true for $C$. Indeed, if all $(x_n, y_n)$ are in $C$ as above, infinitely many of them are either in $F_1 \times \Aff^1$ or in $\Aff^1 \times F_2$. But in the first case, since the $x_n$ range over infinitely many distinct elements of $\kk$, we obtain $F_1 = \Aff^1$ and hence $C = \Aff^1 \times \Aff^1$, and a similar argument holds for the second case.
+
+To prove the lemma in full generality, write a general closed set as $F = \bigcap_{\alpha} C_\alpha$, where the $C_\alpha$ are basic open sets. Then, all $(x_n, y_n) \in F$ also belong to all $C_\alpha$, and thus all $C_\alpha = \Aff^1 \times \Aff^1$ and so $F = \Aff^1 \times \Aff^1$, completing the proof of the lemma.
+
+\smallskip
+
+We may now finish the solution of the exercise by noticing that the line $L = \{(x,y) \in \Aff^2 \mid x=y\}$ is an algebraic set, and hence Zariski closed. However, using the two lemmas above, the closure of $L$ in the product topology is the whole space, and thus $L$ is not closed in $\Aff^1 \times \Aff^1$.
+\end{sol}
+
+\begin{ex}
+\begin{enumerate}
+\item Show that any rational polynomial $P(x)$ which is an integer for large enough $x \in \Z$ is of the form
+\begin{equation}
+P(x) = \sum a_j \binom x j.
+\end{equation}
+\item Reduce to the case where $x_n$ is a nonzero divisor on $M$.
+\item Finish the proof.
+\item Suppose that $\dim M > 0$ and $\deg f > 0$, $f$ homogeneous. Show that $\dim(M/fM) \geq \dim M - 1$ with equality if $f$ is not a zero divisor.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\begin{enumerate}
+\item First, we note that $P(x)$ may be written as $\sum a_j \binom x j$ for some rational $a_j$, because the collection $\left\{\binom x j\right\}_{j = 0, 1, \dots}$ is a basis of $\Q[x]$. (Proof sketch: Writing out the coordinates of this set in the basis $\{1,x,x^2,\dots\}$ we obtain an upper-triangular (infinite) matrix with ones in the diagonal.)
+
+Now, by clearing denominators, we see that $P(x) = p(x) / q$ for some integer polynomial $p$ and positive integer $q$. Now, our claim is that indeed $P(x)$ is an integer whenever $x$ is an integer. This is the same as to say that $p(x)$ is always a multiple of $q$. But to prove this, look at the values of $p(x)$ modulo $q$. Since polynomials are given by addition and multiplication, if $x$ is congruent with $y$ modulo $q$, then $p(x)$ is congruent with $p(y)$ modulo $q$. But for any $x$ we may find some very large $y$ in the same equivalence class, for which $P(y)$ is an integer and thus $p(y) \cong 0$ modulo $y$. As a consequence, \emph{for any $x \in \Z$} we have that $P(x)$ is an integer.
+
+Now the proof that the $a_j$ are all integers is easily done by induction. For example, $a_0 = P(0)$, so it is an integer. Moreover, $P(1) = a_0 + a_1$, so $a_1$ is also an integer. In general, if we have shown that $a_0, \dots, a_j$ are all integers, then we have that $a_{j+1}$ is an integer, because $\binom{j+1}{j+1} = 1$, and $\binom{j+1}k = 0$ for all $k > j+1$, so we may write $a_{j+1}$ as an integer linear combination of $P(j+1)$ and the previous coefficients.
+
+\item Suppose that the problem has been solved when $x_n$ is not a zero divisor, and let $M$ be an arbitrary finitely generated graded module over the polynomials in $n$ variables, generated by some $m_1, \dots, m_N$. Let $F$ be the free graded module over $\kk[x_0, \dots, x_n]$ in the generators $m_1, \dots, m_N$, with degrees equal to their corresponding degrees in $M$. Thus, we have a short exact sequence given by the evaluation map,
+\begin{equation}
+0 \to K \to F \to M \to 0.
+\end{equation}
+
+Now, $F$ is evidently finitely generated. The same holds for $K$ by a theorem from lecture 2. Finally, on both of these $x_n$ is not a zero divisor (nor is any other nonzero element of $\kk[x_0, \dots, x_n]$). As such, we may apply the theorem to $K$ and $F$, to obtain that the Hilbert functions of $K$ and $F$ coincide near infinity with some integer-valued polynomials of degree $\leq n$. Finally, we use the rank-nullity theorem to obtain that the difference of these two polynomials agree near infinity with the Hilbert function of $M$.
+
+\item By the given short exact sequence and the rank-nullity theorem, we have the relation $HF_M(i) - HF_M(i-1) = HF_{M/x_n M}(i)$. Now, by induction on $n$ (the theorem is obviously true for $n = -1$ (assuming the convention that the polynomial $0$ has degree $-1$) because in this case $M$ is just a sequence of vector spaces which vanishes from some point on) we may assume that $HF_{M/x_n M}(i)$ coincides near infinity with an integer-valued polynomial of degree $\leq (n-1)$, because $M/x_n M$ is finitely generated as a module over $\kk[x_0, \dots, x_{n-1}]$. Proof: It is finitely generated over $R = \kk[x_0, \dots, x_n]$, but multiplication by $x_n$ is null, so any $R$-linear combination of the generators may be written as one whose coefficients lie in $\kk[x_0, \dots, x_{n-1}]$.
+
+Now the proof is complete so long as we prove the following lemma: If $F$ and $G$ are functions on the integers such that $F(i) - F(i-1) = G(i)$, and $G$ agrees with an integer-valued polynomial of degree $\leq n-1$ for large values of $i$, then $F$ agrees with such a polynomial of degree $\leq n$ for large values of $i$.
+
+Proof of lemma: First, suppose that $G$ is indeed an integer-valued polynomial, of the form $G(x) = \sum^{n-1} a_j \binom x j$. Then, up to a constant term, $F$ is given by the discrete integral of $G$. That is, for $x$ a positive integer,
+\begin{equation}\label{eq:int}
+F(x) = F(0) + G(1) + G(2) + \dots + G(x).
+\end{equation}
+
+However, by applying some combinatorial identities (see Pascal's triangle), we easily conclude
+\begin{equation}
+F(x) = F(0) + \sum^{n-1} a_j \left( \binom x {j+1} - \binom x 0 \right),
+\end{equation}
+which is evidently an integer polynomial of degree $\leq n$.
+
+Finally, if $G$ does differ from such a polynomial at finitely many integers, note that \eqref{eq:int} differs from a polynomial only finitely many times. After $x$ is big enough that $G$ does agree with a polynomial, the error term has no effect. This completes the proof.
+
+\item Consider the short exact sequence
+\begin{equation}
+0 \to f M(-d) \hookrightarrow M \to M/fM \to 0.
+\end{equation}
+
+Thus, $HF_{M/fM} = HF_M - HF_{f M(-d)}$. Now, for large values, $HF_M$ coincides with some polynomial $p$ of degree $\deg M$ (by definition), and $HF_{f M(-d)}$ coincides with some polynomial $q$ of unknown degree. What we do know is that we have the assymptotic bound for large $x$:
+\begin{equation}\label{eq:bd}
+q(x) \leq p(x-d), \quad x \gg 0
+\end{equation}
+hence the degree of $q$ is less than or equal to the degree of $p$.
+
+Now, let $p(x) = a x^m + b x^{m-1} + O(x^{m-2})$. Then, $q(x) = a' x^m + b' x^{m-1} + O(x^{m-2})$, and by the assymptotic bound we have $a' \leq a$.
+
+If we have strict inequality, then $\deg (p-q) = \deg p$, hence $\deg(M/fM) = \deg M$. If we have equality, observe that, by \eqref{eq:bd},
+\begin{equation}
+a x^m + b' x^{m-1} + O(x^{m-2}) \leq a (x-d)^m + b (x-d)^{m-1} + O(x^{m-2}) = a x^m + (b - d m) x^{m-1} + O(x^{m-2}),
+\end{equation}
+for large enough values of $x$. As a consequence, we see that $b - d m \geq b'$. Now, since by hypothesis $\dim M > 0$ and $\deg f > 0$, we have $dm > 0$ and thus $b > b-dm \geq b'$. As a consequence, $p-q$ has a nonzero term of order $m-1$, and therefore $\dim(M/fM) = \deg(p-q) = \dim M - 1$.
+
+\smallskip
+
+To complete the exercise: if $f$ is not a zero divisor, then the multiplication by $f$ map given by $M \to f M$ is an isomorphism of graded modules. Thus, the polynomial $q$ above is exactly equal to $p(x-d)$. This is the scenario in which $a' = a$ and $b' = b - dm$, and thus $\dim(M/fM) = \dim M - 1$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Prove that the intersection of $n$ hypersurfaces in $\PP^n$ is nonempty.
+\end{ex}
+
+\begin{sol}
+As suggested, we show that the graded $\kk[x_0, \dots, x_n]$-module $\kk[x_0, \dots, x_n]/\braket{f_1, \dots, f_n}$ has dimension at least zero. (Note: This shows that $\braket{f_1, \dots, f_n}$ does not contain $\braket{x_0,\dots,x_n}$ because if it did then the module would have Hilbert polynomial equal to zero, which, as per the above convention, has degree $-1$.
+
+Taking a quotient by an ideal generated by $n$ elements is equivalent (by one of the isomorphism theorems) to taking successive quotients by ideals generated by one element. Thus, the degree of $\kk[x_0, \dots, x_n]/\braket{f_1, \dots, f_n}$ is at least $\deg(\kk[x_0, \dots, x_n]) - n$. However, the degree of the polynomial ring is easy to compute and equals $n$: the dimension of the homogeneous polynomials in $n+1$ variables of degree $i$ is known to be $\binom{i+n}{n}$, which is a polynomial of degree $n$.
+\end{sol}
+
+\begin{ex}
+Show that the twisted cubic is an algebraic subset of $\PP^3$ and is in fact the intersection of quadrics. Show that the twisted cubic union with a line can be written as the intersection of two quadrics.
+\end{ex}
+
+\begin{sol}
+We claim that the twisted cubic is the algebraic set of points $[X:Y:Z:W]$ given by the conditions
+\begin{equation}\label{eq:tc}
+\begin{cases}
+XW = YZ,\\
+XZ = Y^2,\\
+YW = Z^2.
+\end{cases}
+\end{equation}
+
+It is evident that all points in the twisted cubic satisfy \eqref{eq:tc}, so it suffices to show that any such point is in the twisted cubic. Thus, pick a point $[X:Y:Z:W]$ satisfying these \eqref{eq:tc}.
+
+Without loss of generality, we assume that $X \neq 0$. Indeed, the only point satisfying \eqref{eq:tc} such that $X = 0$ satisfies $Y = 0$ (second condition) and $Z = 0$ (third condition) and therefore is $[0:0:0:1]$ which is obviously in the twisted cubic as the image of $[0:1]$. On the other hand, when $X \neq 0$, and without loss of generality $X = 1$, we see that the image of $[1:Y]$ is given by $[1 : Y : Y^2 : Y^3] = [X:Y:XZ: X Y Z] = [X:Y:Z:X^2 W] = [X:Y:Z:W]$. Thus, this point is in the twisted cubic.
+
+\smallskip
+
+Now we turn to the second part of the problem. Consider the set given by the equations
+\begin{equation}\label{eq:tc2}
+\begin{cases}
+XW = YZ,\\
+XZ = Y^2.\\
+\end{cases}
+\end{equation}
+
+Then, we claim that these define a set which is the union of the twisted cubic with a line. Indeed, any point satisfying \eqref{eq:tc2} either satisfies $YW = Z^2$, and is therefore in the twisted cubic, or it does not. In the event that it does not, i.e. that $YW \neq Z^2$, we get that $X = 0$. Indeed, if $X \neq 0$, we would have $XYW \neq XZ^2$, but $XYW = Y^2 Z = XZ^2$, a contradiction. As a consequence, all the added points are of the form $[0:Y:Z:W]$, but since $Y^2 = XZ$ we also have $Y = 0$. Finally, all points of the form $[0:0:Z:W]$ satisfy \eqref{eq:tc2}, and these form a line, as this is isomorphic in some appropriate sense to $\PP^1$. Thus, a point satisfying \eqref{eq:tc2} is either in the twisted cubic, or in this line. 
+\end{sol}
+
+\end{document}

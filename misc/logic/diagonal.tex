@@ -1,0 +1,259 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{float}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{Seminário Diagonal}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{nonumberplain}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{proofsketch}{Proof Sketch}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\EFA}{\mathrm{EFA}}
+\newcommand{\RCA}{\mathrm{RCA}}
+\newcommand{\WKL}{\mathrm{WKL}}
+\newcommand{\ACA}{\mathrm{ACA}}
+\newcommand{\ZZ}{\mathrm{Z}}
+
+
+\newcommand{\ZFC}{\mathrm{ZFC}}
+\newcommand{\ZF}{\mathrm{ZF}}
+\newcommand{\Choice}{\mathrm{C}}
+
+\newcommand{\wkl}{\mathrm{wkl}}
+
+
+\newcommand{\Grp}{\mathrm{Grp}}
+\newcommand{\id}{\mathrm{id}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+%\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Tempo: #1] \smallskip}
+\newcommand\timestamp[1]{}
+
+
+\begin{document}
+\maketitle
+
+\section{Introdução}
+
+\point{Tabela de verdade de $\Leftrightarrow$. Teoremas são todos equivalentes.}
+
+\point{Para atribuir significado à ideia de `equivalência de teoremas', enfraquecer axiomas para teoremas não serem todos verdade. Requer pensar mais na noção de axioma, e na noção de prova.}
+
+\timestamp{2 min}
+
+\section{Bases de Lógica}
+
+\subsection{Definições}
+
+\point{Fórmula de primeira ordem: Expressão bem-formada usando conectivos lógicos, quantificadores, uma linguagem previamente determinada, \textbf{e igualdade}. Destaque nos quantificadores.}
+
+\point{Noção de prova. Axiomas lógicos vs. Hipóteses. Regras de dedução.}
+
+\timestamp{7 min}
+
+\subsection{Exemplo: Grupos. Limitações}
+
+\point{Axiomas de grupo. Especificar a linguagem: $( \cdot, {}^{-1}, \id)$. Axiomas: $\forall_x \forall_y \forall_z \big(x(yz) = (xy)z\big)$, $\forall_x \big(x \cdot \id = x\big)$, $\forall_x \big(\id \cdot x = x\big)$, $\forall_x \big(x \cdot x^{-1} = \id\big)$, $\forall_x \big(x^{-1} \cdot x = \id\big)$.}
+
+\point{Exemplo de teorema: $\Grp \vdash \forall_x \forall_y \big( xy = \id \implies y = x^{-1}\big)$.}
+
+\point{Não-exemplo de teorema: Teorema de Lagrange. Enunciado: se $G$ é um grupo finito, o tamanho de qualquer subgrupo divide o tamanho de $G$.}
+
+\point{Várias razões para não ser possível, mas a principal é que lógica de primeira ordem não permite falar sobre subgrupos. Mencionar lógica de segunda ordem, etc.}
+
+\subsection{Exemplo: $\ZFC$. Proto-Reverse Math}
+
+\point{Introduzir $\ZF$ e $\Choice$. Mencionar que $\Choice$ é `controverso'.}
+
+\point{Teorema de Tarski (ver abaixo), como primeira entrada a Reverse Math.}
+
+\point{``Tarski tried to publish his theorem [the equivalence between $\Choice$ and `every infinite set $A$ has the same cardinality as $A \times A$', see above] in \textit{Comptes Rendus}, but Fréchet and Lebesgue refused to present it. Fréchet wrote that an implication between two well known [true] propositions is not a new result, and Lebesgue wrote that an implication between two false propositions is of no interest.''}
+
+\point{Referência: Jan Mycielski, https://www.ams.org/journals/notices/200602/fea-mycielski.pdf}
+
+\point{Problema: Remover qualquer um dos axiomas de $\ZF$ dá uma teoria demasiado fraca.}
+
+\timestamp{18 min}
+
+\section{Aritmética de Segunda Ordem}
+
+\subsection{Introdução}
+
+\point{Universo de discurso: Números Naturais e Subconjuntos destes.}
+
+\point{Linguagem bi-tipada, com $0$, $1$, $+$, $\times$, $\in$.}
+
+\point{Axiomas de aritmética de segunda ordem $\ZZ_2$: (p. 4 Simpson)}
+\begin{equation}
+\begin{aligned}
+\text{Aritmética Básica} &\rightarrow \begin{cases}
+\forall_n \neg (n+1 = 0),\\
+\forall_n \forall_m \big( n+1 = m+1 \implies n=m \big)\\
+\cdots
+\end{cases}\\
+\text{Compreensão} &\rightarrow \text{(Para qualquer fórmula $\varphi(x)$) } \exists_X \forall_n (n \in X \iff \varphi(n)),\\
+\text{Indução} &\rightarrow \text{(Para qualquer fórmula $\varphi(x)$) } \big(\varphi(0) \land \forall_n (\varphi(n) \implies \varphi(n+1)) \big) \implies \forall_n \varphi(n).
+\end{aligned}
+\end{equation}
+
+\subsection{Enfraquecimento de axiomas. $\RCA_0$.}
+
+\point{Estes axiomas, ao contrário de $\ZF$, têm bastante potencial para enfraquecer.}
+
+\point{Exemplo: Restringir compreensão e indução a fórmulas \emph{aritméticas}. Sistema resultante chama-se $\ACA_0$.}
+
+\point{Vamos enfraquecer ainda mais. Compreensão $\Delta^0_1$ e indução $\Sigma^0_1$.}
+\begin{equation}
+\begin{aligned}
+\text{Compreensão $\Delta^0_1$} &\rightarrow \text{(Para $\varphi(x) \in \Sigma^0_1$ e $\psi(x) \in \Pi^0_1$) } \big(\forall_x (\varphi(x) \Leftrightarrow \psi(x)) \big) \implies \exists_X \forall_n (n \in X \iff \varphi(n)),\\
+\text{Indução $\Sigma^0_1$ } &\rightarrow \text{(Para qualquer fórmula $\varphi(x) \in \Sigma^0_1$) } \big(\varphi(0) \land \forall_n (\varphi(n) \implies \varphi(n+1)) \big) \implies \forall_n \varphi(n).
+\end{aligned}
+\end{equation}
+
+\point{Motivação: Permitimos apenas construir conjuntos computáveis, e indução é vista como um mecanismo de construção indutiva.}
+
+\point{Para quem sabe estas palavras: A ligação acima pode ser formalizada, na medida em que o modelo canónico de $\RCA_0$ consiste nos naturais com os conjuntos computáveis.}
+
+\point{Este é um dos sistemas mais fracos razoáveis, mas é ainda possível enfraquecer mais, havendo sistemas ainda mais fracos $\RCA_0^*$ e $\EFA$.}
+
+\subsection{Codificações: Sequências, Reais, Ambos}
+
+\point{Apesar do universo de discurso ser apenas os números naturais, é possível `codificar' outros objetos como sendo naturais ou conjuntos de naturais, e assim sendo enunciar e provar afirmações sobre e.g. inteiros, racionais, reais, grupos, etc.}
+
+\point{Sketch: Usando a enumeração diagonal, é possível codificar um par de números num único número. Isto permite-nos falar de:
+
+\begin{itemize}
+\item Inteiros $(a,b) \sim a-b$ e racionais $((a,b),c) \sim \frac{a-b}c$,
+\item Funções (conjuntos de pares ordenados), sucessões, reais (sucessões de Cauchy, mais ou menos), sucessões de reais, funções \textbf{contínuas} $\R \to \R$,
+\item Grupos e Anéis (um conjunto para representar os elementos, outro para dar a tabela de multiplicação),
+\item Etc.
+\end{itemize}
+}
+
+\timestamp{34 min}
+
+\subsection{Exemplo de prova em $\RCA_0$: Bolzano}
+
+\point{Enfiando para baixo do tapete detalhes de codificações, vamos ver o exemplo de uma prova em $\RCA_0$.}
+
+\point{Seja $F$ uma função contínua de $[0,1]$ para $\R$ tal que $F(0) < 0$ e $F(1) > 1$. Então, existe um real $X \in [0,1]$ tal que $F(X) = 0$.}
+
+\point{Existem várias provas disto em `matemática usual', do concreto ao topológico. Neste sistema básico, em geral, as provas mais fáceis de adaptar são as mais concretas, portanto fazemos uma demonstração com o método da bisseção.}
+
+\point{Definimos uma sucessão de racionais, que depois justificamos ser Cauchy, usando método da bisseção. Esta sucessão representa o real $X$ (ligeiramente distinto de `converge para'). Justificar por continuidade que $F(X) \geq 0$ e $F(X) \leq 0$.}
+
+\point{Escondido na prova: Ao construir uma sucessão indutivamente estamos a usar indução $\Sigma^0_1$.}
+
+\point{Conclusão: $\RCA_0 \vdash (1 = 1) \iff \text{Bolzano}$}.
+
+\timestamp{40 min}
+
+\subsection{Exemplo falhado de prova: Weierstrass}
+
+\point{Podemos tentar uma abordagem semelhante para provar (versão fraca de) Weierstrass: se $F \colon [0,1] \to \R$ é contínua, então é limitada.}
+
+\point{Tentativa de prova (standard): Suponha-se que $F$ é ilimitada. Então, existem racionais $x_n \in [0,1]$ tais que $F(x_n) > n$. Então (!!!) existe uma subsucessão convergente $x_{k_n} \to X$, e temos que $F(X) = \lim F(x_{k_n}) > n$ para todo o $n$.}
+
+\point{Problema: $\RCA_0$ não prova que qualquer sucessão limitada tem subsucessão convergente (mais sobre este assunto mais tarde).}
+
+\point{Tentativa alternativa: Suponha-se que $F$ é ilimitada em $[0,1]$. Então, é ilimitada em $[0,\frac12]$ ou em $[\frac12,1]$ (ou ambos). Recursivamente, construa-se a árvore dos intervalos onde $F$ é ilimitada. Então, esta árvore tem um caminho infinito (sketch prova), o que induz uma sequência decrescente de intervalos, a partir da qual conseguimos construir $X \in \R$ tal que $F(X)$ seria infinito.}
+
+\subsection{O ingrediente em falta: $\WKL_0$}
+
+\point{Apesar de talvez convincente, o argumento acima não funciona em $\RCA_0$, porque precisa do seguinte lema: se $T$ é uma árvore binária infinita, então contém um caminho infinito. Apesar desta afirmação parecer óbvia (sketch da prova em breve) tem um nome próprio: Lema Fraco de König.}
+
+\point{Sketch prova de $\wkl$.}
+
+\point{Facto: $\RCA_0 \nvdash \wkl$. O conjunto de axiomas $\RCA_0 \cup \{\wkl\}$ chama-se $\WKL_0$. Compare-se com $\ZF$ vs. $\ZFC$.}
+
+\point{Acontece que, por uma adaptação do argumento acima, $\RCA_0 \vdash \wkl \implies \text{Weierstrass}$.}
+
+\point{É também possível provar o oposto. Dada uma árvore binária sem caminhos infinitos, é possível construir uma função contínua (esboçar), e o teorema de Weierstrass garante que esta função é limitada e portanto que a árvore binária original tem um limite no quão funda pode ser (e é portanto finita).}
+
+\subsection{Ideais em Anéis}
+
+\point{Vamos agora falar de um assunto que parece completamente irrelacionado: ideais primos.}
+
+\point{(Pedir desculpa a quem não sabe álgebra.)}
+
+\point{Teorema $\mathrm{P}$: Qualquer anel comutativo admite um ideal primo.}
+
+\point{A prova usual na verdade justifica que qualquer anel comutativo admite um ideal \emph{maximal}. No entanto, esta demonstração não funciona nem em $\RCA_0$ nem em $\WKL_0$. Vou agora esboçar uma prova que funciona em $\WKL_0$, mas apenas garante a existência de um ideal primo.}
+
+\point{Ideia base: Começamos com o ideal $0$. Queremos garantir que este é primo, e se não for, adicionar elementos até que seja. Assim sendo, enumeramos todos os pares $(a_i, a_j)$ de elementos no anel.}
+
+\point{Em cada passo, se $a_i a_j$ estiver no nosso ideal, para garantir que este é primo, dividimos o universo em dois. Num deles adicionamos $a_i$ ao ideal, e no outro adicionamos $a_j$. Se em algum dos casos o ideal contiver $1$, eliminamos esse ramo.}
+
+\point{Como anteriormente, qualquer nó tem pelo menos um filho (inserir argumento de álgebra). Logo, a árvore é infinita, e por $\wkl$ existe um caminho infinito na árvore, ou seja, uma sucessão crescente de ideais próprios.}
+
+\point{Essencialmente, tome-se a união desta sucessão de ideais. É fácil mostrar que esta união é ela própria um ideal próprio, e (sensivelmente) é um ideal primo porque em cada passo garantimos que se $ab$ está lá, então $a$ ou $b$ está.}
+
+\point{Percebemos então que $\wkl$ está intimamente relacionado com o teorema $\mathrm{P}$, e de facto é possível provar, construindo um anel adequado em função de uma árvore binária, que $\RCA_0 \vdash \wkl \iff \mathrm{P}$.}
+
+\point{Um corolário disto é que $\RCA_0 \vdash \mathrm{P} \iff \text{Weierstrass}$.}
+
+\section{Overview da Área e Conclusão}
+
+\point{Vimos até agora dois sistemas de axiomas: o sistema base $\RCA_0$, e um sistema um pouco mais forte, $\WKL_0$.}
+
+\point{Mais cedo foram aludidos a dois teoremas que não podem ser provados em nenhum destes: 1. Qualquer sucessão em $[0,1]$ tem subsucessão convergente, e 2. Qualquer anel tem um ideal maximal. Acontece que ambos estes teoremas são equivalentes sobre $\RCA_0$, e são de facto equivalentes a um outro sistema de axiomas chamado $\ACA_0$. Em essência, onde $\RCA_0$ restringiu imenso os conjuntos que se pode construir, $\ACA_0$ restringe menos, permitindo quaisquer fórmulas que não quantifiquem sobre conjuntos.}
+
+\point{Existem dois outros sistemas que fazem parte dos `grandes cinco', chamados $\mathrm{ATR}_0$ e $\Pi^1_1\text{-}\mathrm{CA}_0$.}
+
+\point{Vários teoremas, alguns elementares e outros menos, são equivalentes a um destes cinco sistemas. Já vimos diversos exemplos para os três inferiores; os outros requerem matemática um pouco mais avançada. Isto faz sentido, porque afirmações que requerem axiomas mais avançados `deveriam ser' mais complicados.}
+
+\point{Finalmente, umas notas sobre o `state of the art'.}
+
+\point{O observador astuto terá reparado que todos os objetos que podemos falar referem-se a objetos contáveis ou `quase-contáveis', como os reais. Isto limita o poder expressivo da matemática inversa. Alguns avanços relativamente recentes incluem variantes deste sistema que conseguem referir-se a objetos `mais infinitos'.}
+
+\point{A imagem `clássica' e esta dos `grandes cinco sistemas' e maior parte dos teoremas pré-existentes serem equivalentes a um deles. No entanto, existem teoremas razoáveis que não cabem nesta hierarquia. Por exemplo, uma variação infinita do conhecido teorema de Ramsey: Seja $X$ um conjunto infinito de pessoas, das quais quaisqueres duas são amigas ou inimigas. Então, existe um subconjunto infinito de $X$ composto inteiramente de amigos ou de inimigos. Este teorema, chamado $\mathrm{RT}^2_2$, e vários seus variantes, estão entre $\RCA_0$ e $\ACA_0$ na hierarquia, sendo independente de $\WKL_0$.}
+
+\end{document}

@@ -1,0 +1,294 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $F$ is coercive and convex.
+\item Show that there is a unique minimizer $\bar u$ of $F$, and that $B(\bar u, v) = \phi(v)$ for all $v$.
+\item Prove the Riesz representation theorem.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Coercivity: Using bounds and triangle inequality, get
+\begin{equation}
+\abs{F(v)} \geq \theta \Norm{u}^2 - 2 \Norm\phi \Norm u,
+\end{equation}
+and the latter evidently goes to infinity as $\Norm{u} \to \infty$.
+
+Convexity: We actually show strict convexity because we will need it shortly. Let $0 < t < 1$, so that $t(1-t) > 0$. Then,
+\begin{equation}
+\begin{aligned}
+t F(x) + (1-t) F(y) - F(t x + (1-t)y)
+&= t(1-t) B(x,x) + t(1-t) B(y,y) - 2 t(1-t) B(x,y)\\
+&\phantom{=} + \text{(Linear terms which cancel out)}\\
+&= t(1-t) B(x-y,x-y).
+\end{aligned}
+\end{equation}
+
+Now, if $x \neq y$ then $B(x-y,x-y) \geq \theta \Norm{x-y} > 0$, and since $t(1-t) > 0$ we conclude that $t F(x) + (1-t) F(y) > F(t x + (1-t)y)$, and so $F$ is strictly convex.
+
+\item First of all, strict convexity guarantees uniqueness. (If there were two minima, all elements in the line segment connecting them would have $F$ at least equal to the minimum, but this would contradict strict convexity.)
+
+To show existence, we do the following. First, pick some $x_0$ of your choosing. Then, by coercivity, there is some $R$ big enough that all elements outside $B_R(0)$ will have value of $F$ at least equal to $F(x_0)$, so that we may restrict our search for a minimizer in this ball.
+
+Thus, let $m = \inf_{x \in H} F(x) = \inf_{\Norm x \leq R} F(x)$. Pick a sequence $x_n$ with $\Norm x \leq R$ and $F(x_n) \to m$. This is a bounded sequence, and $H$ is reflexive, so by passing to a subsequence we may assume that $x_n$ converges weakly to some $x$ with $\Norm x \leq R$. We claim that such an $x$ is our minimizer.
+
+To proceed, it is important to note that $B \colon H \times H \to \R$ is an inner product on $H$. Indeed, it is bilinear and symmetric, and the condition $B(x,x) \geq \Theta \Norm{x}^2$ gives us positivity of $B$. As such, Cauchy-Schwarz holds, and we have the bound $B(x,x) B(y,y) \geq B(x,y)^2$. This is important because then we have
+\begin{equation}\label{eq:b}
+B(x,x) B(x_n,x_n) \geq B(x,x_n)^2 \to B(x,x)^2.
+\end{equation}
+
+Now, we conclude that $\liminf B(x_n,x_n) \geq B(x,x)$: either $x = 0$ in which case this is trivially true, or $x \neq 0$ and so we may divide out by $B(x,x)$ in \eqref{eq:b} and take the $\liminf$ on both sides to obtain the desired result. As such, since moreover $\lim \phi(x_n) = \phi(x)$, we conclude
+\begin{equation}
+\lim F(x_n) = \lim B(x_n,x_n) + 2 \lim \phi(x_n) \geq B(x,x) + \phi(x) = F(x).
+\end{equation}
+
+This `sandwiches' $F(x)$ between $\lim F(x_n) = m$ from above, and $m$ from below (by definition of $m$), and thus $F(x) = m$ and so $x$ is indeed a minimizer of $F$.
+
+\smallskip
+
+To prove the desired formula for $\phi$, pick some $v \in H$ and note that $F(x + tv)$, $t \in \R$, has its minimum at $t = 0$. Thus, taking the derivative at zero will yield zero, and this derivative is given by
+\begin{equation}
+\diff{}t[0] \left( B(x+tv,x+tv) - 2 \phi(x+tv) \right) = 2 B(x,v) - 2 \phi(v),
+\end{equation}
+and since this is null we obtain the desired formula for $\phi$.
+
+\item Apply this problem with $B(x,y) = \braket{x,y}$. The bounds we need to prove on $B$ are obvious, with $C = \theta = 1$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that there is a bounded linear map such that $B(u,v) = \braket{Tu,v}$, and if $T$ is bijective this implies Lax-Milgram.
+\item Show that $\Norm{Tu} \geq \theta \Norm u$ and conclude that $T$ is injective with closed image.
+\item Show that $T$ is surjective.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The Riesz representation theorem gives us a canonical isomorphism between $H^*$ and $H$, and because of currying we may see $B$ as a map $\bar B \colon H \to H^*$, by $\bar B(u)(v) = B(u,v)$. This map $\bar B$ is bounded because
+\begin{equation}
+\Norm{\bar B(u)} = \sup \Norm{\bar B(u)(v)} \leq C \Norm u \Norm v = C \Norm u.
+\end{equation}
+
+By defining $T$ as the composition $H \xrightarrow{\bar B} H^* \cong H$ we obtain a bounded map $H \to H$, and by expanding the isomorphism $H^* \cong H$ we get $\braket{T(u), \cdot} = \bar B(u) = B(u,\cdot)$, as desired.
+
+If $T$ is bijective then $\bar B$ is bijective, and so any $\phi \in H^*$ satisfies $\phi = \bar B(u)$ for exactly one value of $u \in H$, which is precisely the statement of the Lax-Milgram theorem.
+\item We have that $\Norm{Tu}\Norm{u} \geq \braket{Tu,u} = B(u,u) \geq \theta \Norm{u}^2$. Dividing out by $\Norm u$ (if $u = 0$ the statement is trivial) we obtain the desired inequality.
+
+Thus, $T$ is injective (if $Tx = 0$ then $0 = \Norm{Tx} \geq \theta \Norm x$ hence $x = 0$) and its image is closed, as follows: If $y \in \closed{T(H)}$ then there is a sequence $x_n$ such that $Tx_n \to y$. Now, $Tx_n$ is Cauchy, but the bound $\Norm{T(x_n - x_m)} \geq \theta \Norm{x_n - x_m}$ tells us that $x_n$ is also Cauchy. Hence, $x_n \to x$ for some $x$, and by continuity of $T$ we get $y = Tx$ and therefore $y \in T(H)$, concluding that $T(H)$ is closed.
+
+\item If $T(H) \neq H$, pick $w \in T(H)^\perp$ nonzero. Then we have that $w \perp Tw$, hence $\braket{Tw,w} = 0$ and thus $B(w,w) = 0$. This is a contradiction because $\Norm{B(w,w)} \geq \theta \Norm{w}^2 > 0$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Construct $f \in W^{1,p}(\Omega)$ which is unbounded on every open set.
+\end{ex}
+
+\begin{sol}
+Define $p_{x_0,\alpha}(x) = \Norm{x-x_0}^{-\alpha} \varphi(x-x_0)$, with $\varphi$ a bump function with compact support around zero, which we saw in class was in $W^{1,p}$ for appropriately small $\alpha$, so long as $n > 0$. Now, pick a sequence $x_n$ which is dense in $\Omega$ and set
+\begin{equation}\label{eq:f}
+f(x) = \sum 2^{-n} p_{x_n, \alpha}(x).
+\end{equation}
+
+Indeed, if $\alpha$ is such that $\Norm{p_{x_n,\alpha}}_{W^{1,p}(\R^n)} < \infty$, we will have that \eqref{eq:f} converges absolutely in $W^{1,p}(\Omega)$ and so $f$ is a well-defined $W^{1,p}$ function. Moreover, it is unbounded on any nonempty open set: given any $U \subseteq \Omega$, pick some $x_N \in U$ by density, and note that
+\begin{equation}
+f(x) \geq 2^{-N} p_{x_N, \alpha}(x),
+\end{equation}
+which is unbounded near $x_N$.
+\end{sol}
+
+\begin{ex}
+Show that a $W^{1,p}(0,1)$ function is continuous for $1 \leq p < \infty$.
+\begin{enumerate}
+\item Show that if $g(x) = \int_0^x f'$ then $g' = f'$ as distributions.
+\item Show that $(f-g)'$ is zero when tested against smooth functions $\phi \colon [0,1] \to \R$ with $\phi(0) = \phi(1) = 0$.
+\item Given $\beta$, find $\varphi$ and $c$ such that $\varphi' = \beta + c$.
+\item Find some $a \in \R$ such that $\int_0^1 (f-g-a) \beta = 0$ for all test functions $\beta$.
+\item Find a $W^{1,p}(0,1)$ function which is not Lipschitz.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item If $\varphi \in C^\infty_c$ we have
+\begin{equation}
+\begin{aligned}
+\int_0^1 g' \varphi
+&= - \int_0^1 g \varphi'\\
+&= - \int_0^1 \int_0^x f'(t) \varphi'(x) \dl3 t \dl3 x\\
+&= - \int_0^1 f'(t) \int_t^1 \varphi'(x) \dl3 x \dl3 t\\
+&= - \int_0^1 f'(t) (\varphi(1) - \varphi(t)) \dl3 t\\
+&= \int_0^1 f'(t) \varphi(t) \dl3 t = \int f' \varphi = - \int f \varphi'.
+\end{aligned}
+\end{equation}
+\item Pick $\eta_n$ smooth of compact support as in the problem statement. Then, $\phi \eta_n'$ is uniformly bounded by $2 \Norm{\phi'}_\infty$. Indeed, $\phi \eta_n'$ is null in $\interval{\frac1n}{1-\frac1n}$; for $x \leq \frac1n$ we have by the mean value theorem $\abs{\phi(x) \eta_n'(x)} \leq x \Norm{\phi'}_\infty 2n \leq 2 \Norm{\phi'}_\infty$, and a similar argument establishes the same bound on $\interval{1-\frac1n}1$.
+
+Now, by Hölder, we know that $f-g$ is in $L^1$ because any $L^p$ function is in $L^1$. As such, the sequence $(f-g)\phi\eta_n'$ is uniformly bounded by an $L^1$ function, and so dominated convergence can be applied to it to say
+\begin{equation}
+\lim \int(f-g)\phi\eta_n' = \int (f-g) \phi.
+\end{equation}
+
+Moreover, we know by a previous item that $\int (f-g) (\phi \eta_n)' = 0$, hence $\int (f-g) \phi \eta_n' = - \int (f-g) \phi' \eta_n$, and on this integral we can also apply dominated convergence theorem because $\abs{\eta_n} \leq 1$. Therefore, in the limit,
+\begin{equation}
+\int (f-g)\phi = \text{(a limit)} = - \int (f-g) \phi' = 0.
+\end{equation}
+
+This completes the proof.
+
+\item Set $c = -\int \beta$ and $\varphi = \int_0^1 (\beta - c)$.
+
+\item We know that $\int_0^1 (f-g) \beta = \int_0^1 (f-g) (\varphi' - c)$ with $\varphi$ and $c$ as above. Moreover, we've seen that $\int_0^1 (f-g) \varphi' = 0$, hence
+\begin{equation}
+\int_0^1 (f-g) \beta = \left( \int_0^1 (f-g) \right) \left( \int \beta \right).
+\end{equation}
+
+Thus, setting $a = \int_0^1  (f-g)$ (which, recall, is well-defined because $f-g \in L^p \subseteq L^1$) we obtain as desired
+\begin{equation}
+\int_0^1 (f-g-a)\beta = 0.
+\end{equation}
+
+\item Consider $f(x) = x^\alpha$ for $1 - \frac1p < \alpha < 1$. It's not Lipschitz because its derivative goes to $+\infty$ near zero (use the mean value theorem), but it is $W^{1,p}$ because it is continuous (and hence very integrable) and its derivative is a negative power of $x$ which is nice enough to be integrable.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $u$ is a critical point of $f([v]) = \braket{Tv,v}$ then it is an eigenvalue.
+\item Show that $\R\PP^k$ is homeomorphic to the projectivization of a $k$-dimensional vector space.
+\item Find subspaces $E_k$ such that $\inf_{x \in \PP(E_k)} f(x) = \lambda_k$.
+\item Show that if $S \subseteq \R\PP^\infty$ is such that $S \cap \PP(E_k^\perp) \neq \emptyset$ then
+\begin{equation}
+\inf_{x \in S} f(x) \leq \lambda_k.
+\end{equation}
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Let $v \perp u$. Then, $\diff*{f(\frac{u + tv}{\Norm{u+tv}})}t[0] = 0$ by definition of critical point, and by expanding out the expression for the derivative (it is basically a quadratic divided by $\Norm{u+tv}^2$, which doesn't affect the derivative at $t = 0$) we obtain
+\begin{equation}
+\diff*{f(\frac{u + tv}{\Norm{u+tv}})}t[0] = \braket{Tu,v} + \braket{u,Tv} = 2 \braket{Tu,v},
+\end{equation}
+with the last equality by self-adjointness. In conclusion, for any $v \perp u$ we have $v \perp Tu$, hence $Tu \propto u$, and we can obtain the constant of proportionality by computing $f(u) = \braket{Tu,u} = \text{(the constant of proportionality)} \times \Norm{u}^2$, and finally we know $\Norm{u} = 1$ so we get $Tu = f(u) u$.
+
+\item $E$ is linearly isomorphic to $\R^k$, and this linear map descends to the unit sphere and passes to the quotient yielding a continuous bijection between $\PP(E)$ and $\R\PP^k$. Of course, its inverse is also induced by a linear isomorphism and is also continuous.
+
+\item Define  $E_k$ as the subspace generated by (unit norm) eigenvectors $v_1, \dots, v_k$ corresponding to the first $k$ positive eigenvalues. Then, we have that $f(v_k) = \braket{Tv_k,v_k} = \lambda_k \Norm{v_k} = \lambda_k$, so that
+\begin{equation}
+\lambda_k \geq \int_{x \in \PP(E_k)}f(x).
+\end{equation}
+
+On the other hand, we have equality because, since $T$ is self-adjoint, all $v_i$ are orthogonal. Therefore, if $x = \sum a_i v_i$ has norm one, we have
+\begin{equation}
+f(x) = \braket{\sum a_i Tv_i, \sum a_j v_j} = \sum_{i,j} a_i a_j \lambda_i \braket{v_i, v_j} = \sum a_i^2 \lambda_i \geq \lambda_k \sum a_i^2 = \lambda_k.
+\end{equation}
+
+Thus, $\inf f \geq \lambda_k$ and the proof is done.
+
+\item Pick $x \in E_k^\perp$. Then we want to show that $f(x) \leq \lambda_k$.
+
+(I don't know how to do this without invoking the spectral theorem, which I think is besides the point.)
+\end{enumerate}
+\end{sol}
+
+\end{document}

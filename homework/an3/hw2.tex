@@ -1,0 +1,158 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 2}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Assume that for each $w \in \C$ there is some $n$ such that $f^{(n)}(w) = 0$. Show that $f$ is a polynomial.
+\end{ex}
+
+\begin{sol}
+For each $n \in \N_0$, set $A_n$ as the set of $w \in \C$ such that $f^{(n)}(w) = 0$. Note that all $A_n$ are closed, and moreover, by hypothesis we have $\bigcup A_n = \C$. We may now apply the Baire category theorem, which guarantees that at least one $A_n$ has nontrivial interior. Without loss of generality, by translation assume that it contains a neighborhood of the origin. Then, if we write the powerseries of $f$ about the origin, it has null $n$th coefficient, but also all coefficients above it are null, because in this neighborhood $f^{(n)} \cong 0$, hence $f^{(n+1)} \cong 0$, and so on. Thus, the powerseries of $f$ about the origin in this neighborhood terminates, and since powerseries of entire holomorphic functions are valid for the whole domain, $f$ itself equals the polynomial given by its powerseries about zero.
+\end{sol}
+
+\begin{ex}
+Let $f$ be nonconstant in a neighborhood of $z_0$. Show that near $z_0$, $f$ is an $N$-to-one function, where $N$ is the smallest positive integer such that $f^{(N)}(z_0) \neq 0$.
+\end{ex}
+
+\begin{sol}
+In the proof of the open mapping theorem, one shows that, near $z_0$, $f(z)$ may be written in the form $f(0) + g(z)^N$ for some analytic function $g$. Moreover, this function $g$ has the property that $g'(z_0) \neq 0$ and $g(0) = 0$. As such, by the inverse mapping theorem for analytic functions, it is one-to-one in a neighborhood of $z_0$, and takes a ball around $z_0$ without the center injectively to $\C \setminus 0$. Moreover, the `power $N$' function is $N$-to-one on $\C \setminus 0$, and so their composition, $g(z)^N = f(z)$, is $N$-to-one on this neighborhood of $z_0$ with $z_0$ removed.
+\end{sol}
+
+\begin{ex}
+Let $f$ be an injective holomorphic function on the unit disk such that $f(0) = 0$. Show that there is an injective holomorphic function $h$ such that $(h(z))^2 = f(z^2)$.
+\end{ex}
+
+\begin{sol}
+By the previous exercise, we see that $f'(0) \neq 0$. As such, the power series corresponding to $f(z^2)$ is of the form $0 + 0 z + a_1 z^2 + \dots$, and therefore has a formal square root power series $h(z) = \sqrt{a_1} z + \dots$. (Two, in fact, depending on the choice of $\sqrt{a_1}$.) It is an algebraic exercise to find this power series $h(z) = \sum b_n z^n$; each $b_n$ is determined from the previous by solving the equation $\sum_{i+j = n+1} b_i b_j = a_{n+1} $; aside from the case $n = 1$ this is a linear equation in $b_n$.
+
+Now, we claim that the radius of convergence of $h(z)$ is the same as that of $f(z)$; once this is done the exercise will have been solved. In fact, it suffices to show that whenever $f(z)$ converges absolutely so does $h(z)$, and in any case the other implication is trivial.
+
+Suppose $f(z)$ converges absolutely. Then, for some $r > \abs z$, we have that $\abs{a_n} < C r^{-n}$. Then, it can be shown by induction (but it's gross and I don't want to do it) that $\abs{b_n}$ is dominated by something like $C' R^{-n}$, for any $R > r$. This would make use of the inductive formula for $b_n$,
+\begin{equation}
+b_n = \frac1{2 b_1} \left( a_{n+1} - \sum_{i=2}^{n-1} b_i b_{n+1-i} \right),
+\end{equation}
+followed by using the bounds for $a_{n+1}$ and for the $b_i$.
+\end{sol}
+
+\begin{ex}
+Show that a harmonic function over $\C$ which grows slower than linearly is constant.
+\end{ex}
+
+\begin{sol}
+Given $z$ and $w$, we use the following property of Harmonic functions to show that $u(z) = u(w)$: For all positive radii $R$, we have
+\begin{equation}
+u(z) = \frac1{\pi R^2} \int_{B_R(z)} u.
+\end{equation}
+
+Thus, $u(z) - u(w)$ can be written as the difference of two integrals (of the same function) in large balls, divided by $\pi R^2$. This difference can be bounded by the integral of $\abs u$ on the symmetric difference of the two balls, and in turn this can be bounded by the integral of $\abs u$ on an annulus with large radius, and thickness $\abs{z-u}$.
+
+Now, roughly speaking: the value of $\abs u$ on this annulus is $o(R)$, and the area of the annulus is $O(R)$. Thus, the integral would be $o(R^2)$, which, dividing by $\pi R^2$, yields an $o(1)$ quantity. Thus, taking the limit, we obtain $\abs{u(z) - u(w)} = 0$, and so $u$ is constant.
+\end{sol}
+
+\begin{ex}
+Let $u, v \colon U \to \R$ be harmonic. Under what conditions is $uv$ also harmonic?
+\end{ex}
+
+\begin{sol}
+We compute the Laplacian of $uv$. For brevity, we use the notation from PDEs where, e.g. $u_xy$ means $\partial_x \partial_y u$.
+\begin{equation}
+\begin{aligned}
+\Delta(uv) &= (uv)_{xx} + (uv)_{yy}\\
+&= ( u_x v + u v_x)_x + (u_y v + u v_y)_y\\
+&= u_{xx} v + 2 u_x v_x  + u v_{xx} + u_{yy} v + 2 u_y v_y + u v_{yy}\\
+&= 2 \nabla u \cdot \nabla v.
+\end{aligned}
+\end{equation}
+
+Thus, it is a necessary and sufficient condition that $\nabla u$ be always orthogonal to $\nabla v$. This happens for example if one of these is null, i.e. either $u$ or $v$ is constant. But the following example shows that the condition of orthogonality is a bit more general: consider $u = x^2 - y^2$ and $v = xy$. Both of these are harmonic. Moreover, $\nabla u = 2 (x,-y)$ and $\nabla v = (x,y)$, which are evidently orthogonal, so $uv$ is also harmonic.
+\end{sol}
+
+\end{document}

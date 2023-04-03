@@ -1,0 +1,110 @@
+\documentclass{article}
+
+% Required to support mathematical unicode
+\usepackage[warnunknown, fasterrors, mathletters]{ucs}
+\usepackage[utf8x]{inputenc}
+
+% Always typeset math in display style
+%\everymath{\displaystyle}
+
+% Use a larger font size
+\usepackage[fontsize=12pt]{scrextend}
+\usepackage[margin=1in]{geometry}
+
+% Standard mathematical typesetting packages
+\usepackage{amsfonts, amsthm, amsmath, amssymb}
+\usepackage{mathtools}  % Extension to amsmath
+
+% Symbol and utility packages
+\usepackage{cancel, textcomp}
+\usepackage[mathscr]{euscript}
+\usepackage[nointegrals]{wasysym}
+
+% Extras
+%\usepackage{physics}  % Lots of useful shortcuts and macros
+\usepackage{tikz-cd,tikz}  % For drawing commutative diagrams easily
+\usepackage{color}  % Add some colour to life
+\usepackage{microtype}  % Minature font tweaks
+\usepackage{float}
+
+%mine
+\usepackage{diffcoeff}
+
+% Common shortcuts
+\def\mbb#1{\mathbb{#1}}
+\def\mfk#1{\mathfrak{#1}}
+
+\def\N{\mbb{N}}
+\def\C{\mbb{C}}
+\def\R{\mbb{R}}
+\def\Q{\mbb{Q}}
+\def\Z{\mbb{Z}}
+
+% Sometimes helpful macros
+\newcommand{\func}[3]{#1\colon#2\to#3}
+\newcommand{\vfunc}[5]{\func{#1}{#2}{#3},\quad#4\longmapsto#5}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+
+% Some standard theorem definitions
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\renewcommand{\div}{\divisionsymbol}
+
+\newcommand{\Lie}{\mathrm{L}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\title{Inverse Function Theorem Revisited}
+\author{Duarte Maia}
+
+\begin{document}
+\maketitle
+
+\section{Context}\label{sec:context}
+
+This document is a solution to exercise 14 of chapter 1.8 of Guillemin \& Pollack. This is because the exercise is harder than it appears, and not only is the outline inadequate in my view, all solutions I have found online are dissatisfactory to me. In particular, I do not believe that the proofs I have found satisfactorily prove that $W$ contains a neighborhood of $f(Z)$, and indeed I think this might not necessarily be true: consider the case where one of the sets $U_i$ built by G\&P lies just tangent to a different section of $f(Z)$ without intersecting it. Then, if $z$ is such a point in $f(Z) \cap \partial U_i$, for all $U_j$ containing $z$ we have that there exist points in $U_j \cap U_i$ arbitrarily close to $z$, and $g_i$ has no obligation to agree with $g_j$ on these points.
+
+\section{The Statement and The Proof}
+
+\begin{theorem}
+Let $f \colon X \to Y$ be smooth, and $Z$ an embedded\footnote{Here, embedded does not necessarily mean properly embedded.} submanifold of $X$. Suppose that $f(Z)$ is an embedded submanifold of $Y$, and that $f$ maps $Z$ diffeomorphically to $f(Z)$. Moreover, suppose that $(\dl f)_z$ is an isomorphism for all $z \in Z$. Then, there exists an open set $U$ containing $Z$ such that $f|_U$ is a diffeomorphism onto its image.
+\end{theorem}
+
+\begin{remark}
+The theorem implies that $f(U)$ is a neighborhood of $Z$, as local diffeomorphisms are open maps.
+\end{remark}
+
+The first step of the proof, and the easiest, is as follows. By the usual inverse function theorem, each $z \in Z$ has a neighborhood on which $f$ is a diffeomorphism. Thus, taking the union of these neighborhoods, we obtain a neighborhood $U_0$ of $Z$ where $f$ is a local diffeomorphism. All that remains is to show that $U_0$ can be shrunk to a neighborhood where $f$ is injective.
+
+To proceed with the proof, let us investigate further one of the hypotheses.
+
+\begin{remark}
+At first glance, the hypothesis that $f(Z)$ is an embedded submanifold of $Y$ may seem redundant. However, it is not: consider the projection $f \colon \R^2 \to S^1 \times S^1$ and $Z \subseteq \R^2$ a line of irrational slope. However, the hypothesis that $f$ maps diffeomorphically to $f(Z)$ may be replaced by the hypothesis that $f$ is injective on $Z$.
+\end{remark}
+
+This remark indicates that we will in some way want to use this hypothesis. Thus, for each $z \in Z$, let $\varphi \colon V_z \to \R^n$ be a coordinate neighborhood of $f(z)$ such that $\varphi(V_z \cap f(Z)) = \varphi(V_z) \cap \R^m \times 0$. By shrinkage and the IFT, we may assume that $f$ is a diffeomorphism from a neighborhood $U_z$ of $z$ onto $V_z$.
+
+Now, the neighborhoods $U_z$ may themselves suffer from the problem outlined in section \ref{sec:context}, so we shrink them slightly, and define $U'_z$ as a neighborhood of $z$ which is compactly contained in $U_z$, and $V'_z = f(U'_z)$. Finally, we apply the strategy suggested by G\&P, starting by taking a locally finite refinement of $\{V'_z\}$. For completeness we give a simple proof that this is possible.
+
+For each $V'_z$, pick a basic\footnote{We assume previously fixed a countable basis of $Y$.} neighborhood $B_z$ of $f(z)$ which is compactly contained in $V'_z$. Then, pick an enumeration $z_i$ such that $\{B_{z_i}\}_{i \in \N} = \{B_z\}_{z \in Z}$. Finally, set
+\begin{equation}
+V'_i = V'_{z_i} \setminus \close{B_{z_1}} \setminus \dots \setminus \close{B_{z_{i-1}}}.
+\end{equation}
+
+We leave it to the reader to verify that the collection $\{V'_i\}_{i \in \N}$ is a locally finite cover of $f(Z)$. (Hint: Given $z \in Z$, consider the minimal values of $i$ such that $f(z) \in B_{z_i}$ and such that $f(z) \in \close{B_{z_i}}$.) Moreover, define $U'_i = f^{-1}(V'_i) \cap U'_{z_i}$. Check that $f$ is a diffeomorphism between $U'_i$ and $V'_i$. Finally, set $U_i = U_{z_i}$.
+
+Now that we have an adequately shrunk locally finite cover of $f(Z)$ we may apply an adaptation of the strategy. Define the set $W_0 \subseteq X$ as
+\begin{equation}
+W_0 = \left\{x \in \bigcup U'_i \mid \text{If $x' \in \bigcup U'_i$, $x' \neq x$, then $f(x') \neq f(x)$}\right\}.
+\end{equation}
+
+Note that $f$ is obviously injective on $W_0$, so by the first paragraph of the proof it suffices to show that $W_0$ contains a neighborhood of $Z$. Thus, we show that for all $z \in Z$ there exists a neighborhood of $z$ contained in $W_0$.
+
+\end{document}

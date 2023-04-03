@@ -1,0 +1,200 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 4}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\let\radical\relax
+\DeclareMathOperator{\radical}{rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\coker}{coker}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Given rings $A \subseteq B$ and a prime ideal $\gp \subseteq A$ find a prime ideal $\gq \subseteq B$ such that $\gp = \gq \cap A$.
+\end{ex}
+
+\begin{sol}
+Let $S = A \setminus \gp$. Then, by a standard Zorn lemma argument, find a maximal ideal among those that contain $\gp$ and do not intersect $S$. We claim that the resulting ideal $\gq$ is prime. Indeed, if $ab \in \gq$ and neither $a$ not $b$ are in $\gq$, we show that we may add one of them to the ideal. This uses the fact that $S$ is multiplicatively closed.
+
+Suppose that both $\gq + \braket{a}$ and $\gq + \braket{b}$ intersect $s$. Then, we may find $q + \beta a$ and $q' + \beta' b$ in $S$. Then, their product is also in $S$, but by expanding we see that their product is in $\gq$, which contradicts the fact that $\gq$ does not intersect $S$.
+
+Thus, we conclude that this ideal $\gq$ is prime, and since it contains $\gp$ and does not intersect $A \setminus \gp$ we obtain $\gq \cap A = \gp$.
+\end{sol}
+
+\begin{ex}
+Prove that $x \in A$ is nilpotent iff $x$ belongs to every prime ideal of $A$.
+\end{ex}
+
+\begin{sol}
+Evidently, if $x$ is nilpotent, for any prime ideal $\gp$ we have $x^N \in \gp$ hence $x \in \gp$, so we focus on the other implication.
+
+Suppose that $x$ is not nilpotent. Then, the collection of nonnegative powers of $x$ is a multiplicatively closed subset of $A$ which does not contain zero; let us call it $S$. Thus, we may use the same argument as in the previous exercise to find a prime ideal $\gq$ which contains $\gp = \{0\}$, and does not intersect $S$. Thus, $\gq$ is a prime ideal which does not contain $x$, and we have shown that if $x$ is not nilpotent then there is a prime ideal which does not contain it. Equivalently, if $x$ is in the intersection of all prime ideals then $x$ is nilpotent and we are done.
+\end{sol}
+
+\begin{ex}
+Let $A$ be Noetherian, let $M$ be a finitely generated $A$-module. Prove that there exists a finite ascending chain
+\begin{equation}
+0 = M_0 \subseteq M_1 \subseteq \dots \subseteq M_n = M
+\end{equation}
+where each $M_i/M_{i-1}$ is isomorphic to $A/\gp_i$ for some prime ideal $\gp_i$.
+\end{ex}
+
+\begin{sol}
+Lemma: For any nonzero module $M$ over a Noetherian ring $A$, there exists a nonzero submodule $M_1$ which is isomorphic to $A/\gp$ for some prime ideal $\gp$.
+
+Proof of lemma: Pick $m \neq 0$. If the annihilator of $m$ is prime, the span of $m$ is the $M_1$ we seek, as $\braket m \cong A/\Ann(m)$. Otherwise, there exist $a,b \in A$ such that $abm = 0$ but $am \neq 0$ and $bm \neq 0$. So now, repeat the process with $bm$, say. Notice that the annihilator of $bm$ contains the annihilator of $m$, so our ideal has not gotten smaller, and moreover contains $a$, which does not annihilate $m$, so it has in fact gotten bigger. Thus, we obtain an increasing sequence of ideals, which stops only when we find one which is prime. Since $A$ is Noetherian, it must indeed stop at some point, culminating in some multiple $a_0 m \neq 0$
+
+Lemma: For any module $M$ over a noetherian ring $A$, and for any proper submodule $M_k$ of $M$, there exists some submodule $M_{k+1}$ which contains $M_k$ strictly, and such that $M_{k+1}/M_k$ is isomorphic to $A/\gp$ for some prime ideal $\gp$.
+
+Proof of lemma: Apply the previous lemma to the module $M/M_k$.
+
+Lemma: If $M$ is a finitely generated module over a Noetherian ring, any ascending chain of submodules stabilizes.
+
+Proof of lemma: If $M_0 \subseteq M_1 \subseteq \dots$ is the chain in question, pick finitely many generators of $\bigcup M_i$. This exists because any submodule of a finitely generated module over a Noetherian ring is itself finitely generated. Now, there is some $M_i$ which contains all the generators, and at this point the chain has stabilized.
+
+\smallskip
+
+The solution to the exercise is obtained by repeated application of the second lemma, using the third lemma to show that the process terminates.
+\end{sol}
+
+\begin{ex}
+Prove that the collection of lines contained within a fixed algebraic set is an algebraic subset of $\GG(1,n)$.
+\end{ex}
+
+\begin{sol}
+Given a line $\ell$, represented in the Plücker embedding by some wedge $v \wedge w$ (modulo scaling), we write the condition that $\ell \in V(H_1, \dots, H_m)$ in an obviously algebraic way. We suppose without loss of generality that $m = 1$; the general case is obtained using the fact that intersecting algebraic sets yields algebraic sets.
+
+The line $\ell$ is contained in $V(H)$ iff, for all $s, t \in \kk$, $H(s v + t w) = 0$. Now, $H(sv+tw)$ is a polynomial in the variables $s,v,t,w$, and we see it instead as an element of $\kk[v,w][s,t]$. In this perspective, it vanishes for all $s, t$ iff all its coefficients vanish. (This uses that the field is infinite.) However, each of its coefficients is a polynomial in $v$ and $w$, so we get the algebraic condition we sought.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Check that the incidence relation is algebraic.
+\item Show that the set of lines which meet $X$ is algebraic.
+\item Show that the union of the lines in $Y$ is algebraic.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Given $\omega \in \GG(1,n)$ and $p \in \PP^n$, $p$ is in the line represented by $\omega = v \wedge w$ iff the vectors $v,w,p$ are linearly dependent, iff $v \wedge w \wedge p = 0$. Thus, the incidence relation is given by $\{(p, \omega) \mid p \wedge \omega = 0\}$, which is obviously algebraic.
+\item We know that $X$ is proper because it is a closed subset of $\PP^n$. therefore, the map $X \times \GG(1,n) \to \GG(1,n)$ is closed. As such, the image of the incidence relation is closed (i.e. algebraic), and the image of this set is precisely the set of lines which intersect $X$.
+\item We know that $\GG(1,n)$ is proper because it is a closed subset of $\PP^{\binom n 2}$, and $Y$ is a closed subset of it and hence is also proper. As such, the map $Y \times \PP^n \to \PP^n$ is closed, and thus the image of the incidence relation is closed. This is precisely the union of all lines in $Y$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that the assignment $C \mapsto C/tC$ preserves exactness of exact sequences which terminate on the right at zero where all terms are $t$-torsionfree.
+
+\item Show that if $N,N'$ are $t$-torsionfree graded $\kk[t]$-modules, a map $N \to N'$ which descends to an isomorphism $N/tN \to N'/tN'$ is itself an isomorphism.
+
+\item (Not solved)
+
+\item (Not solved)
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item A sequence which terminates on the right at zero can be interpreted as one which never terminates to the right, so we show the following lemma (which finishes the question).
+
+Lemma: If $A,B,C,D$ are all $t$-torsionfree and $A \xrightarrow f B \xrightarrow g C \xrightarrow h D$ is exact, then $A/tA \to B/tB \to C/tC$ is exact.
+
+Proof of lemma: Since $g \circ f = 0$ we get that $\bar g \circ \bar f = 0$, so it remains to show that if $\bar g(\bar b) = \bar 0$ then $\bar b = \bar f(\bar a)$ for some $a$.
+
+If $\bar g(\bar b) = \bar 0$ then $g(b) \in t C$. Thus, $g(b) = tc$ for some $c$. But $t h(c) = h(g(b)) = 0$, so $h(c) = 0$ by torsionfreeness, and therefore $c = g(b')$. As such, $g(b - tb') = 0$, whence $b = f(a) + tb'$, and finally $\bar b = \bar f(\bar a)$, which concludes the proof.
+
+\item Consider the exact diagram $0 \to \ker f \to N \to N' \to \coker f \to 0$. By the previous part, it descends to an exact diagram. But also the map $N \to N'$ descends to an isomorphism, so $\ker f / t \ker f = 0$ and $\coker f / t \coker f = 0$. But since are graded modules and $t$ has positive grading, the only way for $\ker f$ to equal $t \ker f$ is if $\ker f = 0$, and likewise for $\coker f$, which proves that both of these are null and hence $f$ is an isomorphism.
+\end{enumerate}
+\end{sol}
+
+\end{document}

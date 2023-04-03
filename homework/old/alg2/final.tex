@@ -1,0 +1,261 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Final}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Aff}{\mathbb{A}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+%\let\radical\relax
+%\DeclareMathOperator{\radical}{rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\coker}{coker}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $R$ is a local ring. Compute its maximal ideal.
+\item Show that $S = R[z]/\braket{z^2 - f}$ is local, where $f$ has no constant term.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We claim that the unique maximal ideal of $R$ is $I = \braket{x_1, \dots, x_n}$, i.e. the subset of $R$ of power series with no constant term.
+
+To prove this, we show that a power series $f$ is invertible precisely when it has nonzero constant term. This will prove the desired result, because a ring is local iff the colection of non-invertible elements is an ideal (in which case it is the unique maximal ideal).
+
+It is a known lemma from commutative algebra that, if $A$ is a commutative ring, $f \in A[[x]]$ is invertible iff its constant term is invertible. Indeed, this is obviously a necessary condition, and it is shown to be sufficient by algorithmically constructing an inverse to $f$ term-by-term (which is possible at every degree precisely because $f(0)$ is invertible). Applying this lemma recursively to $f \in R = \kk[[x_1]][[x_2]]\cdots[[x_n]]$ yields the desired criterion for invertibility of $f$, and thus the exercise is complete.
+
+\item An element of $S$ may be uniquely written in the form $s = g + z h$, for $g,h \in R$. We claim that such an element $s$ is invertible iff $g(\vec 0) \neq 0$, which, like in the previous exercise, shows that $S$ is local, because the collection of $s \in S$ satisfying this condition is closed under addition and hence (because non-invertibles are absorbent under multiplication) an ideal.
+
+First, we show the necessity of this condition. If $s_i = g_i + z h_i$ for $i = 1,2$, and $s_1 s_2 = 1$, then by expanding we get
+\begin{equation}\label{eq:inv}
+(g_1 g_2 + f h_1 h_2) + z (g_1 h_2 + g_2 h_1) = 1 + z 0,
+\end{equation}
+hence in particular $g_1(\vec 0) g_2(\vec 0) + \cancel{f(\vec 0) h_1(\vec 0) h_2(\vec 0)} = 1$, and thus $g_1(\vec 0)$ is invertible.
+
+Now we show the sufficiency. Suppose that $s_1 = g_1 + z h_1$ is given, and we wish to find $s_2$ such that \eqref{eq:inv} holds. One notices that such an $s_2$ would satisfy $h_2 = g_1^{-1} h_1 g_2$ (to make the $z$ term null), and in this case \eqref{eq:inv} simplifies to
+\begin{equation}
+g_1 g_2 + f h_1^2 g_1^{-1} g_2 = 1,
+\end{equation}
+so we would like to set $g_2 = (g_1 + f h_1^2 g_1^{-1})^{-1}$. Fortunately, this is possible, because $g_1$ has nonzero constant term by hypothesis, while the fact that $f$ has no constant term ensures that the second term inside the parentheses does not affect the invertibility. Thus, we have constructed $s_2 = g_2 + z h_2$ such that $s_1 s_2 = 1$, and hence we've proven the desired criterion for invertibility of $s_1$, and thus shown that the ring $S$ is local.
+\end{enumerate}
+\end{sol}
+
+\begin{ex} Let $P(x)$ be a complex polynomial of degree $3n$, $n \geq 2$, with simple roots in $\C^*$.
+\begin{enumerate}
+\item Build something analogous to the hyperelliptic compact Riemann surfaces constructed in class, based on the equation $y^3 = P(x)$.
+\item What is the genus $g$ of this surface?
+\item Construct $g$ linearly independent holomorphic $1$-forms on this compact Riemann surface.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The vanishing locus of $y^3 = P(x)$ defines a (noncompact) Riemann surface in $\Aff^2$. Likewise, the vanishing locus of $y'^3 = x'^{3n} P(1/x')$ defines another such Riemann surface. We define $C$ by gluing both of these surfaces, using the correspondence between coordinates
+\begin{equation}
+x' = \frac1x, \quad y' = \frac y{x^n}.
+\end{equation}
+
+\item We apply the Riemann-Hurwitz formula, on the function $x \colon C \to \PP^1$ (given by the $x$ coordinate when applicable, $\infty$ otherwise).
+
+This formula tells us that
+\begin{equation}\label{eq:rh1}
+2 g(C) - 2 = \deg(x) (2 g(\PP^1) - 2) + \sum_{p \in C} (m_p(f) - 1).
+\end{equation}
+
+Now, the degree of this map is $3$, because at a generic $z \in \PP^1$, the preimage $x^{-1}(z)$ has three points, corresponding to the three roots of $y^3 = P(z)$. 
+
+Now, let's look at the multiplicities of the points of $M$. All points $(x,y)$ with $P(x) \neq 0$ have unit multiplicity (because near them $x$ is a coordinate, with $y$ one of the branches of $\sqrt[3]{P(x)}$), so it remains to check for the remaining points. These are:
+\begin{itemize}
+\item The $3n$ points $(x_0,0)$ with $P(x_0) = 0$. On these points, the function $x$ has multiplicity three, because for any small perturbation $x_1$ of $x_0$, there are now three roots to $y^3 = P(x_1)$.
+
+\item The three points at infinity. These are the ones whose $x'$ coordinate is null, and so are of the form $(x',y')$ with $y'^3 = Q(0)$, where $Q(x') = x'^{3n} P(1/x')$. As a consequence, $Q(0)$ is the leading coefficient of $P$, which is nonzero. This shows that there are indeed three points at infinity, and by applying the same argument as the one used in the $(x,y)$ chart, we conclude that they all have unit multiplicity (because $0$ is not a root of $Q$).
+\end{itemize}
+
+Thus, equation \eqref{eq:rh1} reduces to
+\begin{equation}\label{eq:rh2}
+2 g(C) - 2 = 3 (2 \times 0 - 2) + 3n \times 2,
+\end{equation}
+hence $g(C) = 3n - 4$.
+
+\item
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Let $X$ be a compact RS of genus $g$, and $f$ a meromorphic function on $X$ whose poles are all simple. Show that the degree of the divisor of $\dl f$ is $2g-2$, and deduce that the divisor of any meromorphic $1$-form has degree $2g-2$.
+\end{ex}
+
+\begin{sol}
+To recall, the RH formula tells us that
+\begin{equation}\label{eq:rh01}
+2 g(X) - 2 = \deg(f) (2 g(\PP^1) - 2) + \sum_{p \in X} (m_p(f) - 1).
+\end{equation}
+
+Moreover, we know from the notes that for all $p \in X$ we have
+\begin{equation}
+\ord_p(\dl f) = \begin{cases}
+m_p(f) - 1, & \text{if $f(p) \neq 0, \infty$,}\\
+\ord_p(f) - 1 & \text{if $f(p) = 0, \infty$.}
+\end{cases}
+\end{equation}
+
+Note also that by hypothesis all poles of $f$ are simple, and moreover if $f$ has a root at $p$ we clearly have $m_p(f) = \ord_p(f)$, so we may write
+\begin{equation}
+\ord_p(\dl f) = \begin{cases}
+m_p(f) - 1, & \text{if $f(p) \neq \infty$,}\\
+-2 & \text{if $f(p) = \infty$.}
+\end{cases}
+\end{equation}
+
+Thus, mixing this with RH (and noting that if $p$ is a simple pole then $m_p(f) = 1$), we get
+\begin{equation}
+\begin{aligned}
+\sum_{p \in X} \ord_p(\dl f)
+&= \sum_{\substack{p \in X \\ f(p) \neq \infty}} (m_p(f) - 1) \; - 2 \sum_{p \in f^{-1}(\infty)} 1\\
+&= \sum_{p \in X} (m_p(f) - 1) \; - 2 \deg(f) \\
+&= 2 (g(X) - 1 + \deg(f)) - 2 \deg(f) = 2(g(X) - 1).
+\end{aligned}
+\end{equation}
+
+This finishes the first part of the question, so now all that remains is to deduce that the divisor of any meromorphic $1$-form has the same degree.
+
+\smallskip
+
+The general result may then be deduced because any $1$-form $\omega$ is of the form $\omega = g \dl2 f$ for some meromorphic function $g$. As such, the divisor of $\omega$ equals $\div(g) + \div(\dl f)$, and since the degree is linear on divisors we have
+\begin{equation}
+\deg(\div(\omega)) = \deg(\div(g)) + \deg(\div(\dl f)) = 0 + 2g-2,
+\end{equation}
+where we used the fact that any meromorphic function has null degree divisor.
+\end{sol}
+
+\begin{ex}
+Let $V,W,X$ be nonzero finite-dimensional vector spaces over algebraically closed $\kk$. Let $b \colon V \times W \to X$ satisfy $b(v,w) = 0 \implies (v = 0 \lor w = 0)$. Show that
+\begin{equation}
+\dim V + \dim W \leq \dim X + 1.
+\end{equation}
+
+Why does this fail if $\kk$ is not algebraically closed?
+\end{ex}
+
+\begin{sol}
+In the following, we suppose without loss of generality, by reducing $X$ if necessary, that the span of the image of $b$ equals $X$.
+
+To start, we note that $b$ naturally induces a regular map $\bar b \colon \PP(V) \times \PP(W) \to \PP(X)$, by $\bar b([v],[w]) = [b(v,w)]$. This uses the hypothesis on $b$. Note that, $\PP(V) \times \PP(W)$ is embedded in $\PP(V \otimes W)$.
+
+Now, the kernel of $b \colon V \otimes W \to X$, by the rank-nullity theorem (and the assumption on $X$ made at the start of the solution), has dimension equal to $\dim V \times \dim W - \dim X$. Let $K \subseteq \PP(V \otimes W)$ be its projectivization, whose dimension is $\dim V \times \dim W - \dim X - 1$. Then, $K$ is disjoint from $\PP(V) \times \PP(W)$. Thus, by Theorem 2 from the dimension theory notes IV, $\dim K + \dim(\PP(V) \times \PP(W)) < \dim(\PP(V \otimes W))$. Expanding in terms of known things, we get
+\begin{equation}
+\begin{aligned}
+&\dim K + \dim(\PP(V) \times \PP(W)) < \dim(\PP(V \otimes W)) \iff\\
+\iff& (\dim V \times \dim W - \dim X - 1) + \dim V + \dim W - 2 < \dim V \times \dim W - 1 \iff\\
+\iff& \dim V + \dim W < \dim X + 2 \iff\\
+\iff& \dim V + \dim W \leq \dim X + 1.
+\end{aligned}
+\end{equation}
+
+This completes the proof!
+
+\smallskip
+
+As for why it fails for non-algebraically closed spaces, well. It is very likely that the proof fails because algebraic closedness is essential for dimension theory. But as for a counterexample, consider an ordered field $\kk$ such as $\Q$ or $\R$, and consider the map $b \colon \kk^2 \times \kk^2 \to \kk^2$ given by $b((a,b),(c,d)) = (ac+bd,ad-bc)$.
+
+Clearly the dimensions of $V$, $W$, and $X$ do not satisfy the desired inequality. However, if $b((a,b),(c,d)) = 0$ then by taking the inner product with $(c,d) \in \kk^2$ we get
+\begin{equation}
+(a c + b d) c + (a d - b c) d  = a (c^2 + d^2) = 0.
+\end{equation}
+
+Thus, either $(c,d) = 0$ (because we're in an ordered field), or $a = 0$. However, if $a = 0$ then the condition that $b((a,b),(c,d))=0$ gives us that $bd = bc = 0$, whence either $b = 0$ (and thus $(a,b) = 0$) or $d = c = 0$ (whence $(c,d)=0$ again). In conclusion, $b$ satisfies the condition that $b(v,w) = 0$ implies $v$ or $w$ null, and yet the inequality on the dimension of the spaces is not satisfied.
+\end{sol}
+
+\end{document}

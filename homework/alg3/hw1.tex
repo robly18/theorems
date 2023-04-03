@@ -1,0 +1,194 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 1}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+
+
+\DeclareMathOperator{\tg}{tg}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Justify that there are exactly two right triangles with integral sides and hypotenuse length $65$. (I think this problem is wrong, see solution.)
+\end{ex}
+
+\begin{sol}
+We want to solve the diophantine equation $x^2 + y^2 = 65^2$. Equivalently, in $\Z[\I]$, we wish to solve $(x+\I y)(x - \I y) = 65^2$. To do so, we will take the prime factors of $65^2$ in $\Z[\I]$, and will divide them into two parts, in such a way that any prime in part $A$ is paired up with another prime in part $B$ which is its conjugate.
+
+The usual prime factorization of $65^2$ in $\Z$ is $5^2 \times 13^2$, and therefore in $\Z[\I]$ it is $(2+\I)^2(2-\I)^2(3+2\I)^2(3-2\I)^2$. Therefore, there are essentially (at most) $6$ ways to pair the primes, and therefore (at most) six solutions $(x,y)$. The following table has the solutions.
+\[
+\begin{array}{l|l|l}
+A & \prod A & \text{Triangle Sides}\\
+\hline
+(2+\I)^2(3+2\I)^2 & -33+56\I & (33,56,65) \\
+(2+\I)^2(3+2\I)(3-2\I) & 39+52\I & (39,52,65)\\
+(2+\I)^2(3-2\I)^2 & 63-16\I & (16,63,65) \\
+(2+\I)(2-\I)(3+2\I)^2 & 25+60\I & (25,60,65)\\
+(2+\I)(2-\I)(3+2\I)(3-2\I) & 65 & (0,65,65) \text{ (degenerate)}\\
+(2+\I)(2-\I)(3-2\I)^2 & 25-60 \I & (25,60,65)\\
+\end{array}
+\]
+
+So as we can see, there are actually four distinct right triangles with integer sides and hypotenuse length $65$. Five, if one counts the degenerate case.
+\end{sol}
+
+\begin{ex}
+Prove that if $\tg(\alpha) = 1$ and $\tg(\beta) = 2$ then $\alpha$ and $\beta$ are linearly independent over $\Q$.
+\end{ex}
+
+\begin{sol}
+Suppose that they were linearly dependent. Then, by clearing denominators, we could find coprime integers $m$ and $n$ such that $m \alpha - n \beta = 0$. Suppose moreover that $\alpha, \beta > 0$, so that, without loss of generality, $m$ and $n$ are positive integers. Then, consider the quantity $(1+\I)^m (1+2\I)^n$. On the one hand, this is equal to
+\begin{equation}
+(1+\I)^m (1-2\I)^n = \sqrt2 ^m \e^{\I m \alpha}  \sqrt5^n \e^{-\I n \beta} = \sqrt2^m \sqrt5^n.
+\end{equation}
+On the other hand, it is a product of Gaussian integers, and hence is itself a Gaussian integer. Thus, it must be an integer, and the only way for $\sqrt2^m \sqrt5^n$ to be an integer is if both $m$ and $n$ are even, which contradicts the assumption of coprimality. Hence, $m$ and $n$ cannot exist.
+\end{sol}
+
+\begin{ex}
+Consider the Diophantine equation $y^2 = x^3 - 4$.
+\begin{enumerate}
+\item Prove that if $\pi$ divides $y+2\I$ and $y-2\I$ then $\pi = 1+\I$ up to unit.
+\item Prove that if $\pi$ divides one of $y + 2\I$ or $y - 2\I$ but not both, it does so with order a multiple of three.
+\item Prove that if $\pi$ divides $y+2\I$ and $y-2\I$ then it divides them with the same order, which is a multiple of three.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item In this scenario, $\pi \mid (y+2\I) - (y-2\I)$, i.e. $\pi \mid 4\I$. This number factorizes into primes as $-\I (1+\I)^4$, and by uniqueness of prime division we have the desired result.
+\item If this happens, then $\pi$ divides $x^3 = (y+2\I)(y-2\I)$ with the same order as the factor it divides. But $x^3$ is a perfect cube, hence $\pi$ divides it with order a multiple of three, and we are done.
+\item In this scenario, as we've seen $\pi = 1+\I$ up to unit. Therefore, its conjugate is the same prime as itself (up to unit), and so $\pi$ divides any number with the same order as it divides its conjugate.
+
+The order with which $\pi$ divides $y\pm2\I$ is a multiple of three because $\pi$ divides $x^3$ with two times this order. Thus, since $2$ and $3$ are coprime, it divides $x^3$ with an order which is multiple of six, and hence each term with an order which is multiple of three.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Show that if $y^2 = x^3 - 4$ then $x + 2 \I = \alpha^3$ for some $\alpha \in \Z[\I]$.
+\end{ex}
+
+\begin{sol}
+We saw that any prime which divides either of the two factors in $x^3 = (y-2\I)(y+2\I)$ will divide it a multiple of three times. Hence, $y+2\I$ is the product of a bunch of cubes, and hence is itself a cube.
+\end{sol}
+
+\begin{ex}
+Prove that if $y^2 = x^3 - 4$ then $(x,y) = (2, \pm2)$ or $(5,\pm 11)$.
+\end{ex}
+
+\begin{sol}
+In this situation, for some $a,b\in \Z$ we have $y+2\I = (a+b\I)^3$, that is,
+\begin{equation}
+\begin{cases}
+y = a(a^2 - 3b^2),\\
+2 = b (3 a^2 - b^2).
+\end{cases}
+\end{equation}
+
+From the second equation, using prime factorization in $\Z$, we get that either $b = \pm 1$ or $b = \pm 2$. By brute forcing the solution of all the cases, we obtain that the only solutions to the second equation are $(a,b) = (\pm 1,1)$ and $(\pm 1,-2)$, corresponding then to $y = \mp 2$ and $y = \mp 11$ respectively. Finally, by computing $\sqrt[3]{y^2 + 4}$ in each case we obtain $x$.
+\end{sol}
+
+\begin{ex}
+Prove that the only integer solutions to $y^2 = x^3 - 2$ are $(x,y) = (3,\pm 5)$.
+\end{ex}
+
+\begin{sol}
+Work in $\Z[\sqrt{-2}$. This is known to be a PID, and hence a UFD. Now, any solution to our equation will satisfy $x^3 = (y+\sqrt{-2})(y-\sqrt{-2})$, and similarly to the previous question any prime will divide each of the factors a multiple of three times. Hence, $y+\sqrt{-2}$ is a perfect cube, say $(a+b\sqrt{-2})^3$. Again we set up an equation for the $\sqrt{-2}$ component, obtaining $1 = b(3 a^2 - 2 b^2)$, and the only solution to this equation is easily seen to be $b = 1$, $a = \pm 1$. Finally one can plug these values into $y + \sqrt{-2} = (a+b\sqrt{-2})^3$ to obtain the two possible values of $y$, and then find $x = \sqrt[3]{y^2 + 2}$.
+\end{sol}
+
+\begin{ex}
+Find a bijection between the solutions of $x^2 - 2 y^2 = \pm 1$ and the invertible elements of $\Z[\sqrt2]$.
+\end{ex}
+
+\begin{sol}
+An element $x + y \sqrt 2$ is invertible iff its norm is invertible (in $\Z$), and its norm is precisely $x^2 - 2 y^2$. Thus, iff $x^2 - 2 y^2 = \pm 1$. As such, the bijection is $(x,y) \leftrightarrow x + y \sqrt 2$.
+\end{sol}
+
+\end{document}

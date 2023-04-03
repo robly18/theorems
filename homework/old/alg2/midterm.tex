@@ -1,0 +1,248 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Midterm}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Aff}{\mathbb{A}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+%\let\radical\relax
+%\DeclareMathOperator{\radical}{rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\coker}{coker}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Determine the rings of integers in $\Q(\sqrt5)$.
+\end{ex}
+
+\begin{sol}
+We claim that the answer is $R = \Z\left[\frac{1+\sqrt5}2\right]$. Indeed, any element of $R$ is the root of a monic polynomial with integer coefficients: if $a, b \in \Z$ we have
+\begin{equation}
+\begin{aligned}
+\left(a + b \frac{1+\sqrt5}2 \right)^2 &= a^2 + ab(1+\sqrt5) + b^2 \frac{1+2\sqrt5 + 5}2\\
+&= a^2 + 2ab\frac{1+\sqrt5}2 + b^2 + b^2 \frac{1+\sqrt5}2\\
+&= (2a+b) \left(a + b \frac{1+\sqrt5}2 \right) + (-a^2 -ab + b^2).
+\end{aligned}
+\end{equation}
+
+Now, we need to show that any element of the ring of integers of $\Q(\sqrt5)$ is of this form. Now, any element of $\Q(\sqrt5)$ may be written as $a+b\frac{1+\sqrt5}2$ for $a,b \in \Q$, this is a simple change of basis. We claim that if such an element is integral then $a$ and $b$ are integers. Before we can prove this, we need an algebraic lemma.
+
+\begin{lemma}\label{lemma:ip}
+Let $p(x)$ and $q(x)$ be two monic rational polynomials such that $p(x) q(x)$ is an integer-coefficient polynomial. Then, $p$ and $q$ are integer-coefficient polynomials.
+\end{lemma}
+
+\begin{lemmaproof}
+First, to reduce to the integer case, multiply $p$ and $q$ by an appropriate coefficient, to kill all denominators, but make it the smallest coefficient possible so that (if $A_0$ and $A_1$ are the numbers by which we are multiplying them) $A_0 p$ and $A_1 q$ are primitive integer-coefficient polynomials, in the sense that their coefficients have no common divisor. The fact that such $A_0$ and $A_1$ exist uses the fact that $p$ and $q$ are monic.
+
+Now, a standard result (I think it's called Gauss' law?) states that the product of two primitive integer-coefficient polynomials is itself primitive. The proof goes as follows: if $P(x)$ and $Q(x)$ are primitive but $P(x)Q(x)$ is not, pick a common prime divisor of its coefficients, say $d$. Then, consider the maximal (in index) coefficients $P_i$ and $Q_j$ which are not divisible by $d$ (which exist as otherwise $P$ or $Q$ would not be primitive), and since that the $i+j$-th coefficient of $P(x)Q(x)$ is divisible by $d$, we obtain that either $P_i$ or $Q_i$ is, as $(PQ)_{i+j} = P_i Q_j + \text{(terms divisible by $d$)}$, hence $d \mid P_i Q_j$. Anyway, this contradiction shows that $P(x)Q(x)$ is primitive.
+
+Now, we obtain that $A_0 A_1 p(x) q(x)$ is primitive. But since $p(x) q(x)$ already had integer coefficients, we conclude that $A_0 = A_1 = 1$, and thus $p(x)$ and $q(x)$ had integer coefficients all along. This completes the proof.
+\end{lemmaproof}
+
+As an auxilliary tool in the following, we define the conjugate operation in $\Q(\sqrt5)$ by $a+b\sqrt5 \mapsto a-b\sqrt5$, with the conjugate of $z$ denoted by $\conj z$. A simple computation shows that this is a multiplicative involution.
+
+\begin{lemma}
+Any integral element of $\Q(\sqrt5)$ is the root of a monic integer-coefficient polynomial of degree at most two.
+\end{lemma}
+
+\begin{lemmaproof}
+Let $p(x)$ be a monic integer-coefficient polynomial. Then, since integers are invariant under conjugation, $z$ is a root of $p(x)$ if and only if $\conj z$ is as well. Now, if $z$ is an integral element which is a root of $p(x)$, either $z = \conj z$ or $z \neq \conj z$.
+
+If $z \neq \conj z$, we obtain by polynomial division that
+\begin{equation}
+p(x) = (x-z)(x-\conj z) q(x),
+\end{equation}
+for some monic rational polynomial $q$. Now, since both $z + \conj z$ and $z \conj z$ are rational (a trivial computation), we write $p(x)$ as the product of two rational polynomials, $(x-z)(x-\conj z)$ and $q(x)$. Thus, by lemma \ref{lemma:ip}, $(x-z)(x-\conj z)$ is an integer-coefficient polynomial, which has $z$ as a root.
+
+If $z = \conj z$ we have a similar phenomenon, but instead we write $p(x) = (x-z) q(x)$, and since $z$ is rational (as it equals its own conjugate) we get that $(x-z)$ is an integer-coefficient polynomial.
+\end{lemmaproof}
+
+Note that the above argument shows more than at first would seem: any  integral element is the root of the (integer-coefficient) polynomial $(x-z)(x-\conj z)$, and it is trivial to show the opposite implication:
+
+\begin{lemma}
+An element $z \in \Q(\sqrt5)$ is integral iff the polynomial $(x-z)(x-\conj z)$ has integer coefficients. Equivalently, if both $z+\conj z$ and $z \conj z$ are integers.
+\end{lemma}
+
+From this lemma, we may find precisely which elements are integral. Let $z = a + b \frac{1+\sqrt5}2$ be integral. Then, $2a+b = z + \conj z$ is an integer, as is $a^2 + ab - b^2 = z \conj z$. We prove that this implies that both $a$ and $b$ are integers.
+
+Write $b = 2a + n$ for $n \in \Z$. Then,
+\begin{equation}
+a^2 + ab - b^2 = 5an - 5a^2 - n^2,
+\end{equation}
+which is an integer iff $5a(n-a) \in \Z$. Now, if we write $a = p/q$ with $p$ and $q$ coprime, we obtain that $5a(n-a) \in \Z$ iff
+\begin{equation}\label{eq:1}
+q^2 \mid 5p(qn-p).
+\end{equation}
+
+Now, since $q$ is coprime with $p$, and also with $qn-p$ (because you're adding a multiple of $q$), \eqref{eq:1} holds iff $q^2 \mid 5$, which is impossible unless $q = 1$. Thus, we get that $a$ is an integer, and since $b = 2a + n$, so is $b$.
+\end{sol}
+
+\begin{ex}
+Let $B$ be the upper-triangular invertible $n \times n$ matrices. Show that each $B$-orbit is irreducible and is an open subset of its closure in $\Gr(m,n)$.
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}
+Given a homogeneous degree $d$ polynomial $P$ in $X_0, \dots, X_n$, show that $\PP^n \setminus V(P)$ is isomorphic to an affine algebraic set.
+\end{ex}
+
+\begin{sol}
+The Veronese embedding embeds $\PP^n$ in $\PP^{N-1}$, where $N$ is the number of degree $d$ moniomials in $X_0, \dots, X_n$, by the evaluation map. Now, writing $P(X_0, \dots, X_n) = \sum a_i m_i$, with $m_i$ an enumeration of the monomials, $V(P)$ embeds in $\PP^{N-1}$ as the intersection between the copy of $\PP^n$ and the zero locus of a degree one polynomial $q(x) = \sum a_i x_i$. By a change of coordinates in $\PP^{N-1}$, we have that $\PP^n$ is embedded in a certain way in projective space, and by removing $V(P)$ we are removing all points null with zeroth coordinate. Thus, we are looking at a copy of $\PP^n$ intersected with a copy of affine space. Since the copy of $\PP^n$ was closed to begin with, its intersection with affine space is also closed, and so $\PP^n \setminus V(P)$ is isomorphic to an algebraic set in $\Aff^{N-1}$.
+
+\end{sol}
+
+\begin{ex}
+What is the ring of regular functions on $\Aff^2 \setminus 0$?
+\end{ex}
+
+\begin{sol}
+First, as a lemma, we note that the ring of regular functions on $\Aff^2 \setminus \{y = 0\}$ is given by $\kk[x,y,y^{-1}]$, and likewise for $\Aff^2 \setminus \{x = 0\}$. We will prove it for the first case, which is obviously sufficient.
+
+The proof uses the trick that $\Aff^2 \setminus \{y = 0\}$ is isomorphic via the projection to the set
+\begin{equation}
+\{(x,y,z) \mid yz = 1\} \subseteq \Aff^3.
+\end{equation}
+
+On this algebraic set, we know (assuming that the base field is algebraically closed) that the ring of algebraic functions is given by $\kk[x,y,z] / \braket{yz-1}$, which is the same as adjoining to $\kk[x,y]$ and inverse $z$ of $y$, hence $\kk[x,y,y^{-1}]$.
+
+Now, let us go back to $\Aff^2 \setminus 0$. Since the inclusion $\Aff^2 \setminus \{y = 0\} \hookrightarrow \Aff^2 \setminus 0$ is regular, the ring of regular functions on $\Aff^2 \setminus 0$ is contained in the ring of regular functions on $\Aff^2 \setminus \{y = 0\}$. Likewise, it is also contained in the ring of regular functions on $\Aff^2 \setminus \{x = 0\}$. But these two sets form an open cover of $\Aff^2 \setminus 0$, and since regularity is a local property, we conclude that
+\begin{equation}
+\text{Regular funcs on $\Aff^2 \setminus 0$} = (\text{R.F. on $\Aff^2 \setminus \{y=0\}$}) \cap (\text{R.F. on $\Aff^2 \setminus \{x = 0\}$}).
+\end{equation}
+
+Thus, we seek to find the intersection between $\kk[x,y,y^{-1}]$ and $\kk[x,y,x^{-1}]$.\footnote{If one wishes to be a bit more formal about it, we can see it as inquiring which regular functions in $\Aff^2 \setminus \{xy = 0\}$ may be extended to functions on $\Aff^2 \setminus \{x=0\}$ and $\Aff^2 \setminus \{y=0\}$, so we are seeking the intersection between $\kk[x,y,y^{-1}]$ and $\kk[x,y,x^{-1}]$ inside $\kk[x,y,x^{-1},y^{-1}]$.} To this effect, consider an element in the intersection, written in two different ways as either $\frac{p(x,y)}{y^N}$ or $\frac{q(x,y)}{x^M}$. Then, we have that, as polynomials, $x^M p(x,y) = q(x,y) y^N$. Thus, $y^N$ divides $x^M p(x,y)$, and since $x$ and $y$ are coprime, we get that $y^N \mid p(x,y)$. Thus, $\frac{p(x,y)}{y^N}$ was a polynomial from the beginning, and so any element in the intersection is a polynomial in $x$ and $y$. But evidently, any polynomial in $x$ and $y$ is in the intersection, and so we conclude:
+\begin{equation}
+\text{The space of regular functions on $\Aff^2 \setminus 0$ equals $\kk[x,y]$.}
+\end{equation}
+\end{sol}
+
+\setcounter{ex}5
+
+\begin{ex}
+Show that a finite dimensional reduced $\kk$-algebra $A$ is a finite product of copies of $k$.
+\end{ex}
+
+\begin{sol}
+To do this exercise, we begin by stating a lemma and showing that from this lemma the conclusion follows.
+
+\begin{lemma}\label{lemma:alg}
+Any algebra $A$ in the conditions of the problem statement whose dimension is at least two contains an element $a \in A$ such that:
+\begin{itemize}
+\item $a \not \in \{0,1\}$,
+\item $a^2 = a$,
+\item $\ker a \oplus \ker(a-1) = A$ as vector spaces.
+\end{itemize}
+\end{lemma}
+
+From this lemma, the proof follows by induction on the dimension. Indeed, for zero dimensional algebras the statement is obvious, and we prove it when $\dim A = 1$ as follows: given a generating element $a_0$, we have that $a_0^2 = \lambda a_0$ for some $\lambda \neq 0$ by reducibility. Now, define a mapping $\kk \to A$ which takes $x \in \kk$ to $x a_0 / \lambda$. This mapping is evidently a linear bijection, and a simple computation will show that it is also a homeomorphism, which proves the isomorphism of algebras $\kk \cong A$.
+
+Now, suppose we have proven it for all finite-dimensional algebras up to but not including a given dimension $n$. We will prove that the statement holds for dimension $n$. To do so, find an element $a \in A$ in the conditions of lemma \ref{lemma:alg}, and consider $\ker a$ and $\ker(a-1)$, where $a$ is seen as a linear transformation $A \to A$. Since $a \not \in \{0,1\}$ both of these have dimension strictly less than $n$ (because $1$ is in neither kernel), and so, after we verify that both of these are reduced $\kk$-algebras,\footnote{Sketch: They're obviously linear spaces, kernels are closed under multiplication so they're $\kk$-algebras, and reducibility is inherited from the reducibility of $A$.} we may apply the induction hypothesis to them. Thus, $A$ is a direct sum of two powers of $\kk$, though there is one last thing to verify, which is that the product behaves as expected.
+
+To be more precise, we may find a basis $e_1, \dots, e_k$ of $\ker a$ and another $f_1, \dots, f_\ell$ of $\ker(a-1)$ such that $e_i e_j = \delta_{ij} e_j$ and $f_i f_j = \delta_{ij} f_j$ using the induction hypothesis. All that remains is to show that $e_i f_j = 0$ for all $i$ and $j$. So we do this now: $e_i f_j = e_i (a f_j) = (a e_i) f_j = 0 f_j = 0$. And the proof is complete.
+
+Now all that remains is to prove lemma \ref{lemma:alg}, so we do that now.
+
+\begin{lemmaproof}
+Define the nullity of an element $a \in A$ as the dimension of its kernel (as a linear transformation), and pick an element $a \neq 0$ of maximal nullity such that $a$ is not a multiple of $1$ (exists because $\dim A \geq 2$). We claim that, up to scaling, this is the element we seek.
+
+First of all, we apply the Cayley-Hamilton theorem and the fact that $\kk$ is algebraically closed, in order to find $\lambda_1, \dots, \lambda_n$, not necessarily distinct, such that $(a-\lambda_1) \dots  (a - \lambda_n) = 0$.
+
+Second, we claim that $\ker a$ is a prime ideal of the ring $A$. Indeed, suppose that $abc = 0$ but $ab, ac \neq 0$. Then, $ab \neq 0$ would be a nonzero element whose kernel would contain $\ker a$, as well as $c \not \in \ker a$, so the nullity of $ab$ would be greater than the nullity of $a$, a contradiction with the maximality of the nullity of $a$.
+
+Now, obviously, $(a-\lambda_1) \dots (a-\lambda_n) = 0 \in \ker a$. By primality, there must be some $\lambda = \lambda_i$ such that $a-\lambda_i \in \ker a$. In other words, $a^2 = \lambda a$. By reducibility, $\lambda \neq 0$, and hence, replacing $a$ by $a/\lambda$, we obtain $a^2 = a$, which is one of the requirements our element must satisfy. Also, by hypothesis, $a \neq 0$ and $a \neq 1$. Thus, all that remains is to show that $\ker a \oplus \ker(a-1) = A$.
+
+Given $x \in A$, write $x = ax + (1-a)x$. Then, $ax \in \ker(a-1)$ because $(a-1)ax = a^2 x - ax = ax - ax = 0$, and a similar argument shows that $(1-a)x \in \ker a$. This shows that $\ker a + \ker(a-1) = A$, so all that's left is to show that the intersection is null. But this is obvious: if $ax = 0$ and $(a-1)x = 0$ then $x = ax + (1-a)x = 0$, and we're done.
+
+This completes the proof of the lemma,
+\end{lemmaproof}
+and with it the solution of the exercise.
+\end{sol}
+
+\end{document}
