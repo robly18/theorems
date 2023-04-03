@@ -1,0 +1,156 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 8}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\setcounter{ex}{2}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $u \in W^{1,p}(\Omega)$ then so is $\abs{u}$.
+\item Show that $\abs{u}^p \in W^{1,1}$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, we show that this statement is true for $u \in C^{\infty}(\R^n)$; a density argument will show that it holds in general. Except for $p = \infty$. I don't know how to deal with that case.
+
+For such $u$, we note that $u_{\varepsilon} = (u^2 + \varepsilon^2)^{1/2}$ is also $C^\infty$. Moreover, as $\varepsilon \to 0$, $u_\varepsilon \to \abs{u}$ in $L^p$, by Hölder's inequality, and by passing to a subsequence we can also ensure that $u \to \abs{u}$ a.e., and by computing the derivative of $u_\varepsilon$ we also conclude that $\grad u_\varepsilon$ is bounded and thus we also have weak $L^p$ convergence in a subsequence of $\grad u_{\varepsilon}$.
+
+Let $(v_i)$ be the weak sublimit of $\grad u_\varepsilon$. Since all test functions are in $L^q$, it is easy to check that indeed the $v_i$ are the weak derivatives of $\abs u$, and so we have $\abs u$ in $W^{1,p}(\Omega)$.
+
+\item By mollification and density, suppose that $u$ is a $C^\infty(\R^n)$ function which is nonnegative everywhere. (More precisely, replace $u$ by $\abs{u}$ and then mollify that; mollification preserves sign so the mollified version is still $\geq 0$.) Then the statement is obviously true by elementary multivariable calculus.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $W^{1,p}_0(\Omega)$ is weakly compact.
+\item Given $f \in L^q$ show that there is some $\bar u \in W^{1,p}_0(\Omega)$ which minimizes
+\begin{equation}
+F(u) = \int \abs{\grad u}^p + \int f u.
+\end{equation}
+\item Verify that such a $\bar u$ is a weak solution to the given PDE.
+\item (I am not going to do the other exercises.)
+\item
+\item
+\item
+\item
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item By proposition 9.20 from Brezis, we know that elements of the dual may be written (not necessarily uniquely) as
+\begin{equation}
+\varphi(f) = \sum \int_\Omega g_i \partial_i f,
+\end{equation}
+for some $L^q$ functions $g_1, \dots, g_n$. Now, given a bounded sequence $f_n \in W^{1,p}$, we know that all its partial derivatives are in $L^p$, so we may take subsequence such that all its partial derivatives converge weakly, and by the above form of elements of the dual it is trivial to verify that this subsequence converges weakly in $W^{1,p}$.
+
+\item Since $W^{1,p}_0$ is weakly sequentially compact, it suffices to verify that $F$ is a continuous (obvious by inspection) strictly convex (the linear part doesn't matter; the other is strictly convex because $\abs{\cdot}^p$ is strictly convex in $\R$) coercive functional. We will now check coercivity using Poincaré's inequality:
+\begin{equation}
+\abs{F(u)} = \abs*{\Norm{\grad u}_p^p + \int f u} \geq C \Norm{u}_{W^{1,p}}^p - \Norm{f}_q \Norm{u}_{W^{1,p}}.
+\end{equation}
+
+\item Given $\varphi \in C^\infty_c(\Omega)$, the function $t \mapsto F(u+t \varphi)$ has a minimum at $t=0$, and hence its derivative at $t=0$, if it exists, is zero. The desired conclusion is obtained by computing this derivative.
+
+\item
+\item
+\item
+\item
+\item
+\end{enumerate}
+\end{sol}
+
+\end{document}

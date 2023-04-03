@@ -1,0 +1,292 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Differential Geometry Homework 1}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\grad}{\nabla}
+
+
+\let\Diff\relax
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[do Carmo, \#1]
+Prove that the antipodal mapping on $S^n$ is an isometry. Use this fact to introduce a metric on $\R \PP^n$.
+\end{ex}
+
+\begin{sol}
+First, the antipodal mapping $\R^{n+1} \to \R^{n+1}$ is an isometry by linear algebra. Then, it descends to an isometry of $S^n$ because the metric there is induced from $\R^{n+1}$. Finally, the map $\pi \colon S^n \to \R \PP^n$ is a covering map, whose deck group is $\Z/2\Z$ acting by the antipodal map. Thus, $S^n \to \R\PP^n$ is a quotient covering map of a group acting by isometries, and therefore induced a well-defined metric on $\R\PP^n$ such that the projection is a local isometry.
+\end{sol}
+
+\begin{ex}[do Carmo, \#2]
+Introduce a Riemannian metric on $T^n$ making the projection $\R^n \to T^n$ a local isometry.
+\end{ex}
+
+\begin{sol}
+Again, $T^n$ is the quotient of $\R^n$ by the action of $\Z^n$ by translations, all of which are isometries. Thus, the quotient induces a natural metric.
+\end{sol}
+
+\begin{ex}[do Carmo, \#3]
+Immerse $T^n$ into $\R^{2n}$ isometrically.
+\end{ex}
+
+\begin{sol}
+See $T^n$ as $(S^1)^n$, and induce the natural map to $\R^{2n} = \C^n$ using the immersion $S^1 \to \C$.
+
+To see that this is an isometry onto its image, it suffices to check (because $\R^n \to T^n$ is a local isometry) that the composed map $\R^n \to \R^{2n}$ is an isometry onto its image. This map is given by $(x_1, \dots, x_n) \mapsto (\e^{\I x_1}, \dots, \e^{\I x_n})$, and its (real) derivative at $\vec x$ is given by
+\begin{equation}
+A = 
+\begin{bmatrix}
+-\sin(x_1) & 0 & \cdots & 0\\
+\cos(x_1) & 0 & \cdots & 0\\
+0 & -\sin(x_2) & \cdots & 0\\
+0 & \cos(x_2) & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & -\sin(x_n)\\
+0 & 0 & \cdots & \cos(x_n)
+\end{bmatrix}.
+\end{equation}
+
+A trivial computation shows that $(Av) \cdot (Aw) = v \cdot w$, and thus we have isometrically immersed $T^n$ in $\R^{2n}$.
+\end{sol}
+
+\begin{ex}[do Carmo, \#4]
+\leavevmode
+\begin{enumerate}
+\item Show that the left-invariant metric of $G$ which coincides with the Euclidean metric at $e$ is given by $g_{ij} = \frac1{y^2} \delta_{ij}$.
+\item Show that the Möbius transformations are isometries.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item By left-invariance, the metric at $(x,y)$ must be given by
+\begin{equation}
+g_{(x,y)}(v,w) := \braket{\dl L_{(x,y)^{-1}} v, \dl L_{(x,y)^{-1}} w}.
+\end{equation}
+
+Now, the left-action of $(x,y)$ on an element $(a,b)$ is readily seen to be
+\begin{equation}
+(x,y) \cdot (a,b) = (x+ay,by),
+\end{equation}
+whose derivative is $\dl L_{(x,y)} v = y v$. Thus, $(\dl L_{(x,y)^{-1}}) = (\dl L_{(x,y)})^{-1} = \frac1y I$. Therefore, we obtain
+\begin{equation}
+g_{(x,y)}(v,w) = \frac1{y^2} \braket{v,w},
+\end{equation}
+as desired.
+
+\item We compute $-\frac{4 \dl3 z' \dl3 \conj{z'}}{(z'-\conj{z'})^2}$. To do so, we start by computing $\dl z'$:
+\begin{equation}
+\dl z' = \frac1{(cz+d)^2} ( a(cz + d) - c(az+b)) \dl2z = \frac1{(cz+d)^2} \dl2 z.
+\end{equation}
+
+Moreover, we note that $(z'-\conj{z'}) = \frac{(z-\conj z)}{(c z + d)(c \conj z + d)}$. Now we may proceed with the computations:
+\begin{equation}
+\begin{aligned}
+-\frac{4 \dl3 z' \dl3 \conj{z'}}{(z'-\conj{z'})^2}
+&= -4 \frac{\dl z}{(cz+d)^2} \frac{\dl \conj z}{(c \conj z + d)^2} + \left(\frac{(c z + d)(c \conj z + d)}{z-\conj z} \right)^2\\
+&= - \frac{4 \dl3 z \dl3 \conj z}{(z - \conj z)^2}.
+\end{aligned}
+\end{equation}
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[do Carmo, \#7]
+\leavevmode
+\begin{enumerate}
+\item Prove that a left-invariant $n$-form is right-invariant.
+\item Show that there exists a left-invariant $n$-form on $G$.
+\item Given a left-invariant metric $g$, show that the new metric (which I call $g'$) is bi-invariant.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item If $\omega = 0$ the conclusion is trivial. Otherwise, if it is non-null anywhere, it is non-null everywhere by left-invariance. Thus, we may set
+\begin{equation}
+R_a* \omega = f(a) \omega,
+\end{equation}
+with $f$ smooth. Moreover, $f(ab) \omega = R_{ab}^* \omega = R_b^* R_a^* \omega = f(b) f(a) \omega$. Thus, $f$ is an anti-homomorphism to $\R^*$, which since $\R^*$ is commutative is the same as a homomorphism. A standard argument shows that (by compacity) the image is contained in $\{1,-1\}$, and by connectedness must be exactly $1$. Thus, $R_a^* \omega = \omega$, and so $\omega$ is left-invariant.
+
+\item Just pick any $n$-form $\omega_e$ on $T_e G$, and extend it by left-invariance to the whole space, by $\omega_a(v_1, \dots, v_n) = \omega_e((\dl L_a)^{-1} v_1, \dots, (\dl L_a)^{-1} v_n)$. This is smooth because the group operation is smooth, and it is left-invariant by direct computation.
+
+\item Well, the given metric $g'(v,w)$ is obtained by integrating $g$ of the right-translates of $g(v,w)$. Since $g$ itself is left-invariant (and left-translation commutes with right-translation), as is the form being used for integration, $g'$ will be left-invariant. On the other hand, $g'$ is right-invariant by change of variable; this uses the fact that $\omega$ is also right-invariant.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[2]
+\leavevmode
+\begin{enumerate}
+\item Prove that $\alpha$ is invariant by deck transformations and hence induces $\hat \alpha$.
+\item Prove that $H = \ker \hat \alpha$ induces a connection on the circle bundle $(T^3, \pi)$.
+\item Verify that $H$ is not flat in several different ways.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item If $(a,b,c) \in \Z^3$, the pullback of $\alpha$ by the translation by $(a,b,c)$ is given by
+\begin{equation}
+\dl(z+c) - \sin(2\pi(y+b)) \dl(x+a) = \dl z - \sin(2 \pi y) \dl x = \alpha.
+\end{equation}
+
+Therefore, since $\alpha$ is invariant under the deck transformations of the covering map $\R^3 \to T^3$, it induces $\hat\alpha$ as desired.
+
+\item We know that kernels of smooth one-forms induce smooth distributions of codimension one, so (by dimensional considerations, as the fibers have dimension one) it suffices to see that the kernel of $\hat \alpha$ never contains any vertical vector, i.e. does not contain $\partial_z$. But this is obvious, as $\hat\alpha(\partial_z) = 1$.
+
+\item \begin{enumerate}[label=\roman*)]
+\item Let $X = \partial_x + \sin(2 \pi y) \partial_z$ and $Y = \partial_y$. Both are evidently in the kernel of $\hat \alpha$. However, their bracket is easily seen to be $[X,Y] = -\cos(2 \pi y) \partial_z \neq 0$.
+\item Starting at $(0,0)$, flow along $X_H = \partial_x$ in time $\Delta$, then along $Y_H = Y$ in time $\Delta$, then along $-X_H$ in time $-\Delta$ and $-Y_H$ in time $\Delta$. This is a closed loop, and it is contractible because we can make $\Delta \to 0$. However, the parallel transport along this path is the same as the flow along $X$, then $Y$, etc, which is in general (because the bracket is nonzero) not the identity. In part four we compute explicitly the transport along this curve.
+
+\item We just compute $\hat\alpha \wedge \dl \hat \alpha = (\dl z + f \dl x) \wedge (-2\pi\cos(2\pi y) \dl y \wedge \dl x) = 2 \pi \cos(2 \pi y) \dl x \wedge \dl y \wedge \dl z \neq 0$.
+
+This is related to i) because if $X,Y$ are in the kernel of $\hat\alpha$, we have the formula (the sign might be wrong)
+\begin{equation}
+(\hat\alpha \wedge \dl \hat \alpha)(Z,X,Y) = \hat\alpha(Z) \hat\alpha([X,Y]).
+\end{equation}
+
+As such, starting from $X$ and $Y$ as in i) we could prove without computation that $\hat\alpha \wedge \dl \hat\alpha \neq 0$ by plugging in $Z = [X,Y]$. On the other hand, it is also possible (but I don't want to write the details) to, starting from the fact that $\hat\alpha \wedge \dl \hat\alpha$, finding $X,Y$ in the kernel of $\alpha$ such that (for some $Z$) $\hat\alpha(Z) \hat\alpha([X,Y]) \neq 0$, and in particular $[X,Y] \neq 0$.
+
+\item We compute it for the $\gamma$ we used in part ii). Flowing along $\pi_*(Y)$ does not (in the lift) alter the $z$ coordinate of the point we are transporting, so the change along the fiber happens only when we fow along $X$. Moreover, there is also no change in the last leg of the trip, because it happens when $y = 0$, and so $X$ has no $z$ component. Thus, the $z$ coordinate changes only in the second leg of the journey, namely by $\Delta \times \sin(2\pi\Delta)$. In other words, the parallel transport along $\gamma$ induces the map on the fiber $F = S^1 = \R/\Z$ given by $[z] \mapsto [z + \Delta \times \sin(2\pi\Delta)]$, and for most values of $\Delta$ this is a nonzero automorphism of the fiber.
+\end{enumerate}
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[3]
+\leavevmode
+\begin{enumerate}
+\item Show that $M_p$ is a subgroup of $\Diff(E_p)$.
+\item Show that $H_p$ is a normal subgroup of $M_p$.
+\item Show that for all $p,q$, $(H_p,M_p)$ is isomorphic to $(H_q,M_q)$.
+\item Prove that $H$ is flat iff $H_p$ is trivial for some $p$.
+\item Show that the map $\rho \colon \pi_1(B,p) \to M_p/H_p$ is well-defined.
+\item Prove that if $H$ is flat and $\rho$ is the trivial homomorphism then $E$ is trivial.
+\item Show that the projection $\pi \colon \widetilde B \times F \to \widetilde B$ is $\pi_1(B)$-equivariant, and hence induces a $C^\infty$ fiber bundle $\pi_\rho \colon E \to B$ with fiber $F$.
+\item Let $H$ be the connection on $E$ induced by the horizontal connection on $\widetilde B \times F$. Compute $H_p$ and $M_p$. What is the monodromy representation?
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item It is easy to show that if $\gamma$ and $\sigma$ are loops around $p$, we have $h_\gamma \circ h_\sigma = h_{\gamma \sigma}$ (where $\gamma \sigma$ is the composition of paths where first you do $\sigma$ and then you do $\gamma$). Moreover, $h_{\gamma^{-1}}$ (this means $\gamma$ backwards) is also easily seen to equal $h_\gamma^{-1}$. This proves what we want, because we have closure under composition (by composing paths) and we have inverses. Oh, and obviously we have the identity because of the constant path.
+
+\item Using the remarks in the previous item, we have that if $c$ is contractible and $\gamma$ is arbitrary we have
+\begin{equation}
+h_\gamma^{-1} \circ h_c \circ h_\gamma = h_{\gamma^{-1} c \gamma},
+\end{equation}
+and now we just note that $\gamma^{-1} c \gamma$ is contractible (first homotope $c$ to a point, and then you get just the path $\gamma^{-1} \gamma$, which you can just pull back through $\gamma$ to homotope to a point).
+
+\item Pick a path $\alpha$ connecting $p$ to $q$. Then, conjugation by $h_\alpha$ induces a map (which is invertible) between $M_p$ and $M_q$. Moreover, conjugating a path by $\alpha$ (by a similar reasoning to the previous item) takes contractible paths to contractible paths, so this map takes $H_p$ to $H_q$, and its inverse takes $H_q$ to $H_p$, so its restriction is a bijection between these.
+
+\item We defined flatness as `the transport along any contractible loop is trivial'. Equivalently, with our definitions, for all $q$ we have $H_q = 0$. But by the previous item, $H_q$ are all isomorphic, so it is equivalent to $H_p = 0$ for any particular $p$.
+
+\item We wish to show that whenever $\gamma$ and $\sigma$ are homotopic loops, $h_\gamma$ differs from $h_\sigma$ by transport by a contractible loop. But this is obvious: it differs by composition with $h_{\gamma^{-1} \sigma}$, which is contractible because $\gamma$ and $\sigma$ are homotopic.
+
+\item If $H$ is flat then $M_p/H_p = M_p/0 = M_p$. Moreover, the statement that $\rho_H$ is trivial says that for any loop around $p$ the parallel transport is identity. Equivalently, for any two paths $p \to q$ the parallel transport is the same. Therefore, this gives us a canonical identification of any fiber with the fiber of $p$ by parallel transport along any path connecting $p$ and $q$; in other words, a trivialization.
+
+
+\item We compute: $\pi(\gamma \cdot (\tilde b, f)) = \pi(\gamma \cdot \tilde b, \rho(\gamma)^{-1} f) = \gamma \cdot \tilde b = \gamma \cdot \pi(\tilde b, f)$. So this is trivial.
+
+Therefore, passing to the quotient by the action (which one would need to check is free and other things) we get a quotient manifold, and since you are identifying some fibers with others (but never two points in the same fiber) the quotient will have a fiber bundle structure with the same fiber.
+
+\item We start with a loop $\gamma$ around $p$. Then, transporting a point $x$ in the fiber of $p$ via $H$ is the same as transporting it in the covering $\tilde B \times F$ via the trivial connection, through the lift of $\gamma$. In other words, the point $(p,x)$ is taken to $(\gamma \cdot p, x)$. Now, to see the result in $E$ we need to pass to the quotient, and to see the result in the same fiber of $p$ we write $(\gamma \cdot p, x) \sim (p, y)$. It is easy to solve this equation for $y$, and get $y = \rho(\gamma) x$. Therefore, we conclude that $\gamma$ transports $x$ to $\rho(\gamma)x$, and hence $M_p$ is the image of $\rho$.
+
+On the other hand, if $\gamma$ is contractible, then it is null in the fundamental group, and thus $\rho(\gamma) = 0$. Hence, $H_p = 0$.
+
+The monodromy representation is precisely $\rho$ itself.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[4]
+Prove that there is no flat Ehresmann connection on $TS^2$.
+\end{ex}
+
+\begin{sol}
+If there were, by item (f) of the previous question $TS^2$ would be trivial, and we know that it is not. We can apply (f) because, by hypothesis, the hypothetical connection is flat, and moreover the representation is trivial because $\pi(S^2) = 0$.
+\end{sol}
+
+\end{document}

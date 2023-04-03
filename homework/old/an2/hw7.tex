@@ -1,0 +1,269 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 7}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $f \in W^{1,p}(0,1)$ then
+\begin{equation}
+\abs{f(x) - f(y)} \leq \Norm{f}_{1,p} \abs{x-y}^{1/q}.
+\end{equation}
+\item Show that if $f \in W^{1,p}_0(0,1)$ then $f(0) = f(1) = 0$.
+\item Show that for all $f \in C^\infty_0(0,1) \cap W^{1,p}_0(0,1)$ there is $f_k \in C^\infty_c(0,1)$ so that $f_k \to f$ in $W^{1,p}$. Conclude that $C^\infty_0 \cap W^{1,p}_0$ is dense in $W^{1,p}_0$.
+\item Show that if $f \in W^{1,p}(0,1)$ is such that $f(0) = f(1) = 0$ then $f \in W^{1,p}_0$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item This inequality follows from Hölder, because (since $f$ is continuous, by the FTC) we have (for $x \leq y$)
+\begin{equation}
+\begin{aligned}
+\abs{f(x) - f(y)}
+&= \abs*{\int_x^y f'}\\
+&\leq \Norm{\chi_{\interval xy}}_{L^q} \Norm{f'}_{L^p}\\
+&\leq \abs{x-y}^{1/q} \Norm{f}_{W^{1,p}}.
+\end{aligned}
+\end{equation}
+\item Let $\varphi_n$ be a sequence of $C^\infty_c$ functions which converge to $f \in W^{1,p}_0$. Then, there exists a uniform bound for the $W^{1,p}$ norm of the $\varphi_n$, call it $C$. By the previous item, then, we have
+\begin{equation}
+\abs{\varphi_n(x)} = \abs{\varphi_n(x) - \varphi_n(0)} \leq C \abs{x}^{1/q},
+\end{equation}
+hence this bound also holds for $f$ (because up to subsequence we have almost everywhere convergence). In principle it only holds a.e. but continuity guarantees it holds everywhere. Plugging in particular $x = 0$ we obtain $f(0) = 0$. A similar bound holds near $x = 1$, with $\abs{\varphi_n(x)} \leq C \abs{1-x}^{1/q}$, which shows likewise that $f(1) = 0$.
+\item By Brezis' definition of $W^{1,p}_0$, this question is obvious: A function $f$ is in $W^{1,p}_0$ exactly if there exists a sequence $f_k$ in the given conditions which converges to $f$. The fact that $f$ is also in $C^\infty_0$ is irrelevant.
+
+The punchline of the problem is also obvious, as $C^\infty_0 \cap W^{1,p}_0$ contains a set which is dense in $W^{1,p}_0$, namely $C^\infty_c$.
+
+\item Let $f_n$ be a sequence of $C^\infty$ functions converging to $f$ in $W^{1,p}$. Then, up to subsequence, they converge a.e., and by continuity and using the bound in (i) we get convergence everywhere, in particular at zero and at one.
+
+Modify the sequence $f_n$ by setting $\phi_n(x) = f_n(x) - f_n(0) - f_n(1) x$. Since $f_n(0), f_n(1) \to 0$, we have that $\phi_n - f_n \to 0$, hence $\phi_n \to f$.
+
+Since all $\phi_n$ are in $W^{1,p}_0$ and this set is closed in $W^{1,p}$, we get that their limit, $f$, is also in $W^{1,p}_0$, which completes the proof.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $B_c$ is coercive for $c > \pi^2$. Conclude that there exists a bounded linear map $S_c \colon L^2(0,1) \to H^1_0(0,1)$ such that
+\begin{equation}
+B_c(S_c(f),v) = -\int_0^1 f v, \; \forall_{v \in H^1_0(0,1)}.
+\end{equation}
+\item Show that $T(f) \in H^1(0,1)$. Then show that $T(f) \in H^1_0(0,1)$.
+\item Compute the eigenvalues of $T$ and conclude that $T+\lambda I$ is invertible for all $\lambda > 0$.
+\item With $c > \pi^2$ set $\lambda = \frac1{c-\pi^2}$. Check that
+\begin{equation}
+S_c(f) = (T-\lambda I)^{-1} T(-\lambda f).
+\end{equation}
+
+Conclude that $S_c \colon L^2 \to L^2$ is compact.
+
+\item Pick $c' \neq c$ so that $\sigma = (c' - c)^{-1}$ is not an eigenvalue of $S_c$. Show that $D(f) = (S_c - \sigma I)^{-1} S_c(-\sigma f)$ is such that
+\begin{equation}
+B_{c'}(D(f), v) = - \int_0^1 f v, \; f \in L^2, v \in H^1_0.
+\end{equation}
+
+Conclude that $S_{c'} = D$.
+
+\item Compute $\EV(S_c)$ and show that the set $\{c' \mid (c'-c)^{-1} \notin \EV(S_c)\}$ does not depend on $c$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We want to apply the Lax-Milgram theorem, so we need to ensure that $B_c$ (which is obviously bounded) satisfies an inequality of the form
+\begin{equation}
+B_c(u,u) \geq \theta \Norm{u}^2_{H^1_0}.
+\end{equation}
+
+So, we expand:
+\begin{equation}
+\begin{aligned}
+B_c(u,u)
+&= \int (u')^2 + (c-\pi^2) u^2\\
+&= \Norm{u'}^2_{L^2} + (c-\pi^2) \Norm{u}^2_{L^2},\\
+\text{and if $c > \pi^2$, } &\geq (c-\pi^2) \Norm{u}_{H^1}.
+\end{aligned}
+\end{equation}
+
+So we have coercivity, and thus may apply Lax-Milgram. To do so, we note that the operator $v \mapsto -\int_0^1 f v = - \braket{f,v}_{L^2}$ is bounded in $L^2$, and therefore bounded in $H^1_0$. Thus, by the Lax-Milgram theorem, there is an operator $S_c$ such that
+\begin{equation}
+B_c(S_c(f),v) = - \int_0^1 f v,
+\end{equation}
+as desired.
+
+\item We prove that $Tf$ is in $H^1$ by finding a weak derivative, namely
+\begin{equation}
+S(f)(x) = \int_0^1 \partial_x k(x,y) f(y) \dl3 y.
+\end{equation}
+
+We show that this is a weak derivative to $f$. Given $\varphi \in C^\infty_c(0,1)$, we have
+\begin{equation}
+\begin{aligned}
+\int_0^1 Sf(x) \varphi(x) \dl3 x
+&= \int_0^1 \int_0^1 \partial_x k(x,y) f(y) \varphi(x) \dl3 y \dl3 x\\
+&= \int_0^1 f(y) \int_0^1 \partial_x k(x,y) \varphi(x) \dl3 x \dl3 y\\
+\text{(This requires a little check but not hard)} &= - \int_0^1 f(y) \int_0^1 k(x,y) \varphi'(x) \dl3 x \dl3 y\\
+&= \text{(Undo the steps we did so far...)}\\
+&= - \int_0^1 Tf(x) \varphi'(x) \dl3 x.
+\end{aligned}
+\end{equation}
+
+Moreover, $S(f)$ is in $L^2$ because it is integration against an $L^2$ kernel.
+
+To see that $Tf$ is moreover in $H^1_0$, we note that it is continuous (because it is in $H^1$) and by the previous problem, to verify that it is in $H^1_0$ it suffices to compute $Tf(0)$ and $Tf(1)$. We do one of them; the other is the same:
+\begin{equation}
+Tf(0) = \int_0^1 k(0,y) f(y) \dl3 y = \int_0^1 0 = 0.
+\end{equation}
+
+Thus, $Tf \in H^1_0$.
+
+(Side note: We also showed that $T$ is a bounded operator $L^2 \to H^1$, because $\Norm{Tf}_{H^1} \leq \Norm{Tf}_{L^2} + \Norm{Sf}_{L^2} \leq (\Norm{T} + \Norm{S}) \Norm{f}_{L^2}$.)
+
+\item We want to solve, for $\lambda \neq 0$, the equation
+\begin{equation}\label{eq:ode1}
+\begin{gathered}
+Tf(x) = \lambda f(x),\\
+\text{that is, } \int_0^1 k(x,y) f(y) \dl3 y = \lambda f(x).
+\end{gathered}
+\end{equation}
+
+If \eqref{eq:ode1} holds, then the second derivative on both sides is also the same. Upon taking it, we end up with a second order ODE, where fortunately the right-hand side has simplified significantly (thanks to the particular formula for $k$)
+\begin{equation}
+\begin{cases}
+\lambda f''(x) = - f(x)\\
+f(0)=f(1)=0 & \text{(Because $f \in T(L^2) \subseteq H^1_0$)}.
+\end{cases}
+\end{equation}
+
+Classical theory solves this ODE: For $\lambda \leq 0$ there are no nonzero solutions, and for $\lambda > 0$ we have the solution (unique up to scaling)
+\begin{equation}
+f(x) = \sin(\sqrt\lambda x).
+\end{equation}
+
+In order for the boundary conditions at $x=1$ to hold, we must have $\lambda$ of the form $k^2 \pi^2$, $k \in \Z$, thus all elements of the spectrum are of this form. Conversely, one verifies by plugging into $T$ that all such values are eigenvalues, with eigenvector $\sin(k \pi x)$.
+
+\item First of all, we remark that $(T-\lambda I)^{-1}$ commutes with $T$ (because $(T-\lambda I)$ does). Thus, by changing variable to $g = (T-\lambda I)^{-1} f$, we reduce the question to proving that, for all $g \in L^2$ and $v \in H^1_0$,
+\begin{equation}\label{eq:bc}
+B_c(-\lambda T g, v) = - \int_0^1 (T-\lambda I)g(x) v(x) \dl3 x.
+\end{equation}
+
+By density, it suffices to prove this for $v \in C^\infty_c(0,1)$. This is good because then $v$ is a test function, which lets us use the definition of derivative when we're working with $B_c$, so that we may write
+\begin{equation}
+B_c(-\lambda T g, v) = - \int \lambda Tg(x) v''(x) \dl3 x - \cancel{\lambda (c-\pi^2)} \int Tg(x) v(x) \dl3x.
+\end{equation}
+
+Thus, upon cancelling some terms and expanding the definition of $T$, equation \eqref{eq:bc} simplifies to
+\begin{equation}
+\int \int k(x,y) g(y) v''(x) \dl3y \dl3x = \int g(x) v(x) \dl3x.
+\end{equation}
+
+This equation can be verified to be true as follows: on the left-hand side integrate by parts in $x$ twice, to obtain
+\begin{equation}
+\int \int k(x,y) g(y) v''(x) \dl3y \dl3x = \int \int \partial_x^2 k(x,y) g(y) v(x) \dl3y \dl3x,
+\end{equation}
+where the derivatives are in the sense of distributions. One readily sees by computing that $\partial_x^2 k(x,y) = \delta(x-y)$, and so the left-hand side simplifies to $\int g(x) v(x) \dl3x$, which is precisely what we want.
+
+\item The problem is really about showing that $S_{c'} = D$, or equivalently that
+\begin{equation}
+(S_c - \sigma I) S_{c'} = -\sigma S_c.
+\end{equation}
+
+This can be done by using the previous item to expand $S_c$ and $S_{c'}$ in terms of $T$, using the same trick as in the previous item to show that everything commutes, multiplying both sides out by $T-\lambda I$ and $T-\lambda' I$ to get rid of inverses, expanding, and ruthlessly simplifying. As André would call it, it is a `content-free proof'.
+
+
+\item
+\end{enumerate}
+\end{sol}
+
+\end{document}

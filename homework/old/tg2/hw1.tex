@@ -1,0 +1,227 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Geometry Homework 1}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\newcommand{\grad}{\nabla}
+
+
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[Prereq 2.2]
+\begin{enumerate}
+\item Prove that $\PP^m$ is connected and compact.
+\item Prove that $S^m_+ \to \PP^m$ is a quotient map.
+\item Prove that $\PP^1$ is homeomorphic to $S^1$.
+\item Prove that $\PP^{m-1}$ is a subspace of $\PP^m$.
+\item Prove that $x \mapsto x/\norm x$ is a homeomorphism $H \cong \R^m \to \PP^m \setminus \PP^{m-1}$.
+\item Interpret the elements of $\PP^{m-1} \subseteq \PP^m$ as the set of unoriented directions of $\R^m$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\begin{enumerate}
+\item The quotient of a compact set is compact, and $S^{m}$ is compact, hence so is $\PP^m$. Moreover, the quotient of a path connected set is compact, hence $\PP^m$ is compact for $m > 0$. For $m = 0$ one easily computes that $\PP^0$ has only one point, and is therefore compact.
+\item For surjectivity, simply notice that for all $x \in S^m$ either $x$ or $-x$ is in $S^m_+$, and thus $[x] \in \PP^m$ has a representative in $S^m_+$.
+
+Now, the map is obviously continuous, as it is the restriction of a continuous map. Thus, all that remains is to show that if $U \subseteq \PP^m$ satisfies $\pi^{-1}(U) \cap S^m_+$ open in $S^m_+$, then $U$ itself is open. Equivalently, we show that if $U' \subseteq S^m$ is saturated (i.e. $x \in U'$ iff $-x \in U'$ for all $x$) and $U' \cap S^m_+$ is open in $S^m_+$ then $U'$ is open in $S^m$.
+
+To show this, we use the fact that $S^m$ is a metric space (with the metric induced from $\R^n$. Indeed, if $U' \cap S^m_+$ then for any point $x \in U'$ there exists some $\varepsilon > 0$ such that any points in $S^m_+$ at a distance less than $\varepsilon$ of $x$ lie in $U'$. If $x$ is not in the equator, then assuming without loss of generality that $\varepsilon$ is less than the distance of the equator (e.g. replace it by the last coordinate of $x \in \R^{m+1}$ if necessary) then this same $\varepsilon$ furnishes an $S^m$-ball around $x$ contained in $U'$. Thus, the only problem happens possibly when $x$ is in the equator.
+
+To do the proof in this case, some $\varepsilon$ which works for both $x$ and $-x$ in $S^m_+$. Then, we claim that all points in $S^m$ which are at a distance less than $\varepsilon$ of $x$ lie in $U'$. Indeed, by hypothesis, all such points which are at or above the equator lie in $U'$, and for those that lie below the equator, one passes to the antipodal point and uses the hypothesis that $\varepsilon$ works for $-x$.
+
+(Post-scriptum: A much easier way, I have since realized, is to use the fact that a continuous bijection going from a compact to a Hausdorff space is a diffeomorphism.)
+
+\item This is trivial using the previous item. Indeed, it tells us that $\PP^1$ is given by taking $S^1_+ \cong [-1,1]$ and identifying the two endpoints. But it is a classical result that taking a nontrivial interval and identifying the endpoints yields a copy of $S^1$, which completes the proof.
+
+\item Consider the map $i \colon \PP^{m-1} \to \PP^m$ induced by the inclusion $S^{m-1} \to S^m$ as the equator. We show that this map is continuous. Indeed, if $U \subseteq \PP^m$ is open, we wish to show that $i^{-1}(U)$ is open. This happens iff $\pi^{-1}(i^{-1}(U))$ is open, where $\pi$ is the projection $S^{m-1} \to \PP^{m-1}$. But it is trivial to verify that the diagram below is commutative,
+\begin{equation}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAGUA9YAWwFoAjAF8QQ0uky58hFAPJVajFmwA6KgArru-YaPEgM2PASJkBC+s1aIOnHnolHpROeeqXlNtZruiFMKABzeCJQADMAJwh7RDIQHAgkOUUrVRU0LAcQSOikOISkACZ3JWsQTLFwqJji+MTEAGYS1K90iv0cmOSCxubPcr8hIA
+\begin{tikzcd}
+S^{m-1} \arrow[r, "\pi"] \arrow[d, "i"] & \PP^{m-1} \arrow[d, "i"] \\
+S^m \arrow[r, "\pi"]                    & \PP^m                   
+\end{tikzcd}
+\end{equation}
+hence $\pi^{-1}(i^{-1}(U)) = i^{-1}(\pi^{-1}(U))$, which is open because $i$ is continuous (as it is the inclusion of a subspace on a space) and $\pi^{-1}(U)$ is open because that is the definition of saying that $U$ is open.
+
+Anyhow, this shows that $i \colon \PP^{m-1} \to \PP^m$ is continuous. It is also trivial to check that it is injective, so it is a homeomorphism onto its image by the compact-Hausdorff theorem.
+
+\item It is obvious that this map is a homeomorphism from $H$ to the upper-half sphere, not including the equator. Call it $HS^m$. Moreover, the map $p \colon S^m_+ \to \PP^m$ defined above restricts to a homeomorphism in $HS^m$. Proof: it is obviously a continuous bijection, and to see that it is open pick an open subset $U \subseteq HS^m$. Then, $p(U)$ is open iff $p^{-1}(p(U))$ is open in $S^m_+$. But $p^{-1}(p(U)) = U$, which is open in $HS^m$, and since this is an open subset of $S^m_+$, it is also open there.
+
+In conclusion, the map from the problem statement is a homeomorphism from $H$ to the image of $HS^m$ in $\PP^m$, and this is obviously obtained by removing from $\PP^m$ the `equator points', which are precisely those that make up the copy of $\PP^{m-1}$ in $\PP^m$ considered above.
+
+\item Let $x \in H$ and $y \in S^{m-1}$. Moreover, let $N \colon H \to \PP^m$ be the mep from the previous item. We show that $N(x + t y)$ converges as $t \to \pm \infty$ to the image of $y$ in $\PP^{m-1} \subseteq \PP^m$.
+
+To this effect, it suffices to see that, if $N_0 \colon H \to S^m_+$ is the normalization map, $N_0(x + t y)$ converges to $y$ itself as $t \to +\infty$, and $-y$ as $t \to -\infty$. We do the $t \to +\infty$ case.
+\begin{equation}
+N_0(x + t y) - y = \frac{x + (t - \norm{x + t y}) y}{\norm{x + t y}} = \frac1{\norm{x + t y}} x + \frac{t - \norm{x + t y}}{\norm{x + t y}}y
+\end{equation}
+
+Note that $\norm{x + t y} \to \infty$ because $\norm{x+ty} \geq \abs{t} \norm{y} - \norm{x}$, hence the $x$ term goes to zero. Moreover, we have the bound
+\begin{equation}
+t - \norm x \leq \norm{x + t y} \leq t + \norm x
+\end{equation}
+by the triangle inequality and $\norm y = 1$, for $t \geq 0$, and thus $t - \norm{x + t y}$ is bounded. Hence, dividing it by $\norm{x + t y}$, which goes to infinity, we obtain something that goes to zero, and thus, as desired,
+\begin{equation}
+N_0(x + t y) \to y \text{ as $t \to +\infty$}.
+\end{equation}
+
+The result for $t \to -\infty$ is trivially obtained by replacing $y$ with $-y$. This completes the proof that, as $t$ goes to plus or minus infinity, $N_0(x + t y)$ goes to $\pm y$, and hence $N(x+ty)$ goes to the image of $y$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[2.1]
+Prove that the product of two $C^k$ manifolds is in a natural manner a $C^k$ manifold.
+\end{ex}
+
+\begin{sol}
+Let $X$ and $Y$ be $C^k$ manifolds. We build a $C^k$ atlas on $X \times Y$ from the atlases for $X$ and $Y$.
+
+Given charts $(U,\varphi)$ of $X$ and $(V,\psi)$ of $Y$, we build the chart $(U \times V, \varphi \times \psi)$ of $X \times Y$, by $(\varphi \times \psi)(u,v) = (\varphi(u), \psi(v)) \in \R^{\dim X + \dim Y}$. We consider the atlas of $X \times Y$ given by all charts built in this manner. It is obvious that these cover the product, so we turn to showing that it is a $C^k$ atlas.
+
+Given such charts $(U \times V, \varphi \times \psi)$ and $(\tilde U \times \tilde V, \tilde \varphi \times \tilde \varpsi)$, it is easy to verify that:
+\begin{itemize}
+\item The intersection $W = (U \times V) \cap (\tilde U \times \tilde V)$ equals $(U \cap \tilde U) \times (V \times \tilde V)$ (this is just a standard set theory fact),
+\item The transition map $(\varphi \times \psi)(W) \to (\tilde \varphi \times \tilde \psi)(W)$ is of the form $\tau_X \times \tau_Y$, where $\tau_X$ is the transition map $\tilde \varphi \circ \varphi^{-1}$ and $\tau_Y$ is likewise for $\psi$.
+\item Finally, the Jacobian of $\tau_X \times \tau_Y$ is given by the block diagonal matrix
+\begin{equation}
+J(\tau_X \times \tau_Y)(x,y) = \begin{bmatrix}
+J \tau_X(x) & 0 \\
+0 & J \tau_Y(y)
+\end{bmatrix},
+\end{equation}
+and therefore it exists everywhere and has as much regularity (i.e. continuous differentiability) as the Jacobians of $\tau_X$ and $\tau_Y$ do. In particular, if each of these is $C^k$, so is $\tau_X \times \tau_Y$.
+\end{itemize}
+
+This completes the proof that the given atlas is $C^k$.
+\end{sol}
+
+\begin{ex}[2.3]
+Prove that two nonempty $C^k$-diffeomorphic manifolds have the same dimension, for $k > 0$.
+\end{ex}
+
+\begin{sol}
+Consider such a diffeomorphism $f \colon X \to Y$. Pick some nonempty chart in $X$, say $(U,\varphi)$. Note that $f$ takes this to a chart in $Y$, and so we may see $f$ in coordinates by composing with the charts. Thus, we have a diffeomorphism $\tilde f$ from a nonempty open set $\varphi(U)$ in $\R^{\dim X}$ to a nonempty open set in $\R^{\dim Y}$. At any point in $\varphi(U)$, we may compute the Jacobian of $\tilde f$. Since it is a diffeomorphism, this matrix must be invertible, and crucially a matrix can only be invertible if it is square. Hence, $\dim X = \dim Y$, as desired.
+\end{sol}
+
+\begin{ex}[2.4]
+Prove that a composite of $C^k$ maps is a $C^k$ map.
+\end{ex}
+
+\begin{sol}
+Let $f \colon X \to Y$ and $g \colon Y \to Z$ be $C^k$ maps between $C^k$ manifolds. We show that $g \circ f$ is $C^k$.
+\end{sol}
+
+\begin{ex}[2.1]
+
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}[2.5]
+
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}[2.6]
+
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}[2.7]
+
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}

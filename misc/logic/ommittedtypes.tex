@@ -1,0 +1,233 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{fullpage}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{A Proof of the Countable Omitted Types Theorem}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\theoremstyle{nonumberplain}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction and Sketch}
+
+In this document, we provide a `two-step proof' of the Countable Omitted Types Theorem. This is different from what is done in standard books such as Hodges and Chang~\&~Keisler, as in both of these the proof consists of a countable number of steps, alternating between two or three distinct tasks. In this proof, we divide the proof into two distinct stages: a `witness adding stage', and a `type omitting stage'. We believe that this makes the proof sleeker, especially because the first stage is given by a known construction which is already used in standard proofs of Gödel's completeness theorem.
+
+The outline of the proof goes as follows. Let $T$ be a consistent theory in the countable language $L$, and let $\Sigma(\vec x)$ be a locally omitted partial type.\footnote{Note on Notation: whenever a symbol is written with a vector arrow on top of it, as in $\vec x$, it should be read as the $n$-uple $(x_1, \dots, x_n)$, where $n$ is the arity of the partial type $\Sigma$. This notation extends to expressions like $\exists_{\vec x}$, which should be read as $\exists_{x_1} \dots \exists_{x_n}$.} Then, in the first step of the proof, we turn $T$ into a `theory with witnesses', in that we augment its language with countably many constant symbols, turning it into a new language $L'$, and moreover augment $T$ in such a way that every existential statement (in $L'$) has a witness of it (if true). More precisely, we construct a consistent theory $T_0 \supseteq T$ such that, for all sentences in one free variable, say $\varphi(x)$, $T_0$ contains the formula $(\exists_x \varphi(x)) \rightarrow \varphi(c)$, for some adequate constant symbol $c$.
+
+Now, it is known from the standard proof of Gödel's completeness theorem that any such consistent theory `with witnesses' admits a model all of whose elements are represented (nonuniquely) by constant symbols. Thus, in order to ensure that such a model does not realize $\Sigma$, it suffices to ensure that each $n$-uple of constant symbols, say $\vec c$, does not realize $\Sigma$. This, for us, is where the proof starts in earnest.
+
+The standard proof is done in intertwined steps because of the following heuristic argument. The hypothesis that $\Sigma$ is locally omitted by $T$ tells us intuitively that `any finite amount of information about some elements $\vec x$ is not enough to ensure that they will satisfy the type'. Thus care is taken to, at any step of the proof, have added only finitely many formulas to the original theory $T$. As such, doing the witness-adding step at the very start seemingly breaks the proof. However, and in our view the main insight that makes this rearrangement of the proof possible, is that \emph{adding witnesses to a theory does not add any information \textit{per se}}, and this is formalized in proposition \ref{prop:locomit}: If $T$ locally omits $\Sigma$, so does $T_0$. Thus, we will be in a position to adapt the usual proof of the OTT, albeit in a cleaner way because we have only one task to do, instead of several: ensure that every $n$-uple of constant symbols does not realize $\Sigma$. In our view, this distills the proof down to its essential components, making the idea behind it more evident and transparent.
+
+
+\section{Adding Witnesses}
+
+The following construction is standard, and we repeat it for the sake of completeness, and so that we may refer to certain results.
+
+\begin{lemma}\label{lemma:witnesses}
+Let $T$ be a consistent theory over a countable language $L$. Then, there exists a theory $T_0$ over a language $L'$, which consists of $L$ plus a countable number of constants, which has witnesses to all existential statements, in the sense that, for all formulas in one free variable $\varphi(x)$, there exists a constant $c \in L'$ (called the \emph{witness of $\varphi$} such that $T_0$ contains the formula $\exists_x \varphi(x) \rightarrow \varphi(c)$.
+
+Moreover, this can be done in such a way that if $\{\varphi_n\}_{n \in \N}$ is a numbering of the formulas in one free variable, for all $n$ the witness of $\varphi_n$ is not present in $\varphi_1, \dots, \varphi_n$.
+\end{lemma}
+
+\begin{proof}
+Start by enumerating the formulas in one free variable $\varphi_1, \varphi_2, $ etc. Now, we will construct the theory $T_0$ by adding a countable number of formulas to $T$ (and taking the deductive closure at the end). At the $n$-th step, we add the formula $\exists_x \varphi_n(x) \rightarrow \varphi_n(c)$, where $c$ is some constant that is not present in any of $\varphi_1, \dots, \varphi_n$. We claim that the theory $T_0$ obtained at the end is consistent, and to do so it suffices by compacity to verify that at no step is consistency lost.
+
+To prove that each step preserves consistency, we refer to lemma \ref{lemma:newvar} below, which states that, from the perspective of a theory which does not refer to a given constant, any statement which can be proven about this constant can also be proven universally. Indeed, if at the $n$-th step we obtained inconsistency, we would have
+\begin{equation}
+T \cup \{\exists_x \varphi_1(x) \rightarrow \varphi_1(c_1), \dots\} \vdash \neg(\exists_x \varphi_n(x) \rightarrow \varphi_n(c)),
+\end{equation}
+and thus by the lemma
+\begin{equation}\label{eq:fake}
+T \cup \{\exists_x \varphi_1(x) \rightarrow \varphi_1(c_1), \dots\} \vdash \forall_y \neg(\exists_x \varphi_n(x) \rightarrow \varphi_n(y)).
+\end{equation}
+
+It is a standard first-order logic fact that the formula on the right-hand side of \eqref{eq:fake} is false, and thus if at the $n$-th step we have an inconsistent theory then at the $n-1$-th step we do as well. By repeating this argument, we obtain a contradiction with the hypothesis that $T$ itself was consistent.
+\end{proof}
+
+\begin{lemma}\label{lemma:newvar}
+Let $T$ be a theory over a language $L$, and let $L'$ be the language obtained from $L$ by adding some amount of constants. Let $\varphi(\vec x)$ be a formula in $L$, $\vec c$ some $n$-uple of \emph{distinct} constants in $L' \setminus L$, and suppose that $T \vdash \varphi(\vec c)$. Then, $T \vdash \forall_{\vec x} \varphi(\vec x)$.
+\end{lemma}
+
+\begin{proof}
+The proof of this fact is dependent on the specific formalism of first-order calculus chosen, so we omit details. Essentially, the idea is that any constant which shows up in the proof is, from the perspective of $T$, indistinguishable from an arbitrary element of the universe, as $T$ has no information about it, and thus may be replaced by a universally quantified (new) variable.
+\end{proof}
+
+We will also need the following technical lemma. It tells us that, even though $T_0$ technically has infinitely much more information than $T$ (it has information about each of the infinitely many constants), so long as only finitely many constants are being discussed, $T_0$ adds only finitely much information about those.
+
+\begin{lemma}\label{lemma:finitehypotheses}
+Let $T$, $L$, $T_0$, $L'$, as above. Suppose that $\theta(\vec x)$ is a sentence in $L$ such that $T_0 \vdash \theta(\vec c)$. Then, there is a finite subset $W$ of $T_0 \setminus T$, which depends only on $\vec c$, such that $T \cup W \vdash \theta(\vec c)$.
+
+To be more precise, consider the enumeration $\varphi_n$ of the formulas in one free variable used to construct $T_0$, and consider all values of $n$ such that $\exists_x \varphi_n(x) \rightarrow \varphi_n(c)$ has been added to $T_0$, for constants $c$ in $\vec c$. Note that there is at most one such $n$ for each constant $c$. Let $N$ be the maximal value of $n$ under this condition. Then, we set $W$ as the collection of the formulas $\exists_x \varphi_k(x) \rightarrow \varphi_k(d)$ which have been added to $T_0$, for $k \leq N$.
+\end{lemma}
+
+\begin{proof}
+Consider some proof of $T_0 \vdash \theta(\vec c)$. It uses finitely many formulas in $T_0 \setminus T$ as hypotheses, some of which are in $W$ (as above) and some of which may not be. We show that any such formulas are redundant and may be removed.
+
+Let $Z$ be the set of hypotheses used in the proof which are not in $T \cup W$. We show that they may be removed one by one.
+
+Suppose that $Z$ contains some formula $\exists_x \varphi_k(x) \rightarrow \psi_k(d)$. Without loss of generality, we pick $k$ maximal. Let $Z'$ be $Z$ without this formula. Then, by deduction,
+\begin{equation}
+T \cup W \cup Z' \vdash (\exists_x \varphi_k(x) \rightarrow \varphi_k(d)) \rightarrow \theta(\vec c).
+\end{equation}
+
+Now, by maximality of $k$, the constant $d$ appears nowhere in $W$ or $Z'$, whence by lemma \ref{lemma:newvar}
+\begin{equation}
+T \cup W \cup Z' \vdash \forall_y \big((\exists_x \varphi_k(x) \rightarrow \varphi_k(y)) \rightarrow \theta(\vec c) \big).
+\end{equation}
+
+Therefore, by standard manipulations,
+\begin{equation}
+T \cup W \cup Z' \vdash \big(\exists_y (\exists_x \varphi_k(x) \rightarrow \varphi_k(y))\big) \rightarrow \theta(\vec c).
+\end{equation}
+
+Moreover, the sentence $\exists_y(\exists_x \varphi_k(x) \rightarrow \varphi_k(y))$ is true in first order logic, and so we finally conclude
+\begin{equation}
+T \cup W \cup Z' \vdash \theta(\vec c),
+\end{equation}
+and so we have successfuly removed one of the hypotheses in $Z$ from the proof. Repeating this process as many times as necessary, we conclude that $T \cup W \vdash \theta(\vec c)$, as desired.
+\end{proof}
+
+\section{Witnesses Add No Information}
+
+To the author, it is intuitive that adding witnesses to a theory does not add any restriction or additional information. In particular, it can be shown that, if $T$ and $T_0$ are as above, any model of $T$ may be turned into a model of $T_0$ by interpreting the constant symbols appropriately. Thus, it stands to reason, if a (partial) type (in the language $L$) is realized (resp. omitted) in $T$, it is also realized (resp. omitted) in $T_0$. We will now prove a similar result for local realization.
+
+\begin{prop}\label{prop:locomit}
+Let $T$, $L$, $T_0$, $L'$ as in lemma \ref{lemma:witnesses}, and let $\Sigma(\vec x)$ be a partial type (in the language $L$) which is locally omitted by $T$. Then, it is also locally omitted by $T_0$.
+\end{prop}
+
+\begin{proof}
+To show that $\Sigma$ is locally omitted by $T_0$, pick some arbitrary $\varphi(\vec x)$ in the language $L'$ which is consistent with $T_0$. We shall find some $\sigma \in \Sigma$ such that $T_0$ is consistent with $\exists_{\vec x}(\varphi_0(\vec x) \land \neg\sigma(\vec x))$.
+
+To apply the hypothesis, we wish that the dependence on the added constants be made explicit. Thus, write $\varphi(\vec x) \equiv \varphi_0(\vec x, \vec c)$, where $\varphi_0$ is a sentence in $L$ and $\vec c$ is the tuple of constants that appear in $\varphi$. Then, the fact that $\exists_{\vec x} \varphi_0(\vec x, \vec c)$ is consistent with $T_0$ implies that $\exists_{\vec y} \exists_{\vec x} \varphi_0(\vec x, \vec y)$ is consistent with $T$, and perhaps here we would like to apply the definition of local omission. However, doing so is not enough, because too much information is loss when passing from $\vec c$ to $\vec y$.
+
+To rectify this problem, we add enough information to ensure that $\vec y$ may be chosen as the constants $\vec c$. To do so, we first apply lemma \ref{lemma:finitehypotheses} to find the collection of formulas $W$ (whose conjunction we call $\theta(\vec c)$; this may require implicitly increasing the collection of constants that $\vec c$ represents) which is enough to prove any statement using the constants $\vec c$. Then, we have the following sequence of equivalences
+\begin{equation}\label{eq:inconseqv}
+\begin{aligned}
+&T_0 \text{ is inconsistent with } \exists_{\vec x} \varphi_0(\vec x, \vec c)\\
+\text{iff }& T_0 \vdash \neg \exists_{\vec x} \varphi_0(\vec x, \vec c)\\
+\text{iff }& T \vdash \theta(\vec c) \rightarrow \neg \exists_{\vec x} \varphi_0(\vec x, \vec c)\\
+\text{iff }& T \vdash \forall_{\vec y} \big( \theta(\vec y) \rightarrow \neg \exists_{\vec x} \varphi_0(\vec x, \vec y) \big)\\
+\text{iff }& T \text{ is inconsistent with } \exists_{\vec y} \big( \theta(\vec y) \land \exists_{\vec x} \varphi_0(\vec x, \vec y) \big).
+\end{aligned}
+\end{equation}
+
+As such, the hypothesis that $T_0$ is consistent with $\exists_{\vec x} \varphi_0(\vec x, \vec c)$ gives us that $T$ is consistent with the sentence (obtained by quantifier shuffling in \eqref{eq:inconseqv}) $\exists_{\vec x} \exists_{\vec y} (\theta(\vec y) \land \varphi_0(\vec x, \vec y))$. Consequently, by local omission, we may find some $\sigma \in \Sigma$ such that
+\begin{equation}\label{eq:tcons}
+T \text{ is consistent with } \exists_{\vec x} \big[ \exists_{\vec y} (\theta(\vec y) \land \varphi_0(\vec x, \vec y)) \land \neg \sigma(\vec x) \big].
+\end{equation}
+
+Again, by shuffling quantifiers, we may write \eqref{eq:tcons} as:
+\begin{equation}
+T \text{ is consistent with } \exists_{\vec y} \big[ \theta(\vec y) \land \exists_{\vec x}(\varphi_0(\vec x, \vec y) \land \neg \sigma(\vec x)) \big],
+\end{equation}
+and by repeating the argument in \eqref{eq:inconseqv} in reverse we obtain finally
+\begin{equation}
+T_0 \text{ is consistent with } \exists_{\vec x} (\varphi_0(\vec x, \vec c) \land \neg \sigma(\vec x)).
+\end{equation}
+
+Thus we have found the formula $\sigma$ that we sought, and the proof is complete.
+\end{proof}
+
+\section{Ensuring Witnesses do Not Realize Types}
+
+Now that we have constructed a theory $T_0$ over $L'$ which extends $T$, which contains witnesses to all existential statements. This means (see section \ref{sec:modelsofwitnesses} below) that there exists a model of $T_0$ whose elements are all represented by constants in $L'$. As such, to guarantee that a model of $T_0$ (and hence of $T$) does not realize the partial type $\Sigma$, it suffices to show that it is possible to ensure that no tuple of constants realizes $\Sigma$. We turn to doing so now.
+
+\begin{remark}\label{rmk:bulk}
+Surprisingly, the bulk of the work has already been done in proposition \ref{prop:locomit}. Indeed, verifying that any $n$-uple of constants does not necessarily realize $\Sigma$ is trivial: given $\vec c = (c_1, \dots, c_n)$, simply consider the formula $\varphi(\vec x) \colon (x_1 = c_1 \land \dots \land x_n = c_n)$. Evidently, $\exists_{\vec x} \varphi(\vec x)$ is consistent with $T_0$, and therefore (by local omission) we may find $\sigma \in \Sigma$ such that $\exists_{\vec x} (\vec x = \vec c \land \neg \sigma(\vec x))$ is consistent with $T_0$. Elementary first-order calculus will evidently show that thus $\neg \sigma(\vec c)$ is consistent with $T_0$, and we are done.
+\end{remark}
+
+This shows that for any given $n$-uple of constants there is a model where this $n$-uple does not realize the type. Now, we are a short trick away from doing so for \emph{all} $n$-uples.
+
+\begin{lemma}\label{lemma:finomit}
+Let $T$ be a set of formulas which locally omits the partial type $\Sigma$. Then, if $A$ is a finite set of formulas, $T \cup A$ also omits $\Sigma$.
+\end{lemma}
+
+\begin{proof}
+First, by replacing the set $A$ by the set $\{\alpha\}$, with $\alpha = \bigwedge_{a \in A} a$, we may assume that $A$ contains a single formula $\alpha$.
+
+Let $\varphi(\vec x)$ be consistent with $T \cup A$. Then, $T$ is consistent with $\alpha \land \exists_{\vec x} \varphi(\vec x)$, or equivalently, $\exists_{\vec x}(\alpha \land \varphi(\vec x))$. Thus, we may find $\sigma \in \Sigma$ such that $T$ is consistent with $\exists_{\vec x}(\alpha \land \varphi(\vec x) \land \neg \sigma(\vec x))$, or equivalently $T$ is consistent with $\alpha \land \exists_{\vec x}(\varphi(\vec x) \land \neg \sigma(\vec x))$. Finally, this is the same as $T \cup A$ being consistent with $\exists_{\vec x}(\varphi(\vec x) \land \neg \sigma(\vec x))$, and we are done.
+\end{proof}
+
+\begin{theorem}\label{thm:tbar}
+Let $T_0$, $L'$, and $\Sigma$ be as above. Then, there exists $\bar T \supseteq T_0$ which is consistent and such that, for all $n$-uples of constant symbols $\vec c$, there is some $\sigma \in \Sigma$ such that $\bar T \vdash \neg \sigma(\vec c)$.
+\end{theorem}
+
+\begin{proof}
+Repeated application (countably many times) of remark \ref{rmk:bulk} and lemma \ref{lemma:finomit}.
+\end{proof}
+
+\section{Models of Witnesses, and Completing the Proof}\label{sec:modelsofwitnesses}
+
+To complete the proof of the omitted types theorem, we need only the following theorem, which is a common lemma in proving the completeness theorem for first order logic:
+
+\begin{theorem}\label{thm:modconst}
+Let $T$ be a consistent theory (over the language $L$) \emph{with witnesses}, in the sense that, for any existential statement (over the language $L$), say $\exists_x \varphi(x)$, $T$ contains some formula of the form $\exists_x \varphi(x) \rightarrow \varphi(c)$, for some constant in the language.
+
+Then, there exists a model of $T$ whose elements are all represented by constants in the language.
+\end{theorem}
+
+\begin{proof}
+We will not do the details, only a sketch.
+
+First, complete the theory $T$; let $\widehat T$ be such a completion. Then, define the model $M$ as the one whose elements are given by the constant symbols of $L$, modulo equality as seen by $\widehat T$. Finally, define the interpretation of the operations and relations by the rule `it is true if $\widehat T$ thinks it is true'.
+
+The resulting $M$ is a model of $\widehat T$, and therefore of $T$, and since its elements are constants modulo equality, any element of $M$ may be represented by at least one constant.
+\end{proof}
+
+\begin{theorem}[Omitting Types Theorem]
+Let $T$ be a consistent theory over a countable language $L$, and let $\Sigma(\vec x)$ be a partial type which is locally omitted. Then, there exists a model of $T$ which omits $\Sigma$.
+\end{theorem}
+
+\begin{proof}
+Given such a consistent theory $T$ over $L$, construct $(T_0, L')$ by lemma \ref{lemma:witnesses}, and then $\bar T$ by theorem \ref{thm:tbar}. Then, construct a model of $\bar T$ which is made entirely out of constants, by theorem \ref{thm:modconst}. By definition of $\bar T$, this model (which is also a model of $T$) omits the type $\Sigma$, and so we are done.
+\end{proof}
+
+\end{document}
+

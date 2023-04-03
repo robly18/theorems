@@ -1,0 +1,209 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 1}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $f \colon U \to V$ be a biholomorphism. Prove that if $\phi, \psi \colon V \to \R$ are $C^1$ then
+\begin{equation}
+\int_U \nabla(\phi \circ f) \cdot \nabla(\psi \circ f) = \int_V \nabla \phi \cdot \nabla \psi.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+This is a consequence of the usual formula for change of variable in the Lebesgue integral. Of note is that the determinant of the Jacobian of $f$ is given by $\abs{f'}^2$ (this is direct computation). Moreover, the chain rule gives us that $\nabla(\phi \circ f)(z) = \conj{f'(z)} \nabla \phi(f(z))$, where we identify the complex number $\conj{f'(z)}$ with the linear transformation on $\R^2$ obtained by multiplication. Thus,
+\begin{equation}
+\begin{aligned}
+\int_U \nabla(\phi \circ f) \cdot \nabla(\psi \cdot f) 
+&= \int_U (\conj{f'(z)} \nabla \phi(f(z))) \cdot (\conj{f'(z)} \nabla \psi( f(z))) \dl2 z\\
+&= \int_U \nabla \phi(f(z))^\transp f'(z) \conj{f'(z)} \nabla \psi( f(z)) \dl2 z\\
+&= \int_U \nabla \phi(f(z))^\transp (\abs{f'(z)} I) \nabla \psi( f(z)) \dl2 z\\
+\text{(change of variable)} &= \int_V \nabla \phi(w)^\transp \nabla \psi(w) \dl2 w\\
+&= \int_V \nabla \phi \cdot \nabla \psi.
+\end{aligned}
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Show that $f(z)$ takes $\R \cup \{\infty\}$ to $\R \cup \{\infty\}$ iff there is some nonzero complex $\alpha$ such that $\alpha a, \dots, \alpha d \in \R$.
+\end{ex}
+
+\begin{sol}
+The implication ($\leftarrow$) is trivial, so we do only ($\rightarrow$).
+
+Suppose that $f$ takes $\bar \R = \R \cup \{\infty\}$ to itself. Then, in particular, $f(0)$, $f(1)$, and $f(\infty)$ are all real (or infinity). In particular, this means:
+\begin{equation}
+\frac bd, \frac{a+b}{c+d}, \frac ac \in \bar \R.
+\end{equation}
+
+Note that this assumption is invariant under exchanging $(a,c)$ with $(b,d)$, and moreover we know by $ad-bc \neq 0$ that either $c$ or $d$ is nonzero. Thus, we assume without loss of generality that $c \neq 0$. As such, we may in fact assume by multiplying all four elements by $\alpha = \frac1c$ that $c = 1$, and then we will show that all four numbers are real.
+
+The fact that $a \in \R$ is obvious, as $a = \frac ac \in \bar \R \cap \C$. Moreover, we have that $\frac bd$ and $\frac{a+b}{d+1} \in \bar \R$. Now, there are the degenerate cases $d = 0$ and $d = -1$. In each of these cases, it is easy to see that $b$ is real. On the other hand, if $d$ is neither of these numbers, we have that $b = \lambda d$ and $a+b = \eta d + \eta$ for some real numbers $\lambda$ and $\eta$, hence $a + \lambda d = \eta d + \eta$, and solving for $d$ we get that $d$ is real, at least if $\lambda \neq \eta$. But of course, $\lambda = f(0)$, $\eta = f(1)$, and we saw in class that fractional linear transformations are biholomorphisms, hence injective. This shows that $d$ is real, and since $b = \lambda d$ so is $b$.
+\end{sol}
+
+
+\begin{ex}
+Show that $f(z) = \frac{z-a}{1-\conj a z}$ is a biholomorphism from the disk to itself.
+\end{ex}
+
+\begin{sol}
+It suffices to show that $f(S^1) = S^1$ and that $f(0) \in D$. This is because if $f(S^1) = S^1$ then by a topological argument the image of the disk must either be itself, or its complement.
+
+The first part is as follows. Suppose that $z \conj z = 1$. Then,
+\begin{equation}
+f(z) \conj{f(z)} = \frac{(z-a)(\conj z - \conj a)}{(1 - \conj a z)(1-a \conj z)} = \frac{1 - a \conj z - \conj a z - a \conj a}{1 - \conj a z - a \conj z + a \conj a} = 1.
+\end{equation}
+
+This proves that $f(S^1) \subseteq S^1$, and the other inclusion is proven by noting that $f^{-1}(z)$ is also a function of the given form, with $a$ replaced by $-a$.
+
+Now, we show that $f(0)$ is in the disk. We compute it directly: it is exactly $-a$, and since $a$ is in the disk, so is $-a$. We are done.
+\end{sol}
+
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Find a biholomorphism from $D$ to the slit plane $\C \setminus \rinterval0\infty$.
+\item Find a biholorphism from the right-half disk to the strip $\Re z \in \ointerval0\pi$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, we know that the map $f(z) = \frac{-z+\I}{\I z+1}$ is a biholomorphism from $D$ to the upper-half plane. Moreover, we know that the square function wraps the complex plane around the origin twice, and thus will take the upper-half plane to the slit plane, so the biholomorphism we seek is
+\begin{equation}
+F(z) = \left(\frac{-z+\I}{\I z + 1}\right)^2.
+\end{equation}
+\item We define $G(z) = - 2 I \log\left(\frac{z+\I}{\I z + 1}\right)$. We will now explain why this works.
+
+First, we apply the map $z \mapsto \frac{z+\I}{\I z + 1}$. We saw in class that this furnishes a biholomorphism between the disk and the upper-half plane, and it is not difficult to deduce that it maps elements with positive real part to elements with positive real part, and likewise for negative and zero. As such, it maps the right-half disk to the upper-right quadrant.
+
+Then we take the logarithm, namely the branch with argument between $0$ and $\frac\pi2$. This maps the upper-half plane to the strip $\R \times \ointerval0{\frac\pi2}$. Finally, we divide by $\I$ (or equivalently multiply by $-\I$) to obtain the strip with real part between $0$ and $\frac\pi2$, and multiply by two to obtain the desired strip.
+\end{enumerate}
+\end{sol}
+
+
+\begin{ex}
+Evaluate the following line integral on the boundary of the $6 \times 6$ square centered around the origin:
+\begin{equation}
+\oint \frac{\e^z}{z^2 + 1} \dl3 z.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+The given function is holomorphic on the square except for the two points $z = \pm \I$. Thus, by homotoping the curve of integration, we may instead integrate the function separately on two countours, one of which goes ccw in a tiny circle around $\I$, and the other around $-\I$. Here, we may apply the Cauchy integral formula; for instance, on the circle around $\I$ we have
+\begin{equation}
+\oint \frac{\e^z}{z^2 + 1} \dl3 z = \oint \frac{\e^z/(z+\I)}{z-\I} \dl3 z = 2 \I \pi \frac{\e^\I}{\I + \I} = \pi \e^\I.
+\end{equation}
+
+A similar computation will show that the corresponding integral around $-\I$ will yield $-\pi \e^{-\I}$, so the total contour integral will be
+\begin{equation}
+\oint = \pi(\e^\I - \e^{-\I}) = 2 \I \pi \sin(1).
+\end{equation}
+\end{sol}
+
+
+\begin{ex}
+Let $U$, $a$, $b$, $f$ be as in the problem statement. Extend $f$ to $\widehat U$.
+\end{ex}
+
+\begin{sol}
+We define $g \colon \widehat U \to \C$ as follows. On $U \cup \ointerval a b$, we set $g(z) = f(z)$. On $U^* \cup \ointerval a b$ we set $g(z) = \conj{f(\conj z)}$.
+
+By hypothesis, the resulting function is holomorphic on $U$. It is also holomorphic on $U^*$, because
+\begin{equation}
+\lim_{h \to 0} \frac{\conj{f(\conj{z+h})} - \conj{f(\conj z)}}h = \lim_{\conj h \to 0} \conj{\left(\frac{f(\conj z + \conj h) - f(\conj z)}{\conj h}\right)} = \conj{f'(\conj z)}.
+\end{equation}
+
+It is yet necessary to verify holomorphicity on $\ointerval ab$. I do not know how to do this.
+\end{sol}
+
+\end{document}

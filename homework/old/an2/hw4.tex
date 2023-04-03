@@ -1,0 +1,250 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 4}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\let\radical\relax
+\DeclareMathOperator{\radical}{rad}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $E$ is reflexive then for all bounded $T \colon E \to E$ we have $T(\closed{B_E}) = \closed{T(B_E)}$ and find a counterexample for $E = c_0$.
+\item Show that if $E$ is reflexive then $W^{\perp \perp} = \closed W$ for all $W \subseteq E^*$ but that this fails for $E = \ell^1$ and $W = c_0$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\item By continuity, we have that $\subseteq$ (using the definition of continuity that says that $T(\closed S) \subseteq \closed{T(S)}$). Thus, it suffices to show the other inclusion.
+
+Note that $\closed{T(B_E)} \subseteq \closed{T(\closed{B_E})}$ by the monotony of the operators involved. However, since $\closed{B_E}$ is actually weakly compact (here we use reflexivity of the space), we get that $T(\closed{B_E})$ is also weakly compact (because a bounded operator $E \to F$ is also continuous $E_{\text{weak}} \to F_{\text{weak}}$), and therefore weakly closed, and since it is convex it is also closed. Thus,
+\begin{equation}
+\closed{T(B_E)} \subseteq \closed{T(\closed{B_E})} = T(\closed{B_E}),
+\end{equation}
+which completes the proof.
+
+\smallskip
+
+For a counterexample, consider the operator given by
+\begin{equation}
+T(x)_n = \sum_{k = 1}^\infty 2^{-n-k} x_{n+k}.
+\end{equation}
+
+It is evident that $T$ is bounded, of operator norm one. Now, we claim that the sequence $x_n = 2^{-n}$ is in the closure of $T(B_E)$ but not in the image of $T$ (and hence cannot be in $T(\closed{B_E})$).
+
+It is in the closure of $T(B_E)$ by considering the sequences $x^{(n)}$ such that
+\begin{equation}
+x^{(n)}_k = \begin{cases}
+1 & \text{if $k < n$,}\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+
+(Okay this actually only shows that it's in the closure of $T(\closed{B_E})$ but if you multiply the $x^{(n)}$ by some factor which converges to one from below you get the thing you want.)
+
+On the other hand, it's not in the image of $T$ because, well. You can actually invert $T$ if you look at it hard enough, as
+\begin{equation}
+T(x)_n - T(x)_{n+1} = 2^{-n} x_n.
+\end{equation}
+
+Applying this procedure, you get that if $T(x)$ was the sequence $2^{-n}$ you'd obtain that $x$ was the sequence which is constant equal to one, but this sequence is not in $c_0$.
+
+(The above might be wrong somewhere by a factor of two, but it doesn't matter.)
+
+\item It is evident that $\closed W \subseteq W^{\perp \perp}$, as if $w_n \in W$ and $w_n \to w \in \closed W$, then all $w_n$ kill all elements of $W^\perp$ and therefore so does $w$, hence $w \in W^{\perp \perp}$.
+
+Now, suppose that $w \not \in \closed W$. Then, there exists some bounded functional $\varphi \in E^{**}$ such that $\varphi$ vanishes on $\closed W$ but not on $w$, by Hahn-Banach. This functional is induced by some $x \in E$. Therefore, we get that there exists some $x \in E$ such that $x$ is killed by all elements of $W$ (and therefore $x \in W^\perp$) but not by $w$, so we conclude that $w \not \in W^{\perp \perp}$, as desired.
+
+\smallskip
+
+For the counterexample, we note that if $E = \ell^1$ then $E^* = \ell^\infty$ and that $W = c_0$ is a closed subspace of $E^*$. Thus, it suffices to show that $W^{\perp \perp} \varsupsetneq W$. To do this, we show in fact that $W^\perp = \ell^1$ and hence $W^{\perp \perp} = \ell^\infty$, which is evidently a strict superset of $c_0$.
+
+Well. To show that $W^\perp = \ell^1$, pick some $x \in \ell^1$ which vanishes on all functionals of $W$. In particular it vanishes on the functional $e_i$, which measures the $i$-th coordinate. Thus, all coordinates of $x$ are null, and we conclude that $x = 0$, completing the proof.
+\end{sol}
+
+\begin{ex}
+Given a compact operator $T$, consider some projection $P \colon E \to L$, $L = \ker(T-I)$. Find a bound of the form
+\begin{equation}
+\Norm{u} \leq C \Norm{(T-I)u} + 2 \Norm{P(u)}.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+Define $R = \image(T-I)$. Note that $R$ is a closed subspace of $E$ by the Fredholm alternative, and hence is a Banach space with the norm induced by the norm of $E$.
+
+Moreover, the kernel of $P$, say $K = \ker P$, is also closed and hence a Banach space. Finally, the restriction of $T-I$ to $K$ is a bounded bijection onto its image $R$, and since both $K$ and $R$ are Banach spaces we have a bound for the inverse, which may be written as: for all $u \in K$,
+\begin{equation}
+\Norm{u} \leq C \Norm{(T-I)u}.
+\end{equation}
+
+To complete the proof, we remark that for any $v \in E$, $v - Pv \in K$, and hence
+\begin{equation}
+\Norm{v - Pv} \leq C \Norm{(T-I)(I-P)v} = C \Norm{(T-I)v}.
+\end{equation}
+
+Finally, note that
+\begin{equation}
+C \Norm{(T-I)v} + 2 \Norm{Pv} \geq C \Norm{(T-I)v} + \Norm{Pv} \geq \Norm{v - Pv} + \Norm{Pv} \geq \Norm{v},
+\end{equation}
+and the proof is complete.
+\end{sol}
+
+\setcounter{ex}{1}
+\begin{ex}
+Show that if $T$ is the limit of a sequence of finite rank operators $T_n$ and $\ker(T-I) = 0$ then $T-I$ is surjective.
+\end{ex}
+
+\begin{sol}
+First, we show that for almost all $n$ we have that $\ker(T_n - I) = 0$. Indeed, otherwise we could pick a sequence $v_n$ of unit norm vectors such that $T_{k_n} v_n = v_n$. Now, by passing to a subsequence assume that $T(v_n)$ converges to some $z$. Then, $T_{k_n} v_n$ converges to $z$ by operator norm estimates, but then $v_n \to z$, whence we also have $T_{k_n} v_n \to T z$. Note also that $z$ also has unit norm. Anyway, the conclusion is that $T z = \lim T_{k_n} v_n = \lim v_n = z$, and so $z$ (which is nonzero) is in the kernel of $T-I$, a contradiction.
+
+Now, by passing to a subsequence, we may suppose that for all $n$ the operator $T_n-I$ is injective. We will show that $T-I$ is surjective, so pick some arbitrary $y \in E$. By the Fredholm alternative for finite rank operators (see problem statement), for each $n$ we find $x_n$ such that $y = Tx_n - x_n$. Applying the previous problem, we get $P = 0$, and so for each $n$ there exists some $C_n$ such that
+\begin{equation}
+\Norm{x_n} \leq C_n \Norm{(T_n-I)x_n} = C_n \Norm{y}.
+\end{equation}
+
+Now, since the $T_n$ converge to $T$, we can bound the $C_n$ uniformly by some fixed constant. Indeed, we also have a bound of the form $\Norm{x} \leq C \Norm{(T-I)x}$, and moreover
+\begin{equation}
+\Norm{x} \leq C \Norm{(T-I)x} \leq C \Norm{T-T_n} \Norm{x} + C \Norm{(T_n - I)x},
+\end{equation}
+and so, for large enough $n$ that $\Norm{T-T_n}$ is less than, say, $\frac1{2C}$, we have that $\Norm{x} \leq 2C \Norm{(T_n - I)x}$. Taking the maximum between $2C$ and the constants $C_n$ for small $n$, we obtain our uniform bound
+\begin{equation}
+\Norm{x_n} \leq \overline{C} \Norm{y}.
+\end{equation}
+
+Thus, the sequence $x_n$ is bounded, and therefore by passing to a subsequence we may assume $T x_n$ converges to some $z$. We also get that $T_n x_n$ converges to $z$ by standard norm estimates. Moreover, since $T_n x_n - x_n \to y$, we obtain that $x_n$ converges to $x = z-y$. Finally, by continuity, we obtain that $Tx - x = y$, which completes the proof of surjectivity.
+\end{sol}
+
+\begin{ex}
+Let $T \colon E \to E$ be bounded, whose image is closed, finite codimensional, and whose kernel is finite dimensional.
+\begin{enumerate}
+\item Show that $T$ is right-invertible modulo compact operators.
+\item Show that $T$ is left-invertible modulo compact operators.
+\item Show that if $G$ is right and left-invertible modulo compact operators, then it satisfies the hypotheses of $T$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Since $\image T$ is closed and finite codimensional, we may find a finite-dimensional (and hence closed) complement to it, say $E = \image T \oplus A$. Moreover, define $B$ as a closed complement to $\ker T$, which is possible because it is finite dimensional. Then, define $R_0 \colon \image T \to B$ by the inverse of $T \colon B \to \image T$. This is bounded because $T$ is a continuous linear bijection between Banach spaces (uses closedness) and so its inverse is bounded.
+
+Now, extend $R_0$ to $R \colon E \to E$ by setting $R(Tx + a) = R_0(Tx)$. We claim that $I - TR$ is compact, and indeed a finite rank operator, whose image is contained in $A$.
+
+To see this, pick an arbitrary vector in $E$. It may be written in the form $Tx + a$, with $a \in A$, and in turn $x$ may be written as $b + y$ with $b \in B$ and $y \in \ker T$. Thus, $y$ is irrelevant and we may simply write our arbitrary element as $Tb + a$.
+
+Now, we have that $(I-TR)(Tb+a) = Tb + a - T R_0 Tb = a$. This completes the proof.
+
+\item Consider the same $A$ and $B$ as above, and set $L = R$ as above. Then, look at $I - LT$.
+
+Indeed, any element of $E$ may be written as $b + y$ with $b \in B$ and $Ty = 0$. Thus, $(I - LT)(b+y) = b + y - LTb$. Now, recall that $L$ was defined as the inverse of $T|_B$, so $LTb = b$ and thus we obtain simply $y \in \ker T$. In conclusion, the image of $I - LT$ is contained in the kernel of $T$, which is finite-dimensional, and $I-LT$ is compact.
+
+\item To show that the kernel is finite-dimensional, note that $\ker G \subseteq \ker(LG) = \ker(I+K_2)$, which is finite-dimensional by the Fredholm alternative.
+
+To show that the image is finite-codimensional and closed, note that the image contains the image of $GR = I + K_1$. By the Fredholm alternative, the range of $I + K_1$ is closed and finite-codimensional,\footnote{This is because the range of $I + K_1$ is equal to $(\ker(I-T^*))^\perp$, and also by Fredholm alternative $\ker(I-T^*)$ is finitely generated, so the range of $I + K_1$ is given by the kernel of finitely many functionals $f_1, \dots, f_n$, hence the codimension of it is at most $n$.} and therefore so is the image of $G$.
+\end{enumerate}
+\end{sol}
+
+
+\begin{ex}
+Prove that $Tx = (\lambda_i x_i)_{i \in \N}$ is compact iff $\lambda_n \to 0$.
+\end{ex}
+
+\begin{sol}
+($\leftarrow$) We show that $T$ is the limit of a sequence of finite rank operators. Indeed, define $T_n(x) = (\lambda_1 x_1, \dots, \lambda_n x_n, 0, 0, \dots)$. Evidently this is finite rank (its image is contained in $\R^n \times 0$), and to show that they converge to $T$ we note that
+\begin{equation}
+\Norm{(T - T_n) x} = \Norm{(0,\dots,0,\lambda_{n+1} x_{n+1}, \lambda_{n+2} x_{n+2},\dots)} \leq (\sup_{k > n} \abs{\lambda_k}) \Norm{x},
+\end{equation}
+so that $\Norm{T-T_n} \leq \sup_{k > n} \abs{\lambda_k}$, and since $\lambda_n \to 0$ as $n$ goes to infinity, so does this supremum.
+
+($\rightarrow$) Suppose that $\lambda_n \not \to 0$, and pick some subsequence $\lambda_{k_n}$ which is always at least some $\varepsilon > 0$ away from zero. Then, consider the sequence $u_n = e_{k_n}$. This sequence is bounded, and we show that $T u_n$ has no converging subsequence, which shows that $T$ is not compact.
+
+To show that $T u_n$ has no converging subsequence, we show that any two terms of this sequence are at least $\varepsilon$ away. Indeed, given $n \neq m$, we have that
+\begin{equation}
+T u_n - T u_m = \lambda_{k_n} e_{k_n} - \lambda_{k_m} e_{k_m}.
+\end{equation}
+
+This is a sequence with only two nonzero terms, both of which have absolute value at least $\varepsilon$. As such, its $\ell^p$ norm (for any $p \in [1,\infty]$) is at least $\varepsilon$, which completes the proof.
+\end{sol}
+
+\end{document}

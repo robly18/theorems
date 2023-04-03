@@ -1,0 +1,353 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\roman*)}
+
+\title{Analysis Homework 5}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Compute $T^*$.
+\item Show that if $T^* g = g$ then $g \in C^2$ and $g'' + \rho g = 0$.
+\item Show that you can find $f \in L^2$ such that
+\begin{equation}
+\e^{-x^2} \int_0^1 k(x,y) f(y) \dl3 y + f(x) = \sin(\pi x).
+\end{equation}
+\item Show that there is no $f \in L^2$ satisfying
+\begin{equation}
+\int_0^1 k(x,y) f(y) \dl3 y - \pi^{-2} f(x) = \sin(\pi x).
+\end{equation}
+\item Show that the equation below has a solution
+\begin{equation}
+\int_0^1 k(x,y) f(y) \dl3 y - \pi^{-2} f(x) = \sin(2 \pi x) \e^{-(x-1/2)^2}.
+\end{equation}
+\item Is the solution above unique?
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+
+\leavevmode
+\begin{enumerate}
+\item So, $T$ is given by the kernel $\rho(x) k(x,y)$, and we know from class that the adjoint of such an operator has kernel $\rho(y) k(y,x)$. Since $k(y,x) = k(x,y)$, the adjoint of $T$ has the desired form.
+\item First, we write $T^* g$ in a much simpler form. By separating $\int_0^1$ into $\int_0^y + \int_y^1$ (because in each branch $k$ has a simple expression), we obtain
+\begin{equation}\label{eq:e1}
+\begin{aligned}
+T^*g(y)
+&= \int_y^1 y (1-x) g(x) \rho(x) \dl3 x + \int_0^y x (1-y) g(x) \rho(x) \dl3 x\\
+&= y \int_y^1 (1-x) g(x) \rho(x) \dl3 x + (1-y) \int_0^y x g(x) \rho(x) \dl3 x.
+\end{aligned}
+\end{equation}
+
+Now, this is always continuous. Indeed, the terms $y$ and $(1-y)$ are obviously continuous, and the integral terms are shown to be continuous by Hölder, as if $G$ is any $L^2$ function (as is the case with $x g(x) \rho(x)$) then $\int_0^{y+\delta} G - \int_0^y G = \int_y^{y+\delta} G \leq \Norm{G}_2 \sqrt\delta$, which goes to zero as $\delta \to 0$.
+
+Since $g = T^* g$ we have that $g$ itself is continuous. As such, $T^* g$ is $C^1$ bu the fundamental theorem of calculus for the Riemann integral. Moreover, the derivative of $g$ is readily concluded by using the product rule and the FTC, yielding
+\begin{equation}
+(T^* g)'(y) = \int_y^1 (1-x) g(x) \rho(x) \dl3 x - \int_0^y x g(x) \rho(x) \dl3 x,
+\end{equation}
+and by the same token this expression is also $C^1$, hence $T^* g$ is $C^2$, and its derivative easily simplifies to $- g(x) \rho(x)$.
+
+The fact that $g(0) = g(1) = 0$ is obvious from \eqref{eq:e1}, because in each summand one of the terms cancels out.
+
+\item Picking $\rho(x) = -\e^{-x^2}$, we wish to find a solution to $(-T+I)f = \sin(\pi x)$. We actually show that there is a solution for any $L^2$ function on the right-hand side, by using the Fredholm alternative to show that $I-T$ is surjective.
+
+Since $T$ is a Hilbert-Schmidt operator, it is compact. Thus, by the Fredholm alternative, it suffices to show that $\ker(T^* - I)$ to conclude that $T-I$ is invertible. Now, if $g \in \ker(T^* - I)$, by the previous item we get that $g$ is a solution to $g'' - \e^{-x^2} g = 0$ with $g(0) = g(1) = 0$, but we show that this can only happen if $g = 0$, as
+\begin{equation}
+\begin{aligned}
+\int_0^1 \e^{-x^2} g^2(x) \dl3 x &= \int_0^1 g'' g\\
+&= \cancel{[g' g]_0^1} - \int_0^1 (g')^2,
+\end{aligned}
+\end{equation}
+and so we have an equality of the form $\int (A^2 + B^2) = 0$, whence both $A$ and $B$ must be null. In particular, $A = \e^{-x^2} g^2(x)$ is null, and so $g$ itself is zero. This concludes the proof.
+
+\item Again we apply the Fredholm hypothesis, by showing that $\pi^2 \sin(\pi x)$ is not orthogonal to some function $g$ which satisfies $g'' + \pi^2 g = 0$. Namely, set $g(x) = \sin(\pi x)$. And we're done.
+
+\item Again, Fredholm alternative. First, we need to actually find the kernel of $T^* - I$, which is given by all solutions to the ODE $g'' + \pi^2 g = 0$, $g(0) = g(1) = 0$, as per the first item.
+
+Any solution to the ODE without boundary conditions will be of the form $A \sin(\pi t) + B \cos(\pi t)$, and the bounddary conditions reduce to $B = 0$, so the  kernel is spanned precisely by $\sin(\pi t)$. Thus, it suffices to prove that $\alpha(x) = \sin(2 \pi x) \e^{-(x-1/2)^2}$ is orthogonal in $L^2$ to $\beta(x) = \sin(\pi x)$. To prove this, it suffices to show that $\alpha(x)$ is odd about $x=\frac12$, while $\beta(x)$ is even about that point. Formally, $\alpha(1-x) = - \alpha(x)$ and $\beta(1-x) = \beta(x)$. Thus, $\int_0^1 \alpha \beta = 0$ by, I don't know, take your pick. You can do the substitution $x \to 1-x$ and notice that the integral stays the same yet changes sign, or you can separate it into the integrals $\int_0^{1/2} + \int_{1/2}^1$ and use a change of variables to show that the second is the symmetric of the first. In any case, we get zero, and so our equation has a solution.
+
+\item No, because we showed that ther kernel of $T^* - I$ has dimension one, hence the kernel of $T-I$ has the same dimension, and so there is a one-dimensional space of solutions to the homogeneous equation, all of which can be added to our solution to yield different solutions.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Compute the spectrum of $T \colon C[0,1] \to C[0,1]$, $Tf = xf$.
+\end{ex}
+
+\begin{sol}
+The spectrum is given by $\interval01$.
+
+First, let $\lambda \not \in \interval01$. Then, the function $g(x) = \frac1{x-\lambda}$ is an element of $C[0,1]$, and so the map $f \mapsto gf$ is a well-defined bounded map, and it is very easy to see that it is the inverse of $T-\lambda$.
+
+Now, let $\lambda \in \interval01$. We claim that $T-\lambda$ is not invertible, and we prove this by finding a sequence of functions $f_n$ whose norm explodes, but such that $\Norm{(T-\lambda)f_n} = 1$. This will prove that the inverse of $T-\lambda$, even if it exists as a function, is unbounded.
+
+Thus, define $f_n(x)$ by
+\begin{equation}
+f_n(x) = \begin{cases}
+\frac1{\abs{x-\lambda}}, & \abs{x-\lambda}\geq\frac1n,\\
+n, & \abs{x-\lambda}\leq\frac1n.
+\end{cases}
+\end{equation}
+
+The sup norm of $f_n$ is easily seen to be $n$, but $(T-\lambda)f_n$ is seen to be a function which is constant equal to $\pm1$ outside an interval containing $\lambda$ (sign depending on which side of $\lambda$ we are), and linearly changes sign swiftly, passing through zero on $x = \lambda$.
+\end{sol}
+
+\begin{ex}
+Compute the spectra and adjoints of the given operators.
+\end{ex}
+
+\begin{sol}
+Okay look I'm tired of writing (this will be the last exercise I'll write) so I'll just give a quick sketch of what I'd do if I had the patience to do this one.
+
+First, they're all Hilbert-Schmidt operators and therefore they're all compact. I mean, you have to try a little harder on the last one, but you get the kernel $k(x,y) = \chi_{\R^+}(x-y)\,(x-y) - x(1-y)$. Now, the adjoint is just given by the trick of replacing $k(x,y)$ by $k(y,x)$. And for the spectra, since these are compact, aside from zero the spectrum coincides with the eigenvalues.
+
+For the first one, you know that $T(u)$ is always a multiple of $\sin(\pi x)$, so the only possible eigenfunction is $\sin(\pi x)$. And it works! You get the eigenvalue $\int_0^1 \sin(\pi x)\dl3 x = \frac2\pi$. Zero is also in the spectrum because, well, there's a lot of functions with zero integral.
+
+For the second one you reduce to the ODE $u' = u$. (First you have to do a bootstrapping argument to show that an eigenfunction with nonzero eigenvalue is continuous, then $C^1$, and then it satisfies the ODE.) We know how to solve this ODE quite nicely, it yields $u(x) = C \e^x$. Then $\e^x$ and its multiples are the only possible eigenfunctions, and they give you the eigenvalue $-1$. As a consequence the spectrum is $\{0,-1\}$; zero is in the spectrum because $T(u)$ is always continuous, and hence $T$ is not surjective.
+
+I don't care enough to do the third one. But you probably do a bootstrapping argument again to show that any eigenfunction corresponding to a nonzero eigenvalue is continuous and $C^1$ and solves some ODE, and then you solve that ODE. And then zero is in the spectrum because $T(u)$ is always continuous.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that a Fredholm operator plus a compact operator is still Fredholm.
+\item Show that the Fredholm index is invariant under addition of compact operators.
+\item Show that if $T$ is Fredholm of index $I$, there exists a neighbourhood of $T$ where every operator is also Fredholm of index $I$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Let $L$ and $R$ be the left and right-inverses of $T$ (mod compacts). Note that $L = L(TR - K) = LTR - LK_1 = R + K_2 R + L K_1$, so that $L$ and $R$ differ by a compact operator. Thus, without loss of generality, we may assume that $L = R$. I'll use it in what follows, sticking to $R$ instead of $L$.
+
+Anyway. Right. The first exercise. We just use the same inverse. In the following, any instance of the letter $K$ refers to a compact operator, usually not the same one.
+\begin{equation}
+\begin{gathered}
+(T+K)R = TR + K = I + K + K = I + K,\\
+R(T+K) = RT + K + I + K + K = I + K.
+\end{gathered}
+\end{equation}
+
+(This is all using the well-known property that a compact operator composed with any bounded operator, in any order, yields a compact operator.)
+
+\item To solve this exercise, we show that if $R$ is the almost-inverse of $T$ (it is obvious by the first paragraph of the solution that $R$ is also Fredholm), then the index of $T$ is equal to $\Ix(T) = - \Ix(R)$.
+
+The essential ingredient is the following sequence, which can be shown through routine computation to be exact:
+\begin{equation}
+0 \to \ker T \hookrightarrow \ker(RT) \xrightarrow{T} \ker R \xrightarrow\pi \coker T \xrightarrow{[R]} \coker(RT) \xrightarrow\pi \coker R \to 0.
+\end{equation}
+
+What you do is take this sequence, and use the well-known fact that, in an exact sequence of vector spaces, the alternating sum of the dimensions of the spaces is zero. This will tell you that $\Ix T + \Ix R = \Ix(RT)$, so we turn to showing that the Fredholm index of $RT$ is null.
+
+Well. $RT = I + K$ for $K$ compact. The Fredholm alternative tells us that the dimension of $\ker(RT)$ equals the codimension of the image of $RT$, which tells us precisely that $\Ix(RT) = 0$.
+
+To conclude the solution, we simply observe that $T$ and $T+K$ have the same inverse modulo compacts, as if $RT = I+K$ then $R(T+K) = RT + RK = I + K + K$ and likewise for the other side. Thus,
+\begin{equation}
+\Ix(T) = \Ix(R) = \Ix(T+K),
+\end{equation}
+and the proof is complete.
+
+
+
+\item Let $T$ be Fredholm, and let $R$ be a quasi-inverse of $T$. We claim that, if $\Norm S < \frac1{\Norm R}$, $T + S$ is also Fredholm with the same index.
+
+To do so, we begin by defining a quasi-inverse of $T+S$. Define $L = 1 - RS + (RS)^2 - (RS)^3 + \dots$, which is a convergent series because $\Norm{RS} \leq \Norm R \Norm S < 1$. Well. It could be more simply stated as $L = (I + RS)^{-1}$. Anyway, then we have
+\begin{equation}
+LR(T+S) = L(RT + RS) = L(I + RS + K) = L(I + RS) + LK = I + LK,
+\end{equation}
+and $LK$ is compact so we get that $LR$ is a left-quasi-inverse of $T + S$. In a similar fashion, one shows that $R(I + SR)^{-1}$ is a right-quasi-inverse of $T+S$, so $T+S$ is indeed Fredholm, so it suffices to find its index.
+
+We know from before that the index of $T$ is the symmetric of the index of $R$. Likewise, the index of $T+S$ is the symmetric of the index of $LR$. Thus, the proof is complete once we show the lemma:
+
+\begin{lemma}
+If $L$ is an invertible automorphism of $E$ and $R \colon F \to E$ is Fredholm, then $LR$ is as well with the same index.
+\end{lemma}
+
+\begin{lemmaproof}
+Simply notice that $\ker(LR) = L^{-1}(\ker R)$, and hence has the same dimension as $\ker R$, and moreover $\image(LR) = L(\image R)$, and since $L$ is a homomorphism $\image(LR)$ is also closed and by applying $L$ to a complementary subspace of $E$ we get that $\image(LR)$ has the same codimension as $\image R$.
+\end{lemmaproof}
+
+With this, the solution to the exercise is complete.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+
+
+\begin{ex}
+Let $k \in C^1[-1,1]$, $k(0) = 0$. Consider the compact operator $T \colon L^2[0,1] \to L^2[0,1]$ given by
+\begin{equation}
+T(f)(x) = \int_0^x k(y-x) u(y) \dl3 y.
+\end{equation}
+\begin{enumerate}
+\item Show that any eigenfunction of $T$ is differentiable and satisfies $T(u)' = T(u')$.
+\item Show that $T-\lambda I$ is injective for all $\lambda \neq 0$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, note that $T(L^2) \subseteq C[0,1]$. Indeed, first of all let $M$ be a bound for $k$, and then observe
+\begin{equation}
+\abs{T(f)(x+\delta) - T(f)(x)} \leq \abs{\int_x^{x+\delta} k(y-x-\delta) u(y) \dl3y} + \abs{\int_0^x (k(y-x-\delta)-k(y-x)) f(y) \dl3 y}.
+\end{equation}
+
+Then, bound the first integral using Cauchy-Schwarz to get a bound of the form $C \abs\delta$, and for the second integral use the mean value theorem to bound $\abs{k(y-x-\delta)-k(y-x)} \leq C \abs\delta$, followed by Cauchy-Schwarz again to also get a bound of the form $C \abs\delta$. Thus, we have shown even more than expected: we showed that $Tf$ is Lipschitz.
+
+Now, we assume that $Tf = \lambda f$ for some value of $\lambda$. We assume that $\lambda \neq 0$; I don't know how to approach the other case. Then, $f = Tf/\lambda$, so $f$ itself is continuous.
+
+Now, we claim that $T(C[0,1]) \subseteq C^1[0,1]$. In other words, if $f$ is continuous then $Tf$ is differentiable. To see this, we note that $Tf(x)$ depends on $x$ in two ways: one in the bound for the integral, and another inside the integral itself. Using the multivariable chain rule, we know that an expression that depends on $x$ in two ways is differentiable in $x$ if it is continuously differentiable in each instance of $x$ separately. Now, it is continuously differentiable in the variable which is the bounds of integration, by the fundamental theorem of calculus, and it is continuously differentiable in the variable which is inside the integral by the Leibniz rule. This shows then that $Tf$ itself is differentiable, and allows us to write an expression for the derivative:
+\begin{equation}
+\begin{aligned}
+(Tf)'(x)
+&= \diff{}{x_1}[x] \int_0^{x_1} k(y-x) f(y) \dl3 y + \diff{}{x_2} \int_0^x k(y-x_2) f(y) \dl3 y\\
+&= \cancel{k(0)} f(x) - \int_0^x k'(y-x) f(y) \dl3 y\\
+&= [-k(y-x)f(y)]_{y=0}^x + \int_0^x k(y-x) f'(y) \dl3 y,
+\end{aligned}
+\end{equation}
+and so we obtain $(Tf)' = T(f')$, because $k(x-x)f(x) = k(0) f(x) = 0$, and $k(-x)f(0) = 0$, as $f(0) = \frac1\lambda Tf(0) = 0$ (because, by looking at the expression for $T$, one gets that $Tf(0) = 0$ for all $f$).
+
+\item By the previous item, if $f$ is an eigenvector corresponding to a nonzero eigenvalue, we have that $f'$ is as well, because
+\begin{equation}
+T(f') = (Tf)' = (\lambda f)' = \lambda f'
+\end{equation}
+
+Moreover, we know by the Fredholm alternative that the $\lambda$-eigenspace is finite-dimensional, so for some large enough $k$ we have that $f^{(k)}$ is in the linear space generated by the previous $f^{(j)}$. Moreover, since all $f^{(j)}$ are eigenvectors they all satisfy $f^{(j)}(0) = 0$, so we are in the conditions of the ODE fact in the problem statement, and we conclude $f = 0$. Thus $f$ was not an eigenvector to begin with and so there is no nonzero eigenvalue.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Find $\sigma(M)$ and $\EV(M)$.
+\end{ex}
+
+\begin{sol}
+First, we find the eigenvalues. Suppose that $Mx = \lambda x$. Then, for any nonzero index $x_i$ we have $\lambda_i x_i = \lambda x$, hence any eigenvalue is in $\{\lambda_i\}_{i \in \N}$. But this is obviously an equivalence, as $M e_i = \lambda_i e_i$.
+
+Now we find the spectrum. We claim that the spectrum is given by $\Sigma = \closed{\{\lambda_i\}_{i\in\N}}$.
+
+Evidently, the spectrum contains $\Sigma$, because the spectrum is closed and contains all $\lambda_i$. To show that it is precisely $\Sigma$, we choose some $\lambda \not \in \Sigma$ and prove that $M-\lambda I$ is invertible. This is equivalent to the following restatement by shifting the sequence: if $0 \not \in \Sigma$ then $M$ is invertible. But this is clear, because the inverse sequence $\mu_i = \frac1{\lambda_i}$ is well-defined and bounded, so there is a well-defined bounded operator $N$ given by coordinatewise multiplication by $\mu$, and it is obvious that $N$ is the inverse of $M$. The proof is complete.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $\sigma(T) = \sigma(T^*)$.
+\item Show that there is no inclusion in general between $\EV(T)$ and $\EV(T^*)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We claim that $T$ is invertible iff $T^*$ is invertible. This claim will prove the desired equality, because then $\lambda \in \sigma(T)$ iff $T-\lambda I$ not invertible iff $T^* - \lambda I$ not invertible iff $\lambda \in \sigma(T^*)$.
+
+If $T$ is invertible then we know that $T^*$ is invertible because $(T^{-1})^* = (T^*)^{-1}$, so it is the other implication that we focus on.
+
+Suppose that $T^*$ is invertible, with inverse $S$. Then, $T^{**}$ is invertible with inverse $S^*$. If we show that $S^*(J(E)) \subseteq J(E)$ the proof will be complete, because then $S^*$ will descend to a map on $E$.
+
+As such, pick $x \in E$. Then, we know that $T^{**}S^*(Jx) = Jx$, so it suffices to show that if $T^{**}(\varphi) = Jx$ then $\varphi \in J(E)$.
+
+Suppose that $T$ is surjective. Then, there is some $y$ such that $Ty = x$. We then conclude that $T^{**}(Jy) = Jx = T^{**}(\varphi)$, and so, since $T^{**}$ is invertible, $\varphi = Jy$. Thus, the proof will be complete once we show that $T$ is surjective.
+
+Assume by contradiction that $T$ is not surjective. Then, its image must be dense, because otherwise we could find a nonzero functional $f$ which vanishes on $T(E)$, and hence $T^* f = 0$, despite $f \neq 0$. Therefore, we show that its image is closed.
+
+Let $Tx_n \to y$ be a convergent sequence of elements in $T(E)$. We show that $y = Tx$ for some $x \in E$. To this effect, we know that $JTx_n \to Jy$, or equivalently $T^{**}Jx_n \to Jy$. Thus, $T^{**} Jx_n$ is Cauchy, and since $T^{**}$ is invertible we have that $Jx_n$ is Cauchy, hence $x_n$ is Cauchy and converges to some $x$, but then by continuity $Tx_n \to Tx$, and so $y = Tx$ and the proof is complete.
+
+\item It is known that the left and right shift operators. Moreover, $0$ is an eigenvalue of the left-shift, with eigenvector $e_1$, but it is not an eigenvalue of the right-shift because it is injective. Therefore, the spectrum of the left-shift is not contained in the spectrum of its adjoint, and the spectrum of the right-shift does not contain the spectrum of its adjoint.
+\end{enumerate}
+\end{sol}
+
+\end{document}

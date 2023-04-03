@@ -1,0 +1,224 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\let\radical\relax
+\DeclareMathOperator{\radical}{rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item N/A
+\item Show that the Hilbert polynomial of $\C[\vec X]/I$ is the constant $r$.
+\item Show that the Hilbert polynomial of $\C[X,Y,Z]/\braket{F,G}$ is the constant $de$. Conclude the claim $\#(V(F) \cap V(G)) \leq de$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item N/A
+\item Consider the map of vector spaces
+\begin{equation}\label{eq:themap}
+\C[\vec X]_k \to \C^r
+\end{equation}
+given by evaluation on the $r$ points. Its kernel is precisely $I_k$, and thus, by the isomorphism theorems, if we show that this map is surjective for large enough $k$ we will have the desired conclusion.
+
+To show surjectivity for large $k$ we show that, for any two points $p, p' \in \PP^n$, there exists a (linear!) homogeneous polynomial $s$ which separates them, in the sense that $s(p) = 0$ and $s(p') \neq 0$. Indeed, pick representatives $p,p' \in \C^{n+1}$ of unit norm, and let $v = p' - \braket{p',p}p$. Then, it is trivial to check that $\braket{v,p} = 0$, while $\braket{v,p'} = 1 - \norm{\braket{p',p}}^2 > 0$ by Cauchy-Schwarz (and the fact that $p,p'$ are not colinear). Thus, we set $s(\vec X) = v \cdot \vec X$.
+
+This shows that the map \eqref{eq:themap} is surjective for large $k$, as follows: for any $r$ distinct points there is a homogeneous polynomial of degree $r-1$ which vanishes on all but one of them. To build it, simply multiply all the polynomials that separate the distinguished point from the rest. Thus, the map is surjective for $k=r-1$, and to show surjectivity for higher values of $k$ one may pick a chosen linear factor and take repeated powers of it.
+
+\item Because vector spaces are nice, the dimension of $(\C[X,Y,Z]/\braket{F,G})_k$ is equal to $\dim(\C[\vec X]_k) - \dim(\braket{F,G}_k)$. The former is equal to $\binom{k+2}{2}$, and we compute the latter.
+
+A degree $k$ homogeneous polynomial in $\braket{F,G}$ is written in the form $a F + b G$, where $a$ is homogeneous of degree $k-d$ and $b$ of degree $k-e$. However, this representation is not unique; the failure in uniqueness is given by the kernel of the map $(a,b) \mapsto aF+bG$. So, the dimension of $\braket{F,G}_k$ is given by $\binom{k-d+2}{2} + \binom{k-e+2}{2}$, minus the dimension of the aforementioned kernel.
+
+Since the ring of polynomials is a UFD and $F$ and $G$ have no common terms, a pair $(a,b)$ is in the kernel if and only if $a = Gc$ and $b = Fc$ for some homogeneous $c$ of degree $k-d-e$. When this number is negative, the kernel is thus empty; otherwise, it has dimension $\binom{k-d-e+2}{2}$. Putting it all together, we get that, for large values of $k$, the dimension of the quotient $(\C[X,Y,Z]/\braket{F,G})_k$ is given by
+\begin{equation}
+\binom{k+2}{2} - \binom{k-d+2}{2} - \binom{k-e+2}{2} + \binom{k-d-e+2}{2}.
+\end{equation}
+
+This is seen to equal $de$ by expanding and simplifying.
+
+\smallskip
+
+We conclude the desired result, because the cardinality of $V(F)\cap V(G)$ is the (constant) Hilbert polynomial of $R = \C[X,Y,Z]/I(V(F) \cap V(G))$. Now, this is a quotient of $R_0 = \C[X,Y,Z]/\braket{F,G}$ (not necessarily equal because $\braket{F,G}$ might fail to be radical), and so the Hilbert polynomial of $R$ is bounded from above by the Hilbert polynomial of $R_0$, which as we've seen is constant equal to $de$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Show that the following are equivalent.
+\begin{enumerate}
+\item There exists $f \in 1+I$ such that $fM = 0$,
+\item $IM = M$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+($\rightarrow$) The inclusion $\subseteq$ is obvious; for the other, given $m \in M$, write $m = \cancel{f m} + (1-f) m \in IM$.
+
+\smallskip
+
+($\leftarrow$) Pick generators $m_1, \dots, m_n$ of $M$. For each $m_j$, there are $\alpha_{1j}, \dots, \alpha_{nj}$ such that
+\begin{equation}
+m_j = \sum \alpha_{ij} m_i.
+\end{equation}
+
+If we put the values of $\alpha_{ij}$ in a matrix $A$, and the generators $m_j$ in a column-vector $\vec m$, we have the equality
+\begin{equation}
+A m = m,
+\end{equation}
+where the left-hand side is intended as the obvious extension of matrix multiplication $M_{n \times n}(R) \times M_{n \times 1}(M) \to M_{n \times 1}(M)$.
+
+Moreover, by Cayley-Hamilton, if $p(x) = \sum a_i x^i$ is the characteristic polynomial of $A$, we have $p(A) = 0$. Thus, we have
+\begin{equation}
+0 = p(A) m = \sum a_i A^i m = \sum a_i m.
+\end{equation}
+
+Thus, if we set $f = \sum a_i$, we get $f m = 0$, hence $f m_i = 0$ for all generators, and thus $f M = 0$. It suffices to note that $f \in 1 + I$, This is because the top-level coefficient of $p$ is $1$, while all the others are nontrivial combinations of the $\alpha_{ij}$, all of which are in $I$. This completes the proof.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item What are the dimensions of the fibers of the projection $Y \to \Gr(2,4)$? Give an upper bound for the dimension of $Y$.
+\item Conclude the theorem by looking at the dimensions of the domain and codomain of the projection $Y \to \C[\vec X]_d$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The fiber $f^{-1}(w)$, with $w \in \Gr(2,4)$, consists of the pairs $(w,p)$, where $p$ ranges over the degree $d$ polynomials which vanish identically on $w$. Since $w$ is fixed, to find the dimension of this fiber it suffices to compute the dimension of the set of such polynomials $p$.
+
+By adequate translation and change of basis, which does not change the dimension of the fiber under consideration, we may suppose that $w$ is given by the plane $X_0 = X_1 = 0$. Thus, we wish to find the dimension of the space of degree $d$ homogeneous polynomials $p$ such that $p(0,0,X_2,X_3) = 0$.
+
+Write such a polynomial as
+\begin{equation}
+p(X_0,X_1,X_2,X_3) = \sum_{k+\ell \leq d} p_{k\ell}(X_0,X_1) X_2^k X_3^\ell,
+\end{equation}
+with $p_{k\ell}(X_0,X_1)$ a homogeneous polynomial of degree $d-k-\ell$. Now, the condition of vanishing on the given plane tells us that
+\begin{equation}
+\sum_{k+\ell=d} p_{k\ell}(0,0) X_2^k X_3^\ell = 0,
+\end{equation}
+whence $p_{k\ell} = 0$ for all $k+\ell = d$ (because these are degree zero polynomials hence constant). The terms $k+\ell < d$ don't show up because all such terms are homogeneous of positive degree, and thus will always vanish on the given plane.
+
+As a consequence, a degree $d$ polynomial is in the given conditions iff all its monomials have at least one term $X_0$ or $X_1$. Thus, the dimension of the fibers is, by elementary combinatorics,
+\begin{equation}
+\text{dimension of fibers } = \binom{d+3}{3} - \binom{d+1}1.
+\end{equation}
+
+\smallskip
+
+As a consequence, the dimension of $Y$ is at most
+\begin{equation}
+\dim Y \leq \dim(\Gr(2,4)) + \binom{d+3}{3} - \binom{d+1}1 = \binom{d+3}{3} - d + 3.
+\end{equation}
+
+\item The solution follows by the fact that if $f \colon A \to B$ is surjective, $\dim B \leq \dim A$. Consequently, if $\dim A < \dim B$, $f$ may never be surjective. We apply this to the particular case of $A = Y$, whose dimension is at most $\binom{d+1}3 + 4$, and $B = \C[\vec X]_d$, whose dimension is $\binom{d+3}3$. Thus, whenever $\binom{d+1}3 + 4 < \binom{d+3}3$, the map fails to be surjective, and by unfolding the definitions, a polynomial not in the image is one whose zero locus contains no $2$-planes.
+
+It suffices to check that this inequality holds for all $d \geq 4$. By unfurling the definitions, this is the same as to verify that, for $d \geq 4$, we have
+\begin{equation}
+(d+1)(d)(d-1) + 24 < (d+3)(d+2)(d+1),
+\end{equation}
+which simplifies (by subtracting one side from another and expanding) to showing that $6 d^2 + 12 d -18 = 6 (-1 + d) (3 + d)$ is positive for $d \geq 4$. This is obvious, and we are done.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Not doing this one.
+\end{ex}
+
+\begin{sol}
+I hope you have a great day!
+\end{sol}
+
+\end{document}
