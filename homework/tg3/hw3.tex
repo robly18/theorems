@@ -1,0 +1,289 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Differential Geometry Homework 3}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SL}{\mathrm{SL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\Lie}{Lie}
+\newcommand{\grad}{\nabla}
+\newcommand{\transp}{\top}
+
+
+\let\Diff\relax
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[\#4 from do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Show that $V(t)$ is parallel iff $\diff V t$ is perpendicular to $T_{c(t)}M$.
+\item Show that great circles parametrized by arc length are parallel.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We saw in class that if $\nabla^0$ is the Levi-Civita connection of $M$, which is a submanifold of $\R^n$ with LC Connection $\nabla$, we have the relation $\nabla^0_v X = \pi(\nabla_v X)$, where $\pi$ is the orthogonal projection $T_p \R^n \to T_p M$. Thus,
+\begin{equation}
+V(t) \text{ is parallel iff } \nabla^0_{c'(t)} V(t) = 0 \text{ iff } \pi(\nabla_{c'(t)} V(t)) = 0,
+\end{equation}
+and the exercise is complete because $\pi(w) = 0$ iff $w$ is orthogonal to $T_p M$, and $\nabla_{c'(t)} V(t) = \diff V t$ (because the usual Euclidean connection is trivial).
+\item By rotation, we may suppose that our arc circle is the equator, parametrized by $t \mapsto (\cos(t), \sin(t), 0)$. Its derivative is $(-\sin(t), \cos(t), 0)$, and its second derivative is $(-\cos(t), -\sin(t), 0)$. That is, $c''(t) = -c(t)$, and since $T_{c(t)} S^2 = \{c(t)\}^\perp$ we get that $\pi(c''(t)) = 0$. Thus, the given curve is a geodesic.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[\#8 from do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Compute the Christoffel symbols of the hyperbolic plane.
+\item Parallel transport the vector $v_0 = \partial_y$ along the line $(t,1)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Use the Koszul formula. Note that all brackets die because the coordinate frame commutes. Hence, we get (for $X$, $Y$, $Z$ vectors in the coordinate frame)
+\begin{equation}
+2 g(\nabla_X Y, Z) = X \cdot g(Y,Z) + Y \cdot g(X,Z) - Z \cdot g(X,Y).
+\end{equation}
+
+Now, the only way the right-hand side is non-null is if some of $X, Y, Z$ have nonconstant inner product, which is only the case if two of them are $\partial_y$. In other words, we may throw out any terms where the inner product is not between two $\partial_x$s or $\partial_x$s. Moreover, even in this case, the inner product is $y^{-2}$, which has null $x$ derivative. As such, the \emph{only} possible case in which the above expression might yield a nonzero value is if two of the vectors are the same, and the third is $\partial_y$.
+
+To recover the Christoffel symbols, note that $\partial_x$ and $\partial_y$ are just orthogonal, not orthonormal. Thus, to recover the connection, we apply the formula
+\begin{equation}
+\nabla_X Y = g(\nabla_X Y, \partial_x) y^2 \partial_x + g(\nabla_X Y, \partial_y) y^2 \partial_y.
+\end{equation}
+
+As such, we immediately get
+\begin{equation}
+\begin{aligned}
+\nabla_{\partial_x} \partial_x &= -\frac12 (\partial_y y^{-2}) y^2 \partial_y = \frac1y \partial_y,\\
+\nabla_{\partial_x} \partial_y = \nabla_{\partial_y} \partial_x &= \frac12 (\partial_y y^{-2}) y^2 \partial_x = -\frac1y \partial_x,\\
+\nabla_{\partial_y} \partial_y &= \frac12 (\partial_y y^{-2}) y^2 \partial_y = - \frac1y \partial_y.
+\end{aligned}
+\end{equation}
+
+This gives us the desired Christoffel symbols.
+
+\item We solve the ODE. Write $V(x) = u(x) \partial_x + v(x) \partial_y$. Then, its derivative along the curve is given by (using $y = 1$)
+\begin{equation}
+\begin{aligned}
+\nabla_{\partial_x} V(t) &= (u'(x) \partial_x + u(x) \nabla_{\partial_x} \partial_x) + (v'(x) \partial_y + v(x) \nabla_{\partial_x} \partial_y)\\
+&= (u'(x) - v(x)) \partial_x + (v'(x) + u(x)) \partial_y.
+\end{aligned}
+\end{equation}
+
+Thus, we wish to solve $u'(x) = v(x)$, $v'(x) = - u(x)$. The solution to this ODE with $u(0) = 0$ and $v(0) = 1$ is known to be $u(x) = \sin(x)$, $v(x) = \cos(x)$. Thus, the parallel transport of $\partial_y$ is given by
+\begin{equation}
+V(x) = \sin(x) \partial_x + \cos(x) \partial_y.
+\end{equation}
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[\#1 from do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Compute the metric.
+\item Compute the geodesic equations.
+\item Show that a geodesic has constant kinetic energy, and moreover satisfies Clairaut's relation.
+\item Show that a geodesic of the paraboloid intersects itself infinitely many times.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The surface is parametrized by $(u,v) \mapsto (f(v) \cos u, f(v) \sin u, g(v))$, and differentiating one quickly writes $\partial_u$ and $\partial_v$ in Euclidean coordinates:
+\begin{equation}
+\partial_u = (-f(v) \sin u, f(v) \cos u, 0),\quad \partial_v = (f'(v) \cos u, f'(v) \sin u, g'(v)).
+\end{equation}
+
+Taking the inner products of these, we easily obtain the metric
+\begin{equation}
+g_{11} = f(v)^2, \; g_{12} = 0, \; g_{22} = f'(v)^2 + g'(v)^2.
+\end{equation}
+
+\item First we compute the Christoffel symbols by Koszul's formula. Note that in this formula all terms with brackets die, because $u$ and $v$ are coordinates, and moreover $g(\partial_u,\partial_v) = 0$. Thus, the only surviving terms in Koszul's formula are the ones where the same vector goes into the inner product. Moreover, since the inner product in this case depends only on $v$, the only surviving terms still are the ones where the vector which is differentiating is $\partial_v$. Moreover, since our basis is orthogonal but not orthonormal, we have the formula
+\begin{equation}
+\nabla_X Y = g(\nabla_X Y, \partial_u) f(v)^{-2} \partial_u + g(\nabla_X Y, \partial_v) \frac1{f'^2 + g'^2} \partial_v.
+\end{equation}
+
+Thus, we easily compute
+\begin{equation}
+\begin{aligned}
+\nabla_{\partial_u} \partial_u &= -\frac12 (2 f f') f^{-2} \partial_v = - \frac{ff'}{f'^2 + g'^2} \partial_v, \\
+\nabla_{\partial_u} \partial_v &= \frac{ff'}{f^2} \partial_u,\\
+\nabla_{\partial_v} \partial_v &= \frac{f' f'' + g' g''}{f'^2 + g'^2} \partial_v.
+\end{aligned}
+\end{equation}
+
+Now we have the Christoffel symbols (the only nontrivial ones are $\Gamma_{11}^2$, $\Gamma_{12}^1$, and $\Gamma_{22}^2$) and we plug them into the geodesic equation $\ddot x^k + \sum \Gamma_{ij}^k \dot x^i \dot x^j = 0$ to get the equation for a geodesic $(u(t), v(t))$:
+\begin{equation}
+\begin{gathered}
+\ddot u + 2 \frac{ff'}{f^2} \dot u \dot v = 0,\\
+\ddot v - \frac{ff'}{f'^2 + g'^2} \dot u^2 + \frac{f' f'' + g' g''}{f'^2 + g'^2} \dot v^2 = 0.
+\end{gathered}
+\end{equation}
+
+\item First, we differentiate the kinetic energy of the path $(u(t), v(t))$. This energy is given by $f(v)^2 \dot u^2 + (f'(v)^2 + g'(v)^2) \dot v^2$, and its derivative is given by (courtesy of Mathematica because I'm sick of computations)
+\begin{equation}
+2 v'(t) \left( v'' \left(f'^2+g'^2\right)+f u'^2 f'+v'(t)^2 \left(f' f''+g' g''\right)+\frac{f^2 u' u''}{v'} \right)
+\end{equation}
+
+To get rid of the pesky $u''$ we apply the first geodesic equation, and this simplifies (for a geodesic) to
+\begin{equation}
+2 v'(t) \left( v'' \left(f'^2+g'^2\right)-f u'^2 f'+v'(t)^2 \left(f' f''+g' g''\right) \right)
+\end{equation}
+and the quantity inside the parentheses is null by the second geodesic equation. Thus, we get that, assuming a path satisfies the first geodesic equation, it satisfies the second iff it has constant energy (modulo division by zero issues that happen on parallels and meridians).
+
+\smallskip
+
+Now let us approach Clairaut's relation. The quantity $r \cos \beta$ can be reinterpreted as follows. First of all, $r$ is the same as $f$. Moreover, $\cos \beta$ is the inner product between the (normalized) velocity $\gamma'$ and the vector $\frac1{\abs{\partial u}} \partial_u$. Thus, we differentiate the quantity $f(v) \frac1{\abs{\partial u}} \braket{\partial_u, \dot u \partial_u + \dot v \partial_v}$, which simplifies to $f(v)^2 \dot u$. Its derivative is then:
+\begin{equation}
+2 f(v) f'(v) \dot u \dot v + f(v)^2 \ddot u,
+\end{equation}
+which is null precisely if (by dividing by $f^2$)
+\begin{equation}
+\ddot u +  2 \frac{f f'}{f^2} \dot u \dot v = 0,
+\end{equation}
+which is the first geodesic equation.
+
+\item 
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[\#3 from do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Prove that flows of left-invariant fields are defined for all time, and that $\varphi(t) \varphi(s) = \varphi(t+s)$.
+\item Prove that if $G$ has a bi-invariant metric, then the geodesics starting at the identity coincide with one-parameter subgroups.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We know that flows exist for some small time $\varepsilon$. Moreover, since the vector field $X$ is left-invariant, left-translating a solution yields another solution. Thus, considering the existing solution $\varphi(t)$ and considering $t \mapsto \varphi(\varepsilon/2) \varphi(t)$ yields a solution which goes up to time $\varepsilon + \frac12 \varepsilon$. Iterating this process one can extend the solution for all positive time, and likewise in the other direction.
+
+The fact that left-multiplying a flow of $X$ yields another flow of $X$ also shows that $\varphi$ is a homomorphism. Indeed, differentiating $s \mapsto $\varphi(t)^{-1} \varphi(t+s)$ one obtains $X$, and moreover at $s = 0$ we get the identity, so by uniqueness of solutions to ODEs we get that, for all $s$, $\varphi(s) = \varphi(t)^{-1} \varphi(t+s)$, as desired.
+\item
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[3]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[4]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[5]
+\leavevmode
+\begin{enumerate}
+\item
+\item
+\item
+\item
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item
+\item
+\item
+\item
+\end{enumerate}
+\end{sol}
+
+\end{document}

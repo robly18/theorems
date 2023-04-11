@@ -1,0 +1,270 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Differential Geometry Homework 2}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SL}{\mathrm{SL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\Lie}{Lie}
+\newcommand{\grad}{\nabla}
+\newcommand{\transp}{\top}
+
+
+\let\Diff\relax
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[1]
+\leavevmode
+\begin{enumerate}
+\item Prove that $Q^{-1}(-1)$ is a smooth $n$-dimensional manifold with two connected components.
+\item Prove that for any $q \in \HH^n$, the restriction of $Q$ to the tangent plane at $q$ is positive definite.
+\item Prove that $G = \{A \in \SO(n,1) \mid A_{n+1,n+1} > 0\}$ is a subgroup of the group of isometries of $\HH^n$.
+\item Construct an isometry between $\HH^n$ and $B^n$ endowed with the metric
+\begin{equation}
+g_x (v,w) := c \frac{v \cdot w}{(1- \norm{x}^2)^2},
+\end{equation}
+for some constant $c$ to be found.
+\item Construct an isometry between $\HH^n$ and $H^n$ endowed with the metric
+\begin{equation}
+g'_x(v,w) := c' \frac{v \cdot w}{x_n^2},
+\end{equation}
+for some constant $c'$ to be found.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item To prove that it is a manifold, we apply the regular value theorem. To do so, we prove that $-1$ is a regular value of $Q$. Indeed,
+\begin{equation}
+\grad Q(x,t) = 2 (x, -t),
+\end{equation}
+hence the gradient is nonzero everywhere except the origin. Thus, the only critical value is $Q(0) = 0$, and in particular $-1$ is regular, making $Q^{-1}(-1)$ a submanifold of $\R^{n+1}$ of codimension one.
+
+This manifold has two connected components, one of which is the set of points of the form $(x,\sqrt{x^2 + 1})$ and the other $(x,-\sqrt{x^2 + 1})$. Both of these sets are homeomorphic to $\R^n$, and are therefore connected, and they are disconnected from one another because the upper and lower half spaces separate them as a disjoint union of opens.
+
+
+\item Let $(x,t)$ be such that $Q(x,t) = -1$, with $t > 0$. Pick two vectors tangent to $\HH^n$ at $(x,t)$, say $(v,a)$ and $(w,b)$. The condition of tangency is equivalent (by the regular value theorem) to the condition that $v \cdot x = at$ and $w \cdot x = bt$. Now, we compute
+\begin{equation}\label{eq:q}
+q((v,a),(w,b)) = v \cdot w - ab = v \cdot w - \frac{v \cdot x \, w \cdot x}{t^2}.
+\end{equation}
+
+Now, by Cauchy-Schwarz, we have the inequality
+\begin{equation}
+q((v,a),(w,b)) \geq v \cdot w - \norm{v} \norm{w} \frac{x^2}{t^2} = v \cdot w + \norm{v} \norm{w}.
+\end{equation}
+
+Finally, we evaluate $q((v,a),(v,a)) \geq \frac{t^2 - x^2}{t^2} \norm{v}^2 = \frac1{t^2} \norm{v}^2$, which is strictly positive unless $v = 0$. Thus, $q$ is an inner product.
+
+\item The condition that $A \in \SO(n,1)$ tells us that $A$ preserves the hyperboloid $Q^{-1}(-1)$. Now, under this condition, the upper sheet is taken to either the upper or lower sheet (by connectedness), and the lower sheet is taken to the opposite. So, a matrix $A \in \SO(n,1)$ may be either `sheet preserving' or `sheet swapping'. This may be investigating by checking in which sheet $A(0,1)$ lies, which is equivalent to checking the sign of $A_{n+1,n+1}$. Thus, the set $G$ is precisely the set of transformations in $\SO(n,1)$ which preserve the sheets. This is evidently closed under composition and inverses, and thus forms a group. It remains to check that each such element is an isometry.
+
+Since $A$ is linear, its derivative is identified with itself. Moreover, since the inner product on the hyperboloid is defined by $q$, it suffices to check that $A$ preserves $q$. To do so, we use the following trick. For $\zeta, \xi$ tangent to the hyperboloid:
+\begin{equation}
+4 q(A\zeta, A\xi) = Q(A(\zeta + \xi)) - Q(A(\zeta - \xi)) = Q(\zeta + \xi) - Q(\zeta - \xi) = 4 q(\zeta, \xi).
+\end{equation}
+
+\item Consider the map $(x,t) \mapsto \frac x{t+1}$. This is a diffeomorphism onto the circle, with inverse $z \mapsto \frac1{1-z^2}(2z, 1+z^2)$. Now, if we pull back $q$ by the inverse, we obtain the following. First, let $v$ be tangent to the disk at $z$. Then, its image under the derivative of the inverse map $F$ is given by
+\begin{equation}
+(\dl F)_z(v) = \frac2{1-z^2}(v, z \cdot v) + \frac1{(1-z^2)^2}(2z, 1+z^2) 2 z \cdot v.
+\end{equation}
+
+Thus, we conclude that if $g$ is the pullback of $q$ by $F$, we have: (set $\zeta = \frac1{1-z^2}$ for simplicity)
+\begin{equation}
+\begin{aligned}
+g_z(v,w) &= \braket*{2 \zeta v + 4 \zeta^2 z \cdot v z, 2 \zeta w + 4 \zeta^2 z \cdot w z}\\
+&\phantom{= } - (2 \zeta z \cdot v + 2 \zeta^2 (1 + z^2) z \cdot v)(2 \zeta z \cdot w + 2 \zeta^2 (1 + z^2) z \cdot w)\\
+&= 4 \zeta^2 v \cdot w + 16 \zeta^3 z \cdot v \, z \cdot w + 16 \zeta^4 z \cdot v \, z \cdot w \, z \cdot z\\
+&\phantom{= } - z \cdot v \, z \cdot w \, 4 \zeta^2 (1 + \zeta(1+z^2))^2.
+\end{aligned}
+\end{equation}
+
+The first term is precisely what you want, yielding a constant $c = 4$. The remainder we show turns out to be zero. Dividing everything by $4 \zeta^2 \, z \cdot v \, z \cdot w$, the remainder turns out to be
+\begin{equation}
+\begin{aligned}
+&\mathrel{\phantom{=}} 4 \zeta + 4 \zeta^2 z^2 - (1 + \zeta (1+z^2))^2\\
+&= 4 \zeta + 4 \zeta^2 z^2 - 1 - \zeta^2 (1+z^2)^2 - 2 \zeta (1+z^2)\\
+&= \zeta^2 (4 - 4 z^2 + 4 z^2 - (1 - 2 z^2 + z^4) - (1 + 2 z^2 + z^4) - 2 + 2 z^4)\\
+&= \zeta^2 \times 0 = 0.
+\end{aligned}
+\end{equation}
+
+\item We define our map as follows. To begin, we decompose an element of $\HH^n$ as a triple $(x,y,t)$, with $x \in \R^{n-1}$, $y, t \in \R$. Now, we construct our map by $(x,y,t) \mapsto \frac{(x,t)}{t - y}$.
+
+I do not have enough patience to follow through with the computations, unfortunately.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[2]
+\leavevmode
+\begin{enumerate}
+\item Prove that $M = H_\R /H_\Z$ is a compact manifold.
+\item Prove that there is a natural induced map $\bar \pi$ from $M$ to $\R^2 / \Z^2$.
+\item Show that $\bar \pi$ is a submersion and compute $\bar \pi^{-1}(x,y)$.
+\item Show that the vector fields $V_\xi(A) = (\dl L_A)_I(\xi)$ are left-invariant, and moreover that they induce vector fields on $M$.
+\item Show that $H_\R$ is a smooth submanifold of $M_{3 \times 3}$ by expressing it as the level set of a regular value of a function. Compute the Lie algebra.
+\item Prove that the Lie bracket of two matrices in $\Lie(H_\R)$ equals their commutator.
+\item Compute the brackets of $X,Y,Z$ in coordinates.
+\item
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item It is a manifold because it is the quotient of a manifold by a discrete group which acts freely by a properly discontinuous action. The proof of freeness is easy (just invert the matrix you're acting on), and the proof of proper discontinuity is similar to the proof that translations on the plane are properly discontinuous.
+
+The result is compact because any matrix will have a representative with $x,y,z \in \interval01$, so the quotient is the image under a continuous map of a compact set (which is homeomorphic to the cube).
+
+\item Trivial computation:
+\begin{equation}
+\pi\left(\begin{bmatrix}
+1 & m & p\\
+0 & 1 & n\\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & x & z\\
+0 & 1 & y\\
+0 & 0 & 1
+\end{bmatrix} \right) = \pi\left(\begin{bmatrix}
+1 & m+x & p + z + my\\
+0 & 1 & n+y\\
+0 & 0 & 1
+\end{bmatrix}\right) = (m+x,n+y).
+\end{equation}
+
+Thus, the projection to $\R^2 / \Z^2$ is invariant under the action of $H_\Z$ on $H_\R$, whence a natural map $M \to \R^2/\Z^2$ is induced.
+
+\item The map $\pi$ is obviously a submersion, and commutes with the local diffeomorphisms between $H_\R$ and $M$, and $\R^2$ and $\R^2/\Z^2$. Thus, the induced map on the quotient is also a submersion.
+
+The preimage under $\bar \pi$ of $(x,y)$ is the quotient of the set of matrices of the form $A_{x+a,y+b,z}$ for $z \in \R$ and $a,b \in \Z$, by the action of the group of matrices $A_{m,n,p}$. Without loss of generality we may always pick representatives of the form $A_{x,y,z}$, and restrict the action to the subgroup which fixes this set, which is the group of matrices $A_{0,0,p}$. The action of this group just translates $z$, so we obtain a copy of the circle $\R/\Z$.
+
+\item They are left-invariant because $(\dl L_B) V_{\xi}(A) = (\dl L_B)(\dl L_A) \xi = (\dl L_{BA}) \xi = V_\xi(BA)$.
+
+They induce vector fields on $M$ because, by a reasoning similar to above, the image under the differential of the projection $H_\R \to M$ of $V_\xi$ depends only on the equivalence class of the point of evaluation. Thus, it induces a well-defined vector field on the quotient, which is smooth by using the fact that the projection is a local diffeomorphism.
+
+\item Consider the projection $f \colon \R^9 \to \R^6$, which recovers the components in the lower triangular part of the matrix. This is a submersion, and hence has no critical values. Thus, $(1,1,1,0,0,0)$ is a regular value, and its preimage is precisely $H_\R$.
+
+By the regular value theorem, the tangent space at a point is the kernel of $\dl f$ at that point. Since $f$ is linear, it is its own derivative, and so the tangent space at any point is $f^{-1}(0,0,0,0,0,0)$. This is precisely what we wished to prove.
+
+\item First, we compute the left-invariant vector field associated to $a_{u,v,w}$:
+\begin{equation}
+V_{a_{u,v,w}}(A_{x,y,z}) = \diff{}t[0] \left( A_{x+ut,y+vt,z+wt + v x t} \right) = u \partial_x + v \partial_y + (w + v x) \partial_z.
+\end{equation}
+
+Now, we may use coordinate expressions to compute the Lie bracket of, say $V_{a_{u,v,w}}$ and $V_{a_{u',v',w'}}$, and get
+\begin{equation}
+[V_{a_{u,v,w}}, V_{a_{u',v',w'}}] = (u v' - v u') \partial_z = V_{a_{0,0,u v'-v u'}},
+\end{equation}
+and a simple computation will show that
+\begin{equation}
+a_{u,v,w} a_{u',v',w'} - a_{u,v,w} a_{u',v',w'} = a_{0,0, u v'} - a_{0,0,u' v} = a_{0,0,uv'-u'v}.
+\end{equation}
+
+\item To compute the Lie brackets, apply the above formulas to $u,v,w$ equal to zeros and ones to get:
+\begin{equation}
+[X,Y] = \partial_z, [X,Z] = 0, [Y,Z] = 0.
+\end{equation}
+
+To compute $X,Y,Z$ in coordinates has already been done.
+
+\item We compute all of these terms by the Koszul formula. However, we use the following facts to make our life easier.
+
+First of all, since $X,Y,Z$ are orthogonal, all terms in the Koszul formula which do not have brackets are zero, because they are derivatives of constants (either zero or one). Thus, the only nonzero terms are the ones with brackets, and moreover the only nonzero inner product between a bracket and a vector is the product $g([X,Y],Z) = 1$.
+
+As a consequence, if $A$ and $B$ are two of the three orthonormal vectors, $\nabla_A B$ is going to be either plus or minus $\frac12 C$, where $C$ is the third orthonormal vector, and the sign depends on the whims of the Koszul formula. To the best of my knowledge, the correct signs are as follows:
+\begin{equation}
+\begin{gathered}
+\nabla_Y X = - \frac12 Z,\\
+\nabla_X Y = \frac12 Z,\\
+\nabla_Z X = \nabla_X Z = - \frac12 Y\\
+\nabla_Z Y = \nabla_Y Z = \frac12 X.
+\end{gathered}
+\end{equation}
+
+\end{enumerate}
+\end{sol}
+
+\end{document}

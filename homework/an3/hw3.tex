@@ -1,0 +1,193 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{diffcoeff}
+\diffdef{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 3}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $f \colon U \to S^2$ be meromorphic with a pole at $z_0 \in U$. What kind of singularity does $\e^f$ have at $z_0$?
+\end{ex}
+
+\begin{sol}
+An essential singularity.
+
+To begin, write $f(z) = (z-z_0)^{-n} g(z)$, where $g$ is holomorphic near $z_0$ and $g(z_0) \neq 0$. Then, $\e^{f(z)} = \exp((z-z_0)^{-n} g(z))$. We show that this function has an essential singularity at $z_0$ by finding two sublimits as $z \to z_0$, one of which is infinity and the other is not.
+
+To wit, consider $z_t = z_0 + t \alpha$, where $\alpha$ is an $n$-th root of $g(z_0)$. Then, $\exp(f(z_t)) = \exp(t^{-n} g(z)/g(z_0))$, and it is clear that when $t \to 0$ (with $t$ positive) the expression inside the exponential goes to infinity (or more precisely $\infty \times 1$). Thus, we have found an infinite sublimit. Now, if $n$ happens to be odd, simply repeat the process with $t \to 0$ from the negatives to make a null sublimit, and otherwise set $t = \I s$ and make $s \to 0$ to obtain a null sublimit in this case.
+
+In summary, since $\exp(f)$ does not have a well-defined limit at $z_0$, $z_0$ is then an essential singularity. 
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that an injective entire holomorphic function is affine.
+\item Show that an injective holomorphism of $S^2$ to $S^2$ is a fractional linear transformation.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Let $g(z) = f(1/z)$, a meromorphic function with a singularity at $z = 0$. As a composition of injective functions, $g$ itself must be injective, but the only singularities which allow for injectivity are removable singularities and poles of order one. Now, if this singularity were removable, then $f(z)$ would converge to $g(0)$ as $z \to \infty$, and so by Liouville $f$ would be a constant, which is not injective. Thus, this singularity is a pole of order one, and using the Laurent series of $g$ we may write $g(z) = a z^{-1} + h(z)$, with $h$ holomorphic. Thus, $f(z) - a z = h(1/z)$, and hence $h(1/z)$ has a removable singularity at zero. As such, the limit $h(z)$ as $z \to \infty$ exists, and again by Liouville $h$ is a constant function, let us say equal to $b$. In conclusion $f(z) - a z = b$, or equivalently $f(z) = az + b$, and our proof is done.
+
+\item Let $f \colon S^2 \to S^2$ be an injective holomorphism. If $f(\infty) = \infty$, then $f$ restricts to an injective holomorphism over $\C$ and we simply apply part a) to get that $f$ is a linear map, which in particular is a fractinal linear transformation. Otherwise, let $f(\infty) = a$, and set $g(z) = \frac1{f(z) - a}$. Then, $g(\infty) = \infty$, and again we apply part a) to get that $g$ is a linear function, say $g(z) = c z + d$. Then, solving for $f(z)$, we get $f(z) = a + \frac1{c z + d}$, which is a composition of fractional linear transformations and hence a fractional linear transformation itself.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that $f(z) = z^4 + 12 z + 1$ has exactly three zeros in the annulus $1 < \abs z < 4$ and that these zeros are distinct.
+\item How many zeros does $g(z) = z^5 + 2 + \e^z$ have in the left-half plane?
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We begin by showing that $f$ has three zeros in this annulus, and to do so we apply Rouche's theorem twice. First, in the disk of radius $4$: in this disk, $z^4$ has absolute value equal to $4^4 = 64$, while $12z+1$ is bounded from above in absolute value by $13$. Hence, the number of zeros of $f$ in $B_4(0)$ is four.
+
+Now, in the disk of radius one, the reverse bound occurs. Indeed, $12z+1$ is at least $12$ in absolute value, while $z^4$ is equal to one in absolute. Hence, $f$ has exactly one zero in $B_1(0)$. In conclusion, $f$ has three zeros in the annulus, and now it remains to show that they are all distinct.
+
+To this effect, we prove that $f'$ vanishes on neither of these zeros. To do so, we look at all the zeros of $f'$ and show that they are not zeros of $f$. Fortunately this is easier, as $f'(z) = 0$ iff $4 z^3 = -12$ iff $z^3 = -3$ iff $z$ is one of the cube roots of $-3$. If such a $z$ was also a root of $f$, we would have
+\begin{equation}
+0 = f(z) = -3z + 12z + 1 = 9z + 1,
+\end{equation} 
+hence $z = -1/9$, which is not a cube root of $-3$. Thus, we conclude that $f$ has no double zeros.
+
+\item First, we remark that in the left half-plane $\e^z$ always has absolute value less than one. Thus, we can show that $g$ has no zeros in the left-half plane for $\abs z > 2$: pick a half-annulus of minor radius $2$ and major radius $R > 2$, apply Rouche's theorem here to $z^5$ and $2 + \e^z$, and get that in this annulus $g$ has as many zeroes as $z^5$ does, which is none. Since $R$ is arbitrary, we conclude that any zeroes of $g$ in the left-half plane are located inside the disk of radius $2$. (PS: Using Rouche's theorem here is actually overkill I've since realized; the bound $\abs{z^5} > 3$ is enough.)
+
+Now, let us look at how many zeros are inside the disk of radius $2$. Consider the decomposition of $g$ into $z^5 + 2$ and $\e^z$. Note that $z^5 + 2$ is always at least two in absolute value in the border of the left half-circle of radius two: indeed, if $\abs z = 2$ then $\abs{z^5 + 2} \geq 30$, and on the vertical strip that makes up the diameter of the circle $z$ is purely imaginary, hence so is $z^5$, and thus $z^5 + 2$ has absolute value at least $2$. As such, $z^5 + 2$ dominates $\e^z$ on the border of this half-circle, and thus we may apply Rouche to conclude that $g$ has as many zeros on this half-circle as $z^5 + 2$. Thus, we need to compute how many fifth roots of $-2$ are in the left-half plane. Note that these fifth roots form a regular pentagon around the origin, and one of its vertices is $-\sqrt[5]2$. Thus, three of its vertices are on the left half-plane, and so we conclude: $g(z)$ has exactly three zeroes on the left half-plane.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Evaluate $\int_{\partial B_3(-1)} \e^{3/(z-1)} + z^3 \e^{1/z^2} + \e^{2/z^17} \dl3 z$.
+\end{ex}
+
+\begin{sol}
+We apply the residue theorem. First, we find the singularities of the functions inside the integral. The first, $\exp(3/(z-1))$, has a singularity at $z = 1$, which lies inside the curve of integration. The second and third have singularities at $z = 0$. By the Residue Theorem, to compute this integral we simply add all the residues of these singularities, multiplied by $2 \I \pi$.
+
+For the first one, we write the Laurent series of $\e^{3/(z-1)}$ around one (using the one for the exponential):
+\begin{equation}
+\e^{3/(z-1)} = \dots + 0 z^2 + 0 z + 1 + 3 (z-1)^{-1} + \frac12 9 (z-1)^{-2} + \dots,
+\end{equation}
+hence the residue is $3$.
+
+For the second one, we write the Laurent series around $0$ using the same trick:
+\begin{equation}
+\e^{1/z^2} = \dots + 0z + 1 + z^{-2} + \frac12 z^{-4} + \dots,
+\end{equation}
+and so multiplying by $z^3$ we get $z^3 \e^{1/z^2} = \dots + \frac12 z^{-1} + \dots$, hence the residue here is $\frac12$.
+
+Finally, for the third one, using the same line of thinking the residue is obviously zero.
+
+Thus, the sum of the residues inside the ball is $3+\frac12$, so the line integral we seek is $7 \I \pi$.
+\end{sol}
+
+\begin{ex}
+Evaluate $\int_0^\infty \frac{\log(x^2 + 1)}{x^2 + 1} \dl3 x$.
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+Evaluate
+\begin{equation}
+\int_0^\pi \frac1{4+\sin^2\theta} \dl3 \theta.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}
