@@ -79,6 +79,7 @@
 \DeclareMathOperator{\Lie}{Lie}
 \newcommand{\grad}{\nabla}
 \newcommand{\transp}{\top}
+\DeclareMathOperator{\tg}{tg}
 
 
 \let\Diff\relax
@@ -249,40 +250,89 @@ which is the first geodesic equation.
 \begin{enumerate}
 \item We know that flows exist for some small time $\varepsilon$. Moreover, since the vector field $X$ is left-invariant, left-translating a solution yields another solution. Thus, considering the existing solution $\varphi(t)$ and considering $t \mapsto \varphi(\varepsilon/2) \varphi(t)$ yields a solution which goes up to time $\varepsilon + \frac12 \varepsilon$. Iterating this process one can extend the solution for all positive time, and likewise in the other direction.
 
-The fact that left-multiplying a flow of $X$ yields another flow of $X$ also shows that $\varphi$ is a homomorphism. Indeed, differentiating $s \mapsto $\varphi(t)^{-1} \varphi(t+s)$ one obtains $X$, and moreover at $s = 0$ we get the identity, so by uniqueness of solutions to ODEs we get that, for all $s$, $\varphi(s) = \varphi(t)^{-1} \varphi(t+s)$, as desired.
-\item
+The fact that left-multiplying a flow of $X$ yields another flow of $X$ also shows that $\varphi$ is a homomorphism. Indeed, differentiating $s \mapsto \varphi(t)^{-1} \varphi(t+s)$ one obtains $X$, and moreover at $s = 0$ we get the identity, so by uniqueness of solutions to ODEs we get that, for all $s$, $\varphi(s) = \varphi(t)^{-1} \varphi(t+s)$, as desired.
+
+\item All we need to show is that $\varphi(t)$ as above is a geodesic. Its velocity is given by a left-invariant vector field $Y$, so we show that $\nabla_Y Y = 0$. Equivalently, we prove that $g(X, \nabla_Y Y) = 0$ for all left-invariant $X$.
+
+Now, we apply the Koszul formula. Note that since $X$ and $Y$ are left-invariant, as is the metric, all terms $g(X,Y)$ and $g(Y,Y)$ are constant, and so their derivative is zero. Thus, the only remaining terms are the bracket terms, one of which contains $[Y,Y] = 0$, and so we get
+\begin{equation}
+g(\nabla_Y Y, X) = g(Y, [X,Y]).
+\end{equation}
+
+Now, as per the hint in do Carmo, using the bi-invariance of the metric we get
+\begin{equation}
+g(Y, [X,Y]) = - g(X, [Y,Y]) = 0,
+\end{equation}
+and thus $\nabla_Y Y = 0$. In conclusion, one-parameter subgroups are geodesics, and since there is a one-parameter subgroup for any initial velocity starting at the identity, the one-parameter subgroups are exactly the geodesics.
 \end{enumerate}
 \end{sol}
 
 \begin{ex}[3]
+Express the Levi-Civita connection in terms of local polar coordinates.
 \end{ex}
 
 \begin{sol}
+We use the fact that the sphere parametrized by local coordinates is a surface of revolution, with $v$ taking the place of $\phi$, $u$ taking the place of $\theta$, and $f(\phi) = \cos \phi$, $g(\phi) = \sin \phi$. Thus, by exercise \#1 from do Carmo above, the LC connection is given by
+\begin{equation}
+\begin{aligned}
+\nabla_{\partial_\theta} \partial_\theta &= \cos \phi \, \sin \phi \, \partial_\phi \\
+\nabla_{\partial_\theta} \partial_\phi = \nabla_{\partial_\phi} \partial_\theta &= - \tg \phi \,  \partial_\theta\\
+\nabla_{\partial_\phi} \partial_\phi &= 0.\\
+\end{aligned}
+\end{equation}
 \end{sol}
 
 \begin{ex}[4]
+Show that $T \Sigma$ can be naturally identified with $g^* T S^2$. Show that parallel transport commutes with $g$.
 \end{ex}
 
 \begin{sol}
+The identification may be performed by noting that both $\Sigma$ and $S^2$ are embedded submanifolds of $\R^3$. As such, their tangent spaces may be identified with subspaces of $\R^3$, and under this identification, by definition of $g$, $T_{g(p)} S^2 = T_p \Sigma$. Thus,
+\begin{equation}
+g^* TS^2 = \{ (p,v) \mid p \in \Sigma, v \in T_{g(p)} S^2 \} = \{(p,v) \mid p \in \Sigma, v \in T_p \Sigma\} = T\Sigma.
+\end{equation}
+
+Now, to prove the statement about parallel transport, we use exercise 4 from do Carmo. Indeed, $\frac{\dl.D.(V \circ g \circ \gamma)}{\dl t} = \pi\left( \diff{(V \circ g \circ \gamma)}t \right)$, where $\pi$ is the orthogonal projection on the tangent plane. If we project on $T_{\gamma(t)} \Sigma$, we obtain the derivative along $\gamma$ of $V \circ g$. On the other hand, if we project on $T_{g(\gamma(t))} S^2$, we obtain the derivative along $g \circ \gamma$ of $V$. Of course, these projections are the same. As a consequence, we conclude that the derivative $\frac{\dl.D.(V \circ g \circ \gamma)}{\dl t}$ does not depend on which of these contexts we lie, and so $V$ is parallel along $g \circ \gamma$ iff $V \circ g$ is parallel along $\gamma$, which is what we desired to prove.
 \end{sol}
 
 \begin{ex}[5]
 \leavevmode
 \begin{enumerate}
-\item
-\item
-\item
-\item
+\item Any one-parameter subgroup of $Z(G)$ is a geodesic.
+\item Show that the vertical path is a geodesic.
+\item Show that geodesics are not globally length minimizing.
+\item Compute the LC connection on the Heisenberg group.
 \end{enumerate}
 \end{ex}
 
 \begin{sol}
 \leavevmode
 \begin{enumerate}
-\item
-\item
-\item
-\item
+\item Apply formula from before for $g(X,\nabla_Y Y) = g(Y, [X,Y])$, and use the fact that $Y$ tangent to $Z(G)$ implies that the bracket with anything is zero. Thus, the path that follows along $Y$ is a geodesic.
+\item First, note that $A_{0,0,t}$ is always in the center, and forms a one-parameter subgroup, hence is a geodesic. Left-translating by $A_{x_0, y_0, z}$ we get that $A_{x_0, y_0, z+t}$ is also a geodesic, because the metric is left-invariant.
+\item The vertical path has derivative $a_{0,0,1}$ (using the notation from the previous time). Therefore, if $c = \abs{a_{0,0,1}}$ (this is constant), we have that the length of the path from $(0,0,0)$ to $(0,0,n^2)$ is equal to $c n^2$.
+
+Now, we find a linear upper bound for the distance between $(0,0,0)$ and $(0,0,n^2)$. We note that $d(I, AB) \leq d(I, A) + d(A, AB) = d(I,A) + d(I,B)$ because the metric is left-invariant. As such, $d(I,[A^n,B^n]) \leq 2 n (d(I,A) + d(I,B))$. Finally, we note that
+\begin{equation}
+[A_{1,0,0}^n, A_{0,1,0}^n] = [A_{n,0,0}, A_{0,n,0}] = \text{(expand...)} = A_{0,0,n^2}.
+\end{equation}
+
+As such, $d(I, A_{0,0,n^2}) \leq 2 n (a_1 + a_2)$ as desired. Since the length of the vertical geodesic grows quadratically with $n$, we obtain that for large enough $n$ it is \emph{not} the optimal path.
+
+\item We compute all of these terms by the Koszul formula. However, we use the following facts to make our life easier.
+
+First of all, since $X,Y,Z$ are orthogonal, all terms in the Koszul formula which do not have brackets are zero, because they are derivatives of constants (either zero or one). Thus, the only nonzero terms are the ones with brackets, and moreover the only nonzero inner product between a bracket and a vector is the product $g([X,Y],Z) = 1$.
+
+As a consequence, if $A$ and $B$ are two of the three orthonormal vectors, $\nabla_A B$ is going to be either plus or minus $\frac12 C$, where $C$ is the third orthonormal vector, and the sign depends on the whims of the Koszul formula. To the best of my knowledge, the correct signs are as follows:
+\begin{equation}
+\begin{gathered}
+\nabla_Y X = - \frac12 Z,\\
+\nabla_X Y = \frac12 Z,\\
+\nabla_Z X = \nabla_X Z = - \frac12 Y\\
+\nabla_Z Y = \nabla_Y Z = \frac12 X.
+\end{gathered}
+\end{equation}
+
 \end{enumerate}
 \end{sol}
 
