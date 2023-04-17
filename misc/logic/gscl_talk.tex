@@ -5,6 +5,11 @@
 \usepackage{amsfonts}
 \usepackage{mathtools}
 
+
+\usepackage{inconsolata}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true,mathescape=true}
+
 \usepackage[thmmarks, amsmath]{ntheorem}
 
 \usepackage{graphicx}
@@ -72,10 +77,13 @@
 \newcommand{\id}{\mathrm{id}}
 
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
 \newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
-\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
-%\newcommand\timestamp[1]{}
+%\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
+\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
 
 
 \begin{document}
@@ -96,6 +104,8 @@
 \section{Second Order Arithmetic}
 
 \point{Introduced in 1974 by Harvey Friedman (Dates back to Hilbert and Bernays in 1934)}
+
+\timestamp{7 minutes}
 
 \point{Introduce the language: two-sorted, $(+,\cdot,0,1,<,\in)$}
 
@@ -127,6 +137,8 @@
 
 \point{Interpretation of axioms as `computable mathematics'. The first one says `computable sets exist', and the second one roughly allows one to do computable recurrence.}
 
+\point{More formal remark: The two most important models of $\RCA_0$ are: $(\N, P(\N))$, and $(\N, P^{\text{comp}}(\N))$.}
+
 \timestamp{15 minutes}
 
 \section{Codifications}
@@ -147,124 +159,127 @@
 
 \point{Example: One cannot directly encode functions $\R \to \R$, and more generally sets of real numbers. However, one can encode functions $\Q \to \R$, and under certain continuity assumptions any such function extends to a unique continuous function $\R \to \R$. Thus, one can encode continuous real functions.}
 
+\point{(Aside: This is not how continuous functions are actually encoded, just a plausibility argument so that the audience \emph{believes} that they can be encoded. In actuality, there is some very important information that cannot be recovered from just this description, namely preimages of opens. This will be relevant in the sequence.)}
+
 \point{Example: Switching to algebraic objects, one may define a group or ring in the same way as usual. E.g. a group is a set $G \in P(\N)$ together with a function $G \times G \to G$ (encoded as an element of $P(\N)$) satisfying certain rules.}
 
 \timestamp{24 minutes}
 
 \section{Example Proof: Mean Value Theorem}
 
+\point{Showcase reasoning in $\RCA_0$.}
+
+\point{Theorem (B): Let $F \colon [0,1] \to \R$ with $f(0) < 0 < f(1)$. Then, there exists $0 < X < 1$ such that $F(X) = 0$.}
+
+\point{Proof sketch: Recall that we can only prove the existence of computable things, so we want to find a way to compute $X$.}
+
+\point{Idea: Use bissection algorithm to construct $X$. The algorithm goes as follows:}
+
+\begin{lstlisting}
+$a_0 \leftarrow 0$
+$b_0 \leftarrow 1$
+For $n = 0, 1, 2, \dots$, do
+    $c_n \leftarrow \frac{a_n + b_n}2$
+    If $F(c_n) > 0$:
+        $(a_{n+1}, b_{n+1}) = (a_n, c_n)$,
+    If $F(c_n) < 0$:
+        $(a_{n+1}, b_{n+1}) = (c_n, b_n)$,
+    If $F(c_n) = 0$:
+        Exit the algorithm, with $X = c_n$.
+\end{lstlisting}
+
+\point{Assuming that the above algorithm is functional, it can be shown that the two sequences $a_n$ and $b_n$ are Cauchy and converge to the same real number $X$, and by continuity we have $F(X) = 0$.}
+
+\point{Implicitly using $\Sigma^0_1$ induction to show that (assuming that the step is computable) the sequences $a_n$ and $b_n$ are well-defines.}
+
+\point{Technicality detour: There is a possible hole in the above algorithm. Comparisons between Cauchy sequences are not computable. For example, maybe $F(c_n)$ is the constant sequence equal to $1$, or maybe it becomes constant equal to $-1$ after a while. Regardless, in finite time it is impossible to be sure whether $F(c_n)$ is greater than or less than zero.}
+
+\point{This is the reason why the definition of real number is not `Cauchy sequence', but instead the following: A sequence $q_n$ of rationals is said to denote a real number if $\forall_n \abs{q_n - q_{n+1}} \leq 2^{-n}$. Under this definition, if $X = (q_n)$ and $Y = (p_n)$ are distinct real numbers, they can be compared in finite time by finding some $n$ such that $\abs{q_n - p_n} > 2^{-n+1}$.}
+
+\point{Revised proof: If $F(q) = 0$ for some rational $q$, we are done. Otherwise, run the above algorithm.}
+
+\timestamp{30 minutes}
+
 \section{Attempted Proof: Weierstrass' Theorem}
+
+\point{Introduce theorem (W): Any continuous function $F \colon [0,1] \to \R$ is bounded above.}
+
+\point{Attempted (classical) proof: Suppose $F$ is unbounded. Then, for each $n$ we can find some $q_n$ such that $F(q_n) > n$. Now, $\Sigma^0_1$ induction lets us put all these $q_n$ in a single sequence, and now we invoke}
+
+\point{Theorem (S): Any sequence of rationals in $[0,1]$ has a converging subsequence.}
+
+\point{Passing to such a subsequence, assume that $q_n \to X$. Then, by continuity, $F(X) = \lim F(q_n) = \infty$, which is impossible.}
+
+\point{Problem: The above proof does not go through in $\RCA_0$, because $\RCA_0 \nvdash \thname{S}$. Moreover, it \emph{could not} go through in $\RCA_0$, because $\RCA_0 \nvdash \thname{W}$.}
+
+\point{However, we have therefore shown a nontrivial statement: $\RCA_0 \vdash \thname S \rightarrow \thname W$.}
+
+\point{However, a surprising fact is that $\RCA_0 \nvdash \thname W \rightarrow \thname S$. In other words, we have shown a theorem from a stronger theorem. This is unsatisfactory. Let us find an alternate proof, which does not invoke a stronger principle.}
 
 \section{The Missing Piece: Weak König's Lemma. Equivalence.}
 
+\point{Alternate approach to the problem: Suppose that $F \colon [0,1] \to \R$ is unbounded. Then, we can divide the interval in two, and one of the halves must be unbounded. Repeat indefinitely, building sequences $a_n$ and $b_n$ as in theorem (B). Then, it is easy to show that $a_n$ and $b_n$ converge to a common real number $X$. However, by continuity, $F$ is bounded in a neighborhood of $X$, but for large enough $n$, $[a_n, b_n]$ is contained in this neighborhood, a contradiction.}
+
+\point{This proof still does not go through in $\RCA_0$, because we are unable to construct the $a_n, b_n$. This is because it is impossible to tell in finite time which of the two subintervals we should choose.}
+
+\point{Modification idea: Make a decision tree about whether to go to the left or right subinterval. Now, it may be impossible to guarantee directly that the function is bounded on some subinterval, but it is possible to guarantee boundedness on small enough subintervals.}
+
+\point{Exemplify. Draw the binary decision tree, and pick some infinite branch. Find a neighborhood of the corresponding real number on which $F$ is bounded, by continuity, and erase all branches contained in this neighborhood.}
+
+\point{False fact: $\RCA_0$ shows that there exists a set $X$ of pairs $(a,b) \in \Q^2$ such that $F$ is bounded in every interval $\left]a,b\right[$, and these intervals cover $[0,1]$.}
+
+\point{(This is in fact categorically false, but the truth is more complicated than is reasonable to explain.)}
+
+\point{Given such a collection of intervals, construct the following decision tree. Each branch corresponds to a dyadic interval, though we remove every branch which is contained in an interval. (This is also impossible to do with just $\Delta^0_1$ comprehension, but I promise it can be fixed.)}
+
+\point{The result is a binary decision tree, which cuts off at some points, and with the property that there are no infinite descending paths. Now we refer to the following theorem:}
+
+\point{Weak König's Lemma: ($\wkl$) Any binary tree of infinite depth has an infinite descending path.}
+
+\point{As per the converse of this theorem, we get that the decision tree we built before must have finite depth. This suffices to prove the theorem. Indeed, consider all the nodes of some level below the depth of the tree. All of them are contained in an interval in $X$, and thus $F$ is bounded in the corresponding interval. Thus, we have a cover of $[0,1]$ with a finite number of intervals on which $F$ is bounded, and so $F$ itself is bounded.}
+
+\point{What I hope to have convinced you of is: i) There is a relation between (W) and binary (decision) trees, and ii) $\RCA_0 \vdash \wkl \rightarrow \thname W$.}
+
+\point{The earlier proof of (W) was unsatisfactory because we proved it from a strictly stronger theorem. Surprisingly, this is no longer the case.}
+
+\point{We will sketch that $\RCA_0 \vdash \thname W \rightarrow \wkl$. To do so, we start with a binary tree $T$ which has no infinite descending paths, build a continuous function from it, and apply (W) to obtain a bound on the depth of $T$.}
+
+\point{(Sketch the function.)}
+
+\timestamp{43 minutes}
+
 \section{Every Ring Has Proper Prime Ideal}
 
-\section{Conclusion and General Overview}
+\point{Seemingly unrelated, Theorem (P): Any nontrivial ring has a proper prime ideal.}
 
-\point{Vamos enfraquecer ainda mais. Compreensão $\Delta^0_1$ e indução $\Sigma^0_1$.}
-\begin{equation}
-\begin{aligned}
-\text{Compreensão $\Delta^0_1$} &\rightarrow \text{(Para $\varphi(x) \in \Sigma^0_1$ e $\psi(x) \in \Pi^0_1$) } \big(\forall_x (\varphi(x) \Leftrightarrow \psi(x)) \big) \implies \exists_X \forall_n (n \in X \iff \varphi(n)),\\
-\text{Indução $\Sigma^0_1$ } &\rightarrow \text{(Para qualquer fórmula $\varphi(x) \in \Sigma^0_1$) } \big(\varphi(0) \land \forall_n (\varphi(n) \implies \varphi(n+1)) \big) \implies \forall_n \varphi(n).
-\end{aligned}
-\end{equation}
+\point{In standard algebra textbooks, theorem (P) is in fact obtained as a corollary of theorem (M): Any nontrivial ring has a maximal ideal. We will not follow this approach because, as it happens, (M) is a strictly stronger theorem than (P).}
 
-\point{Motivação: Permitimos apenas construir conjuntos computáveis, e indução é vista como um mecanismo de construção indutiva.}
+\point{Let us try to prove (P) in $\RCA_0$. Start from the ideal $I = 0$. If this is prime, we are done. Otherwise, we can find a pair $ab = 0$ with neither $a$ nor $b$ equaling zero. Thus, we must add at least one of them to the ideal. But which one? In any case, rinse and repeat afterwards.}
 
-\point{Para quem sabe estas palavras: A ligação acima pode ser formalizada, na medida em que o modelo canónico de $\RCA_0$ consiste nos naturais com os conjuntos computáveis.}
+\point{Want to avoid adding enough elements to make $1$ be in the ideal. However, checking whether $1$ is in the ideal generated by some given elements is not doable in finite time.}
 
-\point{Este é um dos sistemas mais fracos razoáveis, mas é ainda possível enfraquecer mais, havendo sistemas ainda mais fracos $\RCA_0^*$ e $\EFA$.}
+\point{Again we have a decision tree. Roughly speaking, imagine that we iterate over all pairs $(a,b) \in \R$, and at each step we ask if $ab \in I$. If so, we need to ensure that either $a$ or $b$ is in $I$, so we make a branch for each possible decision. Meanwhile, as we go down the tree, we compute (in parallel) all possible combinations of elements of $I$, and prune a branch if any of these combinations is $1$.}
 
-\subsection{Codificações: Sequências, Reais, Ambos}
+\point{Again, we are faced with a binary decision tree, and the question we seek to answer is: is there an infinite descending path? If so, following it (and taking the union of all $I$ along it) will yield the proper prime ideal that we seek. To do this, we apply $\wkl$}
 
-\point{Apesar do universo de discurso ser apenas os números naturais, é possível `codificar' outros objetos como sendo naturais ou conjuntos de naturais, e assim sendo enunciar e provar afirmações sobre e.g. inteiros, racionais, reais, grupos, etc.}
+\point{We wish to prove that the decision tree is infinite. To do so, we prove that for all $n$ there exists a sequence of $n$ choices such that our set does not generate $R$. This is proven by induction: It is clearly true for $n = 0$, and the induction step is classical algebra. Given a set $X$ which does not generate $R$, and given a pair $ab \in R$, then either $X \cup \{a\}$ or $X \cup \{b\}$ does not generate $R$, because if both of them did, one could write $1 = \sum r_i x_i  + r a = \sum s_i x'_i + s b$, hence $1 = \text{(product)} \in \braket{X}$.}
 
-\point{Sketch: Usando a enumeração diagonal, é possível codificar um par de números num único número. Isto permite-nos falar de:
+\point{We have then shown: $\RCA_0 \vdash \wkl \rightarrow \thname P$.}
 
-\begin{itemize}
-\item Inteiros $(a,b) \sim a-b$ e racionais $((a,b),c) \sim \frac{a-b}c$,
-\item Funções (conjuntos de pares ordenados), sucessões, reais (sucessões de Cauchy, mais ou menos), sucessões de reais, funções \textbf{contínuas} $\R \to \R$,
-\item Grupos e Anéis (um conjunto para representar os elementos, outro para dar a tabela de multiplicação),
-\item Etc.
-\end{itemize}
-}
+\point{Surprisingly, it is possible to show the converse: $\RCA_0 \vdash \thname P \rightarrow \wkl$, though the standard proof is pretty indirect.}
 
-\timestamp{34 min}
+\point{We can interpret this reversal as a statement about computability. Both theorems state that certain (in general not computable) objects exist, and the statement that they are equivalent can be seen as stating that certain two oracles have the same Turing degree.}
 
-\subsection{Exemplo de prova em $\RCA_0$: Bolzano}
+\point{The punchline is interesting. We have shown that over $\RCA_0$ the following three statements are equivalent: (P), wkl, and (W). In particular, in a rigorous sense, the statement that any ring has a nontrivial prime ideal implies that any continuous function on the interval is bounded, and vice versa.}
 
-\point{Enfiando para baixo do tapete detalhes de codificações, vamos ver o exemplo de uma prova em $\RCA_0$.}
+\section{Closing Remarks}
 
-\point{Seja $F$ uma função contínua de $[0,1]$ para $\R$ tal que $F(0) < 0$ e $F(1) > 1$. Então, existe um real $X \in [0,1]$ tal que $F(X) = 0$.}
+\point{We've seen three theorems that are equivalent over $\RCA_0$. In other words, adding either of them as an axiom would yield the same deductive power. The corresponding theory is called $\WKL_0$.}
 
-\point{Existem várias provas disto em `matemática usual', do concreto ao topológico. Neste sistema básico, em geral, as provas mais fáceis de adaptar são as mais concretas, portanto fazemos uma demonstração com o método da bisseção.}
+\point{We saw moreover two other theorems, (S) and (M), which were strictly stronger than this system. Surprisingly, these too turn out to be equivalent, and the system which they (and many other theorems) generate is called $\ACA_0$.}
 
-\point{Definimos uma sucessão de racionais, que depois justificamos ser Cauchy, usando método da bisseção. Esta sucessão representa o real $X$ (ligeiramente distinto de `converge para'). Justificar por continuidade que $F(X) \geq 0$ e $F(X) \leq 0$.}
+\point{A surprising fact is that there are five theorems, called The Big Five, which seem to be of central interest. These are $\RCA_0, \WKL_0, \ACA_0, \mathrm{ATR}_0, \Pi^1_1\text{-}\mathrm{CA}_0$. It is curious that if one opens a random book on something that is not Set Theory, Logic, Computability or Combinatorics, and picks a random theorem, it will likely be equivalent over $\RCA_0$ to one of these thorems.}
 
-\point{Escondido na prova: Ao construir uma sucessão indutivamente estamos a usar indução $\Sigma^0_1$.}
-
-\point{Conclusão: $\RCA_0 \vdash (1 = 1) \iff \text{Bolzano}$}.
-
-\timestamp{40 min}
-
-\subsection{Exemplo falhado de prova: Weierstrass}
-
-\point{Podemos tentar uma abordagem semelhante para provar (versão fraca de) Weierstrass: se $F \colon [0,1] \to \R$ é contínua, então é limitada.}
-
-\point{Tentativa de prova (standard): Suponha-se que $F$ é ilimitada. Então, existem racionais $x_n \in [0,1]$ tais que $F(x_n) > n$. Então (!!!) existe uma subsucessão convergente $x_{k_n} \to X$, e temos que $F(X) = \lim F(x_{k_n}) > n$ para todo o $n$.}
-
-\point{Problema: $\RCA_0$ não prova que qualquer sucessão limitada tem subsucessão convergente (mais sobre este assunto mais tarde).}
-
-\point{Tentativa alternativa: Suponha-se que $F$ é ilimitada em $[0,1]$. Então, é ilimitada em $[0,\frac12]$ ou em $[\frac12,1]$ (ou ambos). Recursivamente, construa-se a árvore dos intervalos onde $F$ é ilimitada. Então, esta árvore tem um caminho infinito (sketch prova), o que induz uma sequência decrescente de intervalos, a partir da qual conseguimos construir $X \in \R$ tal que $F(X)$ seria infinito.}
-
-\subsection{O ingrediente em falta: $\WKL_0$}
-
-\point{Apesar de talvez convincente, o argumento acima não funciona em $\RCA_0$, porque precisa do seguinte lema: se $T$ é uma árvore binária infinita, então contém um caminho infinito. Apesar desta afirmação parecer óbvia (sketch da prova em breve) tem um nome próprio: Lema Fraco de König.}
-
-\point{Sketch prova de $\wkl$.}
-
-\point{Facto: $\RCA_0 \nvdash \wkl$. O conjunto de axiomas $\RCA_0 \cup \{\wkl\}$ chama-se $\WKL_0$. Compare-se com $\ZF$ vs. $\ZFC$.}
-
-\point{Acontece que, por uma adaptação do argumento acima, $\RCA_0 \vdash \wkl \implies \text{Weierstrass}$.}
-
-\point{É também possível provar o oposto. Dada uma árvore binária sem caminhos infinitos, é possível construir uma função contínua (esboçar), e o teorema de Weierstrass garante que esta função é limitada e portanto que a árvore binária original tem um limite no quão funda pode ser (e é portanto finita).}
-
-\subsection{Ideais em Anéis}
-
-\point{Vamos agora falar de um assunto que parece completamente irrelacionado: ideais primos.}
-
-\point{(Pedir desculpa a quem não sabe álgebra.)}
-
-\point{Teorema $\mathrm{P}$: Qualquer anel comutativo admite um ideal primo.}
-
-\point{A prova usual na verdade justifica que qualquer anel comutativo admite um ideal \emph{maximal}. No entanto, esta demonstração não funciona nem em $\RCA_0$ nem em $\WKL_0$. Vou agora esboçar uma prova que funciona em $\WKL_0$, mas apenas garante a existência de um ideal primo.}
-
-\point{Ideia base: Começamos com o ideal $0$. Queremos garantir que este é primo, e se não for, adicionar elementos até que seja. Assim sendo, enumeramos todos os pares $(a_i, a_j)$ de elementos no anel.}
-
-\point{Em cada passo, se $a_i a_j$ estiver no nosso ideal, para garantir que este é primo, dividimos o universo em dois. Num deles adicionamos $a_i$ ao ideal, e no outro adicionamos $a_j$. Se em algum dos casos o ideal contiver $1$, eliminamos esse ramo.}
-
-\point{Como anteriormente, qualquer nó tem pelo menos um filho (inserir argumento de álgebra). Logo, a árvore é infinita, e por $\wkl$ existe um caminho infinito na árvore, ou seja, uma sucessão crescente de ideais próprios.}
-
-\point{Essencialmente, tome-se a união desta sucessão de ideais. É fácil mostrar que esta união é ela própria um ideal próprio, e (sensivelmente) é um ideal primo porque em cada passo garantimos que se $ab$ está lá, então $a$ ou $b$ está.}
-
-\point{Percebemos então que $\wkl$ está intimamente relacionado com o teorema $\mathrm{P}$, e de facto é possível provar, construindo um anel adequado em função de uma árvore binária, que $\RCA_0 \vdash \wkl \iff \mathrm{P}$.}
-
-\point{Um corolário disto é que $\RCA_0 \vdash \mathrm{P} \iff \text{Weierstrass}$.}
-
-\section{Overview da Área e Conclusão}
-
-\point{Vimos até agora dois sistemas de axiomas: o sistema base $\RCA_0$, e um sistema um pouco mais forte, $\WKL_0$.}
-
-\point{Mais cedo foram aludidos a dois teoremas que não podem ser provados em nenhum destes: 1. Qualquer sucessão em $[0,1]$ tem subsucessão convergente, e 2. Qualquer anel tem um ideal maximal. Acontece que ambos estes teoremas são equivalentes sobre $\RCA_0$, e são de facto equivalentes a um outro sistema de axiomas chamado $\ACA_0$. Em essência, onde $\RCA_0$ restringiu imenso os conjuntos que se pode construir, $\ACA_0$ restringe menos, permitindo quaisquer fórmulas que não quantifiquem sobre conjuntos.}
-
-\point{Existem dois outros sistemas que fazem parte dos `grandes cinco', chamados $\mathrm{ATR}_0$ e $\Pi^1_1\text{-}\mathrm{CA}_0$.}
-
-\point{Vários teoremas, alguns elementares e outros menos, são equivalentes a um destes cinco sistemas. Já vimos diversos exemplos para os três inferiores; os outros requerem matemática um pouco mais avançada. Isto faz sentido, porque afirmações que requerem axiomas mais avançados `deveriam ser' mais complicados.}
-
-\point{Finalmente, umas notas sobre o `state of the art'.}
-
-\point{O observador astuto terá reparado que todos os objetos que podemos falar referem-se a objetos contáveis ou `quase-contáveis', como os reais. Isto limita o poder expressivo da matemática inversa. Alguns avanços relativamente recentes incluem variantes deste sistema que conseguem referir-se a objetos `mais infinitos'.}
-
-\point{A imagem `clássica' e esta dos `grandes cinco sistemas' e maior parte dos teoremas pré-existentes serem equivalentes a um deles. No entanto, existem teoremas razoáveis que não cabem nesta hierarquia. Por exemplo, uma variação infinita do conhecido teorema de Ramsey: Seja $X$ um conjunto infinito de pessoas, das quais quaisqueres duas são amigas ou inimigas. Então, existe um subconjunto infinito de $X$ composto inteiramente de amigos ou de inimigos. Este teorema, chamado $\mathrm{RT}^2_2$, e vários seus variantes, estão entre $\RCA_0$ e $\ACA_0$ na hierarquia, sendo independente de $\WKL_0$.}
+\point{Finding counter examples to the above statement is actually an active area of research. A notable example consists of infinitary versions of Ramsey's theorem. For example, let (R) be the theorem: Any (countably) infinite graph admits an infinite clique, or anticlique. This theorem actually lies above $\RCA_0$, below $\ACA_0$, but is incomparable with $\WKL_0$.}
 
 \end{document}

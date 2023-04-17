@@ -1,0 +1,187 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 3}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\EV}{\mathrm{EV}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $f \colon B_1 \to B_1$ is a biholomorphism with $f(0) = 0$ and $f'(0) > 0$ then $f$ is the identity.
+\item Show that every biholomorphism $B_1 \to B_1$ is of the form
+\begin{equation}
+g(z) = \e^{\I \theta} \frac{z-a}{1-\conj a z}.
+\end{equation}
+\item Show that for any two proper simply connected domains there is a single biholomorphism between them with prescribed value at a point, and positive derivative at that point.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, we prove that under these hypotheses, $\abs{f(z)} \leq \abs z$ for all $z \in B_1$. Indeed, suppose that $\abs{f(z)} > \abs z$ for some fixed $z = z_0$. Note $z_0 \neq 0$. Let $f(z_0) = \alpha z_0$ for $\abs \alpha > 0$. Then, we apply Rouché's theorem on $B_{1/\abs{\alpha}}(0)$. Indeed, on the boundary of this ball $\abs{z} = \frac1{\abs \alpha} \abs\alpha = 1$, which (since $f$ maps into the unit ball is always greater than $\abs f$. Thus, the number of zeros of $\alpha z$ and $\alpha z - f$ is the same, and so $f(z) = \alpha z$ exactly once in this ball, namely at $z = 0$. This contradicts the existence of $z_0$ (we are using that if it did exist we would have $\abs{z_0} = \abs{f(z_0)} / \abs \alpha < \frac1{\abs \alpha}$).
+
+Now, we claim that if $f'(0) = 1$ then $f$ must be the identity. Indeed, if the Taylor expansion of $f$ had any higher order terms, we could write $f(z) = z (1 + a_n z^{n-1} + O(z^{n}))$. Now, wiggling $z$ a little in the right direction (which makes $a_n z^{n-1} > 0$) we obtain a point where $\abs{f(z)} > \abs z$, which contradicts the previous paragraphs.
+
+A similar argument to the above shows that if $f'(0) > 1$ we get a contradiction. Thus, $f'(0) \leq 1$.
+
+To this effect, we apply what we have just found to $g = f^{-1}$. Indeed, we get also that $g'(0) = 1/f'(0) \geq 1$, but also $g'(0) \leq 1$. Thus, as per above, $g$ is the identity, and hence so is $f$.
+
+\item As a corollary of the previous item, we note that if $g(0) = 0$ then $g$ is of the form $g(z) = \e^{\I \theta} z$ for some $\theta$. This is because any $g$ may be composed with an appropriate rotation in order to make $\e^{-\I \theta} g$ a biholomorphism with positive derivative at zero, and so we apply the previous question on this new map.
+
+Now, let $g$ be any biholomorphism $B_1 \to B_1$. Let $a = g^{-1}(0)$, and define $h(z) = \frac{z-a}{1-\conj a z}$. We claim that $g \circ h^{-1}$ is a biholomorphism of the disk taking zero to zero. Once we prove this, we apply the previous question to get $g(h^{-1}(z)) = \e^{\I \theta} z$ for some $\theta$, and hence $g(z) = \e^{\I \theta} h(z)$, as desired.
+
+It is obvious that $g(h^{-1}(0)) = g(a) = 0$, so all that is left to show is that this is a biholomorphism of the disk. To do so, it suffices to see that $h$ is a biholomorphism of the disk. Since its inverse is of the form $h^{-1}(z) = \frac{z+a}{1+\conj a z}$, it is sufficient to verify that a function of the form of $h$ will take the disk to itself. But we saw this in class. Thus, the proof is complete.
+
+\item Pick biholomorphisms $U \cong B_1$ and $V \cong B_1$ which take $z_0$ resp. $w_0$ to the origin, and such that the derivative at these points is positive. This exists by the Riemann mapping theorem. Then, we have a commutative square
+\begin{equation}
+\begin{tikzcd}
+U \arrow[d, "\cong" description] \arrow[r] & V \arrow[d, "\cong" description] \\
+B_1 \arrow[r]                              & B_1                             
+\end{tikzcd}
+\end{equation}
+where the bottom arrow is in the hypotheses of part (a). Thus, it must be the identity, and hence the top arrow must be the composition of the isomorphisms. Since the top arrow was not used to construct the isomorphisms, we get that the top arrow was predetermined from the start.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Let $f \colon B_1 \to D$ be the biholomorphism with $f(0) = 0$ and $f'(0) > 0$. Show that the Taylor expansion of $f(z)$ only has terms which are congruent with $1$ mod $4$.
+\end{ex}
+
+\begin{sol}
+Note that multiplication by $\I$ (i.e. a $90^\circ$ rotation) is an autobiholomorphism of both $B_1$ and $D$. Thus, $z \mapsto -\I f(\I z)$ is a biholomorphism $B_1 \to D$, which evidently takes zero to zero, and a quick check will show that its derivative at zero is positive. Hence, by the previous exercise (i.e. uniqueness of such a biholomorphism), we obtain that $f(\I z) = \I f(z)$. By uniqueness of Taylor series, we obtain that if $f(z) = \sum a_n z^n$ then
+\begin{equation}
+\sum a_n \I^n z^n = \sum \I a_n z^n, \text{ hence, for all $n$, } a_n \I^n = a_n \I.
+\end{equation}
+
+This condition is equivalent to: for every $n$, either $a_n = 0$, or $\I^n = \I$. Equivalently, whenever $\I^n \neq \I$ we have $a_n = 0$, and since $\I^n = \I$ iff $n \equiv 1$ mod $4$ we are done.
+\end{sol}
+
+\begin{ex}
+Show that there is some $C > 0$ such that, whenever $u$ is a harmonic function $B_1 \to \R$ with $u(0) = 0$ and $u(B_1) \subseteq \interval{-1}1$ we have $\abs{\nabla u(0)} \leq C$.
+\end{ex}
+
+\begin{sol}
+Let $v$ be a harmonic conjugate of $u$ on the unit ball such that $v(0) = 0$, and set $f = u + \I v$. Then, $f$ is a holomorphic function on the ball, which satisfies $f(B_1) \subseteq \interval{-1}1 \times \R$. Note that by the open mapping theorem we have that $f(B_1)$ is open (or just $\{0\}$, but that case is irrelevant) hence $f(B_1) \subseteq \ointerval{-1}1 \times \R$.
+
+Let $g$ be a biholomorphism $\ointerval{-1}1 \times \R \to B_1$. Then, $g \circ f$ is a biholomorphism from $B_1$ onto a subset of $B_1$. The argument used in exercise 1(a) works with no modification to show that $\abs{(g \circ f)'(0)} \leq 1$, or in other words $\abs{g'(f(0)) f'(0)} \leq 1$, or finally
+\begin{equation}
+\abs{f'(0)} \leq \abs{g'(0)}^{-1} =: C.
+\end{equation}
+
+This exercise is then complete after the following observation: as a two-dimensional real vector, $\abs{f'(0)} = \abs{\nabla u(0)}$. This is just a consequence of the Cauchy-Riemann equations, as $f' = (\partial_x u, \partial_x v) = (\partial_x u, - \partial_y u)$.
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}
