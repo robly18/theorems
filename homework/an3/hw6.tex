@@ -1,0 +1,166 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{d}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\EV}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Let $E_j$ be a sequence of independent events such that $\sum \PP[E_j] = \infty$. Then, almost certainly, infinitely many $E_j$ occur.
+
+\item If $E_j$ are not independent, then the probability that infinitely many $E_j$ occur may be null.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The thing that we want to show is that $\PP[\cap_n \cup_{j > n} E_j] = 1$. Since probability measures take decreasing intersections to limits, we wish to show that $\lim_n \PP[\cup_{j>n} E_j] = 1$. Of course, this is equivalent to showing that for all $n$ we have $\PP[\cup_{j>n} E_j] = 1$, and we may as well restrict to the $n = 0$ case, as if $\sum_{j\geq 1} \PP[E_j] = \infty$ we also have $\sum_{j > n} \PP[E_j] = \infty$.
+
+So, let us compute $\PP[\cup E_j]$. By taking the converse, this is
+\begin{equation}\label{eq:p1}
+\PP\left[\bigcup E_j\right] = 1 - \PP\left[\bigcap E_j\right] = 1 - \prod (1 - \PP[E_j]),
+\end{equation}
+where the last step used independence of the $E_j$. Now, we have the bound
+\begin{equation}
+1 - \PP[E_j] \leq \exp(-\PP[E_j]),
+\end{equation}
+(Proof of bound: We show $1-x \geq \exp(-x)$ for $x \in [0,1]$. If $x = 0$ it is obvious. Otherwise, apply the mean value theorem to show $\frac{\exp(-x)-\exp(0)}x = -\exp(-\xi)$ for some $\xi$ between $1$ and $x$, hence $\exp(-\xi) \leq 1$. Thus, by rearranging $\frac{\exp(-x)-1}x \geq -1$, we obtain the desired inequality.)
+
+So, plugging this bound into \eqref{eq:p1}, we have
+\begin{equation}
+\PP\left[\bigcup E_j\right] = 1 - \prod (1 - \PP[E_j]) \geq 1 - \prod \exp(-\PP[E_j]) = 1 - \exp(-\sum \PP[E_j]) = 1 - \exp(-\infty) = 1 - 0 = 1.
+\end{equation}
+
+\item Let $X$ be a uniformly chosen real number in $[0,1]$, and let $E_j$ be the event that $X < \frac1j$. Then, $\sum \PP[E_j] = \sum \frac1j = \infty$, and yet the only way that infinitely many $E_j$ occur is if $X = 0$, which happens with probability zero.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\end{document}

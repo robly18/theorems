@@ -76,6 +76,10 @@ sub-nudge = 0 mu
 \DeclareMathOperator{\image}{im}
 \DeclareMathOperator{\ord}{ord}
 
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{d}
+
 \DeclareMathOperator{\EV}{\mathrm{EV}}
 
 \newcommand{\HH}{\mathcal{H}}
@@ -164,24 +168,58 @@ This exercise is then complete after the following observation: as a two-dimensi
 \end{sol}
 
 \begin{ex}
+Show that if $f \colon U \to V$ is a biholomorphism,
+\begin{equation}
+\abs{f'(z)} \leq \diam(V)/\dist(z,\partial U)
+\end{equation}
 \end{ex}
 
 \begin{sol}
+Let $B$ be the maximal ball centered in $z$ contained in $U$; more precisely, $B = B_{\dist(z,\partial U)}(z)$.
 
+Now, $f(B) \subseteq V$, and in particular is contained in $B' = B_{\diam(V)}(f(z))$.
+
+Finally, by composing with translations, we may assume (without changing the derivative of $f$ in a meaningful way) that $z = f(z) = 0$, and moreover by rescaling (which does change the derivative, see below) that $\dist(z,\partial U)(z) = \diam(V) = 1$. In these circumstances, $f$ is a holomorphic map from the unit ball to a subset of the unit ball, and as we saw in the first exercise, this implies $\abs{f'(0)} \leq 1$.
+
+Now, let's talk about the reductions we made. What we have done is effectively show that $\abs{g'(0)} \leq 1$, with $g$ given by
+\begin{equation}
+g(w) = \frac1{\diam(V)} \left( -f(z) + f(\dist(z, \partial U) w + z) \right).
+\end{equation}
+
+Thus, expanding $g'(0)$ using the chain rule, we get
+\begin{equation}
+\frac1{\diam(V)} \dist(z,\partial U) \abs{f'(z)} \leq 1,
+\end{equation}
+which is equivalent to the desired result.
 \end{sol}
 
 \begin{ex}
+Let $M$ be a Riemann surface and $S$ a finite subset. Let $f \colon M \setminus S \to \C$ be holomorphic and nonconstant. Show that $f(M \setminus S)$ is dense in $\C$.
 \end{ex}
 
 \begin{sol}
+First of all, we claim that any (total) map from a (nonempty) compact Riemann surface to $\C$ is constant. Indeed, the image of such a nonconstant map is open and compact at the same time, hence by connectedness of $\C$ it must be empty (contradiction) or all of $\C$, which contradicts compactness.
 
+Now, suppose that $f(M \setminus S)$ were not dense. Then, arguing as in the proof that the images of neighbourhoods of essential singularities are dense, we may define $g(z) = \frac1{f(z) - c}$ (for $c \in \C$ in the exterior of the image), and show that $g$ is bounded. Thus, every singularity of $g$ is removable, and so extends to a holomorphic map from $M$ to $\C$. Thus, $g$ is constant, and hence so is $f$.
 \end{sol}
 
 \begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $f \colon M \to N$ is holomorphic and non constant, then every point of $N$ has the same number of preimages under $f$.
+\item Give an example of such a map with preimages of cardinality $n$.
+\end{enumerate}
 \end{ex}
 
 \begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Apply Riemann-Hurwitz. Since $g(M) - 1 = g(N) - 1 = 0$, this simply gives us that $B = 0$, where $B = \sum (v_f(p) - 1)$. Now, all $v_f(p)$ are positive (because $f$ is nonconstant), hence for $B$ to be zero we have $v_f(p) = 1$ for all $p$. In other words, $f$ has no branch points.
 
+A connectedness argument will show that if $f$ has no branch points all preimages have the same cardinality.
+
+\item Consider $M = \C / \braket{n, \I}_\Z$ and $N = \C / \braket{1,\I}_\Z$. Both of these are tori. There is an obvious map $M \to N$, which wraps $M$ around $N$ $n$ times. It is clearly an example of what is sought.
+\end{enumerate}
 \end{sol}
 
 \end{document}

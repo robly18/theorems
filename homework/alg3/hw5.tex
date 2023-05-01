@@ -1,0 +1,259 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 5}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+
+
+\DeclareMathOperator{\tg}{tg}
+\DeclareMathOperator{\Fr}{F}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\legendre}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
+\newcommand{\blegendre}[2]{\genfrac{[}{]}{}{}{#1}{#2}}
+
+
+\begin{document}
+\maketitle
+
+\setcounter{ex}{28}
+
+\begin{ex}
+Prove that the canonical map $\Z/5^n \to \Z[\I]/(2+\I)^n$ is an isomorphism for all $n$. Conclude that $\Z_5$ has a square root of $-1$.
+\end{ex}
+
+\begin{sol}
+We begin by computing the kernel of the map $\Z \to \Z[\I]/(2+\I)^n$ given by the composition $\Z \hookrightarrow \Z[\I] \rightarrow \Z[\I]/(2+\I)^n$. Some $k \in \Z$ is in the kernel of this map iff $k \in \Z[\I]$ has $(2+\I)$ as a prime factor, $n$ times. We know that prime factors of ordinary integers come in conjugate pairs, so $k$ must also have $(2-\I)^n$ as a factor, and hence must be a multiple of $5^n$. Thus, the kernel certainly is contained in $(5)^n$. But of course, if $k$ is divisible by $5^n$ it is also divisible by $(2+\I)^n$, so indeed the kernel is precisely $(5)^n$. Thus, by the isomorphism theorems, $\Z/(5)^n$ is isomorphic to the image of the map $\Z \to \Z[\I]/(2+\I)^n$. Therefore, to show that the map under consideration is an isomorphism, it suffices to show that any element of $\Z[\I]/(2+\I)^n$ has a real representative, and to do so it is sufficient to prove that $(2+\I)^n$ has an element of the form $a+\I$ with $a \in \Z$. I will do this now.
+
+Since $b + c \I = (2+\I)^n$ has only $2+\I$ as a prime factor (albeit more than once), we conclude that $b$ and $c$ are coprime integers. Thus, there are $x, y \in \Z$ such that $bx + cy = 1$. Hence, we have
+\begin{equation}
+(y + x \I)(2+\I)^n = (y+x\I)(b+c\I) = (yb - xc) + (xb + yc)\I = (yb + xc) + \I.
+\end{equation}
+
+This proves that the map $\Z/(5)^n \to \Z[\I]/(2+\I)^n$ is an isomorphism. Therefore, it turns into an isomorphism $\Z_5 \cong \lim \Z[\I]/(2+\I)^n$. Moreover, we know that $\lim \Z[\I]/(2+\I)^n$ contains a copy of $\Z[\I]$, which in turn contains a square root of $-1$, and hence $\Z_5$ has a square root of $-1$.
+\end{sol}
+
+\begin{ex}
+Prove that $\Fr(\Fr(f))(x) = N f(-x)$.
+\end{ex}
+
+\begin{sol}
+Computation.
+\begin{equation}
+\begin{aligned}
+\Fr(\Fr(f))(x)
+&= \sum_y \left( \sum_z f(z) \zeta^{zy} \right) \zeta^{yx}\\
+&= \sum_z \left( f(z) \sum_y (\zeta^{z+x})^y \right).
+\end{aligned}
+\end{equation}
+
+In this last sum, the only nontrivial term is when $z+x = 0$, as otherwise the sum over $y$ will sum over all powers of a nontrivial $N$-th root of unity, which is zero. Hence, continuing,
+
+\begin{equation}
+\begin{aligned}
+\Fr(\Fr(f))(x)
+&= \left( f(-x) \sum_y (\zeta^{0})^y \right)\\
+&= N f(-x),
+\end{aligned}
+\end{equation}
+as desired.
+\end{sol}
+
+\begin{ex}
+Let $f(x) = \legendre xq$ for $x \neq 0$, and $f(0) = 0$. Prove that $\Fr(f) = G f$, with
+\begin{equation}
+G = \sum_{a \in \FF_q^*} \legendre aq \zeta^a.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+Computation. For $x \neq 0$ we have
+\begin{equation}
+\begin{aligned}
+\Fr(f)(x) &= \sum_{y \in \FF_q^*} \legendre yq \zeta^{yx}\\
+&= \sum_{a \in \FF_q^*} \legendre{a x^{-1}}q \zeta^a\\
+&= G \legendre{x^{-1}}q = G \legendre xq = G f(x).
+\end{aligned}
+\end{equation}
+
+On the other hand, for $x = 0$ we have $\Fr(f)(x) = \sum_{y \in \FF_q^*} \legendre yq$, which is null because exactly half of the elements of $\FF_q^*$ are perfect squares (as the map $x \mapsto x^2$ is two-to-one).
+\end{sol}
+
+\begin{ex}
+Prove that $G$ is a square root of $q^*$ in $K$.
+\end{ex}
+
+\begin{sol}
+Computation. We evaluate $\Fr(\Fr(f))(1)$:
+\begin{equation}
+\Fr(\Fr(f))(1) = G^2 f(1) = G^2,
+\end{equation}
+but on the other hand we have
+\begin{equation}
+\Fr(\Fr(f))(1) = q f(-1) = \legendre{-1}q q = q^*.
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Prove that $\legendre{q^*}p = \legendre p q$, and deduce quadratic reciprocity.
+\end{ex}
+
+\begin{sol}
+We want to show that $q^*$ has a square root in $\FF_p$ iff $p$ has a square root in $\FF_q$. Now, we know that $q^*$ has $G$ and $-G$ as square roots in $K$, and since $K$ contains $\FF_p$, and by uniqueness of square roots, we have: $q^*$ has a square root in $\FF_p$ iff $G \in \FF_p$, iff $G^p = G$. So we verify when this is the case.
+
+By Newton's binomial in characteristic $p$, we have
+\begin{equation}
+G^p = \sum_a \legendre aq ^p \zeta_q^{ap} = \sum_y \legendre y q \legendre p q \zeta_q^y = \legendre p q G.
+\end{equation}
+
+Thus, $G^p = G$ iff $\legendre p q = 1$. Thus, we have shown: $\legendre{q^*}p = 1$ iff $\legendre p q = 1$, and hence $\legendre{q^*}p = \legendre p q$.
+
+We now conclude quadratic reciprocity, using the formula (for $r$ odd prime) $\legendre{-1}r = (-1)^{\frac{r-1}2}$:
+\begin{equation}
+\legendre p q = \legendre{q^*}p = \legendre q p \legendre{\legendre{-1}q}p = \legendre q p \legendre{(-1)^{\frac{q-1}2}}p = \legendre q p \legendre{-q}p^{\frac{q-1}2} = \legendre q p (-1)^{\frac{p-1}2 \frac{q-1}2}.
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Let $\kk$ be a field, and define $\blegendre f g$ (for coprime monic $f$ and $g$) as the norm of $f$ in $\kk[T]/(g)$. Prove that
+\begin{equation}
+\blegendre f g = \blegendre g f (-1)^{\deg f \, \deg g}.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+First, we note that if $f, g \in \kk[T] \subseteq \bar\kk[T]$, then the value of $\blegendre f g$ does not depend on whether we take it in $\kk$ or in $\bar\kk$. This is because if we pick a $\kk$-basis of $\kk[T]/(g)$, it is also a $\bar\kk$-basis of $\bar\kk[T]/(g)$, and in this basis the matrix of the `multiply by $f$' map is the same in both cases, so the determinant is the same. Thus, we may without loss of generality suppose that we are working over $\bar\kk$, or equivalently that $\kk$ is algebraically closed.
+
+Now, under this hypothesis, write $f(T) = \prod (T-\alpha_i)$ and $g(T) = \prod (T-\beta_i)$. Note that this symbol is multiplicative on its top argument, so that
+\begin{equation}
+\blegendre f g = \prod \blegendre{T-\alpha_i}g.
+\end{equation}
+
+Now, we compute $\blegendre{T-\alpha}g$. To do this, we pick a basis of $\kk[T]$, namely the powers of $(T-\alpha)$, and we represent `multiply by $(T-\alpha)$' in this basis. The resulting matrix obviously looks like
+\begin{equation}
+\begin{bmatrix}
+0 & 0 & 0 & \cdots & X\\
+1 & 0 & 0 & \cdots & * \\
+0 & 1 & 0 & \cdots & * \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & \cdots & \cdots & 1 & *
+\end{bmatrix}
+\end{equation}
+where $X$ is given by the following procedure. Consider $(T-\alpha)^{\deg g}$. This is written in $\kk[T]/(g)$ as a sum of $(T-\alpha)^i$ for $i = 0, \dots, (\deg g - 1)$. To find the zeroth coefficient, we want to evaluate this sum at $T = \alpha$, and this sum is given as a polynomial by the remainder of division of $(T-\alpha)^{\deg g}$ by $f(T)$, and since both of these are monic of the same degree, the remainder is precisely $(T-\alpha)^{\deg g} - f(T)$. Thus, we obtain
+\begin{equation}
+X = (\alpha-\alpha)^{\deg g} - g(\alpha) = - g(\alpha).
+\end{equation}
+
+Now the determinant of the above matrix, and hence $\blegendre{T-\alpha}g$, is equal to $(-1)^{\deg g - 1} (-g(\alpha)) = \prod (\beta_i - \alpha)$ where $\beta_1, \dots, \beta_n$ are the roots of $g$.
+
+In conclusion, by multiplicativity, we obtain the formula
+\begin{equation}
+\blegendre{\prod (T - \alpha_i)}{\prod (T-\beta_j)} = \prod (\beta_j - \alpha_i) = (-1)^{\deg f \deg g} \blegendre{\prod (T-\beta_j)}{\prod(T-\alpha_i)},
+\end{equation}
+or in other words $\blegendre f g = \blegendre g f (-1)^{\deg f \deg g}$.
+\end{sol}
+
+\begin{ex}
+Prove the quadratic reciprocity law for $\FF_q[T]$.
+\end{ex}
+
+\begin{sol}
+First, we find a formula for the Legendre symbol in terms of the square bracket defined above.
+
+We note that the Legendre symbol $\legendre f g$ is given by the following process. First, insert $f$ into $G = (\FF_q[T]/(g))^*$. Then, insert it into the further quotient $G/G^2$. The latter is isomorphic to $\{\pm 1\}$ (we will discuss the isomorphism soon), and the image of $f$ under these quotients and isomorphisms is precisely the Legendre symbol (because it will be one iff $f$ is in $G^2$, i.e. if $f$ is a square mod $g$).
+
+The isomorphism, by the hint, takes $[f] \in G/G^2$ to $[N(f)] \in \FF_q^*/(\FF_q^*)^2$, which is taken to $N(f)^{\frac{q-1}2} \in \{\pm 1\} \subseteq \FF_q^*$. Moreover, note that by definition $N(f) = \blegendre f g$. Therefore, we conclude the nice formula
+\begin{equation}
+\legendre f g = \blegendre f g ^{\frac{q-1}2}.
+\end{equation}
+
+From this, the result becomes easy, because
+\begin{equation}
+\legendre f g = \blegendre f g ^{\frac{q-1}2} = \blegendre g f ^{\frac{q-2}2} (-1)^{\deg f \deg g \frac{q-1}2} = \legendre g f (-1)^{\deg f \deg g \frac{q-1}2}.
+\end{equation}
+
+Then the exercise is done.
+\end{sol}
+
+\end{document}

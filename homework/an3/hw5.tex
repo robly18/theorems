@@ -1,0 +1,229 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 4}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{d}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\EV}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Let $X$ be uniformly distributed in $[0,1]$, and $f$ holomorphic on a neighborhood of the closed unit disk. Show that $\EV[f(\exp(2 \I \pi X))] = f(0)$.
+\end{ex}
+
+\begin{sol}
+We know that for any nice enough function $g$, $\EV[g(X)] = \int_0^1 g(x) \dl x$. Thus, this is a simple computation using the Cauchy integral formula:
+\begin{equation}
+\begin{multlined}
+\EV[f(\exp(2 \I \pi X))] = \int_0^1 f(\exp(2 \I \pi x)) \dl x = \frac1{2\I \pi} \int_0^1 \frac{f(\exp(2 \I \pi x))}{\exp(2 \I \pi x)} (2 \I \pi) \exp(2 \I \pi x) \dl x \\
+= \frac1{2 \I \pi} \oint_{\partial B_1} \frac{f(z)}z \dl z = \frac1{2 \I \pi} 2 \I \pi f(0) = f(0).
+\end{multlined}
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Give an example of two random variables which are not independent but satisfy $\EV[XY] = \EV[X] \EV[Y]$.
+\end{ex}
+
+\begin{sol}
+Consider the experiment which consists of the following: Pick a number $N$ in $\{1,2,3,4\}$ randomly and uniformly, and set $X + \I Y = \I^N$. Then, $X$ and $Y$ are not independent, because for example $\PP[X = 0 \cap Y = 0] = 0$, while $\PP[X = 0] = \PP[Y = 0] = \frac12$.
+
+However, all of the following are null: $\EV[XY]$ (because $XY$ is zero with probability one), $\EV[X]$, and $\EV[Y]$.
+\end{sol}
+
+\begin{ex}
+Let $X$ and $Y$ be independent rv's. Show that every event $E \in \sigma(X) \cap \sigma(Y)$ has probability zero or one.
+\end{ex}
+
+\begin{sol}
+If $E \in \sigma(X)$, then it may be written as $E =\{X \in B_1\}$ for some measurable set $B_1$. Likewise, we may write it as $E = \{Y \in B_2\}$ for some $B_2$. Then, we have $E = \{X \in B_1 \land Y \in B_2\}$ and so
+\begin{equation}
+\PP[E] = \PP[X \in B_1] \PP[X \in B_2] = \PP[E] \PP[E],
+\end{equation}
+hence $\PP[E]^2 = \PP[E]$ and so it is zero or one.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $M$ is orthogonal, then $\bar X$ has the same distribution as $\bar Y$.
+\item Show that the $Y_i$ are independent if and only if for all $i \neq j$ we have $\EV[Y_i Y_j] = 0$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We know that each $X_i$ has an absolutely continuous distribution, with probability density given by $\frac1{\sqrt{2\pi}} \exp(-\frac12 x_i^2)$. By independence, then, we know that the density of $\bar X$ is given by
+\begin{equation}
+f(\bar x) = \frac1{(2\pi)^{n/2}} \exp(-\frac12 \sum x_i^2) = \frac1{(2\pi)^{n/2}} \exp(-\frac12 \abs{\bar x}^2).
+\end{equation}
+
+Now, by the change of variable formula for the Lebesgue integral, we know that the density function of $\bar Y$ is given by
+\begin{equation}
+g(\bar y) = \frac1{\abs{\det M}} f(M^{-1} \bar y),
+\end{equation}
+and so in particular, for $M$ orthogonal, the determinant term is one, and moreover
+\begin{equation}
+g(\bar y) = f(M^{-1} \bar y) = \frac1{(2\pi)^{n/2}} \exp(-\frac12 \abs{M^{-1} \bar y}^2),
+\end{equation}
+and since $M$ is orthogonal we have $\abs{M^{-1} \bar y} = \abs{\bar y}$, and conclude that $g(\bar y) = f(\bar y)$, hence $\bar Y$ has the same distribution as $\bar X$.
+
+\item It is obvious that if the $Y_i$ are independent then the expected value of the products is the product of the expected values, so now we turn to showing the converse.
+
+We can compute when $\EV[Y_i Y_j]$ is zero:
+\begin{equation}
+\EV[Y_i Y_j] = \sum M_{ik} M_{j\ell} \EV[X_k X_\ell] = \EV[X_1^2] \sum M_{ik} M_{jk},
+\end{equation}
+where the second step used the fact that the $X_i$ are all i.i.d. Thus, we conclude that all rows of the matrix $M$ are orthogonal. None of them is zero, so we may write $M$ as $M = D O$, with $D$ diagonal and $O$ orthogonal (by letting $D_{ii}$ be the norm of the $i$-th row of $M$, and the $i$-th row of $O$ being the normalized version of the $i$-th row of $M$).
+
+Thus, $\bar Y = D O \bar X$. Now, $O \bar X$ has the same distribution as $\bar X$, thus $\bar Y$ has the same distribution as $D \bar X$. But this consists of scaling a bunch of independent variables individually, which does not change independence. Thus, all entries of $\bar Y$ are independent, as we wished to show.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Prove that there exists a countable sequence of i.i.d.r.v. $X_n \colon [0,1] \to \{0,1\}$ with the uniform distribution.
+\item Same, for $Y_n \colon [0,1] \to [0,1]$.
+\item Same, for $Z_n \colon [0,1] \to \R$ with a predetermined distribution $\mu$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Define $X_n(t)$ as the $n$-th digit of the binary expansion of $t$. There's a countable number of values of $t$ where this is not uniquely defined, but meh. Measure zero. But for the sake of definiteness, let us assume that we always choose the expansion that does not end in infinitely many ones.
+
+We claim that each $X_n$ has a $50\%$ chance of being either zero or one. I mean. I could write out the details, but I'm sure you (the grader) are tired of reading the same thing about dyadic intervals over and over again. Yadda yadda, the set where $X_n = 1$ is a union of $2^n$ intervals of size $2^{-n-1}$ so the probability of $X_n$ equaling one is $1/2$.
+
+Moreover, we claim that the $X_n$ are all independent. Again, I'll spare the details. The bottom line is that the probability that $X_{i_1} = j_1$, $X_{i_2} = j_2$, and so on until $X_{i_n} = j_n$, is exactly $2^{-n}$. A proof of this would be something like: the map which, given $t$, flips the $k$-th binary digit of $t$, is a measure-preserving automorphism of $[0,1]$. By repeatedly applying this map, we get that the probability we intend to compute is the same (say $p$) regardless of the values of the $j_1, \dots, j_n$, and by summing over all possible combinations of digits (which are $2^n$) we get (using that summing probabilities of disjoint events is the probability of the union) that $2^n p = 1$, which is exactly what we wanted.
+
+\item Now that we have a way to generate countably many independent coinflips, we can generate countably many real numbers, as follows. First, pick a bijection between $\N$ and $\N \times \N$, so that we can say we have generated an infinite grid of independent coinflips, $X_{ij}$, $i = 1, 2, \dots$ and $j = 1, 2, \dots$
+
+Now, define $Y_n$ as the number in $[0,1]$ whose binary digits are given by the $n$-th row of this infinite grid. Each $Y_n$ uses data which is independent from every other $Y_m$, so all the $Y_n$ are independent. Moreover, each $Y_n$ has uniform distribution. To prove this claim, we note that the dyadic intervals in $[0,1]$ generate the Borel $\sigma$-algebra, so to show that a measure coincides with the Lebesgue measure, it suffices to verify that it agrees on the dyadic intervals. Thus, we compute $\PP(Y_n \in D)$ for some dyadic interval of size $2^{-N}$. But this corresponds to prescribing the first $N$ binary digits of $Y_n$, that is,
+\begin{equation}
+\PP(Y_n \in D) = \PP(X_{n1} = j_1 \land \dots \land X_{nN} = j_N) = 2^{-N},
+\end{equation}
+by the $X_{ij}$ being i.i.d.
+
+Anyway this finishes the proof.
+
+\item It is a classical fact that if $Y_n$ is uniform in $[0,1]$ then $Z_n = G(Y_n)$ has distribution given by $\mu$, though also I think that the definition of $G$ given in the pset is slightly wrong and ill-defined if $\mu$ is not a continuous measure, and it should be
+\begin{equation}
+G(t) = \inf\{x \in \R \mid \mu\linterval{-\infty}x \geq t\}.
+\end{equation}
+
+Anyway, with that fix, the $Z_n$ have the distribution we want, and the fact that they all depend only on distinct independent variables guarantees that they are all independent.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Give an example of sequences $X_n \xrightarrow{\text{dist}} X$ and $Y_n \xrightarrow{\text{dist}} Y$ such that $Y_n = f_n(X_n)$, but $X$ and $Y$ are independent.
+\end{ex}
+
+\begin{sol}
+Let $X_n$ be a constant sequence of uniform variables in $[0,1]$, and $Y_n$ be given by $2^n X_n \bmod 1$. All claims that need to be satisfied are obvious (note that $Y_n$ is also uniform in $[0,1]$ always), except that $X$ and $Y$ are independent.
+
+To prove this, pick two intervals $I$ and $J$. We prove that the probability that $X \in I$ and $Y \in J$ is the same as the product of the probabilities of each of these conditions. To do this, like in the previous exercise, we may assume that $I$ is a dyadic interval. If this is the case, for large enough $n$ (namely such that $2^{-n}$ is smaller than the size of $I$) the line $y = 2^n x \bmod 1$, with $x \in I$, will wrap vertically around $I \times [0,1]$ some integer number of times, and so it is easy to verify that, for large enough $n$ (and dyadic $I$),
+\begin{equation}
+\PP(X_n \in I \land Y_n \in J) = m(I) m(J) = \PP(X_n \in I) \PP(Y_n \in J).
+\end{equation}
+
+This proves that the joint variable $(X_n, Y_n)$ converges in distribution to a uniform in $[0,1]^2$, and therefore $X$ and $Y$ are independent.
+\end{sol}
+
+\end{document}
