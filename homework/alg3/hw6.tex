@@ -1,0 +1,186 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+
+
+\DeclareMathOperator{\tg}{tg}
+\DeclareMathOperator{\Fr}{F}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\legendre}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
+\newcommand{\blegendre}[2]{\genfrac{[}{]}{}{}{#1}{#2}}
+
+
+\begin{document}
+\maketitle
+
+\setcounter{ex}{35}
+
+\begin{ex}
+Prove that either the ideal $\braket 1$ or $\braket{\sqrt2}$ has a generator which was not yet known. Prove that there is a unit of $\Z[\sqrt2]$ which is not $\pm 1$.
+\end{ex}
+
+\begin{sol}
+By (i), we know that there is some $f \neq 0$ such that $\abs f \leq 3$ and $\abs{\sigma(f)} \leq 0.99 < 1$. This implies that (by (iii)) $\#(\Z[\sqrt2]/(f)) = \abs f \abs{\sigma(f)} < 3$, hence (by (ii)) we have $\braket f$ is either $\braket 1$ or $\braket{\sqrt 2}$. Note moreover that $f$ is neither $1$ nor $\sqrt 2$, since $\abs{\sigma(f)} < 1$, yet $\abs{\sigma(1)} = 1$ and $\abs{\sigma(\sqrt2)} = \sqrt2$.
+
+Now, if $\braket f = \braket 1$ then $f$ is a unit and we are done. Otherwise, we have that $g = f/\sqrt2$ is a unit, and again we have $\abs{\sigma(g)} = \abs{\sigma(f)}/\sqrt2 < 1$.
+\end{sol}
+
+\begin{ex}
+Prove that there is a unit of $\Z[\sqrt2]$ between $1$ and $3$.
+\end{ex}
+
+\begin{sol}
+Consider the $f$ or $g$ we constructed above. If $f$ is a unit (first case above), we have $\abs f \leq 3$, but then $\abs f < 3$ because $\pm 3$ is not a unit. Moreover, we have $\abs f \abs{\sigma(f)} = 1$, but hence $\abs f = 1/\abs{\sigma(f)} > 1$.
+
+Now, in the second case, suppose $f = g \sqrt2$, with $g$ a unit. Then, $\abs g = \abs f /\sqrt2 < \abs f \leq 3$. Moreover, $g \sigma(g) = 1$, hence $\abs g = 1/\abs{\sigma(g)}$, and $\sigma(g) = - \sigma(f) / \sqrt2$, but also since $\abs{\sigma(f)} < 1$ we have $\abs{\sigma(g)}<1$ and so $\abs g > 1$. And we're done.
+\end{sol}
+
+\begin{ex}
+Show that $\ell(nP) = n$ for $n = 1, \dots, 6$.
+\end{ex}
+
+\begin{sol}
+By applying Riemann-Roch (RR3) to $D = P$, we get (since $\deg(nP) = n > 2 - 2$)
+\begin{equation}
+\ell(nP) = n + 1 - 1 = n.
+\end{equation} 
+\end{sol}
+
+\begin{ex}
+Prove that there is an element $x \in F$ such that $\ord_P(x) = -2$ and $\ord_Q(x) \geq 0$ for all places $Q \neq P$ of $F$ and there is $y \in F$ such that $\ord_P(y) = -3$ and $\ord_Q(y) \geq 0$ for all places $Q \neq P$ of $F$.
+\end{ex}
+
+\begin{sol}
+Apply question 38, to $n = 1,2,3$. Indeed, obviously $\ell(P) \subseteq \ell(2P) \subseteq \ell(3P)$, and all of these inclusions come with a jump in dimension of one, so there exists some element $x \in \ell(2P) \setminus \ell(P)$ and some $y \in \ell(3P) \setminus \ell(2P)$, which are the ones we desire.
+\end{sol}
+
+\begin{ex}
+Prove that $L(5P)$ has the basis $1,x,y,x^2,xy$.
+\end{ex}
+
+\begin{sol}
+We know it has dimension five, so we just need to show that these elements are linearly independent. Now, they all satisfy $\ord_Q \geq 0$, and moreover we have
+\begin{equation}
+\ord_P(1) = 0, \ord_P(x) = -2, \ord_P(y) = -3, \ord_P(x^2) = 2 \ord_P(x) = -4, \ord_P(xy) = \ord_P(x) + \ord_P(y) = -5.
+\end{equation}
+Therefore, they each live in some $\ell(nP)$ but not in $\ell((n-1)P)$, so they must all be linearly independent.
+\end{sol}
+
+\begin{ex}
+By changing $y$ if necessary, prove that there is a polynomial $h(T)$ of degree $3$ such that $y^2 = h(x)$.
+\end{ex}
+
+\begin{sol}
+Since $L(6P)$ differs from $L(5P)$ by one dimension, and both $y^2$ and $x^3$ are elements of $L(6P) \setminus L(5P)$, there is some $h_3 \in \kk$ such that $y^2 - h_3 x^3 \in L(5P)$, hence may be written in the form
+\begin{equation}
+y^2 = h_3 x^3 + k_0 + k_1 x + k_2 y + k_3 x^2 + k_4 xy.
+\end{equation}
+Then, we have
+\begin{equation}
+y^2 - k_4 xy - k_2 y = h_3 x^3 + k_3 x^2 + k_1 x + k_0,
+\end{equation}
+and you can complete the square on the left-hand side by adding to both sides (this uses characteristic different from two) the divisor $\frac14 (k_4 x + k_2)^2$, to get
+\begin{equation}
+(y - \frac12 k_4 x - \frac12 k_2)^2 = \text{(a poly of degree $2$ in $x$)}
+\end{equation}
+\end{sol}
+
+\begin{ex}
+Prove that $[F : \kk(x)] = 2$ and hence $F = \kk(x)(\sqrt{h(x)})$. Prove that $h(T)$ is square-free.
+\end{ex}
+
+\begin{sol}
+So we have: the divisor of $x$ is just $2P$ (by construction of $x$), and so $[F:\kk(x)] = 2 \deg(P)$, and since $\kk$ is algebraically closed this is just $[F:\kk(k)] = 2$. This immediately implies $F = \kk(x)(\alpha)$ for any $\alpha$ whose square is expressible in terms of $x$ but $\alpha$ itself is not. An example of this is the (modified) $y$ we built above: $y$ itself is linearly independent from $x$ and its powers, but $y^2$ is a linear combination of $1,x,x^2,x^3$. Therefore, we may write $F = \kk(x)(y) = \kk(x)(\sqrt{y^2}) = \kk(x)(\sqrt{h(x)})$.
+
+Finally, $h(T)$ is squarefree, because otherwise we would have $h(T) = g(T)^2 f(T)$, and therefore both $g$ and $f$ would be degree one. Then, we would have $F = \kk(x)(\sqrt{f(x)}) = \kk(x)(\sqrt{x-a})$ for some $a \in \kk$. But then, since $x = \sqrt{x-a}^2 + a$,
+\begin{equation}
+F = \kk(x)(\sqrt{x-a}) = \kk(\sqrt{x-a}) \cong \kk(T),
+\end{equation}
+which has genus zero. But by hypothesis $F$ has genus one, which is a contradiction. Hence, $h(T)$ must indeed be squarefree.
+\end{sol}
+
+\end{document}

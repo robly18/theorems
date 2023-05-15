@@ -9,7 +9,12 @@
 \usepackage{fullpage}
 
 \usepackage{graphicx}
+
 \usepackage{tikz-cd}
+\usepackage[T1]{fontenc}
+\usepackage[cal=zapfc]{mathalpha}
+\usepackage{ dsfont }
+
 
 \usepackage{diffcoeff}
 \difdef{f}{}{
@@ -55,6 +60,8 @@ sub-nudge = 0 mu
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\K}{\mathbb{K}}
 
+
+\newcommand{\ind}{\mathds{1}}
 \newcommand{\kk}{\Bbbk}
 
 \newcommand{\Gr}{\mathrm{Gr}}
@@ -96,6 +103,8 @@ sub-nudge = 0 mu
 \newcommand{\EV}{\mathbb{E}}
 \newcommand{\PP}{\mathbb{P}}
 
+\newcommand{\sa}[1]{\mathcal{#1}}
+
 
 \begin{document}
 \maketitle
@@ -134,33 +143,99 @@ So, plugging this bound into \eqref{eq:p1}, we have
 \end{sol}
 
 \begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that if $X_1, \dots, X_n$ are independent Gaussians with means $a_i$ and variances $\sigma_i^2$, then $\sum X_i$ is Gaussian with mean $\sum a_i$ and variance $\sum \sigma_i^2$.
+
+\item Show that if $X$ and $Y$ are independent, and both $X$ and $X+Y$ are Gaussians, so is $Y$.
+\end{enumerate}
 \end{ex}
 
 \begin{sol}
+\leavevmode
+\begin{enumerate}
+\item The characteristic function of $X_i$ is (as per equation 2.24 in the lecture notes) $\phi_{X_i}(t) = \exp(\I a_i t - \frac12 \sigma_i^2 t^2)$, and moreover we have that the characteristic function of a sum of independent r.v.s is the product of the characteristic functions. Hence,
+\begin{equation}
+\phi_{\Sigma X_i}(t) = \exp(I (\Sigma a_i) t - \frac12 (\Sigma \sigma_i^2) t^2),
+\end{equation}
+which is the characteristic function of a Gaussian with the given mean and variance. We know that the characteristic function determines the distribution, and thus, we know that $\sum X_i$ is distributed as a Gaussian in this manner.
+
+\item Since $X$ and $Y$ are independent, we have $\phi_X \phi_Y = \phi_{X+Y}$, and since $\phi_X$ and $\phi_{X+Y}$ are never zero (they are the exponent of something) we may write
+\begin{equation}
+\phi_Y(t) = \phi_X(t) / \phi_{X+Y}(t) = \exp(\I \mu_X t - \frac12 \sigma_X^2 t^2) / \exp(\I \mu_{X+Y} t - \frac12 \sigma_{X+Y}^2 t^2) = \exp(\I \, \Delta\mu \, t - \frac12 \Delta \sigma^2 t^2),
+\end{equation}
+which is the characteristic function of a Gaussian, hence $Y$ is a Gaussian.
+\end{enumerate}
 \end{sol}
 
 \begin{ex}
+Give an example of three r.v. $(X,Y,Z)$ such that $X$ and $Y$ are independent and identically distributed, $X+Z$ and $Y+Z$ are independent and identically distributed, and $Z$ is not constant.
 \end{ex}
 
 \begin{sol}
+Just pick any two i.i.d nonconstant variables $X$ and $Y$ and set $Z = -(X+Y)$. In this manner, $X+Z = -Y$ and $Y+Z = -X$, and $-Y$ and $-X$ are also i.i.d.
 \end{sol}
 
 \begin{ex}
+Let $X_n$ be a sequence of i.i.d.r.v., and suppose $Z$ is such that $Y_n X_n + Z$ is also a sequence of i.i.d.r.v. Show that $Z$ is constant.
 \end{ex}
 
 \begin{sol}
+(I will use the following assumptions that are not in the problem statement: $X_n$ and $Z$ have finite variance, and $Z$ is independent of all $X_n$.)
+
+We know by the law of large numbers that $\frac1n \sum^n X_i$ converges in distribution to $\EV[X]$, and $\frac1n \sum^n Y_i$ converges in distribution to $\EV[Y]$. Now, pick some $\varepsilon > 0$. We have that, with as large probability as we want, say $\geq 1-\delta$ (by picking large enough $N$), $\frac1N \sum^N X_i$ is in $\ointerval{\EV[X]-\varepsilon}{\EV[X]+\varepsilon}$. Moreover, also with probability at least $1-\delta$, $\frac1N \sum^N Y_i$ is in $\ointerval{\EV[Y]-\varepsilon}{\EV[Y]+\varepsilon}$. By taking the difference, using the fact that
+\begin{equation}
+\PP[E_1 \cap E_2] = 1 - \PP[\neg E_1 \cup \neg E_2] \geq 1 - \PP[\neg E_1] - \PP[\neg E_2],
+\end{equation}
+we have that the probability that $Z = \frac1n \sum^N Y_i - \frac1n \sum^N X_i$ is within $2\varepsilon$ of $\EV[Y] - \EV[X]$ is at least $1-2\delta$. Now, $\delta$ is arbitrary (we just need to make $N$ bigger), so with probability one $Z$ is in any interval containing $\EV[Y] - \EV[X]$, and by taking the intersection of countably many such intervals we prove that $Z$ is constant equal to $\EV[Y] - \EV[X]$. And we are done.
 \end{sol}
 
 \begin{ex}
+Let $X_1, \dots, X_n$ be i.i.d. $L^1$ r.v. Find $\EV[X_1 \mid X_1 + \dots + X_n]$.
 \end{ex}
 
 \begin{sol}
+Okay, well. This is intended to be an r.v. which is measurable in $\sigma(X_1 + \dots + X_n)$, i.e. is of the form $f(X_1 + \dots + X_n)$. My best bet at time of writing is $f(x) = \frac1n x$. Sooo, let's see if we can verify the following statement:
+\begin{equation}
+\EV[X_1 \mid X_1 + \dots + X_n] = \frac{X_1 + \dots + X_n}n.
+\end{equation}
+
+For conciseness, let $S = X_1 + \dots + X_n$. So, pick some Borel set $B$, and let us verify that
+\begin{equation}
+\EV[\ind_{S \in B} \frac1n S] = \EV[\ind_{S \in B} X_1].
+\end{equation}
+
+Well, by linearity, What we want to show is that
+\begin{equation}
+\EV[\ind_{S \in B} S] = n \EV[\ind_{S \in B} X_1],
+\end{equation}
+but moreover, since all $X_i$ are i.i.d, in the last expression swapping $X_1$ for another $X_i$ gives the same result. Thus, we may rewrite the right-hand side as
+\begin{equation}
+n \EV[\ind_{S \in B} X_1] = \sum \EV[\ind_{S \in B} X_i] = \EV[\ind_{S \in B} S],
+\end{equation}
+which completes the proof.
 \end{sol}
 
 \begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that the set of $\sa G$-measurable $L^2$ functions is a closed subspace of $L^2$.
+\item For $X \in L^2$ show that the projection of $X$ onto the subspace of $\sa G$-measurable $L^2$ functions satisfies the defining property of $\EV[X \mid \sa G]$.
+\item Show that $\EV[X \mid \sa G]$ exists for all $L^1$ variables $X$.
+\end{enumerate}
 \end{ex}
 
 \begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Well, the norm is the same on $L^2_{\sa G}$ and on $L^2_{\sa F}$, so it suffices to note that $L^2_{\sa G}$ is complete, and a complete subspace of any metric space is closed.
+
+\item Ok. Just note that $\ind_G$ is a $\sa G$-measurable function, and $\EV[\ind_G X] = \braket{\ind_G, X}$. By definition of orthogonal projection, this is the same as $\braket{\ind_G, Z} = \EV[\ind_G Z]$, and we're done.
+
+\item I'm not sure what I'm expected to do here. Is there a trick to reducing it to the $L^2$ case, or do you just want me to copy-paste the proof from a book? Welp. Here goes.
+
+The r.v. $X$ induces a finite signed measure on $(\Omega, \sa F)$ by $\nu(E) = \EV[\ind_E X]$, which is absolutely continuous wrt $\PP$. Restricting to the $\sigma$-algebra $\sa G$, we get that $\nu|_{\sa G}$ is still absolutely continuous wrt $\PP|_{\sa G}$, and hence has a Radon-Nikodym derivative $Z$. This is determined uniquely by the property that, for all $G \in \sa G$, $\nu(Z) = \EV[\ind_G Z]$, which is precisely the property that we want the conditional expectation to satisfy. So we're done.
+\end{enumerate}
 \end{sol}
 
 \end{document}

@@ -1,0 +1,148 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Algebra Homework 7}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\kk}{\Bbbk}
+
+
+\newcommand{\gp}{\mathfrak{p}}
+\newcommand{\gq}{\mathfrak{q}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Gr}{\mathrm{Gr}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+
+
+\DeclareMathOperator{\tg}{tg}
+\DeclareMathOperator{\Fr}{F}
+
+\newcommand{\Aff}{\mathbb{A}}
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\legendre}[2]{\genfrac{(}{)}{}{}{#1}{#2}}
+\newcommand{\nlegendre}[3]{\legendre{#1}{#2}_{\!\!#3}}
+\newcommand{\blegendre}[2]{\genfrac{[}{]}{}{}{#1}{#2}}
+
+
+\begin{document}
+\maketitle
+
+\setcounter{ex}{42}
+
+\begin{ex}
+Prove that the map $x \mapsto x^{\frac{q-1}n}$ is an isomorphism between $\FF_q^* / (\FF_q^*)^n$ and $\mu_n(\FF_q)$.
+\end{ex}
+
+\begin{sol}
+Recall that $\FF_q^*$ is a cyclic group of order $q-1$. If we translate our thinking to this language, the question becomes: prove that the map `multiplication by $\frac{q-1}n$' is an isomorphism betweeen $\frac{\FF_q^*}{(\FF_q^*)^n} \cong \frac{\Z/(q-1)}{n \Z/(q-1)} = \Z/(n)$ and  the set of elements of $\Z/(q-1)$ which, when multiplied by $n$, become zero, or in other words $\frac{q-1}n \Z/(q-1)$.
+
+This is just a group theory exercise, using the general fact that the additive group $k (\Z/(kn))$ is isomorphic to $\Z/(n)$.
+\end{sol}
+
+\begin{ex}
+Prove that for irreducible distinct monic polynomials $f$ and $g$ we have
+\begin{equation}
+\nlegendre fgn = \nlegendre gfn \cdot (-1)^{\frac{q-1}n \deg(f) \deg(g)}.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+By the definition of this generalized legendre symbol, it is obtained as: to compute $\nlegendre gfn$, look at $g$ mod $f$, put it to the power $\frac{q'-1}n$ (where $q'$ is the number of elements of $\FF_q[T]/(f)$, which is $q^d$ where $d = \deg f$), and obtain an element of $\mu_n(K) = \mu_n(\FF_q)$, and this is our $\nlegendre gfn$.
+
+Now, as per the hint, the norm map of the extension $K/\FF_q$ consists of taking the taking the $r$'th power, where $r = \frac{q'-1}{q-1}$. As such, we have that $\blegendre gf$ is given by $(g \bmod f)^{\frac{q'-1}{q-1}}$ and therefore we have
+\begin{equation}
+\nlegendre gfn = \blegendre gf ^{\frac{q-1}n},
+\end{equation}
+and evidently the `reciprocity law' that we have for $\blegendre gf$ turns into the one that we are trying to prove for $\nlegendre gfn$.
+\end{sol}
+
+\begin{ex}
+Prove that for an irreducible monic polynomial $f \in \FF_5[T]$ the maximal ideal $(f)$ splits completely in $\FF_5(\sqrt[4]T)$ iff $(-1)^{\deg f} f \equiv 1$ mod $T$. Decompose $T-1$ into a product of four elements.
+\end{ex}
+
+\begin{sol}
+By the above definitions, we know that $f \bmod T$ is the same as $\nlegendre fT4$, because $\frac{q'-1}n = \frac{5^1 - 1}4 = 1$. As such, by the reciprocity law we have already proven,
+\begin{equation}
+(-1)^{\deg f} (f \bmod T) = \nlegendre Tf4.
+\end{equation}
+
+Therefore, the condition that $(-1)^{\deg f} f \equiv 1$ mod $T$ is equivalent to the statement that $\nlegendre Tf4 = 1$, which is equivalent to the statement that $T$ has a fourth root in $\FF_5[T]/(f)$, which is equivalent to the statement that the inclusion $\FF_5[T]/(f) \hookrightarrow \FF_5[\sqrt[4]T]/(f)$ is an isomorphism. I don't know where to go from here.
+
+Anyway, to split $(T-1)$, we repeatedly apply difference of squares, and the fact that $-1$ is a square mod $5$ (namely $2^1 \equiv -1$).
+\begin{equation}
+(T-1) = (\sqrt{T}^2 - 1^2) = (\sqrt T - 1)(\sqrt T + 1) = (\sqrt[4]T - 1)(\sqrt[4]T + 1)(\sqrt[4]T - 2)(\sqrt[4]T + 2).
+\end{equation}
+\end{sol}
+
+\end{document}

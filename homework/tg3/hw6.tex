@@ -1,0 +1,310 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{fullpage}
+
+\usepackage{ wasysym }
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+\difdef{f}{p}{
+op-symbol = \mathrm{D},
+op-symbol-alt = \mathrm{d}
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Differential Geometry Homework 6}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SL}{\mathrm{SL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+\newcommand{\into}{\mathbin{\lrcorner}}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\Lie}{L}
+\newcommand{\grad}{\nabla}
+\newcommand{\transp}{\top}
+\DeclareMathOperator{\tg}{tg}
+
+
+\let\Diff\relax
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[\#2 do Carmo]
+Show that if $M$ is a closed, totally geodesic submanifold of $\HH^n$, then $M$ is isometric to $\HH^k$. Determine all totally geodesic submanifolds of $\HH^n$.
+\end{ex}
+
+\begin{sol}
+I think that the hypothesis that $M$ is closed is wrong, and should be replaced by `connected and geodesically complete'. Thus, I will work under that assumption from now on. (PS: It has since been pointed out to me that closed means `topologically closed'. This is equivalent to complete, which is equivalent to geodesically complete. I think the connectedness assumption is missing regardless.)
+
+Pick a point $p \in M$. Then, by geodesic completeness, we may write $M$ as $M = \exp_p(T_pM)$. By applying a well-chosen isometry, we may assume without loss of generality that $p = (\vec 0, 1)$ (in the half-plane model), and that $T_p M = \braket{\partial_1, \dots, \partial_k}$. In this case, by symmetry (in a similar fashion to the first midterm exercise) one can show that $\exp_p(T_pM) = \HH^n \cap (\R^k \times 0)$, and it is easy to verify that this is simply the copy of $\HH^k$ contained in $\R^k \times 0$. Thus, $M$ is indeed isometric to $\HH^k$.
+
+For the rest of the exercise, I'm not sure what it is asking for, but here is a possible answer. Writing $T_p M$ as the intersection of $n-k$ hyperplanes, we may write $M$ as the intersection of $n-k$ totally geodesic hypersurfaces of $\HH^n$. In the half-plane model these are known to be the vertical planes and the half-spheres centered at $\partial\HH^n$. Thus, we may say that the totally geodesic (connected and geodesically complete) submanifolds of $\HH^n$ are all possible transversal intersections of such vertical planes and half-spheres.
+\end{sol}
+
+\begin{ex}[\#13 do Carmo]
+Let $\sigma \colon M \to M$ be an isometry which fixes $p$, and acts on $T_p M$ by negation. Let $X$ be parallel along a geodesic $\gamma$ in $M$ starting at $p$. Show that $(\dl \sigma)X(\gamma(t)) = -X(\gamma(-t))$.
+\end{ex}
+
+\begin{sol}
+As the hint suggests, we define $Y(x) = -(\dl \sigma) X(\sigma^{-1}(x))$, and prove that this is parallel along $\gamma$. Since evidently $Y(p) = X(p)$, uniqueness of parallel transport shows $X = Y$ over $\gamma$.
+
+So... Let us compute. Using the fact that $\sigma$ is an isometry, and the behavior of connections under conjugation by isometries:
+\begin{equation}
+\diff.p.Yt = \nabla_{\dot\gamma(t)} Y = - \nabla_{(\dl \sigma^{-1}) \dot\gamma(t)} X,
+\end{equation}
+and using the fact that isometries preserve geodesics, we get that $\sigma(\gamma(t)) = \gamma(-t)$, and thus $(\dl \sigma^{-1}) \dot\gamma(t) = - \dot\gamma(-t)$, whence we conclude
+\begin{equation}
+\diff.p.Yt = - \nabla_{(\dl \sigma^{-1}) \dot\gamma(t)} X = \nabla_{\dot\gamma(-t)}X = 0,
+\end{equation}
+and so we are done.
+\end{sol}
+
+\begin{ex}[\#14 do Carmo]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[\#1 do Carmo]
+Let $M$ be a complete Riemannian manifold, $N \subseteq M$ a closed submanifold, and let $p_0 \in M \setminus N$. Show that there is some $q_0 \in p_0$ such that $d(p_0, q_0) = d(p_0, N)$, and moreover that a length-minimizing geodesic  joining $p_0$ and $q_0$ is orthogonal to $N$ at $q_0$.
+\end{ex}
+
+\begin{sol}
+To show that $q_0$ exists, pick $n \in N$, and consider $N_0 = N \cap \bar B_{d(p_0,n)}(p_0)$. This is the intersection of a closed set and a compact set (because $\bar B_r(p)$ is the image under the exponential map of a closed set; this uses geodesic completeness) and hence $N_0$ is compact. By known topological arguments, there is $q_0 \in N_0$ such that $d(p_0, q_0) = d(p_0, N_0)$, and it is obvious that $d(p_0, N_0) = d(p_0, N)$.
+
+To show orthogonality, we use the fact that being a length-minimizing geodesic is equivalent to being an energy-minimizing curve, and also the formula for the first variation of the energy of a curve. Indeed, suppose there is some $v \in T_{q_0} N$ which is not orthogonal to $\dot\gamma(1)$, where $\gamma$ is the length-minimizing curve connecting $p_0$ and $q_0$. Now, let $\eta(s)$ be a curve in $N$ such that $\dot\eta(0) = v$, and let $\gamma_s(t)$ be a family of length-minimizing geodesics connecting $p_0$ to $\eta(s)$. On the one hand, $q_0$ was assumed to have minimal distance to $q_0$, and so the energy $E(\gamma_s)$ is minimal at $s = 0$. On the other hand, we may compute the first variation:
+\begin{equation}
+\frac12 E'(s) = -\int \braket*{\partial_s \gamma, \cancel{\diff.p.{}t \dot\gamma}} \dl t - \braket{\cancel{\partial_s \gamma(0)}, \dot\gamma(0)} + \braket{v,\dot\gamma(1)},
+\end{equation}
+and so all terms die except the last one, which was assumedly not zero. This is a contradiction, and so the proof is complete.
+\end{sol}
+
+\begin{ex}[\#4 do Carmo]
+Let $M$ orientable have positive curvature and even dimension, and let $\gamma$ be a geodesic loop in $M$. Show that $\gamma$ is homotopic to a curve of smaller length.
+\end{ex}
+
+\begin{sol}
+Pick some $v$ tangent to $\gamma(0)$, and extend it to a parallel field $V(t)$. If $v$ is orthogonal to $\dot\gamma(0)$, then $V(t)$ remains orthogonal for all $t$. Now, consider the map $v \mapsto V(1)$. This is an orientation-preserving automorphism of an odd-dimensional vector space, namely the orthogonal space to $\dot\gamma(0)$, and therefore must have at least one positive eigenvector. (This is linear algebra: the product of all eigenvalues is positive, and these must either be real or come in conjugate pairs. The conjugate pairs don't change the sign of the determinant, the negative ones must come in pairs so the sign of the determinant stays positive, and by oddness of dimension at least one eigenvalue must be real and non-negative. Since this map is an isometry any real eigenvalue must be $\pm 1$, and so there is at least one unit eigenvalue.)
+
+Now, picking $v$ so that $V(1) = V(0) = v$, we may vary $\gamma$ along $V$ by using the exponential map, defining a family of curves $\gamma_s$. We show that the second variation of energy is negative, which proves that $E(\gamma_s)$ may not have a local minimum at $s = 0$, and so some `nearby' curves have lower energy than $\gamma$, which implies that they have lower length because $L(\gamma_s)^2 \leq E(\gamma_s) \leq E(\gamma) = L(\gamma)^2$.
+
+We have the formula (p.198-199 do Carmo):
+\begin{equation}
+\frac12 E''(0) = -\int_0^a \braket{V, \diff.p.[2]Vt + R(\dot\gamma, V) \dot\gamma)} \dl t - \braket{\diff.p.{}s \diffp fs, \dot\gamma}|_{\text{start}} + \braket{\diff.p.{}s \diffp fs, \dot\gamma}|_{\text{end}} - \braket{V(0), \diff.p.Vt[0]} + \braket{V(1), \diff.p.Vt[1]}.
+\end{equation}
+
+Now, the thing is, since $V(t)$ loops seamlessly, all these non-integral quantities are the same at the start and at the end. Moreover, $\diff.p.Vt = 0$ because $V$ was built using parallel transport, and therefore, the formula simplifies to
+\begin{equation}
+\frac12 E''(0) = -\int_0^a \braket{V, R(\dot\gamma, V) \dot\gamma)} \dl t.
+\end{equation}
+
+Since the manifold is positively curved, the quantity inside the integral is always positive, and thus the second variation of energy is strictly negative. This proves the desired result.
+\end{sol}
+
+\begin{ex}[3]
+\leavevmode
+\begin{enumerate}
+\item Prove the theorem for $t > 0$ small.
+\item For $t > 0$, set $u = j'/j$ and $\hat u = \hat\jmath'/\hat\jmath$. Show that $u, \hat u$ satisfy
+\begin{equation}
+u' = -k-u^2, \quad \hat u = -\hat k - \hat u^2,
+\end{equation}
+and therefore, with $v = u-\hat u$, $v' = (\hat k - k) - ( u + \hat u) v$.
+\item Prove that $v(t) \leq 0$ for all $t$.
+\item Conclude.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item If $j'(0) < \hat\jmath'(0)$ the statement is obviously true for small $t$, so assume otherwise, i.e. $j'(0) = \hat\jmath'(0)$, Then, the function $q(t) = j(t)/\hat\jmath(t)$, which was already defined for all $t > 0$, extends to $t = 0$ by continuity as $q(0) = 1$. Now, we will show that $q$ is a decreasing function, which in particular implies that $q(t) \leq 1$ for all $t$, which implies the desired result. This will work for all $t$ i think, even in the case $j'(0) < \hat\jmath'(0)$. So I don't know why we are asked to prove it for small $t$ only.
+
+So, to show that $q$ is decreasing, we will actually show that $\log q$ is decreasing, by considering its derivative:
+\begin{equation}
+\diff{}t (\log q) = \diff{}t (\log j - \log \hat\jmath) = \frac{j'}j - \frac{\hat\jmath'}{\hat\jmath} = \frac{j' \hat\jmath - j \hat\jmath'}{j \hat\jmath}.
+\end{equation}
+
+Since $j$ and $\hat\jmath$ are positive by hypothesis for positive $t$, the quotient does not change the sign of the expression. Thus, it suffices to show that $j' \hat\jmath \leq j \hat\jmath'$ for all $t$. To do this, we prove that the function $j' \hat\jmath - j \hat\jmath$ is decreasing; it is obviously zero at $t = 0$, so this will show that it is always nonpositive. Again, we take the derivative
+\begin{equation}
+\diff*{}t(j' \hat\jmath - j \hat\jmath') = j'' \hat\jmath + j' \hat\jmath' - j'\hat\jmath' - j \hat\jmath'' = - k j \hat\jmath + \hat k j \hat\jmath = (\hat k - k) j \hat\jmath.
+\end{equation}
+
+Again, the terms $j$ and $\hat\jmath$ do not change the sign of the expression, so the sign is the same as the sign of $\hat k - k$, which is known by hypothesis to be nonpositive. This concludes the proof.
+\end{enumerate}
+
+Er. Well. So the point of the exercise was to prove the theorem. And I proved the theorem. Do you want me to do the rest of the steps?
+
+I'll just not do them and consider the exercise as done. Thanks! Have a nice day.
+\end{sol}
+
+\begin{ex}[4]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\begin{ex}[5]
+\leavevmode
+\begin{enumerate}
+\item Prove that $L'(s_0) = 0$ implies $\braket{\sigma'_{s_0}(L(s_p)), \gamma_2'(s_0)} = 0$.
+\item Prove that
+\begin{equation}
+L''(s) = \int_0^{L(s)} (\Norm{\nabla_S T}^2 - \braket{R(T,S)S,T)} \dl t.
+\end{equation}
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item We note that in exercise \#1 from do Carmo, above, we proved using the first variation of energy that, under the assumption that $s_0$ is a local minimum for the energy, the inner product $\braket{\sigma'_{s_0}(L(s_p)),\gamma_2'(s_0)} = 0$. Thus, it suffices to show that $L'(s_0) = 0$ implies $E'(s_0) = 0$. To this effect, notice that all $\sigma_s$ are geodesics, hence $L(s) = \sqrt{E(s)}$. Whenever the length/energy is nonzero (i.e. if $p \neq \gamma_2(s_0)$, in which case the conclusion is trivial as $\sigma'_{s_0}(0) = 0$), a trivial chain rule will prove that the critical points for $E$ are the same as those for $L$. Thus this exercise is done.
+
+\item Nope.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[6]
+Let $M$ be a Hadamard manifold.
+\begin{enumerate}
+\item Prove that for every pair of geodesics, $f(t) = d(\gamma_1(t),\gamma_2(t))$ is convex.
+\item Prove that unit speed geodesics that originate at the same point and remain bounded distance from each other must coincide.
+\item Prove that if $\gamma$ is nontrivial geodesic and $p \notin \gamma$, the map $f(t) = d(p,\gamma(t))$ is strictly convex.
+
+Define $\pi_\gamma(p)$ as the unique minimizer for distance. Show that the geodesic connecting $p$ and $\pi(p)$ is orthogonal to $\gamma$.
+\item Suppose that $M$ is negatively curved. Prove that for every pair of geodesics $\gamma_1$ and $\gamma_2$ such that $\gamma_2$ is nontrivial and not a reparametrization of $\gamma_1$, the map $f(t) = d(\gamma_1(t), \gamma_2(t))$ is strictly convex whenever it is positive.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Consider the family $H_s(t)$ of geodesics connecting $\gamma_1(s)$ and $\gamma_2(s)$. Clearly, $f(s) = L(H_s)$, but also $L(H_s) = \sqrt{E(H_s)}$. By the chain rule, we have that $L'' \geq 0$ iff $E'' \geq 0$, so we apply the formula for the second variation of energy, which gives us
+\begin{equation}
+\frac12 E''(s) = -\int_0^a \braket{V, \diff.p.[2]Vt + R(\dot\gamma, V) \dot\gamma)} \dl t - \braket{\diff.p.{}s \diffp Hs, \dot\gamma}|_{\text{start}} + \braket{\diff.p.{}s \diffp Hs, \dot\gamma}|_{\text{end}} - \braket{V(0), \diff.p.Vt[0]} + \braket{V(1), \diff.p.Vt[1]},
+\end{equation}
+where $V$ is $\diffp Hs$.
+\begin{equation}
+\frac12 E''() = -\int_0^a \braket{V, \diff.p.[2]Vt} \dl t - \int_0^a \braket{V, R(\dot\gamma, V) \dot\gamma)} \dl t.
+\end{equation}
+
+Now, since $M$ is nonpositively curved by hypothesis, the second term is positive. Thus, it suffices to show that the first is as well. Integration by parts yields
+\begin{equation}
+-\int_0^a \braket{V, \diff.p.[2]Vt} \dl t = \int_0^a \braket{\diff.p.Vt, \diff.p.Vt} \dl t + \braket{V, \diff.p.Vt}|_{\text{start}} - \braket{V, \diff.p.Vt}|_{\text{end}},
+\end{equation}
+but at the start and end, $V = \dot\gamma_i$, for $i = 1$ or $i = 2$. Thus, $\diff.p.Vt = 0$ at the extremes, and the only remaining term is the integral, which is clearly non-negative.
+
+This proves that $\frac12 E'' \geq 0$, hence the energy is convex, which gives us that the length is also convex.
+
+\item Trivial consequence of the lemma from calculus: If $f \colon \rinterval0\infty \to \rinterval0\infty$ is convex and $f(0) = 0$, then either $f$ is constant equal to zero, or $f$ is unbounded.
+
+The proof of this lemma is that if $f(a) > 0$, then for $t > a$ we have the bound $f(t) \geq \frac{f(a)}a t$, which implies $f$ unbounded trivially.
+
+\item Apply the things we did in (a), but now we want to show that $E''$ is strictly greater than zero. To this effect, we note that the term $\int \braket{\diff.p.Vt, \diff.p.Vt}$ is strictly positive, because
+\begin{itemize}
+\item $\diff.p.Vt$ cannot be constant equal to zero: if it were, $V$ would be being parallel transported over the geodesics, and yet at $t = 0$ we have $V = 0$ (because $p$ is constant) but at $t = a$ we have $V = \dot\gamma \neq 0$ (because $\gamma$ is nontrivial), and
+\item the interval of integration is nontrivial, because $p$ is not in $\gamma$.
+\end{itemize}
+
+\smallskip
+
+To do the second part of this question, simply apply exercise 1. from do Carmo, using the fact that (near $\pi_\gamma(p)$) the geodesic $\gamma$ looks like an embedded curve. Question 1 gives us that a minimizer for distance is orthogonal to the submanifold, which proves what we want.
+
+\item Again apply the expression for $E''$, and show that it is positive. This time, we use the term $-\int_0^a \braket{V, R(\dot\gamma, V) \dot\gamma}$. By the hypothesis on curvature, this term is strictly positive whenever $a \neq 0$ and $V, \dot\gamma$ are not linearly dependent. The first hypothesis happens whenever the distance between the two geodesics is nonzero, and the second happens iff the two geodesics are a reparametrization of one another, probably.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[7]
+Prove that if $M$ is a closed manifold whose sectional curvatures are negative, then the isometry group of $M$ is finite.
+\end{ex}
+
+\begin{sol}
+Apply problem 8c) from the previous homework. Negative curvature ensures that there are no conjugate points, so it suffices to verify the condition: For any $v_1, v_2 \in T \tilde M$, either they are tangent to a common geodesic, or the distance between $\gamma_{v_1}(t)$ and $\gamma_{v_2}(t)$ is unbounded. This is an application of exercise 6b) to the manifold $\tilde M$.
+\end{sol}
+
+\end{document}

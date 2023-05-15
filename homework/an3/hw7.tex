@@ -1,0 +1,268 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{tikz-cd}
+%\usepackage[T1]{fontenc}
+\usepackage[cal=zapfc]{mathalpha}
+\usepackage{ dsfont }
+
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 7}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+
+\newcommand{\ind}{\mathds{1}}
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{d}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\EV}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\Brwn}{\mathcal{B}}
+\newcommand{\sa}[1]{\mathcal{#1}}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Show that almost surely $\Brwn$ is not $\alpha$-Hölder continuous for any $\alpha > 1/2$. Show also that for each $t > 0$, almost surely $\Brwn$ is not differentiable at $t$.
+\end{ex}
+
+\begin{sol}
+For the first part, we use Brownian motion to justify the following lemma. In the following, we use the notation: `$f(t)$ is $C$-$\alpha$-HC on $I$' to mean: for all $s_1,s_2 \in I$, $\abs{f(s_1)-f(s_2)} \leq C \abs{s_1-s_2}^\alpha$.
+\begin{lemma}
+If $\Brwn$ is a standard Brownian motion and $t > 0$ is an arbitrary scaling factor,
+\begin{equation}\label{eq:1}
+\PP(\text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$}) = \PP(\text{$\Brwn$ is $(t^{\frac12 - \alpha} C)$-$\alpha$-HC in $\interval0t$}).
+\end{equation}
+\end{lemma}
+\begin{lemmaproof}
+Use the fact that $s \mapsto \Brwn_s$ has the same distribution as $s \mapsto t^{-1/2} \Brwn_{ts}$, and expand the definition of $C$-$\alpha$-Hölder continuity.
+\end{lemmaproof}
+
+This is one of the two main ingredients of our proof. Now, we apply it to $t = 2$, and introduce the second ingredient: If $\Brwn$ is $C'$-$\alpha$-HC on $\interval02$, then it is so $C'$-$\alpha$-HC on $\interval01$ and on $\interval12$. Morevoer, by independent increments, these two events are independent and have the same probability, hence
+\begin{equation}\label{eq:2}
+\PP(\text{$\Brwn$ is $C'$-$\alpha$-HC in $\interval02$}) \leq \PP(\text{$\Brwn$ is $C'$-$\alpha$-HC in $\interval01$})^2.
+\end{equation}
+
+Combining \eqref{eq:1} and \eqref{eq:2}, we get
+\begin{equation}
+\PP(\text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$}) \leq \PP(\text{$\Brwn$ is $(2^{\frac12 - \alpha} C)$-$\alpha$-HC in $\interval01$})^2.
+\end{equation}
+
+Finally, note that $2^{\frac12 - \alpha} C \geq C$, and decreasing the constant makes the event more likely, hence
+\begin{equation}
+\PP(\text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$}) \leq \PP(\text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$})^2.
+\end{equation}
+
+Thus, if we let $p$ be the probability that $\Brwn$ is $C$-$\alpha$-HC in $\interval01$, we have $p \leq p^2$, whence $p$ is either zero or one. But this probability cannot be one, because the event that $\Brwn$ is not $C$-$\alpha$-HC has nonzero probability; Indeed, $\Brwn_1 - \Brwn_0$ has a (nontrivial) normal distribution, and hence has a nonzero probability to exceed $C$ in absolute value.
+
+Anyhow, so for each $C > 0$ we have $\PP(\text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$}) = 0$, and taking the union as $C = 1, 2, \dots$ and using $\sigma$-additivity,
+\begin{equation}
+\PP(\exists_C \text{$\Brwn$ is $C$-$\alpha$-HC in $\interval01$}) = 0,
+\end{equation}
+or in other words the probability that $\Brwn$ is $\alpha$-Hölder continuous is zero.
+
+\medskip
+
+Now let us do the second part. By independent increments, it suffices to verify that almost surely $\Brwn$ is not differentiable at $t = 0$. Now, if a given function $f$ with $f(0) = 0$ is differentiable at zero, it must satisfy a bound of the form $\abs{f(t)} \leq C \abs t$, for $t$ small enough, say less than $\varepsilon$. (Proof: set $C = \abs{f'(0)} + 1$ and apply elementary calculus.)
+
+In conclusion, we have the bound
+\begin{equation}
+\PP(\text{$\Brwn$ diff. at $0$}) \leq \PP(\exists_{n \in \N} \forall_{t \in \interval0{\frac1n}} \abs{\Brwn_t} \leq n  t).
+\end{equation}
+
+I don't know how to prove that the right-hand is zero. A plausibility argument is that $\abs{\Brwn_t}$ looks `roughly like $\sqrt t$, which is much bigger than $n t$ for small enough $t$.
+\end{sol}
+
+\begin{ex}
+Find $C,c > 0$ such that
+\begin{equation}
+\PP[\abs{\Brwn_t} \leq \varepsilon, \forall_{t \in \interval01}] \leq C \exp(-c/\varepsilon^2).
+\end{equation}
+\end{ex}
+
+\begin{sol}
+Split the interval $\interval01$ into $\floor{\varepsilon^{-2}}$ intervals of size $\varepsilon^2$ (plus one small interval which I will ignore). Then, if $\Brwn$ is always in the band $\interval{-\varepsilon}\varepsilon$, in none of these intervals can it vary by $2\varepsilon$ or more. Thus, we have the bound
+\begin{equation}
+\PP[\abs{\Brwn_t} \leq \varepsilon, \forall_{t \in \interval01}] \leq \PP[\text{$\Brwn_{\text{end}} - \Brwn_{\text{start}} \leq 2\varepsilon$ for all these intervals}].
+\end{equation}
+Now, by independent increments, we know that the right-hand side is precisely equal to
+\begin{equation}
+\PP[\Brwn_{\varepsilon^2} \leq 2 \varepsilon]^{\floor{\varepsilon^{-2}}} = \PP[\frac1\varepsilon N(0,\varepsilon^2) \leq 2 ]^{\floor{\varepsilon^{-2}}} = \PP[N(0,1) \leq 2]^{\floor{\varepsilon^{-2}}}.
+\end{equation}
+
+Now we conclude the proof by setting $c = - \log(\PP[N(0,1) \leq 2])$ and $C = \e^c$, to get
+\begin{equation}
+\PP[\abs{\Brwn_t} \leq \varepsilon, \forall_{t \in \interval01}] \leq \PP[N(0,1) \leq 2]^{\floor{\varepsilon^{-2}}} = \exp(-c \floor{\varepsilon^{-2}}) \leq \exp(-c(\varepsilon^{-2} - 1)) = C \exp(-c/\varepsilon^2),
+\end{equation}
+as desired.
+\end{sol}
+
+\begin{ex}
+Show that the following are martingales:
+\begin{enumerate}
+\item $\Brwn_t$,
+\item $M_t = \Brwn_t^2 - t$,
+\item $N_t = \exp(\Brwn_t - t/2)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+Let us first discuss some generalities about our circumstances. The requirement that $M_t$ be measurable is met in all our three instances, because indeed they are all actually measurable in the $\sigma$-algebra generated by $\Brwn_t$, which is larger than the $\sigma$-algebra generated by $\{\Brwn_s\}_{s \leq t}$.
+
+Now, the requirement that they be $L^1$ is met in all three instances. For the first one this is because the normal distribution is $L^1$, for the second because it is $L^2$, and for the third because you just sort of do the math and find out that (this will be used later)
+\begin{equation}\label{eq:3}
+\EV[\abs{\exp(\Brwn_t - t/2)}] = \EV[\exp(\Brwn_t - t/2)] = \phi_{\Brwn_t - t/2}(-\I) = \exp(-\frac12 t + \frac12 t) = 1.
+\end{equation}
+
+Finally, we need to compute the conditional expectation of $M_t$ given $\sa{F}_s$, for $s \leq t$. The essential observation is the following: $\Brwn_t = \Brwn_s + X$, where $X$ is a random variable with normal distribution (mean $0$ and variance $t-s$), which, by independence of increments, \emph{is independent from the $\sigma$-algebra $\sa{F}_s$,} for $s \leq t$. This allows for the following computations to be performed:
+\begin{equation}
+\begin{gathered}
+\EV[\Brwn_t \mid \sa F_s] = \EV[\Brwn_s \mid \sa F_s] + \EV[X \mid \sa F_s] = \Brwn_s + \EV[X] = \Brwn_s + 0,\\[1em]
+\begin{multlined}
+\EV[\Brwn_t^2 - t \mid \sa F_s] = \EV[\Brwn_s^2  \mid \sa F_s] + 2 \EV[\Brwn_s X \mid \sa F_s] + \EV[X^2 \mid \sa F_s] - t\\
+= \Brwn_s^2 + 2 \EV[\Brwn_s \mid \sa F_s] \cancel{\EV[X \mid \sa F_s]} + \EV[X^2] - t = \Brwn_s^2 + (t-s) - t = \Brwn_s^2 - s,\end{multlined}\\[1em]
+\begin{multlined}
+\EV[\exp(\Brwn_t - t/2)\mid \sa F_s] = \EV[\exp(\Brwn_s - s/2) \exp(X - \frac12(t-s)) \mid \sa F_s] \\
+= \EV[\exp(\Brwn_s - s/2) \mid \sa F_s] \EV[\exp(X - \frac12(t-s)) \mid \sa F_s] = (\Brwn_s - s/2) \times\EV[\exp(X - \frac12(t-s))] = \Brwn_s - s/2,
+\end{multlined}
+\end{gathered}
+\end{equation}
+where in the above computations we used independence a few times to separate conditional expectation of a product as a product of expectations, and in the last equality we used computations similar to \eqref{eq:3}.
+\end{sol}
+
+\begin{ex}
+\leavevmode
+\begin{enumerate}
+\item Show that for $r \geq s \geq 0$, the distribution of $T_r - T_s$ is the same as the distribution of $T_{r-s}$.
+\item Prove that for $0 \leq r_0 \leq r_1 \leq \dots \leq r_n$, the increments $T_{r_j} - T_{r_{j-1}}$ are independent.
+\item Compute the density of the distribution of $T_r$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item First, we note that by continuity we have $T_r \geq T_s$. Thus, we may compute $T_s$ as $T_r + T'_{s-r}$, where $T'_q$ is defined analogously to $T$, but instead for the random function $\Brwn'_t := \Brwn_{t-T_s} - s$.
+
+If we show that $\Brwn'$ has the same distribution as $\Brwn$, then the proof will be done, because then $T'$ has the same distribution as $T$.
+
+To do this we use the fact that $T_r$ is a stopping time (it is the smallest time for which $\Brwn$ is in $A = \{r\}$), and so by a property given in class, $\Brwn'_t = \Brwn_{t-T_s} - \Brwn_{T_s}$ is a standard Brownian. Ok we are done.
+
+\item We begin with a lemma:
+\begin{lemma}
+Suppose that $A_1, \dots, A_n$ is a collection of independent r.v., and let $A_{n+1}$ be another r.v. which is independent from the vector $(A_1, \dots, A_n)$. Then, $A_1,\dots,A_{n+1}$ is a collection of independent r.v.
+\end{lemma}
+\begin{lemmaproof}
+Direct computation:
+\begin{equation}
+\PP[A_1 \in B_1 \land \dots \land A_{n+1} \in B_{n+1}] = \PP[A_1 \in B_1 \land \dots \land A_n \in B_n] \PP[A_{n+1} \in B_{n+1}] = \prod_{i=1}^{n+1} \PP[A_i \in B_i].
+\end{equation}
+\NoEndMark
+\hfill\lemmaproofSymbol
+\end{lemmaproof}
+
+Now we just apply this lemma, and induction in $n$. The lemma is applicable because $T_{r_{j+1}} - T_{r_{j}}$ depends only on $\Brwn'_t = \Brwn_{t - T_{r_{j}}} - \Brwn_{T_{r_j}}$, which since $T_{r_j}$ is a stopping time is independent from $\Brwn|_{\interval0{T_{r_j}}}$, and since all $T_{r_i}$ for $i \leq j$ depend only on $\Brwn|_{\interval0{T_{r_j}}}$, we have independence of $T_{r_{j+1}} - T_{r_j}$ wrt all previous increments.
+
+\item The reflection property tells us that $\max_{0 \leq s \leq r} \Brwn_s$ has the same distribution as $\sqrt r \abs X$, where $X$ is a standard normal r.v. Thus, we may compute
+\begin{equation}\label{eq:4}
+\PP[T_r \leq a] = \PP[\max_{0 \leq s \leq a} \Brwn_s \geq r] = 2 \PP[X \geq r/\sqrt a] = 2 (1 - F(r/\sqrt a)),
+\end{equation}
+where $F(t) = \PP[X \leq t]$ has the property that $F'(t) = \frac1{\sqrt{2\pi}} \exp\left(-\frac12 t^2\right)$. Now, we may compute the derivative in $a$ of \eqref{eq:4} using the chain rule, to get
+\begin{equation}
+\diff*{\PP[T_r \leq a]}a = -2\frac1{\sqrt{2\pi}} \exp\left(-\frac12 \frac{r^2}a\right) \, \left(-\frac12 r a^{-3/2} \right) = \frac1{\sqrt{2\pi}} r a^{-3/2} \exp\left(-\frac12 \frac{r^2}a\right).
+\end{equation}
+
+Thus, the above is the density function of $T_r$, for $a \geq 0$. Obviously the density is null for $a \leq 0$.
+\end{enumerate}
+\end{sol}
+
+\end{document}

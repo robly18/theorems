@@ -1,0 +1,168 @@
+% !TEX encoding = UTF-8 Unicode
+
+% Adicionei este pacote para te o comando \dbend
+\usepackage{manfnt}
+% Parágrafos "perigosos"
+\usepackage{array}
+\newcommand{\dnote}[1]{%
+  \begin{tabular}{@{}m{0.08\textwidth}@{}m{0.92\textwidth}@{}}
+  \raisebox{1.475\height}{\large\dbend} & #1
+  \end{tabular}%
+}
+% O comando \nvdash é mais bonito que \not\vdash
+\usepackage{amssymb}
+
+% redefinições listas nao enumeradas: ficam mais bonitas
+% com travessao
+\renewenvironment{itemize}{%
+   \begin{list}{%
+      ---%
+   }{%
+      \setlength{\topsep}{0pt}
+      \setlength{\parsep}{0pt}
+      \settowidth{\labelwidth}{---}
+      \settowidth{\labelsep}{\mbox{\ }}
+      \setlength{\rightmargin}{0mm}
+      \setlength{\leftmargin}{\labelwidth}
+      \addtolength{\leftmargin}{\labelsep}
+   }%
+}{%
+   \end{list}
+}
+
+%
+% Definir novo comando para o prefácio como \chapter*{}
+% É necessário adicionar uma entrada no índice.
+%
+\newcommand{\prefacio}{\chapter*{Prefácio}%
+	\addcontentsline{toc}{chapter}{\MakeUppercase{Prefácio}}}
+
+%
+% Definição de palavras especiais
+%
+\newcommand{\istpress}{\scalebox{0.8}{ISTPRESS}}
+\newcommand{\utf}{\texttt{UTF-8}}
+
+%
+% Exemplo de ambiente para exercicios
+%
+\newcounter {contaexercicios}[chapter]
+\renewcommand \thecontaexercicios {\thechapter.\arabic{contaexercicios}}
+
+\newenvironment{exercicios}{%
+\begin{list}
+{}
+{
+\setlength{\topsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\itemindent}{0pt}
+\setlength{\itemsep}{14pt plus 4pt minus 2pt}
+\setlength{\labelwidth}{22pt}
+\setlength{\labelsep}{0pt}
+\setlength{\rightmargin}{0mm}
+\setlength{\leftmargin}{22pt}
+}}
+{\end{list}}
+
+\newcommand{\exercicio}{\refstepcounter{contaexercicios}%
+\item[{\thecontaexercicios}\hfill]}
+
+%
+% Definição de um ambiente para sombreados
+%
+\usepackage{framed}                     
+\definecolor{shadecolor}{gray}{0.90}
+   
+\newenvironment{shadedbox}{%
+\setlength{\FrameSep}{5pt}%
+\begin{shaded}
+\vspace*{-5pt}
+}%
+{
+\end{shaded}
+\setlength{\FrameSep}{0pt}
+}
+
+% 
+% DEFINIÇÕES PARA TEOREMAS (exemplo muito simples)
+%
+\usepackage{enumerate}
+\usepackage{amsfonts,amsmath,amsopn,amsthm,amscd}
+
+\newtheoremstyle{tempa}{1.0\topsep}{\topsep}{\itshape}{}{\bf}{}{\newline}{}
+\newtheoremstyle{tempb}{1.0\topsep}{\topsep}{}{}{\bf}{}{\newline}{}
+
+\theoremstyle{tempa}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposição}
+\theoremstyle{tempb}
+\newtheorem{definition}[theorem]{Definição}
+\newtheorem{example}[theorem]{Exemplo}
+\newtheorem{exercise}{Exercício}[chapter]
+
+\renewcommand{\proofname}{D\footnotesize EMONSTRAÇÃO}
+
+%
+% Pacotes adicionais para tabelas
+%
+\usepackage{booktabs}
+\usepackage{multirow}
+
+%
+% Pacote para definir legendas de tabelas e figuras
+%
+\usepackage[labelfont=bf,hang]{caption}
+
+\captionsetup[figure]{format=plain,hangindent=0pt,justification=centering,
+	belowskip=-4pt, aboveskip=10pt} 
+
+\captionsetup[table]{format=plain,hangindent={0pt},justification=centering,
+	belowskip=0pt, aboveskip=10pt}
+
+%
+% Pacote que permite adicionar uma caixa que envolve 
+% uma figura (em \includegraphics)
+%
+\usepackage[export]{adjustbox}
+
+
+
+%
+% Pacote para listar o código em Latex no documento
+%
+%\usepackage[final]{listings}
+%\newfontfamily{\latexstylefont}{Monaco}
+
+%\lstdefinestyle{latexcodestyle}{%
+%language=[LaTeX]{TeX},
+%basicstyle=\scriptsize\latexstylefont,
+%keywordstyle=\color{blue},
+%commentstyle=\color{red},
+%tabsize=4,
+%showstringspaces=false,
+%upquote=true,
+%lineskip=1pt,
+%frame=l, numbers=left, numberstyle=\tiny\latexstylefont,
+%stepnumber=1, numbersep=12pt,xleftmargin = 25pt, 
+%framerule=1.5pt, rulecolor=\color{gray}, framesep = 6pt,
+%morekeywords={appendix, tableofcontents,frontmatter, backmatter, %
+%	mainmatter, printindex, captionsetup, toprule, midrule, bottomrule, %
+%	multirow, setlength, definecolor, includegraphics, chapter, fontspec, %
+%	chaptersfont, oldchaptersfont, exercicio, theoremstyle, newtheoremstyle}}
+
+
+%\lstdefinestyle{latexincodestyle}{%
+%language=[LaTeX]{TeX},
+%basicstyle=\footnotesize\latexstylefont,
+%keywordstyle=\color{blue},
+%commentstyle=\color{red},
+%tabsize=4,
+%showstringspaces=false,
+%morekeywords={appendix, tableofcontents,frontmatter, backmatter, %
+%	mainmatter, printindex, captionsetup, toprule, midrule, bottomrule, %
+%	setlength, chapter, subsection}}
+
+
+
+

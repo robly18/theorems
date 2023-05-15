@@ -1,0 +1,323 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{fullpage}
+
+\usepackage{ wasysym }
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz-cd}
+\usepackage{adjustbox}
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+\difdef{f}{p}{
+op-symbol = \mathrm{D},
+op-symbol-alt = \mathrm{d}
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{array}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Differential Geometry Homework 5}
+\author{Duarte Maia}
+%\date{}
+
+\theoremstyle{plain}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+
+\theoremsymbol{\text{\textit{(End proof of lemma)}}}
+\newtheorem{lemmaproof}{Proof of lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\RP}{\mathbb{RP}}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\FF}{\mathcal{F}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SL}{\mathrm{SL}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\close}[1]{\overline{#1}}
+\newcommand{\into}{\mathbin{\lrcorner}}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\Lie}{L}
+\newcommand{\grad}{\nabla}
+\newcommand{\transp}{\top}
+\DeclareMathOperator{\tg}{tg}
+
+
+\let\Diff\relax
+\DeclareMathOperator{\Diff}{Diff}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Hom}{Hom}
+
+\let\div\relax
+\DeclareMathOperator{\div}{div}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}[\#4.8.12 B\&G]
+Suppose $M$ is geodesically complete for any smooth Riemannian metric. Show $M$ is compact.
+\end{ex}
+
+\begin{sol}
+Nope.
+\end{sol}
+
+\begin{ex}[\#4.8.13 B\&G]
+Let $M$ be connected and such that the isometry group of $M$ acts transitively on $M$. Show that $M$ is geodesically complete.
+\end{ex}
+
+\begin{sol}
+Pick a point $p \in M$. Pick $\varepsilon > 0$ such that $\exp_p(v)$ is defined for all $v$ of norm less than $\varepsilon$. Then, for \emph{any} point $q$, $\exp_q(v)$ is defined for $\abs v < \varepsilon$, because one may conjugate by an isometry which takes $q$ to $p$.
+
+Now one proves that geodesics are defined for all time, because if one intends to flow by a vector $v$ (of norm one, say), one can do so for time up to $\varepsilon$ at least. Then, one may define the geodesic $\gamma(t)$ up to $t = \varepsilon/2$, and then flow by $\dot\gamma(\varepsilon/2)$ (which is also norm one) by another $\varepsilon/2$ to obtain $\gamma(\varepsilon)$, and again flow for time $\varepsilon/2$ with velocity $\dot\gamma(\varepsilon)$ to define $\gamma(3\varepsilon/2)$, and so on. This will end up defining $\gamma(t)$ for all positive times $t$.
+\end{sol}
+
+\begin{ex}[\#4 do Carmo]
+Suppose parallel transport on $M$ does not depend on the curve. Prove that $M$ has null curvature.
+\end{ex}
+
+\begin{sol}
+We proved in the last pset (exercise 5) that $M$ has null curvature iff parallel transport on contractible loops is trivial. But in this exercise we are given an even stronger statement: parallel transport on \emph{any} loop is trivial. Thus, in particular, $M$ has null curvature.
+\end{sol}
+
+\begin{ex}[\#6 do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Let $M$ be locally symmetric, and $\gamma$ a geodesic. Let $X, Y, Z$ be parallel along $\gamma$. Prove that $R(X,Y)Z$ is parallel along $\gamma$.
+\item Prove that if $M$ is locally symmetric, connected, and has dimension two, then it has constant sectional curvature.
+\item
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Ok. Compute compute. In the following I use the definition
+\begin{equation}
+(\nabla R)(X,Y,Z,T) = \nabla_T (R(X,Y)Z) - R(\nabla_T X, Y)Z - R(X,\nabla_T Y)Z - R(X,Y)(\nabla_T Z).
+\end{equation}
+
+Using compatibility of the connection with the metric, this relates to the usual definition of $\nabla R$ via the relation
+\begin{equation}
+(\nabla R)(X,Y,Z,W,T) = \braket{(\nabla R)(X,Y,Z,T), W}.
+\end{equation}
+
+With it, we may compute
+\begin{equation}
+\nabla_{\dot\gamma} (R(X,Y)Z) = \cancel{(\nabla R)(X,Y,Z,\dot\gamma)} + R(\xcancel{\nabla_{\dot\gamma} X}, Y) Z + R(X, \xcancel{\nabla_{\dot\gamma} Y}) Z + R(X, Y) \xcancel{\nabla_{\dot\gamma}Z} = 0.
+\end{equation}
+\item Let $X$ and $Y$ be an orthonormal frame near some given point. We prove that, near this point, the derivative of the sectional curvature is zero, in any direction. Thus, the sectional curvature is locally constant, and by connectedness is constant. Sooo... compute compute compute.
+\begin{equation}
+\begin{aligned}
+v \cdot \braket{R(X,Y)X, Y} &= \braket{\nabla_v (R(X,Y)X), Y} + \braket{R(X,Y)X, \nabla_v Y}\\
+&= \braket{\xcancel{(\nabla R)(X,Y,X,v)}, Y} + \braket{R(\nabla_v X,Y)X, Y} + \braket{R(X,\nabla_v Y)X, Y}\\
+&\mathrel{\phantom{=}} + \braket{R(X,Y)\nabla_v X, Y} + \braket{R(X,Y)X, \nabla_v Y}\\
+\text{(Symmetries of curvature)} &= 2 \left( \braket{R(X,Y)\nabla_v X, Y} + \braket{R(X,Y)X, \nabla_v Y} \right) \\
+\text{(Skew-Symm. \& Two Dimensions)}&= 2 \braket{R(X,Y) X, Y} \left( \braket{\nabla_v X, X} + \braket{ \nabla_v Y, Y } \right),
+\end{aligned}
+\end{equation}
+and this is zero because, e.g., $2 \braket{\nabla_v X, X} = v \cdot \braket{X,X} = 0$.
+
+\item Nope.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[\#3 do Carmo]
+Let $M$ have non-positive sectional curvature. Prove that no point has any conjugate points.
+\end{ex}
+
+\begin{sol}
+We prove that the hypothesis on curvature makes Jacobi fields satisfying $J(0) = 0$ grow in size, and never get smaller. Therefore, if such a field is zero somewhere at positive time, it is trivial.
+
+So... Let $J$ be a Jacobi field. We compute
+\begin{equation}
+\diff{}t \diff{}t \braket{J(t), J(t)} = 2 \diff{}t \braket{\dot J, J} = 2 \braket{\ddot J, J} + 2 \norm{\dot J}^2.
+\end{equation}
+
+Now, the second term is obviously non-negative. On the other hand, the first term is also non-negative, as
+\begin{equation}
+\braket{\ddot J, J} =  - \braket{R(\dot\gamma, J) \dot\gamma, J} \geq 0,
+\end{equation}
+by hypothesis on the sign of the sectional curvature. I mean. There are two cases, one where $\dot\gamma$ and $J$ are linearly dependent, in which case the whole thing is zero to begin with, and in the other case you use the hypothesis on sectional curvature and the fact that $\abs{\dot\gamma \wedge J} > 0$. Anyway, details details, we conclude that:
+\begin{equation}
+\diff[2]{}t \abs{J}^2 \geq 0.
+\end{equation}
+
+Moreover, we have $\abs{J(0)}^2 = 0$ by hypothesis. Now we prove the lemma: if $f \colon \rinterval0T \to \R$ satisfies $f(0) = 0$, $f(t) \geq 0$, and $f''(t) \geq 0$ for all time, then $f$ never vanishes at positive times. Indeed, to begin, note that $f'(0) \geq 0$, because if $f'(0)$ were negative then $f(t)$ would be negative for small time. But moreover, $f'(t)$ is increasing by the hypothesis on the second derivative. Hence, $f'$ is always positive, and thus $f$ is always increasing. And we're done with this exercise.
+\end{sol}
+
+
+\begin{ex}[\#5 do Carmo]
+\leavevmode
+\begin{enumerate}
+\item Show that $K_v$ is self-adjoint.
+\item Show that for $e_i(t)$ as given, $K_{\dot\gamma(t)} (e_i(t)) = \lambda_i e_i(t)$.
+\item Show that the Jacobi equation is equivalent to the system
+\begin{equation}
+\ddot x_i + \lambda_i x_i = 0.
+\end{equation}
+\item Show that the conjugate points of $p$ along $\gamma$ are given by $\gamma(\pi k/\sqrt{\lambda_i})$, where $k$ is a positive integer and $\lambda_i$ is a positive eigenvalue of $K_v$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item Use symmetries of the curvature tensor.
+\begin{equation}
+\braket{K_v(x), y} = \braket{R(v,x)v, y} = \braket{R(v,y)v,x} = \braket{x,K_v(y)}.
+\end{equation}
+\item We show that $\braket{K_{\dot\gamma(t)}(e_i(t)), e_j(t)}$ does not change with time. This obviously implies the desired result.
+
+\begin{equation}
+\diff{}t \braket{K_{\dot\gamma(t)}(e_i(t)), e_j(t)} = \braket{\diff.p.{}t K_{\dot\gamma(t)} (e_i(t)), e_j(t)} + \braket{K_{\dot\gamma(t)}(e_i(t)) \xcancel{\diff.p.{}t e_j(t)}}
+\end{equation}
+
+Now, let us take a closer look at the term $\diff.p.{}t K_{\dot\gamma(t)}(e_i)$. Well, $K_{\dot\gamma(t)}(e_i)$ is of the form $R(X,Y)Z$, with $X = Z = \dot\gamma$ and $Y = e_i$. All of these are parallel along $\gamma$, so by exercise 6a, $K_{\dot\gamma(t)}(e_i)$ is parallel along $\gamma$, so its derivative along $\gamma$ is null. Thus, we conclude finally that $\braket{K_{\dot\gamma}(e_i), e_j}$ does not depend on time, and since at $t = 0$ this equals $\lambda_i \delta_{ij}$, so it does for all time, as desired.
+
+\item Ok.
+
+The Jacobi equation is: $\ddot J + K_{\dot\gamma} J = 0$. Now, note that $J = \sum x_i e_i$, hence $\dot J = \sum \dot x_i e_i + \sum x_i \xcancel{\dot e_i}$, and likewise we show $\ddot J = \sum \ddot x_i e_i$. Thus, applying this and the previous exercise, the Jacobi equation becomes
+\begin{equation}
+\sum \ddot x_i e_i + \sum \lambda_i x_i e_i = 0,
+\end{equation}
+and taking the $i$-th coordinate we obtain the desired result.
+
+\item Well, a conjugate point must satisfy $x_i(t) = 0$ for all $i$, with some solution where $x_i(0) = 0$ for all $i$. It is clear that we can restrict our attention to solutions $J(t)$ with only one non-null coordinate, because the coordinates all behave independently. So let us answer the question, for a given coordinate $i$: where may a nontrivial solution of $\ddot x_i + \lambda_i x_i = 0$ with $x_i(0) = 0$ vanish?
+
+Fortunately we know exactly what the solutions to this ODE look like. If $\lambda_i = 0$ the solution is a line, so it never vanishes at positive $t$ unless the solution is trivial. If $\lambda_i < 0$ then the solution is known to be of the form $x_i(t) = C \sinh(\sqrt{\lambda_i} t)$, which again only vanishes if $C = 0$ and so the solution is identically zero. Thus, the only remaining case is when $\lambda_i > 0$, in which case the only solutions are precisely $x_i(t) = C \sin(\sqrt{\lambda_i} t)$, which vanish precisely when $\sqrt{\lambda_i} t = 2 k \pi$ for some positive integer $k$, even for nontrivial solutions. This yields the desired result.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[\#2 do Carmo]
+Show that $\mbf x \colon \R^2 \to \R^4$ given by
+\begin{equation}
+\mbf x(\theta, \varphi) = \frac1{\sqrt2} (\cos \theta, \sin \theta, \cos \varphi, \sin\varphi)
+\end{equation}
+is an immersion of $\R^2$ into the unit sphere $S^3$, whose image is a torus $T^2$ with sectional curvature zero in the induced metric.
+\end{ex}
+
+\begin{sol}
+Well, the fact that $\mbf x$ is $2\pi$-periodic in $\theta$ and $\varphi$ means that (by covering space and quotient properties) it descends to a map $T^2 \to \R^4$. Moreover, this map is seen easily to be injective. Also, clearly the image always has unit norm, so it is actually an injective map $T^2 \to S^3$, and it is an immersion because, I mean, you just compute the derivative. I'll compute it in a minute. It's obviously injective.
+
+Anyway, we have an injective immersion of a compact manifold in another manifold, so it is an embedding, and thus the image is indeed diffeomorphic to $T^2$.
+
+Now we compute the sectional curvature. To do this, we begin by identifying the induced metric, by computing its pullback in $\theta, \varphi$ coordinates. Let $g$ be the induced metric. The following data will be useful.
+\begin{equation}
+\partial_\theta \mbf x = \frac1{\sqrt 2}(-\sin \theta, \cos \theta, 0, 0), \quad \partial_\varphi \mbf x = \frac1{\sqrt 2} (0,0,-\sin \varphi, \cos \varphi).
+\end{equation}
+
+Thus, it becomes very clear that:
+\begin{equation}
+g_{12} = 0, \quad g_{11} = \frac1{\sqrt2}, \quad g_{22} = \frac1{\sqrt 2}.
+\end{equation}
+
+Cool. So the induced metric is just a (constant) scalar multiple of the Euclidean metric. Since scaling the metric does not change whether the sectional curvature is zero or not, and the Euclidean metric is very flat, we get that the sectional curvature of this torus we embedded in $S^3$ is indeed zero. And this exercise is done.
+\end{sol}
+
+\begin{ex}[6]
+Nope.
+\end{ex}
+
+\begin{sol}
+Nope.
+\end{sol}
+
+\begin{ex}[7]
+Let $M$ be a complete (Missing hypothesis: Connected) Riemannian manifold.
+\begin{enumerate}
+\item Show that every isometry of $M$ is determined by its action on the tangent space at a point.
+\item Prove that the isometries of $\HH^n$ are precisely $\SO_0(n,1)$.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item A corollary of Hopf-Rinow is that any two points are connected by a geodesic. Thus, suppose that an isometry $f$ is known at $p$, as well as $(\dl f)_p$. Now, an arbitrary other point may be written as $q = \exp_p(v)$ for some vector $v$, and since $f$ is an isometry we have $f(q) = \exp_{f(p)} (\dl f(v))$, which is determined fully by $f(p)$ and $(\dl f)_p$.
+
+\item We saw in a previous pset that all elements of $\SO_0(n,1)$ are isometries of $\HH^n$, so it suffices to verify that all isometries are of this form. To this effect, we take an arbitrary isometry $f$, and associate to it a matrix $M \in \SO_0(n,1)$. Then, we show that the action of $f$ and $M$ on the tangent space at $p = (\vec 0, 1)$ agree, hence $f = M \in \SO_0(n,1)$.
+
+So, given $f$, we construct $M$ as follows. First, pick an o.n. basis $e_1, \dots, e_n$ of $T_pM$. Then, extend it to $e_1, \dots, e_{n+1}$, an o.n. basis (in the standard metric) of $\R^{n+1}$, by setting $e_{n+1} = p$.
+
+Now, define $M$ as the unique linear transformation that takes $e_1, \dots, e_n$ into $(\dl f)_p(e_1), \dots, (\dl f)_p(e_n)$, and $e_{n+1}$ into $f(p)$.
+
+We claim that $M \in \SO_0(n,1)$. It suffices to verify that it is in $\SO(n,1)$, because evidently it takes a point of the hyperboloid into another, so it preserves the top sheet. Anyway, let us compute $Q(e_i, e_j)$ vs. $Q(M e_i, M e_j)$.
+
+For $i, j \leq n$ these two quantities are evidently the same, because here $M$ agrees with $(\dl f)_p$, which is an isometry for the metric induced by $Q$.
+
+If, say, $i < j = n+1$, then $Q(e_i, e_j) = 0$, because $e_i \in T_{e_j} M$, and the condition for this is precisely that $e_i \perp_Q e_j$. In the same manner, $M e_i$ is tangent to $M$ at $M e_j$, hence we also have $Q(M e_i, M e_j) = 0$. Thus, here $M$ also preserves $Q$.
+
+Finally, if $i = j = n+1$, we have $Q(e_i, e_j) = -1$ because $e_i = e_j$ is in the hyperboloid. Moreover, $M e_i = M e_j$ is also in the hyperboloid, so also $Q(M e_i, M e_j) = -1$. Thus, here $M$ also preserves $Q$.
+
+In summary, $Q(e_i, e_j) = Q(M e_i, M e_j)$ regardless of $i$ and $j$, hence $M$ is in $\SO(n,1)$, and thus the exercise is done.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[8]
+\end{ex}
+
+\begin{sol}
+\end{sol}
+
+\end{document}
