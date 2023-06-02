@@ -1,0 +1,175 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{On Small Models of Theories}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{prelimdef}{Preliminary Definition}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{nonumberplain}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\CF}{\mathrm{CF}}
+\newcommand{\Seq}{\mathrm{Seq}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+
+\begin{document}
+\maketitle
+
+%\tableofcontents
+
+\section{Introduction}
+
+\begin{convention}
+Unless otherwise specified, we will be working with models over a countable language.
+\end{convention}
+
+As of the time of writing this document, the author is aware of two prior existing (equivalent) characterizations of what it means for a model $M$ (of a complete theory $T$) to be `as small as possible'. One of these is for the model to be \emph{atomic}, that is, any finite tuple of elements of $M$ satisfies a $T$-complete formula. Another is for the model to be prime, that is, for it to embed elementarily into any other model of $T$.
+
+In the process of studying these notions, I came up with my own notion of smallness of a model, which I was easily able to show agrees with the the notions above in the case where $T$ is an atomic theory. I harbored some hope that my notion of smallness might be a (fruitful?) generalization of them to the nonatomic case. This turned out not to be so: the notion of smallness I came up with wound up being precisely equivalent to being atomic.
+
+In this document, I will attempt to motivate my definition of a model $M$ being `small'\footnote{Since my notion adds nothing new, I opted not to give it a better name.} and show the path I took in showing that this notion is equivalent to atomicness.
+
+As a last remark before beginning, this was all done in the context of countable languages, which is the context where all I know about atomic models holds. It might be the case that my notion is fruitful in contexts with larger languages (though I find it more likely that it is still equivalent to atomicness), but I would prefer to learn more about larger languages before venturing in such directions.
+
+\section{The Main Definition}
+
+\subsection{Introduction}
+
+As motivation for our main definition, let us think for a little about the question: What elements must a model $M$ of a theory $T$ have for sure?
+
+To first approximation, the only things that $T$ can guarantee exist are witnesses to existential formulas $\exists_x \varphi(x)$ which hold in $T$. As such, one might identify a property of a small model to be: every element is there to witness some existential statement. Unfortunately this proves far too weak, as any element certainly witnesses \emph{some} existential statement, e.g. $x = x$.
+
+To remedy this issue, we may instead shift gears to: to each existential statement, we associate to it a witness in $M$. This then becomes the witness's \textit{raison d'etre}, and so we demand that every element of $M$ has such a reason to exist. Formally, our first definition of small model becomes:
+\begin{prelimdef}\label{pd:1}
+If $M$ is a model of the complete theory $T$, we say that $M$ is small if there is a \emph{surjective} map $W$ from the formulas in one free variable which are consistent with $T$ (i.e. the formulas $\varphi(x)$ such that $T \vdash \exists_x \varphi(x)$) to the model, such that $m = W(\varphi)$ always satisfies $M \Vdash \varphi[m]$.
+\end{prelimdef}
+
+The collection of formulas defined above will be useful in the future, so we give it (and its higher arity cousins) a name.
+\begin{definition}
+In the context of a given complete theory $T$, denote by $\CF_n$ the set of formulas in $n$ free variables which are consistent with $T$, that is,
+\begin{equation}
+\CF_n := \{\, \varphi(x_1, \dots, x_n) \mid T \vdash \exists_{\vec x} \varphi(\vec x) \,\}.
+\end{equation}
+\end{definition}
+
+There are a few problems with Preliminary Definition \ref{pd:1}:
+\begin{itemize}
+\item It still allows for large amounts of redundancy, given that we have infinitely many distinct true sentences, e.g. $x=x$, $x=x \land x=x$, etc. Thus, any countable model admits such a surjective map $W$.
+
+This can be remedied by making the reasonable demand that equivalent formulas have the same witness, but this might not be sufficient to avoid subtler manifestations of the same issue, which we will henceforth refer to in general as \emph{redundancy}. Avoiding redundancy is the main content of our definition, and we will go into greater depth shortly.
+
+\item Under the light (but essential) assumption that equivalent formulas have the same witness, it might be impossible for $W$ to be surjective. For instance, consider the theory of a dense linear order with no endpoints, in which up to equivalence there is exactly one formula in one free variable.
+
+To remedy this issue, we weaken the requirement for surjectivity. To motivate the weakening, we return for the theory of a dense linear order with no endpoints. Then, we may attempt to justify that $\Q$ is a model with as few elements as possible via the following process.
+
+First, there must be a witness to $x = x$, so we pick some witness $q_0 = W(x=x)$. Then, there must be a witness (or rather a pair of witnesses) to $x<y$, so we pick two elements $q_1 < q_2$ (one of which may or may not equal $q_0$). Then, we must also have a witness to $x<y \land y<z$, and so on. If we proceed in an appropriate way, we may ensure that every element of $\Q$ is there to witness one of these formulas, which is a light plausibility argument for smallness of $\Q$ as a model.
+
+This motivates the idea that our elements may need to exist not just to witness formulas of the form $\exists_x \varphi(x)$, but also $\exists_{x_1, \dots, x_n} \varphi(x_1, \dots, x_n)$. In turn, this suggests defining $W$ to act on existential formulas of \emph{any} arity, and weakening our notion of surjectivity to what we will call \emph{surjectivity up to padding}.
+\end{itemize}
+
+\begin{definition}[Witnessization, Surjectivity up to Padding]
+Let $M$ be a model of $T$, and let $W$ be a collection of functions $W_n \colon \CF_n \to M^n$, for $n \in \N$. We call such a collection of functions a \emph{witnessization of $M$}.
+
+We say that such a $W$ is \emph{(strongly) surjective up to padding} (shortened to `suptop') if, for every $n$-uple $\vec m = (m_1, \dots, m_n)$ of elements of $M$, there is some $N$-uple $\vec\mu = (\mu_1, \dots, \mu_N)$ in the image of $W_N$, of which $\vec m$ is a subtuple, or equivalently, such that $\vec\mu$ is a padding of $\vec m$. For our purposes, let us say that the ordering must be preserved in the subtuple relation, though this will not be relevant.
+
+We say that $W$ is \emph{weakly surjective up to padding} (shortened to `weak suptop') if the above condition holds for $n = 1$.
+\end{definition}
+
+\subsection{Avoiding Redundancy}
+
+Let us now investigate the following question: How to characterize the redundancy of a witnessization $W$?
+
+We have already identified a measure in which $W$ might be redundant, namely: If $T \vdash \forall_{\vec x}  (\varphi(\vec x) \leftrightarrow \psi(\vec x))$, we expect that $W(\varphi) = W(\psi)$.
+
+Another attempt to avoid redundancy is as follows: $W(\varphi \lor \psi)$ should agree with either $W(\varphi)$ or $W(\psi)$. This is because, if we already have a witness to these two formulas, we do not need to look elsewhere to find a witness to $\varphi \lor \psi$; either of these two witnesses will do.
+
+While this property is already pretty strong, it is not our final demand, because it is too finitary in nature. Indeed, it might happen that a formula $\varphi$ is, morally speaking, equivalent to a disjunction of infinitely many other formulas $\varphi_1$, $\varphi_2$ etc., in which case we still want $W(\varphi)$ to agree with $W(\varphi_k)$ for some $k$. This leads us to our first serious demand for nonredundancy, for which we first need to introduce some notation.
+\begin{definition}
+Let $S$ be a subset of $\CF_n$. Then, we say $\varphi \in \CF_n$ is the join of $S$, denoted by abuse of notation $\varphi \equiv \bigvee S$, if for all $\alpha \in \CF_n$ such that $T \vdash \sigma \rightarrow \alpha$ for every $\sigma \in S$, we have $T \vdash \varphi \rightarrow \alpha$.
+\end{definition}
+
+\begin{remark}
+The above definition is simply the standard definition of the join\slash supremum\slash least upper bound of a subset of a poset, applied to the poset of consistent formulas modulo equivalence.
+
+In particular, any two joins of $S$ are equivalent.
+\end{remark}
+
+\begin{remark}
+We make no assumptions on the existence of joins of sets, and thus the symbol $\bigvee S$ might not make sense. Joins of finite nonempty(!) sets always exist, though: simply consider the disjunction of all elements of the set.
+\end{remark}
+
+\begin{remark}\label{rmk:shaky}
+This notion of join of a collection of formulas has weird model-theoretic repercussions, or rather lack thereof. Indeed, if $\varphi \equiv \bigvee S$ in a nonfinite way (i.e. for no finite subset $\{\sigma_1, \dots, \sigma_n\}\subseteq S$ do we have $\varphi \equiv \bigvee \sigma_k$), then there always exists a model of $T$ containing some element satisfying all $\sigma \in S$, but not $\varphi$. Thus, the interpretation of the join as an infinitary disjunction is shaky.
+\end{remark}
+
+We may now make our first main definition:
+\begin{definition}\label{def:nr1j}
+Let $W$ be a witnessization of a model $M$ of a theory $T$. We say that $W$ satisfies the \emph{join variant of the first nonredundancy condition}, abbreviated to `$W$ satisfies \eqref{eq:nr1j}', if
+\begin{equation}
+\tag{NR1-J}\label{eq:nr1j}
+\begin{tabular}{ll}
+For all $S \subseteq \CF_n$ and $\varphi \in \CF_n$,\\
+if $\varphi \equiv \bigvee S$ then there is some $\sigma \in S$ such that $W(\varphi) = W(\sigma)$.
+\end{tabular}
+\end{equation}
+\end{definition}
+
+I would like to criticize the above the definition for a moment. Besides the sentence at the end of remark \ref{rmk:shaky}, there is something that irks me about definition \ref{def:nr1j}: it appears too strong. Again, by the content of remark \ref{rmk:shaky}, joins do not correspond necessarily to infinitary disjunctions, and while it seems perhaps plausible that they would agree in a `small enough' model, this is not a foregone conclusion. Thus, I temporarily discard condition \eqref{eq:nr1j} in favor of condition \eqref{eq:nr1} below, which to me appears a milder requirement.
+
+The entirety of the above paragraph will be invalidated when I show that \eqref{eq:nr1j} and \eqref{eq:nr1} are equivalent, in section \ref{sec:nr1jeqvnr1}
+
+\subsection{Avoiding Redundancy (Reprise)}
+
+
+
+\subsection{\eqref{eq:nr1j} and \eqref{eq:nr1} are Equivalent}
+
+
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
+
+\end{document}

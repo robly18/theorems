@@ -1,0 +1,234 @@
+% !TEX spellcheck = Portugues
+% !TEX root = main.tex
+
+\chapter{Matemática Inversa: O Meu Teorema Implica o Teu Teorema}
+
+\section*{Abstract}
+
+
+
+\section*{Introdução}
+
+O leitor certamente terá encontrado nas suas aventuras matemáticas afirmações da forma `o teorema $X$ implica o teorema $Y$'. O ponto de partida deste texto consiste na observação de que isto é uma trivialidade.
+
+\begin{theorem}
+Quaisquer dois teoremas são equivalentes.
+\end{theorem}
+
+\begin{proof}
+Duas afirmações $X$ e $Y$ dizem-se equivalentes se são verdadeiras exatamente nas mesmas circunstâncias. Em particular, se $X$ e $Y$ são teoremas, são verdadeiros independentemente das circunstâncias, e portanto são equivalentes.
+\end{proof}
+
+Neste texto, apresentamos uma breve introdução à área da lógica chamada ``Matemática Inversa'', que fornece uma definição alternativa e não-trivial de implicações entre teoremas, e mostramos algumas consequências (algumas expectáveis, outras surpreendentes) desta definição.
+
+%Devido a limitações de espaço, este texto será de natureza puramente expositória. De modo a poder apresentar as ideias principais sem as ofuscar com detalhes desnecessários, será ocasionalmente necessário distorcer a verdade. No que se segue, usaremos o seguinte símbolo para indicar que um dado parágrafo contém falsidades. 
+
+%\dnote{Este texto está inteiramente correto.}
+
+%Ao leitor interessado, que queira aprender o conteúdo deste texto sem falsidades, indico como bibliografia principal o livro ``Subsystems of Second Order Arithmetic'' escrito por Stephen Simpson \cite{simpson}. Dito isto, podemos finalmente começar a responder à questão: O que significa um teorema implicar outro?
+
+Ao leitor interessado, indico como bibliografia principal o livro ``Subsystems of Second Order Arithmetic'' escrito por Stephen Simpson \cite{simpson}. Começamos agora a responder à questão: O que significa um teorema implicar outro?
+
+\section*{Lógica de Primeira Ordem}
+
+De modo a dar uma definição precisa de implicação entre teoremas, vale a pena pensar um pouco mais nas noções de veracidade e demonstração. Um formalismo possível para este conceitos consiste na chamada `Lógica de Primeira Ordem'. Os dois conceitos principais que nos são relevantes são o conceito de `afirmação (de primeira ordem)' e `demonstração'.
+
+\begin{enumerate}
+\item Uma afirmação de primeira ordem consiste numa expressão `bem-formada' composta a partir de variáveis (e.g. $x,y,z$), conectivos lógicos (e.g. $\neg, \land$), parênteses, quantificadores $\forall$ e $\exists$, o sinal de igual $=$, e alguns outros símbolos dependentes de contexto, e.g. $1$, $\times$, $\in$.
+
+\item Dado um conjunto de afirmações $\Gamma$ e uma outra afirmação $\varphi$, uma `demonstração de $\varphi$ a partir de $\Gamma$' é uma sequência finita de afirmações, cujo último elemento é $\varphi$, onde cada afirmação é um elemento de $\Gamma$ (diz-se uma hipótese), um `axioma lógico' (consulte-se um livro sobre lógica para saber quais são estes), ou segue logicamente das afirmações anteriores (num sentido preciso que não será especificado).
+
+Se houver uma demonstração de $\varphi$ a partir de $\Gamma$, escrevemos $\Gamma \vdash \varphi$, lido `$\Gamma$ demonstra $\varphi$'. Neste contexto, $\Gamma$ deverá ser interpretado como um conjunto de axiomas ou hipóteses, e $\varphi$ um teorema que foi demonstrado sob essas hipóteses. Apresentaremos exemplos em breve.
+\end{enumerate}
+
+Antes de apresentar exemplos, gostaria de fazer uma nota filosófica. Não pretendo afirmar que a Lógica de Primeira Ordem formaliza toda a matemática. Isso não significa que essa afirmação não pode ser feita, e há quem diga que toda a matemática está construída sobre lógica de primeira ordem, mas dado que esta é em si parte da matemática levantam-se diversas questões de circularidade que são difíceis de responder. Para os nossos propósitos devemos ver lógica de primeira ordem apenas como uma tentativa de modelar o pensamento matemático, não de o definir.
+
+\subsection*{Teoria de Grupos}
+
+A título de primeiro exemplo, apresentamos os axiomas de teoria de grupos. Neste contexto, as nossas afirmações poderão usar os símbolos $\cdot$, ${}^{-1}$, e $\mathrm{id}$, e os axiomas são
+\begin{equation}
+\mathrm{Grp} = \left\{
+\begin{aligned}
+&\forall_x \forall_y \forall_z (x \cdot y) \cdot z = x \cdot (y \cdot z),\\
+&\forall_x (x \cdot x^{-1} = \mathrm{id} \land x^{-1} \cdot x = \mathrm{id}),\\
+&\forall_x (x \cdot \mathrm{id} = x \land \mathrm{id} \cdot x = x)
+\end{aligned}
+\right\}.
+\end{equation}
+
+Um exemplo de um teorema em teoria de grupos é a afirmação: Se $xy = \mathrm{id}$, então $y = x^{-1}$. No nosso contexto, escrevemos
+\begin{equation}
+\mathrm{Grp} \vdash \forall_x \forall_y (x \cdot y = \mathrm{id} \implies y = x^{-1}).
+\end{equation}
+
+Fornecemos agora dois não-exemplos de teoremas. O primeiro é a afirmação: Para todo o $x$ e $y$, $xy = yx$. Isto não é um teorema pelo facto que existem grupos não-comutativos, e portanto esta afirmação não segue dos axiomas de grupo. Escrevemos
+\begin{equation}
+\mathrm{Grp} \nvdash \forall_x \forall_y (x\cdot y = y\cdot x).
+\end{equation}
+
+Outro não-exemplo de teorema é o chamado Teorema de Lagrange. Este diz o seguinte: se $H$ é um subgrupo de $G$, então a cardinalidade de $H$ divide a cardinalidade de $G$. Apesar de ser, no sentido matemático usual, um teorema da teoria de grupos, não é um teorema que siga dos axiomas de grupo dados acima, pelo simples facto que \emph{não é sequer possível expressar este teorema em lógica de primeira ordem} (neste contexto). Isto é por várias razões, mas a razão que nos é mais relevante, por revelar uma subtileza das definições subjacentes, é que \emph{lógica de primeira ordem não permite quantificar sobre conjuntos}.
+
+Mais precisamente, as variáveis $x, y, z$ representam elementos de um universo subjacente, no nosso caso de um grupo $G$, e sempre que quantificamos e.g. $\forall_x$, está implícito que o $x$ está a variar sobre os elementos do grupo em jogo. Não há, então, forma de quantificar sobre subconjuntos do grupo, ou sobre outros grupos.
+
+\subsection*{Teoria de Conjuntos}
+
+No início do século XX, após a descoberta do chamado Paradoxo de Russel, diversos matemáticos procuraram pôr a matemática sobre fundações rigorosas, o que motivou o desenvolvimento da lógica (de primeira ordem e outras) e da teoria de conjuntos. Esta procura, chamada `O Programa de Hilbert', acabou por ser considerada fútil, após a descoberta dos chamados Teoremas de Incompletude de Gödel (que sob certa perspetiva afirmam que o programa de Hilbert é impossível), mas não deixa de ter tido um impacto profundo na matemática.
+
+Uma das consequências deste programa foi transformação da Teoria de Conjuntos, outrora baseada numa noção intuitiva de conjunto como coleção de objetos, numa teoria baseada num conjunto fixo de axiomas que procuram descrever `o universo dos conjuntos'. Foram propostas na altura diversas axiomatizações possíveis, mas a que eventualmente se tornou `canónica' consiste nos chamados \emph{Axiomas de Zermelo-Fraenkel}. Isto é um conjunto fixo de axiomas que pode ser encontrado num livro moderno de teoria de conjuntos, mas como não nos é relevante o preciso enunciado destes axiomas, referimo-nos à coleção destes axiomas usando o nome $\mathrm{ZF}$. Por exemplo, para afirmar que `existe um conjunto vazio' é um teorema da teoria de conjuntos, escrevemos
+\begin{equation}
+\mathrm{ZF} \vdash \exists_x \forall_y (y \notin x).
+\end{equation}
+
+Existe um axioma `controverso', usado comummente em várias áreas da matemática, chamado \emph{axioma da escolha}. Este foi adicionado posteriormente aos axiomas de ZF, e o seu enunciado é-nos irrelevante, pelo que nos referimos a este axioma pela letra $\mathrm{C}$. Ao conjunto dos axiomas de ZF mais o axioma da escolha chamamos $\mathrm{ZFC} = \mathrm{ZF} \cup \{\mathrm{C}\}$, e é razoável definir um teorema matemático como sendo `uma afirmação $X$ tal que $\mathrm{ZFC} \vdash X$'.
+
+Na década de 1920, a relação entre este novo axioma e os axiomas de ZF, e a relação entre estes e `a verdade absoluta', ainda não era totalmente percebida pelos matemáticos. Reza a história que, por volta desta altura, o matemático Alfred Tarski tentou publicar (e mais tarde publicou de facto) o seguinte resultado:
+\begin{equation}\label{eq:tarskithm}
+\mathrm{ZF} \vdash \mathrm{C} \Leftrightarrow \big( \text{Qualquer conjunto infinito $A$ está em bijeção com $A \times A$} \big).
+\end{equation}
+
+No entanto, o seu artigo foi rejeitado por dois matemáticos influentes. Um destes, René Fréchet, rejeitou o artigo por ser uma equivalência entre duas afirmações verdadeiras, e portanto nada de novo. Pelo outro lado, Henri Lebesgue rejeitou o artigo por ser uma equivalência entre duas afirmações falsas, e portanto desinteressante.
+
+Apesar desta rejeição, o resultado de Tarski tem bastante interesse. De facto, em 1963 Paul Cohen demonstrou que $\mathrm{ZF} \nvdash \mathrm{C}$ (e já era conhecido que $\mathrm{ZF} \nvdash \neg \mathrm{C}$), pelo que a afirmação $\mathrm{C}$ \emph{não é verdadeira nem falsa}, da perspetiva dos axiomas de Zermelo-Fraenkel. A afirmação \eqref{eq:tarskithm} é então um exemplo primordial do que hoje se chama `matemática inversa', porque mostra que duas afirmações que, da perspetiva da matemática moderna, são (quase) inequivocamente verdadeiras são na verdade equivalentes, e isto é feito num contexto em que \emph{nenhuma das duas afirmações é verdadeira nem falsa}, e portanto uma equivalência entre elas não é uma trivialidade. Podemos dizer, de modo rigoroso, que as duas afirmações são `teoremas' igualmente fortes da perspetiva de $\mathrm{ZF}$.
+
+Este resultado dá-nos um ponto de partida para formalizar implicações entre teoremas, mas há um grande problema. A ideia básica consiste em: para comparar dois teoremas, $X$ e $Y$, procura-se enfraquecer os axiomas subjacentes, no nosso caso $\mathrm{ZFC}$, de modo a que nem $X$ nem $Y$ sejam verdadeiros na teoria mais fraca, no nosso caso $\mathrm{ZF}$. Depois, procura-se provar que, digamos, $X \Rightarrow Y$ na teoria mais fraca.
+
+Apesar de ser uma abordagem promissora, esta estratégia não é muito produtiva quando aplicada a teoria de conjuntos, porque os axiomas de ZF são `frágeis'. Com isto quer-se aproximadamente dizer que, se um único axioma é removido de $\mathrm{ZF}$, obtém-se uma teoria demasiado fraca, que acaba por não conseguir sequer falar sobre objetos matemáticos comuns, por exemplo números reais e funções contínuas. Salvo raras exceções, a única `matemática inversa' que se consegue fazer a partir de $\mathrm{ZF}$ consiste na comparação de `teoremas' sobre a existência de objetos bastante complicados, por exemplo os chamados `cardinais grandes', que são de pouco ou nenhum interesse para a maioria dos matemáticos. Assim sendo, procura-se uma teoria mais `robusta' para enfraquecimento, de modo a poder comparar teoremas da matemática usual, e é aí que entra a chamada Aritmética de Segunda Ordem.
+
+\section*{Aritmética de Segunda Ordem}
+
+Sem entrar em detalhes, a teoria da Aritmética de Segunda Ordem, introduzida por Hilbert em 1934, descreve o universo dos números naturais, $\mathbb{N}$, e os seus subconjuntos, $\mathcal{P}(\mathbb{N})$. Note-se que isto é distinto de uma teoria que descreva apenas o universo $\mathbb{N}$, por exemplo a chamada Aritmética de Peano, devido às idiossincrasias da lógica de primeira ordem que foram realçadas quando falámos do teorema de Lagrange.
+
+Esta teoria é denominada $\mathrm{Z}_2$, e os seus axiomas podem ser agrupados em três categorias:
+\begin{itemize}
+\item Axiomas da Aritmética: Uma coleção de afirmações básicas sobre operações aritméticas, e.g. $\forall_x \forall_y (x+y=y+x)$.
+\item Axioma da Compreensão: Este axioma permite a construção de conjuntos `por compreensão', ou seja, dado um predicado $\varphi(x)$ (isto é, uma afirmação que pode ser verdadeira ou falsa dependendo do número $x$, e.g. `$x$ é par'), é possível agrupar os elementos que o satisfazem num conjunto $X$. Por outras palavras, este axioma justifica a seguinte notação para construção de conjuntos:
+\begin{equation}
+X = \{\, x \in \mathbb{N} \mid \varphi(x)\,\}.
+\end{equation}
+\item Axioma de Indução: Este axioma mal requer introdução. Se uma afirmação $\varphi(x)$ é verdadeira para $x = 0$, e ser verdadeira para um dado $x$ implica ser verdadeira para $x+1$, então é verdadeira para qualquer valor de $x$.
+\end{itemize}
+
+A teoria $\mathrm{Z}_2$ toma o papel que $\mathrm{ZFC}$ tomou anteriormente, como a teoria forte na qual os teoremas são todos verdadeiros, e cujos axiomas serão enfraquecidos para obter uma teoria mais fraca, usada para comparar os teoremas da teoria forte. Introduzimos agora a teoria mais fraca, que toma o papel de $\mathrm{ZF}$, que é denominada de $\mathrm{RCA}_0$.
+
+A teoria $\mathrm{RCA}_0$ é obtida a partir de $\mathrm{Z}_2$ através de um enfraquecimento da compreensão e da indução. A definição técnica deste enfraquecimento não nos é relevante, mas em traços gerais podemos dizer que, enquanto que $\mathrm{Z}_2$ garante a existência de muitos objetos, $\mathrm{RCA}_0$ garante apenas a existência de objetos computáveis. Por exemplo, $\mathrm{Z}_2$ tem compreensão arbitrária, ou seja, podemos construir conjuntos a partir de quaisquer predicados. No entanto, $\mathrm{RCA}_0$ permite apenas construir conjuntos a partir de predicados computáveis, i.e. tais que existe um programa de computador que, dado um número $x$, imprime em tempo finito se $\varphi(x)$ é verdadeiro ou falso. Isto tem um certo apelo filosófico: Enquanto que poderá haver questões epistemológicas sobre a existência (num sentido metafísico) de objetos matemáticos arbitrários, os conjuntos computáveis são, a seguir aos finitos, aqueles cuja existência é mais plausível, porque podemos construir objetos físicos (computadores) que servem de representação física destes conjuntos.
+
+Portanto, para recapitular: $\mathrm{Z}_2$ é um conjunto de axiomas que descreve o universo dos naturais e dos seus subconjuntos, e $\mathrm{RCA}_0$ é um conjunto de axiomas muito mais fraco, com certo apelo epistemológico, que será usado para comparar teoremas.
+
+\section*{Codificações}
+
+Antes de apresentar exemplos de comparações entre teoremas, vale a pena apontar uma certa tecnicalidade: Enquanto que a nossa linguagem nos permite apenas falar sobre naturais e conjuntos de naturais, ser-nos-á possível comparar teoremas `da matemática usual', de áreas diversas como a análise e a álgebra. Isto é algo surpreendente: Recordamos o exemplo, dado acima, do teorema de Lagrange, que apesar de ser um teorema da teoria de grupos, não é expressável na linguagem de teoria de grupos. Assim sendo, como é possível expressarmos numa teoria da aritmética teoremas que pouco ou nada com números naturais têm a ver?
+
+A solução passa por uma ideia chamada `codificação', que consiste em identificar objetos de um universo $A$ com objetos de outro universo $B$, de modo a podemos enunciar teoremas sobre $A$ usando a linguagem de $B$. Apresentamos alguns exemplos:
+\begin{itemize}
+\item É um facto (que deixamos como exercício para o leitor, e pode ser provado em $\mathrm{RCA}_0$) que a função $\mathbb{N} \times \mathbb{N} \to \mathbb{N}$ dada por $(x,y) \mapsto (x+y)^2 + x$ é injetiva. Assim sendo, podemos identificar $\mathbb{N} \times \mathbb{N}$ com a imagem desta função, que é um subconjunto de $\mathbb{N}$, e portanto podemos falar sobre pares de naturais e conjuntos destes.
+
+\item Dado que podemos falar de conjuntos de pares de naturais, podemos falar de funções/sucessões: Um conjunto $F \subseteq \mathcal{P}(\mathcal{N})$ diz-se uma função $\mathbb{N} \to \mathbb{N}$ se satisfaz a condição:
+\begin{equation}
+\forall_x \exists^1_y ((x+y)^2 + x) \in F,
+\end{equation}
+onde `$\exists^1_y$' significa `existe um e apenas um $y$'. Compare-se esta definição com a definição em teoria de conjuntos de função $f \colon X \to Y$, como um conjunto de pares ordenados que satisfaz $\forall_{x \in X} \exists^1_{y \in Y} (x,y) \in f$.
+
+\item Existe uma ideia clássica que permite representar números inteiros através de pares de naturais: identificamos o par $(a,b)$ com o número inteiro $a-b$. Assim sendo, podemos definir `um número inteiro' como sendo um par de naturais (ou seja, um número natural da forma $(a+b)^2 + a$), em que dois pares $(a,b)$ e $(c,d)$ se dizem `iguais' se $a+d = b+c$, e a soma e o produto são definidos da forma apropriada, e.g. $(a,b) +_{\mathbb{Z}} (c,d) := (a+c,b+d)$.
+\end{itemize}
+
+Estas e outras ideias podem ser desenvolvidas para obter definições `aritméticas' de outros objetos matemáticos, como grupos, anéis, números reais, funções contínuas $\mathbb{R} \to \mathbb{R}$, etc.
+
+Para terminar esta secção, gostaria de observar uma subtileza inesperada: \emph{não é possível representar funções arbitrárias $\mathbb{R} \to \mathbb{R}$ como subconjuntos de $\mathbb{N}$}. Isto pode ser argumentado por cardinalidade: prova-se que existem $2^{2^{\aleph_0}}$ funções $\mathbb{R} \to \mathbb{R}$, mas apenas $2^{\aleph_0}$ subconjuntos de $\mathbb{N}$. Pelo outro lado, existem muito menos funções contínuas, apenas $2^{\aleph_0}$, pelo que é menos inesperado que estas possam ser codificadas como conjuntos de naturais. Os detalhes desta codificação são demasiado técnicos para serem aqui apresentados, mas tal como tudo o resto subjacente a este artigo, poderão ser encontrados em \cite{simpson}.
+
+\section*{Exemplo: Algumas `Trivialidades'}
+
+Apresentemos agora alguns exemplos de teoremas que podem ser provados em $\mathrm{RCA}_0$. Uma possível interpretação destes teoremas, como aqueles que podem ser provados usando os axiomas mais fracos, é que são os teoremas mais básicos e triviais possíveis.
+
+Esta interpretação não é inteiramente correta, porque apesar das suas demonstrações usarem axiomas muito fracos, podem ser muito elaboradas. Um exemplo chocante disto é o famoso Último Teorema de Fermat, que se conjetura ser possível provar a partir de um sistema muito mais fraco que $\mathrm{RCA}_0$, chamado $\mathrm{EFA}$.
+
+\subsection*{Propriedades Elementares}
+
+As seguintes afirmações podem ser demonstradas em $\mathrm{RCA}_0$: A soma de dois (naturais/inteiros/racionais/reais) é comutativa e associativa, idem para o produto, e a propriedade distributiva aplica-se. Os números reais formam um corpo ordenado, ou seja, admitem uma ordem que satisfaz as propriedades usuais da ordem em $\mathbb{R}$.
+
+\subsection*{Intervalos Descendentes}
+
+Sejam $I_1$, $I_2$, etc. uma sucessão de intervalos fechados limitados tal que $I_1 \supseteq I_2 \supseteq \dots$ Então, $\mathrm{RCA}_0$ mostra que existe pelo menos um número real na interseção de todos os $I_n$.
+
+Enunciado de forma distinta, $\mathrm{RCA}_0$ mostra o seguinte: Dadas duas sucessões $\{A_n\}$, $\{B_n\}$ de reais tais que $A_n$ é crescente, $B_n$ é decrescente, e $A_n \leq B_n$ para todo o $n$, então existe um número real $X$ tal que $A_n \leq X \leq B_n$ para todo o $n \in \mathbb{N}$.
+
+\subsection*{Bolzano}
+
+Seja $F \colon [0,1] \to \mathbb{R}$ uma função contínua tal que $F(0) \leq 0 \leq F(1)$. Então, $\mathrm{RCA}_0$ mostra que existe $X \in [0,1]$ tal que $F(X) = 0$.
+
+Gostaria de dar uma ideia de porque é expectável que o teorema de Bolzano seria possível provar em $\mathrm{RCA}_0$. Mencionámos anteriormente que $\mathrm{RCA}_0$ representa `matemática computável', pelo que para mostrar que um dado objeto (neste caso $X$) existe, pretendemos fornecer um algoritmo que constrói o objeto.
+
+No caso de encontrar raízes de funções contínuas, existe um algoritmo muito conhecido em análise numérica, chamado o algoritmo da bisseção. Não vou descrever o algoritmo nestes parágrafos, mas uma pesquisa rápida poderá convencer o leitor que este algoritmo pode ser implementado como um programa de computador, e fornece uma sequência decrescente de intervalos $[a_n, b_n]$, cujo comprimento é $2^{-n}$ e tal que $F(a_n) \leq 0 \leq F(b_n)$. Assim sendo, podemos aplicar o teorema anterior sobre sequências descendentes de intervalos para obter o número real $X$ candidato a raíz de $F$, e de seguida alguns limites e desigualdades elementares mostrarão que de facto $F(X) = 0$.
+
+\section*{Exemplo: Teorema de Weierstrass}
+
+Teorema (W): Seja $F \colon [0,1] \to \mathbb{R}$ uma função contínua. Então, $F$ é majorada, ou seja, existe $M \in \mathbb{R}$ tal que $F(X) \leq M$ para todo o $X$.
+
+Este é o nosso primeiro exemplo de um teorema não-trivial, porque acontece que:
+\begin{equation}
+\mathrm{RCA}_0 \nvdash (\mathrm{W}).
+\end{equation}
+
+Podemos investigar a relação entre este teorema e outros usando $\mathrm{RCA}_0$ como base. Para este efeito, consulta-se um livro de cálculo e verifica-se se a demonstração de (W) nesse livro pode ser efetuada em $\mathrm{RCA}_0$. Eis uma exemplo de uma demonstração \textit{standard}:
+
+\begin{proof}
+Suponha-se que $F$ não é majorada. Então, para qualquer $n \in \mathbb{N}$ podemos encontrar $X_n \in [0,1]$ tal que $F(X_n) \geq n$. Agora, invocamos o seguinte teorema:
+
+Teorema (S): Seja $X_n$ uma sucessão limitada de números reais. Então, existe uma subsucessão $X_{k_n}$ que converge para algum real $X$.
+
+Aplicando o teorema (S) à nossa sucessão $X_n$, e o facto de limites comutarem com funções contínuas, obtemos
+\begin{equation}
+F(X) = F(\lim X_{k_n}) = \lim F(X_{k_n}) \geq \lim k_n = \infty.
+\end{equation}
+
+Logo, $F(X) = \infty$, que não é um número real, e portanto temos uma contradição. Consequentemente, $F$ é majorada.
+\end{proof}
+
+Afirmo que a demonstração acima pode ser efetuada em $\mathrm{RCA}_0$ sem problemas, \emph{exceto} a invocação do teorema (S), pois de facto $\mathrm{RCA}_0 \nvdash (\mathrm{S})$. No entanto, dado que conseguimos provar (W) a partir de (S), \emph{mostrámos que o teorema \textrm{(S)} implica o teorema \textrm{(W)}}, ou formalmente
+\begin{equation}
+\mathrm{RCA}_0 \vdash (\mathrm{S}) \implies (\mathrm{W}).
+\end{equation}
+
+Acontece que a implicação inversa não é verdadeira, ou seja,
+\begin{equation}
+\mathrm{RCA}_0 \nvdash (\mathrm{W}) \implies (\mathrm{S}).
+\end{equation}
+
+\section*{Conclusão}
+
+Agora que foi explicado o que significa para nós um teorema implicar outro, vale a pena expor a `big picture' da matemática inversa como introduzida acima.
+
+Existe um conjunto de coleções de axiomas, todos eles enfraquecimentos da aritmética de segunda ordem $\mathrm{Z}_2$, que têm importância central no desenvolvimento da matemática inversa. Estes são conhecidos como `the Big Five', e podem ser linearmente ordenados pela sua força dedutiva (isto é, todos os axiomas de um dos cinco são consequência dos axiomas do a seguir). Por ordem de mais fraco a mais forte, estes cinco são:
+\begin{equation}
+\mathrm{RCA}_0 < \mathrm{WKL}_0 < \mathrm{ACA}_0 < \mathrm{ATR}_0 < \Pi^1_1\text{-}\mathrm{CA}_0.
+\end{equation}
+
+Todos estes sistemas têm uma definição específica, e são obtidos adicionando alguns axiomas a $\mathrm{RCA}_0$. O que faz destes cinco sistemas especiais é que há várias escolhas possíveis de axiomas que dão os mesmos sistemas. Por exemplo, o teorema (W) introduzido acima pode ser adicionado a $\mathrm{RCA}_0$ para obter uma coleção de axiomas equivalentes a $\mathrm{WKL}_0$, da mesma forma que o axioma da escolha C pode ser adicionado a ZF para obter ZFC.
+
+Outra escolha admissível é o teorema (P): Qualquer anel não-trivial admite um ideal primo próprio. De facto, $\mathrm{RCA}_0 \cup \{(\mathrm{P})\}$ tem também o mesmo poder dedutivo que $\mathrm{WKL}_0$, e concluimos então o facto surpreendente
+\begin{equation}
+\mathrm{RCA}_0 \vdash (\mathrm{W}) \iff (\mathrm{P}),
+\end{equation}
+ou seja: O teorema `qualquer função contínua é majorada' é equivalente a `qualquer anel não-trivial tem um ideal primo não-trivial'! Isto é deveras surpreendente, dado que estes dois teoremas provêm de áreas da matemática completamente distintas.
+
+Para terminar este artigo, forneço alguns exemplos de teoremas e da sua força. A primeira parte da seguinte tabela contém alguns teoremas `triviais', ou seja, que são possíveis provar a partir de $\mathrm{RCA}_0$. A segunda parte contém vários teoremas equivalentes a $\mathrm{WKL}_0$. A terceira parte contém vários teoremas equivalentes a $\mathrm{ACA}_0$. Não são fornecidos mais exemplos, porque os sistemas $\mathrm{ATR}_0$ ou $\Pi^1_1\text{-}\mathrm{CA}_0$ são bastante mais técnicos, e teoremas equivalentes a estes são muito mais específicos e difíceis de enunciar.
+\bgroup
+\def\arraystretch{1.25}
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multirow{3}{*}{$\mathrm{RCA}_0$} & Teorema de Bolzano \\ \cline{2-2} 
+                         & Lema de Urysohn (p/ espaços métricos separáveis completos) \\ \cline{2-2} 
+                         & Teorema de Banach-Steinhaus (p/ espaços de Banach separáveis) \\ \hline
+\multirow{3}{*}{$\mathrm{WKL}_0$}        & (W) Qualquer $F \colon [0,1] \to \mathbb{R}$ contínua é majorada. \\ \cline{2-2} 
+                         & Qualquer $F \colon [0,1] \to \mathbb{R}$ contínua é uniformemente contínua \\ \cline{2-2} 
+                         & (P) Qualquer anel não-trivial tem um ideal primo não-trivial \\ \cline{2-2} 
+                         & O intervalo $[0,1]$ é topologicamente compacto \\ \hline
+\multirow{5}{*}{$\mathrm{ACA}_0$}        & (S) Qualquer sucessão limitada de reais tem subsucessão convergente \\ \cline{2-2} 
+                         & Qualquer sucessão Cauchy de reais é convergente \\ \cline{2-2} 
+                         & Qualquer anel não-trivial tem um ideal maximal \\ \cline{2-2} 
+                         & Qualquer espaço vetorial sobre $\mathbb{Q}$ tem uma base \\ \cline{2-2} 
+                         & Para qualquer função $F \colon \mathbb{N} \to \mathbb{N}$, existe o conjunto `imagem de $F$' \\ \hline
+\end{tabular}
+\end{table}
+\egroup

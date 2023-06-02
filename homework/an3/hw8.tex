@@ -1,0 +1,197 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+
+\usepackage{tikz-cd}
+%\usepackage[T1]{fontenc}
+\usepackage[cal=zapfc]{mathalpha}
+\usepackage{ dsfont }
+
+
+\usepackage{diffcoeff}
+\difdef{f}{}{
+outer-Ldelim = \left. ,
+outer-Rdelim = \right| ,
+sub-nudge = 0 mu
+}
+
+\usepackage{cancel}
+\usepackage{interval}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Analysis Homework 8}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+
+
+\newcommand{\ind}{\mathds{1}}
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\Gr}{\mathrm{Gr}}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+\newcommand{\closed}[1]{\overline{#1}}
+\newcommand{\transp}{\top}
+
+\newcommand{\grad}{\nabla}
+\DeclareMathOperator{\Ix}{Ix}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\image}{im}
+\DeclareMathOperator{\ord}{ord}
+
+
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{d}
+
+
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\bbH}{\mathbb{H}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\bparens}{[}{]}
+
+\newcommand{\EVg}{\mathbb{E}}
+\newcommand{\EV}{\EVg\bparens}
+\newcommand{\PPg}{\mathbb{P}}
+\newcommand{\PP}{\PPg\bparens}
+
+\newcommand{\Brwn}{\mathcal{B}}
+\newcommand{\sa}[1]{\mathcal{#1}}
+
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Show that $M_t = u(\Brwn_t)$ is a martingale wrt $\sa F_t = \sigma(\Brwn|_{\interval0t})$.
+\end{ex}
+
+\begin{sol}
+We need to verify three properties. The first is that $M_t$ is $\sa F_t$-measurable. This is trivial, as $M_t$ is a function of $\Brwn_t$, which is in turn a function of $\Brwn|_{\interval0t}$. The second is that $M_t$ is $L^1$, which is true because:
+\begin{equation}
+\EV{\abs{M_t}} = \EV{\abs{u(\Brwn_t)}} \leq C \EV{\exp(\abs{\Brwn_t})}.
+\end{equation}
+
+Now we simply observe that a normally-distributed variable (even in multiple dimensions) has $L^1$ exponent. This is known to be true for $d = 1$ because (if $X$ is normally distributed in $\R$)
+\begin{equation}\label{eq:1}
+\EV{\exp(\abs X)} \leq \EV{\exp(X)} + \EV{\exp(-X)} = \phi_X(-\I) + \phi_X(\I),
+\end{equation}
+and since the characteristic function of the normal is total, \eqref{eq:1} is finite. For multiple dimensions, a simple triangular inequality and independence argument reduces to the $d = 1$ case:
+\begin{equation}
+\EV{\exp(\abs X)} \leq \EV[\Big]{\exp({\textstyle\sum} \abs{X_i})} = \EV[\Big]{{\textstyle\prod} \exp(\abs{X_i})} = \prod \EV{\exp(\abs{X_i})} < \infty.
+\end{equation}
+
+Finally, we prove the condition on the expectation. To do this we use the following technical lemma:
+\begin{lemma}
+Let $X$ and $Y$ be independent r.v., taking values in $\mathcal{X}$ and $\mathcal{Y}$ respectively, and let $f \colon \mathcal{X} \times \mathcal{Y} \to \R$ be nice enough that all the quantities below exist. Then, we have
+\begin{equation}\label{eq:2}
+\EV{f(X,Y) \mid Y} = \EVg_X[f(X,Y)],
+\end{equation}
+where the right-hand side of \eqref{eq:2} means: Apply the (deterministic) function $y \mapsto \EV{f(X,y)}$ to the random variable $Y$, obtaining a $Y$-measurable r.v.
+\end{lemma}
+
+With this lemma in hand, we apply it to $Y = \Brwn|_{\interval0t}$, $X = \Brwn_s - \Brwn_t$, and $f(x,y) = u(y(t) + x)$. By independent increments, assuming $s > t$, we have that $X$ is independent from $Y$. Thus,
+\begin{equation}
+\EV{M_s \mid \sa F_t} = \EV{f(X,Y) \mid Y} = \EVg_X[f(X,Y)] = \EVg_X[u(\Brwn_t + X)].
+\end{equation}
+
+Now, we claim that the latter expression is precisely equal to $u(\Brwn_t) = M_t$. This is because the distribution of $X$ is known to be a normal, and in particular it is rotationally invariant. Thus, we may write an expression for $\EVg_X[u(\Brwn_t + X)]$ using an integral, which we then write in polar coordinates, and use the `average on a circle of a harmonic function equals the harmonic function at the center' property to just obtain $u(\Brwn_t)$. And thus, the exercise is done.
+\end{sol}
+
+\begin{ex}
+Assume that $\phi_n \to \phi$ pointwise. Show that $u_n \to u$ pointwise.
+\end{ex}
+
+\begin{sol}
+We use the explicit formula for the solution of the Dirichlet equation:
+\begin{equation}
+u_n(z) = \int_{\partial U} \phi_n(\Brwn_{\tau^z(\omega)}^z(\omega)) \dl \PPg(\omega) \xrightarrow{\text{dct}} \int_{\partial U} \phi(\Brwn_{\tau^z(\omega)}^z(\omega)) \dl \PPg(\omega) = u(z),
+\end{equation}
+where in the middle step we used the dominated convergence theorem, and the fact that $\phi_n$ are uniformly bounded by $1$, which is integrable.
+\end{sol}
+
+\begin{ex}
+Show that $\abs{f_\varepsilon(z)} \to 1$ for every $z$ in the shaded area.
+\end{ex}
+
+\begin{sol}
+First, we investigate the function $P(y)$ from the construction of the Riemann map. Pick an arbitrary $x_0$ in the boundary of the right-hand side of the rectangle to be taken to $1$; it does not matter which, because this changes the Riemann map by a rotation, so absolute values are preserved.
+
+Then, for $y$ in the boundary of the right-hand side, $P(y)$ is pretty small (or close to $1$ if $y$ is to the left of $x_0$), because for a path starting at $0$ to hit the interval between $x_0$ and $y$ it needs to pass through the slit, which is unlikely. In other words,
+\begin{equation}
+\text{For $y$ in the RHS (to the right of $x_0$): } P(y) \leq \PP{\text{$\Brwn_t$ passes through the slit}} \xrightarrow{\varepsilon \to 0} 0.
+\end{equation}
+
+Thus, we have that, for $y$ in the boundary of the right-hand side, $\varphi(y) = \exp(2\I\pi P(y))$ converges uniformly to $1$.
+
+Now, we solve the Dirichlet problem for the boundary condition $\varphi(y)$, as to construct $f_\varepsilon(z)$. To do so, one constructs brownian motion starting at $z$ and takes the expected value of $\varphi(\Brwn_\tau)$. But observe that the probability that some $z$ in the right-hand side leaves the right-hand side is small, so the expected value will be near the values of $\varphi(y)$ for $y$ in the border of the right-hand side. Moreover, as we already saw, for small $\varepsilon$ these are very close to $1$. Thus, we conclude: for small $\varepsilon$, $f_\varepsilon(z)$ will be close to $1$. In particular its absolute value converges to one, and we are done.
+\end{sol}
+
+\begin{ex}
+Order the figures $U_1$ to $U_4$ by order of $G$.
+\end{ex}
+
+\begin{sol}
+We use the following fact, from the explicit construction of the Riemann mapping. The image of some interval in the boundary is taken to an interval with length given by $2 \pi$ times the probability that a brownian motion starting at zero hits that interval. Thus, to order the figures by their value of $G$, it suffices to order them by the probability that a brownian motion starting at the origin hits the boundary at a point with positive real part.
+
+The case for $U_1$ is obviously $1/2$, because the figure is left-right symmetric. In turn, $U_3$ is the least likely, because any path that hits the right-hand side first in $U_3$ also does so in $U_1$, but there are some paths (with positive probability, by the annulus thingy from classes) that first hit the indent on the left and only after hit the right half-circle. Thus, $G(U_3) < G(U_1)$.
+
+Now, by a similar (exactly the same) argument, $G(U_4) < G(U_3)$. The only thing that remains to verify is that $G(U_1) < G(U_4)$, and we do so by checking actually that $G(U_4) > 1/2$. This is because, let $U_5$ be given by a copy of $U_4$, but the right spoke is shorter, to have its length matching the left spoke. The resulting figure is left-right symmetric, so $G(U_5) = 1/2$. But again, we will have $G(U_5) < G(U_4)$ because any path that hits the right-hand side in $U_5$ also hits the right-hand side in $U_4$, but there are some paths that hit the extended spoke in $U_4$ before hitting the left-hand side in $U_5$, so indeed $G(U_4) > G(U_5) = 1/2$. In conclusion,
+\begin{equation}
+G(U_3) < G(U_1) = \frac12 < G(U_4) < G(U_2).
+\end{equation}
+\end{sol}
+
+\end{document}
