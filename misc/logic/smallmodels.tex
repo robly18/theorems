@@ -31,6 +31,7 @@
 \newtheorem{prop}[theorem]{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 
@@ -76,7 +77,7 @@
 \section{Introduction}
 
 \begin{convention}
-Unless otherwise specified, we will be working with models over a countable language.
+Unless otherwise specified, we will be working with models over a countable language. Moreover, all theories will be complete.
 \end{convention}
 
 As of the time of writing this document, the author is aware of two prior existing (equivalent) characterizations of what it means for a model $M$ (of a complete theory $T$) to be `as small as possible'. One of these is for the model to be \emph{atomic}, that is, any finite tuple of elements of $M$ satisfies a $T$-complete formula. Another is for the model to be prime, that is, for it to embed elementarily into any other model of $T$.
@@ -131,6 +132,8 @@ We say that such a $W$ is \emph{(strongly) surjective up to padding} (shortened 
 We say that $W$ is \emph{weakly surjective up to padding} (shortened to `weak suptop') if the above condition holds for $n = 1$.
 \end{definition}
 
+Strong suptop will be the most relevant. Weak suptop will be relevant only in section \ref{sec:nr2}, where we show that, under certain assumptions, it implies strong suptop.
+
 \subsection{Avoiding Redundancy}
 
 Let us now investigate the following question: How to characterize the redundancy of a witnessization $W$?
@@ -141,13 +144,13 @@ Another attempt to avoid redundancy is as follows: $W(\varphi \lor \psi)$ should
 
 While this property is already pretty strong, it is not our final demand, because it is too finitary in nature. Indeed, it might happen that a formula $\varphi$ is, morally speaking, equivalent to a disjunction of infinitely many other formulas $\varphi_1$, $\varphi_2$ etc., in which case we still want $W(\varphi)$ to agree with $W(\varphi_k)$ for some $k$. This leads us to our first serious demand for nonredundancy, for which we first need to introduce some notation.
 \begin{definition}
-Let $S$ be a subset of $\CF_n$. Then, we say $\varphi \in \CF_n$ is the join of $S$, denoted by abuse of notation $\varphi \equiv \bigvee S$, if for all $\alpha \in \CF_n$ such that $T \vdash \sigma \rightarrow \alpha$ for every $\sigma \in S$, we have $T \vdash \varphi \rightarrow \alpha$.
+Let $S$ be a subset of $\CF_n$. Then, we say $\varphi \in \CF_n$ is a join for $S$, denoted by abuse of notation $\varphi \equiv \bigvee S$, if for all $\alpha \in \CF_n$ such that $T \vdash \sigma \rightarrow \alpha$ for every $\sigma \in S$, we have $T \vdash \varphi \rightarrow \alpha$.
 \end{definition}
 
 \begin{remark}
 The above definition is simply the standard definition of the join\slash supremum\slash least upper bound of a subset of a poset, applied to the poset of consistent formulas modulo equivalence.
 
-In particular, any two joins of $S$ are equivalent.
+In particular, any two joins for $S$ are equivalent.
 \end{remark}
 
 \begin{remark}
@@ -163,7 +166,7 @@ We may now make our first main definition:
 Let $W$ be a witnessization of a model $M$ of a theory $T$. We say that $W$ satisfies the \emph{join variant of the first nonredundancy condition}, abbreviated to `$W$ satisfies \eqref{eq:nr1j}', if
 \begin{equation}
 \tag{NR1-J}\label{eq:nr1j}
-\begin{tabular}{ll}
+\begin{tabular}{l}
 For all $S \subseteq \CF_n$ and $\varphi \in \CF_n$,\\
 if $\varphi \equiv \bigvee S$ then there is some $\sigma \in S$ such that $W(\varphi) = W(\sigma)$.
 \end{tabular}
@@ -370,7 +373,7 @@ Note that we have made the above definition for a preorder instead of a poset. T
 Let $W$ be a witnessization of a model $M$ of a theory $T$. We say that $W$ satisfies the \emph{first nonredundancy condition}, abbreviated to `$W$ satisfies \eqref{eq:nr1}', if
 \begin{equation}
 \tag{NR1}\label{eq:nr1}
-\begin{tabular}{ll}
+\begin{tabular}{l}
 For all $\varphi \in \CF_n$ and $S \subseteq \dncl\varphi$,\\
 if $S$ covers $\varphi$ from below, then there is some $\sigma \in S$ such that $W(\varphi) = W(\sigma)$.
 \end{tabular}
@@ -387,14 +390,14 @@ By abuse of language, we will say `let $M$ be a small model and let $W$ be its w
 
 We begin by showing that smallness coincides with atomicness in the case that the theory $T$ is itself atomic.
 
-\begin{prop}\label{thm:mainresult0}
+\begin{prop}\label{prop:mainresult0}
 Let $M$ be a model of the atomic theory $T$. Then $M$ is small iff it is countably atomic.
 \end{prop}
 
 \begin{proof}
 ($\rightarrow$) The proof that $M$ is countable uses the fact that the cardinality of $M$ is bounded from above by $\# \bigcup \CF_n \leq \aleph_0^2 = \aleph_0$.
 
-Now, we show that $M$ is atomic. Let $\vec m$ be a tuple of elements of $M$. By surjectivity up to padding, one may pad $\vec m$ into a vector $\vec \mu$ which satisfies $\vec \mu = W(\varphi)$ for some $\varphi(x_1, \dots, x_N)$. Now, let $S$ be the collection of complete formulas in $N$ variables (in the theory $T$) which imply $\varphi$. We claim that the fact that $T$ is atomic implies that $S$ covers $\varphi$ from below.
+Now, we show that $M$ is atomic. Let $W$ be the witnessization of $M$, and let $\vec m$ be a tuple of elements of $M$. By surjectivity up to padding, one may pad $\vec m$ into a vector $\vec \mu$ which satisfies $\vec \mu = W(\varphi)$ for some $\varphi(x_1, \dots, x_N)$. Now, let $S$ be the collection of complete formulas in $N$ variables (in the theory $T$) which imply $\varphi$. We claim that the fact that $T$ is atomic implies that $S$ covers $\varphi$ from below.
 
 Indeed, let $\alpha \in \CF_n$ such that $T \vdash \alpha \rightarrow \varphi$. Since $T$ is atomic, there is some complete formula $\sigma$ such that $T \vdash \sigma \rightarrow \alpha$. We just need to show that $\sigma \in S$, i.e. that $T \vdash \sigma \rightarrow \varphi$. But if not, then $T \vdash \sigma \rightarrow \neg \varphi$, and hence $T \vdash \sigma \rightarrow \neg \alpha$, a contradiction.
 
@@ -444,22 +447,160 @@ Then, by \eqref{eq:nr1}, if we show that $S$ covers $\varphi \lor \psi$ from bel
 Thus, suppose that $\alpha \in \dncl{(\varphi \lor \psi)}$. We show that $\alpha$ is comparable to some element of $S$. If $T \vdash \alpha \rightarrow \varphi$ we are done. Otherwise, $T \vdash \exists_{\vec x}(\alpha \land \neg\varphi)$, hence $(\neg\varphi \land\alpha) \in \CF_n$. Hence, the formula $\neg\varphi \land\alpha$, which obviously implies $\alpha$, is in $S$. This concludes the proof.
 \end{proof}
 
-\subsection{Smallness and Atomicness are Equivalent}\label{sec:mainresult}
-
-We saw in Proposition \ref{thm:mainresult0} that, if the theory $T$ is atomic, a model is small iff it is countably atomic. This still leaves open the possibility that, if $T$ is not atomic, a model is small without being atomic. We now crush any such hopes. (Rephrase)
-
 \subsection{\eqref{eq:nr1j} and \eqref{eq:nr1} are Equivalent}\label{sec:nr1jeqvnr1}
 
-\subsection{Second Nonredundancy Conditions}
+\begin{lemma}\label{lemma:coverbelow}
+Let $M$ be a model of a theory $T$. Let $\varphi \in \CF_n$ be covered from below by $S \subseteq \dncl\varphi$. Then, $\varphi$ is a join for $S$.
+\end{lemma}
 
-\subsection{On the Ease of Too Strong Smallness Definitions}
+\begin{proof}
+Suppose that $\varphi$ is not a join for $S$, and so there exists a formula $\alpha \in \CF_n$ such that $T \vdash \sigma \rightarrow \alpha$ for every $\sigma \in S$, and yet $T \nvdash \varphi \rightarrow \alpha$. In this case, $\varphi \land \neg \alpha$ is in $\CF_n$, and since it implies $\varphi$ it must be comparable to some $\sigma \in S$. However, this is a contradiction, as either $T \vdash \sigma \rightarrow (\varphi \land \neg \alpha)$, hence $\sigma$ implies both $\alpha$ and $\neg \alpha$ at the same time, or $T \vdash (\varphi \land \neg \alpha) \rightarrow \sigma$, hence $\varphi \land \neg\alpha$ implies $\alpha$, also a contradiction.
+\end{proof}
+
+\begin{corollary}
+If a witnessization satisfies \eqref{eq:nr1j} then it also satisfies \eqref{eq:nr1}.
+\end{corollary}
+
+\begin{prop}
+Let $W$ be a witnessization of a model $M$ of a theory $T$, and suppose that $W$ satisfies \eqref{eq:nr1}. Then, it also satisfies \eqref{eq:nr1j}.
+
+More specifically, it satisfies the following properties:
+\begin{enumerate}
+\item\label{item:join1} Let $\varphi$ be a join for $S$, and $\vec m = W(\varphi)$. Then, for every $\sigma_0 \in S$ such that $M \vDash \sigma_0(\vec m)$, we have $W(\sigma_0) = \vec m$;
+\item\label{item:join2} Moreover, there exists at least one such $\sigma_0$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+We prove these properties separately
+\begin{enumerate}
+\item Let $\varphi$, $S$, $\vec m$, and $\sigma$ be as in the proposition statement. Define $S'$ by
+\begin{equation}
+S' = \{\sigma_0\} \cup \bigcup_{\substack{\sigma \in S\\ (\sigma \land \neg \sigma_0) \in \CF_n}} \hspace{-1.6em} \dncl{(\sigma \land \neg \sigma_0)}.
+\end{equation}
+
+We claim that $S'$ covers $\varphi$ from below, which proves the desired result.
+
+So, let $\alpha \in \dncl\varphi$. We know then that $\alpha$ is comparable to some element of $S$. If it is comparable to $\sigma_0$, then we are done. Otherwise, suppose $\alpha$ is comparable to some $\sigma \in S$.
+
+If $T \vdash \sigma \rightarrow \alpha$, then one checks that $(\sigma \land \neg\sigma_0) \in \CF_n$, and since it implies $\alpha$ it is the element of $S'$ that we seek.
+
+If $T \vdash \alpha \rightarrow \sigma$, consider $\alpha \land \neg\sigma_0$. Since $\alpha$ is not comparable to $\sigma_0$, this is a formula in $\CF_n$, which implies $\sigma \land \neg \sigma_0$ (which must therefore also be in $\CF_n$). Thus, $\alpha \land \neg \sigma_0$ is an element of $S'$ which implies $\alpha$.
+
+In every case we have found an element of $S'$ which is comparable to $\alpha$, and so the proof of \ref{item:join1} is complete.
+
+\item Still in the same context, define $S^\downarrow$ by
+\begin{equation}
+S^\downarrow = \bigcup_{\sigma \in S} \dncl \sigma.
+\end{equation}
+
+We claim that $S^\downarrow$ covers $\varphi$ from below. This proves the desired result, because then there is some formula $\theta \in S^\downarrow$ such that $W(\theta) = \vec m$, and so in particular $M \vDash \theta[\vec m]$. By definition, $T \vdash \theta \rightarrow \sigma_0$ for some $\sigma_0 \in S$, and this is the $\sigma_0$ we seek.
+
+Thus, pick $\alpha \in \dncl \varphi$. Then, $\alpha$ is comparable to some element $\sigma$ of $S$. In particular, $\alpha \land \sigma$ is equivalent to either $\alpha$ or $\sigma$, and is in $\CF_n$ in either case we have found an element of $S^\downarrow$ which implies $\alpha$.
+\end{enumerate}
+\end{proof}
+
+\subsection{Smallness and Atomicness are Equivalent}\label{sec:mainresult}
+
+We saw in Proposition \ref{prop:mainresult0} that, if the theory $T$ is atomic, a model is small iff it is countably atomic. This still leaves open the possibility that, if $T$ is not atomic, a model is small without being atomic. We now show that this is not the case.
+
+\begin{prop}\label{prop:mainresult}
+Let $M$ be a small model of the theory $T$. Then, $M$ is atomic.
+\end{prop}
+
+\begin{proof}
+Let $W$ be a witnessization of $M$, and let $\vec m$ be a tuple of elements of $M$. Since $W$ is suptop, we may pad $\vec m$ into a tuple $\vec\mu$ which is $\vec\mu = W(\varphi(x_1, \dots, x_N))$ for some formula $\varphi$. We will show that indeed $\vec\mu = W(\theta)$ for some complete formula $\theta$, which then proves that $\vec\mu$ satisfies some complete formula, and by quantifying $\theta$ appropriately we get that $\vec m$ satisfies some complete formula.
+
+To proceed, let us enumerate all formulas $\psi_0, \psi_1, \psi_2, \dots$ in $N$ variables which are satisfied by $\vec\mu$. Then, we define the following sequence of formulas, all of which are satisfied by $\vec\mu$. First, set $\varphi_0 \equiv \varphi$. Then, once $\theta_n$ has been defined, there are two possibilities:
+\begin{itemize}
+\item If $\varphi_n$ is complete, we have just shown that $\vec\mu$ satisfies a complete formula, and so we are done.
+\item Otherwise, since the sequence $\psi_k$ covers all formulas up to negation, there is at least one value of $k$ such that $\varphi_n$ implies neither $\psi_k$ nor $\neg\psi_k$. Set $k(n)$ to be the least such value of $k$. Then, let $\varphi_{n+1} \equiv \varphi_n \land \psi_{k(n)}$.
+\end{itemize}
+
+Note that, as defined above, $k(n)$ is a strictly increasing sequence, and so in particular takes arbitrarily large values.
+
+Assume for the sake of contradiction that the first case never occurs and so the sequence is defined for all $n \in \N$. Now, we set $\theta_n \equiv \varphi_n \land \neg\psi_{k(n)}$, and let
+\begin{equation}
+S = \bigcup_{n \in \N} \dncl{\theta_n}.
+\end{equation}
+
+We claim that (under the hypothesis that $\varphi_n$ is defined for all $n \in \N$) $S$ covers $\varphi$ from below. This is absurd, because then $\vec\mu = W(\varphi)$ must be $W(\sigma)$ for some $\sigma \in S$, but by construction no such $\sigma$ may be satisfied by $\vec\mu$. This contradiction leads us to the conclusion that indeed the sequence $\varphi_n$ must halt in finite time, and the last element of this sequence is a complete formula satisfied by $\vec\mu$.
+
+To prove that $S$ covers $\varphi$ from below, let $\alpha \in \dncl\varphi$ be arbitrary. Then, either $\alpha$ is satisfied by $\vec\mu$, or its negation is. In either case, we find some element of $S$ which is comparable to $\alpha$.
+\begin{itemize}
+\item In the first case, $\alpha$ is $\psi_{k_0}$ for some value of $k_0$. Then, for some $n$ such that $k(n) > k_0$, we must have $T \vdash \varphi_n \rightarrow \alpha$ (or $T \vdash \varphi_n \rightarrow \neg\alpha$, but this case is easily ruled out), and so $T \vdash \theta_n \rightarrow \alpha$.
+
+\item In the second case, $\alpha$ is equivalent to $\neg\psi_{k_0}$ for some value of $k_0$. Let $n$ be the greatest value such that $T \nvdash \varphi_n \rightarrow \neg\alpha$. This is well-defined: at least one such $n$ exists because if $T \vdash \varphi_0 \rightarrow \neg\alpha$ then $T \vdash \alpha \rightarrow \neg\varphi$, which contradicts $\alpha \in \dncl\varphi$, and there are finitely many such values of $n$ because if $k(n) > k_0$ then $T \vdash \varphi_n \rightarrow \psi_{k_0}$.
+
+Anyhow, for this particular value of $n$ we have
+\begin{gather}
+T \nvdash \varphi_n \rightarrow \neg\alpha,\label{eq:talpha1}\\
+\text{but } T \vdash (\varphi_n \land \psi_{k(n)}) \rightarrow \neg\alpha. \label{eq:talpha2}
+\end{gather}
+
+From \eqref{eq:talpha1} we conclude that the formula $\varphi_n \land \alpha$ is in $\CF_N$. It evidently implies $\alpha$. We prove now that it is in $S$.
+
+From \eqref{eq:talpha2}, one concludes that $T \vdash (\varphi_n \land \alpha) \rightarrow \neg\psi_{k(n)}$. Moreover, since $T \vdash (\varphi_n \land \alpha) \rightarrow \varphi_n$, we obtain $T \vdash (\varphi_n \land \alpha) \rightarrow (\varphi_n \land \neg\psi_{k(n)})$, and so $(\varphi_n \land \alpha) \in \dncl{\theta_n} \subseteq S$.
+\end{itemize}
+
+This proves that indeed $S$ covers $\varphi$ from below, and so we have shown the desired result.
+\end{proof}
+
+\subsection{Second Nonredundancy Conditions}\label{sec:nr2}
+
+Before figuring out Proposition \ref{prop:mainresult}, I thought that the current working definition of small model was too weak. Intuitively, I thought, there ought to be some property relating how $W$ behaves on $\CF_n$ for distinct $n$. As such, I was very surprised when it turned out that this was unnecessary.
+
+In any case, here are two possible `second nonredundancy conditions' that I considered at one point adding to the definition of witnessization of small model. To the best of my knowledge, these two definitions are incomparable to each other, but I do not have a proof of this claim.
+
+\begin{definition}
+Let $W$ be a witnessization of a model $M$ of a theory $T$. We say that $W$ satisfies the \emph{independent variant of the first nonredundancy condition}, abbreviated to `$W$ satisfies \eqref{eq:nr2i}', if
+\begin{equation}
+\tag{NR2-I}\label{eq:nr2i}
+\begin{tabular}{l}
+For all consistent formulas $\varphi(x_1, \dots, x_n)$ and $\psi(x_1, \dots, x_m)$,\\
+$W(\varphi(x_1, \dots, x_n) \land \psi(x_{n+1}, \dots, x_{n+m}) = (W(\varphi), W(\psi))$.
+\end{tabular}
+\end{equation}
+\end{definition}
+
+\begin{definition}
+Let $W$ be a witnessization of a model $M$ of a theory $T$. We say that $W$ satisfies the \emph{dependent variant of the first nonredundancy condition}, abbreviated to `$W$ satisfies \eqref{eq:nr2i}', if
+\begin{equation}
+\tag{NR2-D}\label{eq:nr2d}
+\begin{tabular}{l}
+For all formulas $\varphi(\vec x) \in \CF_n$ and $\psi(\vec x, \vec y)$ such that $T \vdash \forall_{\vec x} (\varphi(x) \rightarrow \exists_{\vec y} \psi(\vec x, \vec y))$,\\
+we have $W(\psi) = (W(\varphi), *)$.
+\end{tabular}
+\end{equation}
+\end{definition}
+
+\begin{prop}
+Any atomic model admits a suptop witnessization satisfying both second nonredundancy conditions.
+\end{prop}
+
+\begin{proof}
+One checks easily that the construction performed in the proof of proposition \ref{prop:mainresult0} satisfies both of these conditions.
+\end{proof}
 
 \section{Possible Further Avenues}
 
-\subsection{Large Languages}
-
 \subsection{There May be a Weaker Notion of Small}\label{sec:evensmaller}
 
+Very briefly, I believe that there may be a weaker notion of `small model' that atomicness is too strong to capture. I will present an example.
+
+Consider the theory $T$ of countably many independent predicates. Then, any particular model has proper elementary submodels, obtained for example by removing finitely many models. Thus, one cannot say that any of these models are as small as possible. However, some models have repeated elements, that is, pairs of elements $a$ and $b$ which satisfy exactly the same predicates. While any particular element of a model of $T$ may be removed to obtain a proper elementary submodel, it seems to me that repetitions are a starker example of elements which may be removed.
+
+Possibly, the generalization of this phenomenon would be the notion of having a type which is satisfied by more than one element when it need not be. But this feels particularly ad-hoc.
+
+Anyway, I have not thought much about such a weakening of smallness, and I probably will continue not to. Separating those models of $T$ which have repeated elements from those which do not does not seem like a very worthwhile pursuit.
+
+\subsection{Large Languages}
+
+Some of the proofs above relied in an essential way on the fact that there are countably many formulas in our theory. Some do not: For example, the results of section \ref{sec:nr1jeqvnr1}, relating both definitions of small model that we have given, are completely agnostic to the size of the language. Crucially, however, propositions \ref{prop:mainresult0} and \ref{prop:mainresult} relating smallness to atomicness cannot be easily extended to the uncountable case.
+
+This suggests that, while in the countable case the notions of smallness and atomicness coincide, they may differ in higher cardinalities. This is potentially exciting, because, to the best of my limited knowledge, the notion of atomicness does not behave quite as well in higher cardinalities, and perhaps this new notion of smallness would be a more appropriate generalization.
+
+This may or may not be a subject of future research for myself, but I feel that I should best learn more about what results are already out there before attempting progress in this direction.
 
 %\bibliographystyle{plain}
 %\bibliography{bibliography}
