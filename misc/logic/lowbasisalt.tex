@@ -1,0 +1,189 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+
+\usepackage{enumitem}
+
+\usepackage{cite}
+
+\setlist[enumerate,1]{label=\alph*),ref=(\alph*)}
+
+\title{A Proof of the Low Basis Theorem}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{prelimdef}[theorem]{Preliminary Definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\CF}{\mathrm{CF}}
+\newcommand{\halt}{\mathrm{Halt}}
+
+\newcommand{\cl}[1]{\mathcal{#1}}
+\newcommand{\take}[2]{#1\mathord{\downharpoonright}_{#2}}
+
+\newcommand{\LA}{L_A}
+\newcommand{\PA}{\mathrm{PA}}
+\newcommand{\WPA}{\PA^-}
+
+
+\DeclareMathOperator{\len}{\mathrm{len}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+In this proof of the Low Basis Theorem, we place less emphasis on the point of view of trees, and more on the abstract notion of $\Pi^0_1$ class. I don't intend to claim that this is a strictly better perspective, but it's different, at least from all four sources I have looked at so far. \cite{soare1, soare2, jockushsoare, pi01classes} (Curiously, all four of these are due to Soare, in full or in part, so perhaps that is where the bias is coming from.)
+
+\begin{convention}
+We adopt some slightly nonstandard notation. When discussing the Halting problem, we work with zeroary programs. That is, in the expression $\halt(P)$, $P$ represents a Turing machine which is made to run on the empty tape. Likewise, if $f \in 2^\omega$ is an oracle and $P$ represents a Turing machine which is allowed to consult an oracle tape, we represent by $P^f$ the expression, which is either a natural number or undefined, given by running the program $P$ on the empty tape, with $f$ as an oracle. The expression $\halt(P^f)$ then takes the obvious meaning.
+\end{convention}
+
+\section{Some Facts about $\Pi^0_1$ Classes}
+
+The following definition is the one given by Soare \cite{soare2}.
+
+\begin{definition}
+A $\Pi^0_1$ class is a collection of subsets of $\N$ of the form
+\begin{equation}
+\cl A = \{\, f \in 2^\omega \mid \forall_{x \in \N} R(\take f x) \,\},
+\end{equation}
+where $R$ is a recursive predicate, and $\take f x$ means the string of length $x$ given by $f_0 f_1 \dots f_{x-2} f_{x-1}$.
+\end{definition}
+
+\begin{prop}
+Let $\cl A \subseteq 2^\omega$. The following are equivalent.
+\begin{enumerate}
+\item\label{item:pi01} $\cl A$ is a $\Pi^0_1$ class,
+\item\label{item:pi1} $\cl A$ is of the form
+\begin{equation}\label{eq:api1}
+\cl A = \{\, f \in 2^\omega \mid \forall_{x \in \N} P(\take f x) \,\},
+\end{equation}
+for $P$ a $\Pi_1$ predicate,
+\item\label{item:delta0} $\cl A$ is of the form
+\begin{equation}
+\cl A = \{\, f \in 2^\omega \mid \forall_{x \in \N} P_0(\take f x) \,\},
+\end{equation}
+for $P$ a $\Delta_0$ predicate,
+\item\label{item:tree} $\cl A$ is the set of paths of a computable tree.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+The following implications are obvious: $\ref{item:delta0} \rightarrow \ref{item:pi01} \rightarrow \ref{item:pi1}$. Thus, we focus on proving the other implications.
+
+($\ref{item:pi1} \rightarrow \ref{item:tree} \land \ref{item:delta0}$) Suppose that $\cl A$ is given by \eqref{eq:api1}, for some $P(\sigma)$ of the form $P(\sigma) \equiv \forall_y P_0(\sigma, y)$, with $P_0$ a $\Delta_0$ predicate. Then, we consider the computable tree given by the following characteristic function:
+\begin{equation}
+Q(\sigma) \equiv \forall_{k \leq \len \sigma} \forall_{y \leq \len\sigma} P_0(\take \sigma k, y).
+\end{equation}
+
+It is clear by inspection that $\forall_x Q(\take f x)$ is equivalent to $\forall_k \forall_y P_0(\take f k, y)$, which is precisely the definition of $\forall_k P(\take f k)$, and so we have just proven $\ref{item:pi1} \rightarrow \ref{item:delta0}$. From this, we also conclude \ref{item:tree}, because the predicate $Q$ defines a computable tree, and the set of $f \in 2^\omega$ such that $\forall_x Q(\take f x)$ is precisely the set of paths in this tree.
+
+($\ref{item:tree} \rightarrow \ref{item:pi1}$) Let $T$ be a computable tree, and let $P(\sigma)$ be its characteristic function. Then, $P$ is computable, and hence is $\Delta_1$ over $\N$ and in particular can be represented by a $\Pi_1$ formula. Thus, one immediately obtains the desired implication.
+\end{proof}
+
+\begin{remark}
+The translation between any two of the above descriptions for a $\Pi^0_1$ class is effective. For example, if $\cl A$ is given by a $\Pi_1$ predicate $P(\sigma)$, there is an effective way to recover from it a $\Delta_0$ predicate which also describes $\cl A$.
+\end{remark}
+
+As described in the introduction, we will shift the focus away from description \ref{item:tree} in this document. In the following, we will assume that a given $\Pi^0_1$ class is described by a predicate, which we will assume is either $\Pi_1$, recursive, or $\Delta_0$, as convenient.
+
+\begin{prop}
+The intersection of two $\Pi^0_1$ classes is itself a $\Pi^0_1$ class, and can be performed effectively.
+\end{prop}
+
+\begin{proof}
+Let $\cl A_i$, $i = 0,1$ be two $\Pi^0_1$ classes, respectively given by predicates $P_i(\sigma)$. Then, $\cl A_0 \cap \cl A_1$ is given by
+\begin{equation}
+\cl A_0 \cap \cl A_1 = \{\, f \in 2^\omega \mid \forall_{x \in \N} \left[ P_0(\take f x) \land P_1(\take f x) \right] \,\}.
+\end{equation}
+\end{proof}
+
+\section{The Low Basis Theorem}
+
+\begin{theorem}
+Let $\cl A$ be a nonempty $\Pi^0_1$ class. Then, it contains a low element.
+\end{theorem}
+
+\begin{proof}
+We construct a descending sequence $\cl A = \cl A_{-1} \supseteq \cl A_0 \supseteq \cl A_1 \supseteq \dots$ of nonempty $\Pi^0_1$ classes, guaranteeing the following:
+\begin{itemize}
+\item The sequence is uniformly recursive in $\emptyset'$, and
+\item Each $\cl A_i$ is constructed such that, independently of the choice of $f \in \cl A_i$, when the $i$-th oracle program $P_i$ is given $f$ as an oracle, it either halts or it does not halt. In other words, the value of $\halt(P_i^f)$ is independent of the choice of $f \in \cl A_i$. This value is known when constructing $\cl A_i$.
+\end{itemize}
+
+Then, we will prove that there exists an element $f \in \cap_i \cl A_i$, and moreover we compute it in $\emptyset'$.\footnote{This is not necessary, as $f'$ is computable in $\emptyset'$, and it is a standard fact that $f$ is computable in $f'$.} This element is low: to determine whether $P_i^f$ halts, we run the construction until $\cl A_i$ (which requires only the jump), and determine whether $\cl A_i$ was built such that $P_i^f$ halts or does not halt, independently of $f \in \cl A_i$.
+
+Let us now construct the sequence $\cl A_n$. We set $\cl A_{-1} = \cl A$, and the rest is defined recursively. Suppose $\cl A_{n-1}$ is already defined. Then, consider $\cl H_n$, given by the set of oracles on which the $n$-th oracle program does not halt. We show that this is a $\Pi^0_1$ class. First, note that, by the use principle, $P_n^f$ halts iff there is some $x \in \N$ such that $P_n^{\take f x}$ halts, and so $\cl H_n$ is given by
+\begin{equation}
+\cl H_n = \{\, f \in 2^\omega \mid \forall_x [\text{When given $\take f x$ as a partial oracle, $P_n$ does not halt.}] \,\}.
+\end{equation}
+
+Moreover, the expression `When given $\take f x$ as a partial oracle, $P_n$ does not halt' is $\Pi_1$, because it may be written as `For all $t \in \N$, if we execute $P_n$ with $\take f x$ as an oracle, it will not halt after $t$ steps.'
+
+Now, the $\Pi^0_1$ class $\cl H_n$ may be built uniformly, and moreover so can $\cl A_{n-1} \cap \cl H_n$. Now, we make use of an oracle for $\emptyset'$ to check whether this intersection is nonempty. The fact that this oracle is able to do so is perhaps most easily seen using the description of $\Pi^0_1$ classes via computable trees, but it is standard, e.g. the start of the proof the proof of this very theorem in \cite{soare2} (Theorem 3.7.2.) Once this verification is done, there are two cases:
+\begin{itemize}
+\item If $\cl A_{n-1} \cap \cl H_n$ is empty, this means that regardless of the oracle $f \in \cl A_{n-1}$ we wind up choosing, $P_n$ will halt when given $f$ as an oracle. Thus, we set $\cl A_n = \cl A_{n-1}$, knowing that $\halt(P_n^f)$ is determined to be $1$.
+
+\item On the other hand, if $\cl A_{n-1} \cap \cl H_n$ is nonempty, we set $\cl A_n$ equal to this intersection. Thus, whatever $f \in \cl A_n$ we wind up choosing, we know that $\halt(P_n^f)$ is determined to be $0$.
+\end{itemize}
+
+Finally, it remains to show that $\cap \cl A_n$ is nonempty. This is a trivial consequence of the compacity of Cantor space, but we present a different, more constructive proof.
+
+First, we prove something in the opposite direction: There is at most one element in $\cap \cl A_n$. More precisely, for each $k \in \N$ there is some $N \in \N$ and $\sigma$ of length $k$ such that $f \in \cl A_N$ implies $\take f k = \sigma$. Note that, by the inclusions between the $\cl A_n$ and their nonemptiness, the conclusion remains (with the same $\sigma$) if $N$ is increased. Thus, we refer to it as $\sigma_k$.
+
+We prove this statement by induction on $k$. For $k = 0$ the result is obvious, so suppose it is true for a given $k$, and let $\sigma_k$ be the string of length $k$ in question. Then, consider the oracle program $P_m$ which, given an oracle $f$, checks whether $f_{k+1}$ is zero or one, halting in one case and looping indefinitely in the other. Then, by the $m$-th step, the process will have determined whether $P_m$ halts or not, and so all elements of $\cl A_m$ will have the same value of $f_{k+1}$, call it $v$. Taking $N$ large enough (and using the induction hypothesis), all paths $f$ in $\cl A_N$ will have $\take f {k+1} = (\sigma_k v)$.
+
+As a remark, this paragraph proves that $f_k$ (assuming $f \in \cap A_n$ exists) is computable in the Halting problem, by determining which case was chosen in the construction of $\cl A_m$, where $m$ is built as above, and in particular recursively from $k$.
+
+Now that we have proved this uniqueness result, we are able to find an element $f$ in $\cap \cl A_n$. To do so, we note that all $\sigma_n$ built above are extensions of each other, and so we let $f$ be the limiting sequence, i.e. the one determined by $\take f n = \sigma_n$. It is clear that $f$ is the unique candidate element of $\cap \cl A_n$. We verify that it is indeed an element, by showing that it is an element of $\cl A_n$ for arbitrary $n$.
+
+We wish to verify that $\forall_x R_n(\take f x)$, with $R_n$ a predicate which defines $\cl A_n$, so let $x$ be arbitrary. Then, we wish to verify $R_n(\sigma_x)$. We know that for large enough $N$ (wlog $N \geq n$) any $f \in \cl A_n$ satisfies $\take f x = \sigma_x$, and moreover such an $f$ exists. Since $\cl A_n \supseteq \cl A_N$, $f$ is also in $\cl A_n$, and so in particular $R_n(\take f x)$, as desired.
+\end{proof}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

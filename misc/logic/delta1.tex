@@ -53,6 +53,18 @@
 \newcommand{\CF}{\mathrm{CF}}
 \newcommand{\Seq}{\mathrm{Seq}}
 
+\newcommand{\LA}{L_A}
+\newcommand{\PA}{\mathrm{PA}}
+\newcommand{\WPA}{\PA^-}
+
+
+\DeclareMathOperator{\step}{step}
+\DeclareMathOperator{\tapefrominput}{tapefrominput}
+\DeclareMathOperator{\tapetooutput}{tapetooutput}
+
+
+\DeclareMathOperator{\len}{len}
+
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
@@ -65,7 +77,260 @@
 
 \section{Introduction}
 
-This document is just an attempt to nail down some facts connecting computability to first order arithmetic. It is not intended to be read by anyone, except possibly my future self.
+In this document, I seek to write down the main results I have been looking into in the summer of 2023, and sketches of their proofs. This may or may not be suitable for readers other than myself.
+
+\section{The Basic Systems}
+
+In the remainder of this document, we will be working over the language denoted $\LA$, which consists of the symbols $0$, $1$, $+$, $\times$, and $\leq$. In this language, we introduce two axiomatic systems.
+
+\subsection{Weak Peano Arithmetic}
+
+\begin{definition}
+The axiomatic system $\WPA$ is given by (the translation to FOL of) the following statements:
+\begin{gather}
+\begin{gathered}
+\text{The operations $+$ and $\times$ are associative, commutative, and satisfy the distributive law,}\\
+\text{for which $0$ and $1$ are the identities,}\\
+\text{and moreover if $x+z = y+z$ we have $x=y$.}
+\end{gathered} \tag{SRing}\label{ax:sring} \\
+\begin{gathered}
+\text{The binary relation $\leq$ is a total order, which is respected by the operations}\\
+\text{(i.e. if $x \leq y$ then $x+z \leq y+z$ and $xz \leq yz$)}
+\end{gathered} \tag{Ord}\label{ax:ord}\\
+\text{$x \leq y$ iff $\exists_z (x+z = y)$,} \tag{Def$\leq$}\label{ax:defleq}\\
+\forall_x x \geq 0 \tag{ZMin}\label{ax:zmin}\\
+\forall_x (x \neq 0 \leftrightarrow x \geq 1). \tag{Disc}\label{ax:disc}
+\end{gather}
+\end{definition}
+
+The main power of this definition is that it allows us to carry out concrete computations, in a sense that will be made precise in propositions \ref{prop:wpadelta0} and \ref{prop:wpasigma1}. Before then, however, we need some preliminary results.
+
+\begin{remark}
+The axioms above may or may not contain some redundancy. Moreover, we will scarcely need the full power of $\WPA$, and many authors work with far, far weaker systems. However, since we will mostly be interested in $\PA$ itself, and $\WPA$ will be mostly used to identify where induction may be foregone or weakened, we do not care too much about ensuring that it is as weak as possible.
+\end{remark}
+
+\begin{convention}
+If the letter $n$ denotes a natural number, its presence in a formula should be replaced by a term in $\LA$ which evaluates to $n$. Note that, by \eqref{ax:sring}, $\WPA$ proves that any two such terms are equal.
+\end{convention}
+
+\begin{convention}
+The symbol $x < y$ means the obvious: `$x \leq y$, but $x \neq y$'.
+\end{convention}
+
+\begin{prop}\label{prop:leq}
+$\WPA$ proves that $x < y$ iff $x+1 \leq y$.
+\end{prop}
+
+\begin{proof}
+We reason in $\WPA$. Suppose that $x < y$, i.e. $x \leq y$ but $x \neq y$. Then, by \eqref{ax:defleq} we have $y = x+z$ for some $z$. Moreover, since $x \neq y$, $z$ cannot be zero. Thus, by \eqref{ax:disc}, $z \geq 1$. Finally, applying the fact that (by \eqref{ax:ord}) the order is respected by addition, we have (in $\WPA$) $x+1 \leq x+z = y$.
+
+Conversely, given that $x+1 \leq y$, and moreover $x \leq x+1$, it suffices to show that $x \neq y$. But indeed, suppose that $x = y$. Since $x+1 \leq y$, we have $y = x+1+z$ for some $z$. Thus, by \eqref{ax:sring} we have $z+1 = 0$. However, this is impossible: whenever $a+b = 0$, we have $0 \leq a \leq a+b = 0$, whence $a = 0$ by \eqref{ax:ord}, and so in particular from $z+1 = 0$ we get $1=0$. Yet, by \eqref{ax:disc}, $1 \neq 0$, a contradiction.
+\end{proof}
+
+\begin{prop}\label{prop:leqrep}
+If $n$ is a natural number, we have
+\begin{equation}
+\WPA \vdash \forall_x (x \leq n \leftrightarrow [x = 0 \lor \dots \lor x = n]).
+\end{equation}
+\end{prop}
+
+\begin{proof}
+We reason by (meta-)induction on $n$. For $n = 0$, the statement is obvious. On the other hand, if the statement is true for a given $n \in \N$, we have, in $\WPA$,
+\begin{equation}
+x \leq n+1 \text{ iff } (x = n+1 \lor x < n+1),
+\end{equation}
+and by \eqref{prop:leq} $x < n+1$ iff $x+1 \leq n+1$. By \eqref{ax:defleq} and \eqref{ax:sring}, this is equivalent to $x \leq n$, and by the induction hypothesis this is equivalent to $[x=0 \lor \dots \lor x=n]$, which completes the proof.
+\end{proof}
+
+\begin{prop}\label{prop:wpadelta0}
+$\WPA$ is complete for (closed) $\Delta_0$ sentences. In particular, if $\varphi$ is a closed $\Delta_0$ formula, $\WPA \vdash \varphi$ iff $\N \vDash \varphi$.
+\end{prop}
+
+\begin{proof}
+First, we remark that, by proposition \ref{prop:leqrep}, $\WPA$ has `closed bounded quantifier elimination', in the following sense. If $\varphi$ is of the form $\forall_{x \leq t} \varphi_0(x)$, then $\WPA$ proves that $\varphi$ is equivalent to $\varphi_0(0) \lor \dots \lor \varphi_0(n)$, where $n$ is whatever natural number $t$ evaluates to. Thus, we may recursively eliminate all bounded quantifiers from a $\Delta_0$ sentence, obtaining at the end an equivalent quantifier-free sentence. Hence, it suffices to show that $\WPA$ is complete for atomic sentences. But indeed, an atomic sentence is either of the form $t_1 = t_2$ or $t_1 \leq t_2$, and these can be decided in $\WPA$ by evaluating the numerical value of $t_1$ and $t_2$.
+
+(Details are being swept under the rug here, but the bottom line is that cancellation properties may be used to reduce to sentences of the form $t = 0$, $t \leq 0$, or $t \geq 0$, and $\WPA$ is able to prove that the first two hold iff $t$ evaluates numerically to zero, and the latter holds always.)
+
+The second part of the proposition is a direct consequence of completeness for closed $\Delta_0$ formulas, together with the fact that $\N \vDash \WPA$.
+\end{proof}
+
+\begin{prop}\label{prop:wpasigma1}
+$\WPA$ is proves all true $\Sigma_1$ sentences. That is, if $\varphi \equiv \exists_x \varphi_0(x)$ is a closed $\Sigma_1$ formula, $\WPA \vdash \varphi$ iff $\N \vDash \varphi$.
+\end{prop}
+
+\begin{proof}
+Evidently, if $\WPA \vdash \varphi$, we have $\N \vDash \varphi$, so we prove the opposite implication.
+
+Suppose that $\N \vDash \varphi$. Then, there is some natural number $n$ such that $\N \vDash \varphi_0(n)$. Since $\varphi_0(n)$ is a $\Delta_0$ closed sentence, we conclude by proposition \ref{prop:wpadelta0} that $\WPA \vdash \varphi_0(n)$ and so $\WPA \vdash \exists_x \varphi_0(x)$.
+\end{proof}
+
+\subsection{Peano Arithmetic}
+
+The system of axioms of $\PA$ is obtained by adding the axiom schema of induction to $\WPA$.
+
+\subsection{Adding Function Symbols}
+
+For the time being, I will keep this section short and free of proofs, because they are quite technical and not that interesting to write out. Perhaps someday I will do it, because there is one or another thing that is kind of interesting.
+
+The bottom line is the following: Suppose that $T$ is a set of axioms in the language $L$ and $\varphi(\vec x,y)$ is a formula such that $T$ proves $\forall_{\vec x} \exists^1_y \varphi(\vec x, y)$. Then, this formula may be said to represent a function, and we consider adding a function symbol $f(\vec x)$ to the language (call the new language $L'$), together with the axiom $\forall_{\vec x} \varphi(\vec x, f(\vec x))$ (call the new set of axioms $T'$). The first main result is that this adds no power to the language.
+
+\begin{prop}\label{prop:cons1}
+With $L$, $T$, $L'$, and $T'$ as above, there is a way to transform formulas $\varphi$ in $L'$ into formulas $\hat\varphi$ in $L$, such that:
+\begin{itemize}
+\item From the perspective of $T'$, $\varphi \leftrightarrow \hat\varphi$,
+\item If $\varphi$ is already in $L$, then $T \vdash \varphi \leftrightarrow \hat\varphi$,
+\item $T'$ proves $\varphi$ iff $T$ proves $\hat\varphi$.
+\end{itemize}
+\end{prop}
+
+The operator $\hat\cdot$ described above operates recursively on a formula, being interesting only when it reaches atomic formulas, e.g. $t_1 = t_2$. In this scenario, it will recursively replace any instance of application of $f$ by an instance of $\varphi$, for example:
+\begin{equation}
+\begin{aligned}
+g(f(x),y) = f(h(0)) \quad\rightsquigarrow\quad& \forall_{\nu_1 \mid \varphi(x, \nu_1)} \; \forall_{\nu_2 \mid \varphi(h(0), \nu_2)} \; g(\nu_1, y) = \nu_2,\\
+\text{or }& \exists_{\nu_1 \mid \varphi(x, \nu_1)} \; \exists_{\nu_2 \mid \varphi(h(0), \nu_2)} \; g(\nu_1, y) = \nu_2.
+\end{aligned}
+\end{equation}
+
+Note: The choice to use a $\forall$ or an $\exists$ is indifferent. This is useful because it means that if $\varphi$ is $\Sigma_n$ or $\Pi_n$, for $n \geq 1$, we may choose $\hat\varphi$ in the same class.
+
+A useful property is that axiom schema of induction is preserved.
+\begin{prop}\label{prop:cons2}
+Suppose that $T$ contains the axiom schema of induction in $L$. Then $T'$ proves the axiom schema of induction in $L'$.
+
+Moreover, this conclusion holds if we restrict ourselves to $\Sigma_n$ or $\Pi_n$ induction, for $n \geq 1$.
+\end{prop}
+
+\begin{proof}
+If $\psi(x, \vec y)$ is a formula, then by proposition \ref{prop:cons1}, from the perspective of $T'$ the axiom of induction for $\psi$ is equivalent to the axiom of induction for $\hat\psi$. Since $T$ proves the latter, $T'$ does as well, and so it proves induction for $\psi$.
+\end{proof}
+
+\begin{remark}\label{rmk:delta0}
+The second part of proposition \ref{prop:cons2} does not necessarily hold for $\Delta_0$ formulas, because the hat operator adds a quantifier which is not necessarily bounded. However, if one can find a term $t(\vec x)$ such that $T \vdash \forall_{\vec x} \forall_y (\varphi(\vec x, y) \rightarrow y \leq t(\vec x))$, then the hat operator may be made to add only bounded quantifiers. To me, this motivates the definition of $\Delta_0$ function, as one which is defined by a bounded quantifier formula and is itself bounded by a term in the input.
+\end{remark}
+
+\section{Computing in Arithmetic}
+
+\subsection{Encoding Sequences}
+
+\begin{definition}\label{def:seqenc}
+A \emph{sequence encoding} is a pair of formulas, say $\lambda(x,w)$ and $\theta(x,y,z)$, satisfying the following conditions (in the axiomatic system under consideration).
+\begin{gather}
+\forall_x \exists^1_w \lambda(x,w) \quad\text{(We say $w$ is the length of $x$, and denote it $\len(x)$)} \tag{Len}\\
+\exists_x \len(x) = 0 \quad\text{(We call $x$ an empty sequence)} \tag{Eps} \label{ax:eps}\\
+\parbox{0.8\linewidth}{\centering Given $x$ and $y$, there is a unique $z$ such that $\theta(x,y,z)$. \\ This $z$ is denoted by $(x)_y$, and moreover if $y \geq \len(x)$ we have $(x)_y = 0$.} \tag{Eval}\\
+\parbox{0.8\linewidth}{\centering Given $x$ and $a$, there exists $x'$ such that: \\ $\len(x') = \len(x) + 1$, $(x')_{\len(x)} = a$, and for $y < \len(x)$, $(x')_y = (x)_y$.} \tag{Ext}\label{ax:ext}
+\end{gather}
+\end{definition}
+
+An extremely important fact is the following.
+
+\begin{prop}[Gödel's lemma]\label{prop:godellemma}
+There exists a $\Delta_0$ sequence encoding in $\PA$. (Also in the sense of remark \ref{rmk:delta0}.)
+\end{prop}
+
+As it happens, as long as we have sufficient induction, the actual encoding chosen is irrelevant for our purposes, as we will never use anything about the encoding other than definition \ref{def:seqenc} (and possibly the fact that $\lambda$ and $\theta$ are $\Delta_0$). Indeed, one could imagine replacing our language by a two-sorted language, of which one sort is natural numbers and the other is sequences, and adjoining the axioms in definition \ref{def:seqenc}. Then, proposition \ref{prop:godellemma} would translate to a conservativity result: This new system proves nothing about the natural numbers that PA did not already.
+
+This process of adding a second sort to our language could lead to some issues, namely when it comes to the notion of bounded quantification. However, I believe that it is already not feasible to bound the representatives of sequences, and indeed I think that quantifiers over (numbers that are intended to represent) sequences are basically never bounded. In any case, the main use for sequences is to represent the execution process of a Turing machine (see proposition \ref{prop:sigma1} below), in which event the quantifier for the sequence is unbounded, and thus we need not worry about what it means for a quantifier over a sequence to be bounded.
+
+\begin{remark}
+If I'm not mistaken, proposition \ref{prop:godellemma} does not require the full power of $\PA$, but only $\Sigma_1$ induction.
+\end{remark} 
+
+\subsection{Recursion in PA}
+
+Now that we are equipped with the notion of sequences, we are able to add a lot of new function symbols to $\PA$.
+
+\begin{prop}\label{prop:recursion1}
+Let $f(x, y)$ be a function in two variables in $\PA$, by which we mean: Let $\varphi(x,y,z)$ be a formula such that $\PA \vdash \forall_{x, y} \exists^1_z \varphi(x,y,z)$, and let $f$ be a function symbol adjoined to represent this function. Moreover, let $t_0$ be a given term in $\LA$. Then, $\PA$ proves that there exists a unique function $g(x)$ such that
+\begin{gather}
+g(0) = t_0,\\
+\forall_x \; g(x+1) = f(x, g(x)).
+\end{gather}
+\end{prop}
+
+\begin{proof}
+We define $\psi(x,z)$ by the formula
+\begin{equation}
+\psi(x,z) \colon \quad \exists_s (\len(s) = x+1 \land (s)_0 = t_0 \land \forall_{k < x} (s)_{k+1} = f(x, (s)_k) \land (s)_x = z).
+\end{equation}
+
+Then, one shows by induction (using \eqref{ax:eps} and \eqref{ax:ext}) that $\forall_x \exists_z \psi(x,z)$. Moreover, we have uniqueness of $z$ because, by induction on $k$, any two sequences $s$ of length $x+1$ satisfying $(s)_0 = t_0$ and $\forall_{k \leq x} (s)_{k+1} = f(x, (s)_k)$ agree for all $k$. In particular, they will agree at $k = x$, and thus the value of $z$ is uniquely determined from the value of $x$.
+\end{proof}
+
+\begin{remark}
+Proposition \ref{prop:recursion1} is not nearly as general as it could be; it is intended rather to sketch the kind of thing that is possible, without being overburdened with excessive abstraction. A small modification of it, for example, allows us to prove the existence and uniqueness of a binary function representing exponentiation, which is determined by the property that $x^0 = 1$ and $x^{y+1} = x^y \times x$.
+\end{remark}
+
+\begin{remark}
+A possible culmination, by which I mean `most general yet reasonable possible version', of proposition \ref{prop:recursion1} is the statement that the set of functions definable in $\PA$ are closed under the operations used to generate the primitive recursive functions.
+
+I am taking care to avoid the phrasing `$\PA$ proves the existence of all primitive recursive functions', because given a PR function there is more than one way to construct over $\N$ it using the operations. In particular, one may replace $f(x)$ by the (\textit{a posteriori} PR) function $g(x)$ given by `if $x$ represents a proof that $\PA$ is inconsistent, return $0$, otherwise return $f(x)$'. Since $\PA$ is (hopefully) consistent, $f$ and $g$ agree over the natural numbers. However, \textit{a posteriori} we know that there exist models of $\PA$ where such an $x$ does exist, and on those models $f$ and $g$ will furnish two distinct extensions of the same PR function.
+\end{remark}
+
+\begin{remark}
+{}[To do, write out how this looks in $\WPA$.]
+\end{remark}
+
+Using Gödel's lemma, it is possible to encode the code for a Turing machine as a natural number, and likewise for the state of a Turing machine. Moreover, it is possible to do so in such a way that the function $\textrm{step}(tape, code)$ is PR. Finally, we may also encode a `step sequence', and both the predicate `is this step sequence a valid execution sequence for this code', and the function which extracts the output `number' from a tape, are also PR. As such, given a Turing machine encoded by the number $n \in \N$, we may attempt to encode the partial computable function corresponding to it by the formula
+\begin{equation}
+\varphi(x, y) \equiv \exists_{s} \; (\text{$s$ is a running sequence for $n$, with input $x$ and output $y$}).
+\end{equation}
+
+In order to better understand the subtleties of this definition, let us establish some notation.
+\begin{definition}
+We will now enumerate some Primitive Recursive functions on the natural numbers, and give them a name. In the sequel, we assume that these names have been added to the language as function symbols, axiomatized via some way to represent them in the Primitive Recursive schema.\footnote{In nonstandard models, distinct representations may lead to distinct functions. However, these representation will always agree over $\N$.}
+\begin{itemize}
+\item $\step(n, t)$: Where $t$ represents a tape state, and $n$ a Turing machine, this function symbol outputs (a number representing) the next state of the tape upon executing a step of the Turing machine $n$,
+
+\item $\tapefrominput(x)$: This function symbol outputs (a number representing) a tape containing nothing but $x$ many ones after the pointer,
+
+\item $\tapetooutput(t)$: Where $t$ represents a tape state, this function symbol extracts a natural number as output from the tape, in such a manner that $\tapetooutput(\tapefrominput(x)) = x+1$ holds for all $x$. The value $0$ is reserved as an error code, in the event that no discernible output may be obtained.
+\end{itemize}
+
+Implicit in the above definitions is the notion that $n$ and $t$ represent valid Turing machines and tapes, respectively. This verification is also PR, and we may assume that given invalid input, some fixed error code (e.g. zero) is produced as output.
+\end{definition}
+
+\begin{definition}\label{def:phin}
+Let $f \colon \N \rightharpoonup \N$ be a partial computable function, and let $n$ be a code for a Turing machine which computes $f$. To this Turing machine we associate the $\Sigma_1$ formula
+\begin{equation}
+\varphi(n,x,y) \equiv \exists_s \left(
+\begin{aligned}
+&(s)_0 = \tapefrominput(x)\\
+\land \; &[\forall_{i < \len(s) - 1} (s)_{i+1} = \step(n, (s)_i)]\\
+\land \; &y+1 = \tapetooutput((s)_{\len(s) - 1})
+\end{aligned} \right)
+\end{equation}
+\end{definition}
+
+\begin{prop}
+Let $f$, $n$, and $\varphi$ be as in definition \ref{def:phin}, and let $a \in \N$ be in the domain of $f$. Then, $\WPA \vdash \varphi(n,a,f(a))$, and moreover $\WPA \vdash \forall_y (\varphi(n,a,y) \rightarrow y=f(a))$.
+\end{prop}
+
+\begin{proof}
+The first part of this proposition is a consequence of proposition \ref{prop:wpasigma1}.
+
+[the second part needs to be adapted; varphi is wrong. it should have some requirement like "s is minimal"]
+\end{proof}
+
+\section{The First Incompleteness Theorem}
+
+\subsection{Self-Reference}
+
+\subsection{The Gödel Sentence}
+
+\subsection{The Rosser Sentence}
+
+\section{Nonstandard Models}
+
+\subsection{Overspill}
+
+\subsection{The Standard System}
+
+\subsection{Tennenbaum's Theorem}
+
+\section{Miscellaneous Curiosities}
+
+\subsection{Parikh's Theorem}
 
 %\bibliographystyle{plain}
 %\bibliography{bibliography}
