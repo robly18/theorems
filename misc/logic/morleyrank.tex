@@ -69,6 +69,7 @@
 \newcommand{\Stone}{\mathrm{S}}
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Th}{Th}
+\DeclareMathOperator{\Ext}{Ext}
 
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
@@ -285,8 +286,17 @@ Before doing so, we define some notation.
 
 \begin{definition}
 Given a theory $T$, $A \in \calN(T)$, and an ordinal $\alpha$, we set $\Stone^\alpha(A) := \Stone(A) \setminus \bigcup_{\beta < \alpha} \Tr^\beta(A)$. We also define $\Tr^{<\alpha}(A) := \bigcup_{\beta < \alpha} \Tr^\alpha(A)$, and $\Tr^{\leq\alpha}(A) := \Tr^{<(\alpha+1)}(A)$.
+\end{definition}
 
-Moreover, if $i \colon A \to A'$ is the inclusion map $A \subseteq A'$ (or, more generally, a monomorphism) we define $i^* \colon \Stone(A') \to \Stone(A)$ to be the `forgetful map', which given a type $p' \in \Stone(A')$ forgets all the information it has about elements of $A' \setminus A$.
+\begin{definition}
+If $i \colon A \to A'$ is the inclusion map $A \subseteq A'$ (or, more generally, a monomorphism) we define $i^* \colon \Stone(A') \to \Stone(A)$ to be the `forgetful map', which given a type $p' \in \Stone(A')$ forgets all the information it has about elements of $A' \setminus A$.
+\end{definition}
+
+\begin{definition}
+Let $A \subseteq A'$ be two elements of $\calN(T)$, and let $p \in \Stone(A)$. We define $\Ext^0(p, A')$, or simply $\Ext(p,A')$, to be the collection of extensions of $p$ to types in $A'$. More generally, if $\alpha$ is an ordinal, we set $\Ext^\alpha(p, A')$ to be the set of such extensions which are in $\Stone^\alpha(A')$. Symbolically, if $i$ is the inclusion map,
+\begin{equation}
+\Ext^\alpha(p,A') := (i^*)^{-1}(p) \cap \Stone^\alpha(A').
+\end{equation}
 \end{definition}
 
 Morley also establishes a topological structure on $\Stone(A)$. A first draft of this document attempted to avoid the topological nomenclature as much as possible, but this quickly became more burdensome than it was worth. Thus, we will make use of this topological structure in our proofs. However, we will eunciate our propositions in a way that does not require knowledge of this topology to interpret.
@@ -306,19 +316,19 @@ We will prove only the strong `openness' assertion. Compactness follows from thi
 
 This proof will be performed by strong induction on $\alpha$. That is, given a fixed $\alpha$, we assume that the strong openness property has been proven true for all $\beta < \alpha$, and for all $A \in \calN(T)$. This in particular implies that $\Tr^{<\alpha}(A)$ is open, and so that $\Stone^\alpha(A)$ is compact.
 
-Let $p \in \Tr^\alpha(A)$. Then, there is a model $A' \supseteq A$ such that (if $i$ denotes the inclusion) all elements of $(i^*)^{-1}(p)$ are $\alpha$-pinned down. The game plan is as follows: We will find a formula $\psi$ (in $A'$) which covers $(i^*)^{-1}(p)$, without leaving $(i^*)^{-1}(p) \cup \Tr^{<\alpha}(A')$. This formula may use language from $A'$, so we find a formula $\varphi$ in $p$ which implies $\psi$. This is the formula that will isolate $p$ in $\Stone^\alpha(A)$.
+Let $p \in \Tr^\alpha(A)$. Then, there is a model $A' \supseteq A$ such that all elements of $\Ext(p, A')$ are $\alpha$-pinned down. The game plan is as follows: We will find a formula $\psi$ (in $A'$) which covers $\Ext(p,A')$, without leaving $\Ext(p,A') \cup \Tr^{<\alpha}(A')$. This formula may use language from $A'$, so we find a formula $\varphi$ in $p$ which implies $\psi$. This is the formula that will isolate $p$ in $\Stone^\alpha(A)$.
 
-We begin by finding $\psi$. First, by the induction hypothesis, $\Tr^{<\alpha}(A')$ is open. Moreover, applying the definition of $p' \in (i^*)^{-1}(p)$ being $\alpha$-pinned down to $A'' = A'$, we obtain that for every such $p'$ there is a neighborhood of $p'$ contained in $\{p'\} \cup \Tr^{<\alpha}(A')$. As a consequence, we conclude that $(i^*)^{-1}(p) \cup \Tr^{<\alpha}(A')$ is open in $\Stone(A')$, and since $(i^*)^{-1}(p)$ is compact (being a closed subset of $\Stone(A')$), there is a basic open $U_\psi$, such that
+We begin by finding $\psi$. First, by the induction hypothesis, $\Tr^{<\alpha}(A')$ is open. Moreover, applying the definition of $p' \in \Ext(p,A')$ being $\alpha$-pinned down to $A'' = A'$, we obtain that for every such $p'$ there is a neighborhood of $p'$ contained in $\{p'\} \cup \Tr^{<\alpha}(A')$. As a consequence, we conclude that $\Ext(p,A') \cup \Tr^{<\alpha}(A')$ is open in $\Stone(A')$, and since $\Ext(p,A')$ is compact,\footnote{This is because $\Ext(p,A')$ is a closed subset of the compact space $\Stone(A')$. Closedness of $\Ext(p,A')$ may be shown using the continuity of $i^* \colon \Stone(A') \to \Stone(A)$, as Morley does, but here is a more direct proof: By definition, if $q \not\in \Ext(p,A')$, there is some formula $\eta \in p$ whose negation is in $q$. Thus, $\neg\eta$ induces a neighborhood of $q$ which does not intersect $\Ext(p,A')$.} there is a basic open $U_\psi$, such that
 \begin{equation}
-(i^*)^{-1}(p) \subseteq U_\psi \subseteq (i^*)^{-1}(p) \cup \Tr^{<\alpha}(A').
+\Ext(p,A') \subseteq U_\psi \subseteq \Ext(p,A') \cup \Tr^{<\alpha}(A').
 \end{equation}
 
-Let us first look at the inclusion $(i^*)^{-1}(p) \subseteq U_\psi$. This means that any extension of $p$ to a type in $\Stone(A')$ will contain $\psi$, and by compactness of first-order logic it follows that there is some $\varphi \in p$ such that $A' \vDash \varphi(x) \rightarrow \psi(x)$. We claim that this is the formula we desire, which will isolate $p$ from the rest of $\Stone^\alpha(A)$.
+Let us first look at the inclusion $\Ext(p,A') \subseteq U_\psi$. This means that any extension of $p$ to a type in $\Stone(A')$ will contain $\psi$, and by compactness of first-order logic it follows that there is some $\varphi \in p$ such that $A' \vDash \varphi(x) \rightarrow \psi(x)$. We claim that this is the formula we desire, which will isolate $p$ from the rest of $\Stone^\alpha(A)$.
 
-To prove this claim, let $q$ be a type in $\Stone^\alpha(A)$ containing $\varphi$. Then, any extension of $q$ to a type in $\Stone(A')$ will be in $U_\varphi$, and hence in $(i^*)^{-1}(p) \cup \Tr^{<\alpha}(A')$. We now require the following lemma.
+To prove this claim, let $q$ be a type in $\Stone^\alpha(A)$ containing $\varphi$. Then, any extension of $q$ to a type in $\Stone(A')$ will be in $U_\varphi$, and hence in $\Ext(p,A') \cup \Tr^{<\alpha}(A')$. We now require the following lemma.
 
 \begin{lemma}\label{lemma:ext}
-Given $A, A' \in \calN(T)$ such that $A \subseteq A'$, an ordinal $\alpha$, and a type $q \in \Stone^\alpha(A)$, there is an extension of $q$ to a type $q' \in \Stone^\alpha(A')$.
+Given $A, A' \in \calN(T)$ such that $A \subseteq A'$, an ordinal $\alpha$, and a type $q \in \Stone^\alpha(A)$, there is an extension of $q$ to a type $q' \in \Stone^\alpha(A')$. In other words, if $q \in \Stone^\alpha(A)$ then $\Ext^\alpha(q,A') \neq \emptyset$.
 \end{lemma}
 
 \begin{remark}
@@ -326,12 +336,12 @@ See also principle \ref{principle:mono} above.
 \end{remark}
 
 \begin{lemmaproof}
-Suppose that all extensions of $q$ to types in $\Stone(A')$ are in $\Tr^{<\alpha}(A')$. Then, by compactness of $(i^*)^{-1}(q)$ and openness of $\Tr^{\leq \beta}(A')$ for $\beta < \alpha$ (by the induction hypothesis), we get that all extensions of $q$ to types in $\Stone(A')$ are in fact contained in some fixed $\Tr^{\leq \beta}$, with $\beta < \alpha$. We show that $q \in \Tr^{\leq \beta}(A)$, a contradiction.
+Suppose that all extensions of $q$ to types in $\Stone(A')$ are in $\Tr^{<\alpha}(A')$. Then, by compactness of $\Ext(q,A')$ and openness of $\Tr^{\leq \beta}(A')$ for $\beta < \alpha$ (by the induction hypothesis), we get that all extensions of $q$ to types in $\Stone(A')$ are in fact contained in some fixed $\Tr^{\leq \beta}$, with $\beta < \alpha$. We show that $q \in \Tr^{\leq \beta}(A)$, a contradiction.
 
-Suppose that $q \not\in \Tr^{<\beta}(A)$. Then, we will show that $q \in \Tr^\beta(A)$. To do this, we note that for every $q' \in (i^*)^{-1}(q)$ there is a model $A^*_{q'}$ extending $A'$ such that every preimage of $q'$ in $A^*_{q'}$ is $\beta$-pinned down.\footnote{This uses the fact that if a type is $\gamma$-pinned down for some $\gamma \leq \beta$, then it is also $\beta$-pinned down; see lemma \ref{lemma:pdmono}.} By the model-gluing properties in the introduction (see also principle \ref{principle:ni}), define $A^*$ as a model containing a copy of every $A^*_{q'}$. It is easy to verify then by definition that every extension of $q$ to a type in $\Stone(A^*)$ is $\beta$-pinned down. As such, $q$ is in $\Tr^\beta(A)$, as desired.
+Suppose that $q \not\in \Tr^{<\beta}(A)$. Then, we will show that $q \in \Tr^\beta(A)$. To do this, we note that for every $q' \in \Ext(q,A')$ there is a model $A^*_{q'}$ extending $A'$ such that every element of $\Ext(q',A^*_{q'})$ is $\beta$-pinned down.\footnote{This uses the fact that if a type is $\gamma$-pinned down for some $\gamma \leq \beta$, then it is also $\beta$-pinned down; see lemma \ref{lemma:pdmono}.} By the model-gluing properties in the introduction (see also principle \ref{principle:ni}), define $A^*$ as a model containing a copy of every $A^*_{q'}$. It is easy to verify then by definition that every extension of $q$ to a type in $\Stone(A^*)$ is $\beta$-pinned down. As such, $q$ is in $\Tr^\beta(A)$, as desired.
 \end{lemmaproof}
 
-Continuing the proof, by the lemma we have an extension of $q$ to a type $q' \in \Stone^\alpha(A')$. But since $q$ contains $\varphi$, this implies that $q' \in (i^*)^{-1}(p)$, and hence $q = p$, as desired.
+Continuing the proof, by the lemma we have an extension of $q$ to a type $q' \in \Stone^\alpha(A')$. But since $q$ contains $\varphi$, this implies that $q' \in \Ext(p,A')$, and hence $q = p$, as desired.
 \end{proof}
 
 \begin{remark}
@@ -345,7 +355,7 @@ Let $A, A' \in \calN(T)$ such that $A \subseteq A'$, with $i$ the inclusion map.
 \begin{proof}
 Lemma \ref{lemma:ext} is half of the statement of \ref{item:1}, as it proves that $i^*(\Stone^\alpha(A')) \supseteq \Stone^\alpha(A)$. The other inclusion is clear: If a type $p' \in \Stone^\alpha(A')$ is \emph{not} a losing position for the mouse (with score less than $\alpha$), then making the model any smaller will not make it so, as the Mouse benefits from having less expressive power in the language (principle \ref{principle:mono}). More formally, if $i^*(p')$ was in a $\beta$-losing position for the Mouse, then the move $A^*$ that the Cat can make from $A$ could also have been made starting from $A'$ (using the model-gluing properties to create a model that contains a copy of both $A'$ and $A^*$).
 
-Let us now prove \ref{item:2}. The implication $(\rightarrow)$ is interpreted as: When the Cat makes a move, Mouse can never change to a less-losing position. Indeed, if a type $p \in \Stone^\alpha(A)$ cannot be extended to a type $p' \in \Stone^\alpha(A^*)$ without being pinned down, then an extension of $p$ to a type in $\Stone^\alpha(A')$ can also not be extended to a type in $(A^* \cup A')/\sim$ without being pinned down. On the other hand, $(\leftarrow)$ if $p \in \Stone^\alpha(A)$ but all of its extensions $p'$ in $\Stone(A')$ are in an $\alpha$-losing position for the Mouse, using an argument similar to the one used in lemma \ref{lemma:ext} to create an extension $A^*$ of $A'$ such that all extensions of all $p'$ are $\alpha$-pinned down, this same extension $A^*$ may be used as the Cat's move to show that $p \in \Stone^\alpha(A)$ is an $\alpha$-losing position for the Mouse.
+Let us now prove \ref{item:2}. The implication $(\rightarrow)$ is interpreted as: When the Cat makes a move, Mouse can never change to a less-losing position. Indeed, if a type $p \in \Stone^\alpha(A)$ cannot be extended to a type $p' \in \Stone^\alpha(A^*)$ without being pinned down, then an extension of $p$ to a type $p'$ in $\Stone^\alpha(A')$ can also not be extended to a type in $(A^* \cup A')/\sim$ without being pinned down (see lemma \ref{lemma:pdmono}). On the other hand, $(\leftarrow)$ if $p \in \Stone^\alpha(A)$ but all of its extensions $p'$ in $\Stone(A')$ are in an $\alpha$-losing position for the Mouse, using an argument similar to the one used in lemma \ref{lemma:ext} to create an extension $A^*$ of $A'$ such that all extensions of all $p'$ are $\alpha$-pinned down, this same extension $A^*$ may be used as the Cat's move to show that $p \in \Stone^\alpha(A)$ is an $\alpha$-losing position for the Mouse.
 \end{proof}
 
 The above proof yields much more than the proposition it sought to establish. We provide some other consequences.
@@ -361,13 +371,13 @@ In the proof of proposition \ref{prop:open} we found a single formula $\varphi \
 \end{proof}
 
 \begin{lemma}\label{lemma:deg}
-If $p \in \Tr^\alpha(A)$ and $i \colon A' \hookrightarrow A$, the set $(i^*)^{-1}(p) \cap \Stone^\alpha(A')$ is finite.
+If $p \in \Tr^\alpha(A)$ and $A' \supseteq A$, $\Ext^\alpha(p, A')$ is finite.
 \end{lemma}
 
 \begin{proof}
-The set $(i^*)^{-1}(p)$ is compact, and admits the following covering by opens. One of the opens is given by $\Tr^{<\alpha}(A')$. Then, for each $p' \in (i^*)^{-1}(p) \cap \Stone^\alpha(A')$, we built a neighborhood of $p'$ as in proposition \ref{prop:open}, which is contained in $\{p'\} \cup \Tr^{<\alpha}(A')$.
+The set $\Ext(p,A')$ is compact, and admits the following covering by opens. One of the opens is given by $\Tr^{<\alpha}(A')$. Then, for each $p' \in \Ext^\alpha(p,A')$, we build a neighborhood of $p'$ as given by proposition \ref{prop:open}, which is contained in $\{p'\} \cup \Tr^{<\alpha}(A')$. (This requires verifying that $p' \in \Tr^\alpha(A')$; see principle \ref{principle:mono}.)
 
-By compactness, this cover admits a finite subcover of $(i^*)^{-1}(p)$. However, the only open set which might possibly be removed is $\Tr^{<\alpha}(A')$. Thus, the cover must have been finite to begin with, and there must be finitely many $p' \in (i^*)^{-1}(p) \cap \Stone^\alpha(A')$.
+By compactness, this cover admits a finite subcover of $\Ext(p,A')$. However, the only open set which might possibly be removed is $\Tr^{<\alpha}(A')$. Thus, the cover must have been finite to begin with, and there must be finitely many $p' \in \Ext^\alpha(p,A')$.
 \end{proof}
 
 We have the following extension of proposition \ref{prop:f}, which can be interpreted game-theoretically as: The Cat loses nothing by restricting themselves to finite moves.
@@ -377,43 +387,43 @@ Let $p \in \Tr^\alpha(A)$. Then, there is a \emph{finite} extension of $A$, say 
 \end{prop}
 
 \begin{proof}
-Let $A' \supseteq A$ be a winning move for the Cat, and let $\psi_1, \dots, \psi_n$ be the formulas ensuring that the elements of $(i^*)^{-1}(p) \cap \Stone^\alpha(A')$ are $\alpha$-pinned down. There are finitely many by lemma \ref{lemma:deg}, and so we define $A'_0$ as the set $A$, together with the elements of $A'$ taking part in the formulas $\psi_i$. Then, it can be seen that $p$ extends to an $\alpha$-slippery type in $A'_0$ in exactly $n$ ways, exactly one containing each $\psi_i$ (and no more by lemma \ref{lemma:ext}), and using model-gluing properties one obtains that each of these types is itself $\alpha$-pinned down. Hence, $A'_0$ is a winning move for the Cat.
+Let $A' \supseteq A$ be a winning move for the Cat, and let $\psi_1, \dots, \psi_n$ be the formulas ensuring that the elements of $\Ext^\alpha(p,A')$ are $\alpha$-pinned down. There are finitely many by lemma \ref{lemma:deg}, and so we define $A'_0$ as the set $A$, together with the elements of $A'$ taking part in the formulas $\psi_i$. Then, it can be seen that $p$ extends to an $\alpha$-slippery type in $A'_0$ in exactly $n$ ways, exactly one for each $\psi_i$ (and no more by lemma \ref{lemma:ext}), and using model-gluing properties one obtains that each of these types is itself $\alpha$-pinned down. Hence, $A'_0$ is a winning move for the Cat.
 \end{proof}
 
 We now define the notion of degree. Parts \ref{item:11} and \ref{item:12} of the following proposition correspond to Theorem 2.5 in \cite{morley}. Part \ref{item:13} is our own addition.
 
 \begin{prop}
 \begin{enumerate}
-\item\label{item:11} If $p \in \Tr^\alpha(A)$ there is an integer $n$ such that, for every $A' \supseteq A$, the set $(i^*)^{-1}(p) \cap \Stone^\alpha(A')$ has at most $n$ elements. The least such $n$, or equivalently the maximum possible number of elements, is referred to as the \emph{degree of $p$}.
+\item\label{item:11} If $p \in \Tr^\alpha(A)$ there is an integer $n$ such that, for every $A' \supseteq A$, $\Ext^\alpha(p,A')$ has at most $n$ elements. The least such $n$, or equivalently the maximum possible number of elements, is referred to as the \emph{degree of $p$}.
 
 \item\label{item:12} If $p \in \Tr^\alpha(A)$ and $A' \supseteq A$, then
 \begin{equation}\label{eq:deg}
-\deg(p) = \sum_{q \in (i^*)^{-1}(p) \cap \Stone^\alpha(A')} \deg(q).
+\deg(p) = \sum_{q \in \Ext^\alpha(p,A')} \deg(q).
 \end{equation}
 
-\item\label{item:13} If $p \in \Tr^\alpha(A)$ and $A' \supseteq A$ is a winning move for the Cat (i.e. every $p' \in (i^*)^{-1}(p)$ is $\alpha$-pinned down), the degree of $p$ is the number of elements of $(i^*)^{-1}(p) \cap \Stone^\alpha(A')$.
+\item\label{item:13} If $p \in \Tr^\alpha(A)$ and $A' \supseteq A$ is a winning move for the Cat (i.e. every $p' \in \Ext(p,A')$ is $\alpha$-pinned down), the degree of $p$ is the number of elements of $\Ext^\alpha(p,A')$.
 \end{enumerate}
 \end{prop}
 
 \begin{proof}
 Parts \ref{item:11} and \ref{item:12} may be proved in a way similar to \cite{morley}, and \ref{item:13} is a direct consequence of \ref{item:12}. However, we will instead prove \ref{item:13} directly, and from it conclude the other two.
 
-First, we note that if $A'$ and $A^*$ are both winning moves for the Cat, the type $p$ has the same number of extensions to $\alpha$-slippery types in each. To prove this, we build a one-to-one correspondence between them. Indeed, let $A^{**}$ be a model containing a copy of both $A'$ and $A^*$. Then, since all extensions of $p$ to types in either $A'$ or $A^*$ are $\alpha$-pinned down, each type in e.g. $(i_{AA'}^*)^{-1}(p) \cap \Stone^\alpha(A')$ has at most one extension to $\Stone^\alpha(A^{**})$, and likewise for $A^*$; by lemma \ref{lemma:ext} there is in fact \emph{exactly} one extension. Since we have
+First, we note that if $A'$ and $A^*$ are both winning moves for the Cat, the type $p$ has the same number of extensions to $\alpha$-slippery types in each. To prove this, we build a one-to-one correspondence between them. Indeed, let $A^{**}$ be a model containing a copy of both $A'$ and $A^*$. Then, since all extensions of $p$ to types in either $A'$ or $A^*$ are $\alpha$-pinned down, each type in e.g. $\Ext^\alpha(p, A')$ has at most one extension to $\Stone^\alpha(A^{**})$, and likewise for $A^*$; by lemma \ref{lemma:ext} there is in fact \emph{exactly} one extension. Since we have
 \begin{equation}
-(i_{A'A^{**}})^{-1}\big( (i_{AA'}^*)^{-1}(p) \big) = (i_{AA^{**}})^{-1}(p),
+\bigcup_{p' \in \Ext(p,A')} \Ext(p', A^{**}) = \Ext(p, A^{**})
 \end{equation}
-we conclude that the map $i_{A'A^{**}}^*$ furnishes a one-to-one correspondence between the extensions of $p$ in $\Stone^\alpha(A')$ and the extensions of $p$ in $\Stone^\alpha(A^{**})$. In a similar fashion, we have a one-to-one correspondence between the latter and the extensions of $p$ in $\Stone^\alpha(A^*)$, and the proof of \ref{item:13} is complete.\footnote{Technically, we have not proven \ref{item:13}, as we have not defined the degree as in the statement. What we have done is shown that the number of elements in $(i^*)^{-1}(p) \cap \Stone^\alpha(A')$ is independent of $A'$ (so long as it is a winning move for the Cat), and we implicitly define this number as the degree of $p$.}
+we conclude that the map $(p' \mapsto \text{The unique element of $\Ext(p', A^{**})$})$ furnishes a one-to-one correspondence between $\Ext^\alpha(p, A')$ and $\Ext^\alpha(p,A^{**})$. In a similar fashion, we have a one-to-one correspondence between the latter and the extensions of $p$ in $\Stone^\alpha(A^*)$, and the proof of \ref{item:13} is complete.\footnote{Technically, we have not proven \ref{item:13}, as we have not defined the degree as in the statement. What we have done is shown that the number of elements in $\Ext^\alpha(p,A')$ is independent of $A'$ (so long as it is a winning move for the Cat), and we implicitly define this number as the degree of $p$.}
 
-We now sketch the proofs of \ref{item:11} and \ref{item:12}. For \ref{item:11}, let $A'$ be arbitrary, and let $A^*$ be an extension of $A'$ which is a winning move for the Cat, starting at $p \in \Tr^\alpha(A)$ (this uses principle \ref{principle:ni}). Now, by lemma \ref{lemma:ext}, every extension of $p$ to a type in $\Stone^\alpha(A')$ has in turn at least one extension to a type in $\Stone^\alpha(A^*)$, and all of these are distinct. Thus,
+We now sketch the proofs of \ref{item:11} and \ref{item:12}. For \ref{item:11}, let $A'$ be arbitrary, and let $A^*$ be an extension of $A'$ which is a winning move for the Cat starting at $p \in \Tr^\alpha(A)$ (this uses principle \ref{principle:ni}). Now, by lemma \ref{lemma:ext}, every extension of $p$ to a type in $\Stone^\alpha(A')$ has in turn at least one extension to a type in $\Stone^\alpha(A^*)$, and all of these are distinct. Thus,
 \begin{equation}
-\#\big((i_{AA'}^*)^{-1}(p) \cap \Stone^\alpha(A') \big) \leq \#\big((i_{AA^*}^*)^{-1}(p) \cap \Stone^\alpha(A^*) \big) = \deg(p).
+\#\Ext^\alpha(p,A') \leq \#\Ext(p, A^*) = \deg(p).
 \end{equation}
 
-Thus, $p$ can be extended to at most $n = \deg(p)$ distinct $\alpha$-slippery types in $A'$, no matter the choice of $A'$, and of course this upper bound is attained if (and only if) $A'$ is a winning move for the Cat.
+Thus, $p$ can be extended to at most $n = \deg(p)$ distinct $\alpha$-slippery types in $A'$, no matter the choice of $A'$, and of course this upper bound is attained if $A'$ is a winning move for the Cat.
 
-This proof may be adapted without much effort into a proof of \ref{item:12}: Note that the degree of $p$ is the size of $(i_{AA^*}^*)^{-1}(p) \cap \Stone^\alpha(A^*)$, i.e. the number of extensions of $p$ to types in $\Stone^\alpha(A^*)$. Now, each such extension is in fact obtained from an extension $p'$ of $p$ to $\Stone^\alpha(A')$, i.e.
+This proof may be adapted without much effort into a proof of \ref{item:12}: Note that the degree of $p$ is the size of $\Ext^\alpha(p,A^*)$, i.e. the number of extensions of $p$ to types in $\Stone^\alpha(A^*)$. Now, each such extension is in fact obtained from an extension $p'$ of $p$ to $\Stone^\alpha(A')$, i.e.
 \begin{equation}
-(i_{AA^*}^*)^{-1}(p) \cap \Stone^\alpha(A^*) = \bigcup_{p' \in (i_{AA'}^*)^{-1}(p) \cap \Stone^\alpha(A') } (i_{A'A^*}^*)^{-1}(p') \cap \Stone^\alpha(A^*),
+\Ext^\alpha(p,A^*) = \bigcup_{p' \in \Ext^\alpha(p,A')} \Ext^\alpha(p',A^*),
 \end{equation}
 and taking the cardinality on both sides, together with the fact that the union on the right-hand side is disjoint, yields \eqref{eq:deg}.
 \end{proof}
@@ -425,9 +435,9 @@ There is an ordinal $\alpha_T$, with at most the cardinality of the continuum, w
 \end{prop}
 
 \begin{proof}
-By proposition \ref{prop:f}, $\Tr^\beta(A) = \emptyset$ for all $A \in \calN(T)$ iff this holds for all finite $A \in \calN(T)$. Moreover, if this is the case for some value of $\beta$, it is also the case for all $\gamma \geq \beta$: If the $\beta$-th appeal to the rules by the Cat does not change their winning or losing any more, any further appeals will remain useless. More rigorously, if $\Tr^\beta(A) = \emptyset$ for all $A \in \calN(T)$, but there were some $\gamma > \beta$ such that this is not the case, one could pick a minimal such $\gamma$, so that $\Tr^{<\gamma} \setminus \Tr^{<\beta}$ is always empty. Then, it is clear from the definition that if a type is in $\Tr^\gamma(A)$ for some $A$, it is actually in $\Tr^\beta(A)$ instead, a contradiction.
+By proposition \ref{prop:f}, for a given $\beta$, $\Tr^\beta(A) = \emptyset$ holds for all $A \in \calN(T)$ iff it holds for all finite $A \in \calN(T)$. Moreover, if this is the case for some value of $\beta$, it is also the case for all $\gamma \geq \beta$: If the $\beta$-th appeal to the rules by the Cat does not change their winning or losing any more, any further appeals will remain useless. More rigorously, if $\Tr^\beta(A) = \emptyset$ for all $A \in \calN(T)$, but there were some $\gamma > \beta$ such that this is not the case, one could pick a minimal such $\gamma$, so that $\Tr^{<\gamma} \setminus \Tr^{<\beta}$ is always empty. Then, it is clear from the definition that if a type is in $\Tr^\gamma(A)$ for some $A$, it is actually in $\Tr^\beta(A)$ instead, a contradiction.
 
-To conclude the proof, we proceed exactly how it is done in \cite{morley}. There are at most continuum many types, modulo isomorphism, over finite sets $A \in \calN(T)$. Each of these inhabits $\Tr^\beta(A)$ for at most one value of $\beta$, and so, for $\beta$ of power above the continuum, there must be some hole below $\beta$, i.e. some value $\gamma < \beta$ such that $\Tr^\gamma(A)$ is empty for all $A \in \calN(T)$. By the previous paragraph, this implies that $\Tr^\beta(A)$ is also empty for all $A \in \calN(T)$, which completes the proof.
+To conclude the proof, we proceed exactly how it is done in \cite{morley}. There are at most continuum many types, modulo isomorphism, over finite sets $A \in \calN(T)$ (such types are in fact in one-to-one correspondence with the types over $T$ of positive finite arity). Each of these inhabits $\Tr^\beta(A)$ for at most one value of $\beta$, and thus there must be some $\beta < (2^{\aleph_0})^+$ such that $\Tr^\beta(A) = \emptyset$ for all (finite) $A \in \calN(T)$.
 \end{proof}
 
 \begin{definition}
@@ -453,7 +463,7 @@ First, extend $q$ to a type $q_1$ in $C$, and consider the restriction of $q_1$ 
 Proposition \ref{prop:weaktt} contains part of Lemma 2.6 (b) in \cite{morley}. We now state and prove the remainder.
 
 \begin{prop}
-If $T$ is totally transcendental, $\alpha_T$ is not a limit ordinal. Moreover, for any $A \in \calN(T)$, $\Tr^{\alpha_T - 1}(A) \neq \emptyset$.
+If $T$ is totally transcendental, $\alpha_T$ is a successor ordinal. Moreover, for any $A \in \calN(T)$, $\Tr^{\alpha_T - 1}(A) \neq \emptyset$.
 
 In game terms, the maximum number of steps the Cat takes to win a position depends only on the theory $T$, not on the choice of $A \in \calN(T)$: for any such $A$, the Mouse can always choose a starting position $p \in \Stone(A)$ with maximal score.
 \end{prop}
@@ -474,24 +484,40 @@ i^*(\Stone^{\alpha_\emptyset + 1}(A)) = \Stone^{\alpha_\emptyset + 1}(\emptyset)
 
 From the first equality, we obtain that $\Stone^{\alpha_\emptyset + 1}(A) = \emptyset$, hence $\alpha_A \leq \alpha_\emptyset$. On the other hand, from the second equality we get $\Stone^{\alpha_A + 1}(\emptyset) = \emptyset$, whence $\alpha_\emptyset \leq \alpha_A$, which concludes this part of the argument.
 
-To conclude the proof, it is easy to see by definition that (for any $A \in \calN(T)$) $\alpha_T = \alpha_A + 1$, hence in particular $\alpha_T$ is a successor ordinal. This concludes the proof.
+It is easy to see by definition of $\alpha_T$ that (for any $A \in \calN(T)$) $\alpha_T = \alpha_A + 1$, hence in particular $\alpha_T$ is a successor ordinal. This concludes the proof.
 \end{proof}
 
-The following proposition is Theorem 2.7 in \cite{morley}
+The following proposition is Theorem 2.7 in \cite{morley}, and may be seen as a consequence of principle \ref{principle:fininfo} roughly as follows: Since the Cat must justify their every win with finite information, and (non-obvious \textit{a priori}) distinct positions require different information to be justified, if the Cat wins every position then there are at most as many positions as there is finite information that the Cat can give. Thus, we should expect an upper bound on the number of types of a totally transcendental theory.
 
 \begin{prop}
-If $T$ is totally transcendental, then $\# \Stone(A) = \# A + \aleph_0$.
+If $T$ is totally transcendental, then $\# \Stone(A) = \# A$ modulo $\aleph_0$. More precisely, $\# A \leq \# \Stone(A) \leq \# A + \aleph_0$.
 \end{prop}
 
 \begin{proof}
+We copy Morley's proof. By proposition \ref{prop:open}, to each type $p \in \Stone(A)$ we may correspond a formula as follows. Since $T$ is totally transcendental, $p \in \Tr^\alpha(A)$ for some $\alpha$. Hence, there is a formula $\varphi \in p$ such that every type which contains $\varphi$ is either $p$ or contained in $\Tr^{<\alpha}(A)$. Thus, $p$ may be inequivocally recovered from $\varphi$ as: The type of maximal slipperiness which contains $\varphi$.
 
+The assignment which maps each $p \in \Stone(A)$ to the corresponding $\varphi$ is injective, hence $\# \Stone(A)$ is less than or equal to the cardinality of formulas with parameters in $A$, which since the language is assumed countable is equal to $\# A + \aleph_0$.
+
+For the opposite inequality, we note that each element of $A$ induces a distinct type (i.e. the type of that element). This completes the proof.
 \end{proof}
 
+Finally, we conclude with Morley's last theorem in section $2$: Theorem 2.8. I do not have a game-theoretic interpretation for this one, but I think it stands just fine on its own.
 
+\begin{prop}
+If $\Stone(A)$ is countable for every countable $A \in \calN(T)$, then $T$ is totally transcendental.
+
+The hypothesis may be slightly weakened to: If $\Stone(A)$ has less than continuum-many elements for every countable $A \in \calN(T)$.
+\end{prop}
+
+\begin{proof}
+Suppose by contrapositive that $T$ is not totally transcendental. Then, if $A \in \calN(T)$ is arbitrary, there is a losing position $p \in \Stone^{\alpha_T}(A)$. Since $p$ is a losing position, it is impossible to pin down (at level $\alpha_T$, say), and so we can find $A' \supseteq A$ such that $p$ extends to (at least) two types $p_0, p_1 \in \Stone^{\alpha_T}(A)$.
+
+We now tie this, together with principle \ref{principle:ni}, to create a countable set $A \in \calN(T)$ which admits continuum many types.
+
+Start with an arbitrary finite $A = A_0$, and a losing type $p \in \Stone^{\alpha_T}(A_0)$. Then, extend $A_0$ to some $A_1 \supseteq A_0$ such that $p$ extends to two distinct types $p_0, p_1 \in \Stone^{\alpha_T}(A_1)$. Then, continue the process, finding $A_2$ such that $p_0$ and $p_1$ extend to two distinct types each; this uses model-gluing properties to ensure that these divisions can be done without interfering with one another. Proceed inductively, obtaining an increasing collection of sets $A_0 \subseteq A_1 \subseteq A_2 \subseteq \dots$ such that there is a binary infinite tree of extensions of $p$ to each of these models. The increasing union $A_\omega = \cup A_n$ is also an element of $\calN(T)$, and any path in the aforementioned binary tree gives rise to (at least one) distinct type in $A_\omega$. Thus, $A_\omega$, a countable union of finite sets and hence countable itself, admits continuum many distinct types.
+\end{proof}
 
 \section{Equivalent Definitions}
-
-Note to self: Find better notation for $(i_{AA'}^*)^{-1}(p) \cap \Stone^\alpha(A')$.
 
 \section{Generalizing}\label{sec:gen}
 
