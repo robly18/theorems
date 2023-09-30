@@ -26,7 +26,7 @@
 
 \theorembodyfont{\upshape}
 \theoremseparator{.}
-\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{prop}[theorem]{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -67,7 +67,9 @@
 \newcommand{\Lang}{\mathcal{L}}
 \newcommand{\calN}{\mathcal{N}}
 \newcommand{\Stone}{\mathrm{S}}
+\newcommand{\PStone}{\mathrm{PS}}
 \DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\PTr}{PTr}
 \DeclareMathOperator{\Th}{Th}
 \DeclareMathOperator{\Ext}{Ext}
 
@@ -90,7 +92,7 @@ This document provides an alternate way to see and define the notion of Morley r
 \item Hypotheses are placed on $T$ such that $\calN(T)$ satisfies several `model-merging' properties. For most practical purposes, these properties may be summarized as follows: Given a collection $\{A_i\}_{i \in I}$ of elements of $\calN(T)$, assuming that these are pairwise compatible (i.e. the relations are well-defined on the intersections $A_i \cap A_j$), the union $\cup_{i \in I} A_i$, possibly with some identifications\footnote{To be more precise about these identifications, it is guaranteed that if $x$ and $y$ are in the same $A_i$ and are distinct there, they will not be identified in the union. The identification phenomenon happens e.g. if the theory says that for some $x \in A_i \cap A_j$ there exists a single $y$ satisfying some property, and both $A_i$ and $A_j$ contain a distinct value for $y$. In this instance, these two values would have to be identified in the union.}, is also in $\calN(T)$.
 \end{itemize}
 
-At the moment, I am not certain to what extent the following exposition uses these assumptions. Some proofs certainly use them in an essential way, but it is not yet clear to me up to what point the statements that follow break down when the assumptions are not present.
+At the time of writing, the author is not entirely sure what happens if these assumptions are foregone, but they are certainly used very frequently in the sequel, and could not be easily discarded. Some attempt to motivate them, or at least interpret their meaning in the framework of this document, may be found below, see Principle \ref{principle:ni} in section \ref{sec:principles}.
 
 \section{The Main Definition and its Consequences}
 
@@ -238,7 +240,7 @@ The author does not at this moment know whether this results holds at higher ran
 A type $p \in \calN(A)$ is weakly $\alpha$-pinned down (with respect to $\Tr^\alpha(A)$) iff it is strongly $\alpha$-pinned down. This implies that $\Tr_0^\alpha(A) = \Tr^\alpha(A)$ for all ordinals $\alpha$.
 \end{conjecture}
 
-\subsection{Some Principles of Reasoning}
+\subsection{Some Principles of Reasoning}\label{sec:principles}
 
 Before presenting a rigorous study of definition \ref{def:tr1}, it is useful to present some principles which the author finds helpful in guiding his thinking. These principles refer to the game-theoretic view of definition \ref{def:tr1}, and the idea is that they clarify ideas and arguments which will be common in the sequel. They may be turned into rigorously written propositions, and indeed will be, but the goal is to present them in an intuitive manner as not to lose sight of the forest for the trees.
 
@@ -519,7 +521,103 @@ Start with an arbitrary finite $A = A_0$, and a losing type $p \in \Stone^{\alph
 
 \section{Equivalent Definitions}
 
+We now briefly show that definition \ref{def:tr1} of the sets $\Tr^\alpha(A)$ is equivalent to the definition given in \ref{morley}. We begin by recalling it, albeit in a language more in keeping with the one we have used over the course of this document.
+
+\begin{definition}\label{def:tr2}
+Given a theory $T$ in the conditions of the introduction, we define the expression $\Tr^\alpha(A)$, for $A \in \calN(T)$, inductively in $\alpha$ as the set of $p \in \Stone(A)$ such that:
+\begin{itemize}
+\item $p \not\in \Tr^{<\alpha}(A)$,
+\item For every $A' \supseteq A$, $\Ext^\alpha(p,A')$ is a set of isolated points.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+Morley's definition does not quantify over $A' \supseteq A$, but instead over monomorphisms $f \colon A \to B$. The latter is more general in principle, but not in practice, as by renaming the elements of $B$ the monomorphism $f$ may be assumed without loss of generality to be an inclusion.
+\end{remark}
+
+\begin{prop}
+Definitions \ref{def:tr1} and \ref{def:tr2} agree.
+\end{prop}
+
+\begin{proof}
+Both definitions are performed inductively, so the proof shall be inductive as well. We suppose that both definitions have been shown to agree up to (and excluding) $\alpha$, and so the expression $\Tr^{<\alpha}(A)$ is unambiguous for all $A \in \calN(T)$. We show that both definitions agree at level $\alpha$ as well, by showing that, for $p \in \Stone^\alpha(A)$, the following are equivalent:
+\begin{enumerate}
+\item \label{item:21} There is $A' \supseteq A$ such that every extension of $p$ to $\Stone(A')$ is $\alpha$-pinned down,
+\item \label{item:22} For every $A^* \supseteq A$, $\Ext^\alpha(p,A^*)$ is a set of isolated points.
+\end{enumerate}
+
+\begin{itemize}
+\item $(\ref{item:21} \rightarrow \ref{item:22})$ Since definition \ref{item:21} is the one we have been developing over the course of this document, we may use the properties developed herein. As such, we know that if $p \in \Stone^\alpha(A)$ satisfies \ref{item:21}, it is in $\Tr^\alpha(A)$, and hence (by principle \ref{principle:mono}) any $p^* \in \Ext^\alpha(p, A^*)$ will be in $\Tr^\alpha(A^*)$. By proposition \ref{prop:open}, every such $p^*$ is an isolated point of $\Stone^\alpha(A^*)$.
+
+\item $(\ref{item:22} \rightarrow \ref{item:21})$ By the induction hypothesis, we know that proposition \ref{prop:open} applies to $\Tr^{<\alpha}(A^*)$, whence $\Stone^\alpha(A^*)$ is compact for all $A^* \in \calN(T)$. As such, by standard point-set topology arguments, $\Ext^\alpha(p,A^*)$ is finite for every $A^*$. We claim that we can pick an element $A' \in \calN(T)$ such that the size of $\Ext^\alpha(p,A')$ is maximal. We now seek to prove this claim.
+
+If there were sets $A^* \in \calN(T)$ with arbitrarily many elements in $\Ext^\alpha(p,A^*)$, we could construct $A^{**} \in\calN(T)$ by gluing them. This $A^{**}$ would then admit infinitely many elements in $\Ext^\alpha(p,A^{**})$, a contradiction. This implicitly uses lemma \ref{lemma:ext} above, but this is fine because this lemma refers only to $\Tr^{<\alpha}$, which is assumed by induction not to depend on the definition chosen.
+
+Now that the claim has been proven, we show that the $A'$ which has been chosen satisfies \ref{item:21}. In other words, we need to show that any $p' \in \Ext(p,A')$ is $\alpha$-pinned down. If $p' \in \Tr^{<\alpha}$ we're done, by \ref{prop:open}. Otherwise, let $A'' \supseteq A$. Then, each $p' \in \Ext^\alpha(p,A')$ extends in at least one way to $\Stone^\alpha(A'')$, by \ref{lemma:ext}. Crucially, however, none of them may extend in more than one such way, as if any of them did that would contradict the maximality of $\Ext^\alpha(p,A')$. Thus, all of them extend in exactly one way, whence by arbitrariness of $A''$ we conclude that all types in $\Ext^\alpha(p,A')$ are pinned down, which concludes the proof.
+\end{itemize}
+\end{proof}
+
 \section{Generalizing}\label{sec:gen}
+
+In this section, we will briefly examine the notion of Morley rank for formulas, and more generally partial types, as definition \ref{def:tr1} makes this generalization particularly easy.
+
+\begin{definition}
+Let $T$ be a theory as in the introduction, and $A \in \calN(T)$. We define $\PStone(A)$ as the set of partial types in one variable with parameters in $A$.
+\end{definition}
+
+\begin{definition}\label{def:trgen}
+Let $T$ be a theory in the hypotheses of the introduction, and $A \in \calN(T)$. We inductively define the sets $\PTr^\alpha(A) \subseteq \PStone(A)$, for $\alpha$ an ordinal number, via the following procedure. Assuming $\PTr^\beta(B)$ has been defined for all $\beta < \alpha$ and $B \in \calN(T)$, we say that $p \in \PStone(A)$ is in $\PTr^\alpha(A)$ if:
+\begin{itemize}
+\item $p$ is not in $\PTr^\beta(A)$ for any $\beta < \alpha$,
+\item There is some $A' \supseteq A$ such that any extension of $p$ to a type $p'$ in $\Stone(A')$ is $\alpha$-pinned down, where this notion has the same meaning as in definition \ref{def:tr1}.
+\end{itemize}
+\end{definition}
+
+\begin{remark}
+From a game-theoretic perspective, we are basically preserving the rules of the game as much as possible, with the only change being that the starting position is now allowed to be a partial type. Despite this, we still force the Mouse to extend it to a full type when it is their move; if the Mouse was allowed to extend it merely to a partial type, they would have no motive to increase $p$, after all.
+\end{remark}
+
+\begin{remark}
+As a consequence of the previous remark, the definition needs much less induction than is actually required: We only need that $\PTr^\beta(B)$ be defined for $\beta < \alpha$ and $B = A$ (as opposed to general $B$), and that $\Tr^\beta(B)$ be defined for $\beta < \alpha$ and general $B$.
+\end{remark}
+
+\begin{remark}
+Definition \ref{def:trgen} is a generalization of both the Morley rank for types, as well as Morley rank for formulas, as both types and formulas over $A$ may be seen as contained in $\PStone(A)$.
+
+However, claiming that \ref{def:trgen} could be used to define the Morley rank for formulas is slightly disingenuous, given that the definition of pinned down relies heavily on the notion of Morley rank of type, not of formula.
+\end{remark}
+
+We now prove a standard fact relating the Morley rank for formulas and for types.
+
+\begin{definition}
+Given $A \in \calN(T)$, define $\PTr^{<\alpha}(A)$, $\PTr^{\leq\alpha}$, and $\PStone^\alpha(A)$ in the obvious way.
+\end{definition}
+
+\begin{prop}
+Let $p \in \Stone^\alpha(A)$. Then, every formula $\varphi \in p$ is in $\PStone^\alpha(A)$. Moreover, if $p \in \Tr^\alpha(A)$, there is some $\varphi \in p$ which is in $\PTr^\alpha(A)$. Roughly speaking: The Morley rank of a type is the minimal Morley rank of its formulas.
+
+Let $\varphi \in \PTr^\alpha(A)$. Then, every type $p$ containing $\varphi$ is in $\Tr^{\leq\alpha}(A)$. Moreover, if $\varphi \in \PStone^\alpha(A)$, there is a type $p$ containing $\varphi$ which is also in $\Stone^\alpha(A)$. Roughly speaking: The Morley rank of a formula is the largest Morley rank of the types which contain it.
+\end{prop}
+
+\begin{proof}
+To prove the first part of both statements, we enunciate the following principle.
+
+\begin{principle}\label{principle:partial}
+Removing formulas from a partial type makes it more slippery, and adding formulas makes it less slippery.
+\end{principle}
+
+\begin{explanation}
+Let $p_0 \subseteq p_1$ be two partial types, and suppose $p_0 \in \PTr^\alpha(A)$. Then, there is some $A'$ which $\alpha$-pins down all extensions of $p_0$, and since any extension of $p_1$ is also an extension of $p_0$, $A'$ also $\alpha$-pins down all extensions of $p_1$. Thus, we conclude that $p_1 \in \PTr^{\leq\alpha}(A)$.
+\end{explanation}
+
+It remains to apply this in particular to $p_1 = p$ and $p_0 = \varphi \in p$.
+
+We now prove the second part of the statements, with the first. Let $p \in \Tr^\alpha(A)$. By proposition \ref{prop:open}, there is a formula $\varphi \in p$ such that any type containing $\varphi$, other than $p$, is in $\Tr^{<\alpha}(A)$. By principle \ref{principle:partial}, we get that $\varphi \in \PStone^\alpha(A)$, so it remains to show that it is in fact in $\PTr^\alpha(A)$.
+
+Let $A' \supseteq A$ such that any extension of $p$ to $A'$ is $\alpha$-pinned down. Then, in fact, any extension of $\varphi$ to a type in $A'$ is $\alpha$-pinned down, as it is either an extension of $p$, and hence $\alpha$-pinned by hypothesis, or of a type in $\Tr^{<\alpha}(A)$, and hence in $\Tr^{<\alpha}(A')$ by principle \ref{principle:mono}, and this same principle justifies that any such extension is $\alpha$-pinned down.
+
+Now we prove the second part of the second statement. Let $A'$ be an $\alpha$-winning move for the Cat starting at position $\varphi$, and let $\Ext(\varphi,A')$ be the collection of types in $A'$ containing $\varphi$. We know that all of these are $\alpha$-pinned down, but in fact there is at least one such type, say $p'$, in $\Stone^\alpha(A')$. To show this, note that the proof of lemma \ref{lemma:ext} may be reused with barely any modification, with the only possible thing requiring clarification is the compactness of $\Ext(\varphi,A')$. This is a simple consequence of it being a closed set, its complement is the open set $U_{\neg\varphi}$. Anyhow, the type $p'$ provides the desired extension of $\varphi$: If $i$ denotes the inclusion $A \subseteq A'$, proposition \ref{prop:istone} ensures that $i^*(p')$, which evidently contains $\varphi$, is in $\Stone^\alpha(A)$, which completes the proof.
+\end{proof}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}

@@ -1,0 +1,214 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+
+\usepackage{inconsolata}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true,mathescape=true}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{float}
+
+\usepackage{diffcoeff}
+\difdef{}{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{The Big Picture of Analysis II}
+\author{Duarte Maia}
+%\date{}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand\closed[1]{\overline{#1}}
+\newcommand{\lap}{\mathop{}\!\mathbin{\Delta}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
+%\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+
+
+\begin{document}
+\maketitle
+
+\section{Why This Talk}
+
+\point{Students will have three analysis courses, of which Analysis II is (in my opinion) the most demanding. Moreover, I feel like it would be made easier if students were given a ``big picture'' to motivate why we're doing the things we're doing. This talk is an attempt to give this big picture.}
+
+\point{This will be a non-technical (as little as I can make it) expository introduction to the theory of PDEs. You aren't expected to come out of it knowing much about the theory, but rather I hope that when you do learn the theory in about four months you'll remember this lecture and understand how all the pieces fit together.}
+
+\timestamp{3 min}
+
+\section{The Problem to be Solved}
+
+\point{A starting point for modern PDE theory is e.g. the Laplace equation. Given a `nice enough' domain $\Omega \subseteq \R^n$, and some $g \colon \partial\Omega \to \R$, find $u \colon \closed\Omega \to \R$ satisfying
+\begin{equation}
+\begin{cases}
+\lap u(x) = 0, & x \in \Omega,\\
+u(x) = g(x), & x \in \partial\Omega.
+\end{cases}
+\end{equation}
+}
+
+\point{(Make a drawing.)}
+
+\point{Motivation: On the applied side, PDEs are used to model lots of physical phenomena. This equation for example models a stretchy film, like a soap bubble. On the pure side, solving PDEs (or rather, knowing that they have solutions and what they look like) has applications in geometry and probably other things.}
+
+\point{Giving a comprehensive definition of what a PDE is would not be productive. Just take this thing and make it different. (Show some possible variations.)}
+
+\point{Classically, people cared a lot about \emph{what} the solution is. This gives rise to a bunch of math, but mathematicians eventually ran into the limits of this question. Now, people care a lot more about \emph{does} the solution exist and is it unique, or more specifically and fruitfully: \emph{where} does it exist, and where is it unique.}
+
+\point{Put a pin on that last point. (Write it somewhere on the board.)}
+
+\point{Now, there are a bunch of methods to prove that solutions exist and that they are unique, but in Analysis II, and hence here, we will focus on only one: Minimization. Stay tuned.}
+
+\point{Before going to PDE theory, let's look at a sandbox example: Solving an equation in $\R^n$.}
+
+\section{A Sandbox of Modern PDE Theory}
+
+\point{To recap, mathematicians have found that finding explicit solutions to differential equations is not very fruitful, and have turned to non-explicit methods of constructing solutions. To better grasp what this means: Let $f \colon \R^n \to \R^n$. What methods do you (students) have to show that the equation $f(x) = 0$ has a solution, without explicitly finding it?}
+
+\point{Note: I will explain why we care about $\R^n \to \R^n$ and not, say, $\R^n \to \R$ or $\R^n \to \R^m$ later. But for now, a possible argument is that, in general, as you know from linear algebra, you usually like to have as many variables as you have equations.}
+
+\point{Expected answers: Intermediate Value Theorem and Bolzano-Weierstrass. Both of these have issues.}
+
+\point{The Intermediate Value Theorem simply doesn't work or make sense in multiple dimensions. Let's discard it for now.}
+
+\point{The Weierstrass theorem doesn't seem immediately applicable to our scenario: It should be applied to functions $g \colon \R^n \to \R$. But in any case, let us look a bit more in depth as to what it tells us...}
+
+\point{Applying Weierstrass tells us that, given any compact set $K \subseteq \R^n$, $g$ attains a (say) minimum in $K$. If this minimum is in the border, this doesn't tell us much about $g$, but if per chance the minimum is in the interior, we obtain: $g$ has a local minimum! This is a nontrivial statement about $g$. But that tells us something about a function $\R^n \to \R$, not a function $\R^n \to \R^n$.}
+
+\point{Question for the audience: Suppose that $g \colon \R^n \to \R$ attains a local minimum at $u \in \R^n$. Does this tell you anything about some function $\R^n \to \R^n$?}
+
+\point{Expected answer: The gradient of $g$ is null at $u$!}
+
+\point{In summary: Weierstrass' theorem offers a way to nonexplicitly prove that there are solutions to certain gradient equations, i.e. equations of the form $f(x) = 0$ where $f = \nabla g$ for some $g$. This is a little specific, but it's our starting point.}
+
+\timestamp{17 min}
+
+\point{Just a quick example of this method in action: Consider the equation (in $\R$) $\cos(x) + x = 0$. (Sketch graph.) This has a real solution, approximately $x = -0.739$, but it will be hard to find a closed expression for it. In this case, the real solution can be shown to exist by MVT, but like. If I wanted to try harder I'd make an equation in $\R^2$ and then that wouldn't work. But I don't want to make it unnecessarily complex. So ignore MVT for now.}
+
+\point{First, we see that this is a gradient equation: It is of the form $g'(x) = 0$ where $g(x) = \sin(x) + \frac12 x^2$. In this case we just integrated and so any equation has such a $g$; In higher dimensions this would be more special.}
+
+\point{(Sketch the graph of $g$; it looks like a wonky parabola.)}
+
+\point{Finally, we observe that $g$ has a local minimum. (Ask the audience to sketch a proof.)}
+
+\point{Idea of sketch: Let $K = [-2, 2]$. Then, $g$ has a minimum in $K$, but $g(0) = 0$ and $g(-2), g(2) \geq -1 + \frac12 2^2 = 1$, hence the minimum in $K$ cannot be on the border.}
+
+\point{More general sketch: Instead of finding $K$ explicitly, simply use the fact that $\lim_{\abs x \to \infty} g(x) = \infty$. This property is called \emph{coercivity}.}
+
+\timestamp{25 min}
+
+\section{The Passage to the Infinite Part I: Setting Up}
+
+\point{Now we figure out how to apply this method to a PDE such as the Laplace equation.}
+
+\point{For simplicity, we use a slight variation instead:
+\begin{equation}
+\begin{cases}
+\lap u(x) = f(x), & u \in \Omega,\\
+u(x) = 0, & u \in \partial\Omega.
+\end{cases}
+\end{equation}
+The change in boundary conditions is because nontrivial boundary conditions are harder, and so we made $\lap u(x) = f(x)$ instead of zero because otherwise the PDE would be trivial.}
+
+\point{To figure out how to apply the previous framework to this equation, we need to figure out what the function $g$ should be, such that a critical point of $g$ would be a solution to our equation. Before that, we need to figure out even what the domain of $g$ should be!}
+
+\point{A first approach: Define $g \colon C^2_0(\Omega) \to \R$ by the formula
+\begin{equation}
+g(u) = - \frac12 \int \lap u \, u + \int f u.
+\end{equation}}
+
+\point{This looks mysterious, and unfortunately I do not have the time to explain where it comes from. So we will just sketch that it does indeed work.}
+
+\point{Suppose that $u$ (fixed) is a minimum of $g$. Then, let's look at $g(u+v)$ for perturbations $v$:
+\begin{equation}
+g(u+v) = g(u) + \int (-\lap u + f)v + \frac12 \nabla v \cdot \nabla v.
+\end{equation}}
+
+\point{This can be seen as a Taylor expansion of $g$ about $u$, and so, the fact that $u$ is a local minimum tells us that \emph{the linear part is null for all $v$!}}
+
+\point{By Measure Theory, this is the same as saying that $-\lap u + f = 0$, and so $u$ is a solution to our PDE.}
+
+\point{Note also the term that keeps appearing: $\braket{u,v}_{H^1_0} := \int \nabla u \cdot \nabla v$. This turns out to be quite important in the study of this PDE, and is known as the $H^1_0$ inner product. Note that it is indeed an inner product on $C^2_0(\Omega)$. Crucial: If $\braket{v,v}_{H^1_0} = 0$, then $\nabla v = 0$, and since $v$ is null at the border $v$ is null everywhere, so it does induce a norm!}
+
+\point{In summary, the requirements of the problem have suggested for us a space to work with, and a norm/inner product to endow this space with. It is not uncommon in PDE theory to tailor spaces to the problem at hand!}
+
+\point{In this case, the problem has led us to working in $C^2_0(\Omega)$, with the inner product
+\begin{equation}
+\braket{u,v}_{H^1_0} := \int \nabla u \cdot \nabla v.
+\end{equation}}
+
+\point{We actually work with a slightly larger space, because this one is not complete! Instead we work with the space $H^1_0$, whose definition would be a story for lecture of its own. We will see why completeness matters in a moment.}
+
+\timestamp{40 min}
+
+\section{The Passage to the Infinite Part II: Compactness in Infinite Dimensions}
+
+\point{Now we pass to the other part of our problem: We have the function $g$ whose minimum gives us a solution, but we need to prove that it has a minimum indeed.}
+
+\point{Fact: $g$ is coercive, i.e. $\lim_{\norm{u}_{H^1_0} \to \infty} g(u) = +\infty$. The proof goes as:
+\begin{equation}
+g(u) = \int \nabla u \cdot \nabla u + \int f u \geq \norm{u}_{H^1_0}^2 - \norm{f}_{L^2} \norm{u}_{L^2},
+\end{equation}
+and nowe we have a problem because we have the first norm going to infinity, but no way to control the second.}
+
+\point{Theorem (Poincaré Inequality): There is a constant $C \equiv C(\Omega)$ such that $\norm{u}_{L^2} \leq C \norm{u}_{H^1_0}$. Intuition: since $u$ is null on the boundary, knowing that its derivative is small should tell you that the function itself is small.}
+
+\point{Thus, we conclude $g(u) \geq R^2 - C \norm{f}_{L^2} R$, which goes to infinity as $R \to \infty$. Coercivity is done.}
+
+\point{This is not enough to finish. It tells us that for a big enough ball, a minimum we find will not be in the boundary, but we do not have guarantee of a minimum: The ball is not compact in infinite dimensions!!!}
+
+\point{Compactness theorems, such as Banach-Alaoglu, allow us to recover weaker notions of compactness. This one attempts to repair the following theorem (false in infinite dimensions): If $u_n$ is a bounded sequence, it has a converging subsequence.}
+
+\point{Consider the following motivating example: Let $\R^\infty$ be the space of sequences with finitely many nonzero elements, and the obvious inner product and norm. Then, let $e_n$ be $(0,\dots,0,1,0,\dots)$. The sequence $e_n$ is bounded, but does not converge, nor does it have a converging subsequence... If it were to converge to anyone, it would be zero, because all its coordinates converge to zero. But the norm is constant equal to one!}
+
+\point{But! All its coordinates converge to zero... So we say it `converges weak-$*$' to zero!}
+
+\point{Banach-Alaoglu: If $V$ is a Banach space and $u_n$ is a bounded sequence, it has a weak-$*$ converging subsequence.}
+
+\point{Note: Completeness is necessary. Example: In $\R^\infty$, $(1,\frac12,\dots,\frac1{2^n},0,0,\dots)$.}
+
+\point{This lets us reproduce a proof of Bolzano-Weierstrass. Let $g$ be the one we have, and we try to show it has a minimizer. Pick a ball large enough such that $g$ is greater than $g(0)$ outside this ball. Then, even without knowing that $g$ has a minimum, $\inf g(x)$ certainly has a value. Pick a sequence $x_n$ in this ball such that $g(x_n) \to \inf g$. By our theorem, we know that there is a subsequence $x_{k_n} \xrightarrow{*} u$, and $u$ is our candidate for minimizer.}
+
+\point{It is not obvious that $g(u)$ is minimal indeed, and we need to use yet other tools to do so. Talking about those would take too much time, so just trust me for now that this method to find a minimizer works.}
+
+\point{And with it, we find a solution to our PDE!}
+
+\timestamp{57 min}
+
+\section{Conclusion}
+
+\point{In the little time I had to give this talk, I hope I could get across the general blueprint for solving PDEs, at least as far as analysis II is concerned!}
+
+\point{Of course, when you're in the weeds, things will hardly be this simple. Sacrifices have been made for the sake of storytelling, and the methods you will learn will be a little more sophisticated than some of what I've done.}
+
+\point{However, I hope that when the time comes you'll look back and remember why you're learning the things you're learning, and where they're going.}
+
+\timestamp{58 min}
+
+\end{document}
