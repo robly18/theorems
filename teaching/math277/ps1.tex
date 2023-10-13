@@ -1,0 +1,271 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+%\usepackage{fullpage}
+\usepackage{titling}
+\setlength{\droptitle}{-3cm}
+\pretitle{\begin{center}\bf}
+\posttitle{\end{center}}
+\preauthor{\begin{center}}
+\postauthor{\end{center}}
+\predate{\begin{center}}
+\postdate{\end{center}}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+\usepackage{comment}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{MATH 277, AUTUMN 2023\\PROBLEM SESSION 1}
+\author{Duarte Maia}
+\date{October 2, 2023}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremheaderfont{\bfseries}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+
+%%%% comment below for solution version
+%\excludecomment{sol}
+
+\begin{document}
+\maketitle
+
+In the following, all variables implicitly range over sets unless otherwise specified.
+
+\section{Cardinals}
+
+\begin{ex}[Review]
+By this point in the class, you have learned the meaning of some, but not all, of the following expressions. For those you have already seen, define them. For the remainder, can you propose a reasonable definition?
+\begin{multicols}{2}
+\begin{enumerate}
+\item\label{itemi} $\abs{A} \leq \abs{B}$,
+\item\label{itemii} $\abs{A} = \abs{B}$,
+\item\label{itemiii} $\abs{A} < \abs{B}$.
+\item $\abs{A} + \abs{B} = \abs{C}$,
+\item $\abs{A} \times \abs{B} = \abs C$,
+\item $\abs{A}$,
+\item $2^{\abs{A}} = \abs{C}$.
+\item[\vspace{\fill}]
+\end{enumerate}
+\end{multicols}
+
+Note: You do not need to prove that your definition is well-formed.
+\end{ex}
+
+\begin{sol}
+By this point in the class, only the expressions \ref{itemi}, \ref{itemii} and \ref{itemiii} have been defined.
+\begin{enumerate}
+\item $\abs{A} \leq \abs{B}$ means: There exists an injective function $f \colon A \to B$.
+\item $\abs{A} = \abs{B}$ means: There exists a bijective function $f \colon A \to B$.
+\item $\abs{A} < \abs{B}$ means: There exists an injective function $f \colon A \to B$, but no bijection. Equivalently, $\abs{A} \leq \abs{B}$, but $\abs{A} \neq \abs{B}$.
+\item $\abs{A} + \abs{B} = \abs{C}$ could be defined as: There exist $A_0$ and $B_0$, disjoint sets in bijection with $A$ and $B$ respectively, such that $\abs{A_0 \cup B_0} = \abs{C}$. (Why didn't we just define it as $\abs{A \cup B} = \abs{C}$?)
+\item $\abs{A} \times \abs{B} = \abs C$ could be defined as: $\abs{A \times B} = \abs{C}$.
+\item By this point in the course, a student would have a hard time guessing the meaning of $\abs{A}$ on their own, but here is the definition: $\abs{A}$ is the minimal ordinal $\alpha$ such that there exists a bijection $f \colon \alpha \to A$.
+\item $2^{\abs{A}} = \abs C$ could be defined to have the same meaning as $\abs{\prescript A {} 2} = \abs C$ (recall that $2 = \{0,1\}$). Equivalently (why?) one could define $2^{\abs{A}} = \abs C$ to have the same meaning as $\abs{\powerset(A)} = \abs C$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}[Challenge]
+Given a set $A$ and a distinguished element $0 \in A$, define $A^\omega$ as the set of sequences $\{a_n\}_{n \in \N}$ of elements of $A$, and let $A^\infty$ be the subset of $A^\omega$ given by those sequences which are eventually constant equal to $0$. Symbolically,
+\begin{equation}
+A^\omega := \prescript{\N}{}{A},\quad A^\infty := \{\, a \in A^\omega \mid \exists_N \forall_{n>N} a_n = 0 \,\}.
+\end{equation}
+
+Verify whether $\abs{A^\infty} = \abs{A^\omega}$ for the two following choices of $A$: $A = \N$, and $A = \R$.
+\end{ex}
+
+\begin{sol}
+($A = \N$) We verify that $\N^\infty$ is countable and $\N^\omega$ is uncountable, hence $\abs{\N^\infty} < \abs{\N^\omega}$.
+
+To verify that $\N^\infty$ is countable, define for $k \in \N$ the set $\N^{(k)} \subseteq \N^\infty$ as the set of sequences which are zero from the $k$-th index onward. Then, it is easy to check that the following expression defines a bijection between $\N^k = \N \times \dots \times \N$ and $\N^{(k)}$:
+\begin{equation}
+\begin{aligned}
+f \colon &\N^k &&\to \N^{(k)}\\
+&(a_0, \dots, a_{k-1}) &&\mapsto (a_0, \dots, a_{k-1}, 0, 0, \dots).
+\end{aligned}
+\end{equation}
+
+Thus, since $\N^k$ is countable (this was shown in class by induction on $k$) we conclude that $\N^{(k)}$ is countable. Moreover, it is easy to see that $\N^\infty = \cup_{k \in \N} \N^{(k)}$, and we also saw in class that unions of countable sets are countable. Thus, $\N^\infty$ is countable.
+
+\smallskip
+
+Now we verify that $\N^\omega$ is uncountable. This can be done explicitly using a diagonalization argument, which the reader is encouraged to attempt. However, a more direct proof goes as follows: The `inclusion map' is an injection from $\prescript{\N}{}{2}$ to $\prescript{\N}{}{\N} = \N^\omega$, and so $\abs{\N^\omega} \geq \abs{\prescript\N{}2} > \abs{\N}$, where the last (strict) inequality was seen in class.
+
+(Note: Implicit in this argument is the assertion `if $\abs{A} \geq \abs{B} > \abs{C}$ then $\abs{A} > \abs{C}$'. We prove it now. The fact that $\abs{A} \geq \abs{C}$ is obtained by composing the injections $C \to B$ and $B \to A$, so it remains to show that there is no bijection between $A$ and $C$. Suppose that there was one. Then, composing it with an injective function $B \to A$ (which is known to exist by hypothesis), we obtain an injective function $B \to C$. Applying exercise 1 from the first homework, using the fact that there is an injection $C \to B$ by hypothesis, we obtain that $\abs{B} = \abs{C}$, a contradiction.)
+
+\medskip
+
+($A = \R$) For the purposes of this exercise, it is in fact more convenient to reason about sequences of digits than real numbers themselves.
+
+\begin{lemma}
+There is a bijection between $\R$ and $\prescript{\N}{}2$. If we call this bijection $d$, we may assume that $d(0) = 0$ (the null sequence).
+\end{lemma}
+\begin{lemmaproof}
+In class we proved (with recourse to exercise 1 from the homework) that there exists a bijection $d_0 \colon \R \to \prescript{\N}{}2$. If $d_0(0) = 0$ we are done. Otherwise, define $d$ via: $d(0) = 0$, $d(d_0^{-1}(0)) = d_0(0)$, and $d(x) = d_0(x)$ for all other values of $x$. In words, we swapped the output values of $0$ and $d_0^{-1}(0)$. It is straight-forward to verify that $d$ is also a bijection.
+\end{lemmaproof}
+
+\begin{lemma}
+If there is a bijection between $B_1$ and $B_2$, there is a bijection between $\prescript\N{}{B_1}$ and $\prescript\N{}{B_2}$.
+\end{lemma}
+\begin{lemmaproof}
+Let $b \colon B_1 \to B_2$ be a bijection. Then, define $g \colon \prescript\N{}{B_1} \to \prescript\N{}{B_2}$ by the expression $g(x) = b \circ x$. To prove that $g$ is a bijection, define an inverse by the expression $y \mapsto b^{-1} \circ y$. It is easily verified that these two functions are inverses, and that this implies that $g$ is bijective.
+\end{lemmaproof}
+
+As a consequence of the above lemmas, there is a bijection $\hat d \colon \prescript{\N}{}\R \to \prescript{\N}{}{(\prescript{\N}{}2)}$, or equivalently $\hat d \colon \R^\omega \to (\prescript{\N}{}2)^\omega$. Moreover, it can be seen that $\hat d$ preserves the property `is eventually zero', and so it restricts to a bijection $\hat d| \colon \R^\infty \to (\prescript{\N}{}2)^\infty$.
+
+Thus, we need only compare the cardinalities of $(\prescript{\N}{}2)^\omega$ and $(\prescript{\N}{}2)^\infty$. We show the following sequence of inequalities, whence the equality of all will follow:
+\begin{equation}
+\abs{\prescript{\N}{}2} \overset{(1)}\leq \abs{(\prescript{\N}{}2)^\infty} \overset{(2)}\leq \abs{(\prescript{\N}{}2)^\omega} \overset{(3)}\leq \abs{\prescript{\N}{}2}
+\end{equation}
+
+Inequality $(2)$ is easily seen, as $A^\infty \subseteq A^\omega$ always. Inequality $(1)$ is also easy: recycling the notation used in the case $A = \N$, note that $\prescript{\N}{}2 = (\prescript{\N}{}2)^1$ is in bijection with $(\prescript{\N}{}2)^{(1)}$ is contained in $(\prescript{\N}{}2)^\infty$, hence we conclude $(1)$. We now turn to proving $(3)$.
+
+A generic element $a$ of $(\prescript{\N}{}2)^\omega$ is a sequence of sequences of ones and zeros. Let us lay these out on a grid as follows.
+\begin{equation}
+\begin{matrix}
+(a_0)_0 & (a_0)_1 & (a_0)_2 & \dots & \leftarrow a_0\\
+(a_1)_0 & (a_1)_1 & (a_1)_2 & \dots & \leftarrow a_1\\
+(a_2)_0 & (a_2)_1 & (a_2)_2 & \dots & \leftarrow a_2\\
+\vdots & \vdots & \vdots & \ddots & \phantom{\leftarrow}\vdots
+\end{matrix}
+\end{equation}
+
+By making use of a fixed bijection between $\N \times \N$ and $\N$, we can construct a new sequence $\{a^*_n\}_{n \in \N}$ which puts all the elements in the above grid in a sequence. It may be seen that if $a$ and $b$ are two distinct elements of $(\prescript{\N}{}2)^\omega$, the sequences $a^*$ and $b^*$ are distinct, hence the map $a \mapsto a^*$ is an injection from $(\prescript{\N}{}2)^\omega$ to $\prescript{\N}{}2$. This concludes the proof of $(3)$.
+
+\smallskip
+
+In conclusion, $\abs{(\prescript{\N}{}2)^\infty} = \abs{(\prescript{\N}{}2)^\omega}$, and therefore $\abs{\R^\infty} = \abs{\R^\omega}$.
+\end{sol}
+
+\section{Ordinals}
+
+\begin{ex}[Review]
+Recall the definition of ordinal. Define inductively the sets corresponding to the natural numbers, e.g. $0 = \emptyset$, $1 = \{0\}$, $2 = \{0,1\}$, etc, and prove by induction that these are in fact ordinals.
+
+Can you enumerate some ordinals that are not natural numbers? Is $\omega := \N$ an ordinal? What is the biggest ordinal you can create?
+\end{ex}
+
+\begin{sol}
+An ordinal is a set $\alpha$ such that:
+\begin{itemize}
+\item $\alpha$ is transitive, i.e., if $x \in y \in \alpha$ then $x \in \alpha$,
+\item The binary relation $\in$ in $\alpha$ forms a (strictly) well-ordered set, that is:
+\begin{itemize}
+\item (Irreflexivity) For any $x \in \alpha$, we have $x \notin x$,
+\item (Transitivity) If $x,y,z \in \alpha$ and $x \in y \in z$, then $x \in z$,
+\item (Trichotomy) For any $x, y \in \alpha$ we either have $x \in y$ or $x = y$ or $x \ni y$,
+\item (Well-Ordering) If $A$ is a nonempty subset of $\alpha$, it has a minimal element, i.e. we may find $a \in A$ such that, for all $b \in A$, either $a = b$ or $a \in b$.
+\end{itemize}
+\end{itemize}
+
+\smallskip
+
+We define inductively the zeroth ordinal as the empty set, and assuming that the $n$-th ordinal has been defined (call it $n$), we define the $n+1$-th ordinal as $n \cup \{n\}$.
+
+We prove by induction that these are ordinals. Zero is an ordinal because all the axioms are universally quantified, and hence hold vacuously.\footnote{More clearly: All axioms are of the form `for every element(s) $x$, $y$, etc. in $\alpha$, something holds', and so, if $\alpha$ were not an ordinal, the negation of one of these axioms must be true, i.e. `there is (are) some element(s) in $\alpha$ such that so-and-so'. In particular, if $\alpha$ has no elements, this is impossible, and so all the axioms are true.} Now, if the set corresponding to $n$ has been shown to be an ordinal, we show that the set corresponding to $n+1$, namely $n \cup \{n\}$ is also an ordinal.
+
+For the sake of brevity, we will prove only two of the properties. We leave the rest for the reader.
+
+\begin{itemize}
+\item (Irreflexivity) We wish to show that, for all $x \in n \cup \{n\}$, $x \notin x$. Note that an element of $n \cup \{n\}$ is either an element of $n$, or $n$ itself. If $x \in n$, by the induction hypothesis, we get that $x \notin x$ as desired. On the other hand, if $x = n$, then if $n \in n$ we would have an element of $n$ (namely, $n$) which contains itself, also a contradiction with the induction hypothesis.
+
+\item (Well-Ordering) Suppose that $A \subseteq n \cup \{n\}$ is a nonempty set. Then, consider $A_0 = A \cap n$.
+
+If $A_0 \subseteq n$ is nonempty, let $a \in A_0$ be its minimal element (which exists by IH). Then, we claim that $a$ is also minimal in $A$. Indeed, if $b \in A$, either $b \in n$ in which case $b \in A_0$, and so $a = b$ or $a \in b$ as desired. On the other hand, it could be that $b$ is $n$ itself, whence $a \in A_0 \subseteq n$ implies $a \in n$.
+
+The remaining case is the one where $A_0$ is empty, in which case we must have $A = \{n\}$, which evidently has $n$ as its minimal element.
+\end{itemize}
+
+\smallskip
+
+Yes, $\omega = \N$ is an ordinal. The proof requires the following lemma.
+
+\begin{lemma}
+The set $n$ is the set of all natural numbers $m < n$, i.e. the predecessors of $n$.
+\end{lemma}
+
+\begin{lemmaproof}
+The proof is performed by induction on $n$. For $n = 0$ the statement is obvious. Assuming that the statement is true for $n$: The set corresponding to $n+1$ is the set containing $n$, plus all elements of $n$. In other words, it is the set of $m \in \N$ such that $m = n$ or $m < n$. Equivalently, the set of all $m$ such that $m \leq n$, and this is known to be the same as the set of all $m$ such that $m < n+1$. The proof is complete.
+\end{lemmaproof}
+
+Transitivity is directly verified: if $x \in y \in \omega$, then $y$ is a natural number, hence $x$ (one of its predecessors by the lemma) is also a natural number, hence $x in \omega$. For the ordering property, it is well-known that $\N$ with its usual ordering is a well-ordered set, hence it needs only to be remarked that the ordering induced by $\in$ coincides with the usual ordering on $\N$. This is a direct consequence of the lemma proven above.
+
+\smallskip
+
+We now enumerate some ordinals: $0, 1, 2, 3, \dots, \omega$. To proceed, note that in our proof that the natural numbers are all ordinals, we implicitly proved that if $\alpha$ is an ordinal, then $\alpha+1 := \alpha \cup \{\alpha\}$ is an ordinal. Thus, we may continue enumerating ordinals: $\omega+1 = \omega \cup \{\omega\}$, $\omega+2 = \omega \cup \{\omega, \omega \cup \{\omega\}\}$, $\omega + 3$ and so on.
+
+If you have already done exercise 5 from homework 1, you will know that a union of ordinals is itself an ordinal, so we may take all ordinals we have built so far and take their union, which will be greater than (or equal) to all the ordinals obtained so far. So we may construct an ordinal $\cup_{n \in \N} (\omega + n)$ known as $\omega + \omega$. Then we may continue, constructing $\omega+\omega+n$, and taking the union we obtain $\omega+\omega+\omega$.
+
+Proceeding in this manner, we can make $\omega + \dots + \omega$, a sum of $n$ times $\omega$, and taking the union of all of these we reach an ordinal known as $\omega \cdot \omega$, or $\omega^2$.
+
+Again, we may proceed, constructing $\omega^3$, $\omega^4$, ..., $\omega^\omega$, $\omega^{\omega^\omega}$, ...
+
+This madness could continue for a very long time, but interestingly after no finite (or countable) amount of time would we reach the ordinal known as $\omega_1$ (whose existence you will learn about in a few classes), known as `the first uncountable ordinal', which is inordinately larger than all the ordinals we constructed in the previous sentences. Of course, then we could make $\omega_1^{\omega_1}$ and so on, but none of these would be anywhere close to the ordinal known as $\omega_2$, $\omega_3$,... And of course, we can take the union of all of these to obtain an ordinal known as $\omega_\omega$, and so on.
+\end{sol}
+
+\begin{ex}[Medium]
+Show that there is no infinite decreasing sequence of ordinals. That is, there is no sequence $\{\alpha_n\}_{n \in \N}$ of ordinals such that $\alpha_{n+1} \in \alpha_n$ for all $n$.
+\end{ex}
+
+\begin{sol}
+Suppose by contradiction that there was such a sequence. Let $A = \{ \alpha_n \mid n \in \N\}$ be the set of all elements of this sequence. We claim that $A$ has a minimum. Indeed, $A$ is a subset of $\alpha_0 \cup \{\alpha_0\}$ [Note: Transitivity is used here], which as we saw in the previous exercise is itself an ordinal, and hence $A$ has an element minimal under $\in$. This element must be $\alpha_N$ for some $N$, and yet $\alpha_{N+1} \in \alpha_N$, which contradicts the $\in$-minimality if $\alpha_N$. This contradiction proves that the sequence in question cannot exist.
+\end{sol}
+
+\end{document}

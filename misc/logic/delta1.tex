@@ -61,6 +61,7 @@
 \DeclareMathOperator{\step}{step}
 \DeclareMathOperator{\tapefrominput}{tapefrominput}
 \DeclareMathOperator{\tapetooutput}{tapetooutput}
+\DeclareMathOperator{\halted}{halted}
 
 
 \DeclareMathOperator{\len}{len}
@@ -91,7 +92,7 @@ The axiomatic system $\WPA$ is given by (the translation to FOL of) the followin
 \begin{gathered}
 \text{The operations $+$ and $\times$ are associative, commutative, and satisfy the distributive law,}\\
 \text{for which $0$ and $1$ are the identities,}\\
-\text{and moreover if $x+z = y+z$ we have $x=y$.}
+\text{and moreover $(x+z = y+z) \rightarrow (x=y)$, and $(xz = yz \land z \neq 0) \rightarrow (x=y)$.}
 \end{gathered} \tag{SRing}\label{ax:sring} \\
 \begin{gathered}
 \text{The binary relation $\leq$ is a total order, which is respected by the operations}\\
@@ -155,7 +156,7 @@ The second part of the proposition is a direct consequence of completeness for c
 \end{proof}
 
 \begin{prop}\label{prop:wpasigma1}
-$\WPA$ is proves all true $\Sigma_1$ sentences. That is, if $\varphi \equiv \exists_x \varphi_0(x)$ is a closed $\Sigma_1$ formula, $\WPA \vdash \varphi$ iff $\N \vDash \varphi$.
+$\WPA$ proves all true $\Sigma_1$ sentences. More specifically, if $\varphi \equiv \exists_x \varphi_0(x)$ is a closed $\Sigma_1$ formula, $\WPA \vdash \varphi$ iff $\N \vDash \varphi$.
 \end{prop}
 
 \begin{proof}
@@ -181,6 +182,8 @@ With $L$, $T$, $L'$, and $T'$ as above, there is a way to transform formulas $\v
 \item If $\varphi$ is already in $L$, then $T \vdash \varphi \leftrightarrow \hat\varphi$,
 \item $T'$ proves $\varphi$ iff $T$ proves $\hat\varphi$.
 \end{itemize}
+
+As a consequence of the above properties, if $\varphi$ is a formula in $L$ and $T' \vdash \varphi$, then $T \vdash \hat\varphi$, hence $T \vdash \varphi$ as well.
 \end{prop}
 
 The operator $\hat\cdot$ described above operates recursively on a formula, being interesting only when it reaches atomic formulas, e.g. $t_1 = t_2$. In this scenario, it will recursively replace any instance of application of $f$ by an instance of $\varphi$, for example:
@@ -268,7 +271,7 @@ I am taking care to avoid the phrasing `$\PA$ proves the existence of all primit
 \end{remark}
 
 \begin{remark}
-{}[To do, write out how this looks in $\WPA$.]
+{}[To do, write out how this looks in $\WPA$.] [Future self says: What?]
 \end{remark}
 
 Using Gödel's lemma, it is possible to encode the code for a Turing machine as a natural number, and likewise for the state of a Turing machine. Moreover, it is possible to do so in such a way that the function $\textrm{step}(tape, code)$ is PR. Finally, we may also encode a `step sequence', and both the predicate `is this step sequence a valid execution sequence for this code', and the function which extracts the output `number' from a tape, are also PR. As such, given a Turing machine encoded by the number $n \in \N$, we may attempt to encode the partial computable function corresponding to it by the formula
@@ -284,6 +287,8 @@ We will now enumerate some Primitive Recursive functions on the natural numbers,
 
 \item $\tapefrominput(x)$: This function symbol outputs (a number representing) a tape containing nothing but $x$ many ones after the pointer,
 
+\item $\halted(t)$: Where $t$ represents a tape state, this predicate will evaluate as True if $t$ is in the halted state (i.e. computation has terminated) and False otherwise,
+
 \item $\tapetooutput(t)$: Where $t$ represents a tape state, this function symbol extracts a natural number as output from the tape, in such a manner that $\tapetooutput(\tapefrominput(x)) = x+1$ holds for all $x$. The value $0$ is reserved as an error code, in the event that no discernible output may be obtained.
 \end{itemize}
 
@@ -297,24 +302,63 @@ Let $f \colon \N \rightharpoonup \N$ be a partial computable function, and let $
 \begin{aligned}
 &(s)_0 = \tapefrominput(x)\\
 \land \; &[\forall_{i < \len(s) - 1} (s)_{i+1} = \step(n, (s)_i)]\\
+\land \; &\halted((s)_{\len(s)-1})\\
 \land \; &y+1 = \tapetooutput((s)_{\len(s) - 1})
 \end{aligned} \right)
 \end{equation}
 \end{definition}
 
 \begin{prop}
-Let $f$, $n$, and $\varphi$ be as in definition \ref{def:phin}, and let $a \in \N$ be in the domain of $f$. Then, $\WPA \vdash \varphi(n,a,f(a))$, and moreover $\WPA \vdash \forall_y (\varphi(n,a,y) \rightarrow y=f(a))$.
+Let $f$, $n$, and $\varphi$ be as in definition \ref{def:phin}, and let $a \in \N$ be in the domain of $f$. Then, $\WPA \vdash \varphi(n,a,f(a))$.
 \end{prop}
 
 \begin{proof}
-The first part of this proposition is a consequence of proposition \ref{prop:wpasigma1}.
-
-[the second part needs to be adapted; varphi is wrong. it should have some requirement like "s is minimal"]
+Direct consequence of proposition \ref{prop:wpasigma1}.
 \end{proof}
+
+\begin{remark}
+It is not the case that, as stated, the output (from the POV of $\WPA$) is unique, as there may be nonstandard execution sequences $s$ which give wildly different results. This can be remedied by ensuring that $s$ is a standard element.
+
+In general it is not possible to make this demand, but in this case we have the following work-around: We demand that $s$ is a minimal valid execution sequence. Indeed, in the scenario where $a$ is in the domain of $f$, a valid (standard) execution sequence exists by hypothesis, and any nonstandard execution sequence will be greater than it (by \ref{prop:leqrep}), so picking out the minimal sequence ensures that it is standard.
+\end{remark}
+
+\begin{prop}
+Define the formula $\psi(\eta,x,y)$ given by
+\begin{equation}
+\psi(\eta,x,y) \equiv \exists_s \left(
+\begin{aligned}
+&(s)_0 = \tapefrominput(x)\\
+\land \; &[\forall_{i < \len(s) - 1} (s)_{i+1} = \step(\eta, (s)_i)]\\
+\land \; &\halted((s)_{\len(s)-1})\\
+\land \; &\text{$s$ is minimal under the above conditions}\\
+\land \; &y+1 = \tapetooutput((s)_{\len(s) - 1})
+\end{aligned} \right)
+\end{equation}
+
+Now, let $f \colon \N \rightharpoonup \N$ be a partial computable function, and $n$ a code for a Turing machine computing $f$. Then, for every natural number $a$ in the domain of $f$,
+\begin{equation}
+\left( \WPA \vdash \psi(n,a,b) \right) \text{ iff } b = f(a).
+\end{equation}
+\end{prop}
+
+\begin{proof}
+Let us briefly introduce the $\Delta_0$ formula $\psi_0(\eta,x,y,s)$ such that $\psi(\eta,x,y) \equiv \exists_s \psi_0(\eta,x,y,s)$.
+
+$(\leftarrow)$ If $a$ is in the domain of $f$, there is an execution sequence for $n$, represented by a standard natural number $s$, which starts in the state $\tapefrominput(a)$ and ends in the state corresponding to the output $f(a)$. This execution sequence is (or may be chosen to be, depending on uniqueness properties of our encoding) minimal, hence (by \ref{prop:wpadelta0}) $\WPA \vdash \psi_0(n,a,f(a),s)$.
+
+$(\rightarrow)$ Note that the expression for $\psi_0(\eta,x,y,s)$ contains the line $y = \tapetooutput(s)$. Moreover, $\WPA$ proves that, given $\eta$ and $x$, there is at most one value of $s$ making $\psi_0$ hold. Thus, we conclude that there is at most one value of $y$ making $\psi(n,a,y)$ hold, as we've seen $f(a)$ is such a value, and so $b$ must be the same.
+\end{proof}
+
+\begin{remark}
+If $a$ is not in the domain of $f$, it is unclear to me what $\WPA$ thinks of the sentence $\exists_y \psi(n,a,y)$. By proposition \ref{prop:wpasigma1}, $\WPA$ certainly cannot prove it true, but in general there is no reason to believe that it can prove it false either.
+\end{remark}
 
 \section{The First Incompleteness Theorem}
 
 \subsection{Self-Reference}
+
+It is possible to encode logical formulas as natural numbers, in such a way that several standard operations are primitive recursive, such as verifying that a number is a well-formed formula, whether it is closed, whether a sequence of formulas is a valid proof from a given (finite) set of hypotheses, etc. Note moreover that $\WPA$ is finitely axiomatized, so
+
 
 \subsection{The Gödel Sentence}
 

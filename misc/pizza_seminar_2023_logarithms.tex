@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+
+\usepackage{inconsolata}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true,mathescape=true}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{float}
+
+\usepackage{diffcoeff}
+\difdef{}{}{op-symbol=\mathrm{d},op-order-sep=0mu}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{\textit{Mirifici Logarithmorum Canonis Descriptio}}
+\author{Duarte Maia}
+%\date{}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\e}{\mathrm{e}}
+
+\newcommand\closed[1]{\overline{#1}}
+\newcommand{\lap}{\mathop{}\!\mathbin{\Delta}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
+%\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+
+\DeclareMathOperator{\lognap}{LogNapier}
+
+
+\begin{document}
+\maketitle
+
+\section{Abstract}
+
+Did you know that the notion of logarithm predates the notion of exponential by over a century? In this talk, we'll go over how John Napier [replace with another spelling?] conceptualized the logarithm, what for, and some curious idiosyncrasies of his definition.
+
+\section{Historical Introduction}
+
+\point{\textit{Since nothing is more tedious, fellow mathematicians, in the practice of the mathematical arts, than the great delays suffered in the tedium of lengthy multiplications and divisions, the finding of ratios, and in the extraction of square and cube roots– and in which not only is there the time delay to be considered, but also the annoyance of the many slippery errors that can arise: I had therefore been turning over in my mind, by what sure and expeditious art, I might be able to improve upon these said difficulties. In the end after much thought, finally I have found an amazing way of shortening the proceedings, and perhaps the manner in which the method arose will be set out elsewhere: truly, concerning all these matters, there could be nothing more useful than the method that I have found. For all the numbers associated with the multiplications, and divisions of numbers, and with the long arduous tasks of extracting square and cube roots are themselves rejected from the work, and in their place other numbers are substituted, which perform the tasks of these rejected by means of addition, subtraction, and division by two or three only. Since indeed the secret is best made common to all, as all good things are, then it is a pleasant task to set out the method for the public use of mathematicians. Thus, students of mathematics, accept and freely enjoy this work that has been produced by my benevolence}
+
+\hfill John Napier, 1614.}
+
+%\point{Let me tell you about the history of computers. The term computer first came up around the 1610s, and it meant `one who computes'. It was a job description, which consisted of assisting scientists, astronomers, engineers, etc. in undertaking long and tedious calculations. Basically, if you were rich and worked with numbers, you could hire someone to do additions and multiplications for you.}
+
+%\point{This profession fell out of vogue around the 1970's. In WWI, human computers were still used to calculate artillery projectile trajectories, but in WWII, mechanical and electronic computers begun to be developed to a level where they could replace human computers.}
+
+%\point{Fun fact: The first computer programmers were drafted from the ranks of human computers, which were mostly women, as most men were being sent to war.}
+
+%\point{Anyway, the point is, computations were done by people, who had to be paid wages, so it was in the best interests of the people hiring them to make sure that they had the tools to be fast at it.}
+
+\point{Fact: Adding is relatively easy, and the time to add two numbers scales linearly with the number of digits of the operands. On the other hand, multiplication is comparatively harder, with the standard algorithm for this procedure, which you learn about in school, taking quadratic time in the number of digits. Enter log tables.}
+
+\point{A Log Table is a big table with a bunch of numbers and their logarithms, to many decimal places. This makes multiplication easier: Instead of multiplying $a$ and $b$ directly, you look in the table to compute $\log a$ and $\log b$, add these two together, and then look in the table to find which number $c$ has logarithm equal to $\log a + \log b$.}
+
+\point{(Hand out log tables.)}
+
+\point{Today, we see the logarithm as the inverse of the exponential, and the rule $\log(ab) = \log a + \log b$ as a consequence of the rule $\exp(x+y) = \exp(x) \exp(y)$, and it's hard to imagine how one could conceive of the logarithm in any other way. And yet, Napier came up with the first log tables over a century before rational exponents were considered by Euler. Without further ado, let's see how he did it.}
+
+\section{Napier's Definition}
+
+\point{The following definition is paraphrased from \textit{John Napier and The Invention of Logarithms, 1614.} It is a simplification of a simplification of Napier's original definition, keeping the originality of the primordial definition while throwing away some of the idiosyncrasies of Napier's definition, which I will get back to later.}
+
+\point{Suppose that on a straight unit line $TS$, a point $P$ moves from left to right so that its velocity is at every point proportional to the distance from $S$. On another straight line a point $Q$ moves with uniform velocity equal to that which $P$ has at $T$, and that when $Q$ is at $T_1$ when $P$ is at $T$. When $P$ is at any particular position $P$, in the course of its motion, the logarithm of $SP_1$ is defined to be the $T_1 Q_1$. Thus, the logarithm of $1 = TS$ is $0$, and the logarithm of any number less than $1$ is positive and increases indefinitely as $SP$ diminishes to zero.}
+
+\point{To get some understanding of this definition, let's rewrite it in modern notation. It amounts to considering the following ODE, where $P(t)$ represents the distance $SP$ and $Q(t)$ represents $T_1 Q$:
+\begin{equation}
+\begin{cases}
+P(0) = 1,\\
+P'(t) = -\lambda P(t),\\
+Q(0) = 0,\\
+Q'(t) = P'(0).
+\end{cases}
+\end{equation}
+
+Then, we set $\lognap(P(t)) = Q(t)$ for all time.}
+
+\point{Remark: There are many spellings of Napier's name, written and considered by the man himself. In keeping with his tradition, we will oscillate between the following spellings: Napier, Napeir, Nepair, Nepeir, Neper, Nepper, Naper, Napare, Naipper.}
+
+\point{Solving the ODE, we obtain $Q(t) = \lambda t$, $P(t) = \exp(-\lambda t)$, hence $\lognap(\exp(-\lambda t)) = \lambda t$. Setting, in modern notation, $x = \exp(-\lambda t)$, hence $t = -\frac1\lambda \log(x)$ we obtain
+\begin{equation}
+\lognap(x) = -\log(x) = \log_{1/\e}(x).
+\end{equation}}
+
+\point{Even though his nomenclature was very foreign by today's standards (this was half a century before the onset of calculus), Napier had remarkable clarity of thought and was able to make valid logical deductions about this moving point thought experiment, remarkably the rule $\log(ab) = \log a + \log b$.}
+
+\point{To understand this rule, consider two equal time intervals, in which $Q$ moved from $Q_1$ to $Q_2$, and from $Q_3$ to $Q_4$. Then, a viewer watching the movement of $P$ in either of these intervals would distinguish them only by scale; otherwise, the movements are proportional. In other words, if $P_1, \dots, P_4$ are the positions of $P$ in these four moments:
+\begin{equation}
+Q_1 Q_2 = Q_3 Q_4 \implies SP_1 : SP_2 = SP_3 : SP_4.
+\end{equation}}
+
+\point{In slightly more modern notation, this yields: If $a/b = c/d$, then $\lognap(b)-\lognap(a) = \lognap(d)-\lognap(c)$.}
+
+\point{To recover the modern identity, consider setting $d = 1$, to obtain (note that $\lognap(1) = 0$)
+\begin{align}
+&\lognap(b) - \lognap(bc) = -\lognap(c),\\
+\text{hence } &\lognap(bc) = \lognap(b) + \lognap(c).
+\end{align}}
+
+\section{Computing Tables}
+
+\point{Now that we have a working definition of logarithm, and proof that it can be used to simplify products and $n$th roots, it remains to find a way to compute it.}
+
+\point{To this effect, Napier used [....]}
+
+\section{Sines, $10^7$, Decimals, and Napier's Actual Definition}
+
+\section{Conclusion}
+
+\end{document}
