@@ -1,0 +1,154 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+%\usepackage{fullpage}
+\usepackage{titling}
+\setlength{\droptitle}{-3cm}
+\pretitle{\begin{center}\bf}
+\posttitle{\end{center}}
+\preauthor{\begin{center}}
+\postauthor{\end{center}}
+\predate{\begin{center}}
+\postdate{\end{center}}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+\usepackage{comment}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{MATH 277, AUTUMN 2023\\PROBLEM SESSION 4\\Ultrafilters}
+\author{Duarte Maia}
+\date{October 23, 2023}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremheaderfont{\bfseries}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\kk}{\Bbbk}
+
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\id}{\mathrm{id}}
+
+\newcommand{\conj}[1]{\overline{#1}}
+
+\let\Im\relax
+\DeclareMathOperator{\Im}{Im}
+\let\Re\relax
+\DeclareMathOperator{\Re}{Re}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+
+%%%% comment below for solution version
+\excludecomment{sol}
+
+\begin{document}
+\maketitle
+
+\begin{ex}[Hats and Colors]
+An evil mastermind has captured and trapped countably many mathematicians, for unknown nefarious purposes. However, the mastermind offers the mathematicians a wager for their freedom.
+
+The mathematicians will be placed in a room in view of each other. Each of them is given two flags, one colored black and one colored white. After being given time to see everyone else, the mastermind will clap their hands, and the mathematicians must raise one of the two flags. If everyone has raised the same color flag, the mastermind will let the mathematicians go. If even one flag is a different color from the rest, an unpleasant fate awaits them all.
+
+The mathematicians will be told the rules beforehand, and may agree upon a strategy. Once they are in the room, however, there will be no communicating.
+
+\begin{enumerate}
+\item\label{item:i} How can the mathematicians survive? (Hint: This one is really easy!)
+\item To thwart the easy strategy that solves \ref{item:i}, the mastermind will now be giving every mathematician mandatory color-distortion glasses. Some mathematicians will obtain glasses that swap their perception of which flag is black and which flag is white. Others will get glasses that do nothing. They don't know which type they got, and they're not allowed to take them off.
+
+To give the mathematicians a sporting chance, they now all get a hat, which is colored black or white. (Different mathematicians may get different colors.) Every mathematician can see everyone's hat color, including their own (mirrors, they can take their hat off, etc.) and they can compare the colors on the hats with the colors of the flags.
+
+How can the mathematicians survive?
+
+\item Now, all mirrors and reflective objects have been removed, and no mathematician can look at their own hat. The game is played again.
+
+How can the mathematicians survive?
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item They all agree to raise the white flag!
+
+\item The mathematicians choose a leader among them. When the time comes, they all raise the flag whose color is the same as the leader's hat.
+
+\item The above strategy fails because the leader cannot see their own hat.
+
+The mathematicians begin by agreeing on a nonprincipal ultrafilter $\calF$ on $\N$, as well as a bijection between themselves and $\N$. Then, when the time comes, they will look at the set of mathematicians whose hats are black, that they can see. For the mathematician $n$, this corresponds to a subset $A$ of $\N \setminus \{n\}$. Then the decision is made: if $A \in \calF$, the mathematician will raise the flag they see as black. Otherwise, they raise the flag they see as white.
+
+Let us prove that this strategy works. The hat coloring partitions the set of mathematicians, or equivalently $\N$, into two sets, let us call them $S$ and $\N \setminus S$, of which exactly one is in the ultrafilter. Without loss of generality, let us assume that $S \in \calF$, and that $S$ corresponds to the color $c \in \{\text{black}, \text{white}\}$. We claim that all mathematicians will raise the flag colored $c$.
+
+Before going on with the proof, we write the strategy in a slightly more symmetrical way. The color perception of every mathematician $n$ will divide $\N \setminus \{n\}$ into two complementary sets, $A$ and $B$. Of these, exactly one is in the ultrafilter. Proof: If $A$ is in $\calF$, $\N \setminus A$ is not (by property `Ultra'), and neither will $B \subset \N \setminus A$ (because if $B$ were in $\calF$, so would any superset of it). Conversely, if $A \notin \calF$, by `Ultra' we have $B \cup \{n\} \in \calF$. Therefore, either $B$ or $\{n\}$ is in $\calF$,\footnote{More detail: We prove that if $X \cup Y \in \calF$, with $\calF$ an ultrafilter, then either $X$ or $Y$ is in $\calF$. Proof: If neither of them were, then $X^c, Y^c \in \calF$ by Ultra. Since filters are closed under intersections, we obtain $X^c \cap Y^c \in \calF$, and again by Ultra, and deMorgan's laws, $X \cup Y \notin \calF$.} and the latter case cannot happen as $\calF$ is assumed to be nonprincipal. In either case, the mathematician will raise the flag with the same color as `the majority of the hats' from their perception.
+
+The proof is effectively done. If the mathematician $n$ raises the flag with color $c'$, that's because $\{\text{indices with hat color $c'$}\} \setminus \{n\}$ is in $\calF$, and therefore the set of indices with hat color $c'$ is in $\calF$, whence $c' = c$.
+\end{enumerate}
+\end{sol}
+
+
+\begin{ex}[Counting Ultrafilters]
+In the homework you proved that there are at least $\aleph_0$ ultrafilters on $\N$.
+
+Prove that there are at least $2^{\aleph_0}$ ultrafilters on $\N$.
+
+(Curiosity: There are exactly $2^{2^{\aleph_0}}$.)
+\end{ex}
+
+\begin{sol}
+The strategy is the following. We create an infinite binary tree, where at each step the branch corresponds to a choice of whether to add or not a certain set to the (eventual) ultrafilter. Then, we show that every infinite sequence of choices can be turned into an ultrafilter (not necessarily in a unique way). This will produce an function from $\prescript{\N}{}2$ to the set of ultrafilters on $\N$, which is injective because if two sequences of choices differ at some point, there's a set which is in one of the ultrafilters but not in the other.
+
+To give a bit more detail, the following fact will be useful. A subset $A$ of $X$ is said to be infinite and coinfinite (abbreviated to I\&CI) if both $A$ and $X \setminus A$ are infinite. Then, any countable set admits an I\&CI subset. For example, index the set by the natural numbers, and let $A$ be the set of elements corresponding to the even numbers.
+
+Then, define a binary tree as follows. First, pick an I\&CI set $A \subseteq \N$., and set $A_0 = A$ and $A_1 = \N \setminus A$. Then, pick an I\&CI subset $B$ of $A_0$, and let $A_{00} = B$ and $A_{01} = A_0 \setminus B$. Likewise, pick an I\&CI subset $C$ of $A_1$, and set $A_{10} = C$, $A_{11} = A_1 \setminus C$.
+
+Each node of this binary tree is a subset of the nodes immediately above it. Therefore, any of its infinite downward paths will have the FIP: Indeed, any finite collection of sets in the same path will be nested in one another, and their intersection is equal to whichever is deeper into the tree, and is therefore an infinite and hence nonempty set. Hence, by adapting the proof of exercise (15) from the review sheet, we for each infinite path (which corresponds to an element of $\prescript\N{}2$) may correspond an ultrafilter.
+
+Finally, we prove that distinct paths yield distinct ultrafilters. Let $s, t \in \prescript\N{}2$ be different. Then, there is some first index where they differ. In terms of the tree, they correspond to two paths which are equal up to some $A_\sigma$, and then $s$ corresponds to adding $B \subseteq A_\sigma$ while $t$ corresponds to adding $A_\sigma \setminus B$.
+
+Notably, $B \cap (A_\sigma \setminus B) = \emptyset$. Therefore, no ultrafilter can contain both of these two sets. Therefore, since the ultrafilter corresponding to $s$ contains $B$, it cannot contain $A_\sigma \setminus B$, and is therefore a distinct ultrafilter from the one corresponding to $t$. This completes the proof.
+\end{sol}
+
+\end{document}

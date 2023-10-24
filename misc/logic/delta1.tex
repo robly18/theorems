@@ -69,6 +69,9 @@
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 
+\newcommand{\gn}[1]{\setbox0=\hbox{$\mathclap{\phantom{t}}#1$} \dimen0=\ht0 \advance\dimen0 by -1.25ex \,\raise\dimen0\hbox{$\ulcorner$} \! \box0 \! \raise\dimen0\hbox{$\urcorner$}\,}
+\newcommand{\gf}[1]{\raise-0.25ex\hbox{$\llcorner$}\! #1 \!\raise-0.25ex\hbox{$\lrcorner$}}
+
 
 
 \begin{document}
@@ -322,7 +325,7 @@ It is not the case that, as stated, the output (from the POV of $\WPA$) is uniqu
 In general it is not possible to make this demand, but in this case we have the following work-around: We demand that $s$ is a minimal valid execution sequence. Indeed, in the scenario where $a$ is in the domain of $f$, a valid (standard) execution sequence exists by hypothesis, and any nonstandard execution sequence will be greater than it (by \ref{prop:leqrep}), so picking out the minimal sequence ensures that it is standard.
 \end{remark}
 
-\begin{prop}
+\begin{prop}\label{prop:psin}
 Define the formula $\psi(\eta,x,y)$ given by
 \begin{equation}
 \psi(\eta,x,y) \equiv \exists_s \left(
@@ -349,6 +352,19 @@ $(\leftarrow)$ If $a$ is in the domain of $f$, there is an execution sequence fo
 $(\rightarrow)$ Note that the expression for $\psi_0(\eta,x,y,s)$ contains the line $y = \tapetooutput(s)$. Moreover, $\WPA$ proves that, given $\eta$ and $x$, there is at most one value of $s$ making $\psi_0$ hold. Thus, we conclude that there is at most one value of $y$ making $\psi(n,a,y)$ hold, as we've seen $f(a)$ is such a value, and so $b$ must be the same.
 \end{proof}
 
+\begin{corollary}\label{cor:psin}
+Let $f$, $\psi$, $n$ as above. Then, for all $a$ in the domain of $f$,
+\begin{equation}
+\WPA \vdash \forall_y (\psi(n,a,y) \leftrightarrow y=f(a)).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+We claim that $\WPA$ proves that $\forall_\eta \forall_x \exists^{\leq 1}_y \psi(\eta,x,y)$. Perhaps this is not true for the $s$ as stated and requires tinkering with the encoding a bit, but if we encode tapes in such a way that $\tapetooutput$ is simple enough (this could be as easy as making our encoding of Turing machines be a pair whose second element is the result of $\tapetooutput$) we can see that the line $y+1 = \tapetooutput((s)_{\len(s)-1})$ uniquely determines $y$ given $s$ (from the perspective of $\WPA$.
+
+Once this is done, note that (reasoning in FOL) from $\forall_x \exists^{\leq 1}_y P(x,y)$ and $P(a,b)$, one obtains $\forall_y (P(a,y) \leftrightarrow y=b)$.
+\end{proof}
+
 \begin{remark}
 If $a$ is not in the domain of $f$, it is unclear to me what $\WPA$ thinks of the sentence $\exists_y \psi(n,a,y)$. By proposition \ref{prop:wpasigma1}, $\WPA$ certainly cannot prove it true, but in general there is no reason to believe that it can prove it false either.
 \end{remark}
@@ -357,7 +373,63 @@ If $a$ is not in the domain of $f$, it is unclear to me what $\WPA$ thinks of th
 
 \subsection{Self-Reference}
 
-It is possible to encode logical formulas as natural numbers, in such a way that several standard operations are primitive recursive, such as verifying that a number is a well-formed formula, whether it is closed, whether a sequence of formulas is a valid proof from a given (finite) set of hypotheses, etc. Note moreover that $\WPA$ is finitely axiomatized, so
+A big ingredient in proving the first incompleteness theorem is the capacity to encode a sentence saying `this sentence is false', or $P \colon \text{`$P$ is false'}$. However, sentences cannot directly be self-referential, so we must find a way to work around this.
+
+A way to get around this issue is to note that, as we've seen before, we can `encode computer programs inside arithmetic'. Moreover, it is known that we can make computer programs that print themselves, also known as Quines. As such, we might expect to encode inside arithmetic a formula that is able to refer to a code for itself in some indirect way. Formally, this is reflected in the proposition \ref{prop:selfref} below.
+
+\begin{definition}
+We assume a fixed way to encode formulas in the language of Arithmetic as natural numbers in a way amenable to computable operations, e.g. substituting variables for expressions, checking for closedness, etc. The number encoding a formula is called its \emph{Gödel number}. If $\varphi$ is a formula, its Gödel number is written $\gn\varphi$. It will also be useful to have a way to denote the reverse operation: If $n$ is a number, $\gf{n}$ symbolizes the formula encoded by $n$.
+\end{definition}
+
+\begin{prop}\label{prop:selfref}
+Let $\theta(x)$ be a formula with one free variable in the language of arithmetic. Then, there is a sentence $P$ such that
+\begin{equation}
+\WPA \vdash P \leftrightarrow \theta(\gn P).
+\end{equation}
+
+Moreover, if $\theta$ is $\Pi_1$, then $P$ is also $\Pi_1$.
+\end{prop}
+
+\begin{remark}
+This will allow us to find a sentence $P$ that cannot be proven nor disproven in a given theory $T$, roughly by setting $\theta(x) \colon \text{$T$ thinks $\gf x$ is false}$. Then, if $T$ is able to prove $P$, it will hold that (according to $T$) $P$ is false, which is a contradiction, and a similar argument works if $T$ were able to prove $\neg P$.
+
+Of course, the truth is a lot more technical than the above paragraph.
+\end{remark}
+
+The remainder of this section consists of the proof of proposition \ref{prop:selfref}.
+
+\smallskip
+
+The main idea to construct $P$ is the following. We shall have a `template formula' $\tau(x)$, and $x$ being intended as some data from which the formula $P$ will reconstruct itself. More precisely, we will set $P \equiv \tau(\gn\tau)$, and the idea is that $\tau$ is able to take $x = \gn\tau$ and reconstruct itself by considering $\gf{x}(x)$.
+
+To be a little more precise, let $f \colon \N \to \N$ be given by
+\begin{equation}
+f(n) = \gn{\gf{n}(n)},
+\end{equation}
+where $\gf{n}(n)$ represents replacing some fixed variable in $\gf{n}$, say $x$, by (some expression evaluating to) the numerical value of n.
+
+\begin{remark}\label{rmk:rug}
+We are sweeping under the rug details such as `what if $x$ is not the Gödel number of any formula?' In our view, these details are easily dealt with (pick some convention for an error code) and do not add anything to the exposition other than extra technical load.
+\end{remark}
+
+Now, under any reasonable choice of Gödel encoding, the function $f$ is computable and (see remark \ref{rmk:rug}) total. Therefore, it is represented in $\WPA$ by some $\Sigma_1$ formula $\varphi(x,y)$ as in proposition \ref{prop:psin}. We now have all the tools that we need to reverse-engineer the definition of $P$.
+
+We want that, under $\WPA$, $P \leftrightarrow \theta(\gn P)$. Assuming that $P$ is constructed by feeding the Gödel number of some template formula $\tau$ to itself, this is the same as requiring that
+\begin{equation}
+\tau(\gn\tau) \leftrightarrow \theta(\gn{\tau(\gn\tau)}),
+\end{equation}
+or equivalently $\tau(\gn\tau) \leftrightarrow \theta(f(\gn\tau))$. This suggests setting $\tau(x) \colon \theta(f(x))$, but this is invalid because $f$ is not part of the language of arithmetic. So we replace $f$ by the representation given by $\varphi$, and set
+\begin{equation}
+\tau(x) \colon \forall_y(\varphi(x,y) \rightarrow \theta(y)), \quad P \colon \tau(\gn\tau).
+\end{equation}
+
+We now prove that $P$ does what is desired of it. Note that $\gn P = f(\gn \tau)$, so it is the case that $\WPA \vdash \varphi(\gn\tau, \gn P)$. Moreover, by corollary \ref{cor:psin} $\WPA$ proves $\varphi(\gn\tau, y) \leftrightarrow y=\gn P$, hence
+\begin{equation}
+\WPA \vdash \big[ \forall_y(\varphi(\gn \tau,y) \rightarrow \theta(y)) \big] \leftrightarrow \big[ \forall_y (y = \gn P \rightarrow \theta(y)) \big].
+\end{equation}
+
+The left-hand side is by definition $P$, and the right-hand side is evidently equivalent to $\theta(\gn P)$, and so the proof of proposition \ref{prop:selfref} is complete.
+
 
 
 \subsection{The Gödel Sentence}

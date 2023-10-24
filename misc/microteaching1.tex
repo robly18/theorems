@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+
+%\usepackage{inconsolata}
+%\usepackage{listings}
+%\lstset{basicstyle=\ttfamily,breaklines=true,mathescape=true}
+
+\usepackage{fullpage}
+
+\usepackage{cancel}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\usepackage{fontspec}
+\setmonofont{Consolas}
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+%moredelim=**[is][\color{blue}]{@}{@},
+columns=fullflexible
+}
+
+\title{Microteaching Workshop I\\Setting Up Your Website at UChicago}
+\author{Duarte Maia}
+%\date{}
+
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
+%\newcommand\timestamp[1]{}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\point{Today I'll teach you how to set up a very basic personal webpage on the UChicago servers.}
+
+\point{Due to the time limit, I can't cover all the details and edge cases that may happen. Therefore, my goal is to give you a big picture overview of what the process looks like, and more importantly, where to find resources and who to consult if you're having trouble.}
+
+\section{Part I: Connecting to the Mainframe}
+
+\point{The first thing you'll need is an `ssh client'. If you're on Linux or Mac, this is probably already installed on your computer. If you're on Windows, there are some alternatives. The one I use is called PuTTY, which you can obtain from \lstinline{www.putty.nl}.}
+
+\point{Then, open up a command line, and write the command: \lstinline{ssh username@math.uchicago.edu}. My username is \lstinline{dmaia}, but I can't tell you what is yours.}
+
+\point{Your username and password are NOT your UCNet credentials! You have to contact John Zekos or Ed Friedman to obtain your credentials. \lstinline{techstaff@math.uchicago.edu}}
+
+\point{Last detail: The \lstinline{ssh} command will fail unless you are on the UChicago network. If you're connecting from your office that should be fine. If you want to edit your website from home, you'll need to do some extra steps: \lstinline{cvpn.uchicago.edu}}
+
+\point{If successful, you will be greeted with a command line saying \lstinline{math \%}. From here on out, some facility with using command lines will be useful, but I will try not to assume such knowledge.}
+
+\section{Part II: Editing your Website}
+
+\point{Now, the command line is your window into the UChicago computers, which are organized in folders like you might expect from your desktop. (Draw some folders and subfolders.)}
+
+\point{Here are the most important commands you'll need
+\begin{itemize}
+\item \lstinline{pwd}: Tells you where you are
+\item \lstinline{ls}: Tells you what is here
+\item \lstinline{mkdir folder_name}: Creates a folder where you are
+\item \lstinline{cd folder_name}: Goes into a folder. Special case: If you want to go back up a folder, use \lstinline{cd ..}.
+\item \lstinline{nano file_name}: Edits/Creates a text file with the given name.
+\end{itemize}
+}
+
+\point{Example input/output:}
+\begin{lstlisting}
+pwd
+/zb/dmaia (this is your home folder, ignore zb)
+ls
+(empty line)
+\end{lstlisting}
+
+\point{Now, you'll want to create a folder, inside your home folder, called \lstinline{public_html}. Then, inside it, create a file called \lstinline{index.html}. This html file is the front page of your website. I won't teach you how to use html to make pretty pages, but I'll give you an example to get you started. For now, here is the sequence of commands you need:}
+\begin{lstlisting}
+mkdir public_html
+cd public_html
+nano index.html
+\end{lstlisting}
+
+\point{A text editor will appear. Write the following}
+\begin{lstlisting}
+<h1>Hello world!</h1>
+<p>I am (insert name) and this is my webpage.</p>
+\end{lstlisting}
+\point{Then, press \lstinline{ctrl-X} to exit, you'll be asked if you're sure, press Y then enter. You're almost done!}
+
+\point{If you navigate to \lstinline{math.uchicago.edu/~username}, you'll be met with a screen saying `Access Forbidden'. This is because, by default, the UChicago servers assume that you don't want everyone to be able to look at the files you store there. To fix this, we'll need one last command:
+\begin{itemize}
+\item \lstinline{chmod og+rx index.html}: Tells the servers that you're okay with anyone reading this file.
+\end{itemize}}
+
+\point{Your website is now up and running! There's a lot more that you can do, but at least this will get you started. There's a lot of resources online that tell you how to edit html files and make them prettier, or make links to other things.}
+
+\end{document}

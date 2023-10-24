@@ -52,6 +52,7 @@
 \newcommand\thname[1]{\mathrm{(#1)}}
 
 \DeclareMathOperator{\lognap}{LogNapier}
+\DeclareMathOperator{\truelognap}{TrueLogNapier}
 
 
 \begin{document}
@@ -59,7 +60,7 @@
 
 \section{Abstract}
 
-Did you know that the notion of logarithm predates the notion of exponential by over a century? In this talk, we'll go over how John Napier [replace with another spelling?] conceptualized the logarithm, what for, and some curious idiosyncrasies of his definition.
+Did you know that the notion of logarithm predates the notion of exponential by over a century? Did you know that the first logarithm was in base 1/e? In this talk, we'll go over how John Napier conceptualized the logarithm, what for, and some curious idiosyncrasies of his definition.
 
 \section{Historical Introduction}
 
@@ -108,6 +109,8 @@ Then, we set $\lognap(P(t)) = Q(t)$ for all time.}
 \lognap(x) = -\log(x) = \log_{1/\e}(x).
 \end{equation}}
 
+\point{Remark: Since $\lambda$ doesn't matter, we set it to $1$.}
+
 \point{Even though his nomenclature was very foreign by today's standards (this was half a century before the onset of calculus), Napier had remarkable clarity of thought and was able to make valid logical deductions about this moving point thought experiment, remarkably the rule $\log(ab) = \log a + \log b$.}
 
 \point{To understand this rule, consider two equal time intervals, in which $Q$ moved from $Q_1$ to $Q_2$, and from $Q_3$ to $Q_4$. Then, a viewer watching the movement of $P$ in either of these intervals would distinguish them only by scale; otherwise, the movements are proportional. In other words, if $P_1, \dots, P_4$ are the positions of $P$ in these four moments:
@@ -123,14 +126,123 @@ Q_1 Q_2 = Q_3 Q_4 \implies SP_1 : SP_2 = SP_3 : SP_4.
 \text{hence } &\lognap(bc) = \lognap(b) + \lognap(c).
 \end{align}}
 
-\section{Computing Tables}
+\section{Computing Tables Part 1: Estimates}
 
 \point{Now that we have a working definition of logarithm, and proof that it can be used to simplify products and $n$th roots, it remains to find a way to compute it.}
 
-\point{To this effect, Napier used [....]}
+\point{To this effect, Napier used the inequalities that today we would express as
+\begin{equation}
+\frac x{x+1} \leq \log(1+x) \leq x, \quad x \geq 0.
+\end{equation}}
 
-\section{Sines, $10^7$, Decimals, and Napier's Actual Definition}
+\point{Reasoning: Consider the movement of $P$, when $Q$ moves from $Q_1$ to $Q_2$ (so that $Q_2$ is farther along than $Q_1$). The speed of $P$ is not constant, but as $P$ is moving to the right its speed is decreasing, so we can estimate its speed from above by its initial speed, and from below by its final speed.}
+
+\point{Using this reasoning, let $T-P_1-P_2-S$, and we will estimate $\lognap(P_2 S)$ in terms of $\lognap(P_1 S)$.
+
+Consider the point $P$'s motion starting at $P_1$, as well as $Q$'s motion. Moreover, imagine two new points $P^*$ and $P_*$, moving at a uniform speed starting at $P_1$, one with the speed $P$ has at $P_1$, and the other with the speed $P$ has at $P_2$. Then, $P^*$ faster than $P$ faster than $P_*$. Let us look at where $Q$ is when these three points hit $P_2$.}
+
+\point{First, $P^*$ hits $P_2$, by which point
+\begin{equation}
+T_1 Q = T_1 Q_1 + t = T_1 Q_1 + \frac{P_1 P_2}{V(P_1)} = T_1 Q_1 + \frac{P_1 S -  P_2 S}{P_1 S}.
+\end{equation}
+In modern notation, if $P_1 S = x_1$ and $P_2 S = x_2$ (note $x_1 > x_2$),
+\begin{equation}
+\text{lower estimate} = \lognap(x_1) + \frac{x_1 - x_2}{x_1}.
+\end{equation}}
+
+\point{Afterwards, $P$ hits $P_2$, by which point $Q$ will be at position $\lognap(x_2)$. Thus, $\lognap(x_2) > \text{lower estimate}$.}
+
+\point{Finally, $P_*$ arrives late to the party, by which point $Q$ will be at a point to the right of $\lognap(x_2)$, namely
+\begin{equation}
+T_1 Q = T_1 Q_1 + t = T_1 Q_2 + \frac{P_1 P_2}{V(P_1)} = T_1 Q_1 + \frac{P_1 S -  P_2 S}{P_2 S},
+\end{equation}
+or, in modern notation
+\begin{equation}
+\text{upper estimate} = \lognap(x_1) + \frac{x_1 - x_2}{x_2}.
+\end{equation}}
+
+\point{In conclusion, if $x_1 > x_2$,
+\begin{equation}
+\lognap(x_1) + \frac{x_1 - x_2}{x_1} \leq \lognap(x_2) \leq \lognap(x_1) + \frac{x_1 - x_2}{x_2}.
+\end{equation}}
+
+\point{Remark: Napier did all of the above in words!}
+
+\section{Computing Tables Part 2: Practicalities}
+
+\point{Now we try to build a proper logarithm table. In other words, a list of pairs $(x_0, y_0), \dots, (x_n, y_n)$ such that $y_i = \lognap(x_i)$.}
+
+\point{The following procedure is not quite as elaborate as Napier's, but is inspired by it. We will be more precise about Napier's process later.}
+
+\point{Computing a table of logarithms is made much easier if the $x_i$ are in geometric progression, so we could begin by setting $x_i = 0.999^i$, for $i = 0, \dots, 300$. This will give us $x_0 = 1$, $x_{300} \approx 0.741$.}
+
+\point{We know that in this scenario, the $y_i$ are in arithmetic progression, and $y_0 = 0$, so it suffices to compute $y_1$ to desirable accuracy.}
+
+\point{The estimates we created before give us that $y_1$ shoud be between $0.001$ and $0.001001$, so setting $y_1 = 0.0010005$ will for sure give us an error of at most $0.5\%$.}
+
+\point{If we disregard rounding errors (which would have been relevant to Napier), this approximation is shockingly good! The actual value of $y_1$ is $0.0010005003336...$ The final values are as follows. Approximated: $0.30015$, Real: $0.3001501001...$}
+
+\point{What if you want more precision in you computation of $y_1$?}
+
+\point{You can make another table, this one with a geometric progression like $x'_i = 0.99999^i$, for $i = 0, \dots, 100$, with the last element being off from $0.999$ by only $0.5 \times 10^{-6}$. Then, $y'_{100}$ will be an approximation of $\lognap(x'_{100})$, and one can obtain an approximation of $\lognap(x_1)$ by
+\begin{equation}\label{eq:1}
+\lognap(x_1) \approx \lognap(x'_{100}) + \frac{\frac{x'_{100}-x_1}{x'_{100}} + \frac{x'_{100}-x_1}{x_1}}2.
+\end{equation}}
+
+\begin{center}
+\begin{tabular}{ c | l }
+ Real Value & 0.00100050033358 \\ 
+ First Approximation & 0.0010005005 \\  
+ Improved Approximation & 0.00100050033360  
+\end{tabular}
+\end{center}
+
+\point{Finally, what if you want to make a table of logarithms whose $x$ values are not in geometric progression?}
+
+\point{First, pick a point $x$ of your choosing. Then, find the nearest value of $x_i$ to it. Have $\lognap(x) = \lognap(x_i) + \lognap(x/x_i)$.}
+
+\point{Then, $x/x_i$ should be close to some $x'_j$. Pick the closest, and apply an approximation like \eqref{eq:1} to obtain a very good approximation of $\lognap(x'_j)$, and with it a good approximation of $\lognap(x)$!}
+
+\section{Decimals, $10^7$, Napier's Actual Definition, and Sines}
+
+\point{Fun fact: Napier pioneered the decimal point. By his time, decimal notation was already standard, but there was not yet consensus on how to denote decimal parts of unit. Contemporary notation included: {12\textcircled{\raisebox{-0.9pt}{0}}3\textcircled{\raisebox{-0.9pt}{1}}4\textcircled{\raisebox{-0.9pt}{2}}5}, 12 3' 4'' 5'''. Napier introduced the notation 12'345, which is very close to the modern 12.345.}
+
+\point{Despite this, he was careful to avoid this notation in his published works, perhaps for fear that his notation wouldn't catch on and make his work unusable, or to make it easier to use for audiences who were uncomfortable with decimals. As such, his published tables are \emph{based completely on integers!}}
+
+\point{How can he do this, if his tables are of logarithms between $0$ and $1$, and of numbers whose decimals are relevant? He scaled everything up.}
+
+\point{His line $TS$ is \emph{not} a unit line! Instead, it is a line of length $10^7$. This means that in fact he did not work with $\lognap$ as we defined it, but instead
+\begin{equation}
+\truelognap(x) := 10^7 \log_{1/\e}(x/10^7).
+\end{equation}}
+
+\point{As a consequence, he was able to round and present everything as integers, while keeping seven digits of decimal precision.}
+
+\point{Curiously, he used decimal points in his intermediate computations, so that they had somewhere between $4$ and $7$ extra digits of precision wrt what was later printed on the tables.}
+
+\point{Now, let's move on to another interesting bit of trivia: The indices of the table.}
+
+\point{You might expect the indices of a table of logarithms to be in arithmetic progression, e.g. 0.01, 0.02, 0.03, etc. However, the truth is a little more complicated!}
+
+\point{Napier reasoned that his tables would be mostly used for purposes of astronomy and navigation, and in this case the most common products taken are those of sines! As such, his table actually contains data points of the form $(\theta, \sin\theta, \truelognap(\sin\theta))$, for $\theta$ ranging from $0^\circ$ to $90^\circ$, at intervals of one minute, that is, $1/60$th of a degree.}
+
+\point{Even better, the table is organized in two columns, with the leftmost having $\theta$ running up from $0^\circ$ and the rightmost running down from $90^\circ$, and the structure
+\begin{equation}
+\theta \quad \sin\theta \quad \truelognap(\sin\theta) \quad \text{difference} \quad \truelognap(\sin(90^\circ-\theta)) \quad \sin(90^\circ-\theta) \quad 90^\circ - \theta,
+\end{equation}
+and by trigonometric identities this is actually equal to
+\begin{equation}
+\theta \quad \sin\theta \quad \truelognap(\sin\theta) \quad \truelognap(\tan\theta) \quad \truelognap(\cos\theta) \quad \cos\theta \quad 90^\circ - \theta.
+\end{equation}}
 
 \section{Conclusion}
+
+\point{Napier's tables were revolutionary, and made a lot of math very much easier. Logarithms were being used as recently as the 70's, through the use of slide rules, to aid in computation. In the 70's, however, handheld calculators became mainstream.}
+
+\point{Kepler in particular was contemporary to Napier, and actually wrote him a letter thanking him for his great work, but unfortunately by the time he sent the letter Napier had passed away a few years earlier, and Kepler did not know.}
+
+\point{To finish the talk, here's a fun fact: Napier made a woopsie in his logarithm table. In the middle of his computations there is an arithmetic error, which propagates throughout all his work, leading in his logarithms being off from the real value by a little under $10^{-6}$. In other words, the last digit of his logarithms is not always correct.}
+
+\point{There's a joke in there about `if you're concerned about an embarrassing typo on your thesis'.}
 
 \end{document}
