@@ -8,6 +8,7 @@
 \usepackage[thmmarks, amsmath]{ntheorem}
 
 \usepackage{fullpage}
+\usepackage{showlabels}
 
 \usepackage{enumitem}
 
@@ -62,6 +63,11 @@
 \DeclareMathOperator{\tapefrominput}{tapefrominput}
 \DeclareMathOperator{\tapetooutput}{tapetooutput}
 \DeclareMathOperator{\halted}{halted}
+
+\DeclareMathOperator{\Proves}{\mspace{-2mu}Proves}
+\DeclareMathOperator{\ProofOf}{\mspace{-2mu}ProofOf}
+
+\DeclareMathOperator{\Th}{Th}
 
 
 \DeclareMathOperator{\len}{len}
@@ -430,13 +436,85 @@ We now prove that $P$ does what is desired of it. Note that $\gn P = f(\gn \tau)
 
 The left-hand side is by definition $P$, and the right-hand side is evidently equivalent to $\theta(\gn P)$, and so the proof of proposition \ref{prop:selfref} is complete.
 
-
-
 \subsection{The Gödel Sentence}
 
-\subsection{The Rosser Sentence}
+Now that we are able to construct self-referential sentences (or, perhaps more precisely, sentences that are able to refer to their own Gödel number), we begin to conceive how one may write a sentence $P$ saying `$P$ is false'. However, in a precise technical sense, it is not possible to write a formula which recovers the truth value of $P$ from its Gödel number; see section \ref{sec:tarski} below. However, there is a `close enough' analogue: it \emph{is} possible to encode the notion of proof, so we can consider a sentence $P \colon \text{$P$ cannot be proven}$.
 
-\section{Nonstandard Models}
+More precisely, let $T$ be a theory in the language of arithmetic. Then, \emph{under the assumption that $T$ can be axiomatized by a recursively enumerable set}, there is a partial computable function $T\Proves(x)$, which halts if $T \vdash \gf x$, and runs forever otherwise.
+
+Yet more specifically, there is a total computable predicate $T\ProofOf(q,x)$, which (under some suitable encoding of proof) checks whether $q$ is a proof of $T \vdash \gf x$. Then, we set $T\Proves(x)$ to mean $\exists_q T\ProofOf(q,x)$. Remarkably, if we are very particular about the form of the encoding, we can ensure that $T\ProofOf(q,x)$ is a bounded quantifier formula. (This is an application of a rather general principle; Since $T\ProofOf$ is (under a reasonable encoding) recursive, it may be encoded as a $\Sigma_1$ formula $\exists_s \varphi(q,x,s)$. If we change our encoding so that $q$ is replaced by $\braket{q,s}$, we can now represent $T\ProofOf$ in a bounded quantifier way.)
+
+\begin{remark}
+Since $T$ is assumed to be axiomatized by a recursively \emph{enumerable} set of axioms, and not necessarily recursive, one may be concerned about whether $T\ProofOf$ is total recursive. A naïve implementation might result in a partial recursive function: Loop over the statements, check for each of them whether it is an application of a logical rule, or a logical axiom, or an axiom of $T$, and this last step could hypothetically loop forever. However, it is possible to play with the encoding to make the function total.
+
+Let $f \colon \N \to \N$ be an enumeration of the axioms of $T$. Then, we demand from our encoding of proofs that, when an axiom $A$ of $T$ is invoked, we include the value of $n$ that witnesses that the axiom is included in the enumeration, i.e. some value of $n$ such that $f(n) = \gn A$.
+\end{remark}
+
+That said, we can now encode the sentence $P \colon \text{`$T$ proves $\neg P$'}$, by applying proposition \ref{prop:selfref} to
+\begin{equation}
+\theta(x) \colon \exists_q T\ProofOf(q,\gn{\neg \gf x}) \equiv T\Proves(\gn{\neg \gf x}).
+\end{equation}
+
+\begin{remark}
+There are two obvious ways to rewrite `$P$ is false' in terms of provability: Either `$T$ does not prove $P$', or `$T$ proves $\neg P$'. We chose the latter alternative. However, I think both alternatives yield similar results, and it does not matter which we take.
+\end{remark}
+
+\begin{prop}\label{prop:inc1g}
+Let $T$ be a recursively enumerably axiomatizable theory in the language of arithmetic, and construct $P$ such that $\WPA \vdash P \leftrightarrow T\Proves(\gn{\neg P})$. This is called \emph{the Gödel sentence of $T$}.
+
+Then, assuming that $\WPA \subseteq T \subseteq \Th(\N)$, $T$ can neither prove nor disprove $P$.
+\end{prop}
+
+\begin{remark}\label{rmk:omega}
+The statement that $\WPA \subseteq T$ is a requirement that $T$ is `at least a little bit strong', in order to be able to reason about itself. This is extremely necessary; theories with weak enough reasoning may very well be complete and computable.
+
+The statement that $T \subseteq \Th(\N)$ is a requirement that $T$ doesn't say anything false about the natural numbers. This requirement is much less necessary. For one, we will only use the much weaker statement about $T$: When $\varphi(x)$ is a $\Delta_0$ formula, $T$ cannot at the same time prove all the following sentences: $\varphi(0), \varphi(1), \varphi(2), \dots$ and $\exists_x \neg\varphi(x)$. This is known as $\omega$-consistency of $T$ for $\Delta_0$ formulas in one variable. Since $T$ contains $\WPA$, which is complete for $\Delta_0$ sentences, this property may be rewritten as: If $T \vdash \exists_x \psi(x)$, there is some natural number $n$ such that $T \vdash \psi(n)$, or equivalently that $\WPA \vdash \psi(n)$ or that $\N \vDash \psi(n)$.
+
+In section \ref{sec:rosser} we will find a different sentence, for which the equivalent of proposition \ref{prop:inc1g} may be greatly relaxed, requiring only that $\WPA \subseteq T$ and that $T$ is consistent.
+\end{remark}
+
+\begin{proof}[Proposition \ref{prop:inc1g}]
+Suppose first for contradiction that $T \vdash \neg P$. Then, if $n$ is a natural number encoding a proof of this fact, we the predicate $T\ProofOf(n,\gn{\neg P})$ evaluates as true. Therefore, by proposition \ref{prop:wpadelta0}, $\WPA \vdash T\ProofOf(n,\gn{\neg P})$, hence $\WPA \vdash T\Proves(\gn{\neg P})$, thus $\WPA \vdash P$ and so $T \vdash P$, a contradiction.
+
+Suppose now that $T \vdash P$. Then, since $\WPA \subseteq T$, we obtain that $T \vdash T\Proves(\gn{\neg P})$, or equivalently $T \vdash \exists_q T\ProofOf(q, \gn{\neg P})$. Now, by remark \ref{rmk:omega}, we obtain that there is some natural number $n$ such that $\N \vDash T\ProofOf(n,\gn{\neg P})$, and so $n$ encodes an `honest' proof that $T \vdash \neg P$. This is a contradiction.
+\end{proof}
+
+\begin{corollary}
+$\PA$ is incomplete.
+\end{corollary}
+
+\subsection{The Rosser Sentence}\label{sec:rosser}
+
+The main place for improvement in proposition \ref{prop:inc1g} is the stringent requirement that (as per remark \ref{rmk:omega}) if the theory $T$ proves $\exists_x \varphi(x)$, for $\varphi$ in $\Delta_0$, then it really is the case (from the perspective of $\N$) that there exists someone satisfying $\varphi(x)$. This is necessary to go from `$T$ proves that there is a proof of $\neg P$' to `There is really a proof of $\neg P$'. If $T$ does not satisfy this, it may be the case that $T$ `sees' a proof of $\neg P$, encoded as an element of its universe $n$, but that from our outside perspective $n$ is a non-standard number and therefore cannot be turned into a proof of $T \vdash \neg P$.
+
+The idea behind the Rosser sentence is to somehow ensure that the proof $n$ is really a standard integer. However, as we will see later in section \ref{sec:nonstd}, there is no first-order way to express that $x$ is `standard'. Therefore, we have to resort to imperfect ways of ensuring that $x$ is standard, and one such way is the following: Require that $x$ be less than some $y$, which is known to be standard. This works by proposition \ref{prop:leqrep}.
+
+The Rosser sentence is now in sight. Suppose that $T$ proves $P$, where $P$ is the sentence `$T$ proves $\neg P$', plus some bells and whistles. Then, we want to ensure that this proof of $\neg P$ is a standard number, so we better say that it is smaller than something known to be standard. Well, we do have a `standard' proof $m$ of $T \vdash P$. So how about we let $P$ be `There is a proof of $T \vdash \neg P$, and it is smaller (as a number) than any proof of $T \vdash P$'? Then in particular this proof of $\neg P$ is smaller than $m$, and hence standard.
+
+\begin{prop}\label{prop:inc1r}
+Let $T$ be a recursively enumerably axiomatizable theory in the language of arithmetic, and construct $P$ such that
+\begin{equation}
+\WPA \vdash P \leftrightarrow \left(\exists_q \left(T\ProofOf(q,\gn{\neg P}) \land \forall_{p<q} \neg T\ProofOf(p, \gn P) \right) \right).
+\end{equation}
+This is called \emph{the Rosser sentence of $T$}.
+
+Then, assuming that $\WPA \subseteq T$ and that $T$ is consistent, $T$ can neither prove nor disprove $P$.
+\end{prop}
+
+\begin{proof}
+Suppose that $T$ proves $\neg P$. Then, there is some proof (encoded by) $n$ of $T \vdash \neg P$, and since $T$ is consistent there is no (standard) natural number $m$ such that $\N \vDash T\ProofOf(m, \gn{P})$. In particular, since $T\ProofOf$ is $\Delta_0$, $\WPA \vdash \forall_{p < n} \neg T\ProofOf(p,\gn{P})$, and from here one easily proves $T \vdash P$, a contradiction.
+
+Suppose now that $T$ proves $P$; let $n$ encode such a proof. Then, $\WPA \vdash T\ProofOf(n,\gn{P})$, and therefore
+\begin{equation}
+\WPA \vdash \left( \forall_{p<q} \neg T\ProofOf(p,\gn P) \right) \rightarrow q \leq n.
+\end{equation}
+
+Therefore, since $T \vdash P$, it proves $\exists_q \left( T\ProofOf(q,\gn{\neg P}) \land q \leq n \right)$, and so, since $T$ contains $\WPA$, there is some $m \leq n$ such that $\N \vDash T\ProofOf(m, \gn{\neg P})$, and so $T \vdash \neg P$, a contradiction.
+\end{proof}
+
+\subsection{Undefinability of Truth}\label{sec:tarski}
+
+\section{Nonstandard Models}\label{sec:nonstd}
 
 \subsection{Overspill}
 
