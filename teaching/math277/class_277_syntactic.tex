@@ -1,0 +1,196 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+
+\title{Math 277\\Class On Deduction}
+\author{Duarte Maia}
+\date{November 2, 2023}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\Lang}{\mathcal{L}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Estimated Time: #1] \smallskip}
+%\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction/Philosophical Prelude}
+
+\point{Let $P$ be a true mathematical statement. Is there necessarily a proof of $P$? Put a different way, does `the universe' have a duty to give us the tools to find proofs to all statements it thinks are true? (Give the students a few moments to think about, and possibly reply to, this philosophical question)}
+
+\point{Present Gödel's Completeness theorem as (with many quotation marks, caveats, and asterisks) and affirmative response to the previous question.}
+
+\point{Theorem (Completeness, Gödel): If a mathematical statement is true, there is a proof of it.}
+
+\point{The remainder of this lecture will be spent translating this into mathematical terms, or at least one interpretation of it using the tools we've built up so far.}
+
+\point{We should already have the tools to talk about half of the theorem.
+
+What is a mathematical statement? It is a well-formed formula $\varphi$ on a previously agreed-upon language~$\Lang$.
+
+What does it mean for $\varphi$ to be true? In a given model $M$, it means $M \vDash \varphi$.
+
+What does it mean to prove a $\varphi$? This will be the content of this lecture.}
+
+\timestamp{15 minutes}
+
+\section{Setting Up the Dominos}
+
+\point{When mathematicians discuss truth, usually they mean truth in a given context. For example, if one is discussing truths about groups, they will begin by setting up the axioms for what is a group, and ask whether every structure that satisfies these axioms also satisfies $\varphi$.}
+
+\point{Notation (definition if not yet introduced): Let $\Gamma$ be a set of sentences, interpreted as a collection of axioms. Let $\varphi$ be a sentence. We say that $\Gamma$ has $\varphi$ as a consequence, denoted $\Gamma \vDash \varphi$, if every model $M$ that satisfies $\Gamma$ also satisfies $\varphi$.}
+
+\point{This will be our final notion of what it means `to be true'. By analogy, we will define what it means `to be provable'.}
+
+\point{The following definition is a first approximation, just to show what we are building towards. We need to deal with some technical kinks first.}
+
+\point{Given a set of sentences $\Gamma$ and a sentence $\varphi$, we say \emph{$\Gamma$ proves $\varphi$}, denoted $\Gamma \vdash \varphi$, if there is a proof of $\varphi$ using hypotheses from $\Gamma$.}
+
+\point{In turn, a \emph{proof of $\varphi$} is a (finite!!!) sequence $\varphi_1, \dots, \varphi_n$ such that:
+\begin{itemize}
+\item $\varphi$ is $\varphi_n$,
+\item Each $\varphi_k$ follows logically from the previous sentences. This will be well-defined later, but here are some (not all!) ways for a formula to follow previously from the previous:
+\begin{itemize}
+\item $\varphi_k$ may be a hypothesis, i.e. an element of $\Gamma$,
+\item $\varphi_k$ may follow by \emph{modus ponens} from prior sentences, in the sense: There may be $i, j < k$ such that $\varphi_j$ is $\varphi_i \rightarrow \varphi_k$.
+\end{itemize}
+\end{itemize}}
+
+\point{Before being more detailed about the rules of deduction, there are a couple of things to be aware of.}
+
+\timestamp{30 minutes}
+
+\section{Caution}
+
+\subsection{A Philosophical Detour}
+
+\point{What we are trying to define is a notion called `proof', but it is important to note that we are \emph{not} trying to define what makes for a `real' mathematical proof. Our definition is dry, misses a lot of what makes math what it is, and furthermore no one actually writes their proofs as `a sequence of sentences, each of which follows logically from the previous by one of these rules'.}
+
+\point{This is to say: Be careful when looking for philosophical content in this class. There is \emph{some} such content, but it requires care to not misinterpret it.}
+
+\point{Moreover, and on a similar note, you might be concerned about problems of circularity, because we're using the notion of proof to say things about the notion of proof. Don't. You as mathematicians know what a proof is, and this object that we're studying here is just a bare-bones mathematical model of that notion. Take care to distinguish proof (sequence of formulas such that such-and-such) from proof (meta-proof?) (mathematical argument used to convince ourselves and others that some mathematical statement is true).}
+
+\timestamp{35 minutes}
+
+\subsection{Levels and Meta-Levels}
+
+\point{In the following, there will be four types of phrases that mean have a meaning related to `if then'. It is important to distinguish them.
+\begin{itemize}
+\item $P \vDash Q$ means `any model satisfying $P$ will also satisfy $Q$,
+\item $P \vdash Q$ means `there is a proof using $P$ as a hypothesis and terminating in $Q$,
+\item $P \rightarrow Q$ is a \emph{formal} construction; it is just a sequence of symbols with $P$ on the left, $Q$ on the right, and an arrow in the middle,
+\item `if $P$ then $Q$' is a normal mathematical implication: the statement that if $P$ is true (of some object) then $Q$ is also true (of that object or another).
+\end{itemize}
+Do not get them mixed up!!! Ask me if you need clarification.}
+
+\point{On that note, it is also important to be careful with the `equals' sign. Please \textbf{avoid} writing things like $\varphi_i = \varphi$. For now, the equals sign is a symbol we use in our formulas, and we should avoid using it to compare formulas as well, otherwise you get messes like $\varphi = \forall_x \exists_y (x = y)$.}
+
+\point{Proposed alternative: $\varphi_i$ \emph{is} $\varphi$; A little sketchy but acceptable: $\varphi_i \equiv \varphi$. Do \textbf{not} write $\varphi_i \leftrightarrow \varphi$; See previous point about different types of implications!}
+
+\timestamp{45 minutes}
+
+\subsection{Free Variables}
+
+\point{Now, for the most confusing point of this definition: When I said the $\varphi_i$ were sentences, I lied. We actually allow for them to have free variables!}
+
+\point{Here is why. There are some mathematical proofs that go as follows. You want to prove that some property holds for all $x$ in your universe. Thus, you pick an arbitrary value of $x$, reason about it, and conclude by saying `since $x$ is arbitrary, this holds for all $x$'.}
+
+\point{The rule of generalization, about which I was very vague earlier, corresponds to this kind of reasoning, and as a consequence you must at some points in your proof allow for free variables to be reasoned about as though they were constants.}
+
+\point{As a consequence, it will be convenient to extend our definitions to allow for hypotheses and conclusions that have free variables. Again, since the variables represent arbitrary elements, you should read statements with free variables as though they were quantified universally, e.g. an axiom saying `$x+y = y+x$' should be read to mean the same as `$\forall_x \forall_y (x+y = y+x)$.}
+
+\point{Warning: This interfaces nontrivially with implication. Beware.}
+
+\timestamp{55 minutes}
+
+\section{The Proper Definition}
+
+\point{Let us now give the full definition of $\vdash$, with all the bells and whistles. I remind you to pay attention to the distinction between `formula' and `sentence' (write distinction on board), and observe that in this definition we will be using the former.}
+
+\point{Let $\Lang$ be a fixed language. We assume that all formulas that follow are formulas in $\Lang$.
+
+Definition: Let $\Gamma$ be a set of formulas, and $\varphi$ a formula. We say that $\Gamma \vdash \varphi$ if there exists a proof of $\varphi$ using hypotheses from $\Gamma$.
+
+Definition: A \emph{proof} of $\varphi$ using hypotheses from $\Gamma$ is a finite sequence of formulas, $\varphi_1, \dots, \varphi_n$, such that, for all $i = 1, \dots, n$, one of the following holds:
+\begin{itemize}
+\item $\varphi_i$ is an element of $\Gamma$ (a \emph{hypothesis}),
+\item $\varphi_i$ is a \emph{logical axiom}, i.e. a formula with one of the following five shapes:
+\begin{itemize}
+\item $\alpha \rightarrow (\beta \rightarrow \alpha)$,
+\item $(\alpha \rightarrow \beta) \rightarrow ( (\beta \rightarrow \gamma) \rightarrow (\alpha \rightarrow \gamma))$,
+\item $(\neg \alpha \rightarrow \neg \beta) \rightarrow (\beta \rightarrow \alpha)$,
+\item $(\forall_x \alpha(x)) \rightarrow \alpha(t)$, where $t$ is a term free for substitution by $x$ in $\alpha$ (more words on this later)
+\item $(\forall_x (\alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow \forall_x \beta)$ if $x$ is not free in $\alpha$.
+\end{itemize}
+\item $\varphi_i$ follows from previous by \emph{modus ponens}, i.e. there are some $j, k < i$ such that $\varphi_k$ is $\varphi_j \rightarrow \varphi_i$,
+\item $\varphi_i$ follows from previous by \emph{generalization}, i.e. there is some $j < i$ and some variable $x$ such that $\varphi_i$ is $\forall_x \varphi_j$.
+\end{itemize}}
+
+\point{All that remains is to define that `free for substitution' detail. This is best explained by an example. Consider the sentence $\varphi$ given by: $\forall_x \exists_y (y \neq x)$. This is evidently true, no matter the value of $x$, in a model such as the natural numbers. It is also tempting to argue `since this is true of all $x$, if I replace $x$ by a value of my choice, I will get a true statement still'. And yet, observe what happens if I innocuously replace $x$ by some other value: $y$.}
+
+\point{The notion of `free for substitution' is merely a way to stop `silly' substitutions such as this one from occurring. Here is the definition:
+
+Definition: Let $\varphi$ be a formula, $x$ a variable, $t$ a term. We say that we are \emph{free to substitute $t$ for $x$ in $\varphi$} if, for every free instance of $x$ in $\varphi$, all variables in $t$ are free.}
+
+\point{This is not a proof theory course, so it is probably not worth delving too deep into the concept. It is usually avoided in practice by avoiding repeated variables, but it is worth mentioning at the start because the methods used to avoid it need first to be proven.}
+
+\timestamp{80 minutes}
+
+\medskip
+
+\textbf{Remark for the reader:} The following begins to delve into overtime territory, and so is far less detailed. I do not expect to use any of it, at least as the lecture plan stands, but the future is unpredictable, and some of the above content may be cut anyway.
+
+\section{Restating Completeness}
+
+\point{Now that we know the meaning of `this statement is true' (symbolically, $\Gamma \vDash \varphi$) and `this statement can be proven' (symbolically, $\Gamma \vdash \varphi$), we can state the completeness theorem:
+
+Theorem (Completeness, Gödel): If $\Gamma \vDash \varphi$ then $\Gamma \vdash \varphi$.}
+
+\point{This theorem will be the focus of the next bit of the course, and it has very far-reaching consequences, even if you don't care about proofs. The most important of these is that proofs are finite objects, and only require finite amounts of information from $\Gamma$. This means that `semantic consequence' also only cares about finite pieces of information. You will have the opportunity to understand what I mean in a few weeks.}
+
+\point{It is worth noting that the completeness theorem is actually an if and only if. The converse is called `soundness', and is much easier to prove than completeness.}
+
+\section{Induction on Proofs, Some Lemmas}
+
+\point{The definition of proof, as given, is very suited for inductive reasoning. Often, we will prove a statement by induction on the size of its proof, or construct a proof inductively by inducting on something else. Here are two lemmas, which may eventually be useful, which correspond one to each of these types of reasoning:}
+
+\point{Lemma (Deduction): Let $\Gamma, \varphi \vdash \psi$. Suppose moreover that there is a proof of this fact where none of the steps is generalization in a free variable from $\varphi$ (common particular case: $\varphi$ is a statement). Then, $\Gamma \vdash \varphi \rightarrow \psi$.
+
+This lemma is proven by induction on the formula.}
+
+\point{Lemma (Equality): Let $\varphi$ be a formula, and let $\psi_1$ and $\psi_2$ be obtained from $\varphi$ by replacing (all free instances of) a fixed variable by the terms $t_1$ and $t_2$ respectively. Then, $\vdash (t_1 = t_2) \rightarrow (\psi_1 \leftrightarrow \psi_2)$.
+
+This lemma is proven by inducting on the \emph{formula} structure of $\varphi$, to obtain and recursively construct a proof of the desired statement.}
+
+\section{Soundness}
+
+\point{If there is time, one could try to show soundness by induction on proof size: Let $\varphi$ be a formula in the variables $x_1, \dots, x_n$. If $\Gamma \vdash \varphi$ then, for any model $M$ of $\Gamma$, and any $a_1, \dots, a_n \in M$, we have $M \vDash \varphi[a_1, \dots, a_n]$.}
+
+\end{document}

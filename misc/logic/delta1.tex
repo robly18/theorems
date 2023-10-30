@@ -14,7 +14,8 @@
 
 \setlist[enumerate,1]{label=\alph*)}
 
-\title{The Characterization of Computation via Predicates}
+\title{The Characterization of Computation via Predicates\\
+And Some Consequences}
 \author{Duarte Maia}
 %\date{}
 
@@ -436,6 +437,20 @@ We now prove that $P$ does what is desired of it. Note that $\gn P = f(\gn \tau)
 
 The left-hand side is by definition $P$, and the right-hand side is evidently equivalent to $\theta(\gn P)$, and so the proof of proposition \ref{prop:selfref} is complete.
 
+\begin{remark}
+While in the above exposition we assumed that $\theta$ is a formula in the language of arithmetic, this is not a necessity. Indeed, it is actively undesirable when applying this theorem to more general contexts, such as $\mathrm{ZF}$ or second order arithmetic.
+
+We remark that $\theta$ was effectively only used as a black box. As such, the only effective requirements on the underlying system are: The underlying language $\mathcal{L}$ must be computable in some sense (so that Gödel numbering makes sense), and there must be (possibly composite) predicates: `isNatural', `isSuccessor', `isZero', `isSumOf', `isProductOf', and $\leq$, such that the underlying theory $T$ proves (the translation to relational languages of) the axioms of $\WPA$, relativized to the class of elements satisfying isNatural.
+
+The resulting translation will likely wreak havoc on the quantifier complexity of the formula, though one wonders to what extent complexity is meaningful to the underlying theory. This is strange because complexity, and in particular the completeness of $\WPA$ for bounded quantifier sentences, was essential on the path to where we stand, and it feels like the results we have gotten to should abstract to a context where complexity may be meaningless or useless.
+
+One may try to define the complexity of a formula using only the predicates above, corresponding to a translation of the language of arithmetic to a relational language. This raises the question of how to define complexity such that that the formula $\varphi(x) \colon \exists_y (\mathrm{isSuc}(y,x) \land \exists_z (\mathrm{isSuc}(z,y) \land \mathrm{isZero}(z)))$ is of the lowest level of complexity, being as simple as $x = S(S(0))$.
+
+(\textit{Post Scriptum:} It is my expectation after some discussion with Denis Hirschfeldt that, while the notion of $\Delta_0$ formula is severely weakened, all other steps on the hierarchy should stay intact.)
+
+Anyhow, according to the above paragraphs, one obtains that the results that follow will hold for any language and theory which is strong enough to `express arithmetic to the level of $\WPA$'. This is not shocking for incompleteness, but more surprisingly undefinability of truth (section \ref{sec:tarski}) will hold even for languages and theories with additional expressive power beyond that of arithmetic.
+\end{remark}
+
 \subsection{The Gödel Sentence}
 
 Now that we are able to construct self-referential sentences (or, perhaps more precisely, sentences that are able to refer to their own Gödel number), we begin to conceive how one may write a sentence $P$ saying `$P$ is false'. However, in a precise technical sense, it is not possible to write a formula which recovers the truth value of $P$ from its Gödel number; see section \ref{sec:tarski} below. However, there is a `close enough' analogue: it \emph{is} possible to encode the notion of proof, so we can consider a sentence $P \colon \text{$P$ cannot be proven}$.
@@ -512,7 +527,29 @@ Suppose now that $T$ proves $P$; let $n$ encode such a proof. Then, $\WPA \vdash
 Therefore, since $T \vdash P$, it proves $\exists_q \left( T\ProofOf(q,\gn{\neg P}) \land q \leq n \right)$, and so, since $T$ contains $\WPA$, there is some $m \leq n$ such that $\N \vDash T\ProofOf(m, \gn{\neg P})$, and so $T \vdash \neg P$, a contradiction.
 \end{proof}
 
+The following proposition justifies why we care about this, perhaps at first mild-seeming, generalization of proposition \ref{prop:inc1g}. After all, why should we care about theories which extend $\WPA$ but contain falsehoods about the natural numbers?
+
+\begin{corollary}
+Any computable theory $T$ in the language of arithmetic which contains $\WPA$ has $2^{\aleph_0}$ consistent extensions.
+
+As a consequence, $\PA$ has continuum many distinct countable models.
+\end{corollary}
+
+\begin{proof}
+Build an infinite binary tree as follows: The base node contains $T$. For each node, which corresponds to an extension $T_s$ of $T$ by finitely many axioms (and therefore is recursively enumerably axiomatizable), pick a sentence $P$ which $T_s$ neither proves nor disproves. Then, create two branches for this node, one by adding $P$ and the other by adding $\neg P$ to the list of axioms.
+
+The resulting tree has at each node a consistent extension of $T$, and any two nodes at the same depth will explicitly disagree on some statement. Therefore, the continuum-many paths on the tree will each provide a distinct consistent extension of $T$.
+\end{proof}
+
 \subsection{Undefinability of Truth}\label{sec:tarski}
+
+\begin{prop}[Tarski's Undefinability of Truth]
+Let $M$ be a model of $\WPA$ over the language of arithmetic. Then, there is no formula $\theta(x)$ (in the language of arithmetic) such that, for all sentences $\varphi$, $\varphi$ holds in $M$ iff $\theta(\gn\varphi)$ holds in $M$.
+\end{prop}
+
+\begin{proof}
+Suppose that $\theta$ were such a formula. Apply proposition \ref{prop:selfref} to obtain a sentence $P$ such that $\WPA \vdash P \leftrightarrow \neg\theta(\gn P)$. This provides an obvious contradiction, regardless of whether or not $P$ holds in $M$.
+\end{proof}
 
 \section{Nonstandard Models}\label{sec:nonstd}
 
