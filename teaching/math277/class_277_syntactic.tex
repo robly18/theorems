@@ -8,6 +8,7 @@
 \usepackage[thmmarks, amsmath]{ntheorem}
 
 \usepackage{fullpage}
+\usepackage{comment}
 
 \usepackage[cal=euler]{mathalpha}
 
@@ -41,31 +42,13 @@
 \begin{document}
 \maketitle
 
-\section{Introduction/Philosophical Prelude}
-
-\point{Let $P$ be a true mathematical statement. Is there necessarily a proof of $P$? Put a different way, does `the universe' have a duty to give us the tools to find proofs to all statements it thinks are true? (Give the students a few moments to think about, and possibly reply to, this philosophical question)}
-
-\point{Present Gödel's Completeness theorem as (with many quotation marks, caveats, and asterisks) and affirmative response to the previous question.}
-
-\point{Theorem (Completeness, Gödel): If a mathematical statement is true, there is a proof of it.}
-
-\point{The remainder of this lecture will be spent translating this into mathematical terms, or at least one interpretation of it using the tools we've built up so far.}
-
-\point{We should already have the tools to talk about half of the theorem.
-
-What is a mathematical statement? It is a well-formed formula $\varphi$ on a previously agreed-upon language~$\Lang$.
-
-What does it mean for $\varphi$ to be true? In a given model $M$, it means $M \vDash \varphi$.
-
-What does it mean to prove a $\varphi$? This will be the content of this lecture.}
-
-\timestamp{15 minutes}
-
 \section{Setting Up the Dominos}
 
 \point{When mathematicians discuss truth, usually they mean truth in a given context. For example, if one is discussing truths about groups, they will begin by setting up the axioms for what is a group, and ask whether every structure that satisfies these axioms also satisfies $\varphi$.}
 
-\point{Notation (definition if not yet introduced): Let $\Gamma$ be a set of sentences, interpreted as a collection of axioms. Let $\varphi$ be a sentence. We say that $\Gamma$ has $\varphi$ as a consequence, denoted $\Gamma \vDash \varphi$, if every model $M$ that satisfies $\Gamma$ also satisfies $\varphi$.}
+\point{We already have a reasonable notion of truth, given by the `$M$ models $\varphi$' relation. This notion is related to, but in principle radically different from, another notion we will discuss today, which is the notion of provability.}
+
+\point{Notation: Let $\Gamma$ be a set of sentences, interpreted as a collection of axioms. Let $\varphi$ be a sentence. We say that $\Gamma$ has $\varphi$ as a consequence, denoted $\Gamma \vDash \varphi$, if every model $M$ that satisfies $\Gamma$ also satisfies $\varphi$.}
 
 \point{This will be our final notion of what it means `to be true'. By analogy, we will define what it means `to be provable'.}
 
@@ -85,19 +68,9 @@ What does it mean to prove a $\varphi$? This will be the content of this lecture
 
 \point{Before being more detailed about the rules of deduction, there are a couple of things to be aware of.}
 
-\timestamp{30 minutes}
+\timestamp{10 minutes}
 
 \section{Caution}
-
-\subsection{A Philosophical Detour}
-
-\point{What we are trying to define is a notion called `proof', but it is important to note that we are \emph{not} trying to define what makes for a `real' mathematical proof. Our definition is dry, misses a lot of what makes math what it is, and furthermore no one actually writes their proofs as `a sequence of sentences, each of which follows logically from the previous by one of these rules'.}
-
-\point{This is to say: Be careful when looking for philosophical content in this class. There is \emph{some} such content, but it requires care to not misinterpret it.}
-
-\point{Moreover, and on a similar note, you might be concerned about problems of circularity, because we're using the notion of proof to say things about the notion of proof. Don't. You as mathematicians know what a proof is, and this object that we're studying here is just a bare-bones mathematical model of that notion. Take care to distinguish proof (sequence of formulas such that such-and-such) from proof (meta-proof?) (mathematical argument used to convince ourselves and others that some mathematical statement is true).}
-
-\timestamp{35 minutes}
 
 \subsection{Levels and Meta-Levels}
 
@@ -110,11 +83,13 @@ What does it mean to prove a $\varphi$? This will be the content of this lecture
 \end{itemize}
 Do not get them mixed up!!! Ask me if you need clarification.}
 
+\point{Example: `Let $\varphi$ be a sentence. If $\alpha, \varphi \vdash \psi$ then $\alpha \vDash \varphi \rightarrow \psi$.'}
+
 \point{On that note, it is also important to be careful with the `equals' sign. Please \textbf{avoid} writing things like $\varphi_i = \varphi$. For now, the equals sign is a symbol we use in our formulas, and we should avoid using it to compare formulas as well, otherwise you get messes like $\varphi = \forall_x \exists_y (x = y)$.}
 
 \point{Proposed alternative: $\varphi_i$ \emph{is} $\varphi$; A little sketchy but acceptable: $\varphi_i \equiv \varphi$. Do \textbf{not} write $\varphi_i \leftrightarrow \varphi$; See previous point about different types of implications!}
 
-\timestamp{45 minutes}
+\timestamp{18 minutes}
 
 \subsection{Free Variables}
 
@@ -122,13 +97,13 @@ Do not get them mixed up!!! Ask me if you need clarification.}
 
 \point{Here is why. There are some mathematical proofs that go as follows. You want to prove that some property holds for all $x$ in your universe. Thus, you pick an arbitrary value of $x$, reason about it, and conclude by saying `since $x$ is arbitrary, this holds for all $x$'.}
 
-\point{The rule of generalization, about which I was very vague earlier, corresponds to this kind of reasoning, and as a consequence you must at some points in your proof allow for free variables to be reasoned about as though they were constants.}
+\point{The rule of generalization, yet to be introduced, corresponds to this kind of reasoning, and as a consequence you must at some points in your proof allow for free variables to be reasoned about as though they were constants.}
 
 \point{As a consequence, it will be convenient to extend our definitions to allow for hypotheses and conclusions that have free variables. Again, since the variables represent arbitrary elements, you should read statements with free variables as though they were quantified universally, e.g. an axiom saying `$x+y = y+x$' should be read to mean the same as `$\forall_x \forall_y (x+y = y+x)$.}
 
 \point{Warning: This interfaces nontrivially with implication. Beware.}
 
-\timestamp{55 minutes}
+\timestamp{25 minutes}
 
 \section{The Proper Definition}
 
@@ -144,53 +119,136 @@ Definition: A \emph{proof} of $\varphi$ using hypotheses from $\Gamma$ is a fini
 \item $\varphi_i$ is a \emph{logical axiom}, i.e. a formula with one of the following five shapes:
 \begin{itemize}
 \item $\alpha \rightarrow (\beta \rightarrow \alpha)$,
-\item $(\alpha \rightarrow \beta) \rightarrow ( (\beta \rightarrow \gamma) \rightarrow (\alpha \rightarrow \gamma))$,
+\item $(\alpha \rightarrow (\beta \rightarrow \gamma)) \rightarrow ( (\alpha \rightarrow \beta) \rightarrow (\alpha \rightarrow \gamma))$,
 \item $(\neg \alpha \rightarrow \neg \beta) \rightarrow (\beta \rightarrow \alpha)$,
 \item $(\forall_x \alpha(x)) \rightarrow \alpha(t)$, where $t$ is a term free for substitution by $x$ in $\alpha$ (more words on this later)
 \item $(\forall_x (\alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow \forall_x \beta)$ if $x$ is not free in $\alpha$.
+\end{itemize}
+\item $\varphi_i$ is an \emph{equality axiom}, i.e. a formula with one of the following shapes
+\begin{itemize}
+\item $t = t$,
+\item $t = r \rightarrow (r = s \rightarrow t = s)$,
+\item $t = r \rightarrow r = t$,
+\item $t_1 = r_1 \rightarrow (t_2 = r_2 \rightarrow ( \dots (t_n = r_n \rightarrow f(t_1, \dots, t_n) = f(r_1, \dots, r_n)) \dots )$,
+\item $t_1 = r_1 \rightarrow (t_2 = r_2 \rightarrow ( \dots (t_n = r_n \rightarrow (p(t_1, \dots, t_n) \rightarrow p(r_1, \dots, r_n))) \dots )$.
 \end{itemize}
 \item $\varphi_i$ follows from previous by \emph{modus ponens}, i.e. there are some $j, k < i$ such that $\varphi_k$ is $\varphi_j \rightarrow \varphi_i$,
 \item $\varphi_i$ follows from previous by \emph{generalization}, i.e. there is some $j < i$ and some variable $x$ such that $\varphi_i$ is $\forall_x \varphi_j$.
 \end{itemize}}
 
-\point{All that remains is to define that `free for substitution' detail. This is best explained by an example. Consider the sentence $\varphi$ given by: $\forall_x \exists_y (y \neq x)$. This is evidently true, no matter the value of $x$, in a model such as the natural numbers. It is also tempting to argue `since this is true of all $x$, if I replace $x$ by a value of my choice, I will get a true statement still'. And yet, observe what happens if I innocuously replace $x$ by some other value: $y$.}
+\point{All that remains is to define that `free for substitution' detail. Here is a motivating example. Consider the sentence $\varphi$ given by: $\forall_x \exists_y (y \neq x)$. This is evidently true, no matter the value of $x$, in a model such as the natural numbers. It is also tempting to argue `since this is true of all $x$, if I replace $x$ by a value of my choice, I will get a true statement still'. And yet, observe what happens if I innocuously replace $x$ by some other value: $y$.}
+
+\point{The essential point of failure is that `from the outside' $y$ refers to an arbitrary element of the universe. However, inside the quantifier, it refers to the $y$ from the quantifier. So by replacing $x$ by $y$ inside this quantifier, you are surreptitiously changing the meaning of the symbol. Not good!}
 
 \point{The notion of `free for substitution' is merely a way to stop `silly' substitutions such as this one from occurring. Here is the definition:
 
 Definition: Let $\varphi$ be a formula, $x$ a variable, $t$ a term. We say that we are \emph{free to substitute $t$ for $x$ in $\varphi$} if, for every free instance of $x$ in $\varphi$, all variables in $t$ are free.}
 
-\point{This is not a proof theory course, so it is probably not worth delving too deep into the concept. It is usually avoided in practice by avoiding repeated variables, but it is worth mentioning at the start because the methods used to avoid it need first to be proven.}
+\point{This is not a proof theory course, so it is probably not worth delving too deep into the concept. It is usually avoided in practice by avoiding repeated variables, but it is worth mentioning.}
 
-\timestamp{80 minutes}
+\point{More on that last point: You do \emph{not} need to know the definition of proof by heart. It was given for the sake of concreteness, but in practice all you need to know about `provability' is 1. That it is intrinsically finite, and 2. Some lemmas we will provide, that encapsulate all we will need for the purpose of this course.}
 
-\medskip
-
-\textbf{Remark for the reader:} The following begins to delve into overtime territory, and so is far less detailed. I do not expect to use any of it, at least as the lecture plan stands, but the future is unpredictable, and some of the above content may be cut anyway.
+\timestamp{50 minutes}
 
 \section{Restating Completeness}
 
-\point{Now that we know the meaning of `this statement is true' (symbolically, $\Gamma \vDash \varphi$) and `this statement can be proven' (symbolically, $\Gamma \vdash \varphi$), we can state the completeness theorem:
+\point{Now that we have a notion of provability, we can state (but not prove):}
 
-Theorem (Completeness, Gödel): If $\Gamma \vDash \varphi$ then $\Gamma \vdash \varphi$.}
+\point{Theorem (Completeness, Gödel): Let $\Lang$ be a fixed language. Let $\Gamma$ be a set of formulas, and $\varphi$ a formula. Suppose that $\Gamma \vDash \varphi$. Then, $\Gamma \vdash \varphi$.}
 
-\point{This theorem will be the focus of the next bit of the course, and it has very far-reaching consequences, even if you don't care about proofs. The most important of these is that proofs are finite objects, and only require finite amounts of information from $\Gamma$. This means that `semantic consequence' also only cares about finite pieces of information. You will have the opportunity to understand what I mean in a few weeks.}
+\point{This is surprising because $\Gamma \vDash \varphi$ is a very infinite statement: It takes a possibly infinite amount of sentences, and looks over a very infinite amount of models of those sentences, and checks that $\varphi$ is true on every single one of them. On the other hand, $\Gamma \vdash \varphi$ is a very finitistic statement, and you will have the chance to see the great power that this gives us.}
 
-\point{It is worth noting that the completeness theorem is actually an if and only if. The converse is called `soundness', and is much easier to prove than completeness.}
+\point{The completeness theorem is actually an if and only if. The converse is called \emph{soundness}, and very sketchy proof boils down to: All the steps in our proofs preserve truth, so we should expect that if the hypotheses used hold of a model, then so does the conclusion.}
 
-\section{Induction on Proofs, Some Lemmas}
+\section{Induction on Proofs, Deduction}
 
-\point{The definition of proof, as given, is very suited for inductive reasoning. Often, we will prove a statement by induction on the size of its proof, or construct a proof inductively by inducting on something else. Here are two lemmas, which may eventually be useful, which correspond one to each of these types of reasoning:}
+\point{Now, we will put our definitions to work, and prove some things about things you can prove. In some sense, these are `theorems about theorems', so I call them metatheorems. Unfortunately this does not seem to be common nomenclature.}
 
-\point{Lemma (Deduction): Let $\Gamma, \varphi \vdash \psi$. Suppose moreover that there is a proof of this fact where none of the steps is generalization in a free variable from $\varphi$ (common particular case: $\varphi$ is a statement). Then, $\Gamma \vdash \varphi \rightarrow \psi$.
+\point{Lemma (Deduction): Let $\Gamma, \varphi \vdash \psi$, where $\varphi$ is a statement. Then, $\Gamma \vdash \varphi \rightarrow \psi$.}
 
-This lemma is proven by induction on the formula.}
+\point{Note: The hypothesis that $\varphi$ is a statement is essential. See for example: $x = y \vdash z = w$ (if two arbitrary elements are equal (for any two arbitrary elements) then any other two arbitrary elements are equal) versus $\emptyset \vdash x=y \rightarrow z=w$ (if two arbitrary elements are equal then any two other arbitrary elements are equal? This is false!)}
+
+\point{Proof of lemma: Let $\alpha_1, \dots, \alpha_n$ be a proof using $\varphi$ as a hypothesis. Then, we inductively build a proof of $\varphi \rightarrow \alpha_n$.}
+
+\point{Suppose by induction that we've already written out, based on the proof we have, a very large proof, containing somewhere among it the sentences $\varphi \rightarrow \alpha_1, \dots, \varphi \rightarrow \alpha_{n-1}$. Now we look at $\alpha_n$ and finish the proof.}
+
+\point{If $\alpha_n$ is an invocation of a logical or equality axiom, we continue our proof by writing
+\begin{equation}
+\begin{aligned}
+&\alpha_n && \text{Axiom}\\
+&\alpha_n \rightarrow (\varphi \rightarrow \alpha_n) && \text{Axiom}\\
+&\varphi \rightarrow \alpha_n && \text{MP},
+\end{aligned}
+\end{equation}
+and this proof is complete.}
+
+\point{If $\alpha_n$ is an invocation of an axiom from $\Gamma$, the same reasoning works.}
+
+\point{If $\alpha_n$ is an invocation of $\varphi$, then we write a proof of $\varphi \rightarrow \varphi$. This is not one of the logical axioms (though we could add it if we wanted to), so we have to make a proof of it. I'm not sure at the time of writing if I want to do it or give it out as homework (graded or otherwise). Here is the proof anyway. In the following, set $\beta \equiv (\varphi \rightarrow \varphi)$.
+\begin{equation}
+\begin{aligned}
+&(\varphi \rightarrow (\beta \rightarrow \varphi)) \rightarrow ((\varphi \rightarrow \beta) \rightarrow (\varphi \rightarrow \varphi)) && \text{Axiom}\\
+&\varphi \rightarrow (\beta \rightarrow \varphi) && \text{Axiom}\\
+&(\varphi \rightarrow \beta) \rightarrow (\varphi \rightarrow \varphi) && \text{MP}\\
+&\varphi \rightarrow \beta && \text{Axiom}\\
+&\varphi \rightarrow \varphi && \text{MP}.
+\end{aligned}
+\end{equation}
+}
+
+\point{If $\alpha_n$ is an invocation of Modus Ponens, say from $\alpha_i$ and $\alpha_j \equiv \alpha_i \rightarrow \alpha_n$, we complete the proof with:
+\begin{equation}
+\begin{aligned}
+&(\varphi \rightarrow (\alpha_i \rightarrow \alpha_n)) \rightarrow ((\varphi \rightarrow \alpha_i) \rightarrow (\varphi \rightarrow \alpha_n)) && \text{Axiom}\\
+&(\varphi \rightarrow \alpha_i) \rightarrow (\varphi \rightarrow \alpha_n) && \text{MP (Have $\varphi \rightarrow \alpha_j$ somewhere)}\\
+&\varphi \rightarrow \alpha_n && \text{MP (have $\varphi \rightarrow \alpha_i$ somewhere)}.
+\end{aligned}
+\end{equation}
+}
+
+\point{Finally, let $\alpha_n$ be an invocation of generalization, that is, $\alpha_n \equiv \forall_x \alpha_i$ for some $i<n$. This is where we will need to use the assumption that $\varphi$ is a statement, as follows:
+\begin{equation}
+\begin{aligned}
+&\forall_x (\varphi \rightarrow \alpha_i) \rightarrow (\varphi \rightarrow \forall_x \alpha_i) && \text{Axiom (Uses $\varphi$ sentence!)}\\
+&\forall_x (\varphi \rightarrow \alpha_i) && \text{Generalization on a prevs sentence}\\
+&\varphi \rightarrow \forall_x \alpha_i && \text{MP}
+\end{aligned}
+\end{equation}
+and the proof is complete.
+}
+
+\point{To summarize, the above proof gives you a recipe to turn a proof of $\Gamma, \varphi \vdash \psi$ into a proof of $\Gamma \vdash \varphi \rightarrow \psi$.}
+
+\timestamp{70 minutes}
+
+\section{Soundness}
+
+\point{In the remaining time, let us briefly prove soundness: Let $\varphi$ be a statement. If $\Gamma \vdash \varphi$ then $\Gamma \vDash \varphi$.}
+
+\point{So, suppose that there is a proof $\varphi_1, \dots, \varphi_n$ of $\varphi$, using hypotheses from $\Gamma$. Moreover, let $M \vDash \Gamma$. We prove inductively that $M \vDash \varphi_i$ for every $i$.}
+
+\point{Before we can do it, there is an important detail: We only defined $M \vDash \varphi_i$ for \emph{sentences}, not formulas with free variables! Thus, we will have to extend our notion. For the purposes of this proof, we extend the notation by: $M \vDash \varphi_i$, for $\varphi_i$ a formula, if, for every possible assignment of the variables from $\varphi_i$, say $x_1, \dots, x_k$, to elements $a_1, \dots, a_k$ from $M$, we have $M \vDash \varphi_i[a_1, \dots, a_k]$.}
+
+\point{Now we can move on with the proof. Suppose that we have proven the statement up to $n-1$, and we now prove it for $n$. We divide into cases depending on $\varphi_n$.}
+
+\point{If $\varphi_n$ is an axiom, the proof is easy busywork. It boils down to going through every single possible axiom, and verifying that they all hold in all models. Exercise to the reader.}
+
+\point{If $\varphi_n$ is a hypothesis from $\Gamma$, the proof is trivial: We assumed that $M \vDash$ every formula in $\Gamma$.}
+
+\point{If $\varphi_n$ is obtained from MP from previous formulas, say $\varphi_i$ and $\varphi_i \rightarrow \varphi_n$, we go as follows. Pick some assignment $a_1, \dots, a_k$ to the variables in $\varphi_n$. We will prove that $M \vDash \varphi_n$. To do so, pick any assignment of your choice for variables in $\varphi_i$ that are not in $\varphi_n$. (Observation: This uses the fact that models are nonempty!) Then, $M$ thinks that $\varphi_i[\dots]$ is true, and it also thinks that $\varphi_i[\dots] \rightarrow \varphi_n[\dots]$ is true. By definition of the binary boolean operator $\rightarrow$, it must be that $M \vDash \varphi_n[a_1, \dots, a_k]$. Since the assignment to variables of $\varphi_n$ was arbitrary, we have shown $M \vDash \varphi_n$ as desired.}
+
+\point{The last remaining case: $\varphi_n$ is $\forall_x \varphi_i$ for some variable $x$ and $i < n$. This case goes as follows. Pick some assignment $a_1, \dots, a_k$ to the free variables in $\varphi_n$. Note that $x$ is not one of them! Now, we wish to verify that $M \vDash \varphi_n[a_1, \dots, a_k]$, or equivalently (by definition of $\vDash$): For all $b \in M$, we have $M \vDash \varphi_i[a_1, \dots, a_k, b]$. Equivalently, since both the assignment of $a_j$ and $b$ is arbitrary, we wish to show that $M \vDash \varphi_i$, but this is true by our inductive hypothesis.}
+
+\point{In short, we've shown that `deductions preserve truth', and so that, whenever $\Gamma \vdash \varphi$, any model that satisfies all formulas in $\Gamma$ must also satisfy $\varphi$.}
+
+\timestamp{85 minutes}
+
+\textbf{Note to the reader:} Ignore the following, it is only here in case it is useful later.
+
+\section{Equality}
 
 \point{Lemma (Equality): Let $\varphi$ be a formula, and let $\psi_1$ and $\psi_2$ be obtained from $\varphi$ by replacing (all free instances of) a fixed variable by the terms $t_1$ and $t_2$ respectively. Then, $\vdash (t_1 = t_2) \rightarrow (\psi_1 \leftrightarrow \psi_2)$.
 
 This lemma is proven by inducting on the \emph{formula} structure of $\varphi$, to obtain and recursively construct a proof of the desired statement.}
-
-\section{Soundness}
-
-\point{If there is time, one could try to show soundness by induction on proof size: Let $\varphi$ be a formula in the variables $x_1, \dots, x_n$. If $\Gamma \vdash \varphi$ then, for any model $M$ of $\Gamma$, and any $a_1, \dots, a_n \in M$, we have $M \vDash \varphi[a_1, \dots, a_n]$.}
 
 \end{document}
