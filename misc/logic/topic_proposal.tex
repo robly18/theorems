@@ -15,8 +15,7 @@
 \usepackage[cal=euler]{mathalpha}
 %\usepackage{ dsfont }
 
-\usepackage{tikz}
-\usepackage{float}
+\usepackage{comment}
 
 \setlist[enumerate,1]{label=(\alph*)}
 
@@ -86,7 +85,175 @@ Kueker's conjecture is an open problem in Model Theory, which was posed by David
 
 \section{Basic Model Theoretic Notions}
 
-The following is a very brief introduction to the subject matter of Model Theory.
+We give a very brief review of the requisite definitions from Model Theory and First Order Logic. For a slightly less brief review, see appendix \ref{appendix:1}, and for more details see \cite{cnk} or \cite{shoenfield}.
+
+A \emph{language} $\Lang$ is a (possibly infinite) set of symbols, e.g. $+$, $\times$, $<$, $0$, from which we build up \emph{terms} e.g. $x \times (1 + 1)$ and \emph{formulas} e.g. $\exists_y (x < y \lor x > 1+1)$. We work in first-order logic, which means that in writing formulas we are allowed to quantify over elements of the universe, but not sets of elements. A \emph{sentence} is a formula whose variables are all being quantified over, so $x=1$ is not a sentence, but $\forall_x (x=1)$ is.
+
+Given a language, we have a notion of \emph{model}, which is a structure $M$ on which we have an interpretation for all the symbols in the language. Given a formula $\varphi(x_1, \dots, x_n)$, and $a_1, \dots, a_n \in M$, the symbol ${M \vDash \varphi[a_1, \dots, a_n]}$ means: The formula $\varphi$ is true in $M$ when each $x_i$ is replaced by $a_i$. Given a set of sentences, say $T$, a \emph{model of $T$} is a model which satisfies all sentences in $T$.
+
+\begin{example}
+Models of first-order theories are common in everyday mathematics, usually in the form of algebraic structures. Examples of classes of models include: Groups, rings, fields, algebraically closed fields, partially ordered sets, linearly ordered sets, graphs, etc.
+\end{example}
+
+\section{Completeness, Compactness, Saturation}
+
+Let $T$ be a theory, i.e. a set of sentences. Does $T$ have a model? Gödel's completeness theorem gives us conditions to ensure that the answer is yes. In short, one may define a notion of provability, and inquire whether from the axioms of $T$ one may prove a contradiction. If $T$ has a model $M$, anything that may be proven from $T$ will be true in $M$, and since mathematical objects do not satisfy contradiction, one obtains
+\begin{theorem}[Soundness of First-Order Logic]
+If $T$ proves a contradiction, it has no models.
+\end{theorem}
+
+Gödel proved that this is the only possible obstruction to a theory having a model.
+\begin{theorem}[Completeness, Gödel]
+If $T$ does not prove a contradiction, it has at least one model.
+\end{theorem}
+
+The completeness theorem is far-reaching in its applications, in no small part through the following corollary.
+\begin{corollary}[Compactness of First Order Logic]
+Let $T$ be a set of sentences, and suppose that every finite subset of $T$ admits a model. Then, $T$ itself admits a model.
+\end{corollary}
+
+\begin{proof}
+If $T$ did not admit a model, by the Completeness theorem, it would be possible to prove a contradiction from the formulas in $T$. However, proofs are finite objects, and so such a proof would require invoking only a finite subset $T'$ of axioms of $T$. Then, $T'$, a finite subset of $T$, proves a contradiction, and so by Soundness may not have a model. This contradicts the assumption that every finite subset of $T$ has a model.
+\end{proof}
+
+Compactness may be used to indirectly construct objects with strange properties. For example, the reader may be aware of Peano's axioms, which are intended to characterize the natural numbers. These may be stated in first-order logic, in the language $\Lang = (0,S,+,\times,<)$, yielding the theory referred to as $\mathrm{PA}$. This theory contains statements such as: $S$ is injective, $+$ is associative and commutative, $x<y$ iff there is $z\neq 0$ such that $y=x+z$, and the axiom schema of induction: If a property $P$ is verified for zero, and it is shown that from $P(n)$ one concludes $P(n+1)$, then we have that $P(x)$ holds for all $x$.
+
+Evidently, the natural numbers themselves are a model of $\mathrm{PA}$, but there are also others, the so-called \emph{non-standard models} of $\mathrm{PA}$.
+
+\begin{theorem}\label{thm:nonstd}
+There exist models of $\mathrm{PA}$ which are not the natural numbers.
+\end{theorem}
+
+\begin{proof}
+Let us augment our language $\Lang$ by adding a new constant symbol $c$, obtaining a language $\Lang'$. Moreover, we augment our set of axioms to obtain a theory $T$, consisting of all axioms of $\mathrm{PA}$ together with the axioms: $c \neq 0$, $c \neq S(0)$, $c \neq S(S(0))$, and so on.
+
+Any finite subset $T'$ of these axioms has a model, obtained as follows: Consider the natural numbers with the usual operations $S$, $+$, etc, and interpret the constant $c$ as a large enough number $n$ such that the axiom $c \neq S^n(0)$ is not in $T'$.
+
+By the compactness theorem, we conclude that $T$ itself has a model $M$, and in this model $M$ the constant symbol $c$ must have some interpretation. But the axioms of $T$ forbid that $c$ be interpreted as any particular natural number, and so $M$ must have elements which are not in $\N$.
+\end{proof}
+
+The idea used in the proof above is quite powerful: We may construct models with elements satisfying infinitely many conditions, provided that any finite subset of these conditions may be satisfied. This motivates the following definition.
+
+\begin{definition}
+A partial type in $n$ variables, over a theory $T$, is a set of formulas $\Sigma$ whose free variables are contained in $(x_1, \dots, x_n)$, and such that for any finite subset $\Sigma'$ of $\Sigma$ there is some model $M$ of $T$, together with elements $a_1, \dots, a_n$ of $T$, such that all formulas in $\Sigma'$ are satisfied by $M$ when $x_i$ is replaced by $a_i$. In other words, we say that $\Sigma$ is \emph{finitely satisfiable}.
+\end{definition}
+
+\begin{theorem}\label{thm:ptype}
+If $\Sigma$ is a partial type in $n$ variables over $T$, there is a model $M$ and a sequence of elements $a_1, \dots, a_n \in M$ which satisfy all the formulas in $\Sigma$.
+\end{theorem}
+
+Theorem \ref{thm:ptype} may be read to mean: If I am given an arbitrary amount of equations, and $T$ does not forbid any finite subset of them from having a joint solution, then there is a model containing a solution to all of them.
+
+It is worth noting that we have no control over the model obtained from theorem \ref{thm:ptype}. For example, the model obtained in theorem \ref{thm:nonstd}, corresponding to the partial type $\Sigma = \{x \neq S^n(0)\}_{n \in \N}$, is not and cannot be the natural numbers, even though the natural numbers were used to show that any finite subset of $\Sigma$ is satisfiable. This leads to a different, but related question: Let $M$ be a model, and suppose that we have written down a large amount of equations (in the general sense of `formulas with $x$ as a free variable') such that any finite subset of these equations has a solution in $M$. Then, does the entirety of our equations have a joint solution in $M$?
+
+\begin{definition}
+Let $M$ be a model. Let $\Sigma$ be a set of formulas in one free variable, let us call it $x$. Suppose moreover that the formulas from $\Sigma$ may also refer to a previously fixed set of parameters from $M$, let us call them $\{a_i\}_{i \in I}$. We say that $\Sigma$ is \emph{realized by $M$} if there is some $m \in M$ such that every formula in $\Sigma$ holds (in $M$) when $x$ is replaced by $m$.
+
+We say that such a set $\Sigma$ is \emph{finitely realized} if any of its finite subsets are realized in $M$. In turn, we say that $M$ is \emph{$\omega$-saturated} if any $\Sigma$ which refers to finitely many parameters from $M$ and is finitely realized is realized.
+\end{definition}
+
+\begin{remark}
+An adaptation of theorem \ref{thm:ptype} will show that we may find a model $M'$, containing $M$, which does contain a joint solution. This is akin to when, in field theory, one adjoins a root of a polynomial to a pre-existing field. On the other hand, the property of $M$ being $\omega$-saturated is more akin to demanding that $M$ is algebraically closed: We know that solutions to our equations exist \emph{somewhere}, possibly a bigger model, but $\omega$-saturation guarantees that our $M$ already has them.
+\end{remark}
+
+\begin{remark}
+It is possible to strengthen the notion of saturation as follows. If $\kappa$ is a cardinal, we say that $M$ is $\kappa$-saturated if any $\Sigma$ which refers to \emph{strictly less than} $\kappa$-many parameters from $M$ and is finitely realized is realized.
+
+Moreover, we say that a model $M$ is saturated (with no reference to cardinality) if $M$ is saturated in its own cardinality.
+\end{remark}
+
+\begin{example}
+Consider the language $\Lang$ containing only one symbol, $<$, and consider the model $M_0$ given by: $\Q$, with the usual ordering. Then, $M_0$ is $\omega$-saturated\footnote{Sketch: The theory of $(\Q,<)$ admits quantifier elimination, which means that any formula $\varphi(x,a_1, \dots, a_n)$ may be reduced (i.e. is equivalent) to a boolean combination of statements saying that $x$ is either less than, greater than, equal, or different from some $a_i$. This means that there are essentially only finitely many essentially distinct possible equations in a fixed finite set of parameters, and so, if $\Sigma$ is a finitely satisfiable set of formulas in $x$, one may take a finite subset of $\Sigma$ which essentially represents it, and by hypothesis this finite subset has a solution.}. On the other hand, if $M_1$ is the model in $\Lang' = (<,+)$ given by $\Q$ with the usual ordering and addition, $M_1$ is not $\omega$-saturated. Indeed, $1 \in \Q$ may be used as a parameter, and so we may consider the set of equations
+\begin{equation}
+\Sigma = \{ x > 1, x > 1+1, x>1+1+1, \dots \},
+\end{equation}
+which evidently does not have a solution in $M_1$, even though any finite subset of $\Sigma$ does.
+\end{example}
+
+\section{Saturation in Action}
+
+We will now go over some ramifications of the concept of saturation.
+
+\subsection{Categoricity in Power}
+
+In 1962, Michael Morley graduated with a PhD from the University of Chicago, with the main result from his thesis \cite{morley} being the following:
+\begin{theorem}\label{thm:morley}
+Let $T$ be a complete theory over a countable language, and suppose that there is some uncountable cardinality $\kappa$ such that $T$ has \emph{exactly} one model of size $\kappa$ up to isomorphism. We say that $T$ is \emph{$\kappa$-categorical}. Then, $T$ is categorical in every uncountable cardinality.
+\end{theorem}
+
+It would not be possible to do Morley's work justice in this brief document, but a very high-level overview of his proof might go as follows: Morley shows that if $T$ is categorical in some infinite cardinality, then $T$ satisfies a certain regularity property; we say $T$ is \emph{totally transcendental}. Then, Morley shows that if $T$ is totally transcendental, the following hold:
+\begin{enumerate}
+\item\label{item:3} Any two saturated models of $T$ of the same cardinality are isomorphic (Theorem 5.1),
+\item\label{item:1} For every $\kappa > \aleph_0$, there is an $\aleph_1$-saturated model of size $\kappa$ (Theorem 5.2),
+\item	\label{item:2} If $T$ has an uncountable model $M$ which is not saturated, it has a model of every uncountable cardinality which is not $\aleph_1$-saturated (Theorem 5.4).
+\end{enumerate}
+
+With these three ingredients, one obtains that, if $T$ is categorical in some uncountable cardinality, say $\kappa$, but not in another, say $\lambda$, by \ref{item:3} there is a model of size $\lambda$ which is not saturated, by \ref{item:2} there is a model of size $\kappa$ which is not $\aleph_1$-saturated, and by \ref{item:1} there is a model of size $\kappa$ which is $\aleph_1$-saturated. Thus, we obtain two non-isomorphic models of size $\kappa$, which contradicts the hypothesis that $T$ is categorical in $\kappa$.
+
+\subsection{$\omega$-categoricity}
+
+Three years prior to Morley's theorem (\ref{thm:morley} above), giving us a large amount of information about theories categorical in any uncountable power, three distinct authors independently published a characterization of theories categorical in $\aleph_0$, i.e. theories with exactly one countable model \cite{primersimpletheories}.
+
+The following theorem may be found as Theorem 2.3.13 in \cite{cnk}.
+
+\begin{definition}
+A \emph{type} is a maximal partial type.
+\end{definition}
+
+\begin{theorem}\label{thm:omegacat}
+Let $T$ be a complete theory over a countable language. Then, $T$ is $\omega$-categorical iff, for every $n \in \N$, there are only finitely many types in $n$ variables over $T$.
+\end{theorem}
+
+\begin{remark}
+The point of theorem \ref{thm:omegacat} is that it relates a model-theoretic notion (the number of countable models of $T$) to a purely syntactic notion ($T$ has finitely many types in each finite arity).
+\end{remark}
+
+In the course of proving Theorem \ref{thm:omegacat}, one winds up obtaining several other equivalent characterizations of $\omega$-categoricity, notably the following:
+\begin{lemma}\label{lem:omegacat}
+A theory $T$ in the conditions of Theorem \ref{thm:omegacat} is $\omega$-categorical iff there is a countable model of $T$ which is both atomic and $\omega$-saturated.
+\end{lemma}
+
+We have not defined what it means for a model to be atomic, but it will surface again soon so we give a brief description. First, it is worth it to note that to say that a countable model $M$ is $\omega$-saturated is to say that it is as big as it can be, in the sense that any system of equations (in finitely many parameters) which has a solution anywhere has a solution in $M$. The notion of atomicity is a sort of dual, in that a model $M$ is said to be atomic if it contains as few things as it can get away with having. With this perspective, Lemma \ref{lem:omegacat} may be read as saying: If we have a countable model which is both as big and as small as a countable model can be, it is the only countable model.
+
+\subsection{A Result by Vaught}
+
+On the subject matter of counting the number of countable models, Vaught proved the following result.
+
+\begin{theorem}\label{thm:vaught}
+If $T$ is a complete theory over a countable language, it cannot have exactly two countable models.
+\end{theorem}
+
+The proof of Theorem \ref{thm:vaught}, which may be found as Theorem 2.3.15 in \cite{cnk}, goes roughly as follows. First, one proves that if $T$ has only finitely many countable models (or, indeed, countably many) then $T$ has a saturated model and an atomic model. Moreover, by lemma \ref{lem:omegacat}, if both of these are the same then $T$ has exactly one countable model. Thus, we suppose that they are not, and construct an `intermediate model', which we construct as to be neither saturated nor atomic, and so we have at least three distinct models.
+
+\subsection{Saturated $=$ Universal $+$ Homogeneous}
+
+\section{Kueker's Conjecture}
+
+\begin{comment}
+\section{The Proposal Proposal}
+
+Consider the following topics, roughly in order:
+
+\begin{itemize}
+\item Brief explanation of: Language, Theory, Model. Completeness and compactness. Some simple examples to be used later.
+\item Definition of partial type. Partial types can always be realized.
+\item Partial type using parameters from model. Cute application: There exist nonstandard models of PA.
+\item Partial types may sometimes be omitted. Definition of $\omega$-saturation, and a brief mention of $\kappa$-saturation for higher $\kappa$. Examples and non-examples.
+\item Manifestations of saturation: Morley's Thesis, possibly Isabella's work (EC groups are just $\omega$-saturated models of Grp?), sketch characterization of $\aleph_0$-categorical theories, no theory has exactly two countable models. PS: Homogeneous
+\item (The previous point probably requires mentioning atomicness.)
+\item Remark that there seems to be a relation between saturation and counting models.
+\item Enunciate Kueker's conjecture.
+\item Sketch proof of the converse.
+\item Talk about state of the art.
+\item As part of the previous point, introduce stability. Possibly talk a little more about the concept?
+\end{itemize}
+\end{comment}
+
+\appendix
+
+\section{An Abbreviated List of Definitions}\label{appendix:1}
+
+The following is a reference for the reader who may be less comfortable with the requisite definitions. For more detail, see \cite{cnk} or \cite{shoenfield}.
 
 \begin{definition}
 A \emph{language} $\Lang$ is a set of formal symbols, divided into three categories:
@@ -167,126 +334,6 @@ Often, we will write collections of symbols which are not formulas under the abo
 \exists_x (x > 0 \land x^2 = 2 \land (\forall_y (y > 0 \land y^2 = 2) \rightarrow y=x)).
 \end{equation}
 \end{remark}
-
-\section{Completeness, Compactness, Saturation}
-
-Let $T$ be a theory, i.e. a set of formulas. Does $T$ have a model? Gödel's completeness theorem gives us conditions to ensure that the answer is yes. In short, one may define a notion of provability, and inquire whether from the axioms of $T$ one may prove a contradiction. If $T$ has a model $M$, anything that may be proven from $T$ will be true in $M$, and since mathematical objects do not satisfy contradiction, one obtains
-\begin{theorem}[Soundness of First-Order Logic]
-If $T$ proves a contradiction, it has no models.
-\end{theorem}
-
-Gödel proved that this is the only possible obstruction to a theory having a model.
-\begin{theorem}[Completeness, Gödel]
-If $T$ does not prove a contradiction, it has at least one model.
-\end{theorem}
-
-The completeness theorem is far-reaching in its applications, mostly through the following corollary.
-\begin{corollary}[Compactness of First Order Logic]
-Let $T$ be a set of sentences, and suppose that every finite subset of $T$ admits a model. Then, $T$ itself admits a model.
-\end{corollary}
-
-\begin{proof}
-If $T$ did not admit a model, by the Completeness theorem, it would be possible to prove a contradiction from the formulas in $T$. However, proofs are finite objects, and so such a proof would require invoking only a finite subset $T'$ of axioms of $T$. Then, $T'$, a finite subset of $T$, proves a contradiction, and so by Soundness may not have a model. This contradicts the assumption that every finite subset of $T$ has a model.
-\end{proof}
-
-Compactness may be used to indirectly construct objects with strange properties. For example, the reader may be aware of Peano's axioms, which characterize the natural numbers. These may be stated in first-order logic, in the language $\Lang = (0,S,+,\times,<)$, yielding the theory referred to as $\mathrm{PA}$. This theory contains statements such as: $S$ is injective, $+$ is associative and commutative, $x<y$ iff there is $z\neq 0$ such that $y=x+z$, and crucially, the axiom schema of induction: If a property $P$ is verified for zero, and it is shown that from $P(n)$ one concludes $P(n+1)$, then we have that $P(x)$ holds for all $x$.
-
-Evidently, the natural numbers themselves are a model of $\mathrm{PA}$, but there are also others, the so-called \emph{non-standard models} of $\mathrm{PA}$.
-
-\begin{theorem}\label{thm:nonstd}
-There exist models of $\mathrm{PA}$ which are not the natural numbers.
-\end{theorem}
-
-\begin{proof}
-Let us augment our language $\Lang$ by adding a new constant symbol $c$, obtaining a language $\Lang'$. Moreover, we augment our set of axioms to obtain a theory $T$, consisting of all axioms of $\mathrm{PA}$ together with the axioms: $c \neq 0$, $c \neq S(0)$, $c \neq S(S(0))$, and so on.
-
-Any finite subset $T'$ of these axioms has a model, obtained as follows: Consider the natural numbers with the usual operations $S$, $+$, etc, and interpret the constant $c$ as a large enough number $n$ such that the axiom $c \neq S^n(0)$ is not in $T'$.
-
-By the compactness theorem, we conclude that $T$ itself has a model $M$, and in this model $M$ the constant symbol $c$ must have some interpretation. But the axioms of $T$ forbid that $c$ be interpreted as any particular natural number, and so $M$ must have elements which are not in $\N$.
-\end{proof}
-
-The idea used in the proof above is quite powerful: We may construct models with elements satisfying infinitely many conditions, provided that any finite subset of these conditions may be satisfied. This motivates the following definition.
-
-\begin{definition}
-A partial type in $n$ variables, over a theory $T$, is a set of formulas $\Sigma$ whose free variables are contained in $(x_1, \dots, x_n)$, and such that for any finite subset $\Sigma'$ of $\Sigma$ there is some model $M$ of $T$, together with elements $a_1, \dots, a_n$ of $T$, such that all formulas in $\Sigma'$ are satisfied by $M$ when $x_i$ is replaced by $a_i$. In other words, we say that $\Sigma$ is \emph{finitely satisfiable}.
-\end{definition}
-
-\begin{theorem}\label{thm:ptype}
-If $\Sigma$ is a partial type in $n$ variables over $T$, there is a model $M$ and a sequence of elements $a_1, \dots, a_n \in M$ which satisfy all the formulas in $\Sigma$.
-\end{theorem}
-
-Theorem \ref{thm:ptype} may be read to mean: If I am given an arbitrary amount of equations, and $T$ does not forbid any finite subset of them from having a joint solution, then there is a model containing a solution to all of them.
-
-It is worth noting that we have no control over the model obtained from theorem \ref{thm:ptype}. For example, the model obtained in theorem \ref{thm:nonstd}, corresponding to the partial type $\Sigma = \{x \neq S^n(0)\}_{n \in \N}$, is not and cannot be the natural numbers, even though the natural numbers were used to show that any finite subset of $\Sigma$ is satisfiable. This leads to a different, but related question: Let $M$ be a model, and suppose that we have written down a large amount of equations (in the general sense of `formulas with $x$ as a free variable') such that any finite subset of these equations has a solution in $M$. Then, does the entirety of our equations have a joint solution in $M$?
-
-\begin{definition}
-Let $M$ be a model. Let $\Sigma$ be a set of formulas in one free variable, let us call it $x$. Suppose moreover that the formulas from $\Sigma$ may also refer to a previously fixed set of parameters from $M$, let us call them $\{a_i\}_{i \in I}$. We say that $\Sigma$ is \emph{realized by $M$} if there is some $m \in M$ such that every formula in $\Sigma$ holds (in $M$) when $x$ is replaced by $m$.
-
-We say that such a set $\Sigma$ is \emph{finitely realized} if any of its finite subsets are realized in $M$. In turn, we say that $M$ is \emph{$\omega$-saturated} if any $\Sigma$ which refers to finitely many parameters from $M$ and is finitely realized is realized.
-\end{definition}
-
-\begin{remark}
-An adaptation of theorem \ref{thm:ptype} will show that we may find a model $M'$, containing $M$, which does contain a joint solution. This is akin to when, in field theory, one adjoins a root of a polynomial to a pre-existing field. On the other hand, the property of $M$ being $\omega$-saturated is more akin to demanding that $M$ is algebraically closed: We know that solutions to our equations exist \emph{somewhere}, possibly a bigger model, but $\omega$-saturation guarantees that our $M$ already has them.
-\end{remark}
-
-\begin{remark}
-It is possible to strengthen the notion of saturation as follows. If $\kappa$ is a cardinal, we say that $M$ is $\kappa$-saturated if any $\Sigma$ which refers to \emph{strictly less than} $\kappa$-many parameters from $M$ and is finitely realized is realized.
-
-Moreover, we say that a model $M$ is saturated (with no reference to cardinality) if $M$ is saturated in its own cardinality.
-\end{remark}
-
-\begin{example}
-Consider the language $\Lang$ containing only one symbol, $<$, and consider the model $M_0$ given by: $\Q$, with the usual ordering. Then, $M_0$ is $\omega$-saturated\footnote{Sketch: The theory of $(\Q,<)$ admits quantifier elimination, which means that any formula $\varphi(x,a_1, \dots, a_n)$ may be reduced (i.e. is equivalent) to a boolean combination of statements saying that $x$ is either less than, greater than, equal, or different from some $a_i$. This means that there are essentially only finitely many essentially distinct possible equations in a fixed finite set of parameters, and so, if $\Sigma$ is a finitely satisfiable set of formulas in $x$, one may take a finite subset of $\Sigma$ which essentially represents it, and by hypothesis this finite subset has a solution.}. On the other hand, if $M_1$ is the model in $\Lang' = (<,+)$ given by $\Q$ with the usual ordering and addition, $M_1$ is not $\omega$-saturated. Indeed, $1 \in \Q$ may be used as a parameter, and so we may consider the set of equations
-\begin{equation}
-\Sigma = \{ x > 1, x > 1+1, x>1+1+1, \dots \},
-\end{equation}
-which evidently does not have a solution in $M_1$, even though any finite subset of $\Sigma$ does.
-\end{example}
-
-\section{Saturation in Action}
-
-We will now go over some ramifications of the concept of saturation.
-
-\subsection{Categoricity in Power}
-
-In 1964, Michael Morley graduated with a PhD from the University of Chicago, with the main result from his thesis \cite{morley} being the following:
-\begin{theorem}
-Let $T$ be a theory over a countable language, and suppose that there is some uncountable cardinality $\kappa$ such that $T$ has \emph{exactly} one model of size $\kappa$ up to isomorphism. We say that $T$ is \emph{$\kappa$-categorical}. Then, $T$ is categorical in every uncountable cardinality.
-\end{theorem}
-
-It would not be possible to do Morley's work justice in this brief document, but a very high-level overview of his proof might go as follows: Morley shows that if $T$ is categorical in some infinite cardinality, then $T$ satisfies a certain regularity property; we say $T$ is \emph{totally transcendental}. Then, Morley shows that if $T$ is totally transcendental, the following hold:
-\begin{enumerate}
-\item\label{item:3} Any two saturated models of $T$ of the same cardinality are isomorphic (Theorem 5.1),
-\item\label{item:1} For every $\kappa > \aleph_0$, there is an $\aleph_1$-saturated model of size $\kappa$ (Theorem 5.2),
-\item	\label{item:2} If $T$ has an uncountable model $M$ which is not saturated, it has a model of every uncountable cardinality which is not $\aleph_1$-saturated (Theorem 5.4).
-\end{enumerate}
-
-With these three ingredients, one obtains that, if $T$ is categorical in some uncountable cardinality, say $\kappa$, but not in another, say $\lambda$, by \ref{item:3} there is a model of size $\lambda$ which is not saturated, by \ref{item:2} there is a model of size $\kappa$ which is not $\aleph_1$-saturated, and by \ref{item:1} there is a model of size $\kappa$ which is $\aleph_1$-saturated. Thus, we obtain two non-isomorphic models of size $\kappa$, which contradicts the hypothesis that $T$ is categorical in $\kappa$.
-
-It is clear that saturation plays a central role in Morley's proof.
-
-\section{$\omega$-categoricity}
-
-
-
-
-\section{The Proposal Proposal}
-
-Consider the following topics, roughly in order:
-
-\begin{itemize}
-\item Brief explanation of: Language, Theory, Model. Completeness and compactness. Some simple examples to be used later.
-\item Definition of partial type. Partial types can always be realized.
-\item Partial type using parameters from model. Cute application: There exist nonstandard models of PA.
-\item Partial types may sometimes be omitted. Definition of $\omega$-saturation, and a brief mention of $\kappa$-saturation for higher $\kappa$. Examples and non-examples.
-\item Manifestations of saturation: Morley's Thesis, possibly Isabella's work (EC groups are just $\omega$-saturated models of Grp?), sketch characterization of $\aleph_0$-categorical theories, no theory has exactly two countable models. PS: Homogeneous
-\item (The previous point probably requires mentioning atomicness.)
-\item Remark that there seems to be a relation between saturation and counting models.
-\item Enunciate Kueker's conjecture.
-\item Sketch proof of the converse.
-\item Talk about state of the art.
-\item As part of the previous point, introduce stability. Possibly talk a little more about the concept?
-\end{itemize}
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
