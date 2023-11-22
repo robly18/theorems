@@ -67,6 +67,8 @@ And Some Consequences}
 
 \DeclareMathOperator{\Proves}{\mspace{-2mu}Proves}
 \DeclareMathOperator{\ProofOf}{\mspace{-2mu}ProofOf}
+\DeclareMathOperator{\Sat}{Sat}
+\DeclareMathOperator{\eval}{eval}
 
 \DeclareMathOperator{\Th}{Th}
 
@@ -78,6 +80,8 @@ And Some Consequences}
 
 \newcommand{\gn}[1]{\setbox0=\hbox{$\mathclap{\phantom{t}}#1$} \dimen0=\ht0 \advance\dimen0 by -1.25ex \,\raise\dimen0\hbox{$\ulcorner$} \! \box0 \! \raise\dimen0\hbox{$\urcorner$}\,}
 \newcommand{\gf}[1]{\raise-0.25ex\hbox{$\llcorner$}\! #1 \!\raise-0.25ex\hbox{$\lrcorner$}}
+
+\newcommand{\ssgn}[1]{\ulcorner\!#1\!\urcorner}
 
 
 
@@ -223,7 +227,7 @@ The second part of proposition \ref{prop:cons2} does not necessarily hold for $\
 
 \section{Computing in Arithmetic}
 
-\subsection{Encoding Sequences}
+\subsection{Encoding Sequences}\label{sec:seqenc}
 
 \begin{definition}\label{def:seqenc}
 A \emph{sequence encoding} is a pair of formulas, say $\lambda(x,w)$ and $\theta(x,y,z)$, satisfying the following conditions (in the axiomatic system under consideration).
@@ -543,7 +547,7 @@ The resulting tree has at each node a consistent extension of $T$, and any two n
 
 \subsection{Undefinability of Truth}\label{sec:tarski}
 
-\begin{prop}[Tarski's Undefinability of Truth]
+\begin{prop}[Tarski's Undefinability of Truth]\label{prop:tarski}
 Let $M$ be a model of $\WPA$ over the language of arithmetic. Then, there is no formula $\theta(x)$ (in the language of arithmetic) such that, for all sentences $\varphi$, $\varphi$ holds in $M$ iff $\theta(\gn\varphi)$ holds in $M$.
 \end{prop}
 
@@ -551,19 +555,168 @@ Let $M$ be a model of $\WPA$ over the language of arithmetic. Then, there is no 
 Suppose that $\theta$ were such a formula. Apply proposition \ref{prop:selfref} to obtain a sentence $P$ such that $\WPA \vdash P \leftrightarrow \neg\theta(\gn P)$. This provides an obvious contradiction, regardless of whether or not $P$ holds in $M$.
 \end{proof}
 
-\section{Nonstandard Models}\label{sec:nonstd}
+\section{Definability of (Some) Truth}
 
-\subsection{Overspill}
+As we saw in proposition \ref{prop:tarski}, there is no formula which successfuly `interprets the truth of' arbitrary Gödel numbers of formulas. However, as we will see in this section, under $\PA$, for any finite level of complexity (more precisely, for any finite place in the arithmetic hierarchy) there is indeed a formula that embodies truth in that complexity.
 
-\subsection{The Standard System}
+\subsection{Bounded Quantifier Truth}
+
+The goal of this section is to establish the existence of a predicate $\Sat_{\Delta_0}(x, y)$ which represents bounded quantifier truth in the following way.
+
+\begin{theorem}\label{thm:satdelta0}
+There exists a $\Delta_1(\PA)$ formula $\Sat_{\Delta_0}(x,y)$, in the language of arithmetic, such that, whenever $\varphi$ is a bounded quantifier formula in the language of arithmetic in $n$ free variables, say $y_1, \dots, y_n$, we have
+\begin{equation}\label{eq:satdelta0}
+\PA \vdash \forall_y (\Sat_{\Delta_0}(\gn{\varphi}, y) \leftrightarrow \varphi((y)_1, \dots, (y)_n)).
+\end{equation}
+\end{theorem}
+
+The main idea should not come across as a surprise: We want to define $\Sat_{\Delta_0}$ inductively in the (Gödel name of the) formula $\varphi$. However, it is not evident that this would map to a well-defined formula in the language of arithmetic.
+
+We recall from proposition \ref{prop:recursion1} that $\PA$ is able to express functions (and hence predicates) by primitive recursion on pre-existing functions. Moreover, while in principle the principle of primitive recursion allows you only to use $g(x)$ when computing $g(x+1)$, if you make your function output not just the result you want, but instead a sequence encoding all the results obtained thus far, you may actually assume that you have access to all prior results. This is quite useful when defining functions by induction on formula structure, as the results you will need to refer to when computing the result for $\gn\varphi$ are in general much smaller than $\gn\varphi - 1$.
+
+To be a bit more precise, here is a modified version of proposition \ref{prop:recursion1} to take the previous paragraph into account.
+
+\begin{prop}\label{prop:recursionacc}
+Let $f(x, y)$ be a function in two variables in $\PA$, as in proposition \ref{prop:recursion1}. Moreover, let $t_0$ be a given term in $\LA$. Then, $\PA$ proves that there exists a unique function $g(x)$ such that
+\begin{gather}
+g(0) = t_0,\\
+\forall_z \; g(z+1) = f(z, a(z)),
+\end{gather}
+where $a(z)$ is any sequence of length at least $z+1$ such that, for $y \leq z$, $(a(z))_y = g(y)$.
+
+Moreover, if $f$ is represented by a $\Sigma_1$, $\Pi_1$ or $\Delta_1(\PA)$ predicate, so is $g$.
+\end{prop}
+
+The goal is now to find the appropriate recursion function $f(z,a)$. The input $z$ represents the pair $\braket{x,y}$, with $x$ `representing the Gödel number of a formula', and $y$ the list of inputs to it. Moreover, $\braket{}$ is an appropriate pairing function, e.g. $(x+y)^2 + y$. For our purposes, we need only that it and the projections are not complex (in our case, $\Delta_0$), and that it is monotone in each of its arguments.
+
+Now, we begin describing the behavior of $f(\braket{x,y},a)$. First, we check if $x$ is the Gödel number of a formula; there is a PR way to do so for standard values of $x$, and we will never care about what happens for nonstandard values.
+
+Now, if $x$ is indeed the Gödel number of some $\varphi$, we do cases on its structure [depending on the encoding]. For example, if $\varphi$ is $\varphi_0 \land \varphi_1$, we define $f$ via (in this case) $a_{\braket{\ssgn{\varphi_0}, y}} \times a_{\braket{\ssgn{\varphi_1}, y}}$. There are only two tricky cases to consider: The case where $\varphi$ is an atomic formula, and the case where $\varphi$ starts with a (bounded) quantifier.
+
+Let us first consider the case where $\varphi$ is of the form $\forall_{x < t(y_1, \dots, y_n)} \psi(x, y_1, \dots, y_n)$. Without loss of generality, assume that $x$ is $y_{n+1}$; this is because there is a PR way to replace every instance of $x$ by $y_{n+1}$ and vice versa. Then, we would like to set $f(\braket{\gn\varphi, y},a)$ to be given by (this should be defined via an appropriate primitive recursion as a function of $a$, $t$, $y$, and $\gn\psi$)
+\begin{equation}
+f(\braket{\gn\varphi, y},a) \overset?= \prod_{i = 0}^{\eval(t,y)} (a)_{\braket{\ulcorner\!\psi\!\urcorner, (y, i)}}.
+\end{equation}
+
+The first problem the reader might notice is the undefined expression $\eval(t,y)$, which we'll define soon. The second problem, and most crucial one, is that we have no guarantee that $\braket{\gn\psi, (y,i)}$ is less than $\braket{\gn\varphi, y}$.
+
+To fix the latter issue, we apply the following trick. Given a bounded quantifier formula, as well as parameters for it, it is possible to compute in a primitive recursive way a universal upper bound for all variables that will be iterated over in the course of checking the veracity of the formula. Indeed, for every quantifier $\forall_{y_{k+1} < t}$, where $t$ is a term depending on previously seen variables $y_1, \dots, y_k$, we evaluate $t$ on the maximal possible value of the variables we've seen so far (still pending the definition of $\eval$). This uses the fact that $S$, $+$, and $\times$ are monotone in their arguments, and thus any term in the language of arithmetic will be as well.
+
+Now we may proceed with our definition of $\Sat_{\Delta_0}(x,y)$. We begin by processing the formula represented by $x$, and constructing a tuple $\bar y = (y,M,\dots, M)$, where $M$ is an upper bound for all the variables as per the previous paragraph, and it is added once for every new variable that will be considered in the subsequent iteration. Then, when recursing on the formula structure and coming across a new quantifier $\forall_{y_{n+1} < t(y_1, \dots, y_n)} \psi$, we recurse down from $p_0 = \braket{\gn\varphi, (y,M,M,\dots,M)}$ to $p_1 = \braket{\gn\psi, (y, y_{n+1}, M, \dots, M)}$, for all admissible values of $y_{n+1}$. Note: This may require changing the encoding of sequences to ensure that our encoding is monotone in each coordinate. An example of such an encoding would be one via prime factorization. We also assume that our Gödel numbering is monotone in formula structure, but this assumption will hold of any reasonable encoding of formulas. Once this is done, we are guaranteed by monotonicity that $p_1 < p_0$, hence the recursion will function all the way down until the base case.
+
+So, let us finally tackle the case where $\varphi$ is an atomic formula, so either $t_1 < t_2$ or $t_1 = t_2$. It is evident that to solve either case it suffices to have a way to evaluate a term $t$ on a given assignment of parameters. This boils down to an easier version of the recursion we were doing before: Given a pair $\braket{\gn t, y}$, we recurse on the structure of $t$, applying the evaluation function to subterms. This is guaranteed to work because (assumption) the Gödel numbering decreases when passing to subformulas, and we will never need to modify $y$.
+
+There are two things left to do. First, we would like to control the complexity of the predicate we have wound up defining. Second, we would like to sketch a proof that the resulting predicate satisfies \eqref{eq:satdelta0}.
+
+For the complexity: It should be noted that all functions we have defined above were done so in a primitive-recursive-like way. We hesitate to say that they're \emph{actually} primitive recursive, because we're taking care to make them work with nonstandard numbers, but for sure there are only three big tools we're using: Primitive recursion as in Theorem \ref{prop:recursionacc}, definitions `by cases', and compositions of previously defined things. Moreover, none of these will make the complexity of previously defined things jump up above $\Delta_1(\PA)$, so we conclude that $\Sat_{\Delta_0}(x,y)$ as we've defined it is a $\Delta_1(\PA)$ predicate.
+
+Now, let's verify that equation \eqref{eq:satdelta0} holds. This proof is performed by induction on the formula structure of $\varphi$, boiling down to proving rules like $\PA \vdash \Sat_{\Delta_0}(\gn{\varphi_1 \land \varphi_2}, y) \leftrightarrow (\Sat_{\Delta_0}(\gn{\varphi_1}, y) \land \Sat_{\Delta_0}(\gn{\varphi_2}, y))$, most of which turn out to be true by virtue of how we set up the recursion for $\Sat_{\Delta_0}$. The least trivial ones are the rule for quantifiers, and the rule for atomic formulas.
+
+For quantifiers, we note that our definition allows us to prove (something like)
+\begin{equation}
+\PA \vdash \Sat_{\Delta_0}(\gn{\forall_{x < t(\vec y)} \psi(x,\vec y)}, y) \leftrightarrow \forall_{x < \eval(\ssgn t,y)} \Sat_{\Delta_0}(\gn\psi, (y,x)).
+\end{equation}
+
+Finally, and crucial for both quantified formulas and for atomic formulas, we can show by induction on the structure of the term $t$ that $\PA \vdash \eval(\gn t, y) = t((y)_1, \dots, (y)_n)$.
+
+Anyway, a lot of details are being omitted or even misrepresented. But going the whole five miles would be a lot of work. Maybe someday I'll improve this exposition. If the reader is interested, \cite{kaye} goes into great detail on this subject in chapter 9. I understood very little of it.
+
+\subsection{$\Sigma_n$ and $\Pi_n$ Truth}
+
+Fortunately, defining bounded quantifier truth was the hard part. We can now define $\Sigma_n$ and $\Pi_n$ truth inductively.
+
+\begin{theorem}\label{thm:satgeq1}
+Let $n \geq 1$. Then, there exists a $\Sigma_n(\PA)$ formula $\Sat_{\Sigma_n}(x,y)$, in the language of arithmetic, such that, whenever $\varphi$ is a $\Sigma_n$ formula in the language of arithmetic in $n$ free variables, say $y_1, \dots, y_n$, we have
+\begin{equation}\label{eq:satdelta0}
+\PA \vdash \forall_y (\Sat_{\Sigma_n}(\gn{\varphi}, y) \leftrightarrow \varphi((y)_1, \dots, (y)_n)).
+\end{equation}
+
+A similar theorem holds if $\Sigma$ is replaced by $\Pi$.
+\end{theorem}
+
+\begin{proof}
+We simply show it for $\Sigma_1$. The remainder, as well as $\Pi$, is obtained by an analogous inductive process.
+
+Set $\Sat_{\Sigma_1}(x,y)$ to be something of the following form. First, check (in a primitive recursive way) if $x$ is the Gödel number of some formula $\exists_z \varphi(\vec y,z)$, where $\varphi$ is a bounded quantifier formula. Then, evaluate $\exists_z \Sat_{\Delta_0}(\gn\varphi, (y,z))$. Since $\Sat_{\Delta_0}$ is $\Delta_1(\PA)$, the result is (mod logical equivalence) a $\Sigma_1$ formula.
+\end{proof}
+
+
+\section{The Complexity of Nonstandard Theorems}\label{sec:nonstd}
+
+In the following, we study nonstandard models of $\PA$. That is, we look at countable models $M \vDash \PA$ which are not (necessarily) the natural numbers.
+
+It is worth noting that any model of $\PA$, even the nonstandard ones, will contain a copy of $\N$ as an initial segment. In fact, this holds of any model of $\WPA$: The set of elements which may be expressed as $S^k(0)$ for some natural number $k$ forms a subset of any model of $\WPA$, and $\WPA$ is strong enough to ensure that this subset behaves as the natural numbers expect it to, in the sense that e.g. $\WPA \vdash S^k(0) + S^\ell(0) = S^{k+\ell}(0)$. We will often identify this initial segment of any such model with $\N$ without further comment.
+
+\subsection{Overspill and The Standard System}
+
+Overspill is a very useful technique that allows us to extend (usually trivial) finite results to nonstandard elements, thereby recovering infinite information.
+
+\begin{lemma}[Overspill]\label{lem:overspill}
+Let $M$ be a nonstandard element of $\PA$. Then, there is no formula $\varphi(x)$ which identifies the natural numbers. In particular, if $M \vDash \varphi[n]$ for all natural numbers $n$, then $M \vDash \varphi[a]$ for some $a \in M \setminus \N$.
+
+This result also holds with parameters: If $\vec b \in M$ and $M \vDash \varphi[n,\vec b]$ for all $n \in \N$ then there is some nonstandard $a \in M$ such that $M \vDash \varphi[a,\vec b]$.
+\end{lemma}
+
+\begin{proof}
+Suppose by contradiction that $M$ thinks that $\varphi$ holds exactly on the natural numbers. In particular it does so for zero, and for every such $a \in M$ for which $\varphi$ holds, it also holds for $a+1$. Thus, by the principle of induction, so we apply induction to get that it holds for all elements of $M$, and in this case, looking at any $a \in M \setminus \N$ will lead to the desired contradiction.
+\end{proof}
+
+\begin{corollary}\label{cor:nsrep}
+Let $M$ be a nonstandard model of $\PA$, and $A \subseteq \N$ a subset of $\N$ definable in $\PA$, i.e. there is a formula $\varphi$ such that $n \in A$ iff $\PA \vdash \varphi(S^n(0))$. Then, there is some $a \in M$ representing a sequence of zeros and ones (see section \ref{sec:seqenc}) such that
+\begin{equation}
+A = \{\, n \in \N \mid M \vDash (a)_n = 1 \,\}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Consider the formula
+\begin{equation}
+\psi(x) \colon \exists_y \forall_{z < x} (\varphi(z) \leftrightarrow (y)_z = 1).
+\end{equation}
+
+Then, $\psi$ evidently holds for all natural numbers $x$, hence by Overspill it must hold for some nonstandard element $b$. We conclude by setting $a$ to be the $y$ obtained by knowing $M \vDash \psi[a]$, and noting that every natural number is less than $a$.\footnote{Proof: In any model of $\WPA$, by proposition \ref{prop:leqrep}, any element which is less than or equal to a standard element is itself standard. Thus, $a$ must be bigger than all standard elements.}
+\end{proof}
+
+(write a bit about ssys?)
 
 \subsection{Tennenbaum's Theorem}
+
+Tennenbaum's theorem states that every nonstandard model of $\PA$ is `complicated'.
+
+\begin{theorem}[Tennenbaum]\label{thm:tennenbaum}
+Let $M$ be a countable nonstandard model of $\PA$, and assume that its domain is $\N$. Then, the operations $S^M$, $+^M$, $\times^M$, and $<^M$ are not all computable. (For a more precise result, see corollary \ref{cor:tennenbaum} below.)
+\end{theorem}
+
+\begin{proof}
+The first step of the proof is the following. By applying Corollary \ref{cor:nsrep} together with the definability of $\Sigma_1$ truth, we obtain that there is some $a \in M$ such that, for any $\Sigma_1$ formula $\varphi$ of Gödel number $k$, $(a)_{S^k(0)} = 1$ if $\varphi$ holds in $M$, and $0$ otherwise. Thus, if we are able to compute the successor function and indexation of sequences, we will be able to compute $\Sigma^1$ truth in $M$. This is a contradiction, as we explain in the next paragraph.
+
+Let $T$ be the set of $\Sigma_1$ sentences that hold in $M$. It should be noted that these contain $\WPA$, and moreover $T$ is complete for $\Sigma^1$ sentences. If $T$ is computable, we may apply proposition \ref{prop:inc1r} to obtain a Rosser sentence for $T$, but it should be noted that $P$ is equivalent (in $\WPA$) to a $\Sigma_1$ sentence. Thus, per the beginning of this paragraph, we conclude that $T$ \emph{must} make a decision on the truth of $P$, which is a contradiction.
+
+Now all to remains is to investigate what it takes to evaluate sequence indexation. It is worthy of note that we have been very noncommittal about the particular schema we use to encode sequences. Recall that such a schema amounts to a formula in three free variables, say $\sigma(x,y,z)$, satisfying certain properties in $\PA$. A very common encoding will have $x$ encode a triple of numbers, say $N$, $a_0$, $b_0$, and compute $z$ as the remainder of division of $N$ by $a_0 y + b_0$. So, with this encoding, all that is required to index a sequence is to decode pairs, and to perform Euclidean division. Both of these may be performed by looping through all elements of $M$, and at each stage performing a certain check. For example, to decode a pair $p = \braket{i,j}$, loop through all pairs $x,y \in M$ and for each of them compute $(x +^M y) \times^M (x +^M y) +^M y$ and compare the output with $p$. If $p$ does represent a pair, this is guaranteed to eventually halt, and once it does the pair $(x,y)$ is the pair $(i,j)$. Euclidean division is slightly more complex, in that it requires a comparison to check that the (guessed) remainder is as small as it should be.
+
+This concludes the proof. Note that indeed we used all four operations in the language of arithmetic, so all we've shown is that they cannot all be computable at the same time.
+\end{proof}
+
+\begin{corollary}\label{cor:tennenbaum}
+Let $M$ be a countable nonstandard model of $\PA$, and without loss of generality assume that its domain is $\N$. Then, neither $+^M$ nor $\times^M$ is computable.
+\end{corollary}
+
+\begin{proof}
+The proof boils down to noticing that the bottleneck for the previous proof was the work it takes to index a sequence. Thus, if we are able to provide a sequence encoding that (for our purposes) requires only addition or multiplication to decode, we will have shown that neither of these operations can be computable.
+
+First, a surprising result. In order to perform Euclidean division \emph{by a standard element}, we need only know how to add. Indeed, suppose we are attempting to perform the division of $m$, a nonstandard element, by $S^n(0)$, a standard element. To do so, we iterate over all nonstandard numbers $x$ and over all $0 \leq r < n$, and ask whether $m = (x +^M \dots +^M x) +^M (1 +^M \dots +^M 1)$, where $x$ is added to itself $n$ times, and $1$ is added to itself $r$ times. Since $\PA$ shows that Euclidean division works, and that any element less than $n$ is a sum of less-than-$n$ many ones, this algorithm will eventually halt.
+
+As a particular instance of the above paragraph, given a \emph{standard} prime number $p$, it is possible to check whether a \emph{nonstandard} number $m$ is divisible by $p$. Thus, if we encode a sequence of zeros and ones as a product of primes (the $i$-th primes divides $a$ iff $(a)_i = 1$) we are able to index it over standard elements (because the standard $n$-th prime agrees with the $n$-th prime in $M$), and hence by considering an encoding of the $\Sigma_1$ sentences which hold in $M$ we get a contradiction as in theorem \ref{thm:tennenbaum}. This shows that addition \emph{cannot} be computable.
+
+The case for multiplication consists of noticing that, say, the map $x \mapsto 2^x$ is an isomorphism between $(M,+)$ and a submonoid of $(M,\times)$. Thus, by replacing $a$ by $2^a$ (which is definable in any model of $\PA$) we are able to encode our sequence in a way that requires only multiplication to index over standard elements.
+\end{proof}
+
 
 \section{Miscellaneous Curiosities}
 
 \subsection{Parikh's Theorem}
 
-%\bibliographystyle{plain}
-%\bibliography{bibliography}
+\bibliographystyle{plain}
+\bibliography{bibliography}
 
 \end{document}

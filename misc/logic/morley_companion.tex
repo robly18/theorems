@@ -1,0 +1,126 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+
+\usepackage[inline]{enumitem}
+
+
+\usepackage[cal=euler]{mathalpha}
+%\usepackage{ dsfont }
+
+\usepackage{tikz}
+\usepackage{float}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Categoricity in Power\\\large A Reading Companion}
+\author{Duarte Maia}
+%\date{}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{prelimdef}[theorem]{Preliminary Definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremseparator{:}
+\newtheorem{principle}{Principle}
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{explanation}{Explanation}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\Lang}{\mathcal{L}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\Stone}{\mathrm{S}}
+\newcommand{\PStone}{\mathrm{PS}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\PTr}{PTr}
+\DeclareMathOperator{\Th}{Th}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+This document serves a twofold purpose. First, it is a way for me to cement in my mind the contents of Morley's thesis \cite{morley}, which I have read in the recent past. Second, it is a document that I wish I'd had, when I was first reading it.
+
+Morley's thesis is, in my opinion, superbly written and very well-organized. However, some theorems are left unproven by Morley, for they are done elsewhere (one one occasion, I attempted to follow the reference, and was unable to actually find the result Morley cites...), and occasionally some motivation is lacking. The main purpose of this document is to fill these gaps, by providing proofs of results that Morley refers elsewhere for, and attempting to give some motivation and big picture.
+
+Hypocritically enough, since this document was written for myself, I will be assuming that the reader has the same prior knowledge as I did when I began reading his thesis. Evidently, this includes basic knowledge of first order logic and the compactness/completeness theorem. Slightly more esoterically, I will be assuming that the reader is familiar with the notion of a model being saturated, or saturated in a given cardinality. Moreover, I assume that the reader is familiar with the fact that two saturated models of the same cardinality are isomorphic. This is also something that Morley pushes off to a reference, but for the reader's benefit I provide a more modern source: See \cite{cnk}, Chapter 5. If the reader has never seen saturation before, they may benefit from first looking at section 2.3. The most important result is Theorem 5.1.17, whose proof is admittedly rather sparse; the befuddled reader may want to look at Theorem 2.3.9 for a slightly more detailed exposition of the countable case.
+
+[This is terribly written, please rewrite it.]
+
+\section{The Big Picture}
+
+If one starts reading Morley's thesis from the end backwards, one will notice that his main proof hinges on the following three theorems. In these, we refer to a property we have not yet defined, namely what it means for a theory $T$ to be totally transcendental (nowadays this property is referred to as `$\omega$-stable'), but for now it should suffice to say that it is a combinatorial property of a theory which (Theorem 3.8 below) holds for any theory which is categorical in some uncountable power.
+
+\begin{itemize}
+\item (Theorem 3.8) If $T$ is categorical in some uncountable power, it is totally transcendental,
+\item (Theorem 5.2) If $T$ is totally transcendental, it has countably saturated models of every uncountable cardinality,
+\item (Theorem 5.4) If $T$ is totally transcendental and it has an uncountable model which is not saturated, it has a model in every uncountable cardinality which is not countably saturated.
+\end{itemize}
+
+That said, Morley's theorem now follows easily: If $T$ is a complete theory over a countable language which is categorical in some uncountable power $\kappa$, it is categorical in every uncountable power, and moreover all of its uncountable models are saturated. Proof: Suppose $T$ had an uncountable model which is not saturated. By Theorem 5.4, it has a model of power $\kappa$ which is not countably saturated, which must be distinct from the model of size $\kappa$ which is provided by Theorem 5.2, which contradicts its categoricity in size $\kappa$.
+
+The trick is now to establish the above three theorems. We give a brief sketch of why we might expect them to be true.
+
+\subsection{Theorem 3.8}
+
+In order to explain this theorem, we must first explain what it means for $T$ to be totally transcendental. We will spend many more words below attempting to explain the nuance behind the notion, but for now we give a very concise make-do explanation: A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types, and more generally given $\kappa$-many parameters we can only make $\kappa$-many types. Thus, this theorem may be phrased as: if $T$ is categorical in some uncountable power, it cannot make many types from few parameters. Or conversely, if we can make many types from few parameters, we have at least two models in every uncountable power.
+
+First, we argue the following: Given countably many parameters, say $A$, we can make a model of any infinite size which doesn't have many types over $A$. (to do)
+
+\subsection{Theorem 5.2}
+
+\subsection{Theorem 5.4}
+
+\section{Chapter 1}
+
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
