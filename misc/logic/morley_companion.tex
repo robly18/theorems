@@ -16,6 +16,7 @@
 %\usepackage{ dsfont }
 
 \usepackage{tikz}
+\usepackage{tikz-cd}
 \usepackage{float}
 
 \setlist[enumerate,1]{label=(\alph*)}
@@ -36,6 +37,7 @@
 \newtheorem{conjecture}[theorem]{Conjecture}
 
 \theoremsymbol{\ensuremath{\square}}
+\newtheorem{defsketch}[theorem]{Definition (Sketch)}
 \newtheorem{prelimdef}[theorem]{Preliminary Definition}
 \newtheorem{definition}[theorem]{Definition}
 
@@ -72,6 +74,9 @@
 \DeclareMathOperator{\PTr}{PTr}
 \DeclareMathOperator{\Th}{Th}
 \DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\cof}{cof}
+
+\newcommand{\card}[1]{\#{#1}}
 
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
@@ -89,9 +94,7 @@ This document serves a twofold purpose. First, it is a way for me to cement in m
 
 Morley's thesis is, in my opinion, superbly written and very well-organized. However, some theorems are left unproven by Morley, for they are done elsewhere (one one occasion, I attempted to follow the reference, and was unable to actually find the result Morley cites...), and occasionally some motivation is lacking. The main purpose of this document is to fill these gaps, by providing proofs of results that Morley refers elsewhere for, and attempting to give some motivation and big picture.
 
-Hypocritically enough, since this document was written for myself, I will be assuming that the reader has the same prior knowledge as I did when I began reading his thesis. Evidently, this includes basic knowledge of first order logic and the compactness/completeness theorem. Slightly more esoterically, I will be assuming that the reader is familiar with the notion of a model being saturated, or saturated in a given cardinality. Moreover, I assume that the reader is familiar with the fact that two saturated models of the same cardinality are isomorphic. This is also something that Morley pushes off to a reference, but for the reader's benefit I provide a more modern source: See \cite{cnk}, Chapter 5. If the reader has never seen saturation before, they may benefit from first looking at section 2.3. The most important result is Theorem 5.1.17, whose proof is admittedly rather sparse; the befuddled reader may want to look at Theorem 2.3.9 for a slightly more detailed exposition of the countable case.
-
-[This is terribly written, please rewrite it.]
+Hypocritically enough, since this document was written for myself, I will be assuming that the reader has the same prior knowledge as I did when I began reading his thesis. Evidently, this includes basic knowledge of first order logic and the compactness/completeness theorem. Slightly more esoterically, I will be assuming that the reader is familiar with the notion of a model being saturated, or saturated in a given cardinality. Moreover, I assume that the reader is familiar with the fact that two saturated models of the same cardinality are isomorphic. This is also something that Morley pushes off to a reference, but for the reader's benefit I provide a more modern source: See \cite{cnk}, Chapter 5. If the reader has never seen saturation before, they may benefit from first looking at section 2.3. The most important result from \cite{cnk} is Theorem 5.1.17, whose proof is admittedly rather sparse; the befuddled reader may want to look at Theorem 2.3.9 for a slightly more detailed exposition of the countable case.
 
 \section{The Big Picture}
 
@@ -103,21 +106,178 @@ If one starts reading Morley's thesis from the end backwards, one will notice th
 \item (Theorem 5.4) If $T$ is totally transcendental and it has an uncountable model which is not saturated, it has a model in every uncountable cardinality which is not countably saturated.
 \end{itemize}
 
-That said, Morley's theorem now follows easily: If $T$ is a complete theory over a countable language which is categorical in some uncountable power $\kappa$, it is categorical in every uncountable power, and moreover all of its uncountable models are saturated. Proof: Suppose $T$ had an uncountable model which is not saturated. By Theorem 5.4, it has a model of power $\kappa$ which is not countably saturated, which must be distinct from the model of size $\kappa$ which is provided by Theorem 5.2, which contradicts its categoricity in size $\kappa$.
+That said, Morley's theorem now follows easily: If $T$ is a complete theory over a countable language which is categorical in some uncountable power $\kappa$, it is categorical in every uncountable power, and moreover all of its uncountable models are saturated. Proof: Suppose $T$, a theory categorical in size $\kappa > \aleph_0$, had an uncountable model which is not saturated. By Theorem 5.4, it has a model of power $\kappa$ which is not countably saturated, which must be distinct from the model of size $\kappa$ which is provided by Theorem 5.2, which contradicts its categoricity in size $\kappa$.
 
 The trick is now to establish the above three theorems. We give a brief sketch of why we might expect them to be true.
 
 \subsection{Theorem 3.8}
 
-In order to explain this theorem, we must first explain what it means for $T$ to be totally transcendental. We will spend many more words below attempting to explain the nuance behind the notion, but for now we give a very concise make-do explanation: A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types, and more generally given $\kappa$-many parameters we can only make $\kappa$-many types. Thus, this theorem may be phrased as: if $T$ is categorical in some uncountable power, it cannot make many types from few parameters. Or conversely, if we can make many types from few parameters, we have at least two models in every uncountable power.
+In order to explain this theorem, we must first explain what it means for $T$ to be totally transcendental. We will spend many more words below attempting to explain the nuance behind the notion, but for now we give a very concise make-do explanation:
+\begin{defsketch}\label{defsketch:tt}
+A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types, and more generally given $\kappa$-many parameters we can only make $\kappa$-many types.
+\end{defsketch}
 
-First, we argue the following: Given countably many parameters, say $A$, we can make a model of any infinite size which doesn't have many types over $A$. (to do)
+Now, Morley's proof goes as follows. First, he proves a general result (Theorem 3.7): If $\Sigma$ is a theory over a countable language which admits an infinite model, then it admits models of any infinite size which realize only countably many types over any countable parameter set. Colloquially, we may say that `$\Sigma$ admits very symmetric models of every infinite size', i.e. models with many automorphisms. This result is of independent interest, and resorts to Ramseys' theorem and what is nowadays referred to as `indiscernible sequences'.
+
+Second, let us suppose that $T$ is \emph{not} totally transcendental. Then, by Definition Sketch \ref{defsketch:tt}, we conclude that there is a countable set of parameters, say $A$, from which we can make uncountably many distinct types. By adding constants to our language, one for each element of $A$, then $\aleph_1$-many for uncountably many of the types over $A$, we may create models of any uncountable cardinality which realize uncountably many types over some countable set.
+
+From the previous two paragraphs, Theorem 3.8 follows immediately: If $T$ is categorical in some uncountable cardinality, it must be totally transcendental. Thus, the bulk of the work lies in Theorem 3.7, which we will discuss in greater length in section \ref{sec:ch3}.
 
 \subsection{Theorem 5.2}
 
+Now, we seek to construct a model of $T$ of arbitrary uncountable size which is saturated over any countable subset of itself, under the assumption that $T$ is totally transcendental.
+
+The procedure goes as follows. Let $\kappa > \aleph_0$, and pick a model $B_0$ of $T$ of size $\kappa$. Then, increase $B_0$, by realizing every type using parameters in $B_0$; call the result $B_1$. Iterate this process transfinitely (in limit stages take the union) up to some cardinal $\lambda$ (inclusive), obtaining a big model $B_\lambda$.
+
+It should be noted that, in every successor stage, we are \emph{not} increasing the size of the model. Indeed, by Definition Sketch \ref{defsketch:tt}, the set of types over each $B_\alpha$ has the same size as $B_\alpha$, and by the completeness theorem we can realize all of them with a model of this same cardinality. The only stages at which the size of the model may be increasing is in limit stages, and thus, so long as we impose that $\lambda \leq \kappa$, $B_\lambda$ still has size $\kappa$.
+
+Finally, we observe that the resulting model will realize every type over a set of parameters of size $<\cof\lambda$; indeed, given such a set $X \subseteq B_\lambda$, each element $x \in X$ was added at some stage $<\lambda$, and by the assumption that $\card X < \cof \lambda$ we get that every element of $X$ will have been added at some stage $B_\alpha$ with $\alpha < \lambda$, whence any type over $X$ will have been realized at stage $B_{\alpha+1}$.
+
+As a very particular case, setting $\lambda = \aleph_1$ (a regular cardinal), we get
+\begin{theorem}[Theorem 5.2]
+If $T$ is totally transcendental and $\kappa > \aleph_0$, there is a model of $T$ of power $\kappa$ which is saturated over countable subsystems.
+\end{theorem}
+
 \subsection{Theorem 5.4}
 
-\section{Chapter 1}
+Of the three keystone theorems, this one is perhaps the one with most elaborate justification.
+
+We begin by stating part of Theorem 4.6:
+
+\begin{theorem}[Theorem 4.6 (i)] \label{thm:intro4.6}
+Let $T$ be a totally transcendental theory, and $A$ and $B$ two sets of parameters such that $A \subseteq B$, and $\card A < \card B = \kappa$, with $\kappa$ regular. Then, there is some $X \subseteq B \setminus A$ of size $\kappa$ which is indiscernible over $A$.
+\end{theorem}
+
+This theorem is too elaborate to sketch in this introduction, but we present some essential ideas that the reader should look out for in the sequence.
+
+First, we briefly introduce the notion of what Morley calls `transcendental rank', and is today referred to as \emph{Morley rank}. In short, this is a measure of how `hard to describe' a type over some set of parameters is; a type may or may not be assigned a rank, and in the affirmative case this rank takes an ordinal value. Lower values correspond to `simpler to describe' types, e.g. algebraic types (in a generalization of the sense of field theory) are those of rank $0$. A nontrivial theorem is the following.
+\begin{theorem}
+A theory $T$ is totally transcendental in the sense of Definition Sketch \ref{defsketch:tt} iff every type over $T$ is assigned a rank.
+\end{theorem}
+
+This is useful because, if we are given a collection of types and are required to choose one, we may pick one of least rank. This is especially convenient if we are making iterated choices, because the knowledge that we are making choices of minimal rank gives us some power about how our choices relate to each other.
+
+In this case, \emph{very roughly speaking} one begins by choosing a type $p$, with parameters in $A$, which is realized many (more precisely, $\kappa$-many) times in $B$ (regularity of $\kappa$ is used together with total transcendence to show that such a type exists). Among those, one chooses a type $p_0$ of minimal rank, and adds a representative of it, say $x_0$, to $A$, yielding $A_1$. Then, one repeats the process, obtaining a type over $A_1$ which is realized many times in $B$, choosing $p_1$ again of minimal rank, and a representative $x_1$. Then, one uses technical properties of rank to ensure that `$p_1$ looks like $p_0$' in some way, and thus ensuring that $x_0$ `looks the same to $A$ as $x_1$'.
+
+One may iterate this process up to $\kappa$-many times, and at the end one obtains a collection $\{x_\alpha\}_{\alpha < \kappa}$ which forms what is called an \emph{indiscernible sequence}. This means that the type of some $n$-uple $(x_{\alpha_1}, \dots, x_{\alpha_n})$ over $A$ \emph{depends only on the relative order of the $\alpha_i$}. This is distinct from obtaining an indiscernible \emph{set}; for that purpose one wants to be able to freely permute the $x_\alpha$ without changing their type over $A$.
+
+Here one makes use of Theorem 3.9, which places a limit on the definable relations on models of totally transcendental theories. We sketch the statement and the argument for the case $n = 2$. That is, we will show that the type of a pair $(x_\alpha, x_\beta)$ will be the same whenever $\alpha \neq \beta$. Indeed, since the $\{x_\alpha\}_{\alpha < \kappa}$ form an indiscernible sequence, we already know that the only obstacle for it to be an indiscernible set on the level of pairs is for there to be a formula $\psi(x,y)$ such that $\psi(x_\alpha,x_\beta)$ holds for $\alpha < \beta$, but not $\psi(x_\beta, x_\alpha)$. In other words, there would be a predicate which allows us to pick out the ordering on the indices. Now, with the set of parameters we are considering, our indices have the order type of an ordinal, which is not too interesting. But compactness lets us imagine a model containing a copy of $A$, as well as an indiscernible sequence $\{x_q\}_{q \in \Q}$. This means that our theory is able to represent, as a countable set of parameters, the order on $\Q$, which is complicated enough to contradict the hypothesis that $T$ is totally transcendental: Morally, one is able to construct many types using just the $x_q$ by means of Dedekind cuts, and hence we have continuum many types over countably many parameters, showing that $T$ is not totally transcendental under Definition Sketch \ref{defsketch:tt}.
+
+Now, equipped with theorem \ref{thm:intro4.6}, we jump forward to
+\begin{lemma}[Lemma 5.3]\label{lem:intro5.3}
+Let $T$ be totally transcendental, and $B$ an uncountable model of $T$ which is not saturated. Then, there is a countable model of $T$, $A \subseteq B$, with a subsystem $A' \subseteq A$ such that
+\begin{itemize}
+\item There is an infinite set $Y \subseteq A \setminus A'$ of elements indiscernible over $A'$ and
+\item There is a type $q$ over $A'$ which is not realized in $A$.
+\end{itemize}
+\end{lemma}
+
+This lemma may be seen as a way to `jump the nonsaturation down to the countable'. Indeed, we assume \emph{some} nonsaturated model $B$, and we construct a countable nonsaturated model $A$. This nonsaturated model contains an infinite set of indiscernibles; this will be useful later to increase the size of the model, as we will see in a few paragraphs. For now, however, let us sketch the proof of lemma \ref{lem:intro5.3}.
+
+The obvious first step towards proving lemma \ref{lem:intro5.3} is: Pick a set of parameters $C \subseteq B$ of size $\card C < \card B$, and $p$ a type over $C$ which is not realized in $B$. Moreover, let $Y$ be an infinite subset of $B \setminus C$ which is indiscernible over $C$; theorem \ref{thm:intro4.6} guarantees that such a $Y$ exists of size $\card B$,\footnote{At least, if $\card B$ is regular. The singular case, however, is not a significant obstacle.} but we whittle it down to something countable instead.
+
+Now, if $C$ were countable, the basic idea would be to find a countable model which contains both $C$ and $Y$, which exists by Löwenheim-Skolem. However, $C$ may not be countable, which is a problem, and we cannot \textit{a priori} assume it countable, because it may be that if we replace $C$ by a countable subset, $p$ will forget enough information that it now thinks itself realized by $B$. Thus, the trick is to carefully construct a replacement for $C$.
+
+This is performed as follows. First, we consider a countable model $A_0 \subseteq B$ containing $Y$, which we hope will play the role of $B$, and consider $A'_0 = A_0 \cap C$ which we hope will play the role of $C$. That is, we hope that the type $q$, or rather $p_0 = p|_{A'_0}$, will not be realized in $A_0$. But it might be.
+
+Thus, we perform the following procedure.\footnote{Morley does something slightly different.} No element of $A_0$ actually realizes $p$, and hence for each $a \in A_0$ there is some formula in $p$ which $a$ does not satisfy. This formula uses only finitely many elements from $C$, and thus, with only countably many elements from $C$ [because $A_0$ is countable] we are able to `see' that $A_0$ does not realize $p$. We define $A_1$ as a model containing $A_0$ and all these elements, and $A'_1 = A_1 \cap C$. Unfortunately, in adding all the elements we had to add to produce $A_1$, we may inadvertedly added someone who realizes $p|_{A'_1}$, and so we iterate this procedure. In the countable limit, we do obtain some $A_\omega = \cup_{n < \omega} A_n$ and $A'_\omega = A_\omega \cap C$, where $A'_\omega$ has enough information to know that $A_\omega$ does not realize $q = p|_{A'_\omega}$. Finally, note that $Y$ is contained in $A_\omega$, and moreover $Y$ is indiscernible over $C$, whence it is also indiscernible over $A'_\omega$, and the proof is complete.
+
+We finally move on to
+\begin{theorem}[Theorem 5.4]\label{thm:intro5.4}
+Suppose $T$ is totally transcendental and has an uncountable model which is not saturated. Then for each $\kappa > \aleph_0$, T has a model of power $\kappa$ which is not countably saturated.
+\end{theorem}
+
+The idea behind the proof is as follows. One considers the model $A$ constructed in lemma \ref{lem:intro5.3}, and inflates the set of indiscernibles. More precisely, by compactness one can find a model of size $\kappa$ containing a copy of $A'$, as well as $\kappa$-many indiscernibles over $A'$. If we create this model carefully, we might expect that it looks to first-order logic just the same as $A$ does, but this is a tad too optimistic: In principle, this model may very well contain $A'$, an uncountable `copy' of $Y$, and a lot of new elements, of which some may realize the type $q$.
+
+To create a carefully-made model, we resort to Theorem 4.5. Before stating it, a couple of definitions:
+\begin{itemize}
+\item We will use, and have surreptitiously been using, the notion of a \emph{system} of a theory. For now, this should be taken to mean `a subset of a model of $T$'; there is some nuance but it is currently unnecessary and we will go into greater depth into it in section \ref{sec:ch1}.
+\item Given a system $A$ and a model $B$, we say that \emph{$B$ is prime over $A$} if it embeds into every model of $T$ which contains $A$. Colloquially, $B$ is `the smallest model which contains $A$'. Crucially, $B$ does not realize any more types than it has to, and so in searching for a carefully built `as-small-as-possible model', looking for a prime model is a good start.
+\end{itemize}
+
+We may now state
+\begin{theorem}[Theorem 4.5]\label{thm:intro4.5}
+Suppose $T$ is totally transcendental, and $\{A_\alpha\}_{\alpha < \gamma}$ is a continuously increasing\footnote{That is, if $\delta$ is a limit ordinal, $A_\delta = \bigcup_{\alpha < \delta} A_\alpha$.} chain of systems. Then, there is a continuously increasing chain of models of $T$, say $\{B_\alpha\}_{\alpha < \gamma}$, such that $B_\alpha$ is prime over $A_\alpha$.
+\end{theorem}
+
+The proof of this theorem is quite technical, and uses the machinery of Morley rank (which we have previously mentioned, but not yet defined) quite intimately. Very roughly speaking, one builds $B_\alpha$ by adding one element at a time, and one must ensure that their choice is `coherent' with $A_\beta$ for every value of $\beta$. To do so, one adds at each step an element of minimal possible rank. Any more detail will have to wait until section \ref{sec:ch4}.
+
+Anyhow, we may now sketch a proof of Theorem \ref{thm:intro5.4}. One considers a model containing $A'$ as in \ref{lem:intro5.3}, together with $\kappa$-many indiscernibles $Y'$, and builds a model $P$ which is prime over $A' \cup Y'$ by applying Theorem \ref{thm:intro4.5}. Then, with some care, one can show that this model does not realize any more types over $A'$ than $A$ (as in \ref{lem:intro5.3}) did, and so in particular does not realize $q$. Thus, $P$ has size $\kappa$ and yet is not countably saturated.
+
+\section{Chapter 1}\label{sec:ch1}
+
+The goal of the first chapter is to establish some background and notation that will be the bedrock for the rest of the thesis. We intend to investigate the categoricity of a theory, which we call $\Sigma$, which is assumed to be over a countable language. The main object of study will be the class $\calN(T)$, where $T$ is a theory constructed from $\Sigma$, denoted $\Sigma^*$ and nowadays called `the Morleyization of $\Sigma$'. The formal definition may be found in \cite{morley}, and we represent it here for completeness.
+
+\begin{definition}
+To obtain $T = \Sigma^*$ from $\Sigma$, one adds a formal symbol $\psi^F(\vec x)$ for every predicate $\psi(\vec x)$ in the language of $\Sigma$, and for each such predicate one adds the axiom $\forall_{\vec x} (\psi^F(\vec x) \leftrightarrow \psi(\vec x))$.
+
+Then, one constructs the class of \emph{systems of $T$}, denoted $\calN(T)$, as the class of submodels of models of $T$.
+\end{definition}
+
+Before proceeding, I would like to say a few words on the meaning of this definition. The bottom line is that, over the course of Morley's thesis, it becomes necessary to discuss sets of parameters of models of our theory, say $A \subseteq M$. By itself this is not new, but then it becomes convenient to discuss a set of parameters $A$ while forgetting the model $M$ it originated from. Nevertheless, we wish to remember the internal structure of $A$, as well as how it fits inside $M$. For example, suppose that our theory represents some kind of order. Then, we wish that $A$ `remembers' its internal ordering of elements, which is accomplished by seeing $A$ as a submodel of $M$, but also suppose that $A \subseteq M$ contains some minimal element $a$. We want for $a$ to `remember' it is minimal. Thus, what the Morleyization does is add a predicate symbol $p$ for `is a minimal element', and so when we see $A$ as a submodel of $M$, but then forget about $M$, we remember that $p(a)$ holds, and hence that whatever model $a$ came from, $a$ was minimal there.
+
+Next, Morley proves two lemmas. Morally, Lemma 1.1 establishes that the Morleyization of a theory does not change the models. Indeed, any model of $\Sigma$ extends uniquely to a model of $\Sigma^*$, and from a model of $\Sigma^*$ one recovers a model of $\Sigma$ by taking the reduct. Crucially, since these operations preserve the cardinality of a model, this means that categoricity in any cardinality is preserved between $\Sigma$ and $\Sigma^*$, which justifies the fact that in the remainder of the thesis the original theory will fall to the wayside, and we will mostly study $T = \Sigma^*$ instead for its amenable properties.
+
+The second lemma, Lemma 1.2, establishes the essential properties of the Morleyization that we will make use of, which I have personally taken to calling `model-gluing properties', though perhaps `system-gluing' is more appropriate. We begin by stating the lemma in a language close to Morley's. Then we will discuss it and prove it, and afterwards we will have a few words on why this lemma is important.
+
+\begin{lemma}[Lemma 1.2]\label{lem:1.2}
+Suppose $\Sigma$ is a complete theory in $\Lang$. Then, the following hold.
+\begin{enumerate}
+\item\label{item:1.2:1} $\Sigma^*$ is complete.
+\item\label{item:1.2:2} If $\{A_\alpha\}_{\alpha < \delta}$ is an increasing chain of members of $\calN(\Sigma^*)$, then $\bigcup_{\alpha < \delta} A_\alpha$ is a member of $\calN(\Sigma^*)$. Moreover, if all $A_\alpha$ are models of $\Sigma^*$, so is their union.
+\item\label{item:1.2:3} If $A_1, A_2 \in \calN(\Sigma^*)$, there is some $A_3 \in \calN(\Sigma^*)$ and monomorphisms $A_1 \to A_3$ and $A_2 \to A_3$.
+\item\label{item:1.2:4} If $A_0, A_1, A_2 \in \calN(\Sigma^*)$ and we are given monomorphisms $A_0 \to A_1$ and $A_0 \to A_2$, there is some $A_3 \in \calN(\Sigma^*)$ and monomorphisms $A_1 \to A_3$ and $A_2 \to A_3$ such that the following diagram commutes.
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEB9YkAX1PSZc+QigCM5KrUYs2XMXwEgM2PASJkxU+s1aIOnAEyLBqkUQlbqO2fq4BmPlJhQA5vCKgAZgCcIAWyQyEBwIJDF+bz9AxAkQsMR7agYsMD0QOAgUqBMQXwCg6lCkQ0i86JKihPteCl4gA
+\begin{equation}
+\begin{tikzcd}
+A_0 \arrow[r] \arrow[d] & A_1 \arrow[d] \\
+A_2 \arrow[r]           & A_3          
+\end{tikzcd}
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+Now, one thing that irked me when reading Morley's thesis for the first time is that Lemma \ref{lem:1.2} is not proven therein. Instead, it is said that this result is proved elsewhere, and a reference is given. Unfortunately, upon chasing this reference, I was unable to actually find this result. This is not to say that the result is not there, but it is likely written in a different enough language that my skimming was insufficient to find it. Thus, I will provide here a proof, though I will also write the lemma in a different language, which is more appealing to myself.
+
+First of all, I would like to note that a monomorphism of models amounts to a slight generalization of an inclusion. Indeed, any monomorphism $A \to B$ may be assumed, by renaming some elements of $B$, to be an inclusion of submodels $A \subseteq B$. This is not to say that \emph{every} monomorphism may be assumed to be an inclusion; for example, automorphisms of a model may definitely not be assumed to be inclusions in general. But for the purposes of Lemma \ref{lem:1.2}, and indeed for a lot of the rest of the thesis, there is (almost) no loss in working entirely with submodels. As such, we will be working in this language, which means that wherever we write $A \subseteq B$ the reader may want to mentally translate to `fix a monomorphism $A \to B$'.
+
+That said, let us restate and prove a slightly modified version of Lemma \ref{lem:1.2}.
+
+\begin{lemma}[Lemma 1.2 Restated]\label{lem:1.2r}
+Suppose $\Sigma$ is a (not necessarily complete) theory in $\Lang$. Then, the following hold.
+\begin{enumerate}
+\item\label{item:1.2r:1} If $\Sigma$ is complete then $\Sigma^*$ is complete.
+\item\label{item:1.2r:2} $\Sigma^*$ is a $\forall \exists$ theory, i.e. it may be axiomatized via $\forall\exists$ sentences.
+\item\label{item:1.2r:3} Let $\{A_i\}_{i \in I}$ be a compatible collection of elements of $\calN(\Sigma^*)$, in the sense that, whenever $p$ is an $n$-ary predicate in $\Lang^*$ and $\vec a$ is an $n$-uple of elements in $A_i \cap A_j$, $A_i$ and $A_j$ agree on whether $p(\vec a)$ holds. Then, the union of all $A_i$, possibly with some identifications (which respect the predicate structure of the $A_i$, in the sense that if $\vec a \in A_i$ is identified with $\vec b \in A_j$ then for every predicate symbol $p$ we have $A_i \vDash p(\vec a)$ iff $A_j \vDash p(\vec b)$), is an element of $\calN(\Sigma^*)$.
+\end{enumerate}
+\end{lemma}
+
+Some remarks before the proof.
+
+\begin{remark}
+Let us briefly explain how Lemma \ref{lem:1.2} falls from Lemma \ref{lem:1.2r}. Item \ref{item:1.2:1} from \ref{lem:1.2} is an obvious consequence of item \ref{item:1.2r:1} from \ref{lem:1.2r}. The second part of item \ref{item:1.2:2} from \ref{lem:1.2} is a consequence of \ref{item:1.2r:2} from \ref{lem:1.2r}; it is well-known that the truth of $\forall\exists$ sentences is preserved under increasing unions of models. Finally, we claim that the remaining items of \ref{lem:1.2} are all consequences of \ref{item:1.2r:3} from \ref{lem:1.2r}, for differing choices of index sets $I$. The most complicated one to see is the last item, so we shall now sketch it.
+
+Let $A_0 \to A_1$ and $A_0 \to A_2$ be monomorphisms, and so without loss of generality by renaming elements we assume that $A_0 = A_1 \cap A_2$. Now, consider $A_3 = (A_1 \cup A_2)/\sim$ as the union with identifications which is in $\calN(\Sigma^*)$, given by item \ref{item:1.2r:3}. We note that the projections $A_1 \to A_3$ and $A_2 \to A_3$ are monomorphisms, because, by assumption, they preserve the structure of each $A_i$ (including (in)equality, thus they are injective). Finally, both compositions $A_0 \to A_1 \to A_3$ and $A_0 \to A_2 \to A_3$ agree, as they are both the map ${A_1 \cap A_2 \hookrightarrow A_1 \cup A_2 \xrightarrow{\text{projection}} A_3}$.
+\end{remark}
+
+\begin{remark}
+talk about necessity of identifications
+\end{remark}
+
+\begin{remark}
+talk about zero-ary predicates
+\end{remark}
+
+\begin{proof}[Lemma \ref{lem:1.2r}]
+
+\end{proof}
+
+
+\section{Chapter 2}\label{sec:ch2}
+
+\section{Chapter 3}\label{sec:ch3}
+
+\section{Chapter 4}\label{sec:ch4}
 
 
 \bibliographystyle{plain}
