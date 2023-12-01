@@ -27,6 +27,8 @@
 
 \theorembodyfont{\upshape}
 \theoremseparator{.}
+\theoremsymbol{\ensuremath{\square}}
+
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{prop}[theorem]{Proposition}
 \renewtheorem*{prop*}{Proposition}
@@ -36,7 +38,6 @@
 \newtheorem{example}[theorem]{Example}
 \newtheorem{conjecture}[theorem]{Conjecture}
 
-\theoremsymbol{\ensuremath{\square}}
 \newtheorem{defsketch}[theorem]{Definition (Sketch)}
 \newtheorem{prelimdef}[theorem]{Preliminary Definition}
 \newtheorem{definition}[theorem]{Definition}
@@ -114,7 +115,7 @@ The trick is now to establish the above three theorems. We give a brief sketch o
 
 In order to explain this theorem, we must first explain what it means for $T$ to be totally transcendental. We will spend many more words below attempting to explain the nuance behind the notion, but for now we give a very concise make-do explanation:
 \begin{defsketch}\label{defsketch:tt}
-A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types, and more generally given $\kappa$-many parameters we can only make $\kappa$-many types.
+A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types. Equivalently -- albeit not obviously so -- for any infinite cardinal $\kappa$, given $\kappa$-many parameters we can only make $\kappa$-many types.
 \end{defsketch}
 
 Now, Morley's proof goes as follows. First, he proves a general result (Theorem 3.7): If $\Sigma$ is a theory over a countable language which admits an infinite model, then it admits models of any infinite size which realize only countably many types over any countable parameter set. Colloquially, we may say that `$\Sigma$ admits very symmetric models of every infinite size', i.e. models with many automorphisms. This result is of independent interest, and resorts to Ramseys' theorem and what is nowadays referred to as `indiscernible sequences'.
@@ -246,9 +247,11 @@ That said, let us restate and prove a slightly modified version of Lemma \ref{le
 \begin{lemma}[Lemma 1.2 Restated]\label{lem:1.2r}
 Suppose $\Sigma$ is a (not necessarily complete) theory in $\Lang$. Then, the following hold.
 \begin{enumerate}
-\item\label{item:1.2r:1} If $\Sigma$ is complete then $\Sigma^*$ is complete.
+\item\label{item:1.2r:1} $\Sigma$ is complete iff $\Sigma^*$ is complete.
 \item\label{item:1.2r:2} $\Sigma^*$ is a $\forall \exists$ theory, i.e. it may be axiomatized via $\forall\exists$ sentences.
-\item\label{item:1.2r:3} Let $\{A_i\}_{i \in I}$ be a compatible collection of elements of $\calN(\Sigma^*)$, in the sense that, whenever $p$ is an $n$-ary predicate in $\Lang^*$ and $\vec a$ is an $n$-uple of elements in $A_i \cap A_j$, $A_i$ and $A_j$ agree on whether $p(\vec a)$ holds. Then, the union of all $A_i$, possibly with some identifications (which respect the predicate structure of the $A_i$, in the sense that if $\vec a \in A_i$ is identified with $\vec b \in A_j$ then for every predicate symbol $p$ we have $A_i \vDash p(\vec a)$ iff $A_j \vDash p(\vec b)$), is an element of $\calN(\Sigma^*)$.
+\item\label{item:1.2r:3} Let $\{A_i\}_{i \in I}$ be a compatible collection of elements of $\calN(\Sigma^*)$, in the sense that, whenever $p$ is an $n$-ary predicate in $\Lang^*$ and $\vec a$ is an $n$-uple of elements in $A_i \cap A_j$, $A_i$ and $A_j$ agree on whether $p(\vec a)$ holds. Then, the union of all $A_i$, possibly with some identifications, is an element of $\calN(\Sigma^*)$.
+
+These identifications are guaranteed to respect the predicate structure of the $A_i$, in the sense that if $\vec a \in A_i$ is identified with $\vec b \in A_j$ then for every predicate symbol $p$ we have $A_i \vDash p(\vec a)$ iff $A_j \vDash p(\vec b)$, and thus each predicate symbol has a natural meaning in the quotient of the union.
 \end{enumerate}
 \end{lemma}
 
@@ -261,16 +264,87 @@ Let $A_0 \to A_1$ and $A_0 \to A_2$ be monomorphisms, and so without loss of gen
 \end{remark}
 
 \begin{remark}
-talk about necessity of identifications
+Let us briefly explain why it may, in item \ref{item:1.2r:3}, be necessary to identify certain elements of the union. Consider a complete theory $\Sigma$ representing some kind of linear order, and let $A_0, A_1 \in \calN(\Sigma^*)$ be two distinct singleton sets, $A_i = \{a_i\}$. Suppose moreover that both $a_1$ and $a_2$ `think' themselves minimal elements of the universe, i.e. both satisfy some predicate $\psi^F$ where $\psi(x)$ means `$x$ is minimal'. Then, the disjoint union $A_1 \cup A_2$ could never be in $\calN(\Sigma^*)$, despite the fact that $A_1$ and $A_2$ are compatible (see lemma \ref{lem:compatible} below), since $\Sigma$ proves that any two minimal elements are the same. thus, when taking the union $A_1 \cup A_2$, it becomes necessary to identify $a_1$ with $a_2$.
 \end{remark}
 
-\begin{remark}
-talk about zero-ary predicates
+\begin{remark}\label{rmk:compatible}
+In our exposition, we have chosen to remove the assumption of completeness except for where it is necessary, but depending on the reader's philosophical beliefs on the legitimacy of `zero-ary predicates', or `predicate constant symbols', item \ref{item:1.2r:3} may need to be slightly modified when $\Sigma$ is not complete. The author personally has no qualms with zero-ary predicate symbols, and will be using them freely and implicitly.
+
+The issue is that if $\Sigma$ (and hence $\Sigma^*$) is not complete, and say $A_1$ and $A_2$ are elements of $\calN(\Sigma^*)$ which come from models of $\Sigma$ which are \emph{not} elementarily equivalent, it may be the case that it is impossible to reconcile $A_1$ with $A_2$. For example, suppose again that our theory embodies linear order, and $\Sigma$ proves `we do not have both a maximal and a minimal element', but leaves open the possibility of having one or another. Then, if $A_1$ happens to contain an element that thinks itself minimal, and $A_2$ an element that thinks itself maximal, there is no model of $\Sigma^*$ containing a copy of both.
+
+The solution, implicit in the proof below, is the following: Consider a zero-ary predicate symbol $\psi^F$, where $\psi$ is the sentence `there is a minimal element'. Then, $A_1$ thinks $\psi^F$ is true (on the empty tuple), while $A_2$ thinks it is false. Thus, $A_1$ and $A_2$ are not compatible in the sense of \ref{item:1.2r:3}, and there is no contradiction.
+
+One may think that this is a surmountable issue by using dummy variables, but for this approach to work one needs to assume that $A_1 \cap A_2$ is nonempty; otherwise, there is no (non-empty) tuple in common between $A_1$ and $A_2$, and thus no choice of value to make this dummy variable take.
+
+Anyway, as a result of this discussion, we obtain a useful result.
 \end{remark}
+
+\begin{lemma}\label{lem:compatible}
+If $\Sigma$ is complete, any two disjoint sets $A_1$ and $A_2$ are compatible in the sense of item \ref{item:1.2r:3} of Lemma \ref{lem:1.2r}.
+\end{lemma}
+
+\begin{proof}
+The only tuple in common between $A_1$ and $A_2$ is the empty tuple, so one needs only to verify that, for each sentence $\psi$, $A_1 \vDash \psi^F$ iff $A_2 \vDash \psi^F$. But using completeness of $\Sigma^*$ it is easy to see that $A_i \vDash \psi^F$ iff $\Sigma^* \vdash \psi$, which does not depend on $i$.
+\end{proof}
 
 \begin{proof}[Lemma \ref{lem:1.2r}]
+\leavevmode
+\begin{enumerate}
+\item We justify a more general result: If $\varphi$ is a formula in $\Lang^*$, let $\hat\varphi$ be the formula in $\Lang$ obtained by replacing ever instance of a formal predicate symbol $\psi^F(\,\vec{t\!}\,\,)$ by $\psi(\,\vec{t\!}\,\,)$.\footnote{It may be necessary to change some mute variables to ensure that equivalence is preserved. This is evidently of no import, and we will refrain from pointing out similar instances of this phenomenon in the sequence.} Then, $\Sigma \vdash \hat\varphi$ iff $\Sigma^* \vdash \varphi$. We prove both implications:
+\begin{itemize}
+\item ($\rightarrow$) Note that, by the equivalence metatheorem (replacing parts of a formula by equivalent things yields an equivalent formula) we have $\Sigma^* \vdash \hat\varphi \leftrightarrow \varphi$. Since $\Sigma^* \vdash \Sigma \vdash \hat\varphi$, we obtain the desired result.
+\item ($\leftarrow$) Given a proof of $\Sigma^* \vdash \varphi$, we may replace every invocation of an axiom of the form $\gamma \colon \forall_{\vec x} (\psi(x) \leftrightarrow \psi^F(x))$ by the truism $\hat\gamma \colon \forall_{\vec x} (\psi(x) \leftrightarrow \psi(x))$, and propagating this modification, or more precisely taking the `hat' of every step of the proof, we will obtain a proof of $\Sigma \vdash \hat\varphi$.
+\end{itemize}
 
+The equivalence of completeness of $\Sigma$ vs. $\Sigma^*$ is now obvious.
+
+\item The axioms of $\Sigma^*$ given above may be divided in two categories: Those coming from $\Sigma$ (call these type A), and those of the form $\forall_{\vec x} (\psi(\vec x) \leftrightarrow \psi^F(\vec x))$ (call these type B).
+
+First, we claim that every axiom of type $A$ may be replaced by a $\forall\exists$ sentence. Indeed, each of them, say $\varphi$, may be replaced by the equivalent (under axioms of type B) sentence $\varphi^F$, which not only is a $\forall\exists$ sentence but is even a quantifier-free atomic sentence.
+
+Next, we need to show that every axiom of type B may be replaced by a $\forall\exists$ sentence. We do this by induction on the structure of $\psi$; we assume that the result has been proven for formulas simpler than $\psi$ itself, and prove it for $\psi$. Perhaps more precisely, we replace all the axioms at once, and prove by induction on $\psi$ that the original axiom of type $B$ may be recovered. One would also want to verify that no new deductive power is obtained from this procedure, but we leave that as an exercise to the reader.
+
+The new axiom schema to replace the axioms of type B is as follows. For each formula $\psi$, we do cases on its structure. For example, if $\psi$ is $\psi_1 \land \psi_2$, we add the axiom
+\begin{equation}
+\forall_{\vec x} (\psi_1^F(\vec x) \land \psi_2^F(\vec x) \leftrightarrow \psi^F(\vec x)).
+\end{equation}
+
+Most connectives lead to universal sentences. Instances of axioms of type B where $\psi$ is atomic are left unchanged. The only distinguished case is that where $\psi$ starts with a quantifier, say $\psi(\vec x) \equiv \forall_y \psi_0(\vec x, y)$, in which case the relevant axiom becomes
+\begin{equation}
+\forall_{\vec x} (\forall_y \psi_0^F(\vec x, y) \leftrightarrow \psi^F(\vec x)),
+\end{equation}
+which is a $\forall\exists$ sentence, and no simpler.
+
+Finally, one shows by induction on $\psi$ that from these axioms the original axioms of type B may be recovered. A similar induction shows that all these axioms are consequence of the axioms of type B, and thus no new deductive power is gained by this replacement.
+
+\item We build a model containing a quotient of the union of all $A_i$ by compactness. Indeed, add to our language a symbol for each element of $\bigcup A_i$, and for each predicate symbol $p(\vec x)$ and tuple $\vec a \in A_i$ of elements in the same $A_i$, we add as an axiom either $p(\vec a)$ or $\neg p(\vec a)$, depending on whichever $A_i$ thinks holds. Call the resulting theory $T'$. It is evident that, if $T'$ is consistent, a model of $T'$ would contain the desired `union with identifications', namely the set of all elements represented by constants in $\bigcup A_i$. Thus, we show that $T'$ is consistent.
+
+First, by compactness, reduce to the finite case. Then, reduce to the binary case. Thus, we prove only that $T'$ is consistent when $I = \{1,2\}$.
+
+Suppose that $T'$ proves a contradiction. Then, this proof will use a finite number of axioms of the form
+\begin{equation}\label{eq:glue1}
+(\text{Some sentences in $\Sigma^*$}),\quad p_1(\vec b, \vec a_1), \dots, p_n(\vec b, \vec a_1),\quad q_1(\vec b, \vec a_2), \dots, q_m(\vec b, \vec a_2),
+\end{equation}
+where $p_k$ and $q_k$ are predicate symbols or negations thereof, and for notational reasons the applications to arguments may be reordered and arguments omitted, the (possibly empty) tuple $\vec b$ is a tuple of elements in $A_1 \cap A_2$, $\vec a_1$ is a tuple of elements in $A_1 \setminus A_2$, and $\vec a_2$ is a tuple of elements in $A_2 \setminus A_1$.
+
+By standard replace-constants-by-variables arguments, from \eqref{eq:glue1} we obtain
+\begin{equation}\label{eq:glue2}
+\Sigma^*, \quad p_1(\vec b, \vec a_1), \dots, p_n(\vec b, \vec a_1) \quad \vdash \quad \forall_{\vec z} \,\neg(q_1(\vec b, \vec z) \land \dots \land q_m(\vec b, \vec z)).
+\end{equation}
+
+Now, for convenience, denote by $\psi(\vec y)$ the formula $\exists_{\vec z} (q_1(\vec y, \vec z) \land \dots \land q_m(\vec y, \vec z))$. We ask what $A_1$ and $A_2$ think of $\psi^F(\vec b)$. Indeed, $A_2$ clearly thinks that it holds, but on the other hand whatever model $A_1$ is contained in satisfies the left-hand side of \eqref{eq:glue2}, whence $A_1$ thinks that $\neg \psi^F(\vec b)$ holds. This contradicts the assumed compatibility of $A_1$ and $A_2$, and thus $T'$ is a consistent theory. The result follows.
+\end{enumerate}
 \end{proof}
+
+Finally, we give a brief explanation on why we care about Lemma \ref{lem:1.2}.
+
+\begin{remark}
+As we said at the start of this section, the goal is to discuss types over sets of parameters $A$, without concerning ourselves with the model that $A$ is contained in. Given this context, in Chapter 2 of Morley's thesis, Morley defines a notion of complexity, now called `Morley rank', of such a type with parameters, and lemma \ref{lem:1.2}, namely the `model-gluing properties', are essential to ensure that certain desirable properties of this rank hold.
+
+As an example, one may show without much trouble (given the definitions, of course) that given a type $p$ with parameters in $A \in \calN(\Sigma^*)$, and some $B \supseteq A$, any extension of $p$ to a type $q$ with parameters in $B$ will necessarily be `at most as complicated' as $q$. Moreover, however, it turns out that one may always find an extension which is `the same amount of complicated', and this has important repercussions over the course of the thesis. This fact, and several others, require application of lemma \ref{lem:1.2} in an essential way.
+
+[talk about other perspective, namely games and not stepping over your own toes]
+\end{remark}
 
 
 \section{Chapter 2}\label{sec:ch2}
