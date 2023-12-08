@@ -8,6 +8,7 @@
 \usepackage[thmmarks, amsmath]{ntheorem}
 
 \usepackage{fullpage}
+\usepackage{url}
 
 \usepackage[inline]{enumitem}
 
@@ -76,8 +77,11 @@
 \DeclareMathOperator{\Th}{Th}
 \DeclareMathOperator{\Ext}{Ext}
 \DeclareMathOperator{\cof}{cof}
+\DeclareMathOperator{\ADG}{\mathcal{D}}
 
 \newcommand{\card}[1]{\#{#1}}
+
+\newcommand{\rst}[2]{#1\mspace{1.3mu plus 0.5mu minus 0.5mu}|_{#2}}
 
 \DeclarePairedDelimiter{\braket}{\langle}{\rangle}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
@@ -99,7 +103,7 @@ Hypocritically enough, since this document was written for myself, I will be ass
 
 \section{The Big Picture}
 
-If one starts reading Morley's thesis from the end backwards, one will notice that his main proof hinges on the following three theorems. In these, we refer to a property we have not yet defined, namely what it means for a theory $T$ to be totally transcendental (nowadays this property is referred to as `$\omega$-stable'), but for now it should suffice to say that it is a combinatorial property of a theory which (Theorem 3.8 below) holds for any theory which is categorical in some uncountable power.
+If one starts reading Morley's thesis from the end backwards, one will notice that his main proof hinges on the following three theorems. In these, we refer to a property we have not yet defined, namely what it means for a theory $T$ to be totally transcendental (nowadays this property may be referred to as `$\omega$-stable'), but for now it should suffice to say that it is a combinatorial property of a theory which (Theorem 3.8 below) holds for any theory which is categorical in some uncountable power.
 
 \begin{itemize}
 \item (Theorem 3.8) If $T$ is categorical in some uncountable power, it is totally transcendental,
@@ -118,7 +122,7 @@ In order to explain this theorem, we must first explain what it means for $T$ to
 A theory $T$ is said to be totally transcendental if, from few parameters, we can only make few types. More precisely, given countably many parameters we can only make countably types. Equivalently -- albeit not obviously so -- for any infinite cardinal $\kappa$, given $\kappa$-many parameters we can only make $\kappa$-many types.
 \end{defsketch}
 
-Now, Morley's proof goes as follows. First, he proves a general result (Theorem 3.7): If $\Sigma$ is a theory over a countable language which admits an infinite model, then it admits models of any infinite size which realize only countably many types over any countable parameter set. Colloquially, we may say that `$\Sigma$ admits very symmetric models of every infinite size', i.e. models with many automorphisms. This result is of independent interest, and resorts to Ramseys' theorem and what is nowadays referred to as `indiscernible sequences'.
+Now, Morley's proof goes as follows. First, a general result by Ehrenfeucht and Mostowski (Theorem 3.7) is cited: If $\Sigma$ is a theory over a countable language which admits an infinite model, then it admits models of any infinite size which realize only countably many types over any countable parameter set. Colloquially, we may say that `$\Sigma$ admits very symmetric models of every infinite size', i.e. models with many automorphisms. This result is of independent interest, and resorts to Ramseys' theorem and what is nowadays referred to as `indiscernible sequences'.
 
 Second, let us suppose that $T$ is \emph{not} totally transcendental. Then, by Definition Sketch \ref{defsketch:tt}, we conclude that there is a countable set of parameters, say $A$, from which we can make uncountably many distinct types. By adding constants to our language, one for each element of $A$, then $\aleph_1$-many for uncountably many of the types over $A$, we may create models of any uncountable cardinality which realize uncountably many types over some countable set.
 
@@ -179,9 +183,9 @@ The obvious first step towards proving lemma \ref{lem:intro5.3} is: Pick a set o
 
 Now, if $C$ were countable, the basic idea would be to find a countable model which contains both $C$ and $Y$, which exists by Löwenheim-Skolem. However, $C$ may not be countable, which is a problem, and we cannot \textit{a priori} assume it countable, because it may be that if we replace $C$ by a countable subset, $p$ will forget enough information that it now thinks itself realized by $B$. Thus, the trick is to carefully construct a replacement for $C$.
 
-This is performed as follows. First, we consider a countable model $A_0 \subseteq B$ containing $Y$, which we hope will play the role of $B$, and consider $A'_0 = A_0 \cap C$ which we hope will play the role of $C$. That is, we hope that the type $q$, or rather $p_0 = p|_{A'_0}$, will not be realized in $A_0$. But it might be.
+This is performed as follows. First, we consider a countable model $A_0 \subseteq B$ containing $Y$, which we hope will play the role of $B$, and consider $A'_0 = A_0 \cap C$ which we hope will play the role of $C$. That is, we hope that the type $q$, or rather $p_0 = \rst p{A'_0}$, will not be realized in $A_0$. But it might be.
 
-Thus, we perform the following procedure.\footnote{Morley does something slightly different.} No element of $A_0$ actually realizes $p$, and hence for each $a \in A_0$ there is some formula in $p$ which $a$ does not satisfy. This formula uses only finitely many elements from $C$, and thus, with only countably many elements from $C$ [because $A_0$ is countable] we are able to `see' that $A_0$ does not realize $p$. We define $A_1$ as a model containing $A_0$ and all these elements, and $A'_1 = A_1 \cap C$. Unfortunately, in adding all the elements we had to add to produce $A_1$, we may inadvertedly added someone who realizes $p|_{A'_1}$, and so we iterate this procedure. In the countable limit, we do obtain some $A_\omega = \cup_{n < \omega} A_n$ and $A'_\omega = A_\omega \cap C$, where $A'_\omega$ has enough information to know that $A_\omega$ does not realize $q = p|_{A'_\omega}$. Finally, note that $Y$ is contained in $A_\omega$, and moreover $Y$ is indiscernible over $C$, whence it is also indiscernible over $A'_\omega$, and the proof is complete.
+Thus, we perform the following procedure.\footnote{Morley does something slightly different.} No element of $A_0$ actually realizes $p$, and hence for each $a \in A_0$ there is some formula in $p$ which $a$ does not satisfy. This formula uses only finitely many elements from $C$, and thus, with only countably many elements from $C$ [because $A_0$ is countable] we are able to `see' that $A_0$ does not realize $p$. We define $A_1$ as a model containing $A_0$ and all these elements, and $A'_1 = A_1 \cap C$. Unfortunately, in adding all the elements we had to add to produce $A_1$, we may inadvertedly added someone who realizes $\rst p{A'_1}$, and so we iterate this procedure. In the countable limit, we do obtain some $A_\omega = \cup_{n < \omega} A_n$ and $A'_\omega = A_\omega \cap C$, where $A'_\omega$ has enough information to know that $A_\omega$ does not realize $q = \rst p{A'_\omega}$. Finally, note that $Y$ is contained in $A_\omega$, and moreover $Y$ is indiscernible over $C$, whence it is also indiscernible over $A'_\omega$, and the proof is complete.
 
 We finally move on to
 \begin{theorem}[Theorem 5.4]\label{thm:intro5.4}
@@ -228,7 +232,7 @@ Suppose $\Sigma$ is a complete theory in $\Lang$. Then, the following hold.
 \item\label{item:1.2:2} If $\{A_\alpha\}_{\alpha < \delta}$ is an increasing chain of members of $\calN(\Sigma^*)$, then $\bigcup_{\alpha < \delta} A_\alpha$ is a member of $\calN(\Sigma^*)$. Moreover, if all $A_\alpha$ are models of $\Sigma^*$, so is their union.
 \item\label{item:1.2:3} If $A_1, A_2 \in \calN(\Sigma^*)$, there is some $A_3 \in \calN(\Sigma^*)$ and monomorphisms $A_1 \to A_3$ and $A_2 \to A_3$.
 \item\label{item:1.2:4} If $A_0, A_1, A_2 \in \calN(\Sigma^*)$ and we are given monomorphisms $A_0 \to A_1$ and $A_0 \to A_2$, there is some $A_3 \in \calN(\Sigma^*)$ and monomorphisms $A_1 \to A_3$ and $A_2 \to A_3$ such that the following diagram commutes.
-% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEB9YkAX1PSZc+QigCM5KrUYs2XMXwEgM2PASJkxU+s1aIOnAEyLBqkUQlbqO2fq4BmPlJhQA5vCKgAZgCcIAWyQyEBwIJDF+bz9AxAkQsMR7agYsMD0QOAgUqBMQXwCg6lCkQ0i86JKihPteCl4gA
+
 \begin{equation}
 \begin{tikzcd}
 A_0 \arrow[r] \arrow[d] & A_1 \arrow[d] \\
@@ -263,7 +267,7 @@ Let us briefly explain how Lemma \ref{lem:1.2} falls from Lemma \ref{lem:1.2r}. 
 Let $A_0 \to A_1$ and $A_0 \to A_2$ be monomorphisms, and so without loss of generality by renaming elements we assume that $A_0 = A_1 \cap A_2$. Now, consider $A_3 = (A_1 \cup A_2)/\sim$ as the union with identifications which is in $\calN(\Sigma^*)$, given by item \ref{item:1.2r:3}. We note that the projections $A_1 \to A_3$ and $A_2 \to A_3$ are monomorphisms, because, by assumption, they preserve the structure of each $A_i$ (including (in)equality, thus they are injective). Finally, both compositions $A_0 \to A_1 \to A_3$ and $A_0 \to A_2 \to A_3$ agree, as they are both the map ${A_1 \cap A_2 \hookrightarrow A_1 \cup A_2 \xrightarrow{\text{projection}} A_3}$.
 \end{remark}
 
-\begin{remark}
+\begin{remark}\label{rmk:whyid}
 Let us briefly explain why it may, in item \ref{item:1.2r:3}, be necessary to identify certain elements of the union. Consider a complete theory $\Sigma$ representing some kind of linear order, and let $A_0, A_1 \in \calN(\Sigma^*)$ be two distinct singleton sets, $A_i = \{a_i\}$. Suppose moreover that both $a_1$ and $a_2$ `think' themselves minimal elements of the universe, i.e. both satisfy some predicate $\psi^F$ where $\psi(x)$ means `$x$ is minimal'. Then, the disjoint union $A_1 \cup A_2$ could never be in $\calN(\Sigma^*)$, despite the fact that $A_1$ and $A_2$ are compatible (see lemma \ref{lem:compatible} below), since $\Sigma$ proves that any two minimal elements are the same. thus, when taking the union $A_1 \cup A_2$, it becomes necessary to identify $a_1$ with $a_2$.
 \end{remark}
 
@@ -341,15 +345,276 @@ Finally, we give a brief explanation on why we care about Lemma \ref{lem:1.2}.
 \begin{remark}
 As we said at the start of this section, the goal is to discuss types over sets of parameters $A$, without concerning ourselves with the model that $A$ is contained in. Given this context, in Chapter 2 of Morley's thesis, Morley defines a notion of complexity, now called `Morley rank', of such a type with parameters, and lemma \ref{lem:1.2}, namely the `model-gluing properties', are essential to ensure that certain desirable properties of this rank hold.
 
-As an example, one may show without much trouble (given the definitions, of course) that given a type $p$ with parameters in $A \in \calN(\Sigma^*)$, and some $B \supseteq A$, any extension of $p$ to a type $q$ with parameters in $B$ will necessarily be `at most as complicated' as $q$. Moreover, however, it turns out that one may always find an extension which is `the same amount of complicated', and this has important repercussions over the course of the thesis. This fact, and several others, require application of lemma \ref{lem:1.2} in an essential way.
+As an example, one may show without much trouble (given the definitions, of course) that given a type $p$ with parameters in $A \in \calN(\Sigma^*)$, and some $B \supseteq A$, any extension of $p$ to a type $q$ with parameters in $B$ will necessarily be `at most as complicated' as $q$. However, it turns out that one may always find an extension which is `the same amount of complicated', and this has important repercussions over the course of the thesis. This fact, and several others, require application of Lemma \ref{lem:1.2} in an essential way.
 
-[talk about other perspective, namely games and not stepping over your own toes]
+For a slightly more concrete reason: We will see in section \ref{sec:ch2} that the notion of rank may be defined via a certain game between two players, let's say one is called Cat and the other Mouse, with the rank being the final score assuming both players play optimally. In this game, the board consists of a set of parameters $A$ and a type $p$ over them, and the Cat moves by increasing the set of parameters, and the Mouse moves by extending $p$ to a type over this new set.
+
+With this perspective, Lemma \ref{lem:1.2} corresponds to the statement that the Cat's moves do not interfere with one another. That is, unlike in chess, where a good move by your bishop may later be blocked by a pawn placed there by yourself, any new parameters the Cat decides to add do not interfere with parameters they may want to add in the future. Compare with the situation in Remark \ref{rmk:compatible},\footnote{This is more of an analogy, as the situation in Remark \ref{rmk:compatible} is not directly applicable to what we are discussing.} where the Cat may at some stage add either a maximal or a minimal element to the set of parameters, but adding either forbids them from adding the other later on.
 \end{remark}
-
 
 \section{Chapter 2}\label{sec:ch2}
 
+\subsection{Preliminaries}
+
+We start this section by establishing the same conventions as Morley does at the start of Chapter 2. Throughout, we assume fixed a theory $\Sigma$ over a countable language $\Lang$, and set $T = \Sigma^*$.
+
+Moreover, we make a certain definition more explicit.
+
+\begin{definition}\label{def:stonespace}
+Let $A \in \calN(T)$. The \emph{atomic diagram of $A$}, which Morley denotes as $\ADG(A)$, is the set of atomic sentences in $\Lang \cup A$ and negations thereof which hold in $A$. In other words, it encodes the predicates defined on $A$.\footnote{Morley defines $\ADG(A)$ slightly differently; he considers all quantifier-free sentences. This is not meaningfully different for our purposes.}\footnote{We have already used this definition, albeit surreptitiously, in the proof of item \ref{item:1.2r:3} of Lemma \ref{lem:1.2r}.}
+
+Then, it is possible to verify that the theory $T \cup \ADG(A)$ is complete over $\Lang \cup A$. Define $\Stone(A)$, often called the space of \emph{types over $A$}, or the \emph{Stone space of $A$}, as the space of (total, unary) types over this theory.
+\end{definition}
+
+Morley discusses Definition \ref{def:stonespace} in reasonable detail in pages 9 and 10, followed by some discussion of categories in pages 11 and 12. I recommend skimming the latter part. It is my (extremely unfounded) suspicion that this section, and indeed all talk of categories, was added more as a nod to Morley's thesis advisor, Mac Lane, than for its relevance to the content of the thesis. Indeed, remarkably for such a streamlined document, from which there is very little which may be removed without leaving a gaping hole, all talk of category theory feels quite out of place, and could be removed without loss.
+
+I would like to point out that his proof of Lemma 2.1 can be done in a different, though not necessarily superior, way. Indeed, in one of the steps, Morley quickly says `By the completeness theorem, there is a model of $T$ containing $A$ which realizes $p_\beta$'. It is my belief that the very same argument may be used to create a model of $T$ containing $A$ and realizing \emph{all} types over $A$: Consider the theory given by $T$, plus $\ADG(A)$, plus some constants as representatives of every type in $A$. It remains to show that the resulting theory is consistent, which does have some details to it; in particular, one needs to use the fact that one is working in the Morleyization to realize more than one type at once, which is perhaps why Morley realizes one type at a time: One does not need to be in the Morleyization for that to work.
+
+\subsection{Morley Rank}
+
+Now, let us move on to the main definition of Chapter 2, and the main powerhouse behind this thesis: Definition 2.2.
+
+We begin by presenting two examples, of which one is in Morley's thesis and the other is not, to provide direction for the concept that Morley is encapsulating with his definition. Based on these examples, we produce Morley's definition of rank, and go over some properties of it, namely Theorem 2.3 in \cite{morley}. Morley does prove this theorem, but we rephrase the statement in different terms, and provide a detailed proof to complement his own, as this theorem is important in what follows but technically involved. Finally, we provide a brief overview of an alternate possible definition of Morley rank, which is not relevant to read Morley's thesis but may be useful for the reader.
+
+\subsubsection{Example: Algebraically Closed Fields of Characteristic Zero}
+
+In case the reader isn't aware, the theory $\Sigma_F$ of the algebraically closed fields of characteristic zero (see Example 1.4.9 in \cite{cnk}) is an important motivating example in the study of categoricity in the uncountable. We provide some basic facts about this theory.
+\begin{itemize}
+\item Every model of $\Sigma_F$ is obtained by appending some number of transcendental elements to the prime model of $\Sigma_F$, the algebraic closure of the rationals $\bar\Q$. Thus, models of $\Sigma_F$ are classified up to isomorphism by a (possibly finite) cardinal $\kappa$, called the \emph{transcendence degree} of the model. The cardinality of such a model is $\kappa + \aleph_0$.
+\item As a consequence, we obtain countably many countable models of $\Sigma_F$ up to isomorphism, i.e. those for which $\kappa$ is countable, and exactly one model of each uncountable cardinality.
+\item On the subject of types, given a set of parameters $A \in \calN(\Sigma_F)$, the set of types over $A$ is composed of two classes. In the following, $F(A)$ denotes the field generated by $A$, i.e. the smallest field containing $A$.
+\begin{itemize}
+\item \emph{Algebraic types}: For every irreducible polynomial $P(x)$ with coefficients in $F(A)$, we have a type $p(x) = \braket{P(x) = 0}$.
+\item \emph{Transcendental Type}: The unique type which is not algebraic, given by $q(x) = \braket{P(x) \neq 0 \mid P \in F(A)[x]}$.
+\end{itemize}
+\end{itemize}
+
+\begin{remark}\label{rmk:qem}
+Technically, we should perhaps be working in the Morleyization of $\Sigma_F$, rather than $\Sigma_F$ itself. However, it happens that in any language with quantifier elimination the Morleyization adds no additional expressive power, in the sense that any `new' predicate symbol is equivalent to a finite boolean combination of previously existing atomic formulas.
+
+There is some abuse of notation happening here, in the sense that $\Sigma_F$ is not a relational language, and replacing the function symbols by relations in the standard way does not preserve quantifier elimination in the standard sense. The classification of types into algebraic and transcendental as above still works, it is just more awkward to state.
+\end{remark}
+
+Now, the relation between the nomenclature and the classification of types is not a coincidence. The types in this particular example are classified as either algebraic (i.e. simple) or transcendental (i.e. complicated), and in terms of Morley rank, the algebraic types have rank $0$, while the unique transcendental type has rank $1$. In this example, no type has rank greater than $1$.
+
+It is worth asking what makes the algebraic types simple. The easiest answer is that they are principal types, i.e. they are generated by a single formula, while the transcendental type is not. An alternative perspective is that, by increasing the model (namely, adjoining all the roots of a polynomial $P$) one may `exhaust all possibilities for the type', i.e. extend the set of parameters in such a way that all possible realizations of the type are already realized. Both of these perspectives will play a part in the final notion of rank.
+
+\subsubsection{Example: An Equivalence Relation}
+
+Let $\Sigma_E$ be the theory over the language containing just one binary relation, say $\sim$, which states: $\sim$ is an equivalence relation, with infinitely many equivalence classes, each of which has infinite size. Some remarks about this theory.
+\begin{itemize}
+\item $\Sigma_E$ admits quantifier elimination, so Remark \ref{rmk:qem} also applies to it.
+\item We also have a simple classification of types over a set of parameters $A \in \calN(\Sigma_E)$:
+\begin{itemize}
+\item For each $a \in A$ we have a type $p(x) = \braket{x = a}$,
+\item For each equivalence class $c \in A/{\sim}$, we have a type
+\begin{equation}\label{eq:type2}
+q(x) = \braket{\,\text{$x$ is equivalent to the elements in $c$, but is none of the elements of $A$}\,},
+\end{equation}
+\item We have a unique type $r(x) = \braket{\,\text{$x$ is not equivalent to anyone in $A$}\,}$.
+\end{itemize}
+\end{itemize}
+
+The classification of types we have presented happens to correspond to their levels of complexity: Their Morley rank is respectively $0$, $1$, and $2$.
+
+This example shows that the matter of what makes a type algebraic is not just its principality. For example, if $A$ is empty, $\Stone(A)$ contains only one type: The type generated by $x = x$, which happens to correspond to the third class of types above. Thus, this type is principal, but it is also `complex' and non-algebraic.
+
+For another example, if some equivalence class $c$ of $A$ is finite, the type $q(x)$ given by \eqref{eq:type2} will be principal, but Morley also assigns nonzero rank to it.
+
+The key is that, if you add enough elements to $A$, you can ensure that $q(x)$ becomes nonprincipal. This requires a bit more explanation. Suppose that $A$ is replaced by $A' \supseteq A$. Then, $q(x)$, a type over $A$, is \emph{not} a type over $A'$ in general, for it is undecided on many formulas involving the new added elements. Thus, one considers all possible expansions of $q$ to a type over $A'$, and looks at the `worst-case scenario' in terms of complexity. In this case, if one adds infinitely many elements in the equivalence class that $q$ purports to be in, one may extend the type to either say it is one of those new elements, or to say it is none of them. In the latter case, the type ceases to be principal.
+
+As a note: Why consider the worst-case scenario and not the best-case scenario? Because the best-case scenario leads to trivialities: One can always set $A'$ to be $A$, plus an element realizing the type under consideration, and so the type may in the best-case scenario be extended to the type of an element of a parameter set, which is the simplest possible.
+
+Anyway, this leads to a definition of `algebraic type':
+
+\begin{defsketch}
+Let $A \in \calN(T)$, and $p \in \Stone(A)$. We say $p$ is \emph{algebraic}, or has Morley rank equal to zero, if for every $A' \supseteq A$, any extension of $p$ to a type over $A'$ is principal.
+\end{defsketch}
+
+Now, let us discuss the next level of complexity. The algebraic types, as we have just defined them, correspond to the first class of types in our classification above; what distinguishes the second class from the third?
+
+The key is to consider what happens if the algebraic types are removed from the equation. Once we do, the following phenomenon happens: Even though the types of the second class are nonprincipal, they are still uniquely determined (among the nonalgebraic ones) as those which contain a certain formula. For example, if $a \in c \in A/{\sim}$, the only nonalgebraic type containing the formula $x \sim a$ is the one saying `$x$ is equivalent to the elements of $c$, but is not in $A$'.
+
+\subsubsection{The Definition and some Operational Principles}
+
+We are now in a position to provide the definition of Morley rank. Our definition is equivalent to Definition 2.2 in \cite{morley}, but we use different notation and perspective. Morley's point of view is very topological, but was very foreign to me when I started reading his thesis. The definition we are about to present is one that would have been easier for me to read when I was starting out.
+
+\begin{definition}[Definition 2.2]\label{def:mrk}
+We shall define inductively, for each ordinal $\alpha$ and $A \in \calN(T)$, the set $\Tr^\alpha(A) \subseteq \Stone(A)$. In the following, we assume that $\Tr^\beta(A')$ has already been defined for all $\beta < \alpha$ and all $A' \in \calN(T)$.
+\begin{enumerate}[label=(\roman*)]
+\item Set $\Tr^{<\alpha}(A) = \bigcup_{\beta < \alpha} \Tr^\beta(A)$,
+\item Set $\Stone^\alpha(A) = \Stone(A) \setminus \Tr^{<\alpha}(A)$,
+\item Given a type $p \in \Stone(A)$ and some $A' \supseteq A$, define $\Ext(p,A')$ as the set of types over $A'$ which extend $p$,
+\item In the same circumstances as above, define $\Ext^\alpha(p,A') = \Ext(p,A') \cap \Stone^\alpha(A')$,
+\item\label{item:mrk:def} Say that $p \in \Stone^\alpha(A)$ is in $\Tr^\alpha(A)$ if, for any $A' \supseteq A$ and $p' \in \Ext^\alpha(p,A')$, there is some formula $\varphi \in p'$ such that the only type in $\Stone^\alpha(A')$ containing $\varphi$ is $p'$ itself.
+\end{enumerate}
+\end{definition}
+
+Morley builds on this definition over the course of Chapter 2, proving several results about its behavior. They are mostly straightforward, especially with Morley's proofs on hand, but I would like to give some particular attention to Theorem 2.3, especially part (b), because it hides an important principle under its notational complexity, and its proof is complex enough that I feel that an alternate perspective would be worthwhile to the reader.
+
+First, let us prove Theorem 2.3 (a), because it is as useful as it is easy to prove.
+
+\begin{definition}
+We have already introduced the abbreviation $\Tr^{<\alpha}(A)$ above to mean $\bigcup_{\beta < \alpha} \Tr^\beta(A)$. We now introduce the notation $\Tr^{\leq\alpha}(A)$ to have the obvious meaning, equivalent to $\Tr^{<(\alpha+1)}(A)$.
+\end{definition}
+
+\begin{theorem}[Theorem 2.3 (a)]\label{thm:compact}
+Given $A \in \calN(T)$, $\Stone^\alpha(A)$ is a closed and hence compact subspace of $\Stone(A)$. Equivalently, $\Tr^{<\alpha}(A)$ is open.
+\end{theorem}
+
+\begin{proof}
+The proof is by strong induction on $\alpha$. If $\alpha$ is a limit cardinal (including zero), the result is evident. On the other hand, suppose that $\alpha$ is a successor cardinal, say $\beta + 1$. By induction hypothesis, $\Tr^{<\beta}(A)$ is open, so it suffices to show that, for every $p \in \Tr^\beta(A)$, there is a neighborhood of $p$ contained in $\Tr^{\leq\beta}(A)$. This is a trivial consequence of item \ref{item:mrk:def} in definition \ref{def:mrk}, applied to $A' = A$.
+\end{proof}
+
+Now, let us move on to Theorem 2.3 (b). Before we do so, I would like to express it in more `human' terms, so that we may better appreciate what this theorem is saying. Part i) corresponds to the following two `operational principles':
+
+\medskip
+
+\textbf{Principle 1.} Removing information from a type makes it more (or equally) complicated.
+
+\smallskip
+
+\textit{Explanation:} Given $p \in \Stone^\alpha(A)$, i.e. `$p$ is at least $\alpha$-complicated', and given $A_0 \subseteq A$, consider $p_0 = \rst p{A_0}$, obtained from $p$ by throwing away every sentence using symbols in $A \setminus A_0$. Then, the claim is that $p_0$ is itself at least $\alpha$-complicated, or formally, $p_0 \in \Stone^\alpha(A_0)$. \hfill $\square$
+
+\medskip
+
+\textbf{Principle 2.} Conversely, adding information to a type makes it less (or equally) complicated. However, in adding information, there is an element of choice, and one can always make a choice that keeps the type just as complicated.
+
+\smallskip
+
+\textit{Explanation:} Given $p \in \Stone(A)$ and $A' \supseteq A$, generally speaking $\Ext(p,A')$ will contain a multitude of elements. The claim is that if $p \in \Tr^\alpha(A)$ for some $\alpha$, then every such extension will be in $\Tr^\beta(A')$ for some $\beta\leq\alpha$; This follows from Principle 1. The claim, moreover, is that there is a guarantee that at least one of these extensions will be in $\Tr^\alpha(A)$. \hfill $\square$
+
+\medskip
+
+To make the translation between the above two principles and Morley's statement of Theorem 2.3 (b) i), recall that when Morley writes $f^* \colon \Stone(B) \to \Stone(A)$, we may translate it to mean that $A$ is a subsystem of $B$, and $f^*$ is the `forgetful map' which, given a type over $B$, forgets all information it has about all elements of $B \setminus A$. We refer to this operation more simply as $p \mapsto \rst pA$.
+
+Part ii) provides us with a method to prove that a type over $A$ has rank $\alpha$, so long as we understand its extensions to a larger model. It is proven together with part i) because it is useful for the purposes of an induction hypothesis.
+
+\medskip
+
+\textbf{Principle 3.} Given $p \in \Stone(A)$, and $A' \supseteq A$, the complexity of $p$ is the maximal complexity of its extensions to $A'$. In particular, if $p$ is known to be at least $\alpha$ complex, and all its extensions are known to be $\alpha$ complex or less, then $p$ must be exactly $\alpha$ complex.
+
+\smallskip
+
+\textit{Explanation:} Essentially a restatement of Principles 1 and 2. \hfill $\square$
+
+\medskip
+
+Before moving on to the proof, we present a useful, weaker and hence easier to prove, restatement of part \ref{item:mrk:def} of Definition \ref{def:mrk}.
+
+\begin{prop}\label{prop:altv}
+Let $A \in \calN(T)$, and $p \in \Stone^\alpha(A)$. Then, $p \in \Tr^\alpha(A)$ iff both of the following hold:
+\begin{itemize}
+\item $p$ is an isolated point in $\Stone^\alpha(A)$, i.e. there is a formula $\varphi \in p$ such that the only type in $\Stone^\alpha(A)$ containing $\varphi$ is $p$ itself, and
+\item For every $A' \supseteq A$, there are only finitely many extensions of $p$ to types in $\Stone^\alpha(A')$.
+\end{itemize}
+\end{prop}
+
+\begin{proof}
+($\rightarrow$) If $p \in \Tr^\alpha(A)$, then applying \ref{item:mrk:def} of Definition \ref{def:mrk} to $A' = A$, we immediately obtain the first point.
+
+To prove the second point, we remark that $\Ext^\alpha(p,A')$ is closed in $\Stone^\alpha(A')$; indeed, given $q \in \Stone^\alpha(A')$ which is not an extension of $p$, there must be some $\varphi \in p$ such that $q$ contains $\neg\varphi$. This forms a neighborhood of $q$ which does not intersect $\Ext^\alpha(p,A')$. As a consequence, by Theorem \ref{thm:compact}, $\Ext^\alpha(p,A')$ is a compact set, all of whose points are isolated, and hence must be a finite set.
+
+\smallskip
+
+($\leftarrow$) Let $p' \in \Ext^\alpha(p,A')$. Then, the formula $\varphi \in p$ given by the first point will isolate $p'$ from all formulas in $\Stone^\alpha(A')$, except those which are also extensions of $p$. But there are finitely many such other formulas, and by taking the disjunction of $\varphi$ and formulas distinguishing $p'$ from each other extension we obtain a formula in $p'$ which isolates $p'$ from every other type in $\Stone^\alpha(A')$.
+\end{proof}
+
+\begin{theorem}[Theorem 2.3]
+Let $A \subseteq B$ be two systems of $\calN(T)$. Then, for every ordinal $\alpha$,
+\begin{enumerate}[label=(\roman*)]
+\item\label{item:thm2.3:i} Given $p \in \Stone^\alpha(B)$, we have $\rst p A \in \Stone^\alpha(A)$,
+\item\label{item:thm2.3:ii} Given $q \in \Stone^\alpha(A)$, there is some extension of $q$ to a type in $\Stone^\alpha(B)$,
+\item\label{item:thm2.3:iii} Given $q \in \Stone^\alpha(A)$ such that every extension of $q$ to a type in $\Stone(B)$ is in $\Tr^{\leq\alpha}(B)$, we have $q \in \Tr^\alpha(A)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+First, we prove part \ref{item:thm2.3:i} directly (that is, without recourse to an inductive procedure) by contrapositive: We suppose that $\rst p A$ is a type in $\Tr^{<\alpha}(A)$, and show that $p$ itself in $\Tr^{<\alpha}(A)$.
+
+Since $\rst p A$ is in $\Tr^{<\alpha}(A)$, it must by definition be in $\Tr^\beta(A)$ for some $\beta < \alpha$. Thus, in particular, all of its extensions to types in $S^\beta(A')$ for arbitrary $A' \supseteq A$ must be isolated points. Thus, given $B' \supseteq B$, it is immediate that any extension of $p$ to a type in $\Stone^\beta(B')$, which is also an extension of $\rst p A$ to $\Stone^\beta(B')$, must also be an isolated point. Thus, either $p \in \Tr^{<\beta}(B) \subseteq \Tr^{<\alpha}(B)$, and we're done, or $p \in \Stone^\beta(B)$, in which case we have just concluded that $p \in \Tr^\beta(B) \subseteq \Tr^{<\alpha}(B)$, and in either case the proof is complete.
+
+\smallskip
+
+Now, let us prove items \ref{item:thm2.3:ii} and \ref{item:thm2.3:iii} jointly by strong induction in $\alpha$. That is, we suppose that the result holds for all ordinals up to some fixed ordinal $\alpha$, and prove it for $\alpha$ itself.
+
+We begin by proving \ref{item:thm2.3:ii} by contrapositive. Let $q \in \Stone(A)$ such that $\Ext(q,B) \subseteq \Tr^{<\alpha}(B)$. Our first step is to note that $\Ext(q,B)$ is compact (see the proof of Proposition \ref{prop:altv}), that $\Tr^{<\alpha}(B) = \bigcup_{\beta < \alpha} \Tr^{\leq\beta}(B)$, and that each $\Tr^{\leq\beta}(B)$ is open by Theorem \ref{thm:compact}. Thus, we conclude that there is some $\beta < \alpha$ such that $\Ext(q,B) \subseteq \Tr^{\leq\beta}(B)$. We will show that $q \in \Tr^{\leq\beta}(A)$, which will evidently prove the desired result.
+
+If $q \in \Tr^{<\beta}(A)$, there is nothing to show. If $q \in \Stone^\beta(A)$, applying the inductive hypothesis corresponding to \ref{item:thm2.3:iii} yields $q \in \Tr^\beta(A)$, and this part of the proof is done.
+
+It remains to prove part \ref{item:thm2.3:iii} at $\alpha$. Thus, suppose that $q \in \Stone^\alpha(A)$ and that all of its extensions to types in $\Stone(B)$ are in $\Tr^{\leq \alpha}(B)$. We prove that $q \in \Tr^\alpha(A)$ using the characterization given in Proposition \ref{prop:altv}.
+
+\begin{itemize}
+\item (For any $A' \supseteq A$, there are finitely many extensions of $q$ to a type in $\Stone^\alpha(A')$) By applying the `model-gluing properties' established in Section \ref{sec:ch1}, and possibly renaming some elements of $A'$, we may construct a system $B' = A' \cup B$. We shall make use of it to bound the number of extensions of $q$ to $\Stone^\alpha(A')$, with the main observation being the following: Once we've established \ref{item:thm2.3:ii}, we deduce that $\card{\Ext^\alpha(q,A')} \leq \card{\Ext^\alpha(q,B')}$. Thus, if we show that the latter cardinal is finite, the result follows. On the other hand, we have
+\begin{equation}\label{eq:thm2.3}
+\Ext^\alpha(q,B') = \bigcup_{q' \in \Ext(q,B)} \Ext^\alpha(q', B').
+\end{equation}
+
+Now, for $q' \in \Tr^{<\alpha}(B)$, we have $\Ext(q',B') \subseteq \Tr^{<\alpha}(B')$ by \ref{item:thm2.3:i}. Thus, the only values of $q'$ which contribute to the union in \eqref{eq:thm2.3} are those in $\Ext^\alpha(q,B)$, and so we may rewrite \ref{eq:thm2.3} as
+\begin{equation}\label{eq:thm2.3redux}
+\Ext^\alpha(q,B') = \bigcup_{q' \in \Ext^\alpha(q,B)} \Ext^\alpha(q', B').
+\end{equation}
+
+Now, to conclude, we know by assumption that every $q' \in \Ext^\alpha(q,B)$ is in $\Tr^\alpha(B)$. Thus, each $q'$ is an isolated point in $\Stone^\alpha(B)$, whence by compactness of $\Ext^\alpha(q,B)$ there must be finitely many of them. Moreover, for each such $q'$ we have $\Ext^\alpha(q',B')$ is finite. Hence, the right-hand side of \eqref{eq:thm2.3redux} is a finite union of finite sets, whence the result follows.
+
+
+\item ($q$ is an isolated point in $\Stone^\alpha(A)$) For each $q' \in \Ext^\alpha(q,B)$, there is a formula $\varphi_{q'}$ isolating $q'$ from the rest of $\Stone^\alpha(B)$. Moreover, for every $q' \in \Ext(q,B) \cap \Tr^{<\alpha}(B)$, there is a formula $\psi_{q'} \in q'$ such that $U_{\psi_{q'}} \subseteq \Tr^{<\alpha}(B)$, because the latter set is open. By compactness of $\Ext(q,B)$, we conclude that there is a formula $\varphi$ in $\Lang \cup B$ such that every extension of $q$ to a type in $\Stone(B)$ contains $\varphi$, and moreover the only formulas in $\Stone^\alpha(B)$ containing $\varphi$ are the extensions of $q$. Since every extension of $q$ to a type in $\Stone(B)$ contains $\varphi$, by compactness we may find some $\varphi_0 \in q$ such that $T \cup \ADG(B) \vdash \varphi_0 \rightarrow \varphi$. We claim that $\varphi_0$ isolates $q$ in $\Stone^\alpha(A)$.
+
+To this effect, suppose that there was some other type $p \in \Stone^\alpha(A)$ containing $\varphi_0$. By part \ref{item:thm2.3:ii}, there is some extension of $p$ to a type $p' \in \Stone^\alpha(B)$, and hence there is a type in $\Stone^\alpha(B)$ containing $\varphi_0$, and hence $\varphi$, which is not an extension of $q$. This contradiction proves that $p$ may not exist, and hence $q$ is isolated in $\Stone^\alpha(A)$ by $\varphi_0$.
+\end{itemize}
+
+The proof is now complete.
+\end{proof}
+
+\subsection{Connections with Stability}
+
+Let us cite Theorems 2.7 and 2.8 from \cite{morley}:
+
+\begin{theorem}[Theorem 2.7]
+If $T$ is totally transcendental, then $\card{\Stone(A)} \equiv \card A$ mod $\aleph_0$ for every $A \in \calN(T)$.
+\end{theorem}
+
+\begin{theorem}[Theorem 2.8]
+If $\card{\Stone(A)}$ is countable for every countable $A \in \calN(T)$ then $T$ is totally transcendental.
+\end{theorem}
+
+These two theorems relate total transcendence with a concept which is nowadays known as stability.
+
+\begin{definition}
+Let $\kappa$ be an infinite cardinal. We say that a theory $T$ is \emph{$\kappa$-stable} if for every $A \in \calN(T)$ of size $\kappa$, $\Stone(A)$ also has size $\kappa$.
+
+The name $\omega$-stable is frequently used to mean the same as $\aleph_0$-stable.
+\end{definition}
+
+With this language, Theorems 2.7 and 2.8 may be restated as
+
+\begin{theorem}
+If $T$ is the Morleyization of a theory over a countable language, we have the following chain of implications:
+\begin{equation}
+\text{$T$ is $\omega$-stable} \implies \text{$T$ is totally transcendent} \implies \text{$T$ is $\kappa$-stable for every $\kappa \geq \aleph_0$}.
+\end{equation}
+\end{theorem}
+
+The implication between the first and the last statement is surprising, because it does not in general hold that stability in some cardinality implies stability in higher cardinalities.
+
+\subsubsection{Alternate Perspective: A Game of Cat and Mouse}
+
+The following is a very brief exposition of an alternate definition of Morley rank, which was very useful to me when I was starting out. This exposition is not extremely rigorous or accurate, but the interested reader may find more detail in \cite{myself_morley_rank}. I have not seen it elsewhere, and it does not play any role in Morley's thesis.
+
+Let $T$ be a fixed Morleyization of a theory, and consider two players, the Cat and the Mouse, playing a game in which the board consists of a system $A \in \calN(T)$ and a type $p \in \Stone(A)$. The Cat and the Mouse take turns, with the Cat's move consisting of replacing $A$ by some $A' \supseteq A$, and the Mouse's move consisting of extending $p$ to some type $p'$ in $\Ext(p,A')$. The winning condition for the Cat is that they are reliably able to predict the behavior of the Mouse if further extensions to the parameter set are made, but the meaning of this is purposefully ambiguous.
+
+The most basic win case for the Cat is one where the Mouse is at some point forced to extend the type to $p' = \braket{x = a}$ for some $a \in A'$. For example, if $p$ is an algebraic type in the theory of algebraically closed fields of characteristic zero, say $p = \braket{P(x) = 0}$, the Cat's move may be to add to $A$ all roots of the polynomial $P$, in which case the Mouse is forced to make $p$ into the type of one of these roots. In these cases, where the Cat can force the Mouse into extending the type to the type of a particular element, we say that the original type is \emph{algebraic}, and give the Mouse a score of $0$.
+
+However, there are more complicated win conditions. For example, suppose that the Mouse is in a position where, no matter the move the Cat makes, there is only one extension in $\Ext(p,A')$ which is not algebraic. Then, assuming that the Mouse is a perfect actor (and is interested in not losing the game), the Cat can reliably predict that they will always choose this extension, and so we may claim that this is a winning position for the Cat, albeit indirectly. So, we give the Mouse a score of $1$, to mark that this is a win for the Cat, but not as cleanly as the previous paragraph.
+
+Then, one inductively continues this process, defining ever more convoluted win conditions: If one knows what a win condition for the Cat looks like up to, but not including, level $\alpha$, one may define the $\alpha$-winning condition as: No matter how the set of parameters is increased, the Mouse only has one choice that does not bring them to a previously defined losing position.
+
+This alternate definition requires a little bit of work to be made rigorous, and even then some adjustments are necessary to make it agree with Morley rank, but I have found it useful in my work, and it has given me valuable intuition for how Morley rank works and what it is measuring. Again, the interested reader is referred to \cite{myself_morley_rank}.
+
 \section{Chapter 3}\label{sec:ch3}
+
+
+refer to thm 3.3.7 in \cite{cnk} for ramsei
 
 \section{Chapter 4}\label{sec:ch4}
 
