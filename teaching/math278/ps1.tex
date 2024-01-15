@@ -73,7 +73,7 @@
 \newcommand{\ZFC}{\mathbf{ZFC}}
 
 %%%% comment below for solution version
-%\excludecomment{sol}
+\excludecomment{sol}
 
 \begin{document}
 \maketitle
@@ -140,6 +140,8 @@ Rose suffered a similar issue, but instead she wrote: $\braket{x,y} = \{x, \{x,y
 Dave missed the class entirely, and came up with the following definition on his own: $\braket{x,y} = \{\{0, x\}, \{1, y\}\}$. Is there anything wrong with this definition?
 
 Finally, Jade tried to simplify Dave's definition, and defined $\braket{x,y} = \{x, \{y\}\}$. What is wrong with this definition?
+
+Bonus question: Can you come up with any interesting alternate definitions of your own?
 \end{ex}
 
 \begin{sol}
@@ -176,9 +178,25 @@ Jade's definition fails to distinguish $\braket{\{x\}, y}$ from $\braket{\{y\}, 
 Given two sets $A$, $B$, define the cartesian product $A \times B$ and prove in $\ZFC$ that it exists.
 \end{ex}
 
-\begin{ex}
+\begin{sol}
+The cartesian product $A \times B$ is the (unique by extensionality) set satisfying the condition
+\begin{equation}
+\forall_x (x \in (A \times B) \leftrightarrow \exists_a \exists_b (a \in A \land b \in B \land \braket{a,b} = x)).
+\end{equation}
 
-\end{ex}
+To prove that this set exists, we apply the pairing and union axioms to take $A \cup B$, then apply the power set axiom twice, finally followed by the comprehension axiom. Indeed, we construct by comprehension:
+\begin{equation}
+A \times B = \{\,x \in \powerset(\powerset(A \cup B)) \mid \exists_a \exists_b (a \in A \land b \in B \land \braket{a,b} = x)\,\}.
+\end{equation}
+
+The only thing that we need to show is that every pair is in $A \times B$. This is just a matter of noticing that, for $a \in A$ and $b \in B$, $\braket{a,b} = \{\{a\},\{a,b\}\}$ is in $\powerset(\powerset(A \cup B))$, and thus:
+\begin{equation}
+\begin{multlined}
+x \in \powerset(\powerset(A \cup B)) \land \exists_a \exists_b (a \in A \land b \in B \land \braket{a,b} = x) \iff \\
+\iff \exists_a \exists_b (a \in A \land b \in B \land \braket{a,b} = x).
+\end{multlined}
+\end{equation}
+\end{sol}
 
 
 \end{document}
