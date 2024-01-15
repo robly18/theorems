@@ -1,0 +1,170 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+%\usepackage{fullpage}
+\usepackage{titling}
+\setlength{\droptitle}{-3cm}
+\pretitle{\noindent\large}
+\posttitle{\par\smallskip}
+\preauthor{\noindent}
+\postauthor{\par}
+\predate{\noindent}
+\postdate{\par}
+
+\usepackage{graphicx}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+\usepackage{comment}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Math 27800 / CS 27800, Winter 2024: Problem Session 1}
+\author{Duarte Maia}
+\date{Tuesday, January 16th 2024}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Prop}
+\renewtheorem*{prop*}{Prop}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremheaderfont{\bfseries}
+\newtheorem{sol}{Solution}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\newcommand{\id}{\mathrm{id}}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
+
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+
+\newcommand{\Z}{\mathbf{Z}}
+\newcommand{\ZF}{\mathbf{ZF}}
+\newcommand{\ZFC}{\mathbf{ZFC}}
+
+%%%% comment below for solution version
+%\excludecomment{sol}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Prove that the following are well-defined operations in $\ZFC$. First, write down precisely what this means in each case.
+%\begin{multicols}{1}
+\begin{enumerate}
+\item $A \cup B$,
+\item $A \cap B$,
+\item $A \setminus B$.
+\end{enumerate}
+%\end{multicols}
+\end{ex}
+
+\begin{sol}
+We will take note of the axioms we are applying in the following solution. In all, we use extensionality to obtain that the resulting set is uniquely well-defined.
+
+\begin{enumerate}
+\item Given two sets $A$ and $B$, $A \cup B$ is the (unique by extensionality) set such that
+\begin{equation}
+\forall_x (x \in (A \cup B) \leftrightarrow (x \in A \lor x \in B)).
+\end{equation}
+
+It exists by applying the axiom of union to the set obtained by applying the axiom of pairing to $A$ and $B$. In other words, $A \cup B := \bigcup\{A,B\}$. Indeed, under this definition, an arbitrary $x$ is in $A \cup B$ iff $\exists_y (y \in \{A,B\} \land x \in y)$ iff $\exists_y ((y = A \lor y = B) \land x \in y)$, and first-order logic proves that the latter is equivalent to $x \in A \lor x \in B$.
+
+\item Given $A$ and $B$, $A \cap B$ is the unique set such that
+\begin{equation}
+\forall_x (x \in (A \cap B) \leftrightarrow (x \in A \land x \in B)).
+\end{equation}
+
+It can be shown to exist by applying the axiom schema of comprehension to create the set $\{x \in A \mid \varphi(x,B) \}$ with $\varphi(x,B) \equiv x \in B$.
+
+\item  Given $A$ and $B$, $A \setminus B$ is the unique set such that
+\begin{equation}
+\forall_x (x \in (A \setminus B) \leftrightarrow (x \in A \land x \not\in B)).
+\end{equation}
+
+It can be shown to exist by applying the axiom schema of comprehension to create the set $\{x \in A \mid \varphi(x,B) \}$ with $\varphi(x,B) \equiv x \not\in B$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Recall Kuratowski's definition of ordered pair. Denote a pair as $\braket{x,y}$. Prove in $\ZFC$ that if $\braket{x,y} = \braket{x',y'}$ then $x = x'$ and $y = y'$. Take note of the axioms that you need to use to make this definition work.
+\end{ex}
+
+\begin{sol}
+Kuratowski defines $\braket{x,y} = \{\{x\},\{x,y\}\}$.
+
+Suppose that $\braket{x,y} = \braket{x',y'}$. We show $x = x'$ and $y = y'$, but first we make some observations about $\braket{x,y}$.
+
+First, note that $x \in z$ for every $z \in \braket{x,y}$, and indeed the only set satisfying this property is $x$ itself. From this, we immediately conclude $x = x'$.
+
+Second, note that $y \in z$ for \emph{some} $z \in \braket{x,y}$, and only $x$ and $y$ satisfy this property. Thus, we conclude $y = x'$ or $y = y'$. Likewise, $y' = x$ or $y' = y$. From this we conclude that $y = y'$: the only way for this not to directly be the case would have $y = x' = x = y'$ anyway.
+
+The only axiom needed to make this definition work is the axiom of pairing, to ensure that the pair $\braket{x,y}$ exists. Otherwise, no axioms were used.
+\end{sol}
+
+\begin{ex}
+John's professor erased the definition from the board too quickly for him to write it down, so he had to jot it from memory. Instead of Kuratowski's definition, he wrote down: $\braket{x,y} = \{x,y\}$. What is wrong with this definition?
+
+Rose suffered a similar issue, but instead she wrote: $\braket{x,y} = \{x, \{x,y\}\}$. Is there anything wrong with this definition?
+
+Dave missed the class entirely, and came up with the following definition on his own: $\braket{x,y} = \{\{0, x\}, \{1, y\}\}$. Is there anything wrong with this definition?
+
+Finally, Jade tried to simplify Dave's definition, and defined $\braket{x,y} = \{x, \{y\}\}$. What is wrong with this definition?
+\end{ex}
+
+\begin{sol}
+John's definition fails to distinguish the pair $\braket{x,y}$ from $\braket{y,x}$.
+
+\smallskip
+
+Rose's definition works, but, unlike in Kuratowski's definition, we will require the axiom of foundation to do so. We prove now that Rose's definition works.
+
+First, note that $x$ may be recovered from $\braket{x,y}_R$ as the $\in$-minimal element of $\braket{x,y}_R$ (there must be some by regularity, and $x$ is the only possibility). Then, we may also recover the set $\braket{x,y}$ as the non-$\in$-minimal element of $\braket{x,y}_R$, and either this is a singleton set, in which case $y = x$ is recovered, or it is a set with two distinct elements, in which case $y$ is the unique element which is not $x$.
+
+This proof requires foundation in an essential way. To understand why, the reader will have to accept that, without the axiom of foundation, it is consistent that there exists a set $x$ such that $x = \{\{x,0\}, 1\}$. (The choice of $0$ and $1$ are irrelevant; any two distinct sets of the reader's choice would suffice.) Then, if $x' = \{x,0\}$, it is easy to check that $\braket{x, 0} = \braket{x', 1}$, so this is not a good definition of pair in this case!
+
+\smallskip
+
+x
+\end{sol}
+
+\begin{ex}
+Given two sets $A$, $B$, define the cartesian product $A \times B$ and prove in $\ZFC$ that it exists.
+\end{ex}
+
+\begin{ex}
+
+\end{ex}
+
+
+\end{document}
