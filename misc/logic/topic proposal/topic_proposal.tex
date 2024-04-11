@@ -1,0 +1,567 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+
+\usepackage[inline]{enumitem}
+
+
+\usepackage[cal=euler]{mathalpha}
+%\usepackage{ dsfont }
+
+\usepackage{comment}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Topic Proposal\\On Model Saturation}
+\author{Student: \textbf{Duarte Maia}\\[1ex]Discussed with: \textbf{Leonardo Coregliano, Denis Hirschfeldt, Maryanthe Malliaris}}
+\date{Written February 7th, 2024\\
+To be presented in late February}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{prop}[theorem]{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{prelimdef}[theorem]{Preliminary Definition}
+\newtheorem{definition}[theorem]{Definition}
+
+%\theoremstyle{nonumberplain}
+\theoremsymbol{}
+\newtheorem{convention}{Convention}
+\newtheorem{openq}[theorem]{Open Question}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\newtheorem{explanation}{Explanation}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\Lang}{\mathcal{L}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\Stone}{\mathrm{S}}
+\newcommand{\PStone}{\mathrm{PS}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\PTr}{PTr}
+\DeclareMathOperator{\Th}{Th}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+%\newcommand{\card}[1]{\#{#1}}
+\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
+
+
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+We present a very important notion from Model Theory, which is that of a saturated model. In Section \ref{sec:inaction} we present some diverse applications of the concept. In Section \ref{sec:kueker} we present a long-standing open question from Model Theory which relates to this concept, called Kueker's Conjecture. In Section \ref{sec:comp} we briefly discuss the interaction between saturation and Computability Theory, and present an open question in this field.
+
+\section{Basic Model Theoretic Notions}
+
+We give a very brief review of the requisite definitions from Model Theory and First Order Logic. For a slightly less brief review, see appendix \ref{appendix:1}, and for more details see \cite{cnk} or \cite{shoenfield}.
+
+A \emph{language} $\Lang$ is a (possibly infinite) set of symbols, e.g.\ $+$, $\times$, $<$, $0$, from which we build up \emph{terms} e.g.\ $x \times (1 + 1)$ and \emph{formulas} e.g.\ $\exists_y (x < y \lor x > 1+1)$. We work in first-order logic, which means that in writing formulas we are allowed to quantify over elements of the universe, but not sets of elements. A \emph{sentence} is a formula whose variables are all being quantified over, so $x=1$ is not a sentence, but $\forall_x (x=1)$ is.
+
+Given a language, we have a notion of \emph{model}, which is a structure $M$ on which we have an interpretation for all the symbols in the language. Given a formula $\varphi(x_1, \dots, x_n)$, and $a_1, \dots, a_n \in M$, the symbol ${M \vDash \varphi[a_1, \dots, a_n]}$ means: The formula $\varphi$ is true in $M$ when each $x_i$ is replaced by $a_i$. Given a set of sentences, say $T$, a \emph{model of $T$} is a model which satisfies all sentences in $T$.
+
+\begin{example}
+Models of first-order theories are common in everyday mathematics, usually in the form of algebraic structures. Examples of classes of models include: Groups, rings, fields, algebraically closed fields, partially ordered sets, linearly ordered sets, graphs, etc.
+\end{example}
+
+\section{Completeness, Compactness, Saturation}
+
+Let $T$ be a theory, i.e.\ a set of sentences. Does $T$ have a model? Gödel's completeness theorem gives us conditions to ensure that the answer is yes. In short, one may define a notion of provability, and inquire whether from the axioms of $T$ one may prove a contradiction. If $T$ has a model $M$, anything that may be proven from $T$ will be true in $M$, and since mathematical objects do not satisfy contradiction, one obtains
+\begin{theorem}[Soundness of First-Order Logic]
+If $T$ proves a contradiction, it has no models.
+\end{theorem}
+
+Gödel proved that this is the only possible obstruction to a theory having a model.
+\begin{theorem}[Completeness]
+If $T$ does not prove a contradiction, it has at least one model.
+\end{theorem}
+
+The completeness theorem is far-reaching in its applications, in no small part through the following corollary.
+\begin{corollary}[Compactness of First Order Logic]
+Let $T$ be a set of sentences, and suppose that every finite subset of $T$ admits a model. Then, $T$ itself admits a model.
+\end{corollary}
+
+\begin{proof}
+If $T$ did not admit a model, by the Completeness theorem, it would be possible to prove a contradiction from the formulas in $T$. However, proofs are finite objects, and so such a proof would require invoking only a finite subset $T'$ of axioms of $T$. Then, $T'$, a finite subset of $T$, proves a contradiction, and so by Soundness may not have a model. This contradicts the assumption that every finite subset of $T$ has a model.
+\end{proof}
+
+\begin{remark}\label{rmk:pa}
+Compactness may be used to indirectly construct objects with `strange' properties. For example, the reader may be aware of Peano's axioms, which are intended to characterize the natural numbers. These may be stated in first-order logic, in the language $\Lang = (0,S,+,\times,<)$, yielding the theory referred to as $\mathrm{PA}$. This theory contains statements such as: $S$ is injective, $+$ is associative and commutative, $x<y$ iff there is $z\neq 0$ such that $y=x+z$, and the axiom schema of induction: If a property\footnote{More accurately: A property which is expressible as a first-order formula.} $P$ is verified for zero, and it is shown that from $P(n)$ one concludes $P(n+1)$, then we have that $P(x)$ holds for all $x$.
+
+Evidently, the natural numbers themselves are a model of $\mathrm{PA}$, but there are also others, the so-called \emph{non-standard models} of $\mathrm{PA}$.
+\end{remark}
+
+\begin{theorem}\label{thm:nonstd}
+There exist models of $\mathrm{PA}$ which are not the natural numbers.
+\end{theorem}
+
+\begin{proof}
+Let us augment our language $\Lang$ by adding a new constant symbol $c$, obtaining a language $\Lang'$. Moreover, we augment our set of axioms to obtain a theory $T$, consisting of all axioms of $\mathrm{PA}$ together with the axioms: $c \neq 0$, $c \neq S(0)$, $c \neq S(S(0))$, and so on.
+
+Any finite subset $T'$ of these axioms has a model, obtained as follows: Consider the natural numbers with the usual operations $S$, $+$, etc, and interpret the constant $c$ as a large enough number $n$ such that the axiom $c \neq S^n(0)$ is not in $T'$.
+
+By the compactness theorem, we conclude that $T$ itself has a model $M$, and in this model $M$ the constant symbol $c$ must have some interpretation. But the axioms of $T$ forbid that $c$ be interpreted as any particular natural number, and so $M$ must have elements which are not in $\N$.
+\end{proof}
+
+The idea used in the proof above is quite powerful: We may construct models with elements satisfying infinitely many conditions, provided that any finite subset of these conditions may be satisfied. This motivates the following definition.
+
+\begin{definition}
+A partial type in $n$ variables, over a theory $T$, is a set of formulas $\Sigma$ whose free variables are contained in $(x_1, \dots, x_n)$, and such that for any finite subset $\Sigma'$ of $\Sigma$ there is some model $M$ of $T$, together with elements $a_1, \dots, a_n$ of $T$, such that all formulas in $\Sigma'$ are satisfied by $M$ when $x_i$ is replaced by $a_i$. In other words, we say that $\Sigma$ is \emph{finitely realizable}.
+\end{definition}
+
+\begin{theorem}\label{thm:ptype}
+If $\Sigma$ is a partial type in $n$ variables over $T$, there is a model $M$ and a sequence of elements $(a_1, \dots, a_n) \in M^n$ that satisfies all the formulas in $\Sigma$.
+\end{theorem}
+
+Theorem \ref{thm:ptype} may be informally understood as: If I am given an arbitrary amount of equations, and $T$ does not forbid any finite subset of them from having a joint solution, then there is a model containing a solution to all of them.
+
+It is worth noting that we have very little control over the model obtained from Theorem \ref{thm:ptype}. For example, the model obtained in Theorem \ref{thm:nonstd}, corresponding to the partial type $\Sigma = \{x \neq S^n(0)\}_{n \in \N}$, is not and cannot be the natural numbers, even though the natural numbers were used to show that any finite subset of $\Sigma$ is realizable. This leads to a different, but related question: Let $M$ be a model, and suppose that we have written down a large amount of equations (in the general sense of `formulas with $x$ as a free variable') such that any finite subset of these equations has a solution in $M$. Then, does the entirety of our equations have a joint solution in $M$?
+
+\begin{definition}\label{def:sat}
+Let $M$ be a model. Let $\Sigma$ be a set of formulas in one free variable, let us call it $x$. Suppose moreover that the formulas from $\Sigma$ may also refer to a previously fixed set of parameters from $M$, let us call them $\{a_i\}_{i \in I}$.\footnote{Formally, this means that $\Sigma$ is actually a set of formulas in an `extended language', which includes the original language $\Lang$, as well as a collection of new constant symbols which are understood to represent the $a_i$.} We say that $\Sigma$ is \emph{realized by $M$} if there is some $m \in M$ such that every formula in $\Sigma$ holds (in $M$) when $x$ is replaced by $m$.
+
+We say that such a set $\Sigma$ is \emph{finitely realized} if any of its finite subsets are realized in $M$. In turn, we say that $M$ is \textbf{$\omega$-saturated} if any $\Sigma$ which refers to finitely many parameters from $M$ and is finitely realized is realized.
+\end{definition}
+
+\begin{remark}
+An adaptation of Theorem \ref{thm:ptype} will show that we may find a model $M'$, containing $M$, which does contain a joint solution. This is akin to when, in field theory, one adjoins a root of a polynomial to a pre-existing field. On the other hand, the property of $M$ being $\omega$-saturated is more akin to demanding that $M$ is algebraically closed: We know that solutions to our equations exist \emph{somewhere}, possibly a bigger model, but $\omega$-saturation guarantees that our $M$ already has them.
+\end{remark}
+
+\begin{remark}
+It is possible to strengthen the notion of saturation from Definition \ref{def:sat} as follows. If $\kappa$ is a cardinal, we say that $M$ is \textbf{$\kappa$-saturated} if for any set of formulas $\Sigma$ such that
+\begin{itemize}
+\item $\Sigma$ refers to \emph{strictly less than} $\kappa$-many parameters from $M$, and
+\item $\Sigma$ is finitely realized,
+\end{itemize}
+we have that $\Sigma$ is realized.
+
+Moreover, we say that a model $M$ is \textbf{saturated} (with no reference to cardinality) if $M$ is saturated in its own cardinality.
+\end{remark}
+
+\begin{example}
+Consider the language $\Lang$ containing only one symbol, $<$, and consider the model $M_0$ given by: $\Q$, with the usual ordering. Then, $M_0$ is $\omega$-saturated\footnote{Sketch: The theory of $(\Q,<)$ admits quantifier elimination, which means that any formula $\varphi(x,a_1, \dots, a_n)$ may be reduced (i.e.\ is equivalent) to a boolean combination of statements saying that $x$ is either less than, greater than, equal, or different from some $a_i$. This means that there are, up to logical equivalence, only finitely many possible distinct statements we can make using a fixed finite set of parameters (this uses the fact that we are working in a finite relational language), and so, if $\Sigma$ is a finitely realizable set of formulas in $x$, one may take a finite subset of $\Sigma$ which essentially represents it, and by hypothesis this finite subset has a solution.}. On the other hand, if $M_1$ is the model in $\Lang' = (<,+)$ given by $\Q$ with the usual ordering and addition, $M_1$ is not $\omega$-saturated. Indeed, $1 \in \Q$ may be used as a parameter, and so we may consider the set of equations
+\begin{equation}
+\Sigma = \{ x > 1, x > 1+1, x>1+1+1, \dots \},
+\end{equation}
+which evidently does not have a solution in $M_1$, even though any finite subset of $\Sigma$ does.
+\end{example}
+
+\section{Saturation in Action}\label{sec:inaction}
+
+We will now go over some ramifications of the concept of saturation.
+
+\subsection{Categoricity in Power}\label{sec:morley}
+
+In 1962, Michael Morley graduated with a PhD from the University of Chicago, with the main result from his thesis \cite{morley} being the following:
+
+\begin{definition}
+Let $T$ be a theory and $\kappa$ a cardinal. We say that $T$ is \emph{$\kappa$-categorical} if it admits \emph{exactly} one model of size $\kappa$ up to isomorphism.
+\end{definition}
+
+\begin{theorem}\label{thm:morley}
+Let $T$ be a complete theory in a countable language, and suppose that $T$ is $\kappa$-categorical for some uncountable cardinality $\kappa$. Then, $T$ is categorical in every uncountable cardinality.
+\end{theorem}
+
+It would not be possible to do Morley's work justice in this brief document, but a very high-level overview of his proof goes as follows: Morley shows that if $T$ is categorical in some infinite cardinality, then $T$ satisfies a certain `topological' property; we say $T$ is \emph{totally transcendental}. Then, Morley shows that if $T$ is totally transcendental, the following hold:
+\begin{enumerate}
+\item\label{item:3} Any two saturated models of $T$ of the same cardinality are isomorphic\footnote{This item does not require that $T$ be totally transcendental.} (Morley's Theorem 5.1),
+\item\label{item:1} For every $\kappa > \aleph_0$, there is an $\aleph_1$-saturated model of size $\kappa$ (Morley's Theorem 5.2),
+\item	\label{item:2} If $T$ has an uncountable model $M$ which is not saturated, it has a model of every uncountable cardinality that is not $\aleph_1$-saturated (Morley's Theorem 5.4).
+\end{enumerate}
+
+With these three ingredients, one obtains that, if $T$ is categorical in some uncountable cardinality, say $\kappa$, but not in another, say $\lambda$, by \ref{item:3} there is a model of size $\lambda$ which is not saturated, by \ref{item:2} there is a model of size $\kappa$ which is not $\aleph_1$-saturated, and by \ref{item:1} there is a model of size $\kappa$ which is $\aleph_1$-saturated. Thus, we obtain two non-isomorphic models of size $\kappa$, which contradicts the hypothesis that $T$ is categorical in $\kappa$.
+
+\subsection{$\omega$-categoricity}\label{sec:omega}
+
+Three years prior to Morley's theorem (\ref{thm:morley} above), giving us a large amount of information about theories (in a countable language) categorical in any uncountable power, three distinct authors independently published a characterization of theories (in a countable language) categorical in $\aleph_0$, i.e.\ theories in a countable language with exactly one countable model (see introduction of \cite{primersimpletheories}, also top of page 606 in \cite{cnk}).
+
+Theorem \ref{thm:omegacat} below may be found as Theorem 2.3.13 in \cite{cnk}.
+
+\begin{definition}\label{def:type}
+A \emph{type} is a maximal partial type.
+\end{definition}
+
+\begin{theorem}[Ryll-Nardzewski, Engeler, Svenonius]\label{thm:omegacat}
+Let $T$ be a complete theory over a countable language. Then, $T$ is $\omega$-categorical iff, for every $n \in \N$, there are only finitely many types in $n$ variables over $T$.
+\end{theorem}
+
+\begin{remark}
+The point of Theorem \ref{thm:omegacat} is that it relates a model-theoretic notion (the number of countable models of $T$) to a purely syntactic notion ($T$ has finitely many types in each finite arity).
+\end{remark}
+
+In the course of proving Theorem \ref{thm:omegacat}, one winds up obtaining several other equivalent characterizations of $\omega$-categoricity, notably the following:
+\begin{lemma}\label{lem:omegacat}
+Let $T$ be a complete theory over a countable language. Then, $T$ is $\omega$-categorical iff there is a countable model of $T$ that is both atomic and $\omega$-saturated.
+\end{lemma}
+
+\begin{remark}\label{rmk:atomic}
+We have not defined what it means for a model to be atomic, but it will surface again soon so we give a brief description. First, it is worth noting that to say that a countable model $M$ is $\omega$-saturated is to say that it is as `full' or `complete' as it can be, in the sense that any system of equations (in finitely many parameters) that has a solution somewhere also has a solution in $M$. The notion of atomicity is a sort of dual, in that a model $M$ is said to be atomic if it contains as few things as it can get away with having. With this perspective, Lemma \ref{lem:omegacat} may be read as saying: If we have a countable model which is both as big and as small as a countable model can be, it is the only countable model.
+\end{remark}
+
+\subsection{A Result by Vaught}\label{sec:vaught}
+
+On the subject matter of counting the number of countable models, Vaught proved the following result.
+
+\begin{theorem}\label{thm:vaught}
+If $T$ is a complete theory in a countable language, it cannot have exactly two countable models.
+\end{theorem}
+
+The proof of Theorem \ref{thm:vaught}, which may be found as Theorem 2.3.15 in \cite{cnk}, goes roughly as follows. First, one proves that if $T$ has only finitely many countable models (or, indeed, countably many) then $T$ has a saturated model and an atomic model. Moreover, by Lemma \ref{lem:omegacat}, if both of these are the same then $T$ has exactly one countable model. Thus, we suppose that they are not, and construct an `intermediate model', which we construct as to be neither saturated nor atomic, and so we have at least three distinct countable models.
+
+\subsection{Saturated $=$ Universal $+$ Homogeneous}
+
+We have mentioned earlier that saturated models are, in some sense, models that are `as large as possible'. A reasonable alternative interpretation of `large'  would be to say that a model (of size $\kappa$, say) is `large' if every model (of the same theory) of its size or smaller embeds into it in a reasonable way. This leads to the following definitions.
+\begin{definition}
+Two models, $M$ and $N$ (in the same language $\Lang$), are said to be \emph{elementarily equivalent} if they have the same theory, i.e.\ if a sentence in first order logic (of $\Lang$) holds in $M$ if and only if it holds in $N$.
+
+If $f \colon M \to N$ is a structure-preserving map, we say $f$ is a \emph{elementary embedding} if, for any formula $\varphi(x_1, \dots, x_n)$, and any $a_1, \dots, a_n \in M$, we have $M \vDash \varphi[a_1, \dots, a_n]$ iff $N \vDash \varphi[f(a_1),\dots,f(a_n)]$.
+\end{definition}
+
+\begin{remark}
+The notation $\card X$, with $X$ a set, refers to the cardinality of $X$.
+\end{remark}
+
+\begin{definition}
+A model $M$ is said to be \emph{$\kappa$-universal} if, for every model $N$ that is elementarily equivalent to $M$ and that satisfies $\card N < \kappa$, there is an elementary embedding from $N$ into $M$.
+\end{definition}
+
+\begin{remark}
+The previous given description of a `large model' as `a model $M$ such that every model of its size or smaller embeds into it', is described by saying that $M$ is $\card{M}^+$-universal. Note the plus sign in superscript; this is the `next cardinal' operation.
+
+A weaker notion of `large' would be to say that $M$ is $\card M$-universal; this would mean that any model \emph{strictly} smaller than $M$ embeds into $M$.
+\end{remark}
+
+The notion of $\kappa$-saturation is strictly stronger than that of $\kappa$-universal. That is, every $\kappa$-saturated model is $\kappa$-universal, and indeed $\kappa^+$-universal, but not the other way around. However, there is an extra ingredient that may be added to produce an equivalence, which is $\kappa$-homogeneity.
+
+\begin{definition}\label{def:looksame}
+Let $M$ be a model, and $\vec a = \{a_i\}_{i \in I}$ and $\vec b = \{b_i\}_{i \in I}$ two families of elements of $M$ with the same index set. Then, we say that $\vec a$ and $\vec b$ \emph{have the same type} if, for every formula $\varphi(x_1, \dots, x_n)$, and sequence of indices $i_1, \dots, i_n \in I$, we have
+\begin{equation}
+M \vDash \varphi[a_{i_1},\dots,a_{i_n}] \text{ iff } M \vDash \varphi[b_{i_1},\dots,b_{i_n}].
+\end{equation}
+\end{definition}
+
+\begin{remark}\label{rmk:looksame}
+Definition \ref{def:looksame} encapsulates the notion that the families $\vec a$ and $\vec b$ look the same from within, in that if you ask both families a (finitary) question, they will both provide the same reply.
+\end{remark}
+
+\begin{definition}\label{def:homogeneous}
+A model $M$ is said to be $\kappa$-homogeneous if, for every $\lambda < \kappa$, two $\lambda$-tuples $\vec a, \vec b \in \prescript\lambda{}M$ with the same type, and $c \in M$, there is some $d \in M$ such that $(\vec a, c)$ has the same type as $(\vec b, d)$.
+\end{definition}
+
+In view of Remark \ref{rmk:looksame}, the definition of $\kappa$-homogeneous may be interpreted as follows. Suppose that you have two families $\vec a$ and $\vec b$ of less than $\kappa$-many elements, and both families look the same from within. Then, one may wonder whether they also look the same from without. The assumption of $\kappa$-homogeneity provides a reasonable answer in the affirmative: If $\vec a$ and $\vec b$ are indistinguishable from within, they can also not be distinguished by asking whether there exists someone who relates to them in some way; if $c$ relates to $\vec a$ in such-and-such way, we can find $d$ who relates to $\vec b$ in the same.
+
+\begin{remark}
+Even though Definition \ref{def:homogeneous} only guarantees `indistinguishability from the perspective of one new element', it is equivalent by iteration to the requirement that, for any family $\vec c$ of less than \emph{or equal to} $\kappa$-many elements of $M$, there is a family $\vec d$ such that $(\vec a, \vec c)$ has the same type as $(\vec b, \vec c)$.
+\end{remark}
+
+The following is a slight modification of Theorem 5.1.14 in \cite{cnk}.
+
+\begin{theorem}
+Let $\kappa$ be an infinite cardinal, and $M$ a model for a language $\Lang$ of size at most $\kappa$. Then, $M$ is $\kappa$-saturated iff it is $\kappa$-homogeneous and $\kappa^+$-universal.
+
+Moreover, under the assumption that $\Lang$ has size \emph{strictly less than} $\kappa$ and $\kappa$ is uncountable, $M$ is $\kappa$-saturated iff it is $\kappa$-homogeneous and $\kappa$-universal.
+\end{theorem}
+
+\section{Kueker's Conjecture}\label{sec:kueker}
+
+Kueker's Conjecture is an open problem in Model Theory, which was posed by David Kueker around the late 70's \cite{kuekersuperstable}. This 50-year old conjecture relates two model-theoretic notions we've already introduced: Saturation and Categoricity.
+
+From the examples in Sections \ref{sec:morley}, \ref{sec:omega}, and \ref{sec:vaught}, one may be led to believe that there is a relation between saturation and counting models of theories.
+
+\begin{conjecture}[Kueker]
+Let $T$ be a complete theory in a countable language, such that every uncountable model of $T$ is $\aleph_0$-saturated. Then, $T$ is categorical in some power, i.e.\ there is some cardinality $\kappa$ such that every model of $T$ of size $\kappa$ is isomorphic.
+\end{conjecture}
+
+It should be noted that the converse to this conjecture is known to be true.
+
+\begin{theorem}[Converse to Kueker's Conjecture]
+Let $T$ be a complete theory over a countable language, and suppose that $T$ is categorical in some power. Then, every uncountable model of $T$ is $\aleph_0$-saturated.
+\end{theorem}
+
+\begin{proof}
+We split the proof into cases, depending on which cardinality $\kappa$ we assume $T$ is categorical in.
+\begin{enumerate}[label=(\roman*)]
+\item If $\kappa$ is finite, $T$ has a finite model $M$. Then, every model of $T$ satisfies a sentence of the form `There exist $x_1, \dots, x_{\card M}$ such that, for all $y$, $y = x_1$ or $\dots$ or $y = x_{\card M}$. Thus, every model of $T$ is finite, hence any statement about every uncountable model of $T$ holds by vacuosity.
+
+\item If $\kappa$ is uncountable, we refer to the results of Section \ref{sec:morley}. Indeed, from Theorem \ref{thm:morley} and item \ref{item:1} we immediately conclude the result.
+
+\item If $\kappa = \aleph_0$, we obtain, by one of the characterizations of $\aleph_0$-categorical theories (see property (c) in Theorem 2.3.13 in \cite{cnk}) that every type $\Sigma(x_1, \dots, x_n)$ in finitely many variables is generated by a single formula $\varphi(x_1, \dots, x_n)$. Thus, we can verify $\aleph_0$-saturation of an arbitrary \emph{infinite} model $M$ directly.
+
+Let $\Sigma_0$ be a finitely realized set of formulas in one free variable $x$, possibly using parameters $a_1, \dots, a_n$ from $M$. Let us write this more explicitly as $\Sigma_0 \equiv \Sigma_0(x,a_1,\dots,a_n)$. Without loss of generality, we replace $\Sigma_0$ by a maximal finitely realized set of formulas $\Sigma(x,a_1, \dots, a_n)$. It is a standard fact that the set of formulas obtained by replacing the parameters by variables, say $\Sigma(x,y_1,\dots,y_n)$ is a type, and so is generated by a single formula $\varphi(x,y_1, \dots, y_n)$. Since $\Sigma$ is finitely realized, there is some $b \in M$ satisfying $M \vDash \varphi[b,a_1,\dots,a_n]$, and since $\varphi$ generates the type $\Sigma(x,y_1,\dots,y_n)$ we conclude that $b$ satisfies all formulas in $\Sigma$ and hence $\Sigma_0$.
+\end{enumerate}
+\end{proof}
+
+Back to the conjecture, we give a brief survey of current results. Most work done in this area has gone towards proving Kueker's Conjecture for certain classes of theories that have amenable properties. We will not be explaining the meaning of the undefined terms in the sequel, but it should be understood that the following theorems are written in increasing order of generality.
+
+\begin{theorem}[Lachlan, unpublished \cite{kuekersuperstable}]
+Kueker's Conjecture holds when $T$ is an $\omega$-stable theory.
+\end{theorem}
+
+\begin{theorem}[Buechler, 1984 \cite{kuekersuperstable}]
+Kueker's Conjecture holds when $T$ is a superstable theory.
+\end{theorem}
+
+\begin{theorem}[Hrushovski, 1989 \cite{hrushovski_kueker}]
+Kueker's Conjecture holds when $T$ is a stable theory. It also holds if $T$ is the theory of a linear order, or if $T$ is a theory with Skolem functions.
+\end{theorem}
+
+To the best of the author's knowledge, at the time of writing, the following is the most recent result in the area.
+
+\begin{theorem}[Tanović, 2012 \cite{tanovic_kueker}]
+Kueker's Conjecture holds when $T$ is an NIP theory with infinite $\mathrm{dcl}(\emptyset)$.
+\end{theorem}
+
+\section{Relations to Computability Theory, and an Open Question}\label{sec:comp}
+
+Computability Theory is, roughly speaking, the study of what may or may not be solved in an algorithmic manner, and more generally the study of different tiers of `algorithmic difficulty'. Two prototypical results from computability theory are the following:
+\begin{theorem}[Halting Problem]
+There is no computer program that will tell in finite time whether a given computer program will terminate in finite time or enter an infinite loop.
+\end{theorem}
+\begin{theorem}[Decision Problem]
+There is no computer program that will tell whether a given first-order sentence is a consequence of the Peano Axioms (see Remark \ref{rmk:pa}).
+
+More generally, there is no computer program that will reliably tell whether a given first-order sentence is a consequence of a(n appropriately given) set of axioms.
+\end{theorem}
+
+The above two theorems tell us that certain problems, namely the problem of telling whether a given program halts (Halting Problem) or whether a given formula follows from $\mathrm{PA}$ (Decision Problem for $\mathrm{PA}$), are of nontrivial `algorithmic difficulty'.
+
+Computability theorists also care about `relative difficulty' of problems. For example, it happens that the Halting Problem and the Decision Problem are of equivalent difficulty, in a way that may be formalized as follows: If we were given a black-box which solves the Halting Problem, and we could create a computer program with the ability to query this black box (finitely many times), then we could solve the Decision Problem, and vice-versa. This is not to say that all `algorithmically impossible' problems are made equal: For example, the problem of telling whether a given first-order sentence in the language of arithmetic is true of the (standard) natural numbers is \emph{strictly} harder than the two above problems. Formally, this entire paragraph may be summarized as:
+\begin{theorem}\label{thm:reducibles}
+The Halting Problem is Turing-reducible to (`algorithmically at least as easy as') the Decision Problem and vice-versa. On the other hand, these two problems are Turing-reducible to the Decision Problem for True Arithmetic (i.e.\ `is this first-order sentence true of the natural numbers?'), but not the other way around.
+\end{theorem}
+
+\begin{remark}\label{rmk:oracle}
+This idea of a `black box which solves problem $X$' is a very important notion in computability theory. Such a hypothetical `black box' is usually referred to as an \emph{oracle}.
+\end{remark}
+
+\begin{remark}
+The notion of oracle and the Halting Problem are standard in computability theory, and may be found in any modern source, see for e.g.\ \cite{soare1} or \cite{avigad}. The undecidability of the Decision Problem is Corollary 12.2.9 of \cite{avigad}. Theorem \ref{thm:reducibles} follows from results stated in \cite{two_theorems}.
+\end{remark}
+
+A relatively formulaic way to generate questions in computability theory is to consider a mathematical theorem of the form `For all $X$ there is a $Y$', and ask whether it can be `effectivized'. This means that, if $X$ or $Y$ are infinitary objects, we ask whether the theorem remains true when $X$ and $Y$ replaced by `effective' versions of themselves. For example:
+\begin{itemize}
+\item A theory $T$ would be replaced by either
+\begin{itemize}
+\item An algorithm that prints out all sentences in $T$, or
+\item (Equivalently) An algorithm that prints out a set of axioms for $T$, or
+\item (Nonequivalently) (\emph{Decidable Theory}) An algorithm that, given a sentence $\varphi$, will output whether $\varphi$ is provable from $T$ or not;
+\item (Equivalent to Decidable Theory) An algorithm that prints out all sentences in $T$ \emph{in lexicographic order}.
+\end{itemize}
+\item A (countable) model $M$ would be assumed to have $\N$ as its domain, and be replaced by either
+\begin{itemize}
+\item For each function $f$ symbol in the language, an algorithm to compute $f \colon \N^n \to \N$, and something similar for predicate symbols, or
+\item (Nonequivalently) An algorithm that, given a function symbol $f$ in the language, will output an algorithm to compute $f \colon \N^n \to \N$, and something similar for predicate symbols, or
+\item (Nonequivalently) (\emph{Decidable Model}) An algorithm that, given a first-order formula $\varphi(x_1, \dots, x_n)$ and a sequence $m_1, \dots, m_n \in M$, will output whether $\varphi(m_1, \dots, m_n)$ holds in $M$.
+\end{itemize}
+\end{itemize}
+
+As the reader can see, the same `classical' notion may have more than one nonequivalent `effective' analogues. In some cases, this leads to several distinct theorems, with slightly differing hypotheses and conclusions, and in others it leads to questions such as `what is the correct effective analogue of this concept that we need in order to effectivize this theorem?' That said, here is an example of a mathematical theorem and one of its effective analogs:
+\begin{theorem}[Completeness]
+A consistent theory $T$ over a countable language will have a countable model $M$.
+\end{theorem}
+
+\begin{theorem}[Effective Completeness]
+Let $T$ be a decidable consistent theory. Then, $T$ admits a decidable model $M$.
+\end{theorem}
+
+\smallskip
+
+In the 70's, Goncharov, Millar, and several others studied effectivizations of constructions of certain `special models' from model theory, including atomic models (see Remark~\ref{rmk:atomic}) and saturated models; for a survey of this area, see~\cite{harizanov}. This area saw a resurgence in the 2000's, due to Harizanov, Harris, Hirschfeldt, Knight, Soare, and others. A plethora of results came of this exploration, but some questions are still open. We outline one such question, presented to me by Hirschfeldt.
+
+First, consider the following theorem from model theory:
+\begin{theorem}\label{thm:sat1}
+Let $T$ be a complete and consistent theory over a countable language. If $T$ admits at most countably many types (over finitely many variables) (see Definition \ref{rmk:atomic}), then $T$ admits a countable saturated model. The converse also holds.
+\end{theorem}
+
+Then, one can try to find an effective version of Theorem \ref{thm:sat1}. One may attempt to replace `theory' by `decidable theory' and `model' by `decidable model', but Theorem \ref{thm:sat2} below shows that this is too much to hope for.
+
+\begin{theorem}\label{thm:sat2}
+Let $T$ be a complete and consistent decidable theory. If $T$ admits a saturated decidable model, then every type over $T$ is decidable (in some appropriate sense).
+\end{theorem}
+
+\begin{proof}
+It may be shown that countable saturated models will realize all types over countably many variables, and that the type of any tuple of elements of a decidable model is decidable.
+\end{proof}
+
+A converse to Theorem \ref{thm:sat2} would provide a desired analogue to Theorem \ref{thm:sat1}, but it is not so. The following result is due to Millar \cite{millar}:
+\begin{theorem}\label{thm:cex}
+There is a complete and consistent decidable theory $T$ over which every type is decidable, but that admits no saturated decidable model.
+\end{theorem}
+
+This raises another common type of computability-theoretic question, however. What is the algorithmic difficulty of the task: `Given a complete and consistent decidable theory over which every type is decidable, build a saturated decidable model'? A partial result is given by Theorem \ref{thm:sat3} below, which may be found in \cite{ken1}.
+
+\begin{definition}
+For the remainder of this document, we shall distinguish two special types of oracles, though their definitions will be omitted as they are somewhat technical and not terribly relevant.
+
+An oracle $\mathbf{a}$ is said to be \emph{nice} if it satisfies condition (v) in Theorem 1 of \cite{jockusch_1972}.
+
+An oracle $\mathbf{a}$ is said to be \emph{of r.e. degree} if it is computationally equivalent to a recursively enumerable set (see \cite{soare1} or any other standard textbook for a definition of this term).
+\end{definition}
+
+\begin{remark}
+The notion of an oracle of r.e. degree is standard in the literature. The notion of a nice oracle is not, and has been defined merely for notational convenience in this document. A computability theorist would instead say that the oracle has `\emph{high or PA degree}'.
+\end{remark}
+
+\begin{theorem}[Harris]\label{thm:sat3}
+Given a nice oracle $\mathbf{a}$ and a complete consistent decidable theory $T$, there is a saturated $\mathbf{a}$-decidable model\footnote{This means that, in the definition of decidable model, one replaces `algorithm' by `algorithm which may consult the oracle $\mathbf{a}$ during its execution'.} of $T$.
+\end{theorem}
+
+\begin{definition}
+An oracle $\mathbf{a}$ is said to be \emph{saturated bounding} if for every complete consistent decidable theory $T$ all of whose types are decidable there is a saturated $\mathbf{a}$-decidable model.
+\end{definition}
+
+\begin{remark}
+Theorem \ref{thm:sat3} may be rephrased as: Every nice oracle is saturated bounding.
+\end{remark}
+
+It is currently unknown whether the converse of Theorem \ref{thm:sat3} holds.
+
+\begin{openq}\label{openq}
+Let $\mathbf{a}$ be a saturated bounding oracle. Is $\mathbf{a}$ necessarily nice?
+\end{openq}
+
+\begin{remark}
+A way to interpret Open Question \ref{openq} is as follows. Theorem \ref{thm:sat3} gives us an upper bound on how complicated an oracle must be to construct saturated models of certain theories. The question is whether this upper bound is tight.
+\end{remark}
+
+A partial answer to this open question was obtained by Harris in an unpublished memo \cite{ken2}:
+
+\begin{theorem}
+Let $\mathbf{a}$ be an r.e. oracle. Then, $\mathbf{a}$ is saturated bounding iff it is nice.
+\end{theorem}
+
+
+\pagebreak
+
+
+\appendix
+
+\section{An Abbreviated List of Definitions}\label{appendix:1}
+
+The following is a reference for the reader who may be less comfortable with the requisite definitions. For more detail, see \cite{cnk} or \cite{shoenfield}.
+
+\begin{definition}
+A \emph{language} $\Lang$ is a set of formal symbols, divided into three categories:
+\begin{itemize}
+\item Constant symbols, e.g.\ $0$, $1$, $e$; abstract constants are usually denoted by $c$, or $c_1, c_2, \dots$ etc.
+\item Function symbols, e.g.\ $+$, $\times$, $\cdot^{-1}$; abstract function symbols are usually denoted by $f$, $f_n$, etc. Each function symbol comes equipped with an `arity' (a positive integer), which means that we know how many `arguments' it `takes'.
+\item Predicate symbols, e.g.\ $=$, $<$, $\in$; abstract predicates are usually denoted $p$, $p_n$, etc. Each predicate symbol comes equipped with an arity.
+\end{itemize}
+\end{definition}
+
+\begin{definition}\label{def:formula}
+Given a language $\Lang$, we define:
+\begin{itemize}
+\item Terms of $\Lang$: Valid combinations of variables (a collection of formal symbols that we have set apart as `variable symbols'), constant symbols, and function symbols. For example, $f_1(f_2(c_5, x), y, c_5)$ is a valid term, so long as $f_1$ has arity $3$, and $f_1$ has arity $2$.
+
+\item Atomic formulas of $\Lang$: A predicate symbol $p$ applied to (arity of $p$)-many terms. For example, assuming that $=$ has arity $2$, the expression $=(f_2(c_5,x), f_1(c_2,c_2,c_2))$ is a valid atomic formula, though it is usually abbreviated to `$f_2(c_5,x) = f_1(c_2,c_2,c_2)$'.
+
+\item Formulas of $\Lang$: A valid combination of atomic formulas, logical connectives $\land$, $\lor$, $\neg$, etc. and quantifiers $\forall_x$ and $\exists_x$. For example, $\exists_x \forall_y \neg(x = f_1(y, c_8,z))$ is a valid formula.
+
+\item Sentences of $\Lang$: A formula all of whose variables are inside the scope of a quantifier.
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Given a language $\Lang$, a \emph{model for $\Lang$} is a structure $M$, consisting of a set (called the domain of the model, usually denoted $M$ by abuse of notation), as well as an interpretation to each symbol in $\Lang$. This means that for each constant symbol we assign an element of $M$, for each $n$-ary function symbol we assign a function $M^n \to M$, and for each $n$-ary predicate symbol we assign a function $M^n \to \{\text{true}, \text{false}\}$.
+\end{definition}
+
+\begin{definition}
+Let $\Lang$ be a fixed language. Given a model $M$ for $\Lang$ and a sentence $\varphi$, both in $\Lang$, we may ask whether the formula $\varphi$ holds in $M$. If it does, we write $M \vDash \varphi$ (pronounced `$M$~models~$\varphi$' or `$M$~satisfies~$\varphi$'), otherwise we write $M \nvDash \varphi$, or equivalently $M \vDash \neg\varphi$.
+
+Let $\varphi$ be a formula that is not necessarily a sentence, i.e.\ it may have variables outside the scope of quantifiers (these are called free variables). Then, if $x_1, \dots, x_n$ is an enumeration of these free variables, we may ask, for $a_1, \dots, a_n \in M$, whether $\varphi$ with $x_i$ replaced by $a_i$ holds in $M$. If it does, we write $M \vDash \varphi[a_1, \dots, a_n]$.
+\end{definition}
+
+\begin{definition}
+Given a set of sentences $T$ (over a language $\Lang$), a \emph{model of $T$} is a model $M$ (for $\Lang$) which satisfies all sentences in $T$.
+
+We may see $T$ as a set of axioms, and its models as structures satisfying these axioms. We sometimes refer to such a set $T$ as a \emph{theory}.
+\end{definition}
+
+\begin{example}\label{ex:1}
+The notion of group may be defined as: A model, over the language $\Lang = (\cdot, \cdot^{-1}, e, =)$, of the axioms
+\begin{equation}
+T_{\text{grp}} = \left\{
+\begin{aligned}
+&\forall_x \forall_y \forall_z (x \cdot (y \cdot z) = (x \cdot y) \cdot z),\\
+&\forall_x (x \cdot e = x \land e \cdot x = x),\\
+&\forall_x (x \cdot x^{-1} = e \land x^{-1} \cdot x = e)
+\end{aligned}\right\}.
+\end{equation}
+
+The notion of ring may be defined similarly, with $\Lang = (+,\cdot,-,0,1, =)$, with the symbol $-$ being a unary function symbol.
+\end{example}
+
+\begin{remark}
+The equality symbol is usually implicitly added to the language, and is assumed to always be interpreted as `true equality' in $M$.
+\end{remark}
+
+\begin{remark}
+When describing a language, the arity of the symbols are usually left for the reader to assume from context; for example, a symbol $+$ can usually be assumed to have arity $2$.
+\end{remark}
+
+\begin{example}
+The notion of (strict) partial order may be defined as: A model, over the language $\Lang = (<)$, of the axioms
+\begin{equation}
+T_{\text{poset}} = \left\{
+\begin{aligned}
+&\forall_x \neg(x<x),\\
+&\forall_x \forall_y \forall_z (x < y \land y < z \rightarrow x<z).
+\end{aligned}\right\}.
+\end{equation}
+
+We may obtain the notion of (strict) linear/total order by adding the axiom $\forall_x \forall_y (x<y \lor x=y \lor x>y)$.
+\end{example}
+
+\begin{remark}
+Often, we will write collections of symbols that are not formulas under the above definition. For example: $\exists^1_{x>0} (x^2 = 2)$ for `there exists a unique $x>0$ such that $x^2 = 2$. This is a slight but very handy abuse of notation, which is permissible so long as there is an obvious way to rewrite the given statement as a formula per Definition \ref{def:formula}. In the given example, we would translate it as 
+\begin{equation}
+\exists_x (x > 0 \land x^2 = 2 \land (\forall_y (y > 0 \land y^2 = 2) \rightarrow y=x)).
+\end{equation}
+\end{remark}
+
+\begin{definition}
+A theory $T$ is said to be \emph{complete} if it makes a decision on every sentence. More precisely, we say that $T$ is \emph{incomplete} if there is a sentence $\varphi$ and two models of $T$, $M_1$ and $M_2$, such that $M_1 \vDash \varphi$ and $M_2 \vDash \neg\varphi$.
+\end{definition}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

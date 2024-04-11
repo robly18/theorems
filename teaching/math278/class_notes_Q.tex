@@ -1,0 +1,384 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+\usepackage{comment}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+\setlist[itemize,1]{label=$-$}
+
+\title{Math 278\\Class On Q}
+\author{Duarte Maia}
+\date{February 15 \& 20, 2024}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\Lang}{\mathcal{L}}
+\newcommand{\RQ}{\mathbf{Q}}
+\newcommand{\PA}{\mathbf{PA}}
+\newcommand{\TN}{\mathcal{N}}
+
+\newcommand{\suc}{\mathrm{S}}
+\newcommand{\can}{\mathrm{can}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\newcommand\Point[1]{\noindent \hspace{\labelsep} {
+%\large
+$\bullet$ #1} \smallskip}
+\newcommand\point[1]{\noindent \hspace{\labelsep} {\small $\circ$ #1} \smallskip}
+%\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Estimated Time: #1] \smallskip}
+\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+\newcommand\proofend{\hfill(End of proof.)}
+
+
+\begin{document}
+\maketitle
+
+\section{Recap/Introduction and Outline of Main Points}
+
+\point{Recap definition of Robinson's $\RQ$. The axioms are:
+\begin{enumerate}[label=\arabic*., itemsep=0em, ref=\arabic*]
+\item\label{ax:1} $\suc x = \suc y \rightarrow x=y$,
+\item\label{ax:2} $\suc x \neq 0$,
+\item\label{ax:3} $x \neq 0 \rightarrow \exists_y(\suc y = x)$,
+\item\label{ax:4} $x+0 = x$,
+\item\label{ax:5} $x + \suc y = \suc(x+y)$,
+\item\label{ax:6} $x \cdot 0 = 0$,
+\item\label{ax:7} $x \cdot \suc y = x\cdot y + x$,
+\item\label{ax:8} $x \leq y \leftrightarrow \exists_z (z+x = y)$.
+\end{enumerate}}
+
+\Point{Goal for today: Figure out how much $\RQ$ is able to talk about computation.}
+
+\Point{In Broad Strokes: $\RQ$ is pretty good at `concrete computations' like `$5 \times 2 = 10$', but is bad at making `predictions with quantifiers' like `every number is even or odd'.}
+
+\Point{As a result, $\RQ$ is pretty good at telling us that a certain Turing Machine halts on input $X$ with output $Y$, but will generally be unable to tell that a certain machine never halts.}
+
+\point{We'll build up to this by iteratively proving better results on what $\RQ$ is able to prove.}
+
+\point{Over this lecture, I'll be quite careful with what we know and don't know at each stage, and some of the statements are subtle and require care not to misuse. However, there will be no need for subtlety after today. Each of our results will include the previous as a particular case, so if you just remember the `main theorem' of today, which I'll point out and draw attention to, you will not need to know any of the theorems that happened before it.}
+
+\point{Note to self: Over the course of the class, point out which axioms are used, so that the students may see the part that each of them plays.}
+
+\timestamp{5 min}
+
+\section{$\RQ$ Can Calculate}
+
+\point{The first thing we will prove is that $\RQ$ can work well with numbers.}
+
+\Point{Let $t$ be a closed term in $\RQ$. Then, $t$ evaluates in the standard model to some natural number $t^\TN \in \N$. Define $t^\can$ (`canonical term for $t$') as $\suc^{t^\TN}0$, or equivalently $\underline{t^\TN}$.}
+
+\Point{Theorem: For every closed term $t$, $\RQ$ proves $t = t^\can$.}
+
+\point{Proof: Induction on the structure of $t$.
+\begin{itemize}
+\item (Base case) If $t = 0$, there is nothing to show.
+\item If $t \equiv \suc t_0$, then (IH) $\RQ \vdash t_0 = t_0^\can$, and FOL proves from this that $t \equiv \suc t_0$ is equal to $\suc t_0^\can$, which by inspection is precisely $t^\can$.
+\item If $t \equiv t_0 + t_1$, then (IH) $\RQ \vdash t_0 = t_0^\can$ and $\RQ \vdash t_1 = t_1^\can$. Therefore,
+\begin{equation}
+\RQ \vdash t = t_0^\can + t_1^\can.
+\end{equation} 
+
+Now, repeatedly apply axiom \ref{ax:5} to prove
+\begin{equation}
+\RQ \vdash t = \suc^{t_1^\TN}(t_0^\can + 0),
+\end{equation}
+and applying axiom \ref{ax:4} gives us the desired result.
+\item If $t \equiv t_0 \cdot t_1$, a similar argument may be performed. Apply the IH and axiom \ref{ax:7} repeatedly, followed by \ref{ax:6} once, to get $\RQ \vdash t = t_0^\can + \dots + t_0^\can$ ($t_1^\TN$ times), and then argue as in the case for $+$ that this is the same as $t^\can$.
+\end{itemize}
+\proofend}
+
+\timestamp{15 min}
+
+\Point{In particular, we obtain that $\RQ$ can compute concrete terms and show that they're the same. But can it tell them apart?}
+
+\Point{Theorem: $\RQ$ proves $\suc^n 0 \neq \suc^m 0$ for $n \neq m$.}
+
+\point{Proof: Using axiom \ref{ax:1}, we get that $\RQ$ proves $\suc^{n+1} 0 = \suc^{m+1} 0 \leftrightarrow \suc^n 0 = \suc^m 0$, so we can use it to remove $\min(n,m)$ successors from both sides while preserving logical equivalence.}
+
+\point{At the end, we get (wlog $n>m$) $\suc^n 0 \neq \suc^m 0$ equivalent to $\suc^{n-m} 0 \neq 0$, which is true by axiom \ref{ax:2}.
+\proofend}
+
+\Point{Corollary: If $t_0, t_1$ are closed terms,
+\begin{equation}
+\begin{cases} \RQ \vdash t_0 = t_1 \text{ iff } \TN \vDash t_0 = t_1,\text{ and}\\
+\RQ \vdash t_0 \neq t_1 \text{ iff } \TN \vDash t_0 \neq t_1.
+\end{cases}
+\end{equation}}
+
+\timestamp{22 min}
+
+\Point{This raises another question: Can $\RQ$ order concrete terms?}
+
+\Point{Theorem: Let $n$ be a natural number. Then,
+\begin{equation}
+\RQ \vdash \forall_x (x \leq \suc^n 0 \leftrightarrow x = 0 \lor \dots \lor x = \suc^n 0).
+\end{equation}
+}
+
+\point{Proof: Induction on $n$.}
+
+\point{(Remark: Distinguish the `meta-induction' we are doing from induction `in-universe', would need $\PA$ for that but anyway it doesn't even make sense because the statement we're proving is one at the meta level.)}
+
+\point{Case $n = 0$. We reason in $\RQ$. $x \leq 0$ iff there is $z$ such that $z+x = 0$. Now, for $x = 0$ there does exist such a $z$, namely $z = 0$ by axiom \ref{ax:4}. On the other hand, if $x \neq 0$, by axiom \ref{ax:3} we have $x = \suc y$ for some $y$, in which case
+\begin{equation}
+0 = z+x = z + \suc y = \suc(z+y),
+\end{equation}
+where we used axiom \ref{ax:5}. Finally, axiom \ref{ax:2} shows that this cannot happen, and so indeed $x \leq 0$ iff $x = 0$.
+}
+
+\point{Induction step: Suppose the statement has been shown for $n$, we show it for $n+1$. Again, we reason in $\RQ$.
+
+Know: $x \leq \suc^{n+1}0$ iff there is some $z$ such that $z+x = \suc^{n+1}0$. Now, there are two cases: either $x = 0$, in which case such a $z$ does exist (axiom \ref{ax:4}), or $x \neq 0$, in which case we have some simplifications to do.}
+
+\point{If $x \neq 0$, by axiom \ref{ax:3}, $x$ is of the form $\suc y$ for some $y$. Applying axioms \ref{ax:5} and \ref{ax:1}, we get that $x \leq \suc^{n+1}0$ iff $y \leq \suc^n 0$, which by induction hypothesis is equivalent to $y = 0 \lor \dots \lor y = \suc^n 0$.}
+
+\point{(The pieces are all on the board now, just wave your hands until it makes sense that they do fit into the shape you want.)
+
+\proofend}
+
+\point{Remark: We have officially used all of the axioms! Albeit not for the last time; we use them once more below.}
+
+\Point{Corollary: $\RQ \vdash S^n 0 \leq S^m 0$ iff $n \leq m$.}
+
+\Point{Corollary: $\RQ \vdash \neg(S^n 0 \leq S^m) 0$ iff $n > m$.}
+
+\Point{Remark: The Theorem gives us much more power than these Corollaries, and is one of the few instances where $\RQ$ has something `general' and `non-concrete' to say: It tells you that if some element $x$ is $\leq$ a `standard element' then $x$ is itself standard.}
+
+\timestamp{35 min}
+
+\section{$\RQ$ Decides Quantifier-Free Sentences}
+
+\Point{Theorem: Let $\varphi$ be a quantifier-free \emph{sentence} in the language of Arithmetic. If $\varphi$ is true in the standard model, then $\RQ \vdash \varphi$. If $\varphi$ is false in the standard model, then $\RQ \vdash \neg\varphi$.}
+
+\Point{Colloquially, $\RQ$ proves true quantifier-free statements and disproves false quantifier-free statements. In the future, when we say that a statement is `true' or `false' without specifying the model, we mean in `True Arithmetic' $\TN$.}
+
+\point{Proof of Theorem: We induct on formula structure, and show that $\RQ$ proves true statements and disproves false ones.
+\begin{itemize}
+\item If $\varphi$ is atomic, it is either $t_1 = t_2$ or $t_1 \leq t_2$, with $t_i$ some closed terms. We know from above that these are respectively equivalent to $t_1^\can = t_2^\can$ and $t_1^\can \leq t_2^\can$, and we've seen that $\RQ$ proves such statements if they're true and disproves them if false.
+
+\item If $\varphi \equiv \neg \varphi_0$: Suppose that $\varphi$ is true. then $\varphi_0$ is false, and hence $\RQ \vdash \neg \varphi_0$, and so $\varphi$. OTOH if $\varphi$ is false, then $\varphi_0$ is true, and hence $\RQ \vdash \varphi_0$, which is logically equivalent to $\neg \varphi$.
+
+\item If $\varphi \equiv \varphi_0 \land \varphi_1$, a similar induction works.
+\end{itemize}
+\proofend}
+
+\timestamp{43 min}
+
+\section{$\RQ$ Decides $\Delta_0$ Sentences}
+
+\point{Let us now upgrade the last result a little bit, and allow ourselves \emph{bounded quantification}.}
+
+\point{The bounded quantifier formulas are built up inductively like normal formulas, but every quantifier is of the form $\forall_{x \leq t(\vec y)} \varphi(x, \vec y)$.}
+
+\point{Let us sketch that $\RQ$ decides the truth value of these. Instead of a full detailed proof, we shall do a `proof by example'.}
+
+\point{Consider the following \emph{sentence}: $\varphi \colon \forall_{x \leq t} \psi(x)$, with $\psi$ quantifier-free. We show that $\RQ$ thinks that this sentence is equivalent to a certain quantifier-free sentence, and hence $\RQ$ makes a decision on its truth value.}
+
+\point{By a theorem we've already proven, the following are provably equivalent under $\RQ$:
+\begin{equation}
+\begin{aligned}
+\varphi \equiv \forall_{x \leq t_0} \psi(x) &\equiv \forall_x (x \leq t_0 \rightarrow \psi(x)) && \text{(Definition of BQ by abbreviation)}\\
+&\equiv \forall_x(x \leq t_0^\can \rightarrow \psi(x)) &&\text{($\RQ$ proves $t_0 = t_0^\can$)}\\
+&\text{(Let $t_0^\can$ be $\suc^n 0$, or equivalently $n = t_0^\TN$)}\\
+&\equiv \forall_x( [x = 0 \lor \dots x = \suc^n 0] \rightarrow \psi(x) )&& \text{($\RQ$ knows who's less than each natural number)}\\
+&\equiv \psi(0) \lor \dots \lor \psi(\suc^n 0) &&\text{(FOL proves this.)}
+\end{aligned}
+\end{equation}}
+
+\point{So we've shown that a sentence with \emph{one} bounded quantifier is $\RQ$-provably equivalent to a quantifier-free sentence, and $\RQ$ decides those, and consequently $\RQ$ decides the truth of sentences with one BQ. But evidently, the procedure doesn't require $\psi$ to be quantifier-free, and we could iteratively continue it if $\psi$ itself was bounded quantifier. In conclusion:}
+
+\Point{Theorem: Let $\varphi$ be a \emph{bounded quantifier}, or $\Delta_0$, \emph{sentence} in the language of Arithmetic. If $\varphi$ is true in the standard model, then $\RQ \vdash \varphi$. If $\varphi$ is false in the standard model, then $\RQ \vdash \neg\varphi$.}
+
+\point{While the above argument may superficially look like some kind of bounded quantifier elimination, it should not be confused.
+\begin{itemize}
+\item For one, note that quantifier elimination in its usual form applies to formulas, not just sentences: We turn $\forall_x \varphi(x,\vec y)$ into $\theta(\vec y)$.
+\item On a related note, our induction is going the other way from how usual QE proofs go. Usually, quantifiers are eliminated from the inside out, but our induction removes them from outside in.
+\end{itemize}}
+
+\timestamp{55 min}
+
+\section{$\RQ$ Proves True $\Sigma_1$ Sentences}
+
+\point{The following trick is useful.}
+
+\Point{Theorem: Let $T$ be a theory in the language of arithmetic, and suppose that $T$ contains no false sentences. (By a convention we set previously, this means: $\TN$ is a model of $T$.) Then, $T$ cannot at the same time prove $\neg\varphi(0)$, $\neg\varphi(\suc 0)$, etc. and $\exists_x \varphi(x)$.}
+
+\point{The conclusion of this theorem is a property called `$\omega$-consistency', and was quite important in Gödel's original proof of incompleteness, but other authors were later able to remove this requirement. It is related to the property of $\omega$-completeness you saw on HW4.}
+
+\point{Proof of Theorem: Let $T \vdash \exists_x \varphi(x)$. Then, since $\TN$ is a model of $T$, $\TN \vDash \exists_x \varphi(x)$. Since the domain of $\TN$ is the natural numbers, there must be some natural number $n$ such that $\TN \vDash \varphi[n]$. Thus, $\TN \vDash \varphi(\suc^n 0)$, and thus $\neg\varphi(\suc^n 0)$ is a false statement. By assumption, we conclude that $T$ \emph{cannot} prove $\neg\varphi(\suc^n 0)$.
+
+\proofend}
+
+\point{From this theorem, we conclude that if $\RQ$ proves $\exists_x \varphi(x)$, there is some $n$ such that $\RQ$ \emph{does not disprove} $\varphi(\suc^n 0)$. In general, this doesn't imply that $\RQ$ proves $\varphi(\suc^n 0)$, but we've seen some conditions under which $\RQ$ has a definite opinion on a given sentence. Thus, we conclude:}
+
+\Point{Theorem: Let $\varphi$ be a $\Sigma_1$ sentence. If $\varphi$ is true in the standard model, then $\RQ \vdash \varphi$.}
+
+\point{Note: This is an iff. The opposite implication is because $\RQ$ only proves true things.}
+
+\point{Note: Unlike in the previous results, $\RQ$ doesn't necessarily disprove false $\Sigma_1$ statements. On the other hand, we obtain a trivial dual result: If $\varphi$ is a \emph{false} $\Pi_1$ sentence, $\RQ$ is able to disprove it.}
+
+\timestamp{63 min}
+
+\section{$\RQ$ Computes, Kind Of. Part 1: Relations}
+
+\point{Recall the extent to which arithmetic is able to talk about computation:}
+
+\Point{Theorem (Review): Let $R \colon \N^k \to \{0,1\}$ be a computable predicate. Then, $R$ is a $\Delta_1$ predicate.
+
+More precisely, there are formulas $\exists_y \varphi(\vec x, y)$ and $\forall_z \psi(\vec x, z)$, with both $\varphi$ and $\psi$ being $\Delta_0$, such that, for all $\vec a \in \N^k$,
+\begin{equation}
+R(\vec a) = 1 \text{ iff } \TN \vDash \exists_y \varphi(\vec a, y) \text{ iff } \TN \vDash \forall_z \psi(\vec a, z).
+\end{equation}}
+
+\point{Now the question becomes: To what extent can we replace $\TN \vDash$ above by $\RQ \vdash$? We already have a partial answer:}
+
+\Point{Theorem: For $R$, $\varphi$ and $\psi$ as above,
+\begin{equation}
+\begin{aligned}
+R(\vec a) = 1 &\text{ iff } \RQ \vdash \exists_y \varphi(\underline{\vec a}, y),\\
+\text{and } R(\vec a) = 0 &\text{ iff } \RQ \vdash \neg\forall_z \psi(\underline{\vec a}, z).
+\end{aligned}
+\end{equation}}
+
+\point{This means that $\RQ$ is able to check that $R(\vec a) = 1$ holds of a tuple $\vec a$, and it is separately able to verify that $R(\vec a) = 0$, but it requires two separate formulas to do so. It would be quite nicer if we could find a single formula $\rho(\vec x)$ which embodies `$R(\vec x)$' in $\RQ$, which $\RQ$ is able to decide on for every (standard) choice of $\vec x$.}
+
+\point{Important Remark: You might think `oh, by definition of $\Delta_1$, we know that $\exists_y \varphi(\vec x, y) \leftrightarrow \forall_z \psi(\vec x, z)$, and so if $\RQ \vdash \neg\forall_z \psi(\underline{\vec a}, z)$ we also have $\RQ \vdash \neg \exists_y \varphi(\underline{\vec a}, y)$, and so the formula $\exists_y \varphi(\vec x, y)$ does the trick!' This argument fails, however, because the equivalence holds only in true arithmetic! $\RQ$ is, in principle, completely unaware of it.}
+
+\point{To build on this remark: Let's say that we try to take $\exists_y \varphi(\vec x, y)$ for our choice of formula that embodies `$R(\vec x)$', and suppose that $\vec a$ is a (standard) tuple for which $R(\vec a) = 0$. Then, $\RQ$ is unable to prove $\exists_y \varphi(\underline{\vec a}, y)$, but what stops it from proving $\forall_y \neg\varphi(\underline{\vec a}, y)$? Well, perhaps in some nonstandard model $M$, there is an element $m \in M$ for which $M \vDash \varphi(\vec a, m)$.}
+
+\point{The following fix works, due to Rosser. Consider the formula
+\begin{equation}
+\rho(\vec x) \colon \exists_y (\varphi(\vec x, y) \land \forall_{z \leq y} \psi(\vec x, z)).
+\end{equation}
+
+This is a $\Sigma_1$ formula, so if $R(\vec a) = 1$, it will be true that $\rho(\vec a)$, and so $\RQ \vdash \rho(\underline{\vec a})$. But what happens if $R(\vec a) = 0$? Why would $\RQ$ be unable to prove $\neg\rho(\underline{\vec a})$?
+
+One may again imagine that there is some nonstandard model $M$ and element $y = m \in M$ such that
+\begin{equation}\label{eq:1}
+\varphi(\vec a, m) \land \forall_{z \leq m} \psi(\vec a, z)
+\end{equation}
+holds in $M$. But consider now that, by definition of $\psi$, since $R(\vec a) = 0$ there is some \emph{standard} $n \in \N$ such that $\TN \vDash \neg\psi(\vec a, n)$. One may then hope that `nonstandard elements are big', and thus that this element $n$ is actually $\leq m$, and so \eqref{eq:1} fails to hold by setting $z = n$.
+}
+
+\point{This argument essentially works, but we first need to prove, essentially, that every standard number $\leq$ every nonstandard number.}
+
+\Point{Lemma: Let $n$ be a natural number. Then,
+\begin{equation}
+\RQ \vdash \forall_x (x \leq \suc^n 0 \lor x \geq \suc^{n+1} 0).
+\end{equation}}
+
+\point{Proof: We reason in $\RQ$. Let $x$ be arbitrary, and suppose $\neg(x \leq \suc^n 0)$. By a proposition we've already proven, we then conclude:
+\begin{equation}
+x \neq 0, x \neq \suc 0, \dots, x \neq \suc^n 0.
+\end{equation}
+Now, we repeatedly apply axioms \ref{ax:2} and \ref{ax:1}. Since $x \neq 0$, $x = \suc x_0$. Since $x \neq \suc 0$, get $\suc x_0 \neq \suc 0$, hence $x_0 \neq 0$. Then, $x_0 = \suc x_1$, and so on. This process continues $n$ times, until we obtain that $x = \suc^{n+1} x_n$ for some $x_n$. Finally, apply axioms \ref{ax:4} and \ref{ax:5} repeatedly to get
+\begin{equation}
+x = \suc^{n+1}x_n = \suc^{n+1}(x_n + 0) = x_n + \suc^{n+1}0,
+\end{equation}
+and finally by axiom \ref{ax:8}, conclude $x \geq \suc^{n+1}0$, as desired.
+
+\proofend
+}
+
+\Point{Remark: In the second case, we also concluded all the following along the way:
+\begin{equation}
+\begin{gathered}
+x \geq 0 \land \dots \land x \geq \suc^n 0,\\
+x \neq 0 \land \dots \land x \neq \suc^n 0.
+\end{gathered}
+\end{equation}}
+
+\Point{Corollary: In any model of $\RQ$, if $n$ is standard and $m$ is nonstandard, $n \leq m$.}
+
+\point{Proof: Apply the previous Lemma to $\suc^{n-1} 0$, and $x = m$. Since $m$ is nonstandard, it cannot be $\leq \suc^{n-1} 0$ because we know what those elements are.
+
+This fails for $n = 0$, but applying axioms \ref{ax:8} and \ref{ax:4} one always gets $x \geq 0$.
+
+\proofend}
+
+\Point{Theorem: Let $R \colon \N^k \to \{0,1\}$ be a computable predicate, and let $\rho(\vec x)$ be as defined previously. Then, for $\vec a \in \N^k$,
+\begin{equation}
+\begin{cases}
+\RQ \vdash \rho(\underline{\vec a}) \text{ if } R(\vec a) = 1, \text{ and}\\
+\RQ \vdash \neg\rho(\underline{\vec a}) \text{ if } R(\vec a) = 0.
+\end{cases}
+\end{equation}
+
+In other words, $\RQ$ represents $R$. Moreover, this is done by a $\Sigma_1$ formula.}
+
+\point{We've already given what is in essence a model-theoretic proof. A `proof-theoretic' proof may be found in Avigad, p. 327.}
+
+\timestamp{80 min}
+
+\begin{comment}
+
+\section{$\RQ$ Computes, Kind of. Part 2: Functions}
+
+\point{Now that we've seen that $\RQ$ can represent computable predicates, we will show a standard trick that turns this into $\RQ$ representing computable functions.}
+
+\point{Let $f \colon \N^k \to \N$ be a total computable function. Then, the graph of $f$ is a computable relation $R$ on $\N^k \times \N$.}
+
+\point{Note that $f$ is assumed to be total. If $f$ were assumed partial computable, this would be a problem.}
+
+\point{You might think that now we simply consider the formula $\varphi(\vec x, y)$ that represents $R$ to be a formula that represents $f$, but that only gives you the following theorem, which is a little weaker than we can get away with:}
+
+\point{Theorem: Let $f \colon \N^k \to \N$ be total computable. Then, there is a $\Sigma_1$ formula $\varphi(\vec x, y)$ such that, for all $\vec a \in \N^k$,
+\begin{equation}
+\begin{cases}
+\RQ \vdash \varphi(\underline{\vec a}, \underline{f(a)}),\\
+\RQ \vdash \neg\varphi(\underline{\vec a}, \underline b), \text{ for $b \neq f(a)$}.
+\end{cases}
+\end{equation}}
+
+\point{Here is how we may try to strengthen this theorem: As it is, it leaves open the possibility that a nonstandard model of $\RQ$ might confuse $f(a)$ for a nonstandard element. That is, there may be some model $M$ and $m \in M$ such that $M \vDash \varphi(\underline{\vec a}, m)$ even though $m \neq f(a)$.}
+
+\point{We will forbid this from happening, by using a Rosser trick similar to what we've done when representing relations.}
+
+\Point{Theorem: Let $f \colon \N^k \to \N$ be total computable. Then, there is a $\Sigma_1$ formula $\psi(\vec x, y)$ such that, for all $\vec a \in \N^k$,
+\begin{equation}\label{eq:2}
+\RQ \vdash \forall_y (\psi(\underline{\vec a}, y) \leftrightarrow y = \underline{f(\vec a)}).
+\end{equation}}
+
+\point{Proof: Let $\varphi(\vec x, y)$ represent the graph of $f$, and define
+\begin{equation}
+\begin{aligned}
+\psi(\vec x, y) \colon &\text{$y$ is the smallest element satisfying $\varphi(\vec x, y)$}\\
+\equiv\ &\varphi(\vec x, y) \land \forall_{z \leq y} (z \neq y \rightarrow \neg\varphi(\vec x, z))
+\end{aligned}
+\end{equation}}
+
+\point{To prove that this formula satisfies \eqref{eq:2}, we reason in $\RQ$. Let $\vec a$ be fixed, and let $b = f(a)$. We prove ($\leftarrow$) first.
+
+By definition of $\varphi$, we know (in $\RQ$) that $\varphi(\underline{\vec a}, \underline{b})$ and $\neg \varphi(\underline{\vec a}, \underline{c})$ for all $c < b$. Moreover, we know that all $z \leq \underline{b}$ are of this form, so we've shown that $\psi(\underline{\vec a}, \underline{b})$.}
+
+\point{Now, we prove ($\rightarrow$). Let $y$ satisfy $\psi(\underline{\vec a}, y)$. We know from a previous lemma that either $y \leq \underline b$ or $y \geq \suc \underline b$.
+
+In the first case, we separate into all $b$ possible cases for $y$ (by another lemma) and we see that the only possible case for $y$ is $y = \underline{b}$.
+
+In the second case, we know also that $y \geq \underline b$ and $y \neq \underline b$ by a previous remark. Therefore, plugging $z$ into the existential quantifier in $\psi$, we obtain a false statement. Thus, the second case may not occur, and the only possibility is indeed $y = \underline b$.
+
+\proofend}
+
+\end{comment}
+
+\end{document}

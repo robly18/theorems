@@ -1,0 +1,282 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+\usepackage{comment}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+\setlist[itemize,1]{label=$-$}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\Lang}{\mathcal{L}}
+\newcommand{\RQ}{\mathbf{Q}}
+\newcommand{\PA}{\mathbf{PA}}
+\newcommand{\TN}{\mathcal{N}}
+\newcommand{\can}{\mathrm{can}}
+\newcommand{\card}[1]{\# #1}
+\DeclareMathOperator{\Th}{Th}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+
+\newcommand\Point[1]{\noindent \hspace{\labelsep} {\large $\bullet$ #1} \smallskip}
+\newcommand\point[1]{\noindent \hspace{\labelsep} {\small $\circ$ #1} \smallskip}
+\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] }
+%\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+\newcommand\proofend{\hfill(End of proof.)}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Topic Presentation\\On Model Saturation}
+\author{Student: \textbf{Duarte Maia}\\[1ex]Discussed with: \textbf{Leonardo Coregliano, Denis Hirschfeldt, Maryanthe Malliaris}}
+\date{February 26, 2024}
+
+\includecomment{definition}
+\includecomment{example}
+\includecomment{remark}
+\includecomment{theorem}
+\includecomment{corollary}
+\includecomment{proof}
+\includecomment{lemma}
+\includecomment{conjecture}
+\includecomment{openq}
+
+
+\begin{document}
+\maketitle
+
+\section{A Very Brief Introduction to Model Theory}
+
+\Point{Introduce danger notation.}
+
+\Point{For a logician, a theory $T$ is a set of axioms.}
+
+\Point{A model of $T$ is a set $M$, together with ways to interpret any operations that $T$ is axiomatizing, which satisfies all the axioms of $T$.}
+
+\Point{We denote that $M$ is a model of $T$ by saying: $T \vDash M$.}
+
+\point{Example: The theory of groups
+\begin{equation}
+T_{\text{grp}} = \left\{
+\begin{aligned}
+&\forall_x \forall_y \forall_z (x \cdot (y \cdot z) = (x \cdot y) \cdot z),\\
+&\forall_x (x \cdot e = x \land e \cdot x = x),\\
+&\forall_x (x \cdot x^{-1} = e \land x^{-1} \cdot x = e)
+\end{aligned}\right\}.
+\end{equation}}
+
+\point{In this case, a model of $T_{\text{grp}}$ is a set, together with operations $\cdot$, $\cdot^{-1}$ and a distinguished element $e$ satisfying the above axioms... Hence, a group!}
+
+\Point{Given a set of axioms, there may or may not be a model that satisfies them all. If there is, we call the axioms \emph{consistent}, and if there is not, we call them inconsistent.}
+
+\point{For example, $T_{\text{grp}}$ is consistent, because we can name at least one group. On the other hand, a theory which contains an axiom like $\exists_x (x \neq x)$ will be inconsistent.}
+
+\Point{A very important property of First Order Logic, which forms the backbone of large swaths of the theory, is the compactness theorem, which says roughly that the only obstacles to consistency are finite.
+
+Theorem: (Compactness) Let $T$ be a set of axioms, and suppose that any finite subset of $T$ is consistent. Then, $T$ is consistent.}
+
+\Point{Example application: Let's do nonstandard analysis!
+
+Let $T = \Th(\R, 0, 1, +, \times, <)$ be the theory of the real numbers, i.e. the set of first-order sentences (using those symbols) that hold true in $\R$. It is consistent because it has the real numbers themselves as a model, but there are many other (non-isomorphic) models. These will not look like the real numbers for an `outside mathematician', but they will satisfy all the same first-order sentences.
+
+Now, in order to do nonstandard analysis, we perform a trick common in logic: We make a new theory.
+
+We add a new symbol $\varepsilon$ to our language, which will represent an infinitesimal number, and we consider the theory
+\begin{equation}
+T' = T \cup \{\varepsilon > 0, \varepsilon < 1, (1+1) \varepsilon < 1, (1+1+1) \varepsilon < 1, \dots \}.
+\end{equation}
+
+Claim: Any finite subset of $T'$ is consistent.
+
+Proof: A finite subset $\Sigma$ will contain some number of sentences from $T$, as well as a finite number of sentences about $\varepsilon$. We obtain a model by considering the real numbers with the usual interpretations of $0$, $1$, etc., and we interpret $\varepsilon$ as the distinguished element $1/N$ for some large enough $N$.
+
+Conclusion: There is a model $\R^*$ of $T'$.
+
+This means that there is some field, which looks to first-order logic identical to the real numbers, which will also contain an element $\varepsilon$ which is positive and yet smaller than $1/n$ for every $n \in \N$.
+
+Note that this field might not actually contain a copy of the real numbers themselves, and in fact we can make it countable! So perhaps it's not the most appropriate place for nonstandard analysis. But using tricks like adding a constant symbol for every particular real number, we can in fact ensure that $\R \subseteq \R^*$.}
+
+\Point{The basic idea we've just exemplified is quite powerful, and implies that we may construct models of a fixed theory $T$ which contain ``exotic elements'' which satisfy arbitrarily large amounts of conditions, so long as any finite subset of these conditions is not contradictory.}
+
+\Point{Definition: Given a model $M$, a partial type in $n$ variables over $M$ is a set of formulas $\Sigma = \{\varphi_i(x_1, \dots, x_n)\}_{i \in I}$, where each $\varphi_i$ may refer to some elements of $M$, such that for any finite subset $\Sigma'$ of $\Sigma$ there is some tuple $\vec m \in M$ which satisfies all formulas in $\Sigma'$.}
+
+\Point{Theorem: If $\Sigma$ is a partial type over $M$, there is an elementary extension $\hat M \succeq M$ which realizes $\Sigma$, i.e. such that there is some tuple $\vec m \in \hat M$ satisfying all formulas in $\Sigma$.}
+
+\point{Example: A construction of (a version of the) hyperreals may be performed by considering $M = \R$ as before, $\Sigma = \{x > 0\} \cup \{n x < 1 \}_{n \in \N}$.}
+
+\point{Example: We may construct a nonstandard model of the natural numbers by considering $M = \N$ and $\Sigma = \{x > n\}_{n \in \N}$. This is a structure which looks to FOL indistinguishable from $\N$, and in which induction still works (to an extent), but which contains elements which are larger than any concrete natural number.}
+
+\timestamp{19 minutes}
+
+\point{Curiosity: You might be wondering what these weird models look like, but results by Tennenbaum and Knight show that they're actually very complicated!
+
+Theorem: Any nonstandard model of the theory of the natural numbers is noncomputable.}
+
+\point{As a counterpoint to what I've just said, you can technically describe some of these weird models `explicitly' by using ultrafilters, but that raises the question of whether ultrafilters are `explicit' or not...}
+
+\Point{These constructions which make our models bigger raise the following question. Would it be possible to build a `full' model, in the style of `algebraically closed'? That is, a model which contains so much stuff that whenever you go and apply this theorem you may as well have $\hat M = M$.}
+
+\Point{Answer: (Almost) Never! So long as our model $M$ is infinite, the set of formulas `$x \neq m$ for every $m \in M$' forms a type, and applying the theorem to this set we necessarily get $\hat M \supsetneq M$.}
+
+\Point{However, if we temper our expectations, we might be able to recover something. The issue here is that we were able to talk about everyone in the model, and thus proclaim that our ideal element is distinct from everyone. So how about we limit the number of people we're able to refer to?}
+
+\Point{Definition: Let $\kappa$ be a cardinal, and $M$ a model. We say that $M$ is \emph{$\kappa$-saturated} if, for any partial type over $M$ which refers to \emph{strictly less than} $\kappa$ elements of $M$, there is an element of $M$ realizing this type.}
+
+\point{For example, if we allow reference to finitely many elements of $M$, we would say that $M$ is $\aleph_0$-saturated, or $\omega$-saturated. If we allow reference to countably many elements, we'd say that $M$ is $\aleph_1$-saturated.}
+
+\point{As an example from field theory, let us discuss the following question: Is $\bar\Q$ $\omega$-saturated?
+
+The definition was inspired by `algebraically closed', so we may expect that the answer is yes, but it turns out to be no. Indeed, we can make a type (using no parameters) that isn't realized by $\bar Q$, namely $\Sigma = \{ x^n + a_{n-1} x^{n-1} + \dots + a_1 x + a_0 \neq 0  \mid n \in \N^+, a_i \in \Z \}$. In other words, for a model of field theory to be $\omega$-saturated, it must necessarily contain a transcendental element!}
+
+\point{Just adding one transcendental element $\alpha$ turns out not to be enough, because we may similarly write axioms saying `$x$ is algebraically independent from the integers, and from $\alpha$. Likewise, two or three transcendental elements isn't enough. The only $\omega$-saturated model of this theory is $\overline{\Q(\alpha_0, \alpha_1, \dots)}$.}
+
+\point{As a side note, the property of $\omega$-stability isn't even strictly stronger than algebraically closed... Indeed, there are fields which are $\omega$-stable but not algebraically closed! So this is really kind of an orthogonal property.}
+
+\Point{Important remark: Let $M$ be an arbitrary model. How saturated can we expect $M$ to be?
+
+If we think back to when we defined saturation, we actually showed that $M$ cannot be $\kappa$-saturated for $\kappa > \card M$. Therefore, the most saturation we can reasonably ask of $M$ is that $M$ is $(\card M)$-saturated. Thus, we define:
+
+$M$ is \emph{saturated} if it is saturated in its own cardinality.}
+
+\point{So, for example, $\overline{\Q(\alpha_0, \alpha_1, \dots)}$ is saturated.}
+
+\timestamp{35 min}
+
+\Point{Given the circumstances, we may wonder if, given a model $M$, we may construct a saturated model containing $M$, in the same way that given a field we can always build its algebraic closure.}
+
+\Point{Here is a weaker result: Given a model $M$, there exists $\bar M \succeq M$ which is $\omega$-saturated.}
+
+\point{Proof: Enumerate the types over $M$ which use finitely many parameters. Iteratively realize every one of them, creating $M_1 \succeq M$, which realizes every type using finitely many parameters from $M$. But it may not realize every type using parameters from $M_1$, so we repeat, creating $M_2$. Iterate countably many times, and set $\bar M = \cup_{n \in \N} M_n$. This is $\omega$-saturated because if a type uses finitely many parameters from $\bar M$, there is a largest $M_n$ from which they all originate, and so the type in question will be realized in $M_{n+1}$.}
+
+\Point{This proof may be adapted to show: Given a model $M$ and a cardinal $\kappa$, there is $\bar M \succeq M$ which is $\kappa$-saturated. So why can't you just apply this to $\kappa = \card M$?}
+
+\Point{Answer: Because there may be too many types! And so, the cardinality of $\bar M$ may necessarily increase.}
+
+\Point{This motivates the following definition: A theory $T$ is $\kappa$-stable if, for every model $M$ of size $\kappa$, there are at most $\kappa$-many distinct \emph{complete} types over $M$.}
+
+\point{We added `complete' because if we were just counting partial types, the count would in general be extremely inflated by just taking subsets. Thus, we restrict our attention to `maximal partial types', which are just called `complete types'.}
+
+\Point{Theorem: If $T$ is $\kappa$-stable, then any model of size $\kappa$ is contained in a saturated model of the same size.}
+
+\point{Proof: The construction we used for building a $\kappa$-saturated model will not increase in size thanks to stability.}
+
+\Point{Theorem: If $T$ is stable in \emph{some} cardinality (we just say that $T$ is stable) then any model is contained in a saturated model.}
+
+\point{Proof: It is a relatively nontrivial fact from stability theory that if $T$ is stable in some cardinality, then it is stable in arbitrarily large cardinalities. With that said, we take a model $M$, pick such a cardinality $\kappa \geq \card M$, add large amounts of garbage to $M$ to build a bigger model of size $\kappa$ [This may be done by invoking the upward Löwenheim-Skolem theorem, but it can also be done directly with the tool of `realizing types']  and then apply the previous theorem.}
+
+\Point{So, we have just motivated a deep concept, that of stability, by thinking just about saturation and the existence of saturated models. One may wonder how deep this relation is, so here are some relevant results.}
+
+\Point{Theorem: It is consistent with, but independent of, ZFC that every model is contained in a saturated model. More precisely, this statement is true under a large cardinal assumption, or under GCH.}
+
+\Point{On the other hand, ZFC proves the following theorem, due to Wierzejwski [Remarks on Stability and Saturated Models]: `$T$ has a saturated model of every uncountable size' is equivalent to `$T$ is stable in every uncountable size'.}
+
+\point{This is actually a consequence of the stronger statement: For $\kappa > \aleph_0$, $T$ has a saturated model of size $\kappa$ iff $T$ is $\kappa$-stable.}
+
+\timestamp{50 min}
+
+\Point{Hopefully, by now I'll have convinced you that saturation is an interesting and nuanced property and that it interfaces with some cool modern math. Now, to punctuate this sentiment, I'll present a couple of open questions related to saturation.}
+
+\Point{For the first open question, I need to introduce the extra notion of $\kappa$-categoricity: A theory $T$ is $\kappa$-categorical if all of its models of size $\kappa$ are isomorphic.}
+
+\Point{Here are some results about categoricity:}
+
+\point{Danger sign: Assume countable language!}
+
+\Point{Theorem: (Ryll-Nardzewski, Engeler, Svenonius, 1959) $T$ is $\aleph_0$-categorical iff, for every $n \in \N$, there are only finitely many formulas in $n$ variables up to equivalence.}
+
+\point{The actual theorem is actually an equivalence between a plethora of things. These two were chosen because under this light, the property of categoricity, which is in principle a very semantic property, is shown to be equivalent to a very syntactic property.}
+
+\point{I will not prove this result, but I will say that it interfaces quite nicely with the things we've discussed so far.
+
+One of the equivalent characterizations is: For every $n$, there are only finitely many complete types in $n$ variables (with no parameters). So the notion of type, and the notion of counting types, plays a role.
+
+Moreover, another of the equivalent properties is `$T$ admits an atomic countable $\omega$-saturated model', and so saturation plays a role here. I won't say what atomic means, though I will say that if saturated means `big' or `full' then atomic means `small'.}
+
+\Point{Theorem: (Morley, 1962) Categoricity in \emph{some} uncountable $\kappa$ implies categoricity in \emph{any} uncountable $\kappa$.}
+
+\point{For this reason, the only two types of categoricity that are relevant when working over countable languages are $\aleph_0$-categoricity and $\aleph_1$-categoricity.}
+
+\point{The proof of this theorem was an entire PhD thesis, and it goes through proving the following two statements:
+\begin{itemize}
+\item Any two saturated models of the same cardinality are isomorphic,
+\item If $T$ is $\kappa$-categorical in some uncountable $\kappa$, then every model of every uncountable cardinality is saturated.
+\end{itemize}
+
+Thus, we see that saturation also plays a central role here.}
+
+\Point{These two examples may lead us to believe that there is a relation between saturation and categoricity, and this may have been what led David Kueker to conjecture in the late 70's:
+
+Conjecture: (Kueker) Let $T$ be a complete theory in a countable language, and suppose that every uncountable model of $T$ is $\aleph_0$-saturated. Then, $T$ is categorical in some cardinality.}
+
+\point{Here's what I have to say on this conjecture. For one, we the results on categoricity above give us a pretty good handle on what categorical theories look like, and so we are able to prove without much difficulty that the \emph{converse} to Kueker's conjecture holds.}
+
+\point{As for Kueker's conjecture itself, here are some partial results that we currently have.}
+
+\point{Lachlan, unpublished: Kueker's conjecture holds if $T$ is stable in every cardinality $\geq \aleph_0$,}
+
+\point{Buechler, 1984: Kueker's conjecture holds if $T$ is stable in every cardinality $\geq 2^{\aleph_0}$,}
+
+\point{Hrushovski, 1989: Kueker's conjecture holds if $T$ is stable in \emph{some} cardinality.}
+
+\point{There are other results, including some as recent as 2012, but I have decided to mention only these because they interface with the notion of stability, which we've already discussed.}
+
+\Point{Kueker's conjecture has been open for almost half a century, so perhaps it's not very approachable, though if I'm not mistaken it is Malliaris' belief that modern tools may be reaching a sufficient level of sophistication to try to tackle this conjecture in full generality.}
+
+\Point{Now, I'll move on to another open question, one which is hopefully a little more approachable, and which I intend to spend some time on in the coming months.}
+
+\Point{First, a very brief introduction to computable model theory: Two objects of study of computable model theory are (danger symbol)
+\begin{itemize}
+\item Decidable theories: A theory $T$ is decidable if there is an algorithm that checks whether or not a sentence follows from the axioms.
+
+An example of a decidable theory is Tarski's axiomatization of Euclidean Geometry. A non-example is the theory of groups(!). (Other e.g. is theory of ab. groups!)
+
+\item Decidable models: A model $M$ is decidable if `you can put it into a computer', or, more accurately, if there's a computer program that will, when asked a yes/no question about $M$ (phrased as a FOL sentence), will output the correct answer.
+
+An example of a decidable model is, for example, any finite group. A non-example is the natural numbers (with $+$ and $\times$), which are too complex for any computer program to decide.
+\end{itemize}
+
+An example of a theorem in computable model theory is: If $T$ is a decidable consistent theory, it admits a decidable model.}
+
+\Point{Another important notion from computability theory is the notion of an oracle. Some problems are too complex for computers to solve, but we are interested in `how difficult they are relative to each other', so we ask questions like: If my computer has access to a black box that magically solves problem $X$, could it solve problem $Y$? This black box is called an oracle.}
+
+\Point{We are almost ready to state our open question. We just need one last ingredient, from (pure) model theory:
+
+Theorem: Let $T$ be a complete consistent theory. Then, $T$ admits a countable saturated model iff for every $n$ there at most a countable number of complete types in $n$ variables over $T$.}
+
+\Point{Computability theorists wondered if this theorem could be `effectivized', i.e. if its terms could be replaced by computability terms. There is some leeway in how this could be interpreted, but under the following interpretation the answer is no, in one of the directions.}
+
+\Point{Theorem: Let $T$ be a decidable complete consistent theory. If $T$ admits a computable saturated model, then all of its $n$-types are computable.
+
+Theorem: (Millar) There is a decidable complete consistent theory all of whose $n$-types are computable, but which admits no computable saturated model.}
+
+\Point{Now, using the language of oracles, one may ask if it is possible to give my computer access to an oracle as to allow it to solve the opposing problem. We give a name to oracles that let us do this:
+
+Definition: An oracle $\mathbf{a}$ is \emph{saturated bounding} if, for any decidable complete consistent theory $T$ whose $n$-types are all decidable, $\mathbf{a}$ computes a saturated model of $T$.
+
+Theorem: Such oracles exist. For example, an oracle for the Halting Problem will suffice.}
+
+\Point{Stronger theorem: If $\mathbf{a}$ is high or $\mathbf{a}$ is PA, then $\mathbf{a}$ is saturated bounding.}
+
+\Point{Open question: Is the converse true?}
+
+\Point{Just to finish off the talk, in an unpublished memo Harris proved that the converse is true under the assumption that $\mathbf{a}$ is a c.e. degree, but it doesn't seem like the methods used to do so would generalize.}
+
+\end{document}
