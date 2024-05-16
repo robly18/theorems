@@ -1,0 +1,1465 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass presentation_notes
+\begin_preamble
+
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage{enumitem}
+
+\setlist[enumerate,1]{label=\alph*)}
+\setlist[itemize,1]{label=$-$}
+
+
+\usepackage{diffcoeff}
+
+\difdef { f, fp, s, sp } {}
+{
+outer-Ldelim = \left . ,
+outer-Rdelim = \right |,
+sub-nudge = 0 mu
+}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\begin_local_layout
+Style Point
+	Category              MainText
+	Margin                Dynamic
+	LatexType             Command
+	LatexName             Point
+	LabelType             Static
+	LabelString		"•"
+	LabelSep		55
+	LabelIndent		MM
+	TopSep                0.5
+	BottomSep             0.5
+	ItemSep               1
+	Align                 Block
+	AlignPossible         Block
+    Preamble
+    \newcommand\Point[1]{\noindent \hspace{\labelsep} {\large $\bullet$ #1} \smallskip}
+    EndPreamble
+End
+Style point
+	Category              MainText
+	Margin                Dynamic
+	LatexType             Command
+	LatexName             point
+	LabelType             Static
+	LabelString		"◦"
+	LabelSep		55
+	LabelIndent		MM
+	TopSep                0.5
+	BottomSep             0.5
+	ItemSep               1
+	Align                 Block
+	AlignPossible         Block
+    Preamble
+    \newcommand\point[1]{\noindent \hspace{\labelsep} {\small $\circ$ #1} \smallskip}
+    EndPreamble
+End
+\end_local_layout
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Class Notes on Linear PDE,
+ Class 2
+\begin_inset Newline newline
+\end_inset
+
+MATH 275,
+ Spring 2024
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_diff.lyx"
+literal "true"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+On Last Class
+\end_layout
+
+\begin_layout Point
+Say the things Silvestre said.
+ Crossings actually only happen in the nonlinear case.
+ Also,
+ you can guarantee existence in the linear case if 
+\begin_inset Formula $b$
+\end_inset
+
+ is Lipschitz.
+\end_layout
+
+\begin_layout Section
+Existence theorems
+\end_layout
+
+\begin_layout Point
+Let's exploit knowledge of ODE theory to get facts about the transport equation.
+\end_layout
+
+\begin_layout Point
+Obviously,
+ the original transport equation has (unique) solution for all time.
+\end_layout
+
+\begin_layout Point
+The homogeneous equation may already run into some issues.
+ For example,
+ consider 
+\begin_inset Formula $u_{t}+x^{2}u_{x}=0$
+\end_inset
+
+.
+ The characteristic curves are translates of arctangent (see Figure 4),
+ so unless the initial conditions 
+\begin_inset Formula $f$
+\end_inset
+
+ have very nice behavior at infinity,
+ this solution won't be able to be extended past 
+\begin_inset Formula $t=\pi$
+\end_inset
+
+ anywhere.
+\end_layout
+
+\begin_layout Point
+All existence theorems we can make from here on out are local.
+ Let's do the one for the quasilinear homogeneous transport equation:
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+u_{t}+b(t,x)\cdot\grad u=0, & t>0\\
+u(0,x)=f(x).
+\end{cases}\label{eq:hle}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Suppose 
+\begin_inset Formula $b$
+\end_inset
+
+ and 
+\begin_inset Formula $f$
+\end_inset
+
+ as in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:hle"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ be 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+.
+ For every 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+there is a small ball 
+\begin_inset Formula $B_{r}(x_{0})$
+\end_inset
+
+ and a small interval of time 
+\begin_inset Formula $\tau>0$
+\end_inset
+
+ such that the quasilinear transport equation has a solution for 
+\begin_inset Formula $x$
+\end_inset
+
+ in this ball and 
+\begin_inset Formula $t<\tau$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Proof:
+ We apply ODE theorems to deduce that there is a solution to the ODE system
+\begin_inset Formula 
+\[
+\begin{cases}
+X(0,x_{0})=x_{0},\\
+\dot{X}(t,x_{0})=b(t,X(t,x_{0}),U(t,x_{0})),\\
+U(0,x_{0})=f(x_{0}),\\
+\dot{U}(t,x_{0})=c(t,X(t,x_{0}),U(t,x_{0})).
+\end{cases}
+\]
+
+\end_inset
+
+for 
+\begin_inset Formula $x$
+\end_inset
+
+ close to 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+and small 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ Moreover,
+ ODE theory guarantees that this solution 
+\begin_inset Formula $(X,U)$
+\end_inset
+
+ is also 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+.
+ If we can somehow invert 
+\begin_inset Formula $X(t,x)$
+\end_inset
+
+ in the 
+\begin_inset Formula $x$
+\end_inset
+
+ variable,
+ we can define (abuse of notation incoming):
+ 
+\begin_inset Formula $u(t,x)=f(X^{-1}(t,x))$
+\end_inset
+
+.
+ The main tool that we have to guarantee existence of local inverses is the inverse function theorem.
+\end_layout
+
+\begin_layout Point
+Inverse Function Theorem:
+ Let 
+\begin_inset Formula $f\colon U\to\R^{d}$
+\end_inset
+
+ be a 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+function,
+ with 
+\begin_inset Formula $U$
+\end_inset
+
+ an open subset of 
+\begin_inset Formula $\R^{d}$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset Formula $x\in U$
+\end_inset
+
+ and that 
+\begin_inset Formula $Df(x)$
+\end_inset
+
+ is invertible.
+ Then,
+ there is a neighborhood 
+\begin_inset Formula $V\subset U$
+\end_inset
+
+ of 
+\begin_inset Formula $x$
+\end_inset
+
+ such that 
+\begin_inset Formula $f(V)=W$
+\end_inset
+
+ is open,
+ and 
+\begin_inset Formula $f$
+\end_inset
+
+ is a diffeomorphism between 
+\begin_inset Formula $V$
+\end_inset
+
+ and 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ In this scenario,
+ we have for 
+\begin_inset Formula $y\in W$
+\end_inset
+
+ the formula
+\begin_inset Formula 
+\[
+Df^{-1}(y)=(Df(f^{-1}(y)))^{-1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+The map 
+\begin_inset Formula $X$
+\end_inset
+
+ isn't quite in the right form,
+ because it goes from 
+\begin_inset Formula $\R^{1+d}$
+\end_inset
+
+ to 
+\begin_inset Formula $\R^{d}$
+\end_inset
+
+.
+ Instead,
+ consider the map 
+\begin_inset Formula $F(t,x)=(t,X(t,x))$
+\end_inset
+
+.
+ We compute its derivative at 
+\begin_inset Formula $(0,x_{0})$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+DF(0,x_{0})=\begin{bmatrix}1 & 0\\
+b(0,x_{0}) & \diffp Xx
+\end{bmatrix}=\begin{bmatrix}1 & 0\\*
+* & I
+\end{bmatrix},
+\]
+
+\end_inset
+
+which is invertible and so 
+\begin_inset Formula $F$
+\end_inset
+
+ has a local inverse,
+ say 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula $G$
+\end_inset
+
+ is of the form
+\begin_inset Formula 
+\[
+G(t,x)=(t,Y(t,x)),
+\]
+
+\end_inset
+
+and we can draw some conclusions about the derivative of 
+\begin_inset Formula $G$
+\end_inset
+
+ by using the fact that 
+\begin_inset Formula $F\circ G=\mathrm{id}$
+\end_inset
+
+,
+ and so by the chain rule
+\begin_inset Formula 
+\[
+\begin{bmatrix}1 & 0\\
+0 & I
+\end{bmatrix}=\begin{bmatrix}1 & 0\\
+b & \diffpe Xx{t,Y}
+\end{bmatrix}\begin{bmatrix}1 & 0\\
+\diffp Yt & \diffp Yx
+\end{bmatrix}=\begin{bmatrix}1 & 0\\
+b+\diffp Xx\diffp Yt & \diffp Xx\diffp Yx
+\end{bmatrix}.
+\]
+
+\end_inset
+
+This lets us verify that the function 
+\begin_inset Formula $u(t,x)=f(Y(t,x))$
+\end_inset
+
+ is a solution to the transport equation:
+\begin_inset Formula 
+\begin{align*}
+u_{t}+b\cdot\grad u & =u_{t}(t,x)+Du(t,x)(b(t,x))\\
+ & =Df(Y(t,x))\diffpe Yt{t,x}+Df(Y(t,x))\diffpe Yx{t,x}b(t,x)\\
+ & =Df(Y)\left(\diffp Yt+\diffp Yxb\right).
+\end{align*}
+
+\end_inset
+
+To conclude,
+ note that 
+\begin_inset Formula $\diffp Xx$
+\end_inset
+
+ is invertible and
+\begin_inset Formula 
+\begin{gather*}
+\diffp Xx\left(\diffp Yt+\diffp Yxb\right)=0\\
+\implies\diffp Yt+\diffp Yxb=0,
+\end{gather*}
+
+\end_inset
+
+and thus 
+\begin_inset Formula $u_{t}+b(t,x)\cdot\grad u=0$
+\end_inset
+
+ and we have proven local existence of solution.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\square$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+A very similar argument can actually be used to prove local existence of solution for the more general quasilinear equation.
+ It just requires a bunch more notational baggage.
+ You can see it done in the notes.
+\end_layout
+
+\begin_layout Section
+Undistinguishing Time
+\end_layout
+
+\begin_layout Point
+You can also generalize the things we've done so far by noticing that the time variable doesn't actually need to be distinguished.
+ The transport equation may be written entirely in 
+\begin_inset Formula $x$
+\end_inset
+
+-coordinates via
+\begin_inset Formula 
+\[
+\bar{b}(\bar{x},u(\bar{x}))\cdot\nabla_{\bar{x}}u(\bar{x})=c(\bar{x},u(\bar{x})),\quad\text{with \ensuremath{\bar{x}=(t,x)} and \ensuremath{\bar{b}=(1,b)}.}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+But now,
+ you can play around a bit with what used to be the time variable.
+ The method of characteristics still works (with some reframing),
+ as does the local existence theorem,
+ under some transversality conditions you can find in the notes.
+\end_layout
+
+\begin_layout Point
+Let's look at a quick example:
+ Consider the PDE
+\begin_inset Formula 
+\[
+xu_{x}-yu_{y}=u.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Then,
+ we look at curves 
+\begin_inset Formula $(X,Y)$
+\end_inset
+
+ satisfying the ODE 
+\begin_inset Formula $(\dot{X},\dot{Y})=(X,-Y)$
+\end_inset
+
+.
+ This may be solved to yield 
+\begin_inset Formula $(X,Y)=(x_{0}\e^{t},y_{0}\e^{-t})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Along such a curve starting at 
+\begin_inset Formula $(x_{0},y_{0})$
+\end_inset
+
+ we would then solve the ODE for 
+\begin_inset Formula $U(t)=u(X(t),Y(t))$
+\end_inset
+
+:
+ 
+\begin_inset Formula 
+\[
+\dot{U}(t)=u_{x}\dot{X}+u_{y}\dot{Y}=Xu_{x}-Yu_{y}=u(X,Y)=U(t),
+\]
+
+\end_inset
+
+with solution 
+\begin_inset Formula $U(t)=u_{0}\e^{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Discuss with students:
+ What would be good initial conditions here?
+ Also,
+ remind them of 
+\begin_inset Formula $u_{t}+(x^{2}+1)u_{x}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Punchline:
+ First-order PDEs are kind of nicer than second-order (we're much better at finding explicit expressions for example),
+ but the subject of existence and initial/boundary conditions is much trickier.
+ Compare with Heat and Laplace equations,
+ for time and boundary conditions resp.
+\end_layout
+
+\begin_layout Section
+Nonlinear First Order PDEs
+\end_layout
+
+\begin_layout Point
+Let's look at the example of the PDE
+\begin_inset Formula 
+\[
+u_{t}+u_{x}^{2}=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+A direct application of the methods we've seen so far doesn't work,
+ because while you can still interpret this PDE as movement of material,
+ now the speed of the material no longer depends on pointwise quantities:
+ We also need to know 
+\begin_inset Quotes eld
+\end_inset
+
+neighboring quantities
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+We can fix this by adding an additional auxiliary variable 
+\begin_inset Formula $v=u_{x}$
+\end_inset
+
+.
+ Then,
+ our PDE becomes the 
+\begin_inset Quotes eld
+\end_inset
+
+vector-valued
+\begin_inset Quotes erd
+\end_inset
+
+ PDE on 
+\begin_inset Formula $(u,v)$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{cases}
+u_{t}+v^{2}=0\\
+v_{t}(=u_{tx}=(-v^{2})_{x})=-2vv_{x}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Notice that the PDE for 
+\begin_inset Formula $v$
+\end_inset
+
+ doesn't depend on 
+\begin_inset Formula $u$
+\end_inset
+
+ at all,
+ so we can begin by solving that one using the method of characteristics.
+ It gives us a variant of the Burgers equation,
+ with curves 
+\begin_inset Formula $X(t,x)=x+f'(x)t$
+\end_inset
+
+.
+ Then,
+ you can integrate 
+\begin_inset Formula $u_{t}=-v^{2}$
+\end_inset
+
+ in time (vertical lines!) to recover the pointwise values of 
+\begin_inset Formula $u$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Alternatively,
+ if 
+\begin_inset Formula $X(t)$
+\end_inset
+
+ is a characteristic curve where 
+\begin_inset Formula $v=f'(x)$
+\end_inset
+
+ takes a fixed value,
+ we notice that 
+\begin_inset Formula $u(X(t))_{t}=u_{t}(X(t))\dot{X}(t)=-v^{2}\cdot v=-v^{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Note:
+ This contradicts the notes!
+\end_layout
+
+\begin_layout Point
+You may wonder if this used anything special from our PDE,
+ but it's actually relatively general.
+ Let's consider the generic one-dimensional case
+\begin_inset Formula 
+\[
+u_{t}+H(t,x,u,u_{x})=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Note:
+ This is called the 
+\emph on
+Hamilton-Jacobi
+\emph default
+ equation (in one dimension).
+\end_layout
+
+\begin_layout Point
+As before,
+ we consider the auxiliary variable 
+\begin_inset Formula $v=u_{x}$
+\end_inset
+
+ and find that it satisfies a quasilinear transport equation:
+\begin_inset Formula 
+\[
+v_{t}+H_{x}(t,x,u,v)+H_{u}(t,x,u,v)v+H_{u_{x}}(t,x,u,v)v_{x}=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Unlike the previous case,
+ we can't completely decouple the 
+\begin_inset Formula $v$
+\end_inset
+
+ from 
+\begin_inset Formula $u$
+\end_inset
+
+,
+ but that's okay:
+ we just have another ODE to solve,
+ getting the system of ODEs
+\begin_inset Formula 
+\[
+\begin{cases}
+\dot{X}=H_{u_{x}}(t,X,U,V),\\
+\dot{U}=-H(t,X,U,V)+VH_{u_{x}}(t,X,U,V),\\
+\dot{V}=-H_{x}(t,X,U,V)-H_{u}(t,X,U,V)V,
+\end{cases}
+\]
+
+\end_inset
+
+with initial conditions 
+\begin_inset Formula $X(0)=x$
+\end_inset
+
+,
+ 
+\begin_inset Formula $U(0)=f(x)$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $V(0)=f'(x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+It's probably not super good for practical purposes,
+ but it can for example be used to guarantee local existence and uniqueness.
+\end_layout
+
+\begin_layout Point
+In the notes,
+ you'll find this done for higher-dimensional cases,
+ but I chose not to do it because it requires extra notation but it's basically the same.
+\end_layout
+
+\begin_layout Point
+You can probably do this when 
+\begin_inset Formula $H$
+\end_inset
+
+ depends on higher-derivatives,
+ by differentiating as many times as you have derivatives.
+\end_layout
+
+\begin_layout Point
+Historical note:
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ stands for Hamiltonian,
+ and in the notes you'll see 
+\begin_inset Formula $v$
+\end_inset
+
+ written as 
+\begin_inset Formula $p$
+\end_inset
+
+ because physics.
+ It represents the momentum.
+ I don't know why 
+\begin_inset Quotes eld
+\end_inset
+
+momentum
+\begin_inset Quotes erd
+\end_inset
+
+ is 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Conservation Laws
+\end_layout
+
+\begin_layout Point
+Last time,
+ we saw an explanation based on 
+\begin_inset Quotes eld
+\end_inset
+
+numerical analysis
+\begin_inset Quotes erd
+\end_inset
+
+ for why the transport equation has this name.
+ Today,
+ we will see another explanation,
+ from a 
+\begin_inset Quotes eld
+\end_inset
+
+more pure
+\begin_inset Quotes erd
+\end_inset
+
+ perspective,
+ and we will see how it can help us get more information about these equations.
+\end_layout
+
+\begin_layout Point
+Instead of starting with the equation this time,
+ let's start with the problem.
+ Let's say that we have some matter spread around space,
+ with density given by 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ Moreover,
+ we are told that this matter will move in some deterministic way based on the density;
+ let's say that a point at 
+\begin_inset Formula $(t,x)$
+\end_inset
+
+ with density 
+\begin_inset Formula $u$
+\end_inset
+
+ moves with velocity 
+\begin_inset Formula $v(t,x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Now,
+ select some small region 
+\begin_inset Formula $\Omega$
+\end_inset
+
+,
+ and let's say that we're interested in how the total matter is changing in this region.
+ Intuitively,
+ this would be done by measuring how much matter is escaping across the boundary
+\begin_inset Formula 
+\begin{equation}
+\diffp{}t\left(\int_{\Omega}u(x)\dl x\right)\underset{\text{should}}{=}-\int_{\partial\Omega}u(x)\,v(t,x,u(x))\cdot\nu\dl S(x).\label{eq:weak0}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+This simplifies to
+\begin_inset Formula 
+\[
+\int_{\Omega}u_{t}=-\int_{\Omega}\divv(u(x)\,v(t,x,u(x)))\dl x,
+\]
+
+\end_inset
+
+so by making 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ very small we would expect that 
+\begin_inset Formula $u$
+\end_inset
+
+ would satisfy the PDE 
+\begin_inset Formula $u_{t}+\divv(F(t,x,u(t,x)))=0$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $F(t,x,u)=uv(t,x,u)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+We can also forget about the original 
+\begin_inset Quotes eld
+\end_inset
+
+velocity
+\begin_inset Quotes erd
+\end_inset
+
+ interpretation of 
+\begin_inset Formula $F$
+\end_inset
+
+ to get a relatively broad cass of first order equations.
+\end_layout
+
+\begin_layout Point
+Note:
+ We have 
+\begin_inset Formula $\divv(F(t,x,u))=\divv_{x}F+F_{u}\cdot\nabla u$
+\end_inset
+
+.
+ This gives us a class of quasilinear transport equations,
+ but not necessarily all of them.
+\end_layout
+
+\begin_layout Point
+Also,
+ this suggests that the actual velocity of a particle is 
+\begin_inset Formula $F_{u}=v+uv_{u}\neq v$
+\end_inset
+
+,
+ so the original interpretation of 
+\begin_inset Formula $v$
+\end_inset
+
+ as the velocity of a particle has something wrong about it.
+ I don't know what it is,
+ though.
+ It works if the velocity doesn't depend on density,
+ I suppose.
+\end_layout
+
+\begin_layout Point
+The reason that this new perspective is useful is that it allows us to consider a new notion of solution.
+ So far,
+ all our solutions to PDEs have been what is called a 
+\begin_inset Quotes eld
+\end_inset
+
+classical solution
+\begin_inset Quotes erd
+\end_inset
+
+,
+ that is,
+ a function which is differentiable and whose partial derivatives satisfy certain conditions.
+ But 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak0"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is a condition that can be asked of a function 
+\begin_inset Formula $u$
+\end_inset
+
+,
+ even if it is not necessarily smooth.
+\end_layout
+
+\begin_layout Point
+For a very simple example,
+ recall the original transport equation 
+\begin_inset Formula $u_{t}+b\cdot\grad u=0$
+\end_inset
+
+.
+ We saw that this is solved by 
+\begin_inset Formula $u(t,x)=f(x-tb)$
+\end_inset
+
+ for initial conditions 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ But for this to be a classical solution,
+ we need that 
+\begin_inset Formula $f$
+\end_inset
+
+ be 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+;
+ otherwise,
+ the expression 
+\begin_inset Formula $u_{t}$
+\end_inset
+
+ may not even make sense.
+\end_layout
+
+\begin_layout Point
+However,
+ even if 
+\begin_inset Formula $f$
+\end_inset
+
+ is not 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+,
+ so long as it is continuous,
+ we can see that this solution satisfies 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak0"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ at least for intervals:
+\begin_inset Formula 
+\begin{multline*}
+\diffp{}t\int_{a_{0}}^{a_{1}}u=\diffp{}t\int_{a_{0}}^{a_{1}}f(x-tb)\dl x=\diffp{}t\int_{a_{0}-tb}^{a_{1}-tb}f=\\
+\underset{\text{FTC}}{=}bf(a_{1}-tb)-bf(a_{0}-tb)=u(t,a_{1})-u(t,a_{0})=\int_{\partial[a,b]}ub\cdot\nu.
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+This suggests that 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak0"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ may be a good generalization of 
+\begin_inset Quotes eld
+\end_inset
+
+solution
+\begin_inset Quotes erd
+\end_inset
+
+,
+ but it's not as good as it could be.
+ For example,
+ we may want to allow discontinuities in our initial conditions,
+ but the reasoning used required continuity.
+ The issue is that integrating over a fixed domain is too 
+\begin_inset Quotes eld
+\end_inset
+
+sharp
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Differentiating an integral in time can also lead to issues.
+ So,
+ we make everything softer by considering what happens when we integrate 
+\begin_inset Formula $u$
+\end_inset
+
+ against a 
+\begin_inset Quotes eld
+\end_inset
+
+test function
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+,
+ which we assume to be as nice as possible:
+ 
+\begin_inset Formula $C_{c}^{\infty}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+See figure 5.
+\end_layout
+
+\begin_layout Point
+So,
+ we replace 
+\begin_inset Formula $\diffp{}t\int_{\Omega}u$
+\end_inset
+
+ by (morally) 
+\begin_inset Formula 
+\[
+\iint\varphi_{t}(t,x)u(t,x)\dl x\dl t,
+\]
+
+\end_inset
+
+and we expect this to equal
+\begin_inset Formula 
+\[
+\iint u(t,x)b\cdot\grad\varphi(t,x)\dl x\dl t.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Let's do this a little bit more generally.
+ Suppose that (classically) 
+\begin_inset Formula $u$
+\end_inset
+
+ solves the PDE
+\begin_inset Formula 
+\begin{equation}
+u_{t}+\divv(F(t,x,u(x)))=0.\label{eq:teq}
+\end{equation}
+
+\end_inset
+
+Then,
+ we have the following equalities for any test function 
+\begin_inset Formula $\varphi\in C_{c}^{\infty}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\iint\varphi_{t}u=-\iint\varphi u_{t}=\iint\varphi\divv(F(t,x,u))=-\iint\grad\varphi\cdot F(t,x,u).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Note:
+ The boundary terms are vanishing,
+ but we really need to assume that 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ has compact support 
+\emph on
+inside
+\emph default
+ 
+\begin_inset Formula $(0,\infty)\times\R^{d}$
+\end_inset
+
+.
+ If you allow otherwise,
+ you do get boundary terms:
+\begin_inset Formula 
+\begin{equation}
+\iint\varphi_{t}u+\iint\grad\varphi\cdot F(t,x,u)=\int\varphi(0,x)f(x)\dl x.\label{eq:weak}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+A function 
+\begin_inset Formula $u$
+\end_inset
+
+ which satisfies 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is called a 
+\emph on
+weak solution
+\emph default
+ to the original PDE 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:teq"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ If 
+\begin_inset Formula $u$
+\end_inset
+
+ is a 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+ function,
+ it solves 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:teq"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ iff it satisfies 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for all test functions 
+\begin_inset Formula $\varphi\in C_{c}^{\infty}(\R^{1+d})$
+\end_inset
+
+.
+ However,
+ there are examples of PDEs which admit weak solutions that are not 
+\begin_inset Formula $C^{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+We've already seen an example of this phenomenon:
+ The transport equation with nondifferentiable initial conditions.
+ You can verify that even if the initial conditions are discontinuous,
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:weak"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ will still hold.
+\end_layout
+
+\begin_layout Point
+For a more complex example,
+ recall the Burgers equation 
+\begin_inset Formula $u_{t}+uu_{x}=0$
+\end_inset
+
+,
+ which can be written in divergence form as 
+\begin_inset Formula $u_{t}+\diffp{}x(\dfrac{1}{2}u^{2})=0$
+\end_inset
+
+,
+ so a weak solution 
+\begin_inset Formula $u$
+\end_inset
+
+ is one which satisfies
+\begin_inset Formula 
+\[
+\iint\varphi_{t}u+\frac{1}{2}\iint\varphi_{x}u^{2}=0.
+\]
+
+\end_inset
+
+Consider also the initial conditions
+\begin_inset Formula 
+\[
+f(x)=\begin{cases}
+0 & \text{if }x\leq0,\\
+1 & \text{if }x>0.
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+From the method of characteristics,
+ we have a partial image of what the solution should be;
+ see Figure 6.
+ We need to fill out the undetermined part,
+ though.
+\end_layout
+
+\begin_layout Point
+It turns out that this part is actually undetermined in a very real sense:
+ There's more than one way to fill it in.
+ We present one of them (not the best one,
+ though!) to show an example of how to verify that things are weak solutions.
+\end_layout
+
+\begin_layout Point
+(If you've reached this part,
+ you've probably gone wayyy too fast.
+ You're on your own.)
+\end_layout
+
+\end_body
+\end_document

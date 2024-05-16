@@ -8,7 +8,7 @@
 
 \title{On nice enough ODEs and dependency on initial conditions}
 \author{Duarte Maia}
-\date{}
+\date{Originally Written: October 2020}
 
 \newcommand{\R}{\mathbb{R}}
 
@@ -21,9 +21,9 @@
 
 This document is a repository for me to write down the sequence of results necessary to prove, from scratch, that the flow of a vector field exists and is smooth, in some sense. The flow is obtained by solving an ODE, which means that I want to show that, under some niceness assumptions, the solutions of an ODE exist locally and vary smoothly when the initial conditions change. In this document, I will only solve the case for $\R^n$, as translating that to the original goal (proving vector field flows exist) is beyond the scope of this.
 
-\section{Grunbaum's lemma}
+\section{Gronwall's lemma}
 
-Grunbaum's lemma is a tool that allows us to take differential (or, to be more precise, differential) inequalities and turn them into actual inequalities.
+Gronwall's lemma is a tool that allows us to take differential (or, to be more precise, differential) inequalities and turn them into actual inequalities.
 
 The integral statement is as follows: let $g$ and $h$ be two positive-valued continuous functions satisfying the inequality
 \[g(t) \leq c + \int_{t_0}^t g(s) h(s) \dd s\]
@@ -123,7 +123,7 @@ Before investigating smoothness of the solution as a function of the initial con
 
 Suppose, then, that $f$ is continuous in $t$ and $C^1$ in $x$. Then, $\partial_x f$ is continuous, and so bounded on compacts. In particular, we may consider a compact rectangular neighbourhood of an arbitrary $(t_0, x_0)$, wherein all partial derivatives of $f$ are bounded by, say, $M$. Then, for any (applicable) $t$, the difference $f(t,x) - f(t,y)$ can be bounded using the mean value theorem by $n^2 M \lvert x - y \rvert$, which shows that any point has a Lipschitz neighbourhood. It remains to show that $f$ is Lipschitz on any compact.
 
-The following idea is due to Manel. Fix a compact $K \subseteq D$. Let
+The following idea is due to Manel Dias. Fix a compact $K \subseteq D$. Let
 \[A = \{\,(t,x,y) \mid (t,x) \in K, (t,y) \in K, x \neq y\,\}.\]
 
 Consider the function $g : A \to \R$ defined by
@@ -162,7 +162,7 @@ where $A(t) = f'(x(t))$. Note that, by hypothesis on $f$, $A$ is a continuous fu
 
 Let us show that $J$ is defined for all $t$ that $x$ is. Consider an interval $[a,b]$ in which $x$ is defined. Then, so is $A$, and $A$ has all entries bounded in this interval by some $M$. As a consequence,
 \[\lvert J(t) \rvert \leq n + \int_{t_0}^t \lvert A(t) J(t) \rvert \leq n + \int_{t_0}^t n^3 M \lvert J \rvert,\]
-and therefore by Grunbaum's lemma we conclude $\lvert J \rvert \leq n \exp((b-a) n^3 M)$, and so $J$ is bounded. Therefore, for $J$ to stop being extendable after some time $t_f$, it would need to `go outside the domain', but for every $t \in [a,b]$ the function $J \mapsto AJ$ is defined for all $J$ and therefore $J$ must be extendable to all $t \in [a,b]$.
+and therefore by Gronwall's lemma we conclude $\lvert J \rvert \leq n \exp((b-a) n^3 M)$, and so $J$ is bounded. Therefore, for $J$ to stop being extendable after some time $t_f$, it would need to `go outside the domain', but for every $t \in [a,b]$ the function $J \mapsto AJ$ is defined for all $J$ and therefore $J$ must be extendable to all $t \in [a,b]$.
 
 Note also that $J$ is continuous as a function of $x_0$, as the ODE that specifies it can also be rewritten as to make $x_0$ part of the initial conditions:
 \[
@@ -191,7 +191,7 @@ Let us begin by applying the mean value theorem to conclude $f(x_h(s)) - f(x(s))
 \end{align*}
 where $M$ is the maximum value of the entries of $f'(x(t))$ as $t$ ranges from $A$ To $B$.
 
-As a consequence, we may apply Grunbaum's lemma to get, finally, that for all $\varepsilon$ there exists $\delta$ such that $\lvert h \rvert < \delta$ implies
+As a consequence, we may apply Gronwall's lemma to get, finally, that for all $\varepsilon$ there exists $\delta$ such that $\lvert h \rvert < \delta$ implies
 \[ \frac1{\lvert h \rvert} \lvert x_h(t) - x(t) - J(t) h \rvert < (b-a)\varepsilon C \exp(n^2 M (b-a)),\]
 which concludes the proof that $J(t)$ is the derivative of $x_h(t)$ at $h=0$, or, in other words, $\partial_{x_0} x(t,t_0,x_0)$. We have already discussed continuity of $J$ and the other derivatives of $x$, and so we conclude that if $f$ is $C^1$ so is the solution as a function of initial data.
 

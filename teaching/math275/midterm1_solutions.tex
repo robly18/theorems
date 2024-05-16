@@ -1,0 +1,267 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts,stmaryrd}
+\usepackage{mathtools}
+
+\usepackage[cal=euler]{mathalpha}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+%\usepackage{fullpage}
+\usepackage{titling}
+\setlength{\droptitle}{-2cm}
+\pretitle{\noindent\large}
+\posttitle{\par\smallskip}
+\preauthor{\noindent}
+\postauthor{\par}
+\predate{\noindent}
+\postdate{\par}
+
+\usepackage{graphicx}
+
+\usepackage{listings}
+\lstset{keepspaces=true, basicstyle=\ttfamily, mathescape}
+
+
+\usepackage{cancel}
+\usepackage{interval}
+\usepackage{comment}
+
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\usepackage{diffcoeff}
+
+\setlist[enumerate,1]{label=(\alph*)}
+
+\title{Math 275 Spring 2024: Midterm 1 (Solution)}
+\author{Luis Silvestre, Duarte Maia}
+\date{Taken on Tuesday, April 16th}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{lemma}{Lemma}
+
+\newtheorem{ex}{Exercise}
+
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\text{\textit{(End proof of lemma)}}}}
+\newtheorem{lemmaproof}{Proof of Lemma}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremheaderfont{\bfseries}
+\newtheorem{sol}{Solution}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{note}{Note}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+
+\DeclareMathOperator{\len}{len}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+
+\newcommand{\lap}{\Delta}
+\DeclareMathOperator{\divg}{div}
+\newcommand{\grad}{\nabla}
+
+\DeclareMathOperator{\diam}{diam}
+
+%%%% comment below for solution version
+%\excludecomment{sol}
+%\excludecomment{note}
+
+\begin{document}
+\maketitle
+
+\begin{ex}
+Write the following examples whenever possible. No justification is necessary for correct examples.
+\begin{enumerate}
+\item A global harmonic function $u \colon \R^2 \to \R$ that is bounded but not constant.
+\item An unbounded function $u \colon [0,\infty) \times \R \to \R$ that solves the heat equation.
+\item A bounded nonconstant function $u \colon \R \times \R \to \R$ that solves the transport equation $u_t - u_x = 0$ for $(t,x) \in \R \times \R$.
+\item A bounded $2\pi$-periodic function whose Fourier coefficients are not absolutely summable.
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item This is not possible by direct application of Liouville's theorem.
+\item If we can solve the heat equation with an unbounded initial value, obviously the function itself is unbounded. We only need to be a little careful to ensure that there is a solution. If our function grows too fast, the explicit expression using the heat kernel stops making sense.
+
+The heat kernel $H(t,x,y)$ decays (for fixed $(t,x)$) exponentially as $y \to \infty$, so if we pick the initial condition $f(x)$ to be, say, a polynomial, we expect the explicit solution to converge. Thus, I propose the following function:
+\begin{equation}
+u(t,x) = \int_\R y H(t,x,y)  \dl y,
+\end{equation}
+extended to $t = 0$ by $u(0,x) = x$.
+
+We can actually do better than this, either by evaluating the integral explicitly or thinking a little bit. Our initial condition is actually harmonic, which makes it a stable solution to the heat equation, so our $u$ is actually given by
+\begin{equation}
+u(t,x) = x.
+\end{equation}
+\item For any reasonable function $f(x)$, we can solve the transport equation by $u(t,x) = f(t+x)$. Thus, we just need to find a nonconstant bounded function. As a simple example, we may use the Gaussian:
+\begin{equation}
+u(t,x) = \exp(-(t+x)^2).
+\end{equation}
+\item We know that if the coefficients are absolutely summable the Fourier series converges to a continuous function, so we may expect that starting with a discontinuous function would work. Thus, we consider
+\begin{equation}
+f(x) = \begin{cases}
+0 & \text{if $x \in [2\pi k, 2\pi k + \pi)$ for some $k \in \Z$,}\\
+1 & \text{if $x \in [2\pi k + \pi, 2 \pi (k+1))$ for some $k \in \Z$.}
+\end{cases}
+\end{equation}
+(Colloquially, this is a square-wave which alternates between $0$ and $1$ every $\pi$ time.)
+
+If we want, we can directly verify that the Fourier coefficients of $f$ are not absolutely summable. Direct computation will show:
+\begin{equation}
+a_k = \int_0^{2\pi} f(x) \e^{\I k x} = \int_\pi^{2\pi} \e^{\I k x} = \frac1{\I k} \times (\e^{2 \I \pi k} - \e^{\I \pi k}),
+\end{equation}
+which gives $a_k = \frac2{\I k}$ for odd values of $k$. We know from calculus that $\sum_{k \text{ odd}} \frac1{\abs k} = \infty$, so this function works.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Compute the Fourier transforms of:
+\begin{enumerate}
+\item \begin{equation}
+f(x) = \begin{cases}
+1 & \text{if $x \in (-1,1)$},\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+\item \begin{equation}
+f(x) = \begin{cases}
+2+x & \text{if $x \in (-2,0)$},\\
+2-x & \text{if $x \in (0,2)$},\\
+0 & \text{otherwise.}
+\end{cases}
+\end{equation}
+\end{enumerate}
+\end{ex}
+
+\begin{sol}
+\leavevmode
+\begin{enumerate}
+\item
+\begin{equation}
+\begin{aligned}
+\hat f(\xi)
+&= \int_\R f(x) \e^{- 2 \I \pi \xi x} \dl x\\
+&= \int_{-1}^1 \e^{- 2 \I \pi \xi x} \dl x\\
+&= \frac1{-2\I\pi \xi} \times (\e^{-2\I\pi \xi} - \e^{2\I\pi})\\
+&= \frac1{-2\I\pi} \frac1\xi \times 2\I \sin(-2\pi\xi)\\
+&= \frac1\pi \frac{\sin(2\pi\xi)}\xi.
+\end{aligned}
+\end{equation}
+
+Note: This computation fails for $\xi = 0$, but there the computation could be done explicitly. It equals the integral of $f$, which is $2$. This is just the extension of the expression above by continuity.
+
+\item Let us call the function from part (b) by the name $g$, instead of $f$, so that we don't get confused. From the hint, you may expect that $g$ can be written in terms of $f$, and you might expect that a convolution is involved (because that just becomes multiplication in the Fourier side). It turns out that $g$ is just $f * f$, except at $x=0$ (which has measure zero and hence doesn't matter to compute the Fourier transform):
+\begin{equation}
+(f*f)(x) = \int_\R f(y) f(x-y) \dl y = \len((-1,1) \cap (-x-1, -x+1)),
+\end{equation}
+where $\len$ is the usual `interval length' function. It is not difficult to see that the right-hand side is given by
+\begin{equation}
+(f*f)(x) = \begin{cases}
+2+x & \text{if $x \in (-2,0)$},\\
+2-x & \text{if $x \in (0,2)$},\\
+2 & \text{if $x = 0$},\\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+which, as said before, equals $g$ almost everywhere. Thus,
+\begin{equation}
+\hat g(\xi) = \widehat{(f*f)}(\xi) = (\hat f(\xi))^2 = \frac1{\pi^2} \frac{\sin^2(2\pi\xi)}{\xi^2}.
+\end{equation}
+
+Note: The note at the end of the previous solution still applies; the above expression is supposed to be read, for $\xi = 0$, as the extension by continuity, which equals $4$.
+\end{enumerate}
+\end{sol}
+
+\begin{ex}
+Let $u \in C^2(\bar\Omega)$ be a solution of
+\begin{equation}
+\begin{cases}
+\lap u = u & \text{in $\Omega$,}\\
+u = f & \text{on $\partial\Omega$.}
+\end{cases}
+\end{equation}
+
+Prove that for any other $v \in C^1(\bar\Omega)$ with $v = f$ on $\partial\Omega$ we have
+\begin{equation}
+\int_\Omega \abs{\grad u}^2 + u^2 \dl x \leq \int_\Omega \abs{\grad v}^2 + v^2 \dl x.
+\end{equation}
+\end{ex}
+
+\begin{sol}
+Write $v = u + w$, where $w \in C^1$ and $w = 0$ on $\partial\Omega$. Then, we expand
+\begin{equation}
+\begin{aligned}
+\int_\Omega \abs{\grad v}^2 + v^2 \dl x 
+&= \int_\Omega \abs{\grad u + \grad w}^2 + (u+w)^2 \dl x\\
+&= \int_\Omega \abs{\grad u}^2 + u^2 \dl x + \int_\Omega \abs{\grad w}^2 + w^2 \dl x \\
+&\phantom{= }+ 2 \int_\Omega (\grad u) \cdot (\grad w) + uw \dl x.
+\end{aligned}
+\end{equation}
+
+The first term is what we want to show our expression is greater than or equal to, the second term is obviously nonnegative, so it would be sufficient to show that the last term is zero. So, let us develop the following expression:
+\begin{equation}
+\begin{aligned}
+\int_\Omega (\grad u) \cdot (\grad w) \dl x
+&= \int_{\partial \Omega} w \, (\grad u) \cdot \nu \dl S - \int_\Omega \lap u \, w \dl x\\
+&= 0 - \int_\Omega u w \dl x,
+\end{aligned}
+\end{equation}
+where in the last step we used $w = 0$ on the boundary and $\lap u = u$ in $\Omega$. Thus, we conclude
+\begin{equation}
+\int_\Omega (\grad u) \cdot (\grad w) + uw \dl x = 0,
+\end{equation}
+and the proof is complete.
+\end{sol}
+
+\begin{ex}
+Let $\Omega$ be a bounded set in $\R^d$ and $u$ solve the equation
+\begin{equation}
+\begin{cases}
+\lap u = -1 & \text{in $\Omega$},\\
+u = 0 & \text{on $\partial \Omega$}.
+\end{cases}
+\end{equation}
+
+Prove that $u \leq \frac1{2d} (\diam \Omega)^2$.
+\end{ex}
+
+\begin{sol}
+Without loss of generality, by translating the function, let us assume that the origin is in $\Omega$. Then, consider the new function
+\begin{equation}
+v(x) = u(x) + \frac1{2d}\norm{x}^2.
+\end{equation}
+
+Direct computation will show that $v$ is harmonic, and hence it satisfies the maximum principle. Thus, the maximum value of $v$ in all of $\Omega$ is just the maximum value in the boundary. To maximize $v$ on the boundary is the same as to maximize $\frac1{2d} \norm{x}^2$ (because $u = 0$ there). But then, for any $x \in \partial \Omega$ we have
+\begin{equation}
+\norm{x} = d(0,x) \leq \diam \bar\Omega = \diam\Omega,
+\end{equation}
+and so
+\begin{equation}
+\max_\Omega v = \max_{\partial\Omega} v = \max_{\partial\Omega} \frac1{2d} \norm{x}^2 \leq \frac1{2d}\diam\Omega,
+\end{equation}
+and so
+\begin{equation}
+u \leq v \leq \frac1{2d}\diam\Omega.
+\end{equation}
+\end{sol}
+
+\end{document}
