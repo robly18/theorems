@@ -1,0 +1,1222 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+\end_modules
+\maintain_unincluded_children no
+\begin_local_layout
+#\DeclareLyXModule{Duarte Theorems}
+#\DeclareCategory{My Custom Modules}
+#DescriptionBegin
+#My standard ntheorem theorems
+#DescriptionEnd
+#Excludes: theorems-ams | theorems-starred | theorems-std
+
+# Author: Duarte Maia
+
+Format 104
+
+Preamble
+\usepackage[thmmarks]{ntheorem}
+EndPreamble
+
+
+OutlinerName thm "Definitions & Theorems"
+
+Style Theorem
+	Category              Reasoning
+	Margin                First_Dynamic
+	LatexType             Environment
+	LatexName             thm
+	NextNoIndent          1
+	ResetArgs             1
+	AddToToc              thm
+	IsTocCaption          1
+	Argument 1
+		LabelString    "Additional Theorem Text"
+		Tooltip        "Additional text appended to the theorem header"
+		IsTocCaption      1
+	EndArgument
+	LabelSep              xx
+	ParIndent             MMM
+	ParSkip               0.4
+	ItemSep               0.2
+	TopSep                0.7
+	BottomSep             0.7
+	ParSep                0.3
+	Align                 Block
+	AlignPossible         Left
+	LabelType             Static
+	LabelCounter          theorem
+	LabelString           "Theorem \thetheorem."
+	Font
+	  Shape               Up
+	  Size                Normal
+	EndFont
+	LabelFont
+	  Shape               Up
+	  Series              Bold
+	EndFont
+	Preamble
+        \theoremstyle{plain}
+        \theorembodyfont{\upshape}
+        \theoremseparator{.}
+        \newtheorem{thm}{Theorem}
+	EndPreamble
+	Requires              ntheorem
+End
+
+
+Style Fact
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	LatexName             fact
+	LabelString           "Fact \thetheorem."
+	Preamble
+        \theoremstyle{plain}
+        \theorembodyfont{\upshape}
+        \theoremseparator{.}
+		\newtheorem{fact}[thm]{Fact}
+	EndPreamble
+End
+
+Style Proof
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	LatexName             proof
+	LabelString           "Proof:"
+	Preamble
+        \theoremstyle{nonumberplain}
+        \theoremheaderfont{\itshape}
+        \theorembodyfont{\upshape}
+        \theoremseparator{:}
+        \theoremsymbol{\ensuremath{\blacksquare}}
+        \newtheorem{proof}{Proof}
+	EndPreamble
+
+	LabelFont
+	  Shape               Italic
+	  Series              Medium
+	EndFont
+    EndLabelType Filled_Box
+    Requires amssymb
+End
+
+
+
+Counter theorem
+	GuiName Theorem
+	LaTeXName thm
+	RefFormat thm "Theorem \arabic{theorem}"
+	RefFormat fact "Fact \arabic{theorem}"
+End
+\end_local_layout
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Solution to Exercise III.3.9 c) of Odifreddi
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is ostensibly a solution,
+ and explanation thereof,
+ of the titular exercise.
+ This particular exercise struck me as particularly challenging,
+ and the intended solution comes a bit out of left field.
+ Even the hint is remarkably obtuse,
+ especially taking into account that it's basically the skeleton of a proof.
+ Thus,
+ I decided to make this document in an attempt to convince to myself that the solution makes sense,
+ and explain how someone might have come up with it.
+\end_layout
+
+\begin_layout Section
+Problem Statement
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $A$
+\end_inset
+
+ be a c.e.
+\begin_inset space ~
+\end_inset
+
+set.
+ We say that 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\emph on
+dense simple
+\emph default
+ if 
+\begin_inset Formula $p_{A^{c}}$
+\end_inset
+
+ dominates every total computable function.
+ We say that 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\emph on
+strongly effectively simple
+\emph default
+ if there is a (wlog total) computable function 
+\begin_inset Formula $f$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{e}\subseteq A^{c}\implies\max W_{e}\leq f(e)$
+\end_inset
+
+.
+ Prove that 
+\begin_inset Formula $A$
+\end_inset
+
+ cannot be dense simple and s.e.s.
+\begin_inset space \space{}
+\end_inset
+
+at the same time.
+\end_layout
+
+\begin_layout Section
+Pre-Solution
+\end_layout
+
+\begin_layout Standard
+At first sight this problem looks relatively approachable.
+ An obvious avenue of attack is to suppose that 
+\begin_inset Formula $A$
+\end_inset
+
+ is s.e.s.
+\begin_inset space ~
+\end_inset
+
+and construct explicitly a computable function which is not dominated by 
+\begin_inset Formula $p_{A^{c}}$
+\end_inset
+
+.
+ However,
+ one quickly finds (or at least I did) that there doesn't seem to be an easy way to do that.
+ In hindsight,
+ I think that's what the full solution does – More on that later – but the motivation for the solution definitely comes from attempting a proof by contradiction:
+ Suppose that 
+\begin_inset Formula $A$
+\end_inset
+
+ is both dense simple and s.e.s,
+ and let us try to find a contradiction.
+\end_layout
+
+\begin_layout Standard
+Let's take a look at the puzzle pieces at hand.
+ We have:
+\end_layout
+
+\begin_layout Itemize
+An enumeration of 
+\begin_inset Formula $A$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+A computable function 
+\begin_inset Formula $f$
+\end_inset
+
+ that witnesses that 
+\begin_inset Formula $A$
+\end_inset
+
+ is s.e.s,
+\end_layout
+
+\begin_layout Itemize
+We are given that the principal enumeration of 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+ dominates every computable total function.
+\end_layout
+
+\begin_layout Standard
+At first sight,
+ the last puzzle piece doesn't quite fit together with the rest.
+ How are we going to make the principal enumeration of 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+ pop up?
+ After some thought,
+ this is where the enumeration of 
+\begin_inset Formula $A$
+\end_inset
+
+ comes up:
+ We can use it to approximate 
+\begin_inset Formula $p_{A^{c}}$
+\end_inset
+
+!
+\end_layout
+
+\begin_layout Standard
+More concretely,
+ define 
+\begin_inset Formula $a_{s}(n)$
+\end_inset
+
+ as follows.
+ First,
+ enumerate 
+\begin_inset Formula $s$
+\end_inset
+
+ elements of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ Then,
+ let 
+\begin_inset Formula $a_{s}(n)$
+\end_inset
+
+ be the 
+\begin_inset Formula $n$
+\end_inset
+
+-th non-enumerated element in increasing order.
+ This two-indexed sequence has the following property:
+\end_layout
+
+\begin_layout Fact
+The sequence 
+\begin_inset Formula $a_{s}$
+\end_inset
+
+ is an increasing sequence of monotone injective functions whose pointwise limit is 
+\begin_inset Formula $\lim a_{s}(n)=p_{A^{c}}(n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For the sake of notation,
+ we set 
+\begin_inset Formula $a(n)=p_{A^{c}}(n)$
+\end_inset
+
+,
+ so that 
+\begin_inset Formula $a=\lim a_{s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now that we have a better way to tie the pieces together,
+ let's figure out how to manufacture a contradiction.
+ We know that 
+\begin_inset Formula $a(n)$
+\end_inset
+
+ dominates every total computable function,
+ so perhaps the way lies through creating a computable function 
+\begin_inset Formula $h(n)$
+\end_inset
+
+ for which being dominated somehow causes a contradiction.
+ Perhaps we could try to create 
+\begin_inset Formula $h$
+\end_inset
+
+ from 
+\begin_inset Formula $a_{s}$
+\end_inset
+
+?
+ It is as yet unclear how 
+\begin_inset Formula $f$
+\end_inset
+
+ (the function that witnesses that 
+\begin_inset Formula $A$
+\end_inset
+
+ is s.e.s.) comes into the picture,
+ but let us continue along this line of reasoning for the time being.
+\end_layout
+
+\begin_layout Standard
+Here's a skeleton of an idea.
+ By making use of the recursion theorem,
+ we can use 
+\begin_inset Formula $h$
+\end_inset
+
+ in the definition of 
+\begin_inset Formula $h$
+\end_inset
+
+.
+ Moreover,
+ we know that 
+\begin_inset Formula $a(n)$
+\end_inset
+
+ eventually dominates 
+\begin_inset Formula $h(n)$
+\end_inset
+
+,
+ so perhaps we can use this to create a self-contradictory function.
+ Namely:
+\begin_inset Formula 
+\[
+h_{0}(n)=\begin{cases}
+\text{Compute \ensuremath{a_{s}(n)} for increasing values of \ensuremath{s} until you exceed \ensuremath{h_{0}(n)}.}\\
+\text{Output the first such value of \ensuremath{a_{s}(n)}.}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This would certainly be a contradiction if 
+\begin_inset Formula $h_{0}$
+\end_inset
+
+ were total!
+ However,
+ there is no reason why it should be;
+ the obvious conclusion is simply that the computation of 
+\begin_inset Formula $h_{0}(n)$
+\end_inset
+
+ will never halt for 
+\emph on
+any
+\emph default
+ values of 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ This is where the function 
+\begin_inset Formula $f$
+\end_inset
+
+ that witnesses s.e.s.
+\begin_inset space \space{}
+\end_inset
+
+comes in,
+ as we can use it to conjure values out of possibly non-terminating computations.
+ Indeed,
+ let us define 
+\begin_inset Formula $x_{1}(n)$
+\end_inset
+
+ as the code 
+\begin_inset Quotes eld
+\end_inset
+
+compute 
+\begin_inset Formula $a_{s}(n)$
+\end_inset
+
+ for increasing values of 
+\begin_inset Formula $s$
+\end_inset
+
+ until you exceed 
+\begin_inset Formula $h_{1}(n)$
+\end_inset
+
+ and print out the first such value of 
+\begin_inset Formula $a_{s}(n)$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ so that
+\begin_inset Formula 
+\[
+W_{x_{1}(n)}=\begin{cases}
+\{a_{s}(n)\}, & \text{for the smallest \ensuremath{s} such that \ensuremath{a_{s}(n)>h_{1}(n)} if one exists,}\\
+\emptyset, & \text{otherwise.}
+\end{cases}
+\]
+
+\end_inset
+
+Then,
+ we may set 
+\begin_inset Formula $h_{1}(n)=f(x_{1}(n))$
+\end_inset
+
+,
+ and voila!
+ We have a total function.
+ Now,
+ to find that contradiction...
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's play around with the function we've defined.
+ We know that it is total,
+ so there must be some 
+\begin_inset Formula $n_{0}$
+\end_inset
+
+ after which we have 
+\begin_inset Formula $a(n)>h_{1}(n)$
+\end_inset
+
+,
+ and so in particular we will always be in the first branch of the definition of 
+\begin_inset Formula $W_{x_{1}(n)}$
+\end_inset
+
+.
+ Let us call the element of the resulting singleton set by the name 
+\begin_inset Formula $a_{s_{1}(n)}(n)$
+\end_inset
+
+.
+ Then,
+ the definition of 
+\begin_inset Formula $f$
+\end_inset
+
+ tells us:
+ If it is the case that 
+\begin_inset Formula $a_{s_{1}(n)}(n)$
+\end_inset
+
+ is in 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+,
+ we 
+\emph on
+must
+\emph default
+ have 
+\begin_inset Formula $f(x_{1}(n))>a_{s_{1}(n)}(n)$
+\end_inset
+
+.
+ But this is impossible because,
+ by definition of 
+\begin_inset Formula $s_{1}(n)$
+\end_inset
+
+,
+ it must happen that 
+\begin_inset Formula $a_{s_{1}(n)}(n)>h_{1}(n)=f(x_{1}(n))$
+\end_inset
+
+.
+ This is not yet a full contradiction,
+ but we do obtain for sure:
+\end_layout
+
+\begin_layout Fact
+It must be the case that 
+\begin_inset Formula $a_{s_{1}(n)}(n)\in A$
+\end_inset
+
+.
+ In particular,
+ 
+\begin_inset Formula $a_{s_{1}(n)}(n)$
+\end_inset
+
+ cannot equal 
+\begin_inset Formula $a(n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This is...
+ Something.
+ It's not really a contradiction yet,
+ and we begin to run out of cards to play.
+ It starts to look like we're at a dead end,
+ but fortunately there's a tricky way out of this situation.
+ Let's dig a little deeper.
+\end_layout
+
+\begin_layout Standard
+We know that 
+\begin_inset Formula $a_{s_{1}(n)}(n)$
+\end_inset
+
+ cannot equal 
+\begin_inset Formula $a(n)$
+\end_inset
+
+.
+ In other words,
+ 
+\begin_inset Formula $a_{s_{1}(n)}$
+\end_inset
+
+ hasn't finished converging at 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ By inspecting the definition of 
+\begin_inset Formula $a_{s}$
+\end_inset
+
+,
+ we reach another conclusion however:
+ It 
+\emph on
+must
+\emph default
+ be the case that 
+\begin_inset Formula $a_{s_{1}(n)}(n+1)\leq a(n)$
+\end_inset
+
+.
+ This seems useless for now,
+ but it is interesting because it allows us to jump 
+\begin_inset Quotes eld
+\end_inset
+
+between values of 
+\begin_inset Formula $n$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which is something we have yet to do.
+ It requires some tinkering to make the following idea work,
+ but hear me out:
+ What if we can ensure that 
+\begin_inset Formula $a_{s_{1}(n)}(n+1)\geq h(n+1)$
+\end_inset
+
+?
+ This seems undoable at first sight,
+ as the argument 
+\begin_inset Formula $s_{1}(n)$
+\end_inset
+
+ has no reason to be large enough,
+ but on a second look it requires a very simple modification in the definition of 
+\begin_inset Formula $x_{1}(n)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+W_{x_{2}(n)}=\begin{cases}
+\{a_{s}(n)\}, & \text{for the smallest \ensuremath{s} such that \ensuremath{a_{s}(n)>h_{2}(n)} and \ensuremath{a_{s}(n+1)>h_{2}(n+1)}, if one exists,}\\
+\emptyset, & \text{otherwise,}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+followed by setting 
+\begin_inset Formula $h_{2}(n)=f(x_{2}(n))$
+\end_inset
+
+.
+ Let us see if we get a contradiction this time.
+\end_layout
+
+\begin_layout Standard
+As before,
+ if we call 
+\begin_inset Formula $s_{2}(n)$
+\end_inset
+
+ the time obtained in 
+\begin_inset Formula $W_{x_{2}(n)}$
+\end_inset
+
+ we obtain for 
+\begin_inset Formula $n>n_{0}$
+\end_inset
+
+ (the value after which 
+\begin_inset Formula $a$
+\end_inset
+
+ dominates 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+) that 
+\begin_inset Formula $a_{s_{2}(n)}(n)\in A$
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $a(n)\geq a_{s_{2}(n)}(n+1)>h_{2}(n+1)$
+\end_inset
+
+.
+ Can we keep this inequality going for 
+\begin_inset Formula $n+2$
+\end_inset
+
+,
+ 
+\begin_inset Formula $n+3$
+\end_inset
+
+,
+ etc?
+ It...
+ Doesn't seem likely.
+ For a very simple reason in fact:
+ By construction,
+ we will always have 
+\begin_inset Formula $a_{s}(n)\geq n$
+\end_inset
+
+,
+ and thus 
+\begin_inset Formula $h_{2}(n)\geq n$
+\end_inset
+
+ for all 
+\begin_inset Formula $n>n_{0}$
+\end_inset
+
+.
+ A last modification is necessary;
+ it will let us transpose inequalities not just from 
+\begin_inset Formula $n$
+\end_inset
+
+ (the point of evaluation) to 
+\begin_inset Formula $n+1$
+\end_inset
+
+,
+ but from 
+\begin_inset Formula $y$
+\end_inset
+
+ to 
+\begin_inset Formula $y+1$
+\end_inset
+
+ where 
+\begin_inset Formula $y$
+\end_inset
+
+ is not necessarily the point of evaluation.
+ We begin by decoupling two uses of 
+\begin_inset Formula $n$
+\end_inset
+
+ in the definition of 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+ which need not be the same.
+ Define 
+\begin_inset Formula $x_{3}(n,y)$
+\end_inset
+
+ by:
+\begin_inset Formula 
+\[
+W_{x_{3}(n,y)}=\begin{cases}
+\{a_{s}(y)\}, & \text{for the smallest \ensuremath{s} such that \ensuremath{a_{s}(y)>h_{3}(n)} and \ensuremath{a_{s}(y+1)>h_{3}(n+1)}, if one exists,}\\
+\emptyset, & \text{otherwise,}
+\end{cases}
+\]
+
+\end_inset
+
+and set 
+\begin_inset Formula $h_{3}(n)=\max_{y\leq n}f(x_{3}(n,y))$
+\end_inset
+
+.
+ Why this particular computation?
+ Well,
+ we want to have access to values of 
+\begin_inset Formula $a_{s}(y)$
+\end_inset
+
+ for 
+\begin_inset Formula $y<n$
+\end_inset
+
+,
+ otherwise we will definitely run into the issue we pointed out for 
+\begin_inset Formula $h_{2}$
+\end_inset
+
+.
+ As for why we take a 
+\begin_inset Formula $\max$
+\end_inset
+
+ and not a 
+\begin_inset Formula $\min$
+\end_inset
+
+,
+ say,
+ is because otherwise the computation in the next paragraph would not work.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Indeed,
+ the author initially wrote the definition with a minimum,
+ changing it only when he realized that he needed the opposite inequalities afterwards...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $n>n_{0}$
+\end_inset
+
+ as before.
+ Moreover,
+ define 
+\begin_inset Formula $s_{3}(n,y)$
+\end_inset
+
+ as the one that shows up in the computation of 
+\begin_inset Formula $W_{x_{3}(n,y)}$
+\end_inset
+
+,
+ if one exists.
+ First,
+ we conclude that 
+\begin_inset Formula $h_{3}(n+1)<a(n)$
+\end_inset
+
+ basically as before:
+ If 
+\begin_inset Formula $a_{s_{3}(n,n)}(n)$
+\end_inset
+
+ were in 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+,
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Note:
+ 
+\begin_inset Formula $s_{3}(n,n)$
+\end_inset
+
+ is well-defined because 
+\begin_inset Formula $n>n_{0}$
+\end_inset
+
+ and so 
+\begin_inset Formula $a(n)>h_{3}(n)$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ it would be the case that 
+\begin_inset Formula $h_{3}(n)\geq f(x_{3}(n,n))>a_{s_{3}(n,n)}(n)>h_{3}(n)$
+\end_inset
+
+,
+ a contradiction.
+ Thus,
+ 
+\begin_inset Formula $a(n)>a_{s_{3}(n,n)}(n)$
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $a(n)\geq a_{s_{3}(n,n)}(n+1)>h_{3}(n+1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now we want to continue the argument by using 
+\begin_inset Formula $h_{3}(n+1)\geq f(x_{3}(n+1,n))$
+\end_inset
+
+.
+ There is a subtlety in this step,
+ however:
+ We need to ensure that 
+\begin_inset Formula $s_{3}(n+1,n)$
+\end_inset
+
+ is well-defined,
+ or equivalently that 
+\begin_inset Formula $a(n)>h_{3}(n+1)\land a(n+1)>h_{3}(n+2)$
+\end_inset
+
+.
+ Fortunately this is the case;
+ we have just proven that 
+\begin_inset Formula $a(n)>h_{3}(n+1)$
+\end_inset
+
+ for 
+\emph on
+every
+\emph default
+ 
+\begin_inset Formula $n>n_{0}$
+\end_inset
+
+,
+ including 
+\begin_inset Formula $n+1$
+\end_inset
+
+,
+ and so the argument continues:
+ If 
+\begin_inset Formula $a_{s_{3}(n+1,n)}(n)$
+\end_inset
+
+ were in 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+,
+ we would have 
+\begin_inset Formula $h_{3}(n+1)\geq f(x_{3}(n+1,n))>a_{s_{3}(n+1,n)}(n)>h_{3}(n+1)$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $a(n)>a_{s_{3}(n+1,n)}(n)$
+\end_inset
+
+ whence 
+\begin_inset Formula $a(n)\geq a_{s_{3}(n+1,n)}(n+1)>h_{3}(n+2)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Ah,
+ so now we're getting somewhere!
+ Continuing by induction (using the IH to get well-definedness of 
+\begin_inset Formula $s_{3}(n+k,n)$
+\end_inset
+
+) we conclude that 
+\begin_inset Formula $a(n)\geq h_{3}(n+k)$
+\end_inset
+
+ for every 
+\begin_inset Formula $k\in\N$
+\end_inset
+
+.
+ In particular,
+ 
+\emph on
+
+\begin_inset Formula $h_{3}$
+\end_inset
+
+ is a bounded function!
+\end_layout
+
+\begin_layout Standard
+This starts getting into contradiction territory,
+ but we haven't hit the goal quite yet.
+ We have yet to show that 
+\begin_inset Formula $h_{3}$
+\end_inset
+
+ cannot be bounded.
+ This isn't too difficult,
+ however;
+ we need only find a collection of values on which we can control the value of 
+\begin_inset Formula $f(x_{3}(n,y))$
+\end_inset
+
+.
+ For example,
+ let us suppose that 
+\begin_inset Formula $h_{3}$
+\end_inset
+
+ is bounded by 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Then,
+ since 
+\begin_inset Formula $A$
+\end_inset
+
+ is simple,
+ its complement contains some element 
+\begin_inset Formula $z>M$
+\end_inset
+
+.
+ For this element,
+ we have 
+\begin_inset Formula $a_{0}(z)=z>h_{3}(z)$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $h_{3}(z)\geq f(x_{3}(z,z))>a_{0}(z)=z>M$
+\end_inset
+
+,
+ a contradiction!
+ Finally,
+ the proof is complete.
+\end_layout
+
+\begin_layout Section
+Final Notes
+\end_layout
+
+\begin_layout Standard
+Even though the above proof was constructed as a proof by contradiction,
+ we could have made it 
+\begin_inset Quotes eld
+\end_inset
+
+direct
+\begin_inset Quotes erd
+\end_inset
+
+ in the following way.
+ The definition of 
+\begin_inset Formula $h_{3}$
+\end_inset
+
+ only uses the fact that 
+\begin_inset Formula $A$
+\end_inset
+
+ is c.e,
+ as well as the definition of 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ Thus,
+ we could have begun by assuming that 
+\begin_inset Formula $A$
+\end_inset
+
+ is strongly effectively simple,
+ constructed the function 
+\begin_inset Formula $h$
+\end_inset
+
+ as we did above,
+ and proven that 
+\begin_inset Formula $h$
+\end_inset
+
+ is not dominated by 
+\begin_inset Formula $A^{c}$
+\end_inset
+
+.
+ Well,
+ I suppose this part would have been by contradiction...
+ Still,
+ that's another way to look at the proof,
+ I suppose.
+\end_layout
+
+\end_body
+\end_document
