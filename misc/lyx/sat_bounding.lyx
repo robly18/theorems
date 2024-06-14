@@ -1,0 +1,1433 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage[cal=euler]{mathalpha}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Notes on Saturated Bounding Degrees
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Main Question
+\end_layout
+
+\begin_layout Definition
+A 
+\emph on
+TAC theory
+\emph default
+ is a decidable complete consistent theory 
+\begin_inset Formula $T$
+\end_inset
+
+ whose types are all computable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+A degree 
+\begin_inset Formula $d$
+\end_inset
+
+ is said to be 
+\emph on
+saturated bounding
+\emph default
+ if,
+ for any TAC theory 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ decides a saturated model of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This means that 
+\begin_inset Formula $d$
+\end_inset
+
+ computes the elementary diagram of the model in question.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We will prove below that every high degree is saturated bounding,
+ as is every PA degree.
+ The question we seek to answer is the following:
+ 
+\emph on
+Is every saturated bounding degree either high or PA?
+\end_layout
+
+\begin_layout Section
+Background Results
+\end_layout
+
+\begin_layout Subsection
+An Alternative Characterization
+\end_layout
+
+\begin_layout Definition
+We say that 
+\begin_inset Formula $T$
+\end_inset
+
+ is an NDEPACCT if it is a 
+\emph on
+computable (binary) tree
+\emph default
+ (CT) with 
+\emph on
+no dead ends
+\emph default
+ (NDE) 
+\emph on
+all of whose paths are computable
+\emph default
+ (PAC).
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:altchr"
+
+\end_inset
+
+A degree 
+\begin_inset Formula $d$
+\end_inset
+
+ is saturated bounding iff,
+ whenever 
+\begin_inset Formula $T$
+\end_inset
+
+ is an NDEPACCT,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ computes an enumeration of all paths in 
+\begin_inset Formula $T$
+\end_inset
+
+ (possibly with repetitions).
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula $(\rightarrow)$
+\end_inset
+
+ Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be an arbitrary NDEPACCT.
+ We will construct a certain TAC theory 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ and then we will show that from a saturated model of 
+\begin_inset Formula $T'$
+\end_inset
+
+ we can effectively obtain an enumeration of all paths in 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Consider the language 
+\begin_inset Formula $\Lang$
+\end_inset
+
+ which consists of a countable number of unary predicate symbols 
+\begin_inset Formula $p_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $p_{1}$
+\end_inset
+
+,
+ and so on.
+ Define axioms for 
+\begin_inset Formula $T'$
+\end_inset
+
+ as follows:
+ For every binary string 
+\begin_inset Formula $\sigma\in2^{<\omega}$
+\end_inset
+
+,
+ if 
+\begin_inset Formula $\sigma\in T$
+\end_inset
+
+ we add axioms saying:
+ There exist infinitely many 
+\begin_inset Formula $x$
+\end_inset
+
+ such that 
+\begin_inset Formula $p_{0}(x)^{\sigma_{0}}\land\dots\land p_{n}(x)^{\sigma_{n}}$
+\end_inset
+
+,
+ where we adopt the convention that 
+\begin_inset Formula $P^{1}$
+\end_inset
+
+ means 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $P^{0}$
+\end_inset
+
+ means 
+\begin_inset Formula $\neg P$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\sigma\notin T$
+\end_inset
+
+,
+ we add an axiom saying that there is no such 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ We verify that 
+\begin_inset Formula $T'$
+\end_inset
+
+ is TAC.
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+(
+\begin_inset Formula $T'$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+is
+\begin_inset space ~
+\end_inset
+
+complete) It is a standard result that,
+ over any language which admits only unary symbols,
+ any sentence is provably equivalent to a Boolean combination of sentences of the form:
+ There are at least 
+\begin_inset Formula $n$
+\end_inset
+
+ distinct elements satisfying such-and-such combination of unary predicates.
+ Our axiomatization of 
+\begin_inset Formula $T'$
+\end_inset
+
+ decides every such sentence.
+\end_layout
+
+\begin_layout Description
+(
+\begin_inset Formula $T'$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+is
+\begin_inset space ~
+\end_inset
+
+consistent) A model of 
+\begin_inset Formula $T'$
+\end_inset
+
+ is furnished by 
+\begin_inset Formula $M=[T]\times\N$
+\end_inset
+
+.
+ More concretely,
+ our universe consists of countably many copies of every path of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $(f,n)$
+\end_inset
+
+ is an element of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $p_{i}^{M}(f,n)=f_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+(
+\begin_inset Formula $T'$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+has
+\begin_inset space ~
+\end_inset
+
+all
+\begin_inset space ~
+\end_inset
+
+types
+\begin_inset space ~
+\end_inset
+
+computable) Let 
+\begin_inset Formula $\Sigma(\vec{x})$
+\end_inset
+
+ be a complete type in 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+ By a refinement of the arguments referred to in the proof that 
+\begin_inset Formula $T'$
+\end_inset
+
+ is complete,
+ we know that a type is fully determined by its atomic part,
+ i.e.
+\begin_inset space ~
+\end_inset
+
+formulas of the form 
+\begin_inset Formula $p_{i}(x_{j})$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\neg p_{i}(x_{j})$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x_{i}=x_{j}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $x_{i}\neq x_{j}$
+\end_inset
+
+.
+ In other words,
+ to specify 
+\begin_inset Formula $\Sigma(\vec{x})$
+\end_inset
+
+,
+ we need only specify equalities and inequalities between the 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+,
+ and which predicates are satisfied by each 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+.
+ Now,
+ let us define 
+\begin_inset Formula $f\in2^{\omega}$
+\end_inset
+
+ as to satisfy 
+\begin_inset Formula $p_{k}(x_{i})^{f_{k}}\in\Sigma(\vec{x})$
+\end_inset
+
+ for all 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Then,
+ since 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ we must have that 
+\begin_inset Formula $f$
+\end_inset
+
+ is a path in 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ and hence 
+\begin_inset Formula $f$
+\end_inset
+
+ is computable.
+ Thus,
+ the following data is enough to computably reconstruct 
+\begin_inset Formula $\Sigma(\vec{x})$
+\end_inset
+
+:
+ The equality relations between the 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+,
+ and the finite number of computable paths corresponding to each 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+.
+ This is evidently computable.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Thus,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ decides a saturated model 
+\begin_inset Formula $M$
+\end_inset
+
+ of 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+ This model is evidently infinite,
+ so we may without loss of generality assume its universe to be 
+\begin_inset Formula $\N$
+\end_inset
+
+.
+ Finally,
+ define the 
+\begin_inset Formula $d$
+\end_inset
+
+-computable function
+\begin_inset Formula 
+\[
+F(x,y)=\begin{cases}
+1, & \text{if \ensuremath{M\vDash p_{y}[x]},}\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+\end_inset
+
+We claim that 
+\begin_inset Formula $F$
+\end_inset
+
+ is an enumeration (with repetitions) of the paths in 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ Indeed,
+ since 
+\begin_inset Formula $M$
+\end_inset
+
+ is a saturated model,
+ it realizes any unary type.
+ Moreover,
+ any path 
+\begin_inset Formula $f$
+\end_inset
+
+ in 
+\begin_inset Formula $T$
+\end_inset
+
+ induces a consistent type 
+\begin_inset Formula $\Sigma^{f}(x)=\{\,p_{i}(x)^{f_{i}}\mid i\in\N\,\}$
+\end_inset
+
+,
+ which is therefore realized in 
+\begin_inset Formula $M$
+\end_inset
+
+ by some 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+.
+ Thus,
+ the 
+\begin_inset Formula $x$
+\end_inset
+
+-th row of 
+\begin_inset Formula $F$
+\end_inset
+
+ will consist of the path 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ and since this path is arbitrary,
+ every path of 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated by 
+\begin_inset Formula $F$
+\end_inset
+
+.
+\begin_inset VSpace medskip
+\end_inset
+
+
+\begin_inset Formula $(\leftarrow)$
+\end_inset
+
+ Let us now suppose that 
+\begin_inset Formula $d$
+\end_inset
+
+ computes an enumeration the paths of any NDEPACCT.
+ Moreover,
+ let 
+\begin_inset Formula $T'$
+\end_inset
+
+ be a complete consistent computable theory (in the language 
+\begin_inset Formula $\Lang$
+\end_inset
+
+) all of whose types are computable.
+ We shall construct a 
+\begin_inset Formula $d$
+\end_inset
+
+-decidable saturated model of 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ with recourse to the following theorem due to Millar 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Theorem 2"
+key "millar"
+literal "false"
+
+\end_inset
+
+,
+ whose proof we reproduce in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:millar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Theorem*
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:millar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $T'$
+\end_inset
+
+ is a 
+\begin_inset Formula $d$
+\end_inset
+
+-decidable theory such that there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable enumeration of the types of 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ then there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable countable saturated model of 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Thus,
+ since 
+\begin_inset Formula $T'$
+\end_inset
+
+ is known to be computable,
+ it suffices to 
+\begin_inset Formula $d$
+\end_inset
+
+-enumerate its types.
+ We do this by creating a tree with the following appearance:
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (T) at (0,0) {$T
+\backslash
+;=$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{scope}[shift={(2.5,2)}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (I) at (-1,-1) {$T_1$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (II) at (0,-2) {$T_2$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (III) at (1,-3) {$T_3$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (ETC) at (3.5,-3.5) {$
+\backslash
+ddots$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,0) -- (I.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (1,-1) -- (II.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (2,-2) -- (III.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,0) -- (ETC);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The tree we'll create.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Where each 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is a subtree that will be used to enumerate the types of arity 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ If we can compute the 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ uniformly,
+ evidently we can also compute 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ We now describe the procedure to compute 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Proof
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Let $
+\backslash
+varphi_i(
+\backslash
+vec x)$ be an enumeration of the formulas in $n$ variables.
+\end_layout
+
+\begin_layout Plain Layout
+
+To determine whether $
+\backslash
+sigma 
+\backslash
+in 2^{<
+\backslash
+omega}$ (of length $k$) is in $T_n$:
+\end_layout
+
+\begin_layout Plain Layout
+
+  Is $T'$ consistent with $
+\backslash
+exists_{
+\backslash
+vec x} (
+\backslash
+varphi_0(
+\backslash
+vec x)^{
+\backslash
+sigma_0} 
+\backslash
+land 
+\backslash
+dots 
+\backslash
+land 
+\backslash
+varphi_{k-1}(
+\backslash
+vec x)^{
+\backslash
+sigma_{k-1}})$?
+\end_layout
+
+\begin_layout Plain Layout
+
+  If yes,
+ declare $
+\backslash
+sigma 
+\backslash
+in T_n$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  If not,
+ declare $
+\backslash
+sigma 
+\backslash
+notin T_n$.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Evidently,
+ a 
+\begin_inset Formula $T'$
+\end_inset
+
+-type of arity 
+\begin_inset Formula $n$
+\end_inset
+
+ is the same as a path in 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+.
+ Moreover,
+ the tree 
+\begin_inset Formula $T$
+\end_inset
+
+ is computable and has no dead ends.
+ Finally,
+ all paths of 
+\begin_inset Formula $T$
+\end_inset
+
+ are computable,
+ as every path is either a 
+\begin_inset Formula $T'$
+\end_inset
+
+-type (assumed to be computable) prefixed by a series of ones (as many as its arity) and a zero,
+ or it's the all-ones path.
+ Thus,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ computes an enumeration of the paths of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ and it's not difficult to turn this into an enumeration of the 
+\begin_inset Formula $T'$
+\end_inset
+
+-types.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+One has to be slightly careful in dealing with the all-ones path.
+ A possible approach is to fix one particular type 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+,
+ let 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ be an enumeration of paths of 
+\begin_inset Formula $T$
+\end_inset
+
+ which repeats every path infinitely many times,
+ and define 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+ by:
+ If 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ starts with at most 
+\begin_inset Formula $n$
+\end_inset
+
+ ones and a zero,
+ set 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+to be the remainder.
+ Otherwise,
+ set 
+\begin_inset Formula $\Sigma_{n}=\Sigma$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ Hence,
+ we may apply Millar's theorem to obtain a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable saturated model of 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $d$
+\end_inset
+
+ is saturated bounding.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:altchr"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ actually proves something stronger than stated:
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ being saturated bounding is also equivalent to 
+\begin_inset Formula $d$
+\end_inset
+
+ being 
+\emph on
+weakly saturated bounding
+\emph default
+,
+ in the sense that it only computes (rather than decides) models of TAC theories.
+\end_layout
+
+\begin_layout Remark
+In hindsight this isn't very surprising:
+ here is a direct proof of equivalence.
+ If 
+\begin_inset Formula $d$
+\end_inset
+
+ is weakly saturated bounding,
+ for any given TAC theory 
+\begin_inset Formula $T$
+\end_inset
+
+ we can consider its Morleyization 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+.
+ It shouldn't be hard to show that 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ is also TAC,
+ and so 
+\begin_inset Formula $d$
+\end_inset
+
+ computes a model of 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+.
+ But this is the same as to decide a model of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:millar"
+
+\end_inset
+
+Millar's Theorem
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:millar"
+
+\end_inset
+
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a 
+\begin_inset Formula $d$
+\end_inset
+
+-decidable theory such that there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable enumeration of the types of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ then there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable countable saturated model of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We will prove the theorem for the case 
+\begin_inset Formula $d=0$
+\end_inset
+
+;
+ the relativization is straight-forward.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Right now,
+ I think that a strategy close to my original one should work...
+ I should tell myself why it doesn't,
+ when I come to that conclusion.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Let us establish two countable sets of fresh variables,
+ 
+\begin_inset Formula $C=\{c_{i}\}_{i\in\N}$
+\end_inset
+
+ and 
+\begin_inset Formula $D=\{d_{i}\}_{i\in\N}$
+\end_inset
+
+,
+ and define 
+\begin_inset Formula $T^{*}\supseteq T$
+\end_inset
+
+ as a decidable theory such that the constants 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ form a set of Henkin witnesses.
+ Thus,
+ to decide a model of 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ is the same as to complete it,
+ and in this case the constants in 
+\begin_inset Formula $C$
+\end_inset
+
+ (modulo provable equality) will furnish a model.
+ As such,
+ to ensure that this model is saturated,
+ we need only fulfill the following countable number of constraints.
+ Let 
+\begin_inset Formula $\{\Sigma_{n}(\vec{x},y)\}_{n\in\N}$
+\end_inset
+
+ be an enumeration of the 
+\begin_inset Formula $T$
+\end_inset
+
+-types,
+ and 
+\begin_inset Formula $\{\vec{c}_{n}\}_{n\in\N}$
+\end_inset
+
+ an enumeration of the tuples of constants from 
+\begin_inset Formula $C$
+\end_inset
+
+.
+ Then,
+ we define:
+\begin_inset Formula 
+\[
+P_{nk}\colon\quad\begin{array}{l}
+\text{If we have not yet contradicted \ensuremath{\exists_{y}\Sigma_{n}(\vec{c}_{k},y)},}\\
+\text{there should be some \ensuremath{d_{p}} such that we commit to satisfying \ensuremath{\Sigma_{n}(\vec{c}_{k},d_{p})}.}
+\end{array}
+\]
+
+\end_inset
+
+We will start with the theory 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ and iterate over all sentences 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ in the language 
+\begin_inset Formula $\Lang^{*}=\Lang\cup C\cup D$
+\end_inset
+
+,
+ at each step committing to adding the sentence or its negation.
+ We will strive to meet all constraints 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+,
+ but the major obstacle will be that we cannot computably tell whether we're trying to make incompatible or inconsistent commitments.
+ As such,
+ we may sometimes have to injure some of the requirements.
+ If we contradict 
+\begin_inset Formula $\exists_{y}\Sigma_{n}(\vec{c}_{k},y)$
+\end_inset
+
+,
+ the requirement 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ is met forever,
+ but it may happen that we are forced to contradict 
+\begin_inset Formula $\Sigma_{n}(\vec{c}_{k},d_{p})$
+\end_inset
+
+.
+ In this scenario,
+ we increase the value of 
+\begin_inset Formula $d$
+\end_inset
+
+ and try to meet it again.
+ We will have to show that 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ is injured in this manner at most a finite number of times,
+ as to ensure that there is a final variable 
+\begin_inset Formula $d_{P}$
+\end_inset
+
+ which witnesses the saturation of the model for that particular type with parameters.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "C:/Users/gaming/Desktop/theorems/misc/logic/bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
