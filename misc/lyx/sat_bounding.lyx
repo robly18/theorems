@@ -691,7 +691,16 @@ We claim that
 \end_inset
 
 ,
- with recourse to the following theorem due to Millar 
+ with recourse to the following theorem due to Morley 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Theorem 6.1"
+key "morley_computable_saturated"
+literal "false"
+
+\end_inset
+
+ and Millar 
 \begin_inset CommandInset citation
 LatexCommand cite
 after "Theorem 2"
@@ -1234,7 +1243,7 @@ name "subsec:millar"
 
 \end_inset
 
-Millar's Theorem
+Morley and Millar's Theorem
 \end_layout
 
 \begin_layout Theorem
@@ -1272,6 +1281,25 @@ If
 .
 \end_layout
 
+\begin_layout Theorem
+The following proof was constructed by myself.
+ It is quite different from Millar's;
+ his proof consists of constructing a homogeneous model which realizes every type.
+ In hindsight,
+ however,
+ my approach closely resembles Morley's,
+ who proved the theorem a couple years before Millar.
+ His proof may be found in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "morley_computable_saturated"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Proof
 We will prove the theorem for the case 
 \begin_inset Formula $d=0$
@@ -1290,6 +1318,32 @@ Right now,
  I think that a strategy close to my original one should work...
  I should tell myself why it doesn't,
  when I come to that conclusion.
+\end_layout
+
+\begin_layout Plain Layout
+Hi,
+ this is future self.
+ The original one indeed doesn't work.
+ The fact that you can decide 
+\begin_inset Formula $T_{\text{curr}}+\Sigma_{0}(\vec{c}_{0},d_{p_{0}})$
+\end_inset
+
+ but not 
+\begin_inset Formula $T_{\text{curr}}+\Sigma_{0}(\vec{c}_{0},d_{p_{0}})+\Sigma_{1}(\vec{c}_{1},d_{p_{1}})$
+\end_inset
+
+ is too troublesome.
+ I will now try a slightly distinct approach.
+\end_layout
+
+\begin_layout Plain Layout
+Future future self here.
+ I think this approach works.
+ But the notation is utter garbage.
+ Note to self,
+ find a better way to word it all.
+ Maybe look at Morley's proof,
+ it seems quite similar.
 \end_layout
 
 \end_inset
@@ -1414,6 +1468,1127 @@ We will start with the theory
 \end_inset
 
  which witnesses the saturation of the model for that particular type with parameters.
+\end_layout
+
+\begin_layout Proof
+Let us first,
+ for the sake of exposition,
+ show that we can meet any one fixed 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ without injury.
+ The algorithm goes as follows.
+ First,
+ let 
+\begin_inset Formula $N$
+\end_inset
+
+ be the largest index of a constant in 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+.
+ Then,
+ let 
+\begin_inset Formula $p$
+\end_inset
+
+ be large enough such that 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ does not appear in any of the Henkin sentences 
+\begin_inset Formula $\exists_{x}\varphi(x)\rightarrow\varphi(c_{i})$
+\end_inset
+
+ with 
+\begin_inset Formula $i\leq N$
+\end_inset
+
+.
+ Finally,
+ we loop over the 
+\begin_inset Formula $\Lang^{*}$
+\end_inset
+
+-sentences 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ and decide whether to add 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ or its negation via the following decision procedure:
+\end_layout
+
+\begin_layout Proof
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+(1) Does $T_{
+\backslash
+text{curr}}$ force either $
+\backslash
+varphi_n$ or $
+\backslash
+neg
+\backslash
+varphi_n$?
+\end_layout
+
+\begin_layout Plain Layout
+
+If so,
+ add the one you are forced to add.
+\end_layout
+
+\begin_layout Plain Layout
+
+If not:
+\end_layout
+
+\begin_layout Plain Layout
+
+  (2) Does $
+\backslash
+varphi_n$ contradict $T_{
+\backslash
+text{curr}} + 
+\backslash
+Sigma_n(
+\backslash
+vec c_k,
+ d_p)$?
+\end_layout
+
+\begin_layout Plain Layout
+
+  If so,
+ add $
+\backslash
+neg
+\backslash
+varphi_n$.
+\end_layout
+
+\begin_layout Plain Layout
+
+  Otherwise,
+ add $
+\backslash
+varphi_n$.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We need to verify that the two steps marked 
+\begin_inset Formula $(1)$
+\end_inset
+
+ and 
+\begin_inset Formula $(2)$
+\end_inset
+
+ are computable.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $(1)$
+\end_inset
+
+ Since 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+ consists of 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ plus a finite number of formulas,
+ it is also decidable.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $(2)$
+\end_inset
+
+ This one is a little more complicated.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Let us suppose for the time being that 
+\begin_inset Formula $T_{\text{curr}}+\Sigma_{n}(\vec{c}_{k},d_{p})+\varphi_{n}\vdash\bot$
+\end_inset
+
+.
+ Then,
+ there is 
+\begin_inset Formula $\sigma\in\Sigma_{n}$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\[
+T^{*}\vdash\sigma(\vec{c}_{k},d_{p})\rightarrow\neg\varphi(\vec{c}_{k},d_{p},\vec{c}',\vec{d}'),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ is the conjunction of 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ and the finitely many formulas added between 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\vec{c}'$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{d}'$
+\end_inset
+
+ represent constants 
+\begin_inset Formula $c$
+\end_inset
+
+ or 
+\begin_inset Formula $d$
+\end_inset
+
+ that are used in 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ but aren't 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+ nor 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+.
+ We will show that these may be eliminated in some sense,
+ so that the question boils down to asking whether a certain sentence (using only 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+) is in 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+ or not.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $W(c_{0},\dots,c_{N},d_{0},\dots,d_{p})$
+\end_inset
+
+ be the conjunction of the Henkin sentences 
+\begin_inset Formula $\exists_{x}\varphi(x)\rightarrow\varphi(c_{n})$
+\end_inset
+
+ with 
+\begin_inset Formula $n\leq N$
+\end_inset
+
+.
+ Then,
+ a standard argument shows that
+\begin_inset Formula 
+\[
+T^{*}\vdash\sigma(\vec{c}_{k},d_{p})\rightarrow\neg\varphi(\vec{c}_{k},d_{p},\vec{c}',\vec{d}')\quad\text{iff}\quad T\vdash\sigma(\vec{c}_{k},d_{p})\rightarrow(W\rightarrow\neg\varphi).
+\]
+
+\end_inset
+
+Now,
+ all constants 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $d$
+\end_inset
+
+ other than 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ are mentioned only by 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ and so may be universally quantified.
+ Hence,
+\begin_inset Formula 
+\[
+T^{*}\vdash\sigma(\vec{c}_{k},d_{p})\rightarrow\neg\varphi(\vec{c}_{k},d_{p},\vec{c}',\vec{d}')\quad\text{iff}\quad T\vdash\sigma(\vec{c}_{k},d_{p})\rightarrow\exists(W\rightarrow\neg\varphi),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\exists(W\rightarrow\neg\varphi)$
+\end_inset
+
+ is shorthand for replacing every 
+\begin_inset Formula $c$
+\end_inset
+
+ or 
+\begin_inset Formula $d$
+\end_inset
+
+ other than the ones mentioned above by existentially quantified variables.
+ Note that the process of obtaining 
+\begin_inset Formula $\exists(W\rightarrow\neg\varphi)$
+\end_inset
+
+ was uniform.
+ Finally,
+ we note that 
+\begin_inset Formula $\sigma\rightarrow\exists(W\rightarrow\neg\varphi)$
+\end_inset
+
+ for some 
+\begin_inset Formula $\sigma\in\Sigma_{n}$
+\end_inset
+
+ iff 
+\begin_inset Formula $\exists(W\rightarrow\neg\varphi)$
+\end_inset
+
+ was already in 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+ to begin with,
+ as this sentence does only use the original language 
+\begin_inset Formula $\Lang$
+\end_inset
+
+ and the constants 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ which effectively function as variables.
+\end_layout
+
+\begin_layout Standard
+In conclusion,
+ we can tell whether 
+\begin_inset Formula $T_{\text{curr}}+\Sigma_{n}(\vec{c}_{k},d_{p})+\varphi_{n}$
+\end_inset
+
+ is contradictory by checking whether the formula (in the variables 
+\begin_inset Formula $\vec{c}_{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+) 
+\begin_inset Formula $\exists(W\rightarrow\neg\varphi)$
+\end_inset
+
+ is in the type 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+ or not.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Let 
+\begin_inset Formula $\hat{T}$
+\end_inset
+
+ be the theory resulting from the above procedure.
+ We wish to show that 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ is fulfilled.
+ We show that one of two things happen:
+ Either 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ contradicted 
+\begin_inset Formula $\exists_{y}\Sigma_{n}(\vec{c}_{k},y)$
+\end_inset
+
+ from the start,
+ in which case 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ is fulfilled,
+ or 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $\exists_{y}\Sigma_{n}(\vec{c}_{k},y)$
+\end_inset
+
+ at the start,
+ in which case we will show that 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $\Sigma_{n}(\vec{c}_{k},d_{p})$
+\end_inset
+
+.
+ From this it follows that the algorithm outlined above will also never contradict 
+\begin_inset Formula $\Sigma_{n}(\vec{c}_{k},d_{p})$
+\end_inset
+
+,
+ and so this type will be contained in the completion we've built.
+\end_layout
+
+\begin_layout Standard
+Suppose that 
+\begin_inset Formula $T^{*}+\Sigma_{n}(\vec{c}_{k},d_{p})\vdash\bot$
+\end_inset
+
+.
+ Then,
+ there is 
+\begin_inset Formula $\sigma\in\Sigma_{n}$
+\end_inset
+
+ such that 
+\begin_inset Formula $T^{*}\vdash\neg\sigma(\vec{c}_{k},d_{p})$
+\end_inset
+
+.
+ If we define 
+\begin_inset Formula $W$
+\end_inset
+
+ as in the above argument,
+ we conclude that 
+\begin_inset Formula $T\vdash W\rightarrow\neg\sigma$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ was chosen as not to appear in 
+\begin_inset Formula $W$
+\end_inset
+
+,
+ we then conclude 
+\begin_inset Formula $T\vdash W\rightarrow\neg\exists_{y}\sigma(\vec{c}_{k},y)$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $T^{*}+\exists_{y}\Sigma_{n}(\vec{c}_{k},y)$
+\end_inset
+
+ is contradictory,
+ as we wanted to show.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+Now,
+ Millar's theorem consists of adapting the above strategy as to fulfill every 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+ as opposed to just one.
+ This turns out to be harder than expected,
+ and the main reason is the following:
+ Even though (as we've shown in the midst of the above) it is the case that,
+ for a single type 
+\begin_inset Formula $\Sigma(\vec{c},d_{p})$
+\end_inset
+
+,
+ the theory 
+\begin_inset Formula $T_{\text{curr}}+\Sigma(\vec{c},d_{p})$
+\end_inset
+
+ is decidable,
+ it is not the case that the theory obtained by considering two types simultaneously is.
+ As such,
+ it might be that at any stage neither type individually forces neither a sentence 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ nor its negation,
+ but there are two types which together force,
+ say,
+ 
+\begin_inset Formula $\neg\varphi$
+\end_inset
+
+ to hold.
+ But we did not know that at the time,
+ and so we unknowingly set ourselves up for an injury down the line.
+ And this might happen very often,
+ so one type or another may never be witnessed by any 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ because it keeps getting injured and its representative keeps jumping around.
+\end_layout
+
+\begin_layout Standard
+A way to try to get around this is to attempt to collect several types into one overarching megatype;
+ e.g.
+ given 
+\begin_inset Formula $\Sigma_{0}(\vec{c}_{0},d_{p_{0}})$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{1}(\vec{c}_{1},d_{p_{1}})$
+\end_inset
+
+,
+ attempt to find a type 
+\begin_inset Formula $\Sigma_{01}(\vec{c}_{0},\vec{c}_{1},d_{p_{0}},d_{p_{1}})$
+\end_inset
+
+ which contains 
+\begin_inset Formula $\Sigma_{0}(\vec{c}_{0},d_{p_{0}})\cup\Sigma_{1}(\vec{c}_{1},d_{p_{1}})$
+\end_inset
+
+.
+ Then,
+ instead of trying to do what 
+\begin_inset Formula $\Sigma_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{1}$
+\end_inset
+
+ force individually,
+ we do what 
+\begin_inset Formula $\Sigma_{01}$
+\end_inset
+
+ forces.
+\end_layout
+
+\begin_layout Standard
+This approach has an obvious problem:
+ There is no effective way to find 
+\begin_inset Formula $\Sigma_{01}$
+\end_inset
+
+ as above,
+ if it exists.
+ We can,
+ however,
+ guess a type.
+ And if that type is the wrong one,
+ we guess the next,
+ and so on.
+ If our guess is wrong,
+ we can verify that in finite time and change our guess.
+ Moreover,
+ we will 
+\emph on
+eventually
+\emph default
+ hit upon a right guess.
+ Thus,
+ we have the right setup for a finite-injury type argument.
+\end_layout
+
+\begin_layout Standard
+This isn't quite the full story,
+ because in the meantime we may have committed to a formula which specifies some way in which 
+\begin_inset Formula $\vec{c}_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{c}_{1}$
+\end_inset
+
+ relate,
+ which 
+\begin_inset Formula $\Sigma_{01}$
+\end_inset
+
+ does not agree with.
+ So when we are trying to find 
+\begin_inset Formula $\Sigma_{01}$
+\end_inset
+
+,
+ we also need to take care to find a type which is consistent with the formulas we've acquired so far.
+\end_layout
+
+\begin_layout Standard
+Before describing the algorithm,
+ here is some necessary notation:
+\end_layout
+
+\begin_layout Itemize
+Given a collection of 
+\begin_inset Formula $c$
+\end_inset
+
+-variables 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+,
+ the corresponding 
+\emph on
+Henkin formula
+\emph default
+ 
+\begin_inset Formula $W$
+\end_inset
+
+ is the conjunction of the least initial segment of Henkin formulas containing 
+\begin_inset Formula $\exists_{x}\varphi(x)\rightarrow\varphi(c)$
+\end_inset
+
+ for 
+\begin_inset Formula $c$
+\end_inset
+
+ in 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+At a given state,
+ let 
+\begin_inset Formula $\Phi$
+\end_inset
+
+ be the conjunction of all formulas we've committed to,
+\end_layout
+
+\begin_layout Itemize
+We fix an enumeration of pairs 
+\begin_inset Formula $(\Sigma_{n_{i}},\vec{c}_{k_{i}})$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+Over the course of the following algorithm,
+ some indices will be said to be 
+\emph on
+fulfilled
+\emph default
+.
+ This is because we've found that the formulas 
+\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\end_inset
+
+ can no longer be a subset of the the final theory,
+ and so there is no work to be done to ensure saturation regarding this type.
+ When dicussing enumerations 
+\begin_inset Formula $\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}}$
+\end_inset
+
+,
+ it should be understood that 
+\begin_inset Formula $\vec{c}_{k_{j}}$
+\end_inset
+
+for 
+\begin_inset Formula $j$
+\end_inset
+
+ fulfilled is replaced by arbitrary fresh constants.
+\end_layout
+
+\begin_layout Standard
+So,
+ here's how the algorithm is going to go.
+ We will have three processes running concurrently:
+\end_layout
+
+\begin_layout Itemize
+The first process will attempt to find,
+ for increasing values of 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ a sequence of types 
+\begin_inset Formula $\Sigma_{0},\Sigma_{01},\Sigma_{012},\dots,\Sigma_{0\dots i}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\Sigma_{0\dots i+1}(\vec{x},\vec{x}',y,y')\supseteq\Sigma_{0\dots i}(\vec{x},y)\cup\Sigma_{n_{i+1}}(\vec{x}',y')$
+\end_inset
+
+.
+ In parallel,
+ it will try to falsify its previous choices by trying to find a formula that is in 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+ or in 
+\begin_inset Formula $\Sigma_{n_{i+1}}$
+\end_inset
+
+ but not in 
+\begin_inset Formula $\Sigma_{0\dots i+1}$
+\end_inset
+
+.
+ In this scenario,
+ it changes its guess for 
+\begin_inset Formula $\Sigma_{0\dots i+1}$
+\end_inset
+
+,
+ forgets all its guesses for greater values of 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ and keeps trying.
+ This process is performed so that every type can show up as a guess for 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+ infinitely often.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+When finding a new candidate for 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+,
+ it will find the first new type such that 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},y)$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $W+\Phi$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $W$
+\end_inset
+
+ is the Henkin formula of the collection of 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+ up to 
+\begin_inset Formula $\vec{c}_{k_{i}}$
+\end_inset
+
+ and the ones used in 
+\begin_inset Formula $\Phi$
+\end_inset
+
+.
+ Note that consistency with 
+\begin_inset Formula $W+\Phi$
+\end_inset
+
+ is the same as to be consistent with 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When a new guess is made for 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+,
+ this process will also pick a value of 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+ large enough that 
+\begin_inset Formula $d_{p_{i}}$
+\end_inset
+
+is not in 
+\begin_inset Formula $W$
+\end_inset
+
+.
+ This guarantees that 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p})$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The second process will loop over sentences 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ and commit to either adding the formula or its negation to the theory.
+ It will prioritize being consistent with 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i}})$
+\end_inset
+
+ for smaller values of 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ It might be unable to be consistent with all the ones we've established so far;
+ it will try to be consistent with as large an initial segment as it can.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+In the event that it is impossible to be consistent with 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{0\dots i+1}$
+\end_inset
+
+ at the same time,
+ we signal to the first process that it should find a new candidate for 
+\begin_inset Formula $\Sigma_{0\dots i+1}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The third process will regularly check that 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+ is consistent with 
+\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\end_inset
+
+ for every value of 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ If it ever finds an inconsistency,
+ it marks the corresponding index as fulfilled.
+ Moreover,
+ it signals the first process to find new variables 
+\begin_inset Formula $d_{p_{j}}$
+\end_inset
+
+ for 
+\begin_inset Formula $j>i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This algorithm evidently produces a consistent decidable theory 
+\begin_inset Formula $\hat{T}$
+\end_inset
+
+ at the end,
+ and hence the 
+\begin_inset Formula $c$
+\end_inset
+
+ constants mod provable equality form a model.
+ It remains to verify that this algorithm produces a saturated model.
+ Inductively on 
+\begin_inset Formula $i\in\N$
+\end_inset
+
+,
+ we show that if 
+\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\end_inset
+
+ is contained in the final theory,
+ then there is 
+\begin_inset Formula $d_{p_{i}}$
+\end_inset
+
+such that 
+\begin_inset Formula $\Sigma_{n_{i}}(\vec{c}_{k_{i}},d_{p_{i}})$
+\end_inset
+
+ is contained in the final theory.
+\end_layout
+
+\begin_layout Standard
+Consider a stage after which the third process has already found all inconsistencies for indices below 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Moreover,
+ assume that 
+\begin_inset Formula $\Sigma_{0\dots j}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{p_{j}}$
+\end_inset
+
+ has already stabilized for 
+\begin_inset Formula $j<i$
+\end_inset
+
+ (by IH).
+ We claim that 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+ (and corresponding 
+\begin_inset Formula $d_{p_{i}}$
+\end_inset
+
+) will eventually stabilize.
+ Indeed,
+ if it does not,
+ it will over the course of execution take on all possible types such that 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},y)$
+\end_inset
+
+ is compatible with 
+\begin_inset Formula $T_{\text{curr}}$
+\end_inset
+
+.
+ As such,
+ it will eventually take on a type which is a consistent extension of 
+\begin_inset Formula $\hat{T}|(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}})+\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\end_inset
+
+.
+ By inspection of the algorithm,
+ from that moment onward the type will never change because it has no reason to:
+ The first process will never force a change of type because,
+ by assumption,
+ all 
+\begin_inset Formula $\Sigma_{0\dots j}$
+\end_inset
+
+ have stabilized below 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ and moreover the current 
+\begin_inset Formula $\Sigma_{0\dots i}$
+\end_inset
+
+ is explicitly assumed never to trigger its recalculation condition.
+ The second process will never force a change of type also because we've explicitly chosen the type never to conflict with any choices this process ever makes.
+ The third process will never force a change of type because we've assumed that it has been triggered as many times as it ever will be below 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We actually draw a stronger conclusion:
+ This is,
+ in fact,
+ the only way the type can stabilize.
+ Moreover,
+ in this instance,
+ we will by construction never commit to a formula that contradicts 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},d_{p_{i}})$
+\end_inset
+
+ (or any of the prior types),
+ and so we conclude that 
+\begin_inset Formula $d_{p_{i}}$
+\end_inset
+
+ will realize the type 
+\begin_inset Formula $\Sigma_{n_{i}}(\vec{c}_{k_{i}},d_{p_{i}})$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $i$
+\end_inset
+
+ is an arbitrary unfulfilled index,
+ we conclude that the model corresponding to 
+\begin_inset Formula $\hat{T}$
+\end_inset
+
+ is in fact saturated.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Subenumerative Degrees
+\end_layout
+
+\begin_layout Definition
+A degree 
+\begin_inset Formula $d$
+\end_inset
+
+ is said to be 
+\emph on
+subenumerative
+\emph default
+ if it computes a subenumeration of the computable sets;
+ that is,
+ a function 
+\begin_inset Formula $F\colon\N\times\N\to2$
+\end_inset
+
+ such that the collection of sections 
+\begin_inset Formula $F_{s}$
+\end_inset
+
+ includes all characteristic functions of computable sets.
+\end_layout
+
+\begin_layout Theorem
+A degree is subenumerative iff it is either high or PA.
+\end_layout
+
+\begin_layout Proof
+I feel comfortable enough with the proof that I don't feel the need to write it out right now.
+ It can be found in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "jockusch_1972"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+The Converse of the Conjecture
+\end_layout
+
+\begin_layout Theorem
+Every subenumerative degree is saturated bounding
+\end_layout
+
+\begin_layout Proof
+We characterized a saturated bounding degree as one which,
+ for every NDEPACCT 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ computes an enumeration of the paths in 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ However,
+ it actually suffices to compute a listing of sets which includes the paths in 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ This is because,
+ since 
+\begin_inset Formula $T$
+\end_inset
+
+ is computable with no dead ends,
+ we can uniformly turn an arbitrary path into a path in 
+\begin_inset Formula $T$
+\end_inset
+
+:
+ Just follow along the path until you detect that you've left 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ and from then on replace the path by the one obtained by going left whenever possible.
+\end_layout
+
+\begin_layout Proof
+From this,
+ the theorem becomes clear,
+ as a subenumerative computes a listing of 
+\emph on
+all
+\emph default
+ computable sets,
+ which in particular includes all paths in any NDEPACCT.
 \end_layout
 
 \begin_layout Standard
