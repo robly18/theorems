@@ -1,0 +1,2943 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A Minimal Degree Below 
+\begin_inset Formula $0'$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is a proof that there is a minimal degree below 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+ It is my version of Sacks' proof as seen in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "soare1"
+literal "false"
+
+\end_inset
+
+.
+ I don't think it adds anything new,
+ but I don't want a repeat of that time where I thought I'd figured out the proof of the effective saturated model theorem and months later found out that I had not.
+ [Writer note:
+ In the process of writing this document,
+ I found out that my perception of the proof had a large mistake...
+ Twice!
+ So this document has already paid its dividends.
+ If you find a mistake,
+ please do not hesitate to contact me as well,
+ and make it a third time...]
+\end_layout
+
+\begin_layout Section
+Spector's Degree
+\end_layout
+
+\begin_layout Standard
+First,
+ to ensure that we're on the same page,
+ we prove Spector's weaker result:
+\end_layout
+
+\begin_layout Theorem
+There exists a minimal degree below 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We build a decreasing sequence of perfect computable binary trees 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+,
+ etc.
+ More precisely,
+ we will produce a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable algorithm for the indices of these trees.
+ The final set 
+\begin_inset Formula $A$
+\end_inset
+
+ shall be the unique set which is a path in all of these trees.
+ (It will be reasonably obvious that some of the steps will fix an increasing initial segment,
+ so 
+\begin_inset Formula $A$
+\end_inset
+
+ exists.)
+\end_layout
+
+\begin_layout Proof
+First,
+ we let 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ be the full tree 
+\begin_inset Formula $2^{<\omega}$
+\end_inset
+
+.
+ Then,
+ to construct the next tree in the sequence,
+ we alternate between the following two tasks,
+ for 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+(Making
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $A$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+noncomputable) Look at the first branching point of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+;
+ say it happens at depth 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Then,
+ use a 
+\begin_inset Formula $0'$
+\end_inset
+
+-oracle to check if 
+\begin_inset Formula $\{e\}(k)$
+\end_inset
+
+ halts.
+ If it does not,
+ set 
+\begin_inset Formula $T_{n+1}=T_{n}$
+\end_inset
+
+.
+ If it does,
+ set 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+ as the branch of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ which does the opposite of what 
+\begin_inset Formula $\{e\}(k)$
+\end_inset
+
+ does.
+ This ensures that our final set,
+ which will be a path in 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+,
+ 
+\emph on
+cannot
+\emph default
+ be equal to 
+\begin_inset Formula $\{e\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+(Making
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $A$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+minimal) We introduce a certain dichotomy to the tree,
+ wherein either the final path 
+\begin_inset Formula $A$
+\end_inset
+
+ doesn't affect 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ at all,
+ or it affects it so drastically that from 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ we can recover 
+\begin_inset Formula $A$
+\end_inset
+
+ again.
+ This ensures that any set computable from 
+\begin_inset Formula $A$
+\end_inset
+
+ is either computable or computes 
+\begin_inset Formula $A$
+\end_inset
+
+ itself.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Let's be more precise about 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $A$
+\end_inset
+
+ affects 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ so drastically that the latter computes the former
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The technical name for the property we are trying to encapsulate is:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+ is an 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting tree
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Before defining this notion,
+ we introduce some helpful notation.
+\end_layout
+
+\begin_layout Definition
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable binary tree and 
+\begin_inset Formula $\sigma\in T$
+\end_inset
+
+,
+ we define for 
+\begin_inset Formula $e,x\in\N$
+\end_inset
+
+ the (computable) expression 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+ as follows:
+ Dovetail over all 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ checking if 
+\begin_inset Formula $\{e\}^{\tau}(x)$
+\end_inset
+
+ halts.
+ For the first found instance in which it does halt,
+ output the resulting value.
+\end_layout
+
+\begin_layout Definition
+The output may be undefined if no such extension exists.
+ On the other hand,
+ the output may or may not depend on the chosen way to dovetail.
+ We say that 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+ is 
+\emph on
+well and uniquely defined
+\emph default
+ if for 
+\emph on
+every
+\emph default
+ 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ for which 
+\begin_inset Formula $\{e\}^{\tau}(x)$
+\end_inset
+
+ halts,
+ the output is the same.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Of course,
+ when we defined 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+,
+ it is presumed that we fixed some particular way to dovetail,
+ so the expression 
+\begin_inset Quotes eld
+\end_inset
+
+well and uniquely defined
+\begin_inset Quotes erd
+\end_inset
+
+ doesn't immediately seem to make that much sense.
+ The significance of the notion is that it is precisely the circumstances in which the value of the expression 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+ is preserved when replacing 
+\begin_inset Formula $T$
+\end_inset
+
+ by a (computable) subtree.
+\end_layout
+
+\end_inset
+
+ Finally,
+ we say that 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+ is 
+\emph on
+strongly well and uniquely defined
+\emph default
+ if there is a 
+\begin_inset Formula $\tau$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ in 
+\begin_inset Formula $T$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\tau}(x)$
+\end_inset
+
+ halts,
+ and moreover there are no decision nodes in 
+\begin_inset Formula $\left[\sigma,\tau\right[$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In english:
+ If we start from 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and go down until we find a branching point,
+ 
+\begin_inset Formula $\beta$
+\end_inset
+
+,
+ it must be the case that 
+\begin_inset Formula $\beta$
+\end_inset
+
+ equals 
+\begin_inset Formula $\tau$
+\end_inset
+
+ or an extension of it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The significance of strongly well and uniquely definedness is that it is something that may be computably confirmed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a perfect computable binary tree.
+ We say that 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting if,
+ for every branching point 
+\begin_inset Formula $\sigma\in T$
+\end_inset
+
+,
+ there is an 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\sigma0*}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $\{e\}^{\sigma1*}(x)$
+\end_inset
+
+ are both strongly well and uniquely defined,
+ but both take different values.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Our definition of 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting is slightly different (in a sense,
+ weaker) from the one in the literature.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The significance of these definitions is that,
+ if 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting and 
+\begin_inset Formula $A$
+\end_inset
+
+ is a path on 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ we can compute 
+\begin_inset Formula $A$
+\end_inset
+
+ from 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ by the following procedure.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Follow along the tree until you hit a decision point 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\sigma_{L}$
+\end_inset
+
+ be the first branching node extending 
+\begin_inset Formula $\sigma0$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\sigma_{R}$
+\end_inset
+
+ the first branching node extending 
+\begin_inset Formula $\sigma1$
+\end_inset
+
+.
+ Then,
+ compute 
+\begin_inset Formula $a_{L}=\{e\}^{\sigma_{L}}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{R}=\{e\}^{\sigma_{R}}(x)$
+\end_inset
+
+ for every value of 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ (this computation will need to be dovetailed) until you find some value for which 
+\begin_inset Formula $a_{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{R}$
+\end_inset
+
+ are both defined and distinct;
+ the assumption that 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting guarantees that this 
+\begin_inset Formula $x$
+\end_inset
+
+ exists.
+ In this case,
+ you look at which of these two agrees with 
+\begin_inset Formula $\{e\}^{A}(x)$
+\end_inset
+
+,
+ and continue following along the respective path until the next branching point.
+ The algorithm continues in the same manner whenever you find a new branching.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:esp"
+
+\end_inset
+
+Computing 
+\begin_inset Formula $A$
+\end_inset
+
+ from 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ when 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now,
+ let us construct 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+.
+ First,
+ we ask the following question regarding 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+:
+ Is there a node 
+\begin_inset Formula $\sigma\in T_{n}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ represents the same (partial computable) function for every 
+\begin_inset Formula $\tau\in T_{n}$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+?
+ (That is,
+ is 
+\begin_inset Formula $\{e\}^{\sigma*}(x)$
+\end_inset
+
+ uniquely defined for all 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+,
+ even if not necessarily well-defined?) If there is,
+ we set 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+ to be the subtree of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ starting at 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ For the case that there is no such node,
+ we introduce the following construction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\sps}{\mathop{\mathrm{SplSbt}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "def:spstree"
+
+\end_inset
+
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a perfect computable binary tree,
+ and 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+ such that there is no node of 
+\begin_inset Formula $T$
+\end_inset
+
+ for which 
+\begin_inset Formula $\{e\}^{\sigma*}$
+\end_inset
+
+ is uniquely defined.
+ We define the 
+\emph on
+
+\begin_inset Formula $e$
+\end_inset
+
+-splitting computable subtree of 
+\begin_inset Formula $T$
+\end_inset
+
+
+\emph default
+,
+ denoted 
+\begin_inset Formula $\sps(T,e)$
+\end_inset
+
+,
+ as the tree 
+\begin_inset Formula $T'$
+\end_inset
+
+ given by the following algorithm.
+\end_layout
+
+\begin_layout Definition
+At each stage,
+ 
+\begin_inset Formula $T'$
+\end_inset
+
+ is given by a partially-defined tree,
+ with a finite collection of nodes and lack thereof fully commited to,
+ but at each point we will have some 
+\begin_inset Quotes eld
+\end_inset
+
+leaves
+\begin_inset Quotes erd
+\end_inset
+
+ below which we haven't committed to anything.
+ Let 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ be such a leaf.
+ Since 
+\begin_inset Formula $\{e\}^{\sigma*}$
+\end_inset
+
+ isn't uniquely defined (relative to 
+\begin_inset Formula $T$
+\end_inset
+
+),
+ we can (computably) find 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ and two paths 
+\begin_inset Formula $\tau$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\tau'$
+\end_inset
+
+ in 
+\begin_inset Formula $T$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $\{e\}^{\tau}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $\{e\}^{\tau'}(x)$
+\end_inset
+
+ are both well-defined and yield distinct values.
+ Once they've been found,
+ we commit to these two paths being the only extensions of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ in 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+The algorithm proceeds recursively.
+ At each stage,
+ since 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau'$
+\end_inset
+
+ must be incompatible extensions of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ the tree is gaining at least one layer,
+ so it is guaranteed that every node will be eventually be committed to being in or out of the tree.
+\end_layout
+
+\begin_layout Lemma
+In the conditions of Definition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:spstree"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sps(T,e)$
+\end_inset
+
+ is necessarily an 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting tree.
+\end_layout
+
+\begin_layout Standard
+We are now ready to finish constructing 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+:
+ In the event that 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is not uniquely defined for any 
+\begin_inset Formula $\tau\in T_{n}$
+\end_inset
+
+,
+ we set 
+\begin_inset Formula $T_{n+1}=\sps(T_{n},e)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The only thing that remains to be addressed is verifying that the resulting degree is below 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+ This consists of verifying that the question 
+\begin_inset Quotes eld
+\end_inset
+
+is 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ uniquely defined for any 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+?
+\begin_inset Quotes erd
+\end_inset
+
+ can be answered by a 
+\begin_inset Formula $0''$
+\end_inset
+
+-oracle.
+ To verify that,
+ we begin by noting that asking this question for 
+\emph on
+one particular
+\emph default
+ 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+ is 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable,
+ as we can consider a program which dovetails over all children of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and every 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+,
+ and halts if it finds an 
+\begin_inset Formula $x$
+\end_inset
+
+ and two values of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ for which this halts to different results;
+ then we ask 
+\begin_inset Formula $0'$
+\end_inset
+
+ if this program halts,
+ which it does iff 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is not uniquely defined.
+ Then,
+ we consider a 
+\begin_inset Formula $0'$
+\end_inset
+
+-program which loops over all values of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ until it finds one for which 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is uniquely defined,
+ in which case it halts;
+ 
+\begin_inset Formula $0''$
+\end_inset
+
+ can tell whether this latter program halts,
+ or equivalently if 
+\begin_inset Formula $T$
+\end_inset
+
+ contains a node 
+\begin_inset Formula $\tau$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is uniquely defined.
+ The proof is now complete.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Sacks' Degree
+\end_layout
+
+\begin_layout Standard
+To verify that we can construct a minimal degree below 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ we will need to adapt the tools constructed above.
+ The main issue lies in the fact that 
+\begin_inset Formula $0'$
+\end_inset
+
+ cannot tell whether 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is uniquely defined for some 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+;
+ it can confirm this fact once it finds such a value of 
+\begin_inset Formula $\tau$
+\end_inset
+
+,
+ but if it hasn't found one yet,
+ it can't rule out the possibility that there is a value of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ far,
+ far away from where we are currently looking which does that.
+\end_layout
+
+\begin_layout Standard
+One of the repercussions of this phenomenon is that,
+ if we are thinking of adapting the above procedure (which we are),
+ we may accidentally consider 
+\begin_inset Formula $\sps(T,e)$
+\end_inset
+
+ for an invalid index 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ in the sense that,
+ for some 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is uniquely defined.
+ It is worthwhile to think about what will happen in this case.
+ We get a sort of partially-computable tree,
+ where from some nodes downward it may be that the answer to 
+\begin_inset Quotes eld
+\end_inset
+
+is 
+\begin_inset Formula $\tau$
+\end_inset
+
+ in 
+\begin_inset Formula $T$
+\end_inset
+
+?
+\begin_inset Quotes erd
+\end_inset
+
+ does not have neither a positive nor a negative answer.
+ This is roughly what Odifreddi 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "odifreddicrt"
+literal "false"
+
+\end_inset
+
+ defines as a 
+\emph on
+partial recursive tree
+\emph default
+ in page 494,
+ and what Soare 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "soare1"
+literal "false"
+
+\end_inset
+
+ defines as an 
+\emph on
+f-tree
+\emph default
+ in page 104.
+ This object is nuancedly different from either a c.e.
+\begin_inset space ~
+\end_inset
+
+or a co-c.e.
+\begin_inset space ~
+\end_inset
+
+tree,
+ in that there is some extra bookkeeping information that is present in neither of those.
+ We will now provide a definition which is admittedly much more cumbersome than the definition in the literature,
+ but which I feel place some emphasis in useful places which the usual definition does not.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+It should be noted that our definition is also not exactly equivalent.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+An 
+\emph on
+f-tree
+\emph default
+ is a partial computable function 
+\begin_inset Formula $T\colon2^{<\omega}\rightharpoonup2$
+\end_inset
+
+ satisfying the following properties:
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is well-defined on 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ it is also well-defined on any prefix of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T(\sigma)=1$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ also yields 
+\begin_inset Formula $1$
+\end_inset
+
+ on any prefix of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ (
+\begin_inset Quotes eld
+\end_inset
+
+tree-like
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T(\sigma)=0$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ is also well-defined on any extension of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T(\sigma)=1$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ is well-defined on either 
+\begin_inset Formula $\sigma0$
+\end_inset
+
+ or 
+\begin_inset Formula $\sigma1$
+\end_inset
+
+,
+ it is well-defined on both and at least one of them yields 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+yscale=0.8,
+\end_layout
+
+\begin_layout Plain Layout
+
+botst/.style={draw,
+ circle},
+\end_layout
+
+\begin_layout Plain Layout
+
+edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode.north)}
+\end_layout
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate
+\end_layout
+
+\begin_layout Plain Layout
+
+	child {node[botst]{$
+\backslash
+bot$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child {
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child {node[botst]{$
+\backslash
+bot$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child {
+\end_layout
+
+\begin_layout Plain Layout
+
+						child {node{$
+\backslash
+vdots$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child {node{$
+\backslash
+vdots$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child {
+\end_layout
+
+\begin_layout Plain Layout
+
+						node{$
+\backslash
+vdots$}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A diagram representing an f-tree.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The mental image that I have of this concept is of a binary tree with no dead ends but which may have some 
+\begin_inset Quotes eld
+\end_inset
+
+defective fruits
+\begin_inset Quotes erd
+\end_inset
+
+;
+ nodes below which there is no tree or lack thereof.
+ These are what may happen in 
+\begin_inset Formula $\sps(T,e)$
+\end_inset
+
+ when 
+\begin_inset Formula $T$
+\end_inset
+
+ is not 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us now begin discussing our approach.
+ Our goal is to attempt to reproduce Sacks' construction to the best of our ability,
+ given that we only have access to a 
+\begin_inset Formula $0'$
+\end_inset
+
+-oracle.
+ This means that we won't know at a given stage 
+\begin_inset Formula $n$
+\end_inset
+
+ (in which we are considering the index 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ say) whether 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is 
+\begin_inset Formula $e$
+\end_inset
+
+-splitting or not,
+ and so whether we should set 
+\begin_inset Formula $T_{n+1}=\sps(T_{n},e)$
+\end_inset
+
+.
+ Generically,
+ we will be optimistic and do so unless given proof that this is a bad idea,
+ namely if we find that 
+\begin_inset Formula $T_{n+1}$
+\end_inset
+
+ is only partially-defined;
+ say that 
+\begin_inset Formula $T_{n+1}(\sigma)\isnotwd$
+\end_inset
+
+.
+ In this case,
+ morally,
+ we change tacks:
+ We know that 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ is computable for any 
+\begin_inset Formula $A\in T_{n}$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ so we set 
+\begin_inset Formula $T_{n+1}=T_{n}\cap\sigma^{\downarrow}$
+\end_inset
+
+,
+ erase all the work we've done since stage 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and proceed with the algorithm.
+ This begins to look like a finite injury procedure,
+ where each requirement is injured at most once,
+ but there is a big issue which throws a wrench in our plans.
+\end_layout
+
+\begin_layout Standard
+The main problem is that,
+ in order to make our final set 
+\begin_inset Formula $A$
+\end_inset
+
+ be 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable,
+ it is not sufficient to have a set defined in the limit;
+ we need to 
+\emph on
+commit 
+\emph default
+to elements being in or out of the set.
+ In the procedure outlined in the previous paragraph,
+ we are never actually committed:
+ It might be that we defined a 
+\begin_inset Quotes eld
+\end_inset
+
+bad
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $T_{3}$
+\end_inset
+
+,
+ and with it we thought that our set started as 
+\begin_inset Formula $0101$
+\end_inset
+
+,
+ but the ill-definedness is only visible very far down.
+ So,
+ we only find it by the time that we're around 
+\begin_inset Formula $T_{10^{8}}$
+\end_inset
+
+,
+ and we find that after all our set should have started as 
+\begin_inset Formula $0100$
+\end_inset
+
+ instead.
+ And even now,
+ we're not quite sure,
+ because maybe 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ will also result in an injury and we'll have to throw this out as well!
+\end_layout
+
+\begin_layout Standard
+So,
+ in summary,
+ we need to add a commitment element to our algorithm.
+ This isn't too hard;
+ let's say that at each step to one new element and never change our mind.
+ But then,
+ a new complexity arises.
+ Suppose that,
+ in the example above,
+ we have 
+\emph on
+already
+\emph default
+ committed to our initial segment being 
+\begin_inset Formula $0101$
+\end_inset
+
+,
+ and we find that 
+\begin_inset Formula $T_{3}$
+\end_inset
+
+ is undefined at 
+\begin_inset Formula $01000000$
+\end_inset
+
+.
+ By our previous logic,
+ we should undo our commitment so that 
+\begin_inset Formula $\{3\}^{A}$
+\end_inset
+
+ is computable.
+ But we can't.
+ Now the question is:
+ do we care?
+\end_layout
+
+\begin_layout Standard
+Here is what I think is the main idea in order to understand Sacks' construction:
+ Let's suppose that we've committed to an initial segment 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ of our set.
+ Then,
+ how much do we care about the well-definedness of some 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+?
+ In fact,
+ put in a stronger way:
+ Let's say that 
+\begin_inset Formula $A$
+\end_inset
+
+ is our final oracle,
+ and that we never found any ill-definedness in 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+ (but suppose also that we didn't try very hard).
+ Then,
+ what does 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+ need to satisfy in order for Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to work?
+ The answer is the following definition:
+\end_layout
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be an f-tree,
+ 
+\begin_inset Formula $e$
+\end_inset
+
+ a natural number,
+ and 
+\begin_inset Formula $A$
+\end_inset
+
+ a path in 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ We say that 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\emph on
+
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting
+\emph default
+ if,
+ for every 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ in 
+\begin_inset Formula $A$
+\end_inset
+
+ which is a branching point of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ there is 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\sigma0*}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $\{e\}^{\sigma1*}(x)$
+\end_inset
+
+ are both strongly well-defined and take distinct values.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:aewscomputes"
+
+\end_inset
+
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is an 
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting f-tree and 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ is total,
+ then 
+\begin_inset Formula $\{e\}^{A}\geq_{\turing}A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We present a slight modification to Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ This modification is necessary because,
+ since 
+\begin_inset Formula $T$
+\end_inset
+
+ is only a partial recursive function,
+ it need not be the case that a search for a 
+\begin_inset Quotes eld
+\end_inset
+
+next branching node below this one
+\begin_inset Quotes erd
+\end_inset
+
+ will ever halt.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Follow the tree 
+\begin_inset Formula $T$
+\end_inset
+
+ until you hit a branching point 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ Then,
+ dovetail over 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau\in T$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ computing 
+\begin_inset Formula $\{e\}^{\tau}(x)$
+\end_inset
+
+ along the way.
+ Since 
+\begin_inset Formula $T$
+\end_inset
+
+ is known to be 
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting,
+ we know that we will eventually find 
+\begin_inset Formula $\tau_{0}$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ extending 
+\begin_inset Formula $\sigma1$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $\{e\}^{\tau_{0}}(x)\iswd\neq\{e\}^{\tau_{1}}(x)\iswd$
+\end_inset
+
+,
+ and such that there are no branching points between 
+\begin_inset Formula $\tau_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma i$
+\end_inset
+
+.
+ This guarantees that the decision you make at 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ irrevocably affects the value of 
+\begin_inset Formula $\{e\}^{A}(x)$
+\end_inset
+
+,
+ which you will then compare with your known value for 
+\begin_inset Formula $\{e\}^{A}(x)$
+\end_inset
+
+.
+ This informs you of whether you should follow along 
+\begin_inset Formula $\sigma0$
+\end_inset
+
+ or 
+\begin_inset Formula $\sigma1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+This procedure will work at any branching point you find.
+ Thus,
+ this algorithm will have you following along the path 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Computing 
+\begin_inset Formula $A$
+\end_inset
+
+ from 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ when 
+\begin_inset Formula $T$
+\end_inset
+
+ is 
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+This completes the proof.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:pathsps"
+
+\end_inset
+
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be an f-tree and 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+.
+ Then,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is a path in 
+\begin_inset Formula $T'=\sps(T,e)$
+\end_inset
+
+,
+ it must be the case that 
+\begin_inset Formula $T'$
+\end_inset
+
+ is 
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting.
+\end_layout
+
+\begin_layout Proof
+Easy to verify by construction.
+ As a sketch,
+ given a branching point 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ we should consider the prefix 
+\begin_inset Formula $\sigma_{0}$
+\end_inset
+
+ of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ which added 
+\begin_inset Formula $\sigma$
+\end_inset
+
+'s children to the tree (it may be the case that 
+\begin_inset Formula $\sigma_{0}=\sigma$
+\end_inset
+
+).
+ By investigating what the algorithm does at this step,
+ we find that indeed there is some 
+\begin_inset Formula $x$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{\sigma0*}(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $\{e\}^{\sigma1*}(x)$
+\end_inset
+
+ are strongly uniquely well-defined.
+\end_layout
+
+\begin_layout Remark
+It is not necessarily the case that 
+\begin_inset Formula $\sps(T,e)$
+\end_inset
+
+ admits 
+\emph on
+any
+\emph default
+ path 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ even if 
+\begin_inset Formula $T$
+\end_inset
+
+ does!
+\end_layout
+
+\begin_layout Standard
+We now have all the necessary ingredients.
+ We will 
+\begin_inset Formula $0'$
+\end_inset
+
+-computably construct a decreasing sequence of trees 
+\begin_inset Formula $T_{0},\dots,T_{n}$
+\end_inset
+
+ at the same time that we iteratively construct a path 
+\begin_inset Formula $A=\{\sigma_{n}\}_{n\in\N}$
+\end_inset
+
+ through them.
+ When we add a node to the path,
+ we commit to never removing it,
+ but we retain the right to modify our trees.
+ Namely,
+ we will modify our trees if we find that it is not possible to ensure that a certain 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+ is made 
+\begin_inset Formula $A$
+\end_inset
+
+-
+\begin_inset Formula $e$
+\end_inset
+
+-weakly splitting,
+ in which case we will change our approach to 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ (we'll make it computable instead) and throw away our work on 
+\begin_inset Formula $T_{e},T_{e+1},\dots,T_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Sacks
+\end_layout
+
+\end_inset
+
+ There is a minimal degree below 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Consider the following 
+\begin_inset Formula $0'$
+\end_inset
+
+-algorithm.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Let 
+\begin_inset Formula $\sigma\in2^{<\omega}$
+\end_inset
+
+ be a variable path which starts empty,
+ and 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ (an index for) the full binary tree.
+ Over the course of the algorithm,
+ 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ will never change.
+\end_layout
+
+\begin_layout Plain Layout
+At a given stage,
+ suppose that we have defined a decreasing sequence of f-trees 
+\begin_inset Formula $T_{0},\dots,T_{n}$
+\end_inset
+
+ and that 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is a node in 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Suppose also as an inductive hypothesis that each 
+\begin_inset Formula $T_{k+1}$
+\end_inset
+
+ is either 
+\begin_inset Formula $\sps(T_{k},\tau)$
+\end_inset
+
+ for some prefix 
+\begin_inset Formula $\tau$
+\end_inset
+
+ of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ or equal to 
+\begin_inset Formula $T_{k}$
+\end_inset
+
+ itself.
+\end_layout
+
+\begin_layout Plain Layout
+First,
+ we make a new commitment.
+ Use our oracle to check whether 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ has a child in 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If so:
+ Set 
+\begin_inset Formula $\sigma_{\text{new}}$
+\end_inset
+
+ to be this child.
+\end_layout
+
+\begin_layout Itemize
+If not:
+ Find the largest value of 
+\begin_inset Formula $m$
+\end_inset
+
+ such that 
+\begin_inset Formula $T_{m}$
+\end_inset
+
+ admits a child for 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ (which exists because 0 is one such value) .
+ Then,
+ set 
+\begin_inset Formula $\sigma_{\text{new}}$
+\end_inset
+
+ to be this child,
+ and forget about 
+\begin_inset Formula $T_{m+1},\dots,T_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Plain Layout
+For posteriority,
+ let us say in this case that the index 
+\begin_inset Formula $m$
+\end_inset
+
+ is 
+\emph on
+marked
+\emph default
+.
+ However,
+ forget any marks 
+\begin_inset Formula $\geq m$
+\end_inset
+
+ that we have made until now.
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+Second,
+ we ensure that our set is not computable.
+ Let 
+\begin_inset Formula $T_{0},\dots,T_{n}$
+\end_inset
+
+ be the current list,
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ the current node.
+ Use our oracle to tell whether there is a branching point in 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ below 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ More precisely,
+ attempt to find incompatible extensions 
+\begin_inset Formula $\tau_{1},\tau_{2}$
+\end_inset
+
+ of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ such that 
+\begin_inset Formula $T_{n}(\tau_{1})\iswd=T_{n}(\tau_{2})\iswd=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If found:
+ Let 
+\begin_inset Formula $\sigma'$
+\end_inset
+
+ be the node at which 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{2}$
+\end_inset
+
+ diverge.
+ Use our oracle to tell whether 
+\begin_inset Formula $x=\{e\}(\mathrm{length}(\sigma'))$
+\end_inset
+
+ halts,
+ where 
+\begin_inset Formula $e$
+\end_inset
+
+ is the least index not yet considered by this step.
+ If it does,
+ set 
+\begin_inset Formula $\sigma_{\text{new}}=\sigma'y$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $y=1-x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If not:
+ As in the first step,
+ find the largest value of 
+\begin_inset Formula $m$
+\end_inset
+
+ such that 
+\begin_inset Formula $T_{m}$
+\end_inset
+
+ admits a branching point below 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ (which exists because 0 is such a value),
+ mark 
+\begin_inset Formula $m$
+\end_inset
+
+ and forget 
+\begin_inset Formula $T_{m+1},\dots,T_{n}$
+\end_inset
+
+ as well as all marks past 
+\begin_inset Formula $m$
+\end_inset
+
+,
+ and repeat this step.
+\end_layout
+
+\begin_layout Plain Layout
+Third,
+ we add a new tree to the list.
+ Let 
+\begin_inset Formula $T_{0},\dots,T_{n}$
+\end_inset
+
+ be the current list,
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ the current node.
+ If 
+\begin_inset Formula $n$
+\end_inset
+
+ is unmarked,
+ set 
+\begin_inset Formula $T_{n+1}=\sps(T_{n}\cap\sigma^{\downarrow},n)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $T_{n}\cap\sigma^{\downarrow}$
+\end_inset
+
+ means the subtree of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ consisting only of its nodes which are comparable with 
+\begin_inset Formula $\sigma$
+\end_inset
+
+;
+ otherwise,
+ that is if 
+\begin_inset Formula $m$
+\end_inset
+
+ is marked,
+ set 
+\begin_inset Formula $T_{n+1}=T_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+At each step of this procedure,
+ 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is increasing in length.
+ Our final set is the limit of the strings 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ attained during this algorithm.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A minimal degree below 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The above algorithm yields a well-defined 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable set 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ It now remains to verify that it is indeed minimal.
+ Note that the second step ensures that it is not computable.
+ Thus,
+ it remains to,
+ given an arbitrary index 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ verify that 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ is either computable or computes 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ It turns out that this is correlated with whether the index 
+\begin_inset Formula $e$
+\end_inset
+
+ has been marked by the algorithm or not.
+\end_layout
+
+\begin_layout Proof
+First,
+ a remark:
+ As a consequence of the given algorithm,
+ an index 
+\begin_inset Formula $m$
+\end_inset
+
+ will be marked a finite number of times.
+ This is because,
+ for the same node to be marked more than once,
+ it must have been 
+\begin_inset Quotes eld
+\end_inset
+
+wiped
+\begin_inset Quotes erd
+\end_inset
+
+ inbetween consecutive times (otherwise,
+ the conditions necessary to mark 
+\begin_inset Formula $m$
+\end_inset
+
+ would just as well have marked 
+\begin_inset Formula $m+1$
+\end_inset
+
+ instead).
+ Thus,
+ we have in some sense finite injury:
+ each index 
+\begin_inset Formula $e$
+\end_inset
+
+ is injured at most 
+\begin_inset Formula $2^{e}$
+\end_inset
+
+ times.
+ Thus,
+ for every index 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ there will eventually be a tree 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+,
+ and indeed there will be a 
+\emph on
+limit 
+\emph default
+tree which will never change,
+ namely after all indices prior to 
+\begin_inset Formula $e$
+\end_inset
+
+ have been maked as many times as they ever will.
+ In the sequence,
+ 
+\begin_inset Formula $T_{e}$
+\end_inset
+
+ should be taken to mean this limit tree.
+\end_layout
+
+\begin_layout Proof
+Now,
+ to investigate the degree of 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+,
+ let us divide into two cases:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label={
+\backslash
+bf Case 
+\backslash
+arabic*.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+(
+\begin_inset Formula $e$
+\end_inset
+
+ is unmarked) In this case,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ is a path through 
+\begin_inset Formula $T_{e+1}=\sps(T_{e}\cap\sigma^{\downarrow},e)$
+\end_inset
+
+ for some 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ and so by Lemmas 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:aewscomputes"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:pathsps"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we have 
+\begin_inset Formula $\{e\}^{A}\geq_{\turing}A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+(
+\begin_inset Formula $e$
+\end_inset
+
+ is marked) In this case,
+ we have that there is an initial segment 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ of 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $T'=\sps(T_{e}\cap\sigma^{\downarrow},e)$
+\end_inset
+
+ was eventually marked by the algorithm.
+ This means that there is some initial segment of 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $\tau$
+\end_inset
+
+,
+ such that either 
+\begin_inset Formula $\tau$
+\end_inset
+
+ has no children in 
+\begin_inset Formula $T'$
+\end_inset
+
+,
+ or such that there are no incompatible extensions 
+\begin_inset Formula $\tau_{1}$
+\end_inset
+
+and 
+\begin_inset Formula $\tau_{2}$
+\end_inset
+
+ of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ in 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+ The latter case subsumes the former.
+ Note that by definition of 
+\begin_inset Formula $\sps$
+\end_inset
+
+,
+ this can only be the case if 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+ is uniquely defined on 
+\begin_inset Formula $T_{e}\cap\sigma^{\downarrow}$
+\end_inset
+
+.
+ As a consequence,
+ if 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ is total,
+ it 
+\emph on
+must
+\emph default
+ coincide with 
+\begin_inset Formula $\{e\}^{\tau*}$
+\end_inset
+
+,
+ which is a computable function.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+This completes the proof.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Since the second step always performs a commitment,
+ the first step in our algorithm is actually superfluous.
+ Removing it provides an algorithm similar to Soare's 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "soare1"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

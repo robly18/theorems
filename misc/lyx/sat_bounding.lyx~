@@ -20,6 +20,7 @@ mathescape=true
 \usepackage[cal=euler]{mathalpha}
 \usepackage{tikz}
 \usetikzlibrary{shapes}
+\usepackage{braket}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -46,7 +47,8 @@ duarte_theorems
 \use_dash_ligatures true
 \graphics default
 \default_output_format default
-\output_sync 0
+\output_sync 1
+\output_sync_macro "\synctex=1"
 \bibtex_command default
 \index_command default
 \float_placement h
@@ -1311,7 +1313,7 @@ We will prove the theorem for the case
 
 \begin_layout Proof
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Right now,
@@ -1453,27 +1455,22 @@ We will start with the theory
 
 .
  In this scenario,
- we increase the value of 
+ we may think to increase the index of 
 \begin_inset Formula $d$
 \end_inset
 
- and try to meet it again.
- We will have to show that 
-\begin_inset Formula $P_{nk}$
+ and try to meet it again,
+ but there is no apparent reason as yet for why we can force this increase to occur a finite number of times (which is necessary so that we have a fixed and particular element to realize the type 
+\begin_inset Formula $\Sigma_{n}(\vec{c}_{k},y)$
 \end_inset
 
- is injured in this manner at most a finite number of times,
- as to ensure that there is a final variable 
-\begin_inset Formula $d_{P}$
-\end_inset
-
- which witnesses the saturation of the model for that particular type with parameters.
+).
+ 
 \end_layout
 
 \begin_layout Proof
-Let us first,
- for the sake of exposition,
- show that we can meet any one fixed 
+To motivate the rest of the proof,
+ we will first show that we can in fact meet any one fixed 
 \begin_inset Formula $P_{nk}$
 \end_inset
 
@@ -1524,6 +1521,14 @@ Let us first,
 \end_layout
 
 \begin_layout Proof
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
 \begin_inset listings
 inline false
 status open
@@ -1582,6 +1587,33 @@ varphi_n$.
  add $
 \backslash
 varphi_n$.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:onepnk"
+
+\end_inset
+
+Fulfilling one 
+\begin_inset Formula $P_{nk}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1709,7 +1741,7 @@ where
 
 \begin_layout Standard
 Let 
-\begin_inset Formula $W(c_{0},\dots,c_{N},d_{0},\dots,d_{p})$
+\begin_inset Formula $W(c_{0},\dots,c_{N},d_{0},\dots,d_{p-1})$
 \end_inset
 
  be the conjunction of the Henkin sentences 
@@ -1748,11 +1780,15 @@ Now,
 \end_inset
 
  are mentioned only by 
-\begin_inset Formula $\sigma$
+\begin_inset Formula $W$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi$
 \end_inset
 
 ,
- and so may be universally quantified.
+ and so may be replaced by arbitrary variables.
  Hence,
 \begin_inset Formula 
 \[
@@ -1797,7 +1833,7 @@ where
 \end_inset
 
  to begin with,
- as this sentence does only use the original language 
+ as this sentence only uses symbols from the original language 
 \begin_inset Formula $\Lang$
 \end_inset
 
@@ -1809,7 +1845,7 @@ where
 \begin_inset Formula $d_{p}$
 \end_inset
 
- which effectively function as variables.
+.
 \end_layout
 
 \begin_layout Standard
@@ -1838,12 +1874,83 @@ In conclusion,
 \end_layout
 
 \end_deeper
+\end_deeper
+\begin_layout Proof
+Part 
+\begin_inset Formula $(2)$
+\end_inset
+
+ will be particularly relevant in the sequence,
+ so we give it its own role as a lemma.
+\end_layout
+
+\begin_deeper
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:typedecidable"
+
+\end_inset
+
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a decidable theory and 
+\begin_inset Formula $\Sigma(\vec{x})$
+\end_inset
+
+ is a type over 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ Moreover,
+ let 
+\begin_inset Formula $T^{*}$
+\end_inset
+
+ be a decidable extension of 
+\begin_inset Formula $T$
+\end_inset
+
+ by Henkin witnesses 
+\begin_inset Formula $\{c_{i}\}_{i\in\N}$
+\end_inset
+
+.
+ Then,
+ if 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+ is a tuple of these new constants,
+ the theory 
+\begin_inset Formula $T^{*}+\Sigma(\vec{c})$
+\end_inset
+
+ is decidable.
+ In particular,
+ any finite extension of it is also decidable.
+\end_layout
+
 \begin_layout Standard
 Let 
 \begin_inset Formula $\hat{T}$
 \end_inset
 
- be the theory resulting from the above procedure.
+ be the theory resulting from Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:onepnk"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
  We wish to show that 
 \begin_inset Formula $P_{nk}$
 \end_inset
@@ -1950,7 +2057,18 @@ Now,
  as opposed to just one.
  This turns out to be harder than expected,
  and the main reason is the following:
- Even though (as we've shown in the midst of the above) it is the case that,
+ Even though by Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:typedecidable"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ it is the case that,
  for a single type 
 \begin_inset Formula $\Sigma(\vec{c},d_{p})$
 \end_inset
@@ -2121,11 +2239,15 @@ At a given state,
 \end_layout
 
 \begin_layout Itemize
-We fix an enumeration of pairs 
-\begin_inset Formula $(\Sigma_{n_{i}},\vec{c}_{k_{i}})$
+We fix a 
+\begin_inset Formula $d$
 \end_inset
 
-,
+-computable enumeration of pairs 
+\begin_inset Formula $(\Sigma_{i},\vec{c}_{i})$
+\end_inset
+
+ which covers all pairs of types and valid tuples,
 \end_layout
 
 \begin_layout Itemize
@@ -2136,31 +2258,70 @@ fulfilled
 \emph default
 .
  This is because we've found that the formulas 
-\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\begin_inset Formula $\exists_{y}\Sigma_{i}(\vec{c}_{i},y)$
 \end_inset
 
  can no longer be a subset of the the final theory,
  and so there is no work to be done to ensure saturation regarding this type.
- When dicussing enumerations 
-\begin_inset Formula $\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}}$
+ When discussing enumerations 
+\begin_inset Formula $\vec{c}_{0},\dots,\vec{c}_{i}$
 \end_inset
 
 ,
- it should be understood that 
-\begin_inset Formula $\vec{c}_{k_{j}}$
+ we introduce two notations that modify how this expression should be interpreted:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+When we write 
+\begin_inset Formula $\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i}$
 \end_inset
 
-for 
+,
+ it should be understood that the tuples 
+\begin_inset Formula $\vec{c}_{j}$
+\end_inset
+
+ for fulfilled indices 
 \begin_inset Formula $j$
 \end_inset
 
- fulfilled is replaced by arbitrary fresh constants.
+ are replaced by arbitrary fresh constants,
 \end_layout
 
+\begin_layout Itemize
+When we write 
+\begin_inset Formula $\vec{c}_{0},\overset{\times}{\dots},\vec{c}_{i}$
+\end_inset
+
+,
+ it should be understood that the tuples 
+\begin_inset Formula $\vec{c}_{j}$
+\end_inset
+
+ for fulfilled indices 
+\begin_inset Formula $j$
+\end_inset
+
+ are removed.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
-So,
- here's how the algorithm is going to go.
- We will have three processes running concurrently:
+We may now describe the algorithm.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+\begin_inset Float algorithm
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+We will have three processes running concurrently:
 \end_layout
 
 \begin_layout Itemize
@@ -2175,7 +2336,7 @@ The first process will attempt to find,
 \end_inset
 
  such that 
-\begin_inset Formula $\Sigma_{0\dots i+1}(\vec{x},\vec{x}',y,y')\supseteq\Sigma_{0\dots i}(\vec{x},y)\cup\Sigma_{n_{i+1}}(\vec{x}',y')$
+\begin_inset Formula $\Sigma_{0\dots i+1}(\vec{x},\vec{x}',y,y')\supseteq\Sigma_{0\dots i}(\vec{x},y)\cup\Sigma_{i+1}(\vec{x}',y')$
 \end_inset
 
 .
@@ -2185,7 +2346,7 @@ The first process will attempt to find,
 \end_inset
 
  or in 
-\begin_inset Formula $\Sigma_{n_{i+1}}$
+\begin_inset Formula $\Sigma_{i}$
 \end_inset
 
  but not in 
@@ -2213,14 +2374,14 @@ The first process will attempt to find,
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
+\begin_layout Plain Layout
 When finding a new candidate for 
 \begin_inset Formula $\Sigma_{0\dots i}$
 \end_inset
 
 ,
  it will find the first new type such that 
-\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},y)$
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}},y)$
 \end_inset
 
  is consistent with 
@@ -2237,7 +2398,7 @@ When finding a new candidate for
 \end_inset
 
  up to 
-\begin_inset Formula $\vec{c}_{k_{i}}$
+\begin_inset Formula $\vec{c}_{i}$
 \end_inset
 
  and the ones used in 
@@ -2256,7 +2417,7 @@ When finding a new candidate for
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 When a new guess is made for 
 \begin_inset Formula $\Sigma_{0\dots i}$
 \end_inset
@@ -2276,14 +2437,19 @@ is not in
 
 .
  This guarantees that 
-\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p})$
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p})$
 \end_inset
 
  is consistent with 
 \begin_inset Formula $T_{\text{curr}}$
 \end_inset
 
-.
+,
+ as from its perspective 
+\begin_inset Formula $d_{p}$
+\end_inset
+
+ is equivalent to a fresh variable.
 \end_layout
 
 \end_deeper
@@ -2294,7 +2460,7 @@ The second process will loop over sentences
 
  and commit to either adding the formula or its negation to the theory.
  It will prioritize being consistent with 
-\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i}})$
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i}})$
 \end_inset
 
  for smaller values of 
@@ -2302,12 +2468,12 @@ The second process will loop over sentences
 \end_inset
 
 .
- It might be unable to be consistent with all the ones we've established so far;
+ It might be unable to be consistent with all the types we've established so far;
  it will try to be consistent with as large an initial segment as it can.
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
+\begin_layout Plain Layout
 In the event that it is impossible to be consistent with 
 \begin_inset Formula $\Sigma_{0\dots i}$
 \end_inset
@@ -2331,7 +2497,7 @@ The third process will regularly check that
 \end_inset
 
  is consistent with 
-\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\begin_inset Formula $\exists_{y}\Sigma_{i}(\vec{c}_{i},y)$
 \end_inset
 
  for every value of 
@@ -2353,8 +2519,32 @@ The third process will regularly check that
 .
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:hatt"
+
+\end_inset
+
+The Theory Used to Create a Saturated Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
 \begin_layout Standard
-This algorithm evidently produces a consistent decidable theory 
+This algorthm evidently produces a consistent decidable theory 
 \begin_inset Formula $\hat{T}$
 \end_inset
 
@@ -2371,16 +2561,15 @@ This algorithm evidently produces a consistent decidable theory
 
 ,
  we show that if 
-\begin_inset Formula $\exists_{y}\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\begin_inset Formula $\exists_{y}\Sigma_{i}(\vec{c}_{i},y)$
 \end_inset
 
- is contained in the final theory,
- then there is 
+ is contained in the final theory then there is 
 \begin_inset Formula $d_{p_{i}}$
 \end_inset
 
-such that 
-\begin_inset Formula $\Sigma_{n_{i}}(\vec{c}_{k_{i}},d_{p_{i}})$
+ such that 
+\begin_inset Formula $\Sigma_{i}(\vec{c}_{i},d_{p_{i}})$
 \end_inset
 
  is contained in the final theory.
@@ -2393,7 +2582,7 @@ Consider a stage after which the third process has already found all inconsisten
 
 .
  Moreover,
- assume that 
+ assume (as part of an inductive reasoning) that 
 \begin_inset Formula $\Sigma_{0\dots j}$
 \end_inset
 
@@ -2401,11 +2590,12 @@ Consider a stage after which the third process has already found all inconsisten
 \begin_inset Formula $d_{p_{j}}$
 \end_inset
 
- has already stabilized for 
+ stabilize for 
 \begin_inset Formula $j<i$
 \end_inset
 
- (by IH).
+,
+ and indeed that we are in a stage after which this has already occurred.
  We claim that 
 \begin_inset Formula $\Sigma_{0\dots i}$
 \end_inset
@@ -2415,10 +2605,13 @@ Consider a stage after which the third process has already found all inconsisten
 \end_inset
 
 ) will eventually stabilize.
- Indeed,
- if it does not,
+\end_layout
+
+\begin_layout Standard
+Assume by contradiction that it does not.
+ Then,
  it will over the course of execution take on all possible types such that 
-\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},y)$
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}},y)$
 \end_inset
 
  is compatible with 
@@ -2428,30 +2621,71 @@ Consider a stage after which the third process has already found all inconsisten
 .
  As such,
  it will eventually take on a type which is a consistent extension of 
-\begin_inset Formula $\hat{T}|(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}})+\Sigma_{n_{i}}(\vec{c}_{k_{i}},y)$
+\begin_inset Formula $\bar{\Sigma}=\hat{T}|(\vec{c}_{0},\overset{\times}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}})+\Sigma_{0\dots i-1}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i-1},d_{p_{0}},\dots,d_{p_{i-1}})+\Sigma_{i}(\vec{c}_{i},y)$
 \end_inset
 
 .
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Some proof is required to conclude that 
+\begin_inset Formula $\bar{\Sigma}$
+\end_inset
+
+ is a consistent set of formulas.
+ The proof consists of noticing that,
+ by construction of the second process,
+ 
+\begin_inset Formula $\hat{T}$
+\end_inset
+
+ is constructed specifically so that this is the case.
+\end_layout
+
+\end_inset
+
  By inspection of the algorithm,
  from that moment onward the type will never change because it has no reason to:
- The first process will never force a change of type because,
- by assumption,
- all 
+ 
+\end_layout
+
+\begin_layout Itemize
+The first process will never force a change of type because 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}},y)$
+\end_inset
+
+ is chosen as to extend 
+\begin_inset Formula $\Sigma_{0\dots i-1}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i-1},d_{p_{0}},\dots,d_{p_{i-1}})+\Sigma_{i}(\vec{c}_{i},y)$
+\end_inset
+
+ and 
 \begin_inset Formula $\Sigma_{0\dots j}$
 \end_inset
 
- have stabilized below 
-\begin_inset Formula $i$
+ has stabilized for 
+\begin_inset Formula $j<i$
 \end_inset
 
-,
- and moreover the current 
-\begin_inset Formula $\Sigma_{0\dots i}$
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+The second process will never force a change of type because 
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\overset{\nu}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}},y)$
 \end_inset
 
- is explicitly assumed never to trigger its recalculation condition.
- The second process will never force a change of type also because we've explicitly chosen the type never to conflict with any choices this process ever makes.
- The third process will never force a change of type because we've assumed that it has been triggered as many times as it ever will be below 
+ is chosen as to extend 
+\begin_inset Formula $\hat{T}|(\vec{c}_{0},\overset{\times}{\dots},\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}})$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+The third process will never force a change of type because we've assumed that it has been triggered as many times as it ever will be below 
 \begin_inset Formula $i$
 \end_inset
 
@@ -2460,22 +2694,26 @@ Consider a stage after which the third process has already found all inconsisten
 
 \begin_layout Standard
 We actually draw a stronger conclusion:
- This is,
+ This (being a consistent extension of 
+\begin_inset Formula $\bar{\Sigma}$
+\end_inset
+
+) is,
  in fact,
  the only way the type can stabilize.
  Moreover,
  in this instance,
  we will by construction never commit to a formula that contradicts 
-\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{k_{0}},\dots,\vec{c}_{k_{i}},d_{p_{0}},\dots,d_{p_{i-1}},d_{p_{i}})$
+\begin_inset Formula $\Sigma_{0\dots i}(\vec{c}_{0},\dots,\vec{c}_{i},d_{p_{0}},\dots,d_{p_{i-1}},d_{p_{i}})$
 \end_inset
 
- (or any of the prior types),
+,
  and so we conclude that 
 \begin_inset Formula $d_{p_{i}}$
 \end_inset
 
- will realize the type 
-\begin_inset Formula $\Sigma_{n_{i}}(\vec{c}_{k_{i}},d_{p_{i}})$
+ will satisfy 
+\begin_inset Formula $\Sigma_{i}(\vec{c}_{i},d_{p_{i}})$
 \end_inset
 
 .
@@ -2578,6 +2816,2218 @@ We characterized a saturated bounding degree as one which,
 
 ,
  and from then on replace the path by the one obtained by going left whenever possible.
+\end_layout
+
+\begin_layout Proof
+From this,
+ the theorem becomes clear,
+ as a subenumerative computes a listing of 
+\emph on
+all
+\emph default
+ computable sets,
+ which in particular includes all paths in any NDEPACCT.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset Formula $0$
+\end_inset
+
+ is Not Saturated Bounding
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+Millar 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "millar"
+literal "false"
+
+\end_inset
+
+,
+ Goncharov–Nurtazin
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:zeronotsatbounding"
+
+\end_inset
+
+
+\begin_inset Formula $0$
+\end_inset
+
+ is not saturated bounding.
+\end_layout
+
+\begin_layout Proof
+We build an NDEPACCT 
+\begin_inset Formula $T$
+\end_inset
+
+ for which there fails to have any computable enumeration of its paths.
+ We've seen that if we enumerate 
+\begin_inset Quotes eld
+\end_inset
+
+too many paths
+\begin_inset Quotes erd
+\end_inset
+
+ we can always 
+\begin_inset Quotes eld
+\end_inset
+
+prune the enumeration down
+\begin_inset Quotes erd
+\end_inset
+
+,
+ so this is done by ensuring that there is a path that fails to be enumerated.
+\end_layout
+
+\begin_layout Proof
+Our tree 
+\begin_inset Formula $T$
+\end_inset
+
+ will be built in the following shape:
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (T) at (0,0) {$T
+\backslash
+;=$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{scope}[shift={(2.5,2)}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (I) at (-1,-1) {$T_0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (II) at (0,-2) {$T_1$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[subtree] (III) at (1,-3) {$T_2$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (ETC) at (3.5,-3.5) {$
+\backslash
+ddots$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,0) -- (I.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (1,-1) -- (II.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (2,-2) -- (III.north);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,0) -- (ETC);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The tree we'll create.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+in which 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ will have the role of preventing 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ from being an enumeration of the paths of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ by containing a path distinct from every row of 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+To describe 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+,
+ we shall describe a procedure such that at each stage we have a finite tree,
+ with some leaves marked as 
+\begin_inset Quotes eld
+\end_inset
+
+unknown
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This should be taken to mean that we haven't decided whether the tree will branch off to that node or not.
+ We will also be highlighting a path through this tree,
+ which is the path that we ensure is 
+\emph on
+not
+\emph default
+ enumerated by 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+.
+ Here is a picture of what 
+\begin_inset Formula $T$
+\end_inset
+
+ might look at a finite stage,
+ with emphasis on 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+scale=0.7,
+\end_layout
+
+\begin_layout Plain Layout
+
+subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north},
+\end_layout
+
+\begin_layout Plain Layout
+
+unk/.style={sibling distance=0.5cm,
+ level distance=8mm},
+\end_layout
+
+\begin_layout Plain Layout
+
+edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode.north)},
+\end_layout
+
+\begin_layout Plain Layout
+
+level distance=15mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+sibling distance=7cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+thetree/.style={sibling distance=2cm},
+\end_layout
+
+\begin_layout Plain Layout
+
+reg/.style={thin},
+\end_layout
+
+\begin_layout Plain Layout
+
+marked/.style={line width=1mm}]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate
+\end_layout
+
+\begin_layout Plain Layout
+
+	child {node[subtree]{$T_0$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child {
+\end_layout
+
+\begin_layout Plain Layout
+
+		child {node[draw,
+ circle] {$T_1$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			[thetree]
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child {
+\end_layout
+
+\begin_layout Plain Layout
+
+						child {
+\end_layout
+
+\begin_layout Plain Layout
+
+							child {
+\end_layout
+
+\begin_layout Plain Layout
+
+								[reg]
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+							}
+\end_layout
+
+\begin_layout Plain Layout
+
+							child {
+\end_layout
+
+\begin_layout Plain Layout
+
+								[reg]
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+							}
+\end_layout
+
+\begin_layout Plain Layout
+
+						}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+							child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+							child {
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+								child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+							}
+\end_layout
+
+\begin_layout Plain Layout
+
+						}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}		
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {node[subtree]{$T_2$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode)}] {node {$
+\backslash
+ddots$}}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Formula $T$
+\end_inset
+
+ after a few stages.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+The algorithm executes the following two processes in parallel:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The first process will replace every left-facing 
+\begin_inset Formula $?$
+\end_inset
+
+ by a non-branch,
+ and every right-facing 
+\begin_inset Formula $?$
+\end_inset
+
+ by a branch both of whose children are marked 
+\begin_inset Formula $?$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+scale=1,
+\end_layout
+
+\begin_layout Plain Layout
+
+subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north},
+\end_layout
+
+\begin_layout Plain Layout
+
+unk/.style={sibling distance=0.5cm,
+ level distance=8mm},
+\end_layout
+
+\begin_layout Plain Layout
+
+edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode.north)},
+\end_layout
+
+\begin_layout Plain Layout
+
+level distance=15mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+sibling distance=2cm]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[coordinate] at (0,0) {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[unk] {node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[unk] {node{?}};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] (1,0) -- (2,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[coordinate] at (3,0){}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child{
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The action performed by the first process.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The second process will keep an internal counter 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ which starts at 
+\begin_inset Formula $k=0$
+\end_inset
+
+.
+ The value of this counter dictates that this process will ensure that 
+\begin_inset Formula $T$
+\end_inset
+
+ contains a path that is distinct from 
+\begin_inset Formula $i\mapsto\varphi_{n}\braket{k,i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+At any given point,
+ this process will be computing the path 
+\begin_inset Formula $(\varphi_{n}\braket{k,0},\varphi_{n}\braket{k,1},\dots)$
+\end_inset
+
+ up to the depth of the marked path of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ (including the prefix 
+\begin_inset Formula $\overset{n}{\overbrace{1\dots1}}0$
+\end_inset
+
+),
+ 
+\emph on
+plus one
+\emph default
+.
+ At this stage (we can prove by induction that) that which lies below the marked node will look like this:
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+scale=0.5,
+\end_layout
+
+\begin_layout Plain Layout
+
+subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north},
+\end_layout
+
+\begin_layout Plain Layout
+
+unk/.style={sibling distance=0.5cm,
+ level distance=8mm},
+\end_layout
+
+\begin_layout Plain Layout
+
+edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode.north)},
+\end_layout
+
+\begin_layout Plain Layout
+
+level distance=15mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+sibling distance=2cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+reg/.style={thin},
+\end_layout
+
+\begin_layout Plain Layout
+
+marked/.style={line width=1mm}]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate (root)
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[right of=root] {(depth $d$)};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Below a marked node.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this scenario,
+ if the path 
+\begin_inset Formula $\varphi_{n}\braket{k,\cdot}$
+\end_inset
+
+ went left,
+ we stipulate that the marked path shall go right,
+ and vice versa.
+ Then,
+ we make the marked path go as far down as we've constructed the tree,
+ and add branches on both sides.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[
+\end_layout
+
+\begin_layout Plain Layout
+
+scale=0.5,
+\end_layout
+
+\begin_layout Plain Layout
+
+subtree/.style={draw,
+ regular polygon,
+ regular polygon sides=3,
+ anchor=north},
+\end_layout
+
+\begin_layout Plain Layout
+
+unk/.style={sibling distance=0.5cm,
+ level distance=8mm},
+\end_layout
+
+\begin_layout Plain Layout
+
+edge from parent path={(
+\backslash
+tikzparentnode.south)--(
+\backslash
+tikzchildnode.north)},
+\end_layout
+
+\begin_layout Plain Layout
+
+level distance=15mm,
+\end_layout
+
+\begin_layout Plain Layout
+
+sibling distance=2cm,
+\end_layout
+
+\begin_layout Plain Layout
+
+reg/.style={thin},
+\end_layout
+
+\begin_layout Plain Layout
+
+marked/.style={line width=1mm}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate (X)
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[reg]{
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[reg]{
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[above of=X] {If $
+\backslash
+varphi_n
+\backslash
+braket{k,d+1}=0$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+coordinate (Y) at (8,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[missing] {}
+\end_layout
+
+\begin_layout Plain Layout
+
+	child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[marked] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[reg]{
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[reg]{
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+						child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		child[reg] {
+\end_layout
+
+\begin_layout Plain Layout
+
+			child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+			child {
+\end_layout
+
+\begin_layout Plain Layout
+
+				child[missing]{}
+\end_layout
+
+\begin_layout Plain Layout
+
+				child {
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+					child[unk]{node{?}}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[above of=Y] {If $
+\backslash
+varphi_n
+\backslash
+braket{k,d+1}=1$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The action of the second process.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Upon performing this action,
+ after which we are sure that the marked path will definitely not agree with 
+\begin_inset Formula $\varphi_{n}\braket{k,\cdot}$
+\end_inset
+
+,
+ we increment the counter 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Proof
+The first process ensures that the resulting tree is computable:
+ Given a node 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ for which we desire to know whether it is or not in 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ we simply execute the algorithm until the first process has run at least 
+\begin_inset Formula $\ell=\mathrm{length}(\sigma)$
+\end_inset
+
+ times;
+ at this point we will have committed to adding or not adding every node up to depth 
+\begin_inset Formula $\ell$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The resulting tree has no dead ends because neither process allows the creation of a dead end.
+\end_layout
+
+\begin_layout Proof
+The resulting tree has all of its paths computable because all of its paths can be broken up into the following three categories
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+These three categories actually split the paths by their Cantor-Bendixson rank.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The paths of some 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ which have at some point split off from the marked path,
+ or for which the second process associated to 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ loops indefinitely,
+ will only ever be affected by the first process,
+ which results in the path having an infinite prefix of ones.
+ This evidently makes it computable.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+(We could also have argued using the fact that that these paths are isolated.)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The marked path of a given 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ for which the second process never loops indefinitely is computable,
+ as we can simply run the simulation to find the marked path to arbitrary accuracy.
+\end_layout
+
+\begin_layout Itemize
+The only remaining path is the path that goes to the right forever,
+ which is evidently computable.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Finally,
+ it is true by construction that the tree admits no computable enumeration of its paths:
+ For any candidate total function 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+,
+ the marked path of 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ will furnish a path that is missed by 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Original Work
+\end_layout
+
+\begin_layout Subsection
+A Degree Which Doesn't Enumerate Paths of Millar's Tree
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\TM}{T_{\mathrm{M}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\length}{\mathop{\mathrm{length}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ henceforth referred to as 
+\begin_inset Quotes eld
+\end_inset
+
+Millar's Tree
+\begin_inset Quotes erd
+\end_inset
+
+,
+ be the tree constructed in the proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:zeronotsatbounding"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ In order to investigate the saturated bounding degrees,
+ it is natural to ask what degrees enumerate paths of Millar's tree.
+\end_layout
+
+\begin_layout Standard
+After thinking about the subject for some time,
+ I came to conjecture that any nontrivial degree enumerates paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ In this section,
+ I disprove this conjecture.
+\end_layout
+
+\begin_layout Proposition
+There is a noncomputable degree 
+\begin_inset Formula $d$
+\end_inset
+
+ which does not compute an enumeration of the paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We build a set 
+\begin_inset Formula $A$
+\end_inset
+
+ (to represent the degree 
+\begin_inset Formula $d$
+\end_inset
+
+ to be built) by defining an ever-increasing initial final segment.
+ At stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ let 
+\begin_inset Formula $\sigma_{s}\in2^{<\omega}$
+\end_inset
+
+ be the initial segment we've constructed.
+ Let 
+\begin_inset Formula $\sigma_{-1}$
+\end_inset
+
+ be the empty string.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+At even stage 
+\begin_inset Formula $s=2e$
+\end_inset
+
+:
+ We ensure that 
+\begin_inset Formula $A$
+\end_inset
+
+ is noncomputable.
+ To do so,
+ let 
+\begin_inset Formula $x=\varphi_{e}(\length(\sigma_{s-1}))$
+\end_inset
+
+,
+ if this expression converges.
+ If it does let 
+\begin_inset Formula $\sigma_{s}$
+\end_inset
+
+ be the result of appending 
+\begin_inset Formula $1\overset{.}{-}x$
+\end_inset
+
+ to the end of 
+\begin_inset Formula $\sigma_{s-1}$
+\end_inset
+
+.
+ Otherwise,
+ set 
+\begin_inset Formula $\sigma_{s}=\sigma_{s-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+At each odd stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ we pay attention to a specific oracle program 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ in such a way that each particular program is paid attention to an infinite number of times.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+When paying attention to 
+\begin_inset Formula $P$
+\end_inset
+
+ for the first time,
+ we first ask whether there is an extension 
+\begin_inset Formula $\sigma'$
+\end_inset
+
+ of 
+\begin_inset Formula $\sigma=\sigma_{s-1}$
+\end_inset
+
+ such that,
+ no matter the oracle we choose to extend 
+\begin_inset Formula $\sigma'$
+\end_inset
+
+,
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ fails to be total.
+ If there is such 
+\begin_inset Formula $\sigma'$
+\end_inset
+
+,
+ we set 
+\begin_inset Formula $\sigma_{s}=\sigma'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When paying attention to 
+\begin_inset Formula $P$
+\end_inset
+
+ for the 
+\begin_inset Formula $x+1$
+\end_inset
+
+-th time,
+ we look the section 
+\begin_inset Formula $P_{x}$
+\end_inset
+
+ (in the sense that 
+\begin_inset Formula $P_{x}(y)$
+\end_inset
+
+ should be read as 
+\begin_inset Formula $P\braket{x,y}$
+\end_inset
+
+).
+ We see what 
+\begin_inset Formula $P_{x}$
+\end_inset
+
+ does when given 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ as a(n incomplete) oracle,
+ in particular we check is there is any extension 
+\begin_inset Formula $\tau$
+\end_inset
+
+ of 
+\begin_inset Formula $\sigma=\sigma_{s-1}$
+\end_inset
+
+ for which some converging initial segment of 
+\begin_inset Formula $P_{x}^{\tau}$
+\end_inset
+
+ is an isolated node of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ If there is,
+ we set 
+\begin_inset Formula $\sigma_{s}=\tau$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If there is no such extension,
+ let 
+\begin_inset Formula $\sigma_{s}=\sigma$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Proof
+Now,
+ our claim is that the oracle 
+\begin_inset Formula $A$
+\end_inset
+
+ obtained by the above procedure (which is evidently noncomputable) does not enumerate the paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ To this effect,
+ suppose that it does,
+ with oracle program 
+\begin_inset Formula $P$
+\end_inset
+
+.
+ In particular,
+ 
+\begin_inset Formula $P^{A}$
+\end_inset
+
+ is total.
+ Let 
+\begin_inset Formula $s$
+\end_inset
+
+ be the first stage in which we paid attention to 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ and let 
+\begin_inset Formula $\sigma=\sigma_{s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We define the following 
+\emph on
+computable
+\emph default
+ enumeration of paths 
+\begin_inset Formula $P'$
+\end_inset
+
+ of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ Given a string 
+\begin_inset Formula $\tau$
+\end_inset
+
+ which extends 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+,
+ the path 
+\begin_inset Formula $P'_{\braket{\tau,x}}(y)$
+\end_inset
+
+ is given by evaluating 
+\begin_inset Formula $P_{x}(y)$
+\end_inset
+
+ on the partial oracle 
+\begin_inset Formula $\tau$
+\end_inset
+
+,
+ with the caveat that when querying the oracle for elements past where 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is defined we nondeterministically find an extension of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ on which the program terminates at the given index.
+ Such an extension exists because if it did not,
+ we would have made 
+\begin_inset Formula $P^{A}$
+\end_inset
+
+ nontotal when paying attention to 
+\begin_inset Formula $P$
+\end_inset
+
+.
+ We take care to ensure that for different choices of 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ the resulting extensions of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ are coherent with one another,
+ so that for every 
+\begin_inset Formula $\tau$
+\end_inset
+
+ there is an oracle 
+\begin_inset Formula $B_{\tau}$
+\end_inset
+
+ such that 
+\begin_inset Formula $P'_{\braket{\tau,x}}(y)=P_{x}^{B_{\tau}}(y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $P'$
+\end_inset
+
+ is a computable enumeration of paths,
+ there must be some marked path of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ that 
+\begin_inset Formula $P'$
+\end_inset
+
+ misses,
+ which in turn is attained by some row of 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $P_{x}^{A}$
+\end_inset
+
+.
+ Now,
+ this index 
+\begin_inset Formula $x$
+\end_inset
+
+ is considered eventually when paying attention to 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ let us say at stage 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+.
+ Moreover,
+ there is some stage 
+\begin_inset Formula $s$
+\end_inset
+
+ past 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+where 
+\begin_inset Formula $A$
+\end_inset
+
+ has already been well-defined enough to determine the stage at which 
+\begin_inset Formula $P_{x}^{A}$
+\end_inset
+
+ outputs its first zero.
+ Let 
+\begin_inset Formula $\tau$
+\end_inset
+
+ be 
+\begin_inset Formula $\sigma_{s}$
+\end_inset
+
+ at this stage.
+ We conclude that 
+\begin_inset Formula $P_{x}^{B_{\tau}}(y)$
+\end_inset
+
+ 
+\emph on
+must
+\emph default
+ be a nonprincipal path,
+ as otherwise 
+\begin_inset Formula $P_{x}^{A}$
+\end_inset
+
+ would have been a principal path.
+ Moreover,
+ 
+\begin_inset Formula $P_{x}^{B_{\tau}}$
+\end_inset
+
+ must have its first zero at the same place as 
+\begin_inset Formula $P_{x}^{A}$
+\end_inset
+
+,
+ whence we conclude 
+\begin_inset Formula $P_{x}^{B_{\tau}}=P_{x}^{A}$
+\end_inset
+
+,
+ or,
+ equivalently,
+ 
+\begin_inset Formula $P'_{\braket{\tau,x}}=P_{x}$
+\end_inset
+
+.
+ But this is a contradiction,
+ as we assumed that 
+\begin_inset Formula $P_{x}$
+\end_inset
+
+ was a path that is not enumerated by 
+\begin_inset Formula $P'$
+\end_inset
+
+.
+ This contradiction proves that indeed 
+\begin_inset Formula $P^{A}$
+\end_inset
+
+ cannot enumerate all paths,
+ and the proof is complete.
+\end_layout
+
+\begin_layout Subsection
+No Particular Tree Will Solve Our Problem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+I think this is wrong :(
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Genericity Applied to the Above Two Sections
 \end_layout
 
 \begin_layout Standard
