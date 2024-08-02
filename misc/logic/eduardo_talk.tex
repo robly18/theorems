@@ -1,0 +1,302 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+
+\usepackage{inconsolata}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true,mathescape=true}
+
+\usepackage[thmmarks, amsmath]{ntheorem}
+
+\usepackage{fullpage}
+
+\title{Reverse Mathematics and $RCA_0$: Formalizing ``This Theorem Implies That Theorem''\\
+where?}
+\author{Duarte Maia}
+\date{July 10, 2024}
+
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{nonumberplain}
+\newtheorem{convention}{Convention}
+
+\theoremheaderfont{\itshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem{proof}{Proof}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{proofsketch}{Proof Sketch}
+
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{sketch}{Proof Sketch}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\EFA}{\mathrm{EFA}}
+\newcommand{\RCA}{\mathrm{RCA}}
+\newcommand{\WKL}{\mathrm{WKL}}
+\newcommand{\ACA}{\mathrm{ACA}}
+\newcommand{\ZZ}{\mathrm{Z}}
+
+
+\newcommand{\ZFC}{\mathrm{ZFC}}
+\newcommand{\ZF}{\mathrm{ZF}}
+\newcommand{\Choice}{\mathrm{C}}
+
+\newcommand{\wkl}{\mathrm{wkl}}
+
+
+\newcommand{\Grp}{\mathrm{Grp}}
+\newcommand{\id}{\mathrm{id}}
+
+\DeclarePairedDelimiter{\braket}{\langle}{\rangle}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand\point[1]{\noindent \hspace{\labelsep} $\bullet$ #1 \smallskip}
+%\newcommand\timestamp[1]{\noindent \hspace{\labelsep} [Time: #1] \smallskip}
+\newcommand\timestamp[1]{}
+
+\newcommand\thname[1]{\mathrm{(#1)}}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\point{Start with funny anecdote}
+
+\point{``Tarski [1920's] tried to publish his theorem [the equivalence between $\Choice$ and `every infinite set $A$ has the same cardinality as $A \times A$', see above] in \textit{Comptes Rendus}, but Fréchet and Lebesgue refused to present it. Fréchet wrote that an implication between two well known [true] propositions is not a new result, and Lebesgue wrote that an implication between two false propositions is of no interest.''}
+
+\point{Ref: Jan Mycielski, https://www.ams.org/journals/notices/200602/fea-mycielski.pdf}
+
+\point{This story showcases two interesting changes of paradigm in math since a century ago. Most obvious is our attitude towards AC: We no longer see it as something `obviously true' or `obviously false'. Instead, we know that math would be equally consistent with or without AC, and we've generally given up the pretense that ZFC is trying to describe the reality we live in, so we can `put on or take off the Choice hat' as we desire. Generally most mathematicians in most branches prefer to keep it in because it's mighty convenient, but generally people are comfortable with the idea of trying to do things without.}
+
+\point{The second, related but distinct paradigm shift is the idea that proving equivalences between `obviously true' things, or perhaps more precisely `things which are taken as true', is no longer alien or considered useless. We have plenty of results of the form `$X$ is equivalent to AC' floating around; everyone knows that AC is equivalent to Well-ordering which is equivalent to Zorn's lemma, and some may know other equivalent results like: Every vector space has a basis, or Tychonoff's theorem on products of compact topological spaces.}
+
+\point{The results I mentioned in the second shift, and indeed Tarski's result on $A\times A$, are in some sense some of the earliest examples of reverse math: This idea that we are gauging the relative strength of theorems by seeing how they compare in the absence of the axioms necessary to prove them.}
+
+\point{Unfortunately, in $\ZFC$ the story is not as interesting as it could be. Aside from the Axiom of Choice, there is not much leeway in what we can take from $\ZFC$; since the axiom schema are so foundational, removing them will no longer allow us to prove such elementary things as the existence of the ring of rational numbers, or function composition.}
+
+\point{(There are a couple of exceptions; no one but set theorists really cares about the axiom of foundation, so that can be removed but has no interesting consequences, and removing the replacement axioms leads to Zermelo set theory which does have some consequences but causes no major change to most elementary mathematics.)}
+
+\point{In summary: In order to compare `everyday theorems', we need to work in a `more robust context', where axioms can be removed without rendering the entire theory useless.}
+
+\timestamp{10 minutes}
+
+\section{Second Order Arithmetic}
+
+\point{Introduced in 1974 by Harvey Friedman (Dates back to Hilbert and Bernays in 1934)}
+
+\point{Introduce the language: two-sorted, $(+,\cdot,0,1,<,\in)$}
+
+\point{Axioms: (See also p.4 Simpson)}
+\begin{equation}
+\begin{aligned}
+\text{Arithmetical Axioms} &\rightarrow \begin{cases}
+\forall_n \neg (n+1 = 0),\\
+\forall_n \forall_m \big( n+1 = m+1 \implies n=m \big)\\
+\cdots
+\end{cases}\\
+\text{Comprehension} &\rightarrow \text{(For any formula $\varphi(x)$) } \exists_X \forall_n (n \in X \iff \varphi(n)),\\
+\text{Induction} &\rightarrow \text{(For any formula $\varphi(x)$) } \big(\varphi(0) \land \forall_n (\varphi(n) \implies \varphi(n+1)) \big) \implies \forall_n \varphi(n).
+\end{aligned}
+\end{equation}
+
+\point{Proceed to weaken axioms. Main tool: Restrict comprehension and induction}
+
+\point{Question: Restrict based on \emph{what?}}
+
+\point{Roughly speaking, a productive idea is to restrict based on quantifier complexity of formulas, or, semi-equivalently, on how hard it would be for to verify a formula whether a formula holds of a given number.}
+
+\point{For example, consider a formula such as $\varphi(n) \equiv \forall_X (\psi(X) \Rightarrow n \in X)$, or colloquially ``$n$ is in every set which satisfies $\psi$''. We can see that this would naïvely be a very difficuly formula to `check', as we would  have to go and look at every subset of the natural numbers -- all $2^{\aleph_0}$ of them! -- to see which ones satisfy $\psi$, and among those we need to see which ones satisfy $\psi$. Quite a tall order!}
+
+\point{From this example we can generalize a bit, and say that quantification over sets sounds like a lot to ask for. Maybe we will restrict comprehension and induction to formulas without set quantifiers; we call these \emph{arithmetical formulas}. This leads us directly to a system which is weaker than $\ZZ_2$, which is called $\ACA_0$:}
+
+\point{Introduce $\ACA_0$: Same arithmetical axioms, but others are replaced by}
+\begin{equation}
+\begin{aligned}
+\text{Arithmetic comprehension} &\rightarrow \text{(For any arithmetic $\varphi(x)$)} \exists_X \forall_n (n \in X \Leftrightarrow \varphi(n)),\\
+\text{Arithmetic induction} &\rightarrow \text{(For any arithmetic $\varphi(x)$) } \big(\varphi(0) \land \forall_n (\varphi(n) \Rightarrow \varphi(n+1)) \big) \Rightarrow \forall_n \varphi(n).
+\end{aligned}
+\end{equation}
+
+\point{This is a much weaker system, and a step in the right direction. It will be relevant. But it is not as weak as we want. It is still strong enough to prove a lot of theorems from `normal math' (but interestingly, there are a few exceptions, though almost nothing an undergrad would see) and therefore cannot be used to compare theorems most people would care about.}
+
+\point{Let's go back to this idea of difficulty of verifying a formula. If you think about it, verifying whether a formula $\varphi(x)$ holds of a given natural number is still in general a difficult problem; For example, if $\varphi(x)$ is $\forall_x \psi(x)$ then we need to do an infinite number of checks to see that $\varphi$ is true! And even worse, if $\psi$ has its own quantifiers, then we need to do an infinite number of checks within each of our infinitely many checks!}
+
+\point{This leads to a concept that logicians know as the `arithmetic hierarchy', where formulas are classified (roughly speaking) by how many quantifiers they have. The more quantifiers, the more difficult it is to look at the truth value of the formula -- This can be made formal by Post's theorem, which states that a machine which can verify the truth of one-quantifier sentences is equivalent to the Halting Problem, one which can verify the truth of two-quantifier sentences is equivalent to the HP over the HP, and so on.}
+
+\point{That said, all that the non-logicians have to know is: We have ways to classify formulas based on how `computably difficult' they are. And to make our very weakest system, we will restrict ourselves to the easiest to compute formulas.}
+
+\point{Introduce $\RCA_0$: Same arithmetical axioms, but others are replaced by}
+\begin{equation}
+\begin{aligned}
+\text{$\Delta^0_1$ comprehension} \rightarrow{}& \text{(For any $\varphi(x) \in \Delta^0_1$)} \\
+ &\text{(For `computably verifiable formulas')}\\
+ &\exists_X \forall_n (n \in X \Leftrightarrow \varphi(n)),\\
+\text{$\Sigma^0_1$ induction} \rightarrow{}& \text{(For any $\Sigma^0_1$ formula $\varphi(x)$) }\\
+&\text{(For `computably confirmable formulas')}\\
+& \big(\varphi(0) \land \forall_n (\varphi(n) \Rightarrow \varphi(n+1)) \big) \Rightarrow \forall_n \varphi(n).
+\end{aligned}
+\end{equation}
+
+\point{Interpretation of axioms as `computable mathematics'. The first one says `computable sets exist', and the second one roughly allows one to do computable recurrence.}
+
+\timestamp{27 minutes}
+
+\section{Codifications}
+
+\point{The point of the weak theory $\RCA_0$ will be to discuss implications between theorems. Sample theorem: Any continuous function $f \colon [0,1] \to \R$ has a maximum. Another sample theorem: Any ring has a maximal ideal.}
+
+\point{Answer the following question: How do we use a theory which ostensibly talks only about $(\N,P(\N))$ to discuss theorems in real analysis and algebra?}
+
+\point{Define a codification as: A way to discuss elements outside the universe of discussion, by establishing a correspondence between them and objects inside the universe of discussion.}
+
+\point{Example: There is an injective map $p \colon \N \times \N \to \N$. (Namely, $p(x,y) = x + (x+y)^2$.) Thus, we can talk about pairs $(x,y)$ by using only the natural number $z = p(x,y)$. Define $\N \times \N \in P(\N)$ as the set $X = \{n \in \N \mid \exists_x \exists_y p(x,y) = n\}$,}
+
+\point{Example: In ordinary mathematics, a sequence of natural numbers is a set $F \in P(\N \times \N)$ satisfying $\forall_x \exists!_y (x,y) \in F$. For our purposes, we redefine as: $F \in P(\N)$ such that $\forall_x \exists!_y p(x,y) \in F$.}
+
+\point{Example: A pair $(a,b)$ can codify the integer $a-b$. A triple $(a,b,c)$ can codify the rational $\frac{a-b}c$.}
+
+\point{Example: From the above, can build sequences of rationals. Of these, it is possible to express in first order logic which are Cauchy. Thus, one may attempt to define a real number as a Cauchy sequence of real numbers. This is not the definition used in practice, due to a technicality which will be mentioned shortly.}
+
+\point{Example: One cannot directly encode functions $\R \to \R$, and more generally sets of real numbers. However, one can encode functions $\Q \to \R$, and under certain continuity assumptions any such function extends to a unique continuous function $\R \to \R$. Thus, one can encode continuous real functions.}
+
+\point{(Aside: This is not how continuous functions are actually encoded, just a plausibility argument so that the audience \emph{believes} that they can be encoded. In actuality, there is some very important information that cannot be recovered from just this description, namely preimages of opens. This will be relevant in the sequence.)}
+
+\point{Example: Switching to algebraic objects, one may define a group or ring in the same way as usual. E.g. a group is a set $G \in P(\N)$ together with a function $G \times G \to G$ (encoded as an element of $P(\N)$) satisfying certain rules.}
+
+\timestamp{35 minutes}
+
+\section{Example Proof: Mean Value Theorem}
+
+\point{Showcase reasoning in $\RCA_0$.}
+
+\point{Theorem (B): Let $F \colon [0,1] \to \R$ with $f(0) < 0 < f(1)$. Then, there exists $0 < X < 1$ such that $F(X) = 0$.}
+
+\point{Proof sketch: Recall that we can only prove the existence of computable things, so we want to find a way to compute $X$.}
+
+\point{Idea: Use bissection algorithm to construct $X$. The algorithm goes as follows:}
+
+\begin{lstlisting}
+$a_0 \leftarrow 0$
+$b_0 \leftarrow 1$
+For $n = 0, 1, 2, \dots$, do
+    $c_n \leftarrow \frac{a_n + b_n}2$
+    If $F(c_n) > 0$:
+        $(a_{n+1}, b_{n+1}) = (a_n, c_n)$,
+    If $F(c_n) < 0$:
+        $(a_{n+1}, b_{n+1}) = (c_n, b_n)$,
+    If $F(c_n) = 0$:
+        Exit the algorithm, with $X = c_n$.
+\end{lstlisting}
+
+\point{Assuming that the above algorithm is functional, it can be shown that the two sequences $a_n$ and $b_n$ are Cauchy and converge to the same real number $X$, and by continuity we have $F(X) = 0$.}
+
+\point{Implicitly using $\Sigma^0_1$ induction to show that (assuming that the step is computable) the sequences $a_n$ and $b_n$ are well-defines.}
+
+\point{Technicality detour: There is a possible hole in the above algorithm. Comparisons between Cauchy sequences are not computable. For example, maybe $F(c_n)$ is the constant sequence equal to $1$, or maybe it becomes constant equal to $-1$ after a while. Regardless, in finite time it is impossible to be sure whether $F(c_n)$ is greater than or less than zero.}
+
+\point{This is the reason why the definition of real number is not `Cauchy sequence', but instead the following: A sequence $q_n$ of rationals is said to denote a real number if $\forall_n \abs{q_n - q_{n+1}} \leq 2^{-n}$. Under this definition, if $X = (q_n)$ and $Y = (p_n)$ are distinct real numbers, they can be compared in finite time by finding some $n$ such that $\abs{q_n - p_n} > 2^{-n+1}$.}
+
+\point{Revised proof: If $F(q) = 0$ for some rational $q$, we are done. Otherwise, run the above algorithm.}
+
+\section{Attempted Proof: Weierstrass' Theorem}
+
+\point{Introduce theorem (W): Any continuous function $F \colon [0,1] \to \R$ is bounded above.}
+
+\point{Attempted (classical) proof: Suppose $F$ is unbounded. Then, for each $n$ we can find some $q_n$ such that $F(q_n) > n$. Now, $\Sigma^0_1$ induction lets us put all these $q_n$ in a single sequence, and now we invoke}
+
+\point{Theorem (S): Any sequence of rationals in $[0,1]$ has a converging subsequence.}
+
+\point{Passing to such a subsequence, assume that $q_n \to X$. Then, by continuity, $F(X) = \lim F(q_n) = \infty$, which is impossible.}
+
+\point{Problem: The above proof does not go through in $\RCA_0$, because $\RCA_0 \nvdash \thname{S}$. Moreover, it \emph{could not} go through in $\RCA_0$, because $\RCA_0 \nvdash \thname{W}$.}
+
+\point{However, we have therefore shown a nontrivial statement: $\RCA_0 \vdash \thname S \rightarrow \thname W$.}
+
+\point{However, a surprising fact is that $\RCA_0 \nvdash \thname W \rightarrow \thname S$. In other words, we have shown a theorem from a stronger theorem. This is unsatisfactory. Let us find an alternate proof, which does not invoke a stronger principle.}
+
+\section{The Missing Piece: Weak König's Lemma. Equivalence.}
+
+\point{Alternate approach to the problem: Suppose that $F \colon [0,1] \to \R$ is unbounded. Then, we can divide the interval in two, and one of the halves must be unbounded. Repeat indefinitely, building sequences $a_n$ and $b_n$ as in theorem (B). Then, it is easy to show that $a_n$ and $b_n$ converge to a common real number $X$. However, by continuity, $F$ is bounded in a neighborhood of $X$, but for large enough $n$, $[a_n, b_n]$ is contained in this neighborhood, a contradiction.}
+
+\point{This proof still does not go through in $\RCA_0$, because we are unable to construct the $a_n, b_n$. This is because it is impossible to tell in finite time which of the two subintervals we should choose.}
+
+\point{Modification idea: Make a decision tree about whether to go to the left or right subinterval. Now, it may be impossible to guarantee directly that the function is bounded on some subinterval, but it is possible to guarantee boundedness on small enough subintervals.}
+
+\point{Exemplify. Draw the binary decision tree, and pick some infinite branch. Find a neighborhood of the corresponding real number on which $F$ is bounded, by continuity, and erase all branches contained in this neighborhood.}
+
+\point{False fact: $\RCA_0$ shows that there exists a set $X$ of pairs $(a,b) \in \Q^2$ such that $F$ is bounded in every interval $\left]a,b\right[$, and these intervals cover $[0,1]$.}
+
+\point{(This is in fact categorically false, but the truth is more complicated than is reasonable to explain.)}
+
+\point{Given such a collection of intervals, construct the following decision tree. Each branch corresponds to a dyadic interval, though we remove every branch which is contained in an interval. (This is also impossible to do with just $\Delta^0_1$ comprehension, but I promise it can be fixed.)}
+
+\point{The result is a binary decision tree, which cuts off at some points, and with the property that there are no infinite descending paths. Now we refer to the following theorem:}
+
+\point{Weak König's Lemma: ($\wkl$) Any binary tree of infinite depth has an infinite descending path.}
+
+\point{As per the converse of this theorem, we get that the decision tree we built before must have finite depth. This suffices to prove the theorem. Indeed, consider all the nodes of some level below the depth of the tree. All of them are contained in an interval in $X$, and thus $F$ is bounded in the corresponding interval. Thus, we have a cover of $[0,1]$ with a finite number of intervals on which $F$ is bounded, and so $F$ itself is bounded.}
+
+\point{What I hope to have convinced you of is: i) There is a relation between (W) and binary (decision) trees, and ii) $\RCA_0 \vdash \wkl \rightarrow \thname W$.}
+
+\point{The earlier proof of (W) was unsatisfactory because we proved it from a strictly stronger theorem. Surprisingly, this is no longer the case.}
+
+\point{We will sketch that $\RCA_0 \vdash \thname W \rightarrow \wkl$. To do so, we start with a binary tree $T$ which has no infinite descending paths, build a continuous function from it, and apply (W) to obtain a bound on the depth of $T$.}
+
+\point{(Sketch the function.)}
+
+\timestamp{45 minutes}
+
+\section{Every Ring Has Proper Prime Ideal}
+
+\point{Seemingly unrelated, Theorem (P): Any nontrivial ring has a proper prime ideal.}
+
+\point{In standard algebra textbooks, theorem (P) is in fact obtained as a corollary of theorem (M): Any nontrivial ring has a maximal ideal. We will not follow this approach because, as it happens, (M) is a strictly stronger theorem than (P).}
+
+\point{Let us try to prove (P) in $\RCA_0$. Start from the ideal $I = 0$. If this is prime, we are done. Otherwise, we can find a pair $ab = 0$ with neither $a$ nor $b$ equaling zero. Thus, we must add at least one of them to the ideal. But which one? In any case, rinse and repeat afterwards.}
+
+\point{Want to avoid adding enough elements to make $1$ be in the ideal. However, checking whether $1$ is in the ideal generated by some given elements is not doable in finite time.}
+
+\point{Again we have a decision tree. Roughly speaking, imagine that we iterate over all pairs $(a,b) \in \R$, and at each step we ask if $ab \in I$. If so, we need to ensure that either $a$ or $b$ is in $I$, so we make a branch for each possible decision. Meanwhile, as we go down the tree, we compute (in parallel) all possible combinations of elements of $I$, and prune a branch if any of these combinations is $1$.}
+
+\point{Again, we are faced with a binary decision tree, and the question we seek to answer is: is there an infinite descending path? If so, following it (and taking the union of all $I$ along it) will yield the proper prime ideal that we seek. To do this, we apply $\wkl$}
+
+\point{We wish to prove that the decision tree is infinite. To do so, we prove that for all $n$ there exists a sequence of $n$ choices such that our set does not generate $R$. This is proven by induction: It is clearly true for $n = 0$, and the induction step is classical algebra. Given a set $X$ which does not generate $R$, and given a pair $ab \in R$, then either $X \cup \{a\}$ or $X \cup \{b\}$ does not generate $R$, because if both of them did, one could write $1 = \sum r_i x_i  + r a = \sum s_i x'_i + s b$, hence $1 = \text{(product)} \in \braket{X}$.}
+
+\point{We have then shown: $\RCA_0 \vdash \wkl \rightarrow \thname P$.}
+
+\point{Surprisingly, it is possible to show the converse: $\RCA_0 \vdash \thname P \rightarrow \wkl$, though the standard proof is pretty indirect.}
+
+\point{We can interpret this reversal as a statement about computability. Both theorems state that certain (in general not computable) objects exist, and the statement that they are equivalent can be seen as stating that certain two oracles have the same Turing degree.}
+
+\point{The punchline is interesting. We have shown that over $\RCA_0$ the following three statements are equivalent: (P), wkl, and (W). In particular, in a rigorous sense, the statement that any ring has a nontrivial prime ideal implies that any continuous function on the interval is bounded, and vice versa.}
+
+\section{Closing Remarks}
+
+\point{We've seen three theorems that are equivalent over $\RCA_0$. In other words, adding either of them as an axiom would yield the same deductive power. The corresponding theory is called $\WKL_0$.}
+
+\point{We saw moreover two other theorems, (S) and (M), which were strictly stronger than this system. Surprisingly, these too turn out to be equivalent, and the system which they (and many other theorems) generate is called $\ACA_0$.}
+
+\point{A surprising fact is that there are five theorems, called The Big Five, which seem to be of central interest. These are $\RCA_0, \WKL_0, \ACA_0, \mathrm{ATR}_0, \Pi^1_1\text{-}\mathrm{CA}_0$. It is curious that if one opens a random book on something that is not Set Theory, Logic, Computability or Combinatorics, and picks a random theorem, it will likely be equivalent over $\RCA_0$ to one of these thorems.}
+
+\point{Finding counter examples to the above statement is actually an active area of research. A notable example consists of infinitary versions of Ramsey's theorem. For example, let (R) be the theorem: Any (countably) infinite graph admits an infinite clique, or anticlique. This theorem actually lies above $\RCA_0$, below $\ACA_0$, but is incomparable with $\WKL_0$.}
+
+\end{document}
