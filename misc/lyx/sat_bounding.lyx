@@ -5010,24 +5010,687 @@ must
 \end_layout
 
 \begin_layout Subsection
-No Particular Tree Will Solve Our Problem
+Every Enumeration of Paths of Millar's Tree of a Certain Type is PA
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
+In an attempt to investigate the degree of enumerations of paths of 
+\begin_inset Formula $\TM$
+\end_inset
 
-\begin_layout Plain Layout
-I think this is wrong :(
+,
+ I thought to consider the following class of enumerations.
 \end_layout
 
+\begin_layout Definition
+Let 
+\begin_inset Formula $A\in2^{\omega}$
+\end_inset
+
+.
+ Define 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+ as the enumeration of paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ that is constructed in the following way.
+ It is indexed on finite strings,
+ producing for each 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ a path of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ which extends 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\sigma=1^{n}$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $M_{0}(A)_{\sigma}=1^{\omega}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is on an isolated node,
+ 
+\begin_inset Formula $M_{0}(A)_{\sigma}$
+\end_inset
+
+ is forced to be the unique path extending that node.
+ If 
+\begin_inset Formula $\sigma=1^{n}0\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is on a marked node,
+ 
+\begin_inset Formula $M_{0}(A)_{\sigma}$
+\end_inset
+
+ follows the marked path until (if ever) it stops,
+ after which it goes the direction of 
+\begin_inset Formula $A(n)$
+\end_inset
+
+ and thereafter follows the unique path.
+\end_layout
+
+\begin_layout Proposition
+For every 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ 
+\begin_inset Formula $M_{0}(A)\leq A\oplus0'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
 \end_inset
 
 
 \end_layout
 
-\begin_layout Subsection
-Genericity Applied to the Above
+\begin_layout Proposition
+For every computable 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ 
+\begin_inset Formula $M_{0}(A)\equiv0'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $P$
+\end_inset
+
+ be a Turing machine.
+ We wish to determine whether 
+\begin_inset Formula $P$
+\end_inset
+
+ halts,
+ using access to 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+ for some previously fixed computable 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ To this effect,
+ we build an enumeration of paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ using the Recursion Theorem.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $e$
+\end_inset
+
+ be the index for the following array.
+ Each of its rows consists of the same path,
+ which starts with 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+.
+ Then,
+ 
+\begin_inset Formula $P$
+\end_inset
+
+ is executed,
+ after which 
+\begin_inset Formula $A(e)$
+\end_inset
+
+ is printed,
+ followed by a stream of 1s.
+\end_layout
+
+\begin_layout Proof
+By the construction of Millar's tree it must be the case that,
+ if 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ is total,
+ the one row it prints repeatedly cannot agree with the marked path starting with 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+.
+ Therefore,
+ in this case,
+ the marked row (and hence the row indexed 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+ of 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+) starts:
+ 
+\begin_inset Formula $1^{e}0(1-A(e))$
+\end_inset
+
+.
+ Thus,
+ we may look at the entry 
+\begin_inset Formula $\braket{1^{e}0,e+1}$
+\end_inset
+
+ of 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+ and compare it against 
+\begin_inset Formula $A(e)$
+\end_inset
+
+:
+ Agreement means that 
+\begin_inset Formula $P$
+\end_inset
+
+ never halts,
+ while disagreement means that 
+\begin_inset Formula $P$
+\end_inset
+
+ halts.
+\end_layout
+
+\begin_layout Remark
+Most information contained in 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+ is redundant.
+ All that we need is the rows indexed 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+;
+ from these we are able to reconstruct 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+Given 
+\begin_inset Formula $A\in2^{\omega}$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $M(A)(x,y)=M_{0}(A)(1^{x}0,y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+For every 
+\begin_inset Formula $A\in2^{\omega}$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $M(A)\equiv M_{0}(A)$
+\end_inset
+
+.
+ This equivalence is uniform.
+\end_layout
+
+\begin_layout Proof
+The reducibility 
+\begin_inset Formula $\geq$
+\end_inset
+
+ is obvious,
+ so we prove 
+\begin_inset Formula $\leq$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Given access to an oracle for 
+\begin_inset Formula $M_{0}(A)$
+\end_inset
+
+,
+ we show how to compute 
+\begin_inset Formula $M(A)_{\sigma}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\sigma=1^{n}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $M(A)_{\sigma}=1^{\omega}$
+\end_inset
+
+by definition.
+ If 
+\begin_inset Formula $\sigma=1^{n}0\tau$
+\end_inset
+
+,
+ we compare 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ against the corresponding initial segment of 
+\begin_inset Formula $M_{0}(A)_{n}$
+\end_inset
+
+.
+ If they agree,
+ we print out 
+\begin_inset Formula $M_{0}(A)_{n}$
+\end_inset
+
+.
+ If they disagree,
+ it must be the case that 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is an isolated node of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ in which case we print out the unique path extending 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We see that 
+\begin_inset Formula $M$
+\end_inset
+
+ is an operation that takes sets to degrees.
+ Note that it is not generally degree-invariant:
+ Indeed,
+ one can show that for every degree 
+\begin_inset Formula $d\geq0'$
+\end_inset
+
+ there are representatives 
+\begin_inset Formula $A\in d$
+\end_inset
+
+ such that 
+\begin_inset Formula $M(A)$
+\end_inset
+
+ takes any value between 
+\begin_inset Formula $0'$
+\end_inset
+
+ and 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ That said,
+ we have shown that for every 
+\begin_inset Formula $A\in0$
+\end_inset
+
+ we have 
+\begin_inset Formula $M(A)\equiv0'$
+\end_inset
+
+,
+ so that raises the question of whether this is as low as it gets.
+ This turns out not to be the case.
+\end_layout
+
+\begin_layout Definition
+We define the partial function 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+ as the 
+\begin_inset Quotes eld
+\end_inset
+
+fixed part of 
+\begin_inset Formula $M(A)$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ More concretely,
+ we set 
+\begin_inset Formula $M(\bot)_{n}$
+\end_inset
+
+ as a sequence beginning with 
+\begin_inset Formula $1^{n}0$
+\end_inset
+
+,
+ followed by the corresponding marked path as far as it goes,
+ followed by an undefined,
+ followed by 
+\begin_inset Formula $0^{\omega}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+ is a partial computable function.
+\end_layout
+
+\begin_layout Proof
+We provide an algorithm to compute 
+\begin_inset Formula $M(\bot)(n,x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+If 
+\begin_inset Formula $x\leq n$
+\end_inset
+
+ we output 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ and if 
+\begin_inset Formula $x=n+1$
+\end_inset
+
+ we output 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ Otherwise,
+ look at every node of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ of length 
+\begin_inset Formula $x+1$
+\end_inset
+
+ which starts as 
+\begin_inset Formula $1^{n}0$
+\end_inset
+
+;
+ if all of them have the same 
+\begin_inset Formula $x$
+\end_inset
+
+-th element,
+ output that.
+ Finally,
+ if neither of the previous cases hold,
+ execute the construction of Millar's tree until we've computed the marked path starting with 
+\begin_inset Formula $1^{n}0$
+\end_inset
+
+ to length at least 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ If this is ever done,
+ we output the 
+\begin_inset Formula $x$
+\end_inset
+
+th element of this path.
+\end_layout
+
+\begin_layout Proposition
+There is a set 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $M(A)$
+\end_inset
+
+ is low.
+\end_layout
+
+\begin_layout Proof
+The collection of sets of the form 
+\begin_inset Formula $M(A)$
+\end_inset
+
+ forms a 
+\begin_inset Formula $\Pi_{1}^{0}$
+\end_inset
+
+ class,
+ because these are the extensions of the partial computable function 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+.
+ Thus,
+ it contains a low element.
+\end_layout
+
+\begin_layout Standard
+This class of enumerations (and of degrees) was introduced because it could possibly be used to create a computationally weak enumeration of 
+\begin_inset Formula $[\TM]$
+\end_inset
+
+.
+ This turns out not to be the case.
+\end_layout
+
+\begin_layout Proposition
+For every set 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ the degree of 
+\begin_inset Formula $M(A)$
+\end_inset
+
+ is PA.
+\end_layout
+
+\begin_layout Proof
+As pointed out above,
+ the collection of sets 
+\begin_inset Formula $\{M(A)\}_{A\in2^{\omega}}$
+\end_inset
+
+ is exactly the collection of extensions of 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+.
+ Thus,
+ it suffices to prove that 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+ is computably not computably extendable 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Theorem 3.10"
+key "slicingthetruth"
+literal "false"
+
+\end_inset
+
+.
+ That is,
+ we wish to find a function 
+\begin_inset Formula $\psi\colon\N\rightharpoonup\N$
+\end_inset
+
+ such that,
+ whenever 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ extends 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $\psi(e)\iswd$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi_{e}(\psi(e))\isnotwd$
+\end_inset
+
+.
+ To this effect,
+ we shall apply the Recursion Theorem with Parameters.
+\end_layout
+
+\begin_layout Proof
+Given 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $\varphi_{f(e)}$
+\end_inset
+
+ as:
+\begin_inset Formula 
+\[
+\varphi_{f(e)}\braket{n,x}=\varphi_{e}\braket{f(e),x}.
+\]
+
+\end_inset
+
+Then,
+ we claim that,
+ by defining 
+\begin_inset Formula $\psi(e)=\braket{f(e),f(e)+1}$
+\end_inset
+
+,
+ we obtain the desired effective noncomputability.
+\end_layout
+
+\begin_layout Proof
+To verify this claim,
+ let us suppose that 
+\begin_inset Formula $\varphi_{e}(\psi(e))\iswd=q$
+\end_inset
+
+.
+ Then,
+ the first (and indeed,
+ every) row of 
+\begin_inset Formula $\varphi_{f(e)}$
+\end_inset
+
+ has the following well-defined prefix:
+ 
+\begin_inset Formula $1^{f(e)}0q$
+\end_inset
+
+.
+ As such,
+ the construction of Millar's tree guarantees that the marked section whose prefix is 
+\begin_inset Formula $1^{f(e)}0$
+\end_inset
+
+ is followed by 
+\begin_inset Formula $1-q$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $M(\bot)_{f(e)}$
+\end_inset
+
+ has 
+\begin_inset Formula $1^{f(e)}0(1-q)$
+\end_inset
+
+ as a prefix;
+ in other words,
+ 
+\begin_inset Formula $M(\bot)\braket{f(e),f(e)+1}=M(\bot)(\psi(e))=1-q$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ cannot extend 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
