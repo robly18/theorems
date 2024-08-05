@@ -228,6 +228,40 @@ all of whose paths are computable
  (PAC).
 \end_layout
 
+\begin_layout Remark
+Here are two alternate name proposals for the above definitions.
+ One of them is:
+ PACNDEC (
+\begin_inset Quotes eld
+\end_inset
+
+Packing Deck
+\begin_inset Quotes erd
+\end_inset
+
+).
+ The other is CNDEPAC (
+\begin_inset Quotes eld
+\end_inset
+
+Candy Pack
+\begin_inset Quotes erd
+\end_inset
+
+).
+ I think both are better than NDEPACC.
+ As of the moment,
+ I am particularly partial to 
+\begin_inset Quotes eld
+\end_inset
+
+Candy Pack Tree
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Theorem
 \begin_inset CommandInset label
 LatexCommand label
@@ -5677,7 +5711,7 @@ To verify this claim,
  as a prefix;
  in other words,
  
-\begin_inset Formula $M(\bot)\braket{f(e),f(e)+1}=1-q$
+\begin_inset Formula $M(\bot)\braket{f(e),f(e)+1}=M(\bot)(\psi(e))=1-q$
 \end_inset
 
 .
@@ -5691,6 +5725,827 @@ To verify this claim,
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Remark
+We also have the converse:
+ Every PA degree is 
+\begin_inset Formula $M(A)$
+\end_inset
+
+ for some 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ This is direct from the fact that 
+\begin_inset Formula $M(\bot)$
+\end_inset
+
+ is computably not computably extendable.
+\end_layout
+
+\begin_layout Subsection
+Listing the Marked Paths is 
+\begin_inset Formula $0''$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Another possible class of enumeration of paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ goes as follows.
+ Since we can subenumerate the isolated paths,
+ and we can always add the path 
+\begin_inset Formula $1^{\omega}$
+\end_inset
+
+ to our list,
+ to provide an enumeration of 
+\begin_inset Formula $[\TM]$
+\end_inset
+
+ is equivalent to providing a subenumeration of the marked paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ This raises the question:
+ What if we provide a 
+\begin_inset Quotes eld
+\end_inset
+
+proper
+\begin_inset Quotes erd
+\end_inset
+
+ enumeration of the marked paths?
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:listingzeroprime"
+
+\end_inset
+
+Any listing of the marked paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ computes 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First,
+ we note that to list the marked paths is the same as to list the values of 
+\begin_inset Formula $n$
+\end_inset
+
+ for which there's a marked path prefixed by 
+\begin_inset Formula $1^{n}0$
+\end_inset
+
+.
+ Thus,
+ we suppose that we have such a listing 
+\begin_inset Formula $f\colon\N\to\N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We wish to determine whether a given Turing machine 
+\begin_inset Formula $T$
+\end_inset
+
+ halts.
+ We run two processes in parallel.
+ One of them simply runs 
+\begin_inset Formula $T$
+\end_inset
+
+ waiting for it to halt,
+ outputting 
+\begin_inset Quotes eld
+\end_inset
+
+yes
+\begin_inset Quotes erd
+\end_inset
+
+ if this happens.
+ We now describe the second process,
+ which will output 
+\begin_inset Quotes eld
+\end_inset
+
+no
+\begin_inset Quotes erd
+\end_inset
+
+ if 
+\begin_inset Formula $T$
+\end_inset
+
+ does not halt.
+\end_layout
+
+\begin_layout Proof
+Using the Recursion Theorem,
+ define 
+\begin_inset Formula $e(T)$
+\end_inset
+
+ as the program which outputs the following (possibly partial) listing of paths:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The first row of 
+\begin_inset Formula $\varphi_{e(T)}$
+\end_inset
+
+ is 
+\begin_inset Formula $1^{e(T)}0^{\omega}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The second row starts with 
+\begin_inset Formula $1^{e(T)}01$
+\end_inset
+
+,
+ followed by ones until the next branching of Millar's tree,
+ after which it outputs zero.
+\end_layout
+
+\begin_layout Itemize
+The third row starts with 
+\begin_inset Formula $1^{e(T)}01$
+\end_inset
+
+,
+ followed by ones until the 
+\emph on
+second
+\emph default
+ next branching of Millar's tree,
+ after which it outputs zero.
+\end_layout
+
+\begin_layout Itemize
+And so on...
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+However,
+ we add the following twist:
+ We stipulate that 
+\begin_inset Formula $\varphi_{e(T)}(x)$
+\end_inset
+
+ first executes 
+\begin_inset Formula $T$
+\end_inset
+
+ for 
+\begin_inset Formula $x$
+\end_inset
+
+ steps,
+ and if 
+\begin_inset Formula $T$
+\end_inset
+
+ halts in this time,
+ we let 
+\begin_inset Formula $\varphi_{e(T)}(x)\isnotwd$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Now that we've defined this enumeration of paths,
+ we can define the second process introduced above.
+ This second process simply looks through the enumeration 
+\begin_inset Formula $f$
+\end_inset
+
+ to see if 
+\begin_inset Formula $e(T)$
+\end_inset
+
+ ever appears;
+ if it does,
+ we output 
+\begin_inset Quotes eld
+\end_inset
+
+no
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Indeed,
+ 
+\begin_inset Formula $e(T)$
+\end_inset
+
+ appears in this enumeration iff 
+\begin_inset Formula $\varphi_{e(T)}$
+\end_inset
+
+ is total iff 
+\begin_inset Formula $T$
+\end_inset
+
+ does not halt.
+ This completes the proof.
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Tot}{\mathrm{Tot}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:listingzeroprime"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we conclude in particular that a listing of the marked paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ enumerates 
+\begin_inset Formula $\Tot^{c}$
+\end_inset
+
+.
+ We will now show that it also enumerates 
+\begin_inset Formula $\Tot$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+Any listing of the marked paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ computes 
+\begin_inset Formula $0''\equiv\Tot$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We apply a similar strategy as in Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:listingzeroprime"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Given an index 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ we define a program 
+\begin_inset Formula $e_{0}(e)$
+\end_inset
+
+ using the Recursion Theorem in a similar way as in the lemma.
+ However,
+ the twist is replaced by the following.
+ Before printing the 
+\begin_inset Formula $n$
+\end_inset
+
+-th row,
+ we evaluate 
+\begin_inset Formula $\varphi_{e}(n)$
+\end_inset
+
+.
+ Thus,
+ if 
+\begin_inset Formula $\varphi_{e}(n)\isnotwd$
+\end_inset
+
+ then 
+\begin_inset Formula $\varphi_{e_{0}(e)}$
+\end_inset
+
+ has an undefined 
+\begin_inset Formula $n$
+\end_inset
+
+-th row.
+ Thus,
+ if we ever find a marked path starting with 
+\begin_inset Formula $1^{e_{0}(e)}0$
+\end_inset
+
+,
+ we know that 
+\begin_inset Formula $e\in\Tot$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:neededpaths"
+
+\end_inset
+
+In the above proofs,
+ we do not need a full listing of 
+\emph on
+all
+\emph default
+ the marked paths.
+ We are only requiring a listing of all marked paths of the form 
+\begin_inset Formula $1^{e}01^{\omega}$
+\end_inset
+
+.
+ Conversely,
+ we can modify the proof to require only a listing of all marked paths which contain infinitely many zeros.
+ This will be relevant in the next section.
+\end_layout
+
+\begin_layout Subsection
+Every Enumeration of Tails of Nontrivial Paths of Millar's Tree is High
+\end_layout
+
+\begin_layout Standard
+Let us now consider an alternative way in which we could enumerate the paths of Millar's tree.
+ We've seen that listing out the marked paths precisely,
+ while a way to list the paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ is computationally very strong.
+ Let us instead suppose that we are only given a listing of the marked paths in which some prefix of every marked path has been removed.
+ In other words,
+ we are given a listing 
+\begin_inset Formula $A$
+\end_inset
+
+ of tails of marked paths,
+ with the guarantee that for every marked path one of its tails is in this listing.
+ It is almost true that 
+\begin_inset Formula $A$
+\end_inset
+
+ is high,
+ but a technical hurdle stops this from being the case.
+\end_layout
+
+\begin_layout Standard
+Following the results of the previous section,
+ it suffices to construct from 
+\begin_inset Formula $A'$
+\end_inset
+
+ a listing of the marked paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ Here is a promising idea.
+ Given a node 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ and an index 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ we can ask 
+\begin_inset Formula $A'$
+\end_inset
+
+ if 
+\begin_inset Formula $\sigma A_{i}$
+\end_inset
+
+ is a path of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $A_{i}(x)=A\braket{i,x}$
+\end_inset
+
+.
+ For every such combination 
+\begin_inset Formula $\braket{\sigma,i}$
+\end_inset
+
+,
+ we enumerate the resulting path.
+ Indeed,
+ this will print out a listing containing all marked paths,
+ 
+\emph on
+but it will include some false positives
+\emph default
+.
+ This is because some marked paths have 
+\begin_inset Formula $1^{\omega}$
+\end_inset
+
+as a suffix,
+ which is the same suffix as any non-marked path.
+ Thus,
+ in fact,
+ the proposed construction will be a listing of 
+\emph on
+all
+\emph default
+ paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+First,
+ we propose a heavy-handed way of dodging the problem.
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\TTM}{\tilde{T}_{\mathrm{M}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Define the 
+\emph on
+twiddly Millar's tree
+\emph default
+,
+ denoted 
+\begin_inset Formula $\TTM$
+\end_inset
+
+,
+ as a tree constructed in the same way as Millar's tree,
+ with the exception that whenever a marked path is extended,
+ a zero is appended to its end.
+ In this manner,
+ 
+\begin_inset Formula $\TTM$
+\end_inset
+
+ has no marked path terminating in 
+\begin_inset Formula $1^{\omega}$
+\end_inset
+
+.
+ Aside from this change,
+ everything said so far about 
+\begin_inset Formula $\TM$
+\end_inset
+
+ applies just as well to 
+\begin_inset Formula $\TTM$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is an enumeration of tails of marked paths of 
+\begin_inset Formula $\TTM$
+\end_inset
+
+,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ is high.
+\end_layout
+
+\begin_layout Proof
+The argument explained at the start of this section suffices.
+\end_layout
+
+\begin_layout Standard
+Of course,
+ defining a brand new tree for convenience is a little dodgy.
+ It is in some sense necessary,
+ however:
+ Since 
+\begin_inset Formula $1^{\omega}$
+\end_inset
+
+ is a suffix of some marked paths,
+ it turns out that enumerating suffixes of marked paths is exactly the same as enumerating suffixes of 
+\emph on
+all
+\emph default
+ the paths,
+ which requires exactly as much computational power as enumerating all the paths.
+\end_layout
+
+\begin_layout Standard
+On the other hand,
+ we can consider an enumeration of something slightly different.
+\end_layout
+
+\begin_layout Definition
+A path of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ is said to be 
+\emph on
+trivial
+\emph default
+ if it has finitely many zeros.
+\end_layout
+
+\begin_layout Proposition
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is an enumeration of tails of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ is high.
+\end_layout
+
+\begin_layout Proof
+Combining Remark 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rmk:neededpaths"
+
+\end_inset
+
+ with the argument at the start of this section,
+ we see that 
+\begin_inset Formula $A'$
+\end_inset
+
+ lists enough paths to enumerate 
+\begin_inset Formula $\Tot$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+A similar reasoning will prove that,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is an enumeration of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ with prefixes scrambled,
+ then 
+\begin_inset Formula $A$
+\end_inset
+
+ is high.
+ In fact,
+ this holds even if some rows of 
+\begin_inset Formula $A$
+\end_inset
+
+ do not correspond to paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ so long as every row of 
+\begin_inset Formula $A$
+\end_inset
+
+ contains infinitely many zeros.
+\end_layout
+
+\begin_layout Question*
+Is every high degree represented in this manner?
+\end_layout
+
+\begin_layout Subsection
+Nonrepeating Enumerations
+\end_layout
+
+\begin_layout Standard
+Let us now return to the general context.
+ One might think about types of enumerations of paths of NDEPACC trees,
+ and whether they have additional computational power.
+ One such example is whether it is harder to enumerate the paths of such a tree without any repetitions.
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be an NDEPACC tree with infinitely many paths,
+ and let 
+\begin_inset Formula $A$
+\end_inset
+
+ be an enumeration of these paths.
+ Then,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ computes an enumeration of these paths with no repetitions.
+\end_layout
+
+\begin_layout Proposition
+More specifically,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ computes a function 
+\begin_inset Formula $f\colon\N\to\N$
+\end_inset
+
+ such that the sequence of paths 
+\begin_inset Formula $A_{f(0)},A_{f(1)},\dots$
+\end_inset
+
+ is the desired enumeration.
+\end_layout
+
+\begin_layout Proof
+We define 
+\begin_inset Formula $f$
+\end_inset
+
+ inductively.
+ Suppose that 
+\begin_inset Formula $f(0),\dots,f(n-1)$
+\end_inset
+
+ have already been defined;
+ we present an algorithm to compute 
+\begin_inset Formula $f(n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Look at the first 
+\begin_inset Formula $n$
+\end_inset
+
+ elements of the rows 
+\begin_inset Formula $A_{f(0)},\dots,A_{f(n-1)}$
+\end_inset
+
+.
+ Then,
+ look for the first row of 
+\begin_inset Formula $A$
+\end_inset
+
+ whose first 
+\begin_inset Formula $n$
+\end_inset
+
+ elements are neither of those.
+ The index of this row we set as 
+\begin_inset Formula $f(n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+By construction,
+ it is evident that all the rows 
+\begin_inset Formula $A_{f(n)}$
+\end_inset
+
+ are distinct.
+ It remains to verify that every row of 
+\begin_inset Formula $A$
+\end_inset
+
+ appears in the enumeration 
+\begin_inset Formula $A_{f}$
+\end_inset
+
+.
+ Thus,
+ consider a fixed row of 
+\begin_inset Formula $A$
+\end_inset
+
+;
+ let 
+\begin_inset Formula $e$
+\end_inset
+
+ be the minimal index for this row.
+ Since 
+\begin_inset Formula $A_{e}$
+\end_inset
+
+ is distinct from all prior rows,
+ there is some value of 
+\begin_inset Formula $n$
+\end_inset
+
+ such that 
+\begin_inset Formula $(A_{e})_{0,\dots,n}$
+\end_inset
+
+ is distinct from the corresponding tuple for all prior rows.
+ Then,
+ consider a stage 
+\begin_inset Formula $s\geq n$
+\end_inset
+
+ such that all rows prior to 
+\begin_inset Formula $e$
+\end_inset
+
+ which were ever going to be enumerated have already been enumerated.
+ It is easy to check that,
+ if 
+\begin_inset Formula $A_{e}$
+\end_inset
+
+ has not yet been enumerated,
+ it will be so at stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ which completes the proof.
 \end_layout
 
 \begin_layout Standard
