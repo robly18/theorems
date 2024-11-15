@@ -1,0 +1,1057 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass modules/presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily\footnotesize},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+WOMP 2024 Talk
+\begin_inset Newline newline
+\end_inset
+
+Writing down a list of things can be hard even if writing down each individual item is easy,
+ but just how hard can it be?
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+25 September,
+ 2024
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Halting Problem
+\end_layout
+
+\begin_layout Point
+Most of the audience is probably familiar with the HP,
+ but introduce it anyway so we're all on the same page.
+\end_layout
+
+\begin_layout Point
+Q:
+ Is there a function,
+ say 
+\begin_inset Formula $f\colon\N\to\N$
+\end_inset
+
+,
+ which cannot be programmed into a computer?
+ Cardinality argument says yes.
+ But some may find it too nonconstructive,
+ so let's build a particular example.
+\end_layout
+
+\begin_layout Point
+Consider the function 
+\begin_inset Formula $\mathrm{halt}\colon\{\text{python programs}\}\to\{y,n\}$
+\end_inset
+
+,
+ which given a program outputs whether it halts or loops forever.
+ We claim that there is no program,
+ let's say 
+\family typewriter
+halt.py
+\family default
+,
+ that computes the function 
+\begin_inset Formula $\mathrm{halt}$
+\end_inset
+
+.
+ This result is known as 
+\begin_inset Quotes eld
+\end_inset
+
+(insolvability of) The Halting Problem
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+To do so,
+ assume by contradiction that there is.
+ We will write another program,
+ 
+\family typewriter
+virus.py
+\family default
+,
+ that will force 
+\family typewriter
+halt.py
+\family default
+ to output a wrong thing,
+ providing us with a contradiction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#virus.py
+\end_layout
+
+\begin_layout Plain Layout
+
+p = open(virus.py)
+\end_layout
+
+\begin_layout Plain Layout
+
+def h(x):
+\end_layout
+
+\begin_layout Plain Layout
+
+  ...write code in halt.py...
+\end_layout
+
+\begin_layout Plain Layout
+
+if h(p):
+\end_layout
+
+\begin_layout Plain Layout
+
+  while True:
+\end_layout
+
+\begin_layout Plain Layout
+
+    pass
+\end_layout
+
+\begin_layout Plain Layout
+
+else:
+\end_layout
+
+\begin_layout Plain Layout
+
+  pass
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Oracles
+\end_layout
+
+\begin_layout Point
+We are mathematicians,
+ so let us allow ourselves to leave the realm of the physically possible for the moment.
+ Suppose that we have access to a 
+\begin_inset Quotes eld
+\end_inset
+
+black box
+\begin_inset Quotes erd
+\end_inset
+
+ that connects to our computer via USB,
+ and the computer can send a program file 
+\begin_inset Formula $p$
+\end_inset
+
+ to the box,
+ and the box responds with the value of 
+\begin_inset Formula $\mathrm{halt}(p)$
+\end_inset
+
+.
+ This new computer (or rather,
+ computer + black box combination) is much more powerful than any computer we have on earth!
+ We call it 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+ But is it all-powerful?
+\end_layout
+
+\begin_layout Point
+The same cardinality argument shows that the answer is no.
+ Access to an oracle gives us a little more power,
+ let's say through a new Python function 
+\family typewriter
+oracle(x)
+\family default
+,
+ but there is still a countable number of programs that can be written in this augmented language.
+\end_layout
+
+\begin_layout Point
+Moreover,
+ the argument used to show the insolvability of the HP can be adapted to work in this new context flawlessly!
+ In other words:
+ There is no program using 
+\begin_inset Formula $0'$
+\end_inset
+
+ that will tell whether a program that has access to 
+\begin_inset Formula $0'$
+\end_inset
+
+ will halt or not.
+\end_layout
+
+\begin_layout Point
+Of course,
+ we can repeat the procedure,
+ and create a more powerful oracle that answers this new question.
+ It is called 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+ And this process can be repeated,
+ creating an infinite sequence of hypothetical computers,
+ each more powerful than the last.
+\end_layout
+
+\begin_layout Section
+The Zoo of Degrees
+\end_layout
+
+\begin_layout Point
+You might wonder if this is an accurate picture of the computability-theoretical word.
+ Surprisingly,
+ it took mathematicians 17 years – between Turing's 1936 paper and Kleene-Post's theorem in 1954 – to construct oracles that lie between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+ But once they did,
+ the doors were blown open:
+ We now know a lot about the structure of degrees,
+ and we know that it's very well-inhabited with all kinds of structure living inside it.
+ And yet,
+ there are still a lot of open questions!
+\end_layout
+
+\begin_layout Point
+Some members of this zoo have special properties,
+ which computability theorists have given names to.
+ I will present some,
+ because they will be relevant later.
+\end_layout
+
+\begin_layout Subsection
+Low and High
+\end_layout
+
+\begin_layout Point
+Remind audience about 
+\begin_inset Quotes eld
+\end_inset
+
+jump operator
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It turns out not to be injective.
+ In particular,
+ there are many degrees 
+\begin_inset Formula $a$
+\end_inset
+
+ with the property that 
+\begin_inset Formula $a'=0'$
+\end_inset
+
+,
+ not just 
+\begin_inset Formula $a=0$
+\end_inset
+
+.
+ These are called 
+\begin_inset Quotes eld
+\end_inset
+
+low degrees
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+There are also 
+\begin_inset Quotes eld
+\end_inset
+
+high degrees
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which are degrees 
+\begin_inset Formula $a$
+\end_inset
+
+ with 
+\begin_inset Formula $a'=0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+PA Degrees
+\end_layout
+
+\begin_layout Point
+I will now present another family of degrees,
+ but to do so I have to introduce some new concepts.
+\end_layout
+
+\begin_layout Point
+Introduce tree (i.e.
+\begin_inset space \space{}
+\end_inset
+
+rooted binary tree).
+ A tree that can be described by a computer program is called a computable tree.
+\end_layout
+
+\begin_layout Point
+Introduce König's Lemma:
+ Any infinite tree (in terms of depth or number of nodes) admits an infinite path.
+\end_layout
+
+\begin_layout Point
+Computability theorists often like to take existing theorems and see if they hold if you put 
+\begin_inset Quotes eld
+\end_inset
+
+computable
+\begin_inset Quotes erd
+\end_inset
+
+ in front of everything.
+ So:
+ Does every computable infinite tree admit a computable path?
+\end_layout
+
+\begin_layout Point
+A:
+ No!
+ There are computable trees that admit no computable path!
+\end_layout
+
+\begin_layout Point
+However,
+ a Halting Problem oracle solves the issue:
+ Any computable tree admits a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable path.
+\end_layout
+
+\begin_layout Point
+It turns out that 
+\begin_inset Formula $0'$
+\end_inset
+
+ isn't the only oracle with this property.
+ Any oracle stronger than it will also satisfy it,
+ of course,
+ but surprisingly there are many more.
+ They look roughly like this:
+ [draw the thing].
+\end_layout
+
+\begin_layout Point
+These turn out to be very important in computability theory,
+ and so they have a name:
+\end_layout
+
+\begin_layout Point
+Definition:
+ An oracle 
+\begin_inset Formula $a$
+\end_inset
+
+ is said to be 
+\begin_inset Quotes eld
+\end_inset
+
+PA
+\begin_inset Quotes erd
+\end_inset
+
+ if every computable tree admits an 
+\begin_inset Formula $a$
+\end_inset
+
+-computable path.
+\end_layout
+
+\begin_layout Section
+Jockusch's Paper
+\end_layout
+
+\begin_layout Point
+Now,
+ I want to tell you about this one paper from 1972.
+ It's by a guy named Carl Jockusch,
+ Jr.,
+ who is an absolute machine and papers by him pop up in my work relentlessly.
+\end_layout
+
+\begin_layout Point
+Jockusch was interested in the following question:
+ How hard is it to list out all computable sets?
+\end_layout
+
+\begin_layout Point
+To be more precise:
+ A set 
+\begin_inset Formula $A\subseteq\N$
+\end_inset
+
+ is said to be 
+\emph on
+computable
+\emph default
+ if there is a computer program which,
+ given a natural number 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ will output whether 
+\begin_inset Formula $n\in A$
+\end_inset
+
+ or not.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ There is no computable listing of all computable sets.
+ That is,
+ there is no computer program 
+\begin_inset Formula $P(n,x)$
+\end_inset
+
+ such that every computable set 
+\begin_inset Formula $A$
+\end_inset
+
+ is of the form 
+\begin_inset Formula $P_{n}=\{\,x\mid P(n,x)\,\}$
+\end_inset
+
+ for some 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Proof:
+ If there were,
+ define 
+\begin_inset Formula $A=\{\,x\mid\neg P(x,x)\,\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Now,
+ Jockusch wanted to know:
+ What are the degrees that do compute such a 
+\begin_inset Formula $P(n,x)$
+\end_inset
+
+?
+ That is,
+ an array of zeros and ones such that every computable set can be found as one of its rows.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ A degree 
+\begin_inset Formula $a$
+\end_inset
+
+ computes an enumeration of all computable sets,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+a function 
+\begin_inset Formula $P(n,x)$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{P_{n}\}_{n\in\N}=\{\text{computable sets}\}$
+\end_inset
+
+,
+ iff 
+\begin_inset Formula $a$
+\end_inset
+
+ is high,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $a'=0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+This result is a little more subtle than it might seem,
+ because we are not just requiring that every computable set is represented;
+ we are also requiring that there are no false positives!
+ If we discard that extra assumption,
+ we get a result that I think is very interesting:
+\end_layout
+
+\begin_layout Point
+Theorem:
+ A degree 
+\begin_inset Formula $a$
+\end_inset
+
+ computes a 
+\emph on
+subenumeration
+\emph default
+ of all computable sets,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+a function 
+\begin_inset Formula $P(n,x)$
+\end_inset
+
+ such that every computable set is 
+\begin_inset Formula $P_{n}$
+\end_inset
+
+ for some 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ iff 
+\begin_inset Formula $a$
+\end_inset
+
+ is 
+\emph on
+high or PA
+\emph default
+.
+\end_layout
+
+\begin_layout Point
+I think this is really cool because it shows that a certain natural property holds iff one of two distinct and mostly unrelated properties hold.
+\end_layout
+
+\begin_layout Point
+Definition:
+ A degree is 
+\emph on
+subenumerative
+\emph default
+ if it computes a subenumeration of the computable sets.
+\end_layout
+
+\begin_layout Section
+PAC Trees and Millar's Tree
+\end_layout
+
+\begin_layout Point
+Now,
+ let me go back and remix some things we've seen to introduce yet another concept.
+\end_layout
+
+\begin_layout Point
+The following ideas are motivated by some stuff from computable model theory,
+ but I don't have anywhere near enough time to cover that.
+ So you'll have to trust me that people care about this for a reason.
+\end_layout
+
+\begin_layout Point
+Consider a computable tree 
+\begin_inset Formula $T$
+\end_inset
+
+ with no dead ends.
+ In particular,
+ this tree is infinite and admits at least one path.
+\end_layout
+
+\begin_layout Point
+Now,
+ for some reason,
+ people care about having a computer program list out all the paths of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ Are we able to?
+\end_layout
+
+\begin_layout Point
+An obvious obstacle is that maybe 
+\begin_inset Formula $T$
+\end_inset
+
+ has a path which cannot be printed out by a computer program,
+ which is kind of a cheap way out.
+ So,
+ let's make the following definition:
+ A PAC tree is a computable binary tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ with no dead ends,
+ and such that 
+\emph on
+every
+\emph default
+ particular path of 
+\begin_inset Formula $T$
+\end_inset
+
+ is computable.
+ Now,
+ the question becomes:
+ Does every PAC tree admit a listing of its paths?
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\TM}{T_{\mathrm{M}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Answer (Millar,
+ 1978):
+ Every PAC tree admits a 
+\begin_inset Formula $0'$
+\end_inset
+
+-listing of its paths,
+ but there is a PAC tree 
+\begin_inset Formula $\TM$
+\end_inset
+
+ that admits no computable listing of its paths.
+\end_layout
+
+\begin_layout point
+I like to call this tree 
+\begin_inset Quotes eld
+\end_inset
+
+Millar's tree
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and in the last few months I have been studying it to an embarrassing level of detail.
+\end_layout
+
+\begin_layout Point
+We can easily upgrade the first part of that statement:
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Given a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+ and a subenumerative degree 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ there is an 
+\begin_inset Formula $a$
+\end_inset
+
+-computable listing of the paths of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Proof sketch:
+ Take an 
+\begin_inset Formula $a$
+\end_inset
+
+-computable enumeration of the computable sets,
+ and print out each row as far as it stays inside the tree.
+ If it ever exits,
+ replace it by the path that always goes left.
+\end_layout
+
+\begin_layout Point
+Question:
+ Are the subenumerative degrees the only ones that always compute listings of paths of PAC trees?
+\end_layout
+
+\begin_layout Section
+The Punchline
+\end_layout
+
+\begin_layout Point
+When I was posed this question by my advisor 6 months ago,
+ I never suspected that it would be so 
+\emph on
+hard
+\emph default
+.
+ I had some ideas for how to approach it,
+ but they never panned out.
+ Honestly,
+ I don't even know the answer to this question:
+\end_layout
+
+\begin_layout Point
+Question:
+ Is there a non-subenumerative degree 
+\begin_inset Formula $a$
+\end_inset
+
+ that enumerates all paths of Millar's tree?
+\end_layout
+
+\begin_layout Point
+Question:
+ Is there 
+\emph on
+any
+\emph default
+ PAC tree that admits no computable enumeration of its paths,
+ but such that there is a non-subenumerative degree that enumerates them?
+\end_layout
+
+\begin_layout Point
+The main obstacle seems to be that I don't know any way to enumerate 
+\begin_inset Quotes eld
+\end_inset
+
+paths of a given specific PAC tree
+\begin_inset Quotes erd
+\end_inset
+
+ any more efficiently than 
+\begin_inset Quotes eld
+\end_inset
+
+an arbitrary collection of computable sequences of zeros and ones
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+It is worth mentioning that a grad student before me,
+ about 16 years ago,
+ by the name of Kenneth Harris,
+ has already obtained some partial results.
+ There is another family of interesting degrees,
+ called the c.e.
+\begin_inset space \space{}
+\end_inset
+
+degrees (which happen to intersect trivially with the PA degrees),
+ and Harris was able to prove the conjecture restricted to these:
+\end_layout
+
+\begin_layout Point
+Theorem:
+ A c.e.
+\begin_inset space \space{}
+\end_inset
+
+degree enumerates paths of every given PAC tree iff it is high.
+ Equivalently,
+ iff it is subenumerative.
+\end_layout
+
+\begin_layout Point
+I'll note that he did this by building a custom tree for every c.e.
+\begin_inset space \space{}
+\end_inset
+
+degree,
+ using something called 
+\begin_inset Quotes eld
+\end_inset
+
+the permitting method
+\begin_inset Quotes erd
+\end_inset
+
+ which is very specific to the c.e.
+\begin_inset space \space{}
+\end_inset
+
+context.
+ Thus,
+ it does not look likely that his method can be generalized.
+\end_layout
+
+\begin_layout Section
+Some Other Stuff
+\end_layout
+
+\begin_layout Point
+A related question to the one I'm trying to answer is the following:
+\end_layout
+
+\begin_layout Point
+Question:
+ Given a PAC tree,
+ how hard is it to enumerate its 
+\emph on
+isolated
+\emph default
+ paths?
+\end_layout
+
+\begin_layout Point
+It's possible to provide an example (in fact,
+ I was able to prove that 
+\begin_inset Formula $\TM$
+\end_inset
+
+ works) of a PAC tree such that there is no computable enumeration of its isolated paths.
+ However,
+ my advisor proved with a really slick argument that this is the worst that it gets:
+\end_layout
+
+\begin_layout Point
+Theorem (Hirschfeldt,
+ 2006):
+ Given a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ 
+\emph on
+any
+\emph default
+ noncomputable degree enumerates the isolated paths of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+This suggests that enumerating isolated paths is much easier than enumerating all of them.
+ This is confirmed by the following:
+\end_layout
+
+\begin_layout Point
+Proposition:
+ If there is a computable enumeration of the paths of a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ there is also a computable enumeration of the 
+\emph on
+isolated
+\emph default
+ paths of a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Another question I don't know the answer to is whether this is 
+\emph on
+strictly
+\emph default
+ easier.
+ That is:
+\end_layout
+
+\begin_layout Point
+Question:
+ Is there a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+ such that there is a computable enumeration of the isolated paths of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ but no computable enumeration of 
+\emph on
+all
+\emph default
+ the paths of 
+\begin_inset Formula $T$
+\end_inset
+
+?
+\end_layout
+
+\end_body
+\end_document

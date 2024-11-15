@@ -7,15 +7,7 @@
 \textclass article
 \begin_preamble
 
-\usepackage{listings}
-\lstset{
-basicstyle=\ttfamily\footnotesize,
-keepspaces=true,
-tabsize=4,
-breaklines=true,
-columns=fullflexible,
-mathescape=true
-}
+\usepackage{amsmath}
 \usepackage{fullpage}
 \usepackage[cal=euler]{mathalpha}
 \usepackage{tikz}
@@ -58,7 +50,7 @@ duarte_theorems
 \use_hyperref false
 \papersize letter
 \use_geometry false
-\use_package amsmath 1
+\use_package amsmath 0
 \use_package amssymb 1
 \use_package cancel 1
 \use_package esint 1
@@ -96,6 +88,7 @@ duarte_theorems
 \papersides 1
 \paperpagestyle default
 \tablestyle default
+\listings_params "basicstyle={\ttfamily\footnotesize},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
 \tracking_changes false
 \output_changes false
 \change_bars false
@@ -110,7 +103,13 @@ duarte_theorems
 \begin_body
 
 \begin_layout Title
-Notes on Saturated Bounding Degrees
+Originally:
+ Notes on Saturated Bounding Degrees
+\begin_inset Newline newline
+\end_inset
+
+Now,
+ A Study On a Tree by Millar
 \end_layout
 
 \begin_layout Author
@@ -4530,20 +4529,25 @@ Finally,
 .
 \end_layout
 
-\begin_layout Section
-Original Work
-\end_layout
-
-\begin_layout Subsection
-A Degree Which Doesn't Enumerate Paths of Millar's Tree
-\end_layout
-
-\begin_layout Standard
+\begin_layout Proof
 \begin_inset FormulaMacro
 \newcommand{\TM}{T_{\mathrm{M}}}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Original Work:
+ Enumerations of 
+\begin_inset Formula $[\TM]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+A Degree Which Doesn't Enumerate Paths of Millar's Tree
 \end_layout
 
 \begin_layout Standard
@@ -6113,7 +6117,7 @@ all
 \end_layout
 
 \begin_layout Subsection
-Every Enumeration of Tails of Nontrivial Paths of Millar's Tree is High
+Enumerations of Nontrivial Paths
 \end_layout
 
 \begin_layout Standard
@@ -6391,6 +6395,904 @@ A similar reasoning will prove that,
 Is every high degree represented in this manner?
 \end_layout
 
+\begin_layout Proposition
+Every high degree 
+\begin_inset Formula $d$
+\end_inset
+
+ computes an enumeration of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ whose prefixes have been scrambled.
+\end_layout
+
+\begin_layout Proof
+It is not hard to see that 
+\begin_inset Formula $0''$
+\end_inset
+
+ enumerates the set of indices of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ Indeed,
+ 
+\begin_inset Formula $0''$
+\end_inset
+
+ can simply enumerate the total functions 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+,
+ and for each of these ask 
+\begin_inset Formula $0'$
+\end_inset
+
+ if the resulting path is in 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ and then ask 
+\begin_inset Formula $0''$
+\end_inset
+
+ is it contains infinitely many zeros.
+ Let 
+\begin_inset Formula $f$
+\end_inset
+
+ be a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable enumeration of this set.
+ Now,
+ given an arbitrary high degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ let 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ be a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable approximation of 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ We now present a scrambled prefix enumeration of the nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+,
+ which we call 
+\begin_inset Formula $g\colon\N\times\N\to\N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We define 
+\begin_inset Formula $g_{n}(x)$
+\end_inset
+
+ as follows.
+ First,
+ compute 
+\begin_inset Formula $f_{x}(n)$
+\end_inset
+
+ as an approximation of 
+\begin_inset Formula $f(n)$
+\end_inset
+
+.
+ Then,
+ in parallel,
+ compute 
+\begin_inset Formula $\varphi_{f_{x}(n)}(x)$
+\end_inset
+
+ while you compute better approximations 
+\begin_inset Formula $f_{x+1}(n)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f_{x+2}(n)$
+\end_inset
+
+,
+ etc.
+ If the approximation ever changes,
+ the first process shifts to computing 
+\begin_inset Formula $\varphi_{f_{x'}(n)}(x)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $f_{x'}(n)$
+\end_inset
+
+ is the new approximation.
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $f_{x}(n)\underset{x\to\infty}{\to}f(n)$
+\end_inset
+
+,
+ eventually the approximation settles on a total function and so the first process will necessarily terminate.
+ Thus,
+ 
+\begin_inset Formula $g_{n}(x)$
+\end_inset
+
+ is always well-defined.
+ Moreover,
+ for large enough values of 
+\begin_inset Formula $x$
+\end_inset
+
+ the initial approximation is already 
+\begin_inset Formula $f(n)$
+\end_inset
+
+,
+ and so the 
+\begin_inset Formula $n$
+\end_inset
+
+-th row of 
+\begin_inset Formula $g$
+\end_inset
+
+ will always be a scrambled prefix version of 
+\begin_inset Formula $\varphi_{f(n)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The situation is different for truncated prefixes.
+ To understand why,
+ consider the possibility that one could deduce the index of the current path from the spacing between its zeros.
+ This is plausible because the position of the zeros is strongly related to 
+\begin_inset Quotes eld
+\end_inset
+
+execution time
+\begin_inset Quotes erd
+\end_inset
+
+,
+ that is,
+ the smallest value of 
+\begin_inset Formula $s$
+\end_inset
+
+ for which 
+\begin_inset Formula $\varphi_{e}(x)^{s}$
+\end_inset
+
+ is defined.
+ With enough care,
+ the spacing between these values might act as a 
+\begin_inset Quotes eld
+\end_inset
+
+barcode
+\begin_inset Quotes erd
+\end_inset
+
+ from which 
+\begin_inset Formula $e$
+\end_inset
+
+ may be deduced.
+ On the other hand,
+ it is also plausible that we cannot conclude anything from this spacing,
+ if these spacings are arranged maliciously as to ensure that any attempted deduction could very well be a fluke.
+\end_layout
+
+\begin_layout Standard
+Another thing that introduces variance is the nitty-gritty details of the construction of Millar's tree,
+ which have been irrelevant until now,
+ and hence kept mostly unspecified.
+ For the sake of definiteness,
+ we make a grounding assumption.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\series bold
+Assumption 
+\begin_inset CommandInset counter
+LatexCommand addto
+counter "theorem"
+value "1"
+lyxonly "true"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+refstepcounter{thm}
+\backslash
+arabic{thm}
+\end_layout
+
+\end_inset
+
+:
+\begin_inset CommandInset label
+LatexCommand label
+name "asmp:millar"
+
+\end_inset
+
+
+\series default
+ Let 
+\begin_inset Formula $\mu=1^{e}0\mu'$
+\end_inset
+
+ be a marked path of length 
+\begin_inset Formula $N$
+\end_inset
+
+ up to a bifurcation point,
+ which is assumed to be the 
+\begin_inset Formula $k$
+\end_inset
+
+-th,
+ and let 
+\begin_inset Formula $\mu a1^{t}$
+\end_inset
+
+ be the continuation of the marked path up to the next bifurcation.
+ Then,
+ it is assumed that it takes 
+\begin_inset Formula $t$
+\end_inset
+
+ steps to compute 
+\begin_inset Formula $\varphi_{e}\braket{k,N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:asmpmillar"
+
+\end_inset
+
+Assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:millar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ presupposes a slightly different construction of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ than the one we presented in Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:zeronotsatbounding"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Therein,
+ it is assumed that we compute each row all the way up to a bifurcation before deciding which way the marked path will go.
+ Here,
+ we assume a more economical perspective,
+ where only the relevant element of the row is computed.
+\end_layout
+
+\begin_layout Proposition
+There is an interpretation of 
+\begin_inset Quotes eld
+\end_inset
+
+runtime
+\begin_inset Quotes erd
+\end_inset
+
+ for which any enumeration of tails of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+ computes 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\varphi_{e}(x)^{s}$
+\end_inset
+
+ be a prior fixed interpretation of runtime,
+ or computable approximation of a universal function.
+ We define the new interpretation 
+\begin_inset Formula $\psi(e,x,s)$
+\end_inset
+
+ as follows.
+\end_layout
+
+\begin_layout Proof
+First,
+ let 
+\begin_inset Formula $\{p_{n}\}_{n\in\N}$
+\end_inset
+
+be an enumeration of the prime numbers in increasing order.
+ Let 
+\begin_inset Formula $e,x\in\N$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset Formula $\varphi_{e}(x)$
+\end_inset
+
+ takes 
+\begin_inset Formula $t$
+\end_inset
+
+ time to halt.
+ If the result is 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ we let the halting time of 
+\begin_inset Formula $\psi(e,x)$
+\end_inset
+
+ be the smallest number above 
+\begin_inset Formula $t$
+\end_inset
+
+ which is divisible by 
+\begin_inset Formula $p_{0}\dots p_{e}$
+\end_inset
+
+.
+ If the result is 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ we let this halting time be the smallest number above 
+\begin_inset Formula $t$
+\end_inset
+
+ which is divisible by 
+\begin_inset Formula $p_{0}\dots p_{e-1}$
+\end_inset
+
+,
+ and has remainder 
+\begin_inset Formula $1$
+\end_inset
+
+ modulo 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+.
+ The resulting 
+\begin_inset Formula $\psi$
+\end_inset
+
+ is evidently computable.
+\end_layout
+
+\begin_layout Proof
+We claim that,
+ with the 
+\begin_inset Formula $\psi$
+\end_inset
+
+ interpretation,
+ any enumeration of tails of nontrivial paths computes 
+\begin_inset Formula $0''$
+\end_inset
+
+,
+ in the following manner.
+ Let 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ be a row of such an enumeration.
+ Pick two positions of consecutive zeros of 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+.
+ In other words,
+ 
+\begin_inset Formula $f_{n}(x_{0})=f_{n}(x_{1})=0$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $f_{n}(x)=1$
+\end_inset
+
+ for every 
+\begin_inset Formula $x_{0}<x<x_{1}$
+\end_inset
+
+.
+ This is possible to find because 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ is assumed to have infinitely many zeros.
+ Then,
+ let 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+ be the smallest prime number such that 
+\begin_inset Formula $\Delta x=x_{0}-x_{1}$
+\end_inset
+
+ is not divisible by 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+.
+ Our claim is that 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ is a truncated copy of of the marked path whose prefix is 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+To prove this,
+ let us look at the situation in the opposite way.
+ Suppose that 
+\begin_inset Formula $f_{n}$
+\end_inset
+
+ is a truncated copy of the path starting with 
+\begin_inset Formula $1^{e}0$
+\end_inset
+
+,
+ and we will show that the smallest prime that does not divide 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ is 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+By Assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:millar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the time interval 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ is given by the sum of the times it took 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ to evaluate some number of computations,
+ of which all but one output 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ All of these times,
+ and hence 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+,
+ are divisible by all primes below 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+.
+ However,
+ modulo 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+,
+ all these times except the very last one contributed nothing,
+ and the last one contributed one.
+ Thus,
+ 
+\begin_inset Formula $\Delta x\equiv1$
+\end_inset
+
+ modulo 
+\begin_inset Formula $p_{e}$
+\end_inset
+
+,
+ and our claim is proven.
+\end_layout
+
+\begin_layout Remark
+The entire construction boils down to,
+ as previously stated,
+ ensuring that the location of the path is encoded into the spaces between its zeros.
+ This could also be easily acheived if we were willing to modify the construction of Millar's tree;
+ for example,
+ if whenever a bifurcation occurs,
+ a number of zeros is always printed out which encodes the subtree the marked path in question lies in.
+\end_layout
+
+\begin_layout Proposition
+There is an interpretation of 
+\begin_inset Quotes eld
+\end_inset
+
+runtime
+\begin_inset Quotes erd
+\end_inset
+
+ under which any high degree computes an enumeration of tails of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Here is a rough sketch of the strategy.
+ Given a high degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ we are able to approximate such an enumeration,
+ by optimistically assuming that below every node there is a nontrivial marked path,
+ and following along it by using the marks.
+ This will not always work:
+ There are some nodes below which the marked path is trivial,
+ and some others below which there is no marked path.
+ However,
+ a high degree – we will provide more detail later – is able to find out that a given path is a bad bet,
+ back out of it,
+ and go try another path.
+ Now,
+ the issue is that we can't just try another path at random:
+ To match what we're trying to do,
+ we need the path we change to to be 
+\begin_inset Quotes eld
+\end_inset
+
+compatible
+\begin_inset Quotes erd
+\end_inset
+
+ with the path that we already have (so that we get a nontrivial path with a prefix removed instead of one with a prefix scrambled).
+ As such,
+ we will game the runtime of our computation function to make sure that,
+ no matter the prefix we've already established,
+ there will be a nontrivial marked path we can switch to.
+\end_layout
+
+\begin_layout Proof
+Now that the sketch has been established,
+ let us construct our interpretation of runtime.
+ Let 
+\begin_inset Formula $\varphi_{e}(x)^{s}$
+\end_inset
+
+ be a prior established notion of runtime.
+ We will define a new one from it,
+ called 
+\begin_inset Formula $\psi(e,x,s)$
+\end_inset
+
+.
+ To do so,
+ we first establish an infinite increasing sequence 
+\begin_inset Formula $\{u_{n}\}_{n\in\N}$
+\end_inset
+
+ of indices such that every 
+\begin_inset Formula $\varphi_{u_{n}}$
+\end_inset
+
+ is the total constant function equal to 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ We also establish an enumeration 
+\begin_inset Formula $\{\sigma_{n}\}_{n\in\N}$
+\end_inset
+
+ of finite sequences 
+\begin_inset Formula $\N^{<\omega}$
+\end_inset
+
+ which repeats each sequence infinitely many often.
+ Now we can define the runtime of 
+\begin_inset Formula $\psi(e,x)$
+\end_inset
+
+:
+ If 
+\begin_inset Formula $e=u_{n}$
+\end_inset
+
+ for some value of 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $x<\length(\sigma_{n})$
+\end_inset
+
+,
+ we define the runtime of 
+\begin_inset Formula $\psi(e,x)$
+\end_inset
+
+ to be 
+\begin_inset Formula $\sigma_{nx}$
+\end_inset
+
+.
+ Otherwise,
+ we let it be the same runtime as 
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let us now prove that,
+ with this interpretation of runtime,
+ any high degree can produce an enumeration of tails of nontrivial paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ Recall from Martin's theorem that our degree enumerates a function which dominates every computable function;
+ we call it 
+\begin_inset Formula $h$
+\end_inset
+
+.
+ We will build an enumeration called 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ indexed on pairs 
+\begin_inset Formula $\braket{e,z}\in\N\times\N$
+\end_inset
+
+.
+ On index 
+\begin_inset Formula $\braket{e,z}$
+\end_inset
+
+,
+ this enumeration shall begin printing out 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+.
+ If this function ever leaves Millar's tree,
+ jump to 
+\noun on
+fallback
+\noun default
+ below.
+ Moreover,
+ keep a tally of the time it takes you to print out consecutive zeroes;
+ If after the 
+\begin_inset Formula $k$
+\end_inset
+
+-the zero you take more than 
+\begin_inset Formula $h(k)+z$
+\end_inset
+
+ time to reach the next zero,
+ jump to 
+\noun on
+fallback
+\noun default
+ as well.
+\end_layout
+
+\begin_layout Proof
+Let us now define the 
+\noun on
+fallback
+\noun default
+ operation.
+ Suppose that we have already printed out a finite sequence 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ be the sequence of intervals between consecutive zeros,
+ and let 
+\begin_inset Formula $n>e$
+\end_inset
+
+ be such that 
+\begin_inset Formula $\sigma_{n}=\sigma$
+\end_inset
+
+.
+ Then,
+ by 
+\noun on
+fallback
+\noun default
+ we mean that we stop printing out 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ and instead start printing out the marked path whose prefix is 
+\begin_inset Formula $1^{u_{n}}0$
+\end_inset
+
+.
+ This is because,
+ by definition,
+ the marked path whose prefix is 
+\begin_inset Formula $1^{u_{n}}0$
+\end_inset
+
+ proceeds as 
+\begin_inset Formula $1^{\sigma_{n0}}0\dots01^{\sigma_{nN}}0$
+\end_inset
+
+,
+ and so,
+ the marked path in question will start out as 
+\begin_inset Formula $1^{u_{n}-e}\tau$
+\end_inset
+
+.
+ Thus,
+ continuing to print out this marked path will yield a truncation of a nontrivial marked path.
+\end_layout
+
+\begin_layout Proof
+This shows that every row of our enumeration will always be a nontrivial marked path.
+ To show that every marked path 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ is a row of our enumeration,
+ note that the computable function 
+\begin_inset Quotes eld
+\end_inset
+
+time it takes to compute all elements between the 
+\begin_inset Formula $n$
+\end_inset
+
+-th consecutive zeros of 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is dominated by 
+\begin_inset Formula $h$
+\end_inset
+
+,
+ and so for large enough values of 
+\begin_inset Formula $z$
+\end_inset
+
+ we have 
+\begin_inset Formula $f_{\braket{e,z}}=\varphi_{e}$
+\end_inset
+
+.
+ The proof is complete.
+\end_layout
+
 \begin_layout Subsection
 Nonrepeating Enumerations
 \end_layout
@@ -6449,35 +7351,77 @@ We define
 \end_inset
 
  have already been defined;
- we present an algorithm to compute 
+ we then define 
 \begin_inset Formula $f(n)$
 \end_inset
 
 .
+ First,
+ we define
+\begin_inset FormulaMacro
+\newcommand{\upto}{\mathord{\upharpoonright}}
+\end_inset
+
+
+\begin_inset Formula 
+\[
+k(n)=\text{smallest \ensuremath{k} such that \ensuremath{\exists_{i<k}\forall_{j<k}\;A_{i}\upto^{k}\neq A_{f(j)}\upto^{k}}.}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Proof
-Look at the first 
-\begin_inset Formula $n$
-\end_inset
-
- elements of the rows 
-\begin_inset Formula $A_{f(0)},\dots,A_{f(n-1)}$
-\end_inset
-
-.
- Then,
- look for the first row of 
-\begin_inset Formula $A$
-\end_inset
-
- whose first 
-\begin_inset Formula $n$
-\end_inset
-
- elements are neither of those.
- The index of this row we set as 
+Then,
+ we set 
 \begin_inset Formula $f(n)$
+\end_inset
+
+ as the smallest value of 
+\begin_inset Formula $i$
+\end_inset
+
+ satisfying the above condition.
+ Note that 
+\begin_inset Formula $k(n)$
+\end_inset
+
+ is well-defined because there must be a row 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+ which is distinct from 
+\begin_inset Formula $A_{f(0)}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $A_{f(n-1)}$
+\end_inset
+
+,
+ and an index 
+\begin_inset Formula $k_{2}$
+\end_inset
+
+ which suffices to distinguish 
+\begin_inset Formula $A_{k_{1}}$
+\end_inset
+
+from all of those;
+ then 
+\begin_inset Formula $k(n)$
+\end_inset
+
+ will be well-defined and less than 
+\begin_inset Formula $\max(k_{1},k_{2})$
 \end_inset
 
 .
@@ -6516,17 +7460,17 @@ By construction,
 
  is distinct from all prior rows,
  there is some value of 
-\begin_inset Formula $n$
+\begin_inset Formula $k$
 \end_inset
 
  such that 
-\begin_inset Formula $(A_{e})_{0,\dots,n}$
+\begin_inset Formula $(A_{e})_{0,\dots,k}$
 \end_inset
 
  is distinct from the corresponding tuple for all prior rows.
  Then,
  consider a stage 
-\begin_inset Formula $s\geq n$
+\begin_inset Formula $s\geq k$
 \end_inset
 
  such that all rows prior to 
@@ -6546,6 +7490,2189 @@ By construction,
 
 ,
  which completes the proof.
+\end_layout
+
+\begin_layout Remark
+This argument uses nothing about the fact that we are enumerating paths in a tree;
+ it would just as well work on an enumeration of e.g.
+\begin_inset space ~
+\end_inset
+
+computable sets.
+\end_layout
+
+\begin_layout Subsection
+Winning Degrees
+\end_layout
+
+\begin_layout Standard
+Here is an alternative characterization of the subenumerative degrees.
+ One should envision the following definition as a set 
+\begin_inset Formula $A$
+\end_inset
+
+ trying to 
+\begin_inset Quotes eld
+\end_inset
+
+guess
+\begin_inset Quotes erd
+\end_inset
+
+ the next element of a set 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ using information about whether its previous guesses were right or wrong.
+\end_layout
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $A$
+\end_inset
+
+ be a set,
+ and 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+.
+ Given a set 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ we say that 
+\begin_inset Formula $\{e\}^{A}\colon2^{<\omega}\to2$
+\end_inset
+
+ 
+\emph on
+beats
+\emph default
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ if,
+ for all but finitely many prefixes 
+\begin_inset Formula $\sigma b$
+\end_inset
+
+ of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $\{e\}^{A}(\sigma)=b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+A set 
+\begin_inset Formula $A$
+\end_inset
+
+ is said to be a 
+\emph on
+winning set
+\emph default
+,
+ or to 
+\emph on
+beat all computable sets
+\emph default
+ if there is 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+ such that 
+\begin_inset Formula $\{e\}^{A}$
+\end_inset
+
+ beats every computable set.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset Formula $A$
+\end_inset
+
+ is a winning set iff it belongs to a subenumerative degree.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\Linear}{\mathcal{L}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\barLinear}{\bar{\Linear}}
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Original Work:
+ Studying 
+\begin_inset Formula $\Linear(\TM)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Background
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\isop}[1]{[#1]^{\mathrm{iso}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $\isop T$
+\end_inset
+
+ as the set of isolated paths of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ We define 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+ as the linear order given by 
+\begin_inset Formula $\isop T$
+\end_inset
+
+,
+ ordered lexicographically.
+\end_layout
+
+\begin_layout Standard
+Throughout this section,
+ we work under Assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:millar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ and more precisely the construction hinted at by Remark 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rmk:asmpmillar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ regarding the construction of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The question we are trying to answer is whether the structure of 
+\begin_inset Formula $\Linear(\TM)$
+\end_inset
+
+ is computable or not.
+\end_layout
+
+\begin_layout Standard
+We will also investigate computability of 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+,
+ the lexicographic linear order on 
+\begin_inset Formula $[T]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+There Is No Computable Enumeration of 
+\begin_inset Formula $\isop{\TM}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ be a computable enumeration of paths of 
+\begin_inset Formula $\TM$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ has the property that,
+ for every 
+\begin_inset Formula $j$
+\end_inset
+
+,
+ it enumerates a path starting with 
+\begin_inset Formula $1^{j}0$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ enumerates a marked (i.e.
+\begin_inset space \space{}
+\end_inset
+
+non-isolated) path.
+\end_layout
+
+\begin_layout Proof
+We define a computable function 
+\begin_inset Formula $\varphi_{\hat{e}}$
+\end_inset
+
+ by the recursion theorem,
+ which we will then use to show that the marked path starting as 
+\begin_inset Formula $1^{\hat{e}}0$
+\end_inset
+
+ is enumerated by 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $y$
+\end_inset
+
+ be the first row of 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ starting as 
+\begin_inset Formula $1^{\hat{e}}0$
+\end_inset
+
+ (this is where we use the assumption).
+ We define 
+\begin_inset Formula $\varphi_{\hat{e}}$
+\end_inset
+
+ as a function which diagonalizes against 
+\begin_inset Formula $(\varphi_{e})_{y}$
+\end_inset
+
+.
+ That is:
+ we begin by setting 
+\begin_inset Formula $\varphi_{\hat{e}}\braket{0,\hat{e}+1}=1-\varphi_{e}\braket{y,\hat{e}+1}$
+\end_inset
+
+.
+ This ensures that 
+\begin_inset Formula $(\varphi_{e})_{y}$
+\end_inset
+
+ starts following along the marked path,
+ which is defined at least up to the second branching point.
+ Then,
+ if 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is the next branching point hit by 
+\begin_inset Formula $(\varphi_{e})_{y}$
+\end_inset
+
+,
+ we define 
+\begin_inset Formula $\varphi_{\hat{e}}\braket{1,x_{1}}=1-\varphi_{e}\braket{y,x_{1}}$
+\end_inset
+
+,
+ and so on,
+ inductively ensuring that the marked path is defined to arbitrary depth,
+ as well as ensuring that 
+\begin_inset Formula $(\varphi_{e})_{y}$
+\end_inset
+
+ follows it forever.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:noenumiso"
+
+\end_inset
+
+There is no computable enumeration of 
+\begin_inset Formula $\isop{\TM}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+The reason we were interested in this result is because,
+ were it to hold false,
+ we would have that 
+\begin_inset Formula $\Linear(\TM)$
+\end_inset
+
+ is computable.
+ The fact that 
+\begin_inset Formula $\isop{\TM}$
+\end_inset
+
+ is 
+\emph on
+not
+\emph default
+ computable does not give us any information on the computability of 
+\begin_inset Formula $\Linear(\TM)$
+\end_inset
+
+,
+ however.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:tmpsi1"
+
+\end_inset
+
+A CNDEPAC Tree 
+\begin_inset Formula $T$
+\end_inset
+
+ With 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+ Computable but 
+\begin_inset Formula $\isop T$
+\end_inset
+
+ Non-Enumerable
+\end_layout
+
+\begin_layout Standard
+We begin by noting that all the results on 
+\begin_inset Formula $\TM$
+\end_inset
+
+ thus far have not depended on the particular choice of universal function,
+ so long as it is computable and satisfies the s-m-n theorem (and hence the Recursion Theorem).
+ Thus,
+ in this section,
+ we make the following choice.
+ Given a previously fixed admissible choice of 
+\begin_inset Formula $\varphi$
+\end_inset
+
+,
+ we define
+\begin_inset Formula 
+\[
+\psi_{e}(x)=\begin{cases}
+\varphi_{k}(x) & \text{if \ensuremath{e=2k}}\\
+y\bmod2 & \text{if \ensuremath{e} is odd and \ensuremath{x=\braket{y,z}}.}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This satisfies the s-m-n theorem because,
+ given a computable function 
+\begin_inset Formula $f(x,y)$
+\end_inset
+
+,
+ we can write it as 
+\begin_inset Formula $\varphi_{s(x)}(y)$
+\end_inset
+
+,
+ and hence as 
+\begin_inset Formula $\psi_{2s(x)}(y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\TMpsi}{\TM^{\psi}}
+{T_{\mathrm{M}}^{\psi}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now,
+ let 
+\begin_inset Formula $\TMpsi$
+\end_inset
+
+ be Millar's tree,
+ constructed from the universal function 
+\begin_inset Formula $\psi$
+\end_inset
+
+.
+ By Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:noenumiso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we conclude that there is no computable enumeration of 
+\begin_inset Formula $\isop{\TMpsi}$
+\end_inset
+
+,
+ so it suffices to prove that 
+\begin_inset Formula $\Lang(\TMpsi)$
+\end_inset
+
+ is a computable structure.
+\end_layout
+
+\begin_layout Standard
+First,
+ let us 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+todo finish
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+On Enumerability of 
+\begin_inset Formula $[T]$
+\end_inset
+
+ vs.
+ 
+\begin_inset Formula $\isop T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a CNDEPAC tree,
+ one might wonder whether there is a relation between the enumerability of 
+\begin_inset Formula $[T]$
+\end_inset
+
+ vs.
+ that of 
+\begin_inset Formula $\isop T$
+\end_inset
+
+.
+ We present information on three of the possible combinations:
+\end_layout
+
+\begin_layout Itemize
+It is possible that both 
+\begin_inset Formula $[T]$
+\end_inset
+
+ and 
+\begin_inset Formula $\isop T$
+\end_inset
+
+ are c.e,
+ for example if 
+\begin_inset Formula $T$
+\end_inset
+
+ has very simple path structure.
+\end_layout
+
+\begin_layout Itemize
+By Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:noenumiso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ Millar's Tree shows that it's possible for neither 
+\begin_inset Formula $[T]$
+\end_inset
+
+ nor 
+\begin_inset Formula $\isop T$
+\end_inset
+
+ to be enumerable.
+\end_layout
+
+\begin_layout Itemize
+Adapting an argument by Hirschfeldt 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hirschfeldt_2006"
+literal "false"
+
+\end_inset
+
+,
+ it is possible to show that from an enumeration of 
+\begin_inset Formula $[T]$
+\end_inset
+
+ one can uniformly obtain an enumeration of 
+\begin_inset Formula $\isop T$
+\end_inset
+
+.
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Sketch:
+ Using the enumeration of 
+\begin_inset Formula $[T]$
+\end_inset
+
+,
+ diagonalize to construct a sequence in 
+\begin_inset Formula $2^{\omega}$
+\end_inset
+
+ that agrees with no path.
+ Then,
+ apply Hirschfeldt's argument with this sequence in place of the noncomputable set.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It remains open (to me) whether it is possible to construct a tree 
+\begin_inset Formula $T$
+\end_inset
+
+ such that 
+\begin_inset Formula $[T]$
+\end_inset
+
+ is not enumerable but 
+\begin_inset Formula $\isop T$
+\end_inset
+
+ is.
+\end_layout
+
+\begin_layout Subsection
+Isolated Points of Computable Orders
+\end_layout
+
+\begin_layout Proposition
+\begin_inset FormulaMacro
+\newcommand{\iso}{\text{iso}}
+\end_inset
+
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a computably representable complete linearly ordered set,
+ 
+\begin_inset Formula $A^{\iso}$
+\end_inset
+
+ is also computably representable.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Done by considering the swapping thing
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:barlinear"
+
+\end_inset
+
+Given a CNDEPAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ if 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+ is computably representable then 
+\begin_inset Formula $\Lang(T)$
+\end_inset
+
+ is also computably representable.
+ Moreover,
+ this process is uniform.
+\end_layout
+
+\begin_layout Subsection
+Trees of Low Rank
+\end_layout
+
+\begin_layout Standard
+It will be useful for me to consider trees of low rank in the sequel,
+ and I will want to ensure that they all live in the realm of CNDEPAC trees.
+\end_layout
+
+\begin_layout Definition
+A CNDE tree is a Computable Tree with No Dead Ends.
+\end_layout
+
+\begin_layout Proposition
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a CNDE tree with finitely many paths,
+ 
+\begin_inset Formula $T$
+\end_inset
+
+ is a CNDEPAC tree.
+ Moreover,
+ if 
+\begin_inset Formula $T$
+\end_inset
+
+ has exactly one path of rank 1,
+ say 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ and there is an upper bound 
+\begin_inset Formula $k$
+\end_inset
+
+ to how many time other paths can branch upon diverging from 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ is a CNDEPAC tree.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+There is a CNDE tree 
+\begin_inset Formula $T$
+\end_inset
+
+ that admits exactly one path of rank 1,
+ such that this path is not computable.
+\end_layout
+
+\begin_layout Proof
+We will describe the construction of a 
+\begin_inset Quotes eld
+\end_inset
+
+marked path
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ and our tree will initially consist of taking this path and branching off of it at every depth,
+ creating an isolated path terminating in zeros.
+ However,
+ over the course of the construction,
+ we will make revisions to 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ at some point changing,
+ say,
+ the 
+\begin_inset Formula $n$
+\end_inset
+
+th place from a 
+\begin_inset Formula $0$
+\end_inset
+
+ to a 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ In this event,
+ the now-defunct branch will remain stagnant and injury will occur for the processes marked 
+\begin_inset Formula $n+1$
+\end_inset
+
+ and above,
+ which will have to be restarted.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+\end_layout
+
+\begin_layout Plain Layout
+
+%uncomment if require:
+ 
+\backslash
+path (0,368);
+ %set diagram left start at 0,
+ and has height of 368
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da03967178610437139] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw [line width=3]    (200,0) -- (0,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da6412933874124586] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (200,0) -- (240,40) -- (160,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da3403701290760951] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (160,40) -- (200,80) -- (140,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da3595645541144279] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (120,80) -- (160,120) -- (120,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da8920052650847465] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (80,120) -- (120,160) -- (100,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da5970965327874109] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (40,160) -- (80,200) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da6305798697363738] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (272,110) -- (340,110) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw [shift={(342,110)},
+ rotate = 180] [color={rgb,
+ 255:red,
+ 0;
+ green,
+ 0;
+ blue,
+ 0 }  ][line width=0.75]    (10.93,-3.29) ..
+ controls (6.95,-1.4) and (3.31,-0.3) ..
+ (0,0) ..
+ controls (3.31,0.3) and (6.95,1.4) ..
+ (10.93,3.29)   ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da6958271846372078] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw [line width=3]    (550,0) -- (470,80) -- (510,120) -- (470,200) -- (390,280) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da1892316704505188] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (550,0) -- (590,40) -- (580,240) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da010803954838428775] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (510,40) -- (550,80) -- (540,240) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da5097338803086449] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (470,80) -- (350,200) -- (310,240) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da36332866017401255] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (430,120) -- (470,160) -- (450,200) -- (410,240) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da6949892565967547] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (390,160) -- (430,200) -- (390,240) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da9506758935125812] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (470,200) -- (510,240) -- (500,290) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+%Straight Lines [id:da07447760200446396] 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw    (430,240) -- (470,280) ;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% Text Node
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (250,82) node [anchor=north west][inner sep=0.75pt]   [align=left] {Revision at $
+\backslash
+displaystyle n=2$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cndetree"
+
+\end_inset
+
+Sample construction of tree 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+It remains to ensure that 
+\begin_inset Formula $p$
+\end_inset
+
+ converges to a noncomputable function;
+ this way,
+ 
+\begin_inset Formula $T$
+\end_inset
+
+ will have 
+\begin_inset Formula $p$
+\end_inset
+
+ as a noncomputable path.
+ To this effect,
+ pick an arbitrary noncomputable c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ and start with 
+\begin_inset Formula $p_{0}=0^{\omega}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+When the first element 
+\begin_inset Formula $x$
+\end_inset
+
+ is enumerated into 
+\begin_inset Formula $A$
+\end_inset
+
+ at stage 
+\begin_inset Formula $s$
+\end_inset
+
+ (wlog 
+\begin_inset Formula $x\leq s$
+\end_inset
+
+),
+ we perform the operation shown on Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cndetree"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ The idea would be to repeat the process,
+ but if an element 
+\begin_inset Formula $y$
+\end_inset
+
+ is now enumerated between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ we have no place to branch the path off.
+ This issue is fixed if instead of branching at 
+\emph on
+depth
+\emph default
+ 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ we branch at the 
+\begin_inset Formula $y$
+\end_inset
+
+th branching point of the marked path.
+\end_layout
+
+\begin_layout Proof
+We need to handle the case where an element is enumerated before elements that have been considered before.
+ That is,
+ suppose that we've already enumerated 
+\begin_inset Formula $x_{0}<x_{1}<\dots<x_{n}$
+\end_inset
+
+ into 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ and that we now enumerate 
+\begin_inset Formula $y$
+\end_inset
+
+ between 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{i+1}$
+\end_inset
+
+.
+ (An analogous argument needs to be made if 
+\begin_inset Formula $y<x_{0}$
+\end_inset
+
+).
+ In this scenario,
+ we revise 
+\begin_inset Formula $p$
+\end_inset
+
+ at the 
+\begin_inset Formula $y$
+\end_inset
+
+th branching point,
+ and subsequently we must act as though we have just enumerated 
+\begin_inset Formula $x_{i+1},\dots,x_{n}$
+\end_inset
+
+ in order.
+\end_layout
+
+\begin_layout Proof
+Now,
+ let 
+\begin_inset Formula $p$
+\end_inset
+
+ denote the limit path.
+ Every path other than 
+\begin_inset Formula $p$
+\end_inset
+
+ will eventually diverge from the marked path forever,
+ and so will be isolated.
+ On the other hand,
+ it is clear that 
+\begin_inset Formula $p$
+\end_inset
+
+ is not isolated:
+ For example,
+ every 
+\begin_inset Formula $x\in A$
+\end_inset
+
+ induces a branching point!
+ Finally,
+ we claim that 
+\begin_inset Formula $p$
+\end_inset
+
+ is not computable.
+ Indeed,
+ we claim that 
+\begin_inset Formula $p$
+\end_inset
+
+ is Turing equivalent to 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ It is clear that from 
+\begin_inset Formula $A$
+\end_inset
+
+ we can compute 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ but moreover 
+\begin_inset Formula $A$
+\end_inset
+
+ can be read off of 
+\begin_inset Formula $p$
+\end_inset
+
+ as follows:
+ a number 
+\begin_inset Formula $x$
+\end_inset
+
+ is in 
+\begin_inset Formula $A$
+\end_inset
+
+ if and only if,
+ at the 
+\begin_inset Formula $x$
+\end_inset
+
+th branching point of 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ has gone to the right.
+\end_layout
+
+\begin_layout Proof
+This completes the proof.
+\end_layout
+
+\begin_layout Definition
+A 
+\emph on
+spinal
+\emph default
+ tree is a CNDE tree with exactly one path of rank 1,
+ such that every path that branches off of it becomes immediately isolated.
+\end_layout
+
+\begin_layout Proposition
+Every spinal tree is CNDEPAC.
+\end_layout
+
+\begin_layout Proof
+Since every isolated path is computable,
+ it suffices to verify that the unique nonprincipal path is computable.
+ To compute it,
+ simply follow along the tree,
+ and upon finding a branching point,
+ wait until one of the branches branches again.
+ This tells you where the nonprincipal path is going.
+\end_layout
+
+\begin_layout Definition
+A 
+\emph on
+0-spinal
+\emph default
+ tree is a tree that is either spinal,
+ or admits finitely many paths and its branching points form a chain.
+\end_layout
+
+\begin_layout Remark
+The 0-spinal trees are precisely the ones that can show up as branches of Millar's tree and suitable variations.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Schweber
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:schweber"
+
+\end_inset
+
+ There is no computable method that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Suppose that there is such a method.
+ Using the recursion theorem,
+ we adversarially construct a tree 
+\begin_inset Formula $T$
+\end_inset
+
+ to produce an incorrect result.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ start as a one-branch tree,
+ and commit to only branching when we see an element being enumerated into the order produced by the method;
+ call it 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $L$
+\end_inset
+
+ must agree with 
+\begin_inset Formula $\Lang(T)$
+\end_inset
+
+,
+ an element must eventually be enumerated into 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Keep note of it;
+ we will refer to it as 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ At this point,
+ branch the tree 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+For the same reason as in the previous paragraph,
+ a second element must be enumerated into 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ When it is so,
+ the two current branches of 
+\begin_inset Formula $T$
+\end_inset
+
+ are in correspondence with the elements of 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ and so one of the two branches must correspond to the element 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ Branch off of it.
+\end_layout
+
+\begin_layout Proof
+Continue this procedure:
+ Each time you branch,
+ wait until a new element is added into 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ then look at which of the two new branches corresponds to the element 
+\begin_inset Formula $0$
+\end_inset
+
+ and branch off that one.
+\end_layout
+
+\begin_layout Proof
+The resulting tree 
+\begin_inset Formula $T$
+\end_inset
+
+ has 
+\begin_inset Formula $\Lang(T)$
+\end_inset
+
+ of order type 
+\begin_inset Formula $n+\omega^{*}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\omega+n$
+\end_inset
+
+,
+ or 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+,
+ and it can be verified that in each of these instances the order produced by the algorithm is respectively 
+\begin_inset Formula $n+1+\omega^{*}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\omega+n+1$
+\end_inset
+
+,
+ or 
+\begin_inset Formula $\omega+1+\omega^{*}$
+\end_inset
+
+,
+ which is incorrect.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+There is no computable method that turns an index for a PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+There is no computable method that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:schweber"
+
+\end_inset
+
+ shows that a relatively naïve algorithm to compute 
+\begin_inset Formula $\Lang(\TM)$
+\end_inset
+
+,
+ by computing the orders of each branch and concatenating them,
+ will not succeed.
+\end_layout
+
+\begin_layout Standard
+I have decided to investigate the computability of algorithms that turn certain types of trees into orders associated for them.
+ For example:
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:omegabar"
+
+\end_inset
+
+There is an algorithm that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\omega+\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First,
+ we sketch an algorithm that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for:
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+\barLinear(T), & \text{if \ensuremath{T} has infinitely many branches,}\\
+n-1, & \text{if \ensuremath{\barLinear(T)=n}.}
+\end{cases}\label{eq:barlinearT}
+\end{equation}
+
+\end_inset
+
+This algorithm works as follows:
+ Wait until 
+\begin_inset Formula $T$
+\end_inset
+
+ branches,
+ and at that point introduce a designated element that we will call 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ When 
+\begin_inset Formula $T$
+\end_inset
+
+ branches again,
+ let's say on the left side,
+ we add a new element to the right of 
+\begin_inset Formula $0$
+\end_inset
+
+ to represent the branch that has just been abandoned.
+ At each stage,
+ 
+\begin_inset Formula $0$
+\end_inset
+
+ follows the latest branching point,
+ and elements are added for every branch that has been left behind.
+\end_layout
+
+\begin_layout Proof
+Now,
+ we adapt this algorithm to compute 
+\begin_inset Formula $\omega+\barLinear(T)$
+\end_inset
+
+.
+ At the start of the algorithm's execution,
+ add an element 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+,
+ which will be to the left of what the above algorithm does.
+ While the algorithm runs,
+ add elements to the immediate left of 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+.
+ When we find a branch of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ add a new element 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+immediately to the right of 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+,
+ and continue execution,
+ with 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ functioning as 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+ did previously.
+ When we find a new branch of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ we replace 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ by a new element 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+,
+ and so on.
+\end_layout
+
+\begin_layout Proof
+The purpose of this is so that,
+ if 
+\begin_inset Formula $T$
+\end_inset
+
+ branches finitely many times,
+ the last element 
+\begin_inset Formula $s_{n}$
+\end_inset
+
+ will compensate the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $-1$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ from the algorithm outlined above.
+ On other other hand,
+ if 
+\begin_inset Formula $T$
+\end_inset
+
+ branches infinitely many times,
+ all 
+\begin_inset Formula $s_{n}$
+\end_inset
+
+ will be absorbed into 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ In either case,
+ the resulting order type is 
+\begin_inset Formula $\omega+\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The above idea can be easily adapted to provide all of the following results.
+\end_layout
+
+\begin_layout Corollary
+There is an algorithm that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ and a nonnegative integer 
+\begin_inset Formula $n$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\omega+n+\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Apply Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:omegabar"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to the tree obtained by adding 
+\begin_inset Formula $n$
+\end_inset
+
+ branches on the left of 
+\begin_inset Formula $T$
+\end_inset
+
+ at the root.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:omega1linear"
+
+\end_inset
+
+There is an algorithm that turns an index for a 0-spinal tree 
+\begin_inset Formula $T$
+\end_inset
+
+ into an index for 
+\begin_inset Formula $\omega+1+\Linear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The significance of this last corollary is the following.
+ We have seen in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:tmpsi1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ that there is a choice of universal function for which 
+\begin_inset Formula $\Linear(\TM)$
+\end_inset
+
+ is computably representable.
+ This was done by constructing the order in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:barlinearT"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ for every branch,
+ and relying on the fact that (with the right universal function) every finite subtree is adjacent to one whose order is 
+\begin_inset Formula $\omega$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega^{*}$
+\end_inset
+
+,
+ facing in such a way as to absorb the 
+\begin_inset Formula $-1$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:barlinearT"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ This raises the idea that one could try to avoid this easy strategy by instead constructing 
+\begin_inset Quotes eld
+\end_inset
+
+separators
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In other words,
+ choose a universal function as to make
+\begin_inset Formula 
+\[
+\Linear(\TM)=(\omega+1)+\Linear(T_{0})+(1+\omega^{*})+(\omega+1)+\Linear(T_{1})+(1+\omega^{*})+\dots
+\]
+
+\end_inset
+
+The punchline is that Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:omega1linear"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ shows that this approach also does not work,
+ in the sense that the resulting Millar's Tree has a computably representable order.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:barlinear"
+
+\end_inset
+
+,
+ we get that computing 
+\begin_inset Formula $\barLinear$
+\end_inset
+
+ can be no easier than computing 
+\begin_inset Formula $\Linear$
+\end_inset
+
+.
+ However,
+ it leaves open the question of whether it is strictly harder.
+ A possible way to quantify this would be to find a tree for which 
+\begin_inset Formula $\Linear$
+\end_inset
+
+ is computable but 
+\begin_inset Formula $\barLinear$
+\end_inset
+
+ is not.
+ I have been unable to do so as yet.
+ However,
+ the following two results are a different way to express that there is an added difficulty in computing 
+\begin_inset Formula $\barLinear$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+There is an algorithm that turns an index for a CNDE tree 
+\begin_inset Formula $T$
+\end_inset
+
+ with exactly one path of rank 1 into an index for 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Consider the branching points of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ ordered lexicographically,
+ with the caveat that string terminator is seen as a character ordered between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ This order is isomorphic to 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+,
+ and we will now explain why.
+\end_layout
+
+\begin_layout Proof
+Any isolated path 
+\begin_inset Formula $q$
+\end_inset
+
+ of 
+\begin_inset Formula $T$
+\end_inset
+
+ branches off of the unique rank 1 path,
+ which we call 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ be the node at which this happens,
+ with 
+\begin_inset Formula $q=\sigma iq'$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $i\in2$
+\end_inset
+
+.
+ As a consequence,
+ there are finitely many paths below 
+\begin_inset Formula $\sigma i$
+\end_inset
+
+,
+ let us say 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ As such,
+ there are 
+\begin_inset Formula $n-1$
+\end_inset
+
+ branching points at or below 
+\begin_inset Formula $\sigma i$
+\end_inset
+
+.
+ Hence,
+ we can put 
+\begin_inset Quotes eld
+\end_inset
+
+paths below 
+\begin_inset Formula $\sigma i$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ in ordered bijection with 
+\begin_inset Quotes eld
+\end_inset
+
+branching points below 
+\begin_inset Formula $\sigma i$
+\end_inset
+
+,
+ plus 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ itself
+\begin_inset Quotes erd
+\end_inset
+
+.
+ If we perform this procedure for every branching point of 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ we obtain an order preserving bijection between the isolated paths and the branching points,
+ as desired.
+\end_layout
+
+\begin_layout Proposition
+There is no algorithm that turns an index for a CNDE tree 
+\begin_inset Formula $T$
+\end_inset
+
+ with exactly one path of rank 1 into an index for 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Suppose that there is such an algorithm.
+ Using the recursion theorem,
+ we build a tree 
+\begin_inset Formula $T$
+\end_inset
+
+ to play against it.
+\end_layout
+
+\begin_layout Proof
+Here is the main idea.
+ We shall ensure that every particular element of the constructed order is 
+\emph on
+not
+\emph default
+ the unique rank 1 element,
+ by committing it to having finitely many elements to its left or to its right,
+ and controlling the number of such paths in each case.
+ However,
+ the constructed order may,
+ against our wishes,
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+honestly i'm not sure this proof works :/
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

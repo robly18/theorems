@@ -1,0 +1,910 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass modules/presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily\footnotesize},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Pizza Seminar Talk
+\begin_inset Newline newline
+\end_inset
+
+Zorn's Lemma Killed the Ordinal Star
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+2 October,
+ 2024
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction - Building a Basis
+\end_layout
+
+\begin_layout Point
+Naïve proof that every vector space has a basis:
+ At any given step,
+ if you don't have a basis yet,
+ pick an element not in your span.
+ Continue infinitely.
+\end_layout
+
+\begin_layout Point
+This won't work for 
+\begin_inset Formula $\omega$
+\end_inset
+
+ amount,
+ but what if we keep going?
+\end_layout
+
+\begin_layout Section
+Introducing the Ordinals – Counting to Large Numbers
+\end_layout
+
+\begin_layout Point
+Ordinals let us formalize above proof.
+ Introduced by Cantor in 1883.
+\end_layout
+
+\begin_layout Point
+Sketch the ordinals.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Any nonempty collection of ordinals admits a least element.
+\end_layout
+
+\begin_layout point
+Proof:
+ Induct on 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ the statement:
+ If a collection of ordinals contains 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ or an element below it,
+ it admits a least element.
+\end_layout
+
+\begin_layout point
+\begin_inset Formula $\alpha=0$
+\end_inset
+
+ obvious.
+ 
+\begin_inset Formula $\alpha\implies\alpha+1$
+\end_inset
+
+:
+ If it contains 
+\begin_inset Formula $\leq\alpha$
+\end_inset
+
+,
+ IH.
+ Otherwise,
+ 
+\begin_inset Formula $\alpha+1$
+\end_inset
+
+ is least element.
+ Limit step:
+ Similar.
+ 
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Define the 
+\begin_inset Quotes eld
+\end_inset
+
+size of an ordinal
+\begin_inset Quotes erd
+\end_inset
+
+ as the number of predecessors.
+ Observe that every finite ordinal is identified by its size,
+ but not so with the infinite ones.
+ Define 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+,
+ and induct.
+\end_layout
+
+\begin_layout Point
+These are also referred to as 
+\begin_inset Formula $\aleph_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\aleph_{1}$
+\end_inset
+
+,
+ and so on.
+ It turns out that the following theorem holds (Assuming Choice):
+ Any set is in bijection with some ordinal.
+ Thus,
+ every possible 
+\begin_inset Quotes eld
+\end_inset
+
+set size
+\begin_inset Quotes erd
+\end_inset
+
+ is one of these alephs!
+\end_layout
+
+\begin_layout Point
+Bonus question:
+ We know that 
+\begin_inset Formula $\aleph_{0}$
+\end_inset
+
+ is the size of the natural numbers.
+ What would be the size of 
+\begin_inset Formula $\R$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Section
+Proving Stuff with Ordinals
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Any vector space 
+\begin_inset Formula $V$
+\end_inset
+
+ has a basis.
+\end_layout
+
+\begin_layout point
+Proof:
+ Define an ordinal-indexed sequence of vectors as follows.
+\begin_inset FormulaMacro
+\newcommand{\span}{\mathop{\mathrm{span}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout point
+\begin_inset Formula $v_{\alpha}$
+\end_inset
+
+ is an element not in 
+\begin_inset Formula $\span\{v_{\beta}\}_{\beta<\alpha}$
+\end_inset
+
+ if it exists.
+\end_layout
+
+\begin_layout point
+By TFI,
+ can show that these vectors are all linearly independent.
+ Moreover,
+ if the construction ever fails,
+ we have a generating set.
+ Finally,
+ cardinality considerations force the construction to end eventually.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Any ring has a maximal ideal.
+\end_layout
+
+\begin_layout point
+Proof:
+ Ordinal-indexed sequence of ideals.
+\end_layout
+
+\begin_layout point
+\begin_inset Formula $I_{0}=\braket 0$
+\end_inset
+
+.
+ 
+\begin_inset Formula $I_{\alpha+1}$
+\end_inset
+
+:
+ Some ideal strictly between 
+\begin_inset Formula $I_{\alpha}$
+\end_inset
+
+ and 
+\begin_inset Formula $R$
+\end_inset
+
+ if it exists.
+ 
+\begin_inset Formula $I_{\lambda}=\bigcup_{\alpha<\lambda}I_{\alpha}$
+\end_inset
+
+.
+ Again this must halt sometime by cardinality considerations.
+ It must do so at the successor stage.
+ When it does,
+ we have a maximal ideal.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Ordinals in the Early 1900's
+\end_layout
+
+\begin_layout Point
+Krull's theorem (the one we just proved) was first proven in 1929 using TFI in a way similar to what we did.
+ I took a look at his paper but it's in german and I could not understand it,
+ but it did say 
+\begin_inset Quotes eld
+\end_inset
+
+Transfinite Induktion!
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Tychonoff also proved his theorem in 1930 using TFI.
+ He did it specifically for 
+\begin_inset Formula $\prod_{i\in I}[0,1]$
+\end_inset
+
+ using a (nowadays) little-known definition of compactness.
+ In 1935 he stated it for the general case,
+ with the proof being the same.
+ It's too nontrivial for me to explain,
+ however.
+\end_layout
+
+\begin_layout Point
+When Borel was building measure theory in 1898,
+ he defined what we now call the Borel measurable sets.
+ Nowadays,
+ these are defined as 
+\begin_inset Quotes eld
+\end_inset
+
+the smallest 
+\begin_inset Formula $\sigma$
+\end_inset
+
+-algebra containing the open sets
+\begin_inset Quotes erd
+\end_inset
+
+,
+ but originally he defined them transrecursively!
+\end_layout
+
+\begin_layout Point
+For Borel,
+ he defined the collection of measurable sets as follows:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B_{0}$
+\end_inset
+
+ is the collection of open sets,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B_{\alpha+1}$
+\end_inset
+
+ is the collection of sets obtained as complements or countable unions of elements of 
+\begin_inset Formula $B_{\alpha}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B_{\lambda}=\bigcup_{\alpha<\lambda}B_{\alpha}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+This chain stabilizes starting with 
+\begin_inset Formula $B_{\omega_{1}}$
+\end_inset
+
+,
+ and the resulting sets are the measurable sets.
+\end_layout
+
+\begin_layout Point
+This different perspective does give rise to some interesting math that is invisible from the modern perspective.
+ For example,
+ we can ask,
+ given a set,
+ when does it first show up?
+ This gives us a measure of how 
+\begin_inset Quotes eld
+\end_inset
+
+complicated
+\begin_inset Quotes erd
+\end_inset
+
+ the set is.
+ This gives rise to the so-called Borel hierarchy.
+\end_layout
+
+\begin_layout Point
+We can also ask:
+ How long does this chain take to stabilize?
+ It turns out to really need 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+ for 
+\begin_inset Formula $\R$
+\end_inset
+
+,
+ but it is consistent with ZF (no choice) that it actually stops much earlier,
+ as far down as 
+\begin_inset Formula $B_{2}$
+\end_inset
+
+,
+ or much higher,
+ as far up as 
+\begin_inset Formula $B_{\omega_{2}}$
+\end_inset
+
+.
+ Also,
+ assuming CH (and choice),
+ there are subsets 
+\begin_inset Formula $X\subseteq\R$
+\end_inset
+
+ where the process stabilizes at any stage 
+\begin_inset Formula $<\omega_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Zorn (Result)
+\end_layout
+
+\begin_layout Point
+Zorn's lemma comes in as a way to systematize the following construction:
+ Want to build object by taking 
+\begin_inset Quotes eld
+\end_inset
+
+partially built objects
+\begin_inset Quotes erd
+\end_inset
+
+ and adding onto it until it is done.
+\end_layout
+
+\begin_layout Point
+In TFR parlance,
+ we want to make a transfinite sequence of partially built objects,
+ in such a way that,
+ when we can no longer add to our object (i.e.
+\begin_inset space \space{}
+\end_inset
+
+it is maximal),
+ the object satisfies what we want and the proof is complete.
+\end_layout
+
+\begin_layout Point
+This is exactly the (or rather,
+ a) proof of Zorn's lemma.
+ If 
+\begin_inset Formula $(P,\leq)$
+\end_inset
+
+ is our poset,
+ we build the ordered transfinite sequence:
+\begin_inset Formula 
+\[
+x_{\alpha}=\text{some strict upper bound to \ensuremath{\{x_{\beta}\}_{\beta<\alpha}},}
+\]
+
+\end_inset
+
+for as long as possible.
+ When it stops being possible (and it does,
+ by cardinality),
+ it is easy to check that the last element is a maximal element of 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Zorn (History)
+\end_layout
+
+\begin_layout Point
+I don't know the real history behind this,
+ so the following version of history is definitely colorized for dramatic effect and you should not believe me,
+ but:
+\end_layout
+
+\begin_layout Point
+As we can see from what I've said before,
+ mathematicians in the early 1900's were comfortable with ordinals.
+ This is not to say that they were used for everything:
+ Many proofs were performed using AC or the Well-Ordering principle directly.
+ But some were definitely done with transfinite recursion.
+\end_layout
+
+\begin_layout Point
+However,
+ some mathematicians figured out a way to encapsulate a very common type of TFR construction,
+ of which Zorn was not the first.
+ Principles similar to Zorn's lemma go as far back as a 1907 paper by Hausdorff and a 1922 paper by Kuratowski,
+ among others.
+\end_layout
+
+\begin_layout Point
+These early results were stated and applied in a very topological lens.
+ For example,
+ Hausdorff's original statement was:
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \qquad{}
+\end_inset
+
+For every set 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ there exists a maximal chain of subsets of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+I couldn't understand what he 
+\emph on
+proved
+\emph default
+,
+ as the relevant book is in german,
+ but it seems to be set theory and topology.
+\end_layout
+
+\begin_layout Point
+Anyway,
+ in 1933 Zorn finally stated what we now recognize as a particular case of Zorn's Lemma for subsets of the poset 
+\begin_inset Formula $(\mathcal{P}(X),\subseteq)$
+\end_inset
+
+ that are closed under union of chains.
+\end_layout
+
+\begin_layout Point
+He actually intended it as a set-theoretical principle,
+ alternative to the Axiom of Choice.
+ What set him apart were the following two factors:
+ He was the first to claim (but not prove – that was due to Artin) that ZL implies AC,
+ and he was the first to apply it to algebra instead of topology,
+ together with Artin and Chevalley.
+\end_layout
+
+\begin_layout Point
+Now,
+ I have no sources for the following part,
+ but as I understand it,
+ the principle caught on as a powerful black box to prove stuff in algebra,
+ as it required far less background than TFI.
+ Bourbaki [1939] was the first to refer to it as 
+\begin_inset Quotes eld
+\end_inset
+
+le théorème de Zorn
+\begin_inset Quotes erd
+\end_inset
+
+ and Tukey [1940] was the first to refer to it as 
+\begin_inset Quotes eld
+\end_inset
+
+Zorn's Lemma
+\begin_inset Quotes erd
+\end_inset
+
+,
+ at least in print.
+\end_layout
+
+\begin_layout Point
+So...
+ Thanks to all of this,
+ transfinite induction has been relegated to fields where either its extra strength comes in useful,
+ or where ordinals are already common parlance anyway.
+\end_layout
+
+\begin_layout Point
+The modern version first appeared in Bochner [1929],
+ but only caught on after the work of Chevalley [1936] and Bourbaki and Tukey.
+\end_layout
+
+\begin_layout Section
+Zorn is Not All Powerful!
+\end_layout
+
+\begin_layout Point
+Now let's talk about limitations of Zorn's Lemma.
+\end_layout
+
+\begin_layout Point
+The original proof of Tychonoff's theorem cannot be easily written using Zorn's Lemma.
+ It uses essential properties of transfinite induction that cannot easily be replicated.
+ However,
+ since this would be too complicated for Pizza Seminar,
+ I will present a toy example that shows the weakness.
+\end_layout
+
+\begin_layout Point
+Theorem (Sierpinski,
+ 1958 – Mazurkiewicz ?) There is a set 
+\begin_inset Formula $X\subseteq\R^{2}$
+\end_inset
+
+ such that every line crosses 
+\begin_inset Formula $X$
+\end_inset
+
+ exactly twice.
+\end_layout
+
+\begin_layout point
+Proof:
+ Enumerate the lines in the plane 
+\begin_inset Formula $\{\ell_{\alpha}\}_{\alpha<2^{\aleph_{0}}}$
+\end_inset
+
+.
+ We build a set 
+\begin_inset Formula $X$
+\end_inset
+
+ in stages 
+\begin_inset Formula $\{X_{\alpha}\}_{\alpha\leq2^{\aleph_{0}}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Set 
+\begin_inset Formula $X_{0}=\emptyset$
+\end_inset
+
+.
+ Suppose 
+\begin_inset Formula $X_{\alpha}$
+\end_inset
+
+ is defined,
+ and suppose inductively that 
+\begin_inset Formula $X_{\alpha}$
+\end_inset
+
+ does not contain three colinear points,
+ and touches every line (strictly) up to 
+\begin_inset Formula $\ell_{\alpha}$
+\end_inset
+
+ exactly twice.
+ We build 
+\begin_inset Formula $X_{\alpha+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+If 
+\begin_inset Formula $X_{\alpha}\cap\ell_{\alpha}$
+\end_inset
+
+ contains two points,
+ then we're done.
+ Otherwise,
+ we seek to pick a point in 
+\begin_inset Formula $\ell_{\alpha}$
+\end_inset
+
+ that is not in any line defined by two points in 
+\begin_inset Formula $X_{\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Cardinality argument.
+ 
+\begin_inset Formula $\ell_{\alpha}$
+\end_inset
+
+ has size continuum.
+ Moreover,
+ 
+\begin_inset Formula $X_{\alpha}$
+\end_inset
+
+ has size 
+\emph on
+strictly less
+\emph default
+ than continuum,
+ and so the set of lines defined by its pairs of points is also less than continuum.
+ Each such line crosses 
+\begin_inset Formula $\ell_{\alpha}$
+\end_inset
+
+ at most once,
+ so only less-than-continuum points are ruled out.
+ Let 
+\begin_inset Formula $X_{\alpha+1}$
+\end_inset
+
+ consist of 
+\begin_inset Formula $X_{\alpha}$
+\end_inset
+
+,
+ plus two points that have not been ruled out.
+\end_layout
+
+\begin_layout point
+Finally,
+ define 
+\begin_inset Formula $X_{\lambda}=\bigcup_{\alpha<\lambda}X_{\alpha}$
+\end_inset
+
+.
+ It is clear that the inductive hypothesis holds.
+ Thus,
+ 
+\begin_inset Formula $X_{2^{\aleph_{0}}}$
+\end_inset
+
+ is the desired set.
+\end_layout
+
+\begin_layout Point
+A proof using ZL would fail because we very specifically used the fact that every partially-built object has size less-than-continuum.
+ However,
+ the final object has size continuum.
+ Thus,
+ it could not be in a poset of 
+\begin_inset Quotes eld
+\end_inset
+
+partially-built solutions
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and so cannot be found as a maximal element therein.
+\end_layout
+
+\begin_layout Point
+A slightly harder example,
+ which is given as an exercise in Maryanthe's logic class,
+ is to show that 
+\begin_inset Formula $\R^{3}$
+\end_inset
+
+ can be written as a disjoin union of unit circles.
+\end_layout
+
+\begin_layout Point
+In modern model theory (a field I know a little bit about),
+ the method of TFR is often better,
+ because cardinality restrictions are frequent.
+ Thus,
+ a proof by Zorn's lemma might be used to show that something holds 
+\begin_inset Quotes eld
+\end_inset
+
+for all cardinalities below 
+\begin_inset Formula $\lambda$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ but a proof with TFR can extend this to 
+\begin_inset Quotes eld
+\end_inset
+
+for all cardinalities up to and including 
+\begin_inset Formula $\lambda$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

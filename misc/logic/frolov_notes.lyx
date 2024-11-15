@@ -1,0 +1,2384 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Notes on a Paper by Frolov
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+I have been reading a paper by Andrey Frolov 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "frolov_low"
+literal "false"
+
+\end_inset
+
+ which has been proving challenging to read.
+ I thought it would be beneficial to write myself an account of a proof I was interested in understanding.
+ I also make some extra observations at the end.
+\end_layout
+
+\begin_layout Section
+Notation
+\end_layout
+
+\begin_layout Standard
+I follow Frolov's notation,
+ for the most part.
+ Here are the relevant pieces of notation.
+ Some divergence may occur;
+ I will attempt to mark these points of divergence with footnotes.
+ Assume 
+\begin_inset Formula $L$
+\end_inset
+
+ is a linearly ordered set,
+ ordered by 
+\begin_inset Formula $<$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The successor relation 
+\begin_inset Formula $S(x,y)$
+\end_inset
+
+ is defined as meaning that 
+\begin_inset Formula $y$
+\end_inset
+
+ is the immediate successor of 
+\begin_inset Formula $x$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+We define interval notation 
+\begin_inset Formula $[x,y]$
+\end_inset
+
+ as the set 
+\begin_inset Formula $\{z\in L\mid x\leq z\leq y\}$
+\end_inset
+
+,
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Frolov defines it as the set of all points nonstrictly 
+\emph on
+between
+\emph default
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ which differs from our definition if 
+\begin_inset Formula $x>y$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We define the 
+\emph on
+block relation
+\emph default
+ 
+\begin_inset Formula $F(x,y)$
+\end_inset
+
+ as meaning that there are finitely many elements between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+The block of 
+\begin_inset Formula $x\in L$
+\end_inset
+
+,
+ denoted 
+\begin_inset Formula $[x]$
+\end_inset
+
+,
+ is the equivalence class of 
+\begin_inset Formula $x$
+\end_inset
+
+ under 
+\begin_inset Formula $F$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+Given 
+\begin_inset Formula $k\in\N$
+\end_inset
+
+,
+ we say that 
+\begin_inset Formula $L$
+\end_inset
+
+ is 
+\emph on
+
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscrete
+\emph default
+ if every block 
+\begin_inset Formula $[x]$
+\end_inset
+
+ is either infinite or has size at most 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Computable Representations
+\end_layout
+
+\begin_layout Standard
+Since I personally am not interested in isomorphism complexity at the moment,
+ I state and prove Frolov's results in a simplified manner.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm1"
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $f\colon L\to R$
+\end_inset
+
+ is an order embedding satisfying
+\begin_inset FormulaMacro
+\newcommand{\im}{\mathop{\mathrm{im}}}
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label={(
+\backslash
+arabic*)}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm1:cond1"
+
+\end_inset
+
+If 
+\begin_inset Formula $S(x,x')$
+\end_inset
+
+ then 
+\begin_inset Formula $F(f(x),f(x'))$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "thm1:cond2"
+
+\end_inset
+
+If 
+\begin_inset Formula $y\in R\setminus\im f$
+\end_inset
+
+ then 
+\begin_inset Formula $[y]$
+\end_inset
+
+ is infinite and there exist 
+\begin_inset Formula $x,x'$
+\end_inset
+
+ 
+\begin_inset Formula $L$
+\end_inset
+
+-successors so that 
+\begin_inset Formula $y\in[f(x),f(x')]$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Theorem
+Then,
+ 
+\begin_inset Formula $L$
+\end_inset
+
+ and 
+\begin_inset Formula $R$
+\end_inset
+
+ are isomorphic orders.
+\end_layout
+
+\begin_layout Proof
+First,
+ we investigate how 
+\begin_inset Formula $f$
+\end_inset
+
+ acts on blocks of 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Indeed,
+ by condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ any two 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ in the same 
+\begin_inset Formula $L$
+\end_inset
+
+-block will be taken to the same 
+\begin_inset Formula $R$
+\end_inset
+
+-block.
+ On the other hand,
+ the fact that 
+\begin_inset Formula $f$
+\end_inset
+
+ is an order embedding implies that any two elements in distinct blocks will be taken to distinct blocks.
+\end_layout
+
+\begin_layout Proof
+Then,
+ we note that each block (in either side) is either finite,
+ 
+\begin_inset Formula $\omega$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\omega^{*}$
+\end_inset
+
+,
+ or 
+\begin_inset Formula $\omega^{*}+\omega$
+\end_inset
+
+.
+ Condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is sufficient to ensure that each block is taken to a block of the same type,
+ and moreover that a finite block is taken to a finite block of the same size.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:iso"
+
+\end_inset
+
+Let 
+\begin_inset Formula $L$
+\end_inset
+
+ be a 
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscrete linear order such that both 
+\begin_inset Formula $L$
+\end_inset
+
+ and its successor relation are 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable.
+ Then,
+ 
+\begin_inset Formula $L$
+\end_inset
+
+ is isomorphic to a computable order 
+\begin_inset Formula $R$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+This is done by constructing the (computable) linear order 
+\begin_inset Formula $R$
+\end_inset
+
+,
+ together with an (
+\begin_inset Formula $0'$
+\end_inset
+
+-computable) embedding 
+\begin_inset Formula $f\colon L\to R$
+\end_inset
+
+,
+ satisfying the conditions of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $(L,<,S)$
+\end_inset
+
+ is 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable,
+ we may assume that we are given a computable sequence 
+\begin_inset Formula $(L_{s},<_{s},S_{s})$
+\end_inset
+
+ whose limit is our original order.
+ We can easily modify this sequence to assume,
+ without loss of generality,
+ that at each step one of the following operations is performed:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An element is added to 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $L_{s+1}=L_{s}\cup\{q(s)\}$
+\end_inset
+
+,
+ with its relation to other elements being immediately set,
+ or
+\end_layout
+
+\begin_layout Itemize
+An element of 
+\begin_inset Formula $L$
+\end_inset
+
+ is removed,
+ with 
+\begin_inset Formula $L_{s+1}=L_{s}\setminus\{q(s)\}$
+\end_inset
+
+,
+ with everyone else's relation to each other remaining the same.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We assume also that no natural number is 
+\begin_inset Quotes eld
+\end_inset
+
+recycled
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In other words,
+ once an element is removed,
+ it is never added back.
+ We moreover demand that at each step 
+\begin_inset Formula $(L_{s},<_{s},S_{s})$
+\end_inset
+
+ is 
+\begin_inset Quotes eld
+\end_inset
+
+plausible
+\begin_inset Quotes erd
+\end_inset
+
+,
+ in the sense that 
+\begin_inset Formula $<_{s}$
+\end_inset
+
+ is a linear order,
+ and that 
+\begin_inset Formula $S_{s}(x,y)$
+\end_inset
+
+ implies 
+\begin_inset Formula $x<_{s}y$
+\end_inset
+
+ and that there is no one else 
+\begin_inset Formula $<_{s}$
+\end_inset
+
+-inbetween them.
+ Also,
+ the result is obvious if 
+\begin_inset Formula $L$
+\end_inset
+
+ is finite,
+ so we assume that 
+\begin_inset Formula $L$
+\end_inset
+
+ is infinite.
+\end_layout
+
+\begin_layout Proof
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Under these assumptions,
+ we may see 
+\begin_inset Formula $L_{s}$
+\end_inset
+
+ structurally as disjoint and ordered union of 
+\begin_inset Quotes eld
+\end_inset
+
+successor chains
+\begin_inset Quotes erd
+\end_inset
+
+.
+ That is,
+ we decompose 
+\begin_inset Formula $L_{s}=T_{0}+\dots+T_{n}$
+\end_inset
+
+ with each 
+\begin_inset Formula $T_{j}=\{a_{1}^{j}Sa_{1}^{j}S\dots Sa_{\lambda(j)}^{j}\}$
+\end_inset
+
+ and no elements of 
+\begin_inset Formula $T_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{j+1}$
+\end_inset
+
+ being successors.
+ Moreover,
+ at each step we are performing one of the following operations:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Removal of an element (possibly splitting a chain into two),
+\end_layout
+
+\begin_layout Itemize
+Addition of an isolated element,
+\end_layout
+
+\begin_layout Itemize
+Addition of an element that connects to the start or end of a chain,
+\end_layout
+
+\begin_layout Itemize
+Addition of an element that connects two chains.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We add four more assumptions to our construction of 
+\begin_inset Formula $L$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "asmp:1"
+
+\end_inset
+
+If an element is ever removed,
+ we also remove all elements that have been added after it.
+ This can be acheived by,
+ if an element is ever removed,
+ we subsequently remove and re-add all elements that were added after it.
+ (It requires minor verification to see that every element of 
+\begin_inset Formula $L$
+\end_inset
+
+ is removed and added a finite number of times.)
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "asmp:2"
+
+\end_inset
+
+If an element 
+\begin_inset Formula $\nu$
+\end_inset
+
+ is added that connects two chains 
+\begin_inset Formula $T_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{j+1}$
+\end_inset
+
+,
+ we must have 
+\begin_inset Formula $\lambda(j)+1+\lambda(j+1)>k$
+\end_inset
+
+.
+ This is because,
+ if an element was ever about to be added that would connect two chains with total length 
+\begin_inset Formula $k$
+\end_inset
+
+ or less,
+ we instead remove all elements of the youngest chain,
+ and subsequently add 
+\begin_inset Formula $\nu$
+\end_inset
+
+ and the elements of this chain one by one,
+ so that at each step we are only adding an element that connects to the start or end of a chain.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+It requires verification that every element of 
+\begin_inset Formula $L$
+\end_inset
+
+ is removed and added a finite number of times in this manner.
+ As such,
+ let 
+\begin_inset Formula $x$
+\end_inset
+
+ be an element of 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $x$
+\end_inset
+
+ is part of a large (
+\begin_inset Formula $>k$
+\end_inset
+
+) block,
+ eventually 
+\begin_inset Formula $x$
+\end_inset
+
+ will be (forevermore) part of a large enough chain that it will never be removed by this provision.
+ On the other hand,
+ suppose that 
+\begin_inset Formula $x$
+\end_inset
+
+ is part of a small (
+\begin_inset Formula $\leq k$
+\end_inset
+
+) block.
+ Enumerate 
+\begin_inset Formula $L$
+\end_inset
+
+ until all elements of this block have been enumerated.
+ Moreover,
+ for any other element 
+\begin_inset Formula $y$
+\end_inset
+
+ of 
+\begin_inset Formula $L$
+\end_inset
+
+ enumerated by this stage,
+ there are infinitely many – and so,
+ at least 
+\begin_inset Formula $k+1$
+\end_inset
+
+ – elements between this chain and 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ Wait until at least 
+\begin_inset Formula $k+1$
+\end_inset
+
+ elements have been permanently added by the pre-modification enumeration between the chain containing 
+\begin_inset Formula $x$
+\end_inset
+
+ and every other element 
+\begin_inset Formula $y$
+\end_inset
+
+ that was added to 
+\begin_inset Formula $L$
+\end_inset
+
+ before 
+\begin_inset Formula $x$
+\end_inset
+
+ was.
+ Now,
+ if the chain containing 
+\begin_inset Formula $x$
+\end_inset
+
+ is ever connected to an older chain,
+ it will have had to pass through at least 
+\begin_inset Formula $k+1$
+\end_inset
+
+ elements on the way,
+ and so the chain containing 
+\begin_inset Formula $x$
+\end_inset
+
+ will never be erased.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "asmp:3"
+
+\end_inset
+
+We assume that 
+\begin_inset Formula $L$
+\end_inset
+
+ has a maximal element 
+\begin_inset Formula $+\infty$
+\end_inset
+
+ and a minimal element 
+\begin_inset Formula $-\infty$
+\end_inset
+
+,
+ that these are the first two elements enumerated into 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ and that no one is ever added above 
+\begin_inset Formula $+\infty$
+\end_inset
+
+ or below 
+\begin_inset Formula $-\infty$
+\end_inset
+
+
+\emph on
+.
+
+\emph default
+ Our construction only works for linear orders with such a maximal and minimal element.
+ Now,
+ given any linear order 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ we can ask whether it has a maximal element and add one if not,
+ and ask whether it has a minimal element and add one if not,
+ and in either case change our enumeration of 
+\begin_inset Formula $L$
+\end_inset
+
+ as to satisfy our assumption.
+ It should be noted,
+ however,
+ that this is not a universal process,
+ and indeed Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:noneff"
+
+\end_inset
+
+ below shows that it could not be so.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "asmp:4"
+
+\end_inset
+
+We also never allow 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ or 
+\begin_inset Formula $+\infty$
+\end_inset
+
+ to be removed.
+ In light of assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ this means that we need to ensure that 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $+\infty$
+\end_inset
+
+ are never connected by less than 
+\begin_inset Formula $k$
+\end_inset
+
+ successive elements.
+ A way to ensure this is by,
+ if about to add an element that connects 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $+\infty$
+\end_inset
+
+,
+ not actually adding it.
+ This is inconsequential:
+ we're assuming that 
+\begin_inset Formula $L$
+\end_inset
+
+ is infinite,
+ and so in light of assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:1"
+
+\end_inset
+
+ the element that we just refused to add was going to be removed later in any case.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We now provide an algorithm that reacts to each of the above moves to create a computable linear order by stages,
+ 
+\begin_inset Formula $R=\cup_{s}R_{s}$
+\end_inset
+
+,
+ and a computable sequence of maps 
+\begin_inset Formula $f_{s}\colon L_{s}\to R_{s}$
+\end_inset
+
+.
+ We will show that the sequence 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ stabilizes pointwise and satisfies the conditions of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We start by handling the cases where an element has been added.
+ Suppose 
+\begin_inset Formula $L_{s+1}=L_{s}\cup\{q\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Suppose that 
+\begin_inset Formula $q$
+\end_inset
+
+ is not related to anyone by 
+\begin_inset Formula $S_{s}$
+\end_inset
+
+,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+it is an isolated element (for now).
+ By assumptions 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:3"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:4"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ however,
+ it definitely has immediate successors and predecessors in 
+\begin_inset Formula $L_{s}$
+\end_inset
+
+ (meaning not by the 
+\begin_inset Formula $S_{s}$
+\end_inset
+
+ relation,
+ but instead by the successor relation induced by 
+\begin_inset Formula $<_{s}$
+\end_inset
+
+).
+ Let 
+\begin_inset Formula $a<_{s}q<_{s}b$
+\end_inset
+
+ be this predecessor and successor.
+ We seek to define 
+\begin_inset Formula $f(q)$
+\end_inset
+
+.
+ By virtue of 
+\begin_inset Formula $f$
+\end_inset
+
+ being (intended to be) an order-preserving embedding,
+ there is some restriction on what 
+\begin_inset Formula $f_{s+1}(q)$
+\end_inset
+
+ may be defined as;
+ namely,
+ it has to be in the open interval 
+\begin_inset Formula $Q=\left]f(a),f(b)\right[$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $Q$
+\end_inset
+
+ is nonempty,
+ we define 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ as the element of 
+\begin_inset Formula $Q$
+\end_inset
+
+ that has been added to 
+\begin_inset Formula $R$
+\end_inset
+
+ the earliest.
+ Otherwise,
+ add a new element 
+\begin_inset Formula $r$
+\end_inset
+
+ to 
+\begin_inset Formula $R$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $f(a)<r<f(b)$
+\end_inset
+
+ and set 
+\begin_inset Formula $f(q)=r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Suppose now that 
+\begin_inset Formula $q$
+\end_inset
+
+ connects to the start of a chain 
+\begin_inset Formula $T_{j}$
+\end_inset
+
+ (though not to the end of another).
+ This paragraph may be suitably modified if 
+\begin_inset Formula $q$
+\end_inset
+
+ connects to the end of a chain but not the start of another.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Recall that 
+\begin_inset Formula $\lambda(j)$
+\end_inset
+
+ is the size of the chain 
+\begin_inset Formula $T_{j}$
+\end_inset
+
+.
+ The construction separates into cases,
+ depending on whether 
+\begin_inset Formula $\lambda(j)+1$
+\end_inset
+
+ is less than or equal to 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ or greater than 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\lambda(j)+1\leq k$
+\end_inset
+
+:
+ Add a new element to 
+\begin_inset Formula $R$
+\end_inset
+
+ just before 
+\begin_inset Formula $f(a_{1}^{j})$
+\end_inset
+
+,
+ and set 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ to be this element;
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\lambda(j)+1>k$
+\end_inset
+
+:
+ Let 
+\begin_inset Formula $Q$
+\end_inset
+
+ be the set of elements of 
+\begin_inset Formula $R_{s}$
+\end_inset
+
+ that are less than 
+\begin_inset Formula $f(a_{1}^{j})$
+\end_inset
+
+,
+ but greater than 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ for all 
+\begin_inset Formula $x<_{s}a_{1}^{j}$
+\end_inset
+
+.
+ If this set is nonempty,
+ set 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ to be the element of 
+\begin_inset Formula $Q$
+\end_inset
+
+ that was first added to 
+\begin_inset Formula $R$
+\end_inset
+
+.
+ Otherwise,
+ add a new element to 
+\begin_inset Formula $R$
+\end_inset
+
+ as to make 
+\begin_inset Formula $Q$
+\end_inset
+
+ nonempty,
+ and set 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ to be this element.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Finally,
+ suppose that 
+\begin_inset Formula $q$
+\end_inset
+
+ connects two chains 
+\begin_inset Formula $T_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{j+1}$
+\end_inset
+
+.
+ By assumption 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "asmp:2"
+
+\end_inset
+
+,
+ we must have 
+\begin_inset Formula $\lambda(j)+1+\lambda(j+1)>k$
+\end_inset
+
+.
+ Now,
+ let 
+\begin_inset Formula $Q$
+\end_inset
+
+ be the set of elements of 
+\begin_inset Formula $R_{s}$
+\end_inset
+
+ that are inbetween 
+\begin_inset Formula $f(a_{\lambda(j)}^{j})$
+\end_inset
+
+ and 
+\begin_inset Formula $f(a_{1}^{j+1})$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $Q$
+\end_inset
+
+ is nonempty,
+ set 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ to be the earliest added element of 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+ Otherwise,
+ add a new element to 
+\begin_inset Formula $R$
+\end_inset
+
+ as to make 
+\begin_inset Formula $Q$
+\end_inset
+
+ nonempty,
+ and set 
+\begin_inset Formula $f(q)$
+\end_inset
+
+ to be this new element.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Finally,
+ if an element has been removed from 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ we simply remove it and leave everything else the way it is.
+ In particular,
+ this is a source of – and indeed the only source of – elements of 
+\begin_inset Formula $R$
+\end_inset
+
+ that are not given by 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ for some 
+\begin_inset Formula $x\in L$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset VSpace medskip
+\end_inset
+
+The above algorithm produces a function 
+\begin_inset Formula $f\colon L\to R$
+\end_inset
+
+.
+ Indeed,
+ any element of 
+\begin_inset Formula $L$
+\end_inset
+
+ corresponds to an element 
+\begin_inset Formula $x$
+\end_inset
+
+ that was added and never removed,
+ and none of the rules above ever change the value of 
+\begin_inset Formula $f(x)$
+\end_inset
+
+.
+ Moreover,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ is clearly an order embedding 
+\begin_inset Formula $L\hookrightarrow R$
+\end_inset
+
+,
+ so it remains to verify the two conditions of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+To verify condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ suppose that 
+\begin_inset Formula $xSx'\in L$
+\end_inset
+
+.
+ Run the simulation until both 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ have been added to 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ By the way we set up the presentation of 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ we know that no element will ever be added into 
+\begin_inset Formula $L$
+\end_inset
+
+ between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+.
+ Inspecting the construction of 
+\begin_inset Formula $R$
+\end_inset
+
+,
+ we see that whenever a new element is added between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+ it is because an element was added to 
+\begin_inset Formula $L$
+\end_inset
+
+ between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+;
+ thus,
+ the number of elements of 
+\begin_inset Formula $R$
+\end_inset
+
+ between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+ will never increase from its current (finite value).
+ In other words,
+ we've shown that 
+\begin_inset Formula $S(x,x')$
+\end_inset
+
+ implies 
+\begin_inset Formula $F(f(x),f(x'))$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Finally,
+ we verify condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $y\in R\setminus\im f$
+\end_inset
+
+.
+ This means that 
+\begin_inset Formula $y$
+\end_inset
+
+ was at some point added into 
+\begin_inset Formula $R$
+\end_inset
+
+ as 
+\begin_inset Formula $f(x)$
+\end_inset
+
+,
+ but meanwhile 
+\begin_inset Formula $x$
+\end_inset
+
+ was erased from 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Now,
+ run the simulation until this point,
+ then continue running it until every element that is now present,
+ that will ever be removed,
+ has already been removed.
+ Note that at that stage,
+ every remaining element of 
+\begin_inset Formula $L$
+\end_inset
+
+ is now 
+\begin_inset Quotes eld
+\end_inset
+
+immortal
+\begin_inset Quotes erd
+\end_inset
+
+.
+ By this point,
+ there must be some 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ that have been enumerated into 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ so that there is no one between them (at this moment),
+ and 
+\begin_inset Formula $f(x)<y<f(x')$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:luck"
+
+\end_inset
+
+If,
+ by luck,
+ it happens that 
+\begin_inset Formula $S(x,x')$
+\end_inset
+
+,
+ we see that condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is verified.
+ Indeed,
+ 
+\begin_inset Formula $y$
+\end_inset
+
+ is between the images of two successor elements of 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ and by inspection of the construction we see the following fact:
+ If 
+\begin_inset Formula $S(x,x')$
+\end_inset
+
+ but 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+ are not successors,
+ it must be the case that 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ are part of an 
+\begin_inset Formula $L$
+\end_inset
+
+-block that is of size larger than 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ and by 
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscreteness must be infinite.
+ As such,
+ by condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the 
+\begin_inset Formula $R$
+\end_inset
+
+-block that they – and consequently 
+\begin_inset Formula $y$
+\end_inset
+
+ – are contained in must also be infinite.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+The argument in Remark 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rmk:luck"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ extends to the scenario where 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ are in the same 
+\begin_inset Formula $L$
+\end_inset
+
+-block.
+ Thus,
+ let us assume that they are in distinct blocks,
+ and so that infinitely many (immortal) elements will be added to 
+\begin_inset Formula $L$
+\end_inset
+
+ between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Suppose,
+ for the sake of argument,
+ that 
+\begin_inset Formula $y$
+\end_inset
+
+ is the oldest element of 
+\begin_inset Formula $R$
+\end_inset
+
+ between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+.
+ Wait until the next immortal element,
+ say 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ is added to 
+\begin_inset Formula $L$
+\end_inset
+
+ between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+.
+ By inspection of the construction we see that,
+ in almost every case,
+ 
+\begin_inset Formula $f(z)$
+\end_inset
+
+ is defined as 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ and since 
+\begin_inset Formula $z$
+\end_inset
+
+ is assumed to be immortal,
+ this contradicts the assumption that 
+\begin_inset Formula $y$
+\end_inset
+
+ is not in the image of 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ The only remaining cases are those where 
+\begin_inset Formula $z$
+\end_inset
+
+ is defined as a successor of 
+\begin_inset Formula $x$
+\end_inset
+
+ or as a predecessor of 
+\begin_inset Formula $x'$
+\end_inset
+
+,
+ and even then it must be the case that the corresponding element is in a chain shorter than length 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ As a consequence,
+ these remaining cases happen a maximum of 
+\begin_inset Formula $2k$
+\end_inset
+
+ times,
+ and since infinitely many elements are added between 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+,
+ we have a contradiction.
+ Thus,
+ 
+\begin_inset Formula $y$
+\end_inset
+
+ 
+\emph on
+cannot
+\emph default
+ be the oldest element between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Suppose now instead that 
+\begin_inset Formula $y$
+\end_inset
+
+ is the 
+\emph on
+second
+\emph default
+ oldest element between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ being the oldest.
+ Working still under the assumption that 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ are in distinct blocks,
+ we see by the previous paragraph that there shall eventually be an element 
+\begin_inset Formula $z$
+\end_inset
+
+ such that 
+\begin_inset Formula $f(z)=y_{0}$
+\end_inset
+
+.
+ Now,
+ we perform a similar argument recursively:
+ If (say) 
+\begin_inset Formula $y$
+\end_inset
+
+ is between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(z)$
+\end_inset
+
+ (with a similar argument holding if instead 
+\begin_inset Formula $y$
+\end_inset
+
+ is between 
+\begin_inset Formula $f(z)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+),
+ by the reasoning of the previous paragraph we see that 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $z$
+\end_inset
+
+ must be in the same block,
+ and so condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ will hold.
+\end_layout
+
+\begin_layout Proof
+Supposing now that 
+\begin_inset Formula $y$
+\end_inset
+
+ is the 
+\emph on
+third
+\emph default
+ oldest element between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x')$
+\end_inset
+
+ (say again that 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ is the oldest),
+ with 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $x'$
+\end_inset
+
+ being in distinct blocks,
+ we wait until an element 
+\begin_inset Formula $z$
+\end_inset
+
+ is added so that 
+\begin_inset Formula $f(z)=y_{0}$
+\end_inset
+
+.
+ Then,
+ assuming that 
+\begin_inset Formula $y$
+\end_inset
+
+ is between 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(z)$
+\end_inset
+
+ (with a similar argument holding if it is between 
+\begin_inset Formula $f(z)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(x)$
+\end_inset
+
+),
+ we are now in a condition to apply the argument of the previous paragraph,
+ and so on.
+ Inductively,
+ we see that no matter how far from the oldest element 
+\begin_inset Formula $y$
+\end_inset
+
+ is from being,
+ we will eventually find two immortal successor elements of 
+\begin_inset Formula $L$
+\end_inset
+
+ between which we find 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ which by the argument outlined in Remark 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rmk:luck"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is enough to guarantee condition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1:cond2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ This completes the proof.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:loworder"
+
+\end_inset
+
+ Any low 
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscrete order is isomorphic to a computable order.
+\end_layout
+
+\begin_layout Proof
+The successor relation for an order 
+\begin_inset Formula $L$
+\end_inset
+
+ is computable in its jump,
+ which in this case is 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:noneff"
+
+\end_inset
+
+Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:iso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is not effective,
+ and indeed not even 
+\begin_inset Formula $0'$
+\end_inset
+
+ effective.
+ More precisely,
+ any degree 
+\begin_inset Formula $d$
+\end_inset
+
+ that computes a function that turns an index for a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable (infinite) 
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscrete order with successor relation into an index for an isomorphic computable order must necessarily satisfy 
+\begin_inset Formula $d\oplus0'\geq0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+There is a uniform way to,
+ given an oracle program 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ build a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable order (with successor relation) that is isomorphic to 
+\begin_inset Formula $\omega$
+\end_inset
+
+ if 
+\begin_inset Formula $P^{0'}\isnotwd$
+\end_inset
+
+,
+ and to 
+\begin_inset Formula $\omega^{*}$
+\end_inset
+
+ if 
+\begin_inset Formula $P^{0'}\iswd$
+\end_inset
+
+.
+ Roughly speaking:
+ Until the program halts,
+ add a new element on the right;
+ once it does,
+ add it to the left.
+ Now,
+ if Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:iso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ was 
+\begin_inset Formula $d$
+\end_inset
+
+-uniform for some degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ we could turn this into a 
+\emph on
+computable
+\emph default
+ order satisfying these properties,
+ and 
+\begin_inset Formula $0'$
+\end_inset
+
+ is able to confirm that this order has a minimal or a maximal element.
+ Depending on the case,
+ this can be used to deduce whether 
+\begin_inset Formula $P^{0'}$
+\end_inset
+
+ halts,
+ and so 
+\begin_inset Formula $d\oplus0'$
+\end_inset
+
+ computes 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:loworder"
+
+\end_inset
+
+ is effective,
+ in the following sense:
+ Given a low degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ there is a computable function that turns an index for an infinite 
+\begin_inset Formula $d$
+\end_inset
+
+-computable 
+\begin_inset Formula $k$
+\end_inset
+
+-quasidiscrete order into an index for an isomorphic computable order.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $L$
+\end_inset
+
+ be a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable order.
+ Then,
+ 
+\begin_inset Formula $\bar{L}=L\cup\{-\infty,\infty\}$
+\end_inset
+
+ is also 
+\begin_inset Formula $d$
+\end_inset
+
+-computable,
+ and so we can apply Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:iso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to 
+\begin_inset Formula $\bar{L}$
+\end_inset
+
+ effectively to obtain a computable isomorphic copy 
+\begin_inset Formula $\bar{R}$
+\end_inset
+
+.
+ Moreover,
+ by inspection of the proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:iso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ we see that the value of 
+\begin_inset Formula $f(-\infty)$
+\end_inset
+
+ and 
+\begin_inset Formula $f(\infty)$
+\end_inset
+
+ is determined at the start and never changed.
+ Thus,
+ we can simply remove these two elements from 
+\begin_inset Formula $\bar{R}$
+\end_inset
+
+ to obtain the desired isomorphic computable order 
+\begin_inset Formula $R\cong L$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
