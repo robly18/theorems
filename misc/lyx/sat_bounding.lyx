@@ -9746,6 +9746,12 @@ branching points below
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:difficulty"
+
+\end_inset
+
 A Difficulty Result
 \end_layout
 
@@ -10130,10 +10136,11 @@ Then,
 \begin_inset Formula $\Sigma_{3}$
 \end_inset
 
- property:
+ property.
+ We start with an intermediate step:
 \begin_inset Formula 
 \[
-\text{\ensuremath{L} is two-block iff }\exists_{x_{1}<\dots<x_{n}\in L}\forall_{\nu\in L}\begin{pmatrix}\begin{array}{l}
+\text{\ensuremath{L} is two-block of type \ensuremath{\omega+n} iff }\exists_{n\geq1}\exists_{x_{1}<\dots<x_{n}\in L}\forall_{\nu\in L}\begin{pmatrix}\begin{array}{l}
 \text{either \ensuremath{\nu} is one of the \ensuremath{x_{i}},}\\
 \text{or \ensuremath{\nu<x_{1}}, in which case there exists \ensuremath{\nu'} inbetween \ensuremath{\nu} and \ensuremath{x_{1}}}
 \end{array}\end{pmatrix}.
@@ -10141,7 +10148,25 @@ Then,
 
 \end_inset
 
-This concludes the proof.
+A similar formula determines whether 
+\begin_inset Formula $L$
+\end_inset
+
+ is of type 
+\begin_inset Formula $n+\omega$
+\end_inset
+
+,
+ and taking the disjunction of these we obtain a 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ formula that determines whether 
+\begin_inset Formula $L$
+\end_inset
+
+ is a two-block order.
+ This concludes the proof.
 \end_layout
 
 \begin_layout Standard
@@ -11379,33 +11404,656 @@ Now,
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
+One may wonder why the same proof cannot be applied to also show that 
+\begin_inset Formula $T\mapsto\Linear(T)$
+\end_inset
 
-\begin_layout Plain Layout
-note to self:
- prove also that 
+ is difficult to compute in the same circumstances.
+ The answer turns out to be that it is harder to tell 
 \begin_inset Formula $\omega+\omega^{*}$
 \end_inset
 
- is harder to distinguish,
- requiring 
+ apart from 
+\begin_inset Formula $n+\omega$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega+n$
+\end_inset
+
+ than it is to tell 
+\begin_inset Formula $\omega+1+\omega^{*}$
+\end_inset
+
+ apart from 
+\begin_inset Formula $1+n+\omega$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega+n+1$
+\end_inset
+
+,
+ because 
+\begin_inset Formula $\omega+1+\omega^{*}$
+\end_inset
+
+ contains a 
+\begin_inset Quotes eld
+\end_inset
+
+witness
+\begin_inset Quotes erd
+\end_inset
+
+,
+ namely the central unit,
+ that attests to it being a three-block order,
+ while 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+ has no such thing.
+ This means that to tell 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+ apart from 
+\begin_inset Formula $n+\omega$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega+n$
+\end_inset
+
+ is (as per the following two propositions) as difficult as 
 \begin_inset Formula $0'''$
 \end_inset
 
 ,
- which is why 
+ and so the above proof would give the redundant condition:
+ If a degree 
+\begin_inset Formula $d$
+\end_inset
+
+ can compute 
+\begin_inset Formula $T\mapsto\Linear(T)$
+\end_inset
+
+ for 1rk1 trees 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $d\oplus0'''\geq0'''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "def:i1rk1blocks"
+
+\end_inset
+
+Given a 1rk1 tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\Linear(T)$
+\end_inset
+
+ must necessarily be either 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+ or 
+\begin_inset Formula $\omega+n$
+\end_inset
+
+ or 
+\begin_inset Formula $n+\omega$
+\end_inset
+
+ for some 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+.
+ We refer to these three types of linear orders as 
+\emph on
+i1rk1 orders
+\emph default
+,
+ and refer to 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+ as a three-block order and the remaining cases as two-block orders.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+This is not ideal,
+ as the order 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+ manifestly has two blocks,
+ not three,
+ and 
+\begin_inset Formula $\omega+n$
+\end_inset
+
+ may have one block instead of two if 
+\begin_inset Formula $n=0$
+\end_inset
+
+.
+ However,
+ we decided to reuse this nomenclature for consistency.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:1rk1threetwo"
+
+\end_inset
+
+There is a 
+\begin_inset Formula $0'''$
+\end_inset
+
+-computable algorithm that determines whether a i1rk1 order is three-block or two-block.
+\end_layout
+
+\begin_layout Proof
+Recall the proof of Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:1rk1order"
+
+\end_inset
+
+.
+ Therein,
+ we gave a 
+\begin_inset Formula $\Delta_{3}$
+\end_inset
+
+ characterization for when a 1rk1 order is three-block or two-block.
+ The 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ characterization of three-blockness fails for i1rkr orders,
+ because there is no middle element to witness that the order contains a copy of 
+\begin_inset Formula $\omega$
+\end_inset
+
+ and a copy of 
+\begin_inset Formula $\omega^{*}$
+\end_inset
+
+.
+ However,
+ the 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ characterization of two-blockness can be adapted to distinguish the two types of i1rk1 orders.
+ If 
+\begin_inset Formula $L$
+\end_inset
+
+ is a i1rk1 order,
+ we have:
+\begin_inset Formula 
+\[
+\text{\ensuremath{L} is two-block of type \ensuremath{\omega+n} iff }\exists_{n\in\N}\exists_{x_{1}<\dots<x_{n}\in L}\forall_{\nu\in L}\begin{pmatrix}\begin{array}{l}
+\text{either \ensuremath{\nu} is one of the \ensuremath{x_{i}},}\\
+\text{or \ensuremath{\nu<x_{i}} for every \ensuremath{i}, in which case}\\
+\text{there exists \ensuremath{\nu'>\nu} also below every \ensuremath{x_{i}}}
+\end{array}\end{pmatrix}.
+\]
+
+\end_inset
+
+Note the way in which the formula has been adapted to allow for the vacuous case 
+\begin_inset Formula $n=0$
+\end_inset
+
+.
+ A similar formula may be used to express that 
+\begin_inset Formula $L$
+\end_inset
+
+ is two-block of type 
+\begin_inset Formula $n+\omega^{*}$
+\end_inset
+
+,
+ and the disjunction of these two formulas provides a 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ characterization of two-block i1rkr1 orders.
+ Thus,
+ 
+\begin_inset Formula $0'''$
+\end_inset
+
+ can determine whether 
+\begin_inset Formula $L$
+\end_inset
+
+ is two-block or three-block.
+\end_layout
+
+\begin_layout Proposition
+Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:1rk1threetwo"
+
+\end_inset
+
+ is strict,
+ in the sense that if a degree 
+\begin_inset Formula $d$
+\end_inset
+
+ can determine whether a i1rk1 order is a three-block order or a two-block order,
+ then 
+\begin_inset Formula $d$
+\end_inset
+
+ computes 
+\begin_inset Formula $0'''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\{f_{s}\}_{s\in\N}$
+\end_inset
+
+ be a computable sequence of total computable functions.
+ We computably construct a i1rk1 order 
+\begin_inset Formula $L$
+\end_inset
+
+ with the property that 
+\begin_inset Formula $L$
+\end_inset
+
+ is three-block iff 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ converges everywhere.
+\end_layout
+
+\begin_layout Proof
+To construct 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ start by enumerating two sequences of elements 
+\begin_inset Formula $\{\ell_{i}\}_{i\in\N}$
+\end_inset
+
+ and 
+\begin_inset Formula $\{r_{i}\}_{i\in\N}$
+\end_inset
+
+ into 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ satisfying 
+\begin_inset Formula $\ell_{0}<\ell_{1}<\dots<r_{1}<r_{0}$
+\end_inset
+
+.
+ In parallel,
+ monitor the values of 
+\begin_inset Formula $f_{s}(0)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f_{s}(1)$
+\end_inset
+
+,
+ and so on.
+ If one of these values,
+ say 
+\begin_inset Formula $f_{s}(x)$
+\end_inset
+
+,
+ is detected to change when 
+\begin_inset Formula $s$
+\end_inset
+
+ is increased,
+ we perform the following operation.
+\end_layout
+
+\begin_layout Proof
+First,
+ wait until 
+\begin_inset Formula $r_{x}$
+\end_inset
+
+ has been enumerated,
+ if it has not yet.
+ Then,
+ rename all elements to the left of 
+\begin_inset Formula $r_{x}$
+\end_inset
+
+ to 
+\begin_inset Formula $\ell_{0}<\ell_{1}<\dots<\ell_{N}$
+\end_inset
+
+,
+ and continue the procedure as above.
+ This includes re-enumerating 
+\begin_inset Formula $r_{x+1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $r_{x+2}$
+\end_inset
+
+,
+ etc.
+\begin_inset space \space{}
+\end_inset
+
+into 
+\begin_inset Formula $L$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Now,
+ one of two cases happen.
+ Suppose,
+ on the one hand,
+ that 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ does 
+\emph on
+not
+\emph default
+ converge everywhere,
+ and let 
+\begin_inset Formula $x$
+\end_inset
+
+ be the smallest value for which it diverges.
+ Then,
+ run the simulation until 
+\begin_inset Formula $f_{s}(0),\dots,f_{s}(x-1)$
+\end_inset
+
+ have all already converged,
+ and wait further until 
+\begin_inset Formula $r_{x}$
+\end_inset
+
+ is enumerated.
+ Then,
+ by inspection,
+ the elements 
+\begin_inset Formula $r_{x},\dots,r_{0}$
+\end_inset
+
+ will never change,
+ but elements will forever be added to the left of 
+\begin_inset Formula $r_{x}$
+\end_inset
+
+,
+ with the periodic 
+\begin_inset Quotes eld
+\end_inset
+
+relabelings into 
+\begin_inset Formula $\ell$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ ensuring that for every element to the left of 
+\begin_inset Formula $r_{x}$
+\end_inset
+
+ there are finitely many even further to the left.
+ In other words,
+ in this scenario the limit order is 
+\begin_inset Formula $L=\omega+x$
+\end_inset
+
+,
+ which is of two-block type.
+ On the other hand,
+ if 
+\begin_inset Formula $f_{s}$
+\end_inset
+
+ 
+\emph on
+does
+\emph default
+ converge everywhere,
+ we see that both sequences 
+\begin_inset Formula $\{\ell_{i}\}_{i\in\N}$
+\end_inset
+
+ and 
+\begin_inset Formula $\{r_{i}\}_{i\in\N}$
+\end_inset
+
+ get arbitrarily long without being erased,
+ and as a consequence the limit order can be seen to equal 
+\begin_inset Formula $\omega+\omega^{*}$
+\end_inset
+
+,
+ which is a three-block order as per Definition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:i1rk1blocks"
+
+\end_inset
+
+.
+ Thus,
+ the proof is complete.
+\end_layout
+
+\begin_layout Standard
+Moving on to some slightly distinct results,
+ we note that Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:1rk1barlinear"
+
+\end_inset
+
+ can be relativized rather easily.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:1rk1barlinear1"
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $d$
+\end_inset
+
+ is a degree that computes a function which,
+ given an 
+\begin_inset Formula $X$
+\end_inset
+
+-computable index for a 1rk1 tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ returns a 
+\begin_inset Formula $Y$
+\end_inset
+
+-computable index for 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+.
+ Then,
+ 
+\begin_inset Formula $d\oplus Y''\geq X'''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This can be applied to the case where 
+\begin_inset Formula $d$
+\end_inset
+
+ (uniformly) computes the order directly,
+ as this is equivalent to saying that 
+\begin_inset Formula $d$
+\end_inset
+
+ computes a 
+\begin_inset Formula $d$
+\end_inset
+
+-index for the order.
+ Thus,
+ we have as a direct consequence of Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:1rk1barlinear1"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Corollary
+Suppose that 
+\begin_inset Formula $d$
+\end_inset
+
+ is a degree that can uniformly compute the order of a (computable) 1rk1 tree.
+ Then 
+\begin_inset Formula $d$
+\end_inset
+
+ is 
+\begin_inset Formula $\text{high}_{2}$
+\end_inset
+
+,
+ that is,
+ 
+\begin_inset Formula $d''\geq0'''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Currently Loose Threads
+\end_layout
+
+\begin_layout Itemize
+The results of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:difficulty"
+
+\end_inset
+
+ can be further explored:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We may ask about more complicated trees,
+ e.g.
+\begin_inset space \space{}
+\end_inset
+
+with more paths of rank 1,
+ or with paths of rank 2,
+ etc.
+\end_layout
+
+\begin_layout Itemize
+We may ask about the difficulty of the 0spinal case,
+\end_layout
+
+\begin_layout Itemize
+We may ask about the PAC 1rk1 case,
+\end_layout
+
+\begin_layout Itemize
+We may investigate whether the bound given by Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:1rk1barlinear"
+
+\end_inset
+
+ is strict or not,
+\end_layout
+
+\begin_layout Itemize
+It's still unclear whether 
 \begin_inset Formula $\Linear$
 \end_inset
 
- is so much easier to compute.
+ is computable for Millar's tree,
+ but I guess that amounts to investigating the case for paths of rank 2.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
+\end_deeper
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
