@@ -1,0 +1,2822 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{amsmath}
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{positioning}
+\usepackage{braket}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+On The Algorithmic Law of Large Numbers
+\begin_inset Newline newline
+\end_inset
+
+
+\size larger
+And the Rarity of Sequences that Don't Conform to the LLN
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\upto}{\mathord{\upharpoonright}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is a distillation of my reading of Proposition 3.2.13 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nies"
+literal "false"
+
+\end_inset
+
+:
+ Each ML-random set satisfies the law of large numbers.
+ In the entirety of this document,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+random
+\begin_inset Quotes erd
+\end_inset
+
+ will always be used to mean 
+\begin_inset Quotes eld
+\end_inset
+
+Martin-Löf random
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This document is intended as a proof of the law of large numbers for random sets,
+ which we state in its fullness for posteriority:
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:lln"
+
+\end_inset
+
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a random set,
+ then 
+\begin_inset Formula $A$
+\end_inset
+
+ satisfies the law of large numbers,
+ in the sense that 
+\begin_inset Formula $\frac{\#A\upto n}{n}\to\frac{1}{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The proof we outline below has two parts.
+ First,
+ we prove that if a property 
+\begin_inset Formula $Q$
+\end_inset
+
+ is 
+\begin_inset Quotes eld
+\end_inset
+
+likely
+\begin_inset Quotes erd
+\end_inset
+
+,
+ in the sense that the probability that a randomly-chosen sequence of size 
+\begin_inset Formula $n$
+\end_inset
+
+ has property 
+\begin_inset Formula $Q$
+\end_inset
+
+ gets closer to 1 as 
+\begin_inset Formula $n\to\infty$
+\end_inset
+
+ at a rate to be determined below,
+ then any random sequence will eventually satisfy the property 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+ Then,
+ we apply probability-theoretic tools to show that the property of 
+\begin_inset Quotes eld
+\end_inset
+
+satisfying the law of large numbers up to error 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is likely in this sense,
+ implying by the definition of limit that Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:lln"
+
+\end_inset
+
+ holds.
+ That said,
+ this document is intended to be mostly self-contained,
+ at least when it comes to probability.
+ The reader is nevertheless assumed to be comfortable with the notion of Martin-Löf randomness and prefix-free complexity.
+\end_layout
+
+\begin_layout Section
+Random Implies Not Rare
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $P$
+\end_inset
+
+ be a property of strings.
+ We will show that if 
+\begin_inset Formula $P$
+\end_inset
+
+ is a (computable enough) 
+\begin_inset Quotes eld
+\end_inset
+
+rare
+\begin_inset Quotes erd
+\end_inset
+
+ property,
+ in a sense to be defined shortly,
+ then for any random sequence 
+\begin_inset Formula $A$
+\end_inset
+
+ almost all prefixes of 
+\begin_inset Formula $A$
+\end_inset
+
+ satisfy 
+\begin_inset Formula $\neg P$
+\end_inset
+
+.
+ More precisely,
+ for all but finitely many 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+ we have 
+\begin_inset Formula $\neg P(A\upto n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The strategy that we will follow will be the following.
+ We describe the prefixes of 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ or at least the ones that satisfy 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ by encoding their length 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ followed by instructions to print out the sequences of this length that satisfy 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ followed by saying 
+\begin_inset Quotes eld
+\end_inset
+
+the string I want is the 
+\begin_inset Formula $k$
+\end_inset
+
+-th one
+\begin_inset Quotes erd
+\end_inset
+
+.
+ If 
+\begin_inset Formula $P$
+\end_inset
+
+ is rare enough,
+ then 
+\begin_inset Formula $k$
+\end_inset
+
+ will be small enough that this encoding is better than linear.
+\end_layout
+
+\begin_layout Standard
+Let's do some back-of-the envelope calculations to figure out how rare 
+\begin_inset Formula $P$
+\end_inset
+
+ should be.
+ Let's say that we want to encode the string 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ in this manner.
+ Say that its length is 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and in some previously-fixed enumeration of the strings of length 
+\begin_inset Formula $n$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ comes in 
+\begin_inset Formula $k$
+\end_inset
+
+-th place.
+ Then,
+ let us encode the pair 
+\begin_inset Formula $\braket{n,k}$
+\end_inset
+
+ in an efficient prefix-free way.
+\end_layout
+
+\begin_layout Itemize
+The most direct way would be to encode using unary,
+ which yields 
+\begin_inset Formula $n+1+k+1$
+\end_inset
+
+,
+ which will never be smaller than 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Let us instead encode in binary,
+ using unary to encode the order of magnitude.
+ This yields
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Ignoring some constant terms arising from the need to use separators,
+ a habit which we will follow henceforth.
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $2\log n+2\log k$
+\end_inset
+
+,
+ which grows slower than 
+\begin_inset Formula $n$
+\end_inset
+
+ so long as 
+\begin_inset Formula $2\log k\leq n-2\log n-u_{n}$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ some sequence converging to infinity.
+ This will be satisfied so long as 
+\begin_inset Formula $P$
+\end_inset
+
+ is rare enough that the number 
+\begin_inset Formula $N_{n}$
+\end_inset
+
+ of strings of length 
+\begin_inset Formula $n$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $P$
+\end_inset
+
+ satisfies (for example) 
+\begin_inset Formula $2\log N_{n}\leq n-(1+\varepsilon)\log n$
+\end_inset
+
+,
+ or equivalently
+\begin_inset Formula 
+\begin{equation}
+N_{n}^{2}\leq2^{n}/n^{1+\varepsilon}.\label{eq:bound1}
+\end{equation}
+
+\end_inset
+
+This is a really bad bound.
+ To see this,
+ let us rephrase it in terms of density,
+ or probability.
+ Let 
+\begin_inset Formula $p_{n}=N_{n}/2^{n}$
+\end_inset
+
+ be the proportion of strings of size 
+\begin_inset Formula $n$
+\end_inset
+
+ that satisfy 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Then,
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:bound1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ may be rewritten as
+\begin_inset Formula 
+\[
+p_{n}\leq2^{-n/2}/n^{\tfrac{1}{2}+\varepsilon'}.
+\]
+
+\end_inset
+
+In other words,
+ we need that the proportion of strings satisfying 
+\begin_inset Formula $P$
+\end_inset
+
+ decreases exponentially.
+ This is no good.
+ Fortunately,
+ we can notice that the exponential term comes from the term 
+\begin_inset Formula $2\log k$
+\end_inset
+
+ in the size of the encoding.
+ If we encode a little smarter,
+ like,
+ say,
+ encoding the order of magnititude itself in binary,
+ we will get a polynomial bound.
+\end_layout
+
+\begin_layout Itemize
+Let us encode 
+\begin_inset Formula $n$
+\end_inset
+
+ in binary as before,
+ and let us now encode 
+\begin_inset Formula $k$
+\end_inset
+
+ in binary,
+ with the order of magnitude itself in binary.
+ This yields 
+\begin_inset Formula $2\log n+\log k+2\log\log k$
+\end_inset
+
+.
+ Thus,
+ if 
+\begin_inset Formula $N_{n}$
+\end_inset
+
+ is as above,
+ we now want the bound
+\begin_inset Formula 
+\[
+2\log n+\log N_{n}+2\log\log N_{n}\leq n-u_{n}
+\]
+
+\end_inset
+
+ for some 
+\begin_inset Formula $u_{n}\to\infty$
+\end_inset
+
+.
+ This suggests,
+ though it will not be sufficient,
+ to assume the bound 
+\begin_inset Formula $\log N_{n}\leq n-2\log n$
+\end_inset
+
+.
+ Once we do,
+ we will get
+\begin_inset Formula 
+\[
+2\log n+\log N_{n}+2\log\log N_{n}\leq n+2\log(n-2\log n),
+\]
+
+\end_inset
+
+which is in fact not growing slower than 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ However,
+ if we subtract another two log terms from our bound,
+ we get something much more promising:
+\begin_inset Formula 
+\[
+\log N_{n}\leq n-4\log n\implies2\log n+\log N_{n}+2\log\log N_{n}\leq n-2\log\left(\frac{n}{n-4\log n}\right).
+\]
+
+\end_inset
+
+Unfortunately,
+ 
+\begin_inset Formula $\frac{n}{n-4\log n}\to1$
+\end_inset
+
+ and so 
+\begin_inset Formula $\log\left(\frac{n}{n-4\log n}\right)$
+\end_inset
+
+ converges to 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ not to 
+\begin_inset Formula $\infty$
+\end_inset
+
+.
+ Thus,
+ this is barely not enough.
+\end_layout
+
+\begin_layout Itemize
+Let us now try to take the encoding of 
+\begin_inset Formula $k$
+\end_inset
+
+ one step deeper,
+ giving the bound 
+\begin_inset Formula $2\log n+\log k+\log\log k+2\log\log\log k$
+\end_inset
+
+.
+ Now,
+ if 
+\begin_inset Formula $N_{n}\leq n-4\log n$
+\end_inset
+
+ we get
+\begin_inset Formula 
+\begin{equation}
+2\log n+\log N_{n}+\log\log N_{n}+2\log\log\log N_{n}\leq n-\log\left(\frac{n^{2}}{(n-4\log n)(\log(n-4\log n))^{2}}\right),\label{eq:bound2}
+\end{equation}
+
+\end_inset
+
+and we can now verify that the log term does in fact converge to infinity.
+ This proves a preliminary version of our result:
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $P$
+\end_inset
+
+ be a c.e.
+\begin_inset space \space{}
+\end_inset
+
+property of strings that is rare in the sense that,
+ for every 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ 
+\begin_inset Formula 
+\[
+\frac{\text{number of strings of size \ensuremath{n} that satisfy \ensuremath{P}}}{2^{n}}\leq\frac{1}{n^{4}}.
+\]
+
+\end_inset
+
+ Then,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is a random sequence,
+ only finitely many prefixes of 
+\begin_inset Formula $A$
+\end_inset
+
+ satisfy 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The paragraphs that precede this proposition provide a way to encode string satisfying 
+\begin_inset Formula $P$
+\end_inset
+
+ in a sublinear way.
+ Thus,
+ if infinitely many prefixes 
+\begin_inset Formula $A\upto n_{i}$
+\end_inset
+
+ of 
+\begin_inset Formula $A$
+\end_inset
+
+ satisfied 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ we would have 
+\begin_inset Formula $K(A\upto n_{i})\leq n_{i}-u_{n_{i}}$
+\end_inset
+
+,
+ which implies by the 
+\begin_inset Formula $K$
+\end_inset
+
+-complexity definition of 
+\begin_inset Formula $1$
+\end_inset
+
+-randomness that 
+\begin_inset Formula $A$
+\end_inset
+
+ is nonrandom.
+\end_layout
+
+\begin_layout Standard
+This bound can be improved.
+ If we also encode 
+\begin_inset Formula $n$
+\end_inset
+
+ in a smarter way,
+ using 
+\begin_inset Formula $\log n+2\log\log n$
+\end_inset
+
+ bits,
+ something similar to Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:bound2"
+
+\end_inset
+
+ may be recovered assuming only 
+\begin_inset Formula $N_{n}\leq n-3\log n$
+\end_inset
+
+.
+ There is also no harm in adding a constant term.
+ In other words:
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:randomimpliescommon"
+
+\end_inset
+
+Let 
+\begin_inset Formula $P$
+\end_inset
+
+ be a c.e.
+\begin_inset space \space{}
+\end_inset
+
+property of strings such that,
+ for some constant 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ for every 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+ we have 
+\begin_inset Formula $\frac{\text{number of strings of size \ensuremath{n} that satisfy \ensuremath{P}}}{2^{n}}\leq\frac{c}{n^{3}}$
+\end_inset
+
+.
+ Then,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is a random sequence,
+ only finitely many prefixes of 
+\begin_inset Formula $A$
+\end_inset
+
+ satisfy 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Most Strings Satisfy the Law of Large Numbers
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $A$
+\end_inset
+
+ be a random set.
+ We want to show that the Law of Large Numbers holds for 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ that is,
+\begin_inset Formula 
+\[
+\lim_{n\to\infty}\frac{\#A\upto n}{n}=\frac{1}{2}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By expanding the definition of limit,
+ this boils down to saying that,
+ for any 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+,
+ for all but finitely many 
+\begin_inset Formula $n$
+\end_inset
+
+ we have 
+\begin_inset Formula $\abs{\frac{\#A\upto n}{n}-\frac{1}{2}}<\varepsilon$
+\end_inset
+
+.
+ In light of Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:randomimpliescommon"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ this suggests proving that,
+ for fixed 
+\begin_inset Formula $\varepsilon>0$
+\end_inset
+
+,
+ the proportion of strings 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ of size 
+\begin_inset Formula $n$
+\end_inset
+
+ that satisfy 
+\begin_inset Formula $\abs{\frac{\#\sigma}{n}-\frac{1}{2}}\geq\varepsilon$
+\end_inset
+
+ decreases at least cubically,
+ where 
+\begin_inset Formula $\#\sigma$
+\end_inset
+
+ denotes the number of ones in 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ So let's establish some notation to help us approach the problem.
+\end_layout
+
+\begin_layout Definition
+For 
+\begin_inset Formula $p\in\R$
+\end_inset
+
+ and 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+,
+ define
+\begin_inset Formula 
+\[
+A_{np}=\{\,\sigma\in2^{n}\mid\#\sigma\leq pn\,\},
+\]
+
+\end_inset
+
+and define analogously 
+\begin_inset Formula $B_{np}$
+\end_inset
+
+ as the set of strings of size 
+\begin_inset Formula $n$
+\end_inset
+
+ with 
+\begin_inset Formula $\#\sigma\geq pn$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The quantity we intend to bound is the amount of strings satisfying 
+\begin_inset Formula $\abs{\frac{\#\sigma}{n}-\frac{1}{2}}\geq\varepsilon$
+\end_inset
+
+,
+ or equivalently
+\begin_inset Formula 
+\[
+\#\sigma\leq\tfrac{1}{2}-\varepsilon\;\vee\;\#\sigma\geq\tfrac{1}{2}+\varepsilon.
+\]
+
+\end_inset
+
+Thus,
+ we intend to bound the size of 
+\begin_inset Formula $A_{n\left(\tfrac{1}{2}-\varepsilon\right)}\cup B_{n\left(\tfrac{1}{2}+\varepsilon\right)}$
+\end_inset
+
+.
+ Moreover,
+ the operation of swapping zeros on a string for ones and vice-versa provides a bijection between these two sets,
+ and so it suffices to get a good upper bound on the quantity
+\begin_inset Formula 
+\[
+P_{np}=\frac{\#A_{np}}{2^{n}},
+\]
+
+\end_inset
+
+for 
+\begin_inset Formula $p<\frac{1}{2}$
+\end_inset
+
+.
+ In this section,
+ we will provide four ways to obtain upper bounds,
+ of which one is insufficient,
+ and another merely heuristic.
+\end_layout
+
+\begin_layout Subsection
+Failed Approach:
+ Chebyshev
+\end_layout
+
+\begin_layout Standard
+The first attempt at a bound on the size of 
+\begin_inset Formula $A_{np}$
+\end_inset
+
+ might be via the use of Chebyshev's inequality (though I believe probabilists refer to what I'm about to state as Markov's inequality).
+ We state it for the particular case of finite measure spaces,
+ which is the only case for which we will use it.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Chebyshev
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:chebyshev"
+
+\end_inset
+
+ If 
+\begin_inset Formula $f\colon X\to\rinterval 0{\infty}$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $X$
+\end_inset
+
+ a finite set,
+ and 
+\begin_inset Formula $a\geq0$
+\end_inset
+
+ is a real number,
+ we have
+\begin_inset Formula 
+\[
+\sum_{x\in X}f(x)\geq a\times\#\{x\mid f(x)\geq a\}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A first try would be to apply it to the function
+\begin_inset Formula 
+\begin{align*}
+f\colon2^{n} & \to\N\\
+\sigma & \mapsto\#\sigma
+\end{align*}
+
+\end_inset
+
+getting the inequality:
+ 
+\begin_inset Formula $\sum_{\sigma\in2^{n}}f(\sigma)\geq\#\{\sigma\mid f(\sigma)\geq qn\}\times qn$
+\end_inset
+
+.
+ The left-hand side is seen by combinatorial arguments to equal 
+\begin_inset Formula $n2^{n-1}$
+\end_inset
+
+,
+ because the involution 
+\begin_inset Formula $\sigma\mapsto\sigma^{*}$
+\end_inset
+
+ that swaps zeros and ones divides the space 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ into orbits of size two,
+ for which 
+\begin_inset Formula $f(\sigma)+f(\sigma^{*})=n$
+\end_inset
+
+.
+ The right-hand side is 
+\begin_inset Formula $qn\,\#B_{nq}$
+\end_inset
+
+.
+ Applying this to 
+\begin_inset Formula $q=1-p$
+\end_inset
+
+ and using the fact that 
+\begin_inset Formula $\#A_{np}=\#B_{n(1-p)}$
+\end_inset
+
+,
+ we get the bound
+\begin_inset Formula 
+\[
+\#A_{np}\leq\frac{1}{2(1-p)}2^{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is not a very good bound.
+ We want the proportion of elements in 
+\begin_inset Formula $\#A_{np}$
+\end_inset
+
+ to decrease cubically,
+ and we failed to even show that it goes to zero.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A better bound – and this is the one that probabilists call Chebyshev's inequality – consists of applying Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:chebyshev"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to the function
+\begin_inset Formula 
+\begin{align*}
+g\colon2^{n} & \to\rinterval 0{\infty}\\
+\sigma & \mapsto(\#\sigma-n/2)^{2},
+\end{align*}
+
+\end_inset
+
+with 
+\begin_inset Formula $a=n^{2}\varepsilon^{2}$
+\end_inset
+
+This yields the inequality
+\begin_inset Formula 
+\[
+\#A_{n\left(\frac{1}{2}-\varepsilon\right)}+\#B_{n\left(\frac{1}{2}+\varepsilon\right)}\leq\frac{1}{\varepsilon^{2}}\sum_{\sigma\in2^{n}}g(\sigma).
+\]
+
+\end_inset
+
+It remains to compute 
+\begin_inset Formula $\sum g(\sigma)$
+\end_inset
+
+.
+ For this task,
+ it is probably best to change to purely probabilistic methods.
+ Indeed,
+ to calculate 
+\begin_inset Formula $\frac{\sum g(\sigma)}{2^{n}}$
+\end_inset
+
+ is to compute the variance of 
+\begin_inset Formula $X_{1}+\dots+X_{n}$
+\end_inset
+
+,
+ with the 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ being independent random variables with value 
+\begin_inset Formula $0$
+\end_inset
+
+ or 
+\begin_inset Formula $1$
+\end_inset
+
+ with probability 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+.
+ We have the formula from probability
+\begin_inset Formula 
+\[
+\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y),
+\]
+
+\end_inset
+
+for 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+ independent variables.
+ Thus,
+ 
+\begin_inset Formula $\mathrm{Var}(X_{1}+\dots+X_{n})=n\mathrm{Var}(X)$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $X$
+\end_inset
+
+ a zero-one coin flip,
+ and 
+\begin_inset Formula $\mathrm{Var}(X)=\frac{1}{4}$
+\end_inset
+
+.
+ Thus,
+\begin_inset Formula 
+\[
+\frac{\#A_{n\left(\frac{1}{2}-\varepsilon\right)}+\#B_{n\left(\frac{1}{2}+\varepsilon\right)}}{2^{n}}\leq\frac{1}{4\varepsilon^{2}n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a better bound,
+ but it still falls short,
+ decreasing at a rate of 
+\begin_inset Formula $1/n$
+\end_inset
+
+ and not the required 
+\begin_inset Formula $1/n^{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:heuristic"
+
+\end_inset
+
+Heuristic Approach
+\end_layout
+
+\begin_layout Standard
+We now present a heuristic approach that suggests that we can do much better than 
+\begin_inset Formula $1/n^{3}$
+\end_inset
+
+.
+ We will make this heuristic approach rigorous in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:integrals"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A direct counting argument gives us a reasonably explicit expression for 
+\begin_inset Formula $\#A_{np}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\#A_{np}=\sum_{k\leq np}{n \choose k}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We approximate 
+\begin_inset Formula $\binom{n}{k}$
+\end_inset
+
+ by a smooth expression,
+ and approximate the sum by the integral of this expression.
+ To obtain an approximation for 
+\begin_inset Formula ${n \choose k}$
+\end_inset
+
+,
+ we also apply a similar technique.
+\end_layout
+
+\begin_layout Standard
+First,
+ we recall and sketch Stirling's approximation for the factorial.
+ Note that 
+\begin_inset Formula $\log n!=\log n+\dots+\log1$
+\end_inset
+
+,
+ which we approximate by 
+\begin_inset Formula $\int_{1}^{n}\log x\,\dl x=n\log n+n-1$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $\log n!\approx n\log n+n-1$
+\end_inset
+
+,
+ and so
+\begin_inset Formula 
+\[
+n!\approx\frac{n^{n}\e^{n}}{\e}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this and the expression for the binomial,
+ we obtain the approximation
+\begin_inset Formula 
+\[
+{n \choose k}\approx\frac{1}{\e}\frac{n^{n}}{k^{k}(n-k)^{n-k}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus,
+ we can approximate
+\begin_inset Formula 
+\[
+\#A_{np}=\sum_{k\leq np}{n \choose k}\approx\int_{0}^{np}\frac{1}{\e}\frac{n^{n}}{k^{k}(n-k)^{n-k}}\,\dl x,
+\]
+
+\end_inset
+
+which by a change of variables to 
+\begin_inset Formula $y=x/n$
+\end_inset
+
+ is given by
+\begin_inset Formula 
+\begin{equation}
+\#A_{np}\approx\frac{n}{\e}\int_{0}^{p}\left(\frac{1}{y^{y}(1-y)^{1-y}}\right)^{n}\,\dl y.\label{eq:binomboundH}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This integral is not amenable to direct computation,
+ but it can be approximated.
+ Let us look at plots of the integrand,
+ for large values of 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename lln_plot1.pdf
+	width 33text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename lln_plot20.pdf
+	width 33text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename lln_plot100.pdf
+	width 33text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename lln_plot1000.pdf
+	width 33text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A plot of 
+\begin_inset Formula $\left(\frac{1}{y^{y}(1-y)^{1-y}}\right)^{n}$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $n=1$
+\end_inset
+
+,
+ 20,
+ 100,
+ and 1000,
+ for 
+\begin_inset Formula $y\in\interval 0{0.45}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can see from the figures that,
+ as 
+\begin_inset Formula $n\to\infty$
+\end_inset
+
+,
+ only the rightmost part of the graph is significant.
+ We can approximate the graph by a right triangle,
+ and its integral by the area of this triangle.
+\end_layout
+
+\begin_layout Remark
+The above approximation is only valid for 
+\begin_inset Formula $p<\frac{1}{2}$
+\end_inset
+
+!
+\end_layout
+
+\begin_layout Standard
+Set 
+\begin_inset Formula $h_{n}(x)=\left(\frac{1}{y^{y}(1-y)^{1-y}}\right)^{n}$
+\end_inset
+
+.
+ Then,
+ for large values of 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ the triangle we refer to in the previous paragraph has height given by 
+\begin_inset Formula $h_{n}(p)=\left(\frac{1}{p^{p}(1-p)^{1-p}}\right)^{n}$
+\end_inset
+
+,
+ and its slope is
+\begin_inset Formula 
+\[
+m=h_{n}'(p)=n\left(\frac{1}{p^{p}(1-p)^{1-p}}\right)^{n-1}h_{1}'(p),
+\]
+
+\end_inset
+
+and a computation yields 
+\begin_inset Formula $h_{1}'(y)=\frac{1}{y^{y}(1-y)^{(1-y)}}\log\left(\frac{1-y}{y}\right)$
+\end_inset
+
+.
+ Putting it all together,
+ and using the formula for the area of a right triangle:
+ 
+\begin_inset Formula $A=\frac{y^{2}}{2m}$
+\end_inset
+
+,
+ we get
+\begin_inset Formula 
+\[
+\#A_{np}\approx\frac{n}{\e}\frac{\left(\frac{1}{p^{p}(1-p)^{1-p}}\right)^{2n}}{2n\left(\frac{1}{p^{p}(1-p)^{1-p}}\right)^{n}\log\left(\frac{1-p}{p}\right)}=\frac{1}{2\e\log\left(\frac{1-p}{p}\right)}\left(\frac{1}{p^{p}(1-p)^{1-p}}\right)^{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus,
+ the proportion of strings in 
+\begin_inset Formula $A_{np}$
+\end_inset
+
+ is approximated by
+\begin_inset Formula 
+\[
+\frac{\#A_{np}}{2^{n}}\approx C(2p^{p}(1-p)^{1-p})^{-n},
+\]
+
+\end_inset
+
+which,
+ so long as 
+\begin_inset Formula $2p^{p}(1-p)^{1-p}>1$
+\end_inset
+
+,
+ decreases geometrically,
+ which is faster than cubically.
+ This may be verified analytically (for 
+\begin_inset Formula $p\neq\frac{1}{2}$
+\end_inset
+
+),
+ but for now,
+ the following plot corroborates this guess:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename lln_plotp.pdf
+	width 40text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Plot of 
+\begin_inset Formula $2p^{p}(1-p)^{1-p}$
+\end_inset
+
+,
+ compared against 
+\begin_inset Formula $y=1$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This gives us our conclusion:
+ 
+\emph on
+Not only does the proportion of strings in 
+\begin_inset Formula $\#A_{np}$
+\end_inset
+
+ decrease to zero faster than cubically,
+ but it does so exponentially,
+ at a rate of 
+\begin_inset Formula $(2p^{p}(1-p)^{1-p})^{-n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the following two sections,
+ we verify that this indeed holds true.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:integrals"
+
+\end_inset
+
+First Successful Approach:
+ Bounding Sums by Integrals
+\end_layout
+
+\begin_layout Standard
+This section consists entirely of a rigorous approach to the contents of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:heuristic"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To recap:
+ We seek to bound the value of
+\begin_inset Formula 
+\[
+\#A_{np}=\sum_{k\leq np}{n \choose k}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We begin by providing a bound for 
+\begin_inset Formula ${n \choose k}$
+\end_inset
+
+.
+ As before,
+ we consider
+\begin_inset Formula 
+\begin{equation}
+\log{n \choose k}=\log n+\dots+\log(n-k+1)-\log k-\dots-\log1.\label{eq:logbinom}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Throughout,
+ we will take recourse to the following principle:
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:incbound"
+
+\end_inset
+
+Let 
+\begin_inset Formula $f\colon\interval a{b+1}\to\R$
+\end_inset
+
+ be an increasing function.
+ Then,
+\begin_inset Formula 
+\[
+\sum_{a\leq k\leq b}f(k)\leq\int_{a}^{b+1}f(x)\,\dl x.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Use the lower Darboux sum given by the partition 
+\begin_inset Formula $(a,\lceil a\rceil,\lceil a\rceil+1,\dots,\lfloor b\rfloor,\lfloor b\rfloor+1,b+1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An analogous idea,
+ or applying Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:incbound"
+
+\end_inset
+
+ to 
+\begin_inset Formula $-f(-x)$
+\end_inset
+
+ provides a lower bound.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:incbound2"
+
+\end_inset
+
+Let 
+\begin_inset Formula $f\colon\interval{a-1}b\to\R$
+\end_inset
+
+ be an increasing function.
+ Then,
+\begin_inset Formula 
+\[
+\sum_{a\leq k\leq b}f(k)\geq\int_{a-1}^{b}f(x)\,\dl x.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Applying Propositions 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:incbound"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:incbound2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:logbinom"
+
+\end_inset
+
+ (after disregading 
+\begin_inset Formula $\log1=0$
+\end_inset
+
+) yields the bound
+\begin_inset Formula 
+\begin{align*}
+\log{n \choose k} & \leq\int_{n-k+1}^{n+1}\log(x)\,\dl x-\int_{1}^{k}\log(x)\,\dl x\\
+ & =(n+1)\log(n+1)+\cancel{(n+1)}-(n-k+1)\log(n-k+1)-\cancel{(n-k+1)}-k\log k-\cancel{k}+1\\
+ & =(n+1)\log(n+1)-(n-k+1)\log(n-k+1)-k\log k+1,
+\end{align*}
+
+\end_inset
+
+providing the bound on the binomial:
+\begin_inset Formula 
+\[
+{n \choose k}\leq\frac{\e\,(n+1)^{n+1}}{(n-k+1)^{n-k+1}k^{k}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us define the auxilliary function,
+ which was seen to be useful in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:heuristic"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+h(x)=\frac{1}{x^{x}(1-x)^{1-x}}.
+\]
+
+\end_inset
+
+We note that our bound on the binomial may be rewritten using it as recourse:
+\begin_inset Formula 
+\begin{equation}
+{n \choose k}\leq\e\,h\left(\tfrac{k}{n+1}\right)^{n+1}.\label{eq:binombound}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We may compute 
+\begin_inset Formula $h'(x)=h(x)\log\left(\frac{1-x}{x}\right)$
+\end_inset
+
+,
+ whose sign is the same as the sign of 
+\begin_inset Formula $\log\left(\frac{1-x}{x}\right)$
+\end_inset
+
+.
+ As a consequence 
+\begin_inset Formula $h(x)$
+\end_inset
+
+,
+ and hence the bound in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binombound"
+
+\end_inset
+
+,
+ is increasing for 
+\begin_inset Formula $x<\frac{1}{2}$
+\end_inset
+
+,
+ resp.
+ 
+\begin_inset Formula $k<\frac{n+1}{2}$
+\end_inset
+
+.
+ As such,
+ we may apply Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:binombound"
+
+\end_inset
+
+ in conjunction with 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binombound"
+
+\end_inset
+
+ to obtain
+\begin_inset Formula 
+\begin{equation}
+\sum_{k\leq np}{n \choose k}\leq\int_{0}^{np+1}\e\,h\left(\tfrac{x}{n+1}\right)^{n+1}\,\dl x,\label{eq:binomsumbound0}
+\end{equation}
+
+\end_inset
+
+which by a change of variables to 
+\begin_inset Formula $y=\frac{x}{n+1}$
+\end_inset
+
+ gives
+\begin_inset Formula 
+\begin{equation}
+\sum_{k\leq np}{n \choose k}\leq(n+1)\e\int_{0}^{\frac{np+1}{n+1}}h\left(y\right)^{n+1}\,\dl x.\label{eq:binomsumbound}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now,
+ let's recall that the quantity we are interested in is 
+\begin_inset Formula $\frac{1}{2^{n}}\sum_{k\leq np}{n \choose k}$
+\end_inset
+
+.
+ Unfortunately,
+ since 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binomsumbound"
+
+\end_inset
+
+ is not as tidy as the heuristic bound 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binomboundH"
+
+\end_inset
+
+,
+ the computations are going to get a little ugly.
+ Nevertheless,
+ we will prove that 
+\begin_inset Formula $\frac{1}{2^{n}}\sum_{k\leq np}{n \choose k}$
+\end_inset
+
+ decreases exponentially,
+ which is faster than cubically and so will suffice to prove the Law of Large Numbers.
+\end_layout
+
+\begin_layout Standard
+We divide the integral in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:binomsumbound"
+
+\end_inset
+
+ into two parts:
+\begin_inset Formula 
+\begin{equation}
+(n+1)\e\int_{0}^{\frac{np+1}{n+1}}h\left(y\right)^{n+1}\,\dl x=\underbrace{(n+1)\e\int_{0}^{p}h\left(y\right)^{n+1}\,\dl x}_{Q_{1}}+\underbrace{(n+1)\e\int_{p}^{\frac{np+1}{n+1}}h\left(y\right)^{n+1}\,\dl x}_{Q_{2}}.\label{eq:Q1Q2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We start by bounding 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+,
+ as it is the easiest.
+ We have the bound
+\begin_inset Formula 
+\[
+Q_{2}\leq(n+1)\e\,\left(\frac{np+1}{n+1}-p\right)h\left(\tfrac{np+1}{n+1}\right)^{n+1}=\e(1-p)h\left(\tfrac{np+1}{n+1}\right)^{n+1}.
+\]
+
+\end_inset
+
+Finally,
+ since 
+\begin_inset Formula $\frac{np+1}{n+1}\to p$
+\end_inset
+
+,
+ 
+\begin_inset Formula $p<\frac{1}{2}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $h$
+\end_inset
+
+ is decreasing for 
+\begin_inset Formula $x<\frac{1}{2}$
+\end_inset
+
+,
+ we may choose 
+\begin_inset Formula $n$
+\end_inset
+
+ large enough that 
+\begin_inset Formula $\frac{np+1}{n+1}$
+\end_inset
+
+ is always less than 
+\begin_inset Formula $p+\varepsilon$
+\end_inset
+
+ for some small 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+,
+ whence 
+\begin_inset Formula $h\left(\frac{np+1}{n+1}\right)<h(p+\varepsilon)<2$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $\frac{1}{2^{n}}Q_{2}$
+\end_inset
+
+ decreases exponentially,
+ completing the first part of the proof.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us now bound 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+.
+ In order to make the 
+\begin_inset Quotes eld
+\end_inset
+
+approximate by a right triangle
+\begin_inset Quotes erd
+\end_inset
+
+ argument from Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:heuristic"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ rigorous,
+ we employ the following lemma.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:fnbound"
+
+\end_inset
+
+Let 
+\begin_inset Formula $f\colon\interval 01\to\rinterval 0{\infty}$
+\end_inset
+
+ be a function whose left-derivative at 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ which we will refer to as 
+\begin_inset Formula $f'(1)$
+\end_inset
+
+,
+ exists and is nonzero.
+ Then,
+ the integral 
+\begin_inset Formula $\int_{0}^{1}f(x)^{n}\,\dl x$
+\end_inset
+
+ is asymptotically equal to 
+\begin_inset Formula $\frac{f(1)}{nf'(1)}f(1)^{n}$
+\end_inset
+
+.
+ In other words,
+\begin_inset Formula 
+\[
+\frac{\int_{0}^{1}f(x)^{n}\,\dl x}{\frac{f(1)}{nf'(1)}f(1)^{n}}\to1.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+By considering 
+\begin_inset Formula $\tilde{f}=\frac{1}{f(1)}f$
+\end_inset
+
+,
+ we may without loss of generality assume that 
+\begin_inset Formula $f(1)=1$
+\end_inset
+
+.
+ This is not an essential part of the proof,
+ but makes it notationally nicer,
+ as now the question boils down to computing the limit of 
+\begin_inset Formula $n\int_{0}^{1}f(x)^{n}\,\dl x$
+\end_inset
+
+,
+ which we claim equals 
+\begin_inset Formula $f'(1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We begin by considering the special case where 
+\begin_inset Formula 
+\begin{equation}
+f(x)=\begin{cases}
+m(x-1)+1 & x\geq1-\delta\\
+c & x<1-\delta
+\end{cases}\label{eq:fspecial}
+\end{equation}
+
+\end_inset
+
+for some positive real number 
+\begin_inset Formula $m$
+\end_inset
+
+,
+ 
+\begin_inset Formula $0\leq c<1$
+\end_inset
+
+,
+ and small enough value of 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+ In this case,
+ the integral may be computed explicitly:
+\begin_inset Formula 
+\[
+\int_{0}^{1}f(x)^{n}\,\dl x=(1-\delta)c^{n}+\int_{1-\delta}^{1}(m(x-1)+1)^{n}\,\dl x=(1-\delta)c^{n}+\left(\frac{1}{m(n+1)}-\frac{(1-\delta m)^{n+1}}{m(n+1)}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Now,
+ for 
+\begin_inset Formula $\delta$
+\end_inset
+
+ small enough,
+ we have 
+\begin_inset Formula $0<1-\delta m<1$
+\end_inset
+
+,
+ and so
+\begin_inset Formula 
+\[
+n\int_{0}^{1}f(x)^{n}\,\dl x=n(1-\delta)c^{n}+\frac{n}{n+1}\left(\frac{1}{m}-\frac{(1-\delta m)^{n+1}}{m}\right)\to\frac{1}{m},
+\]
+
+\end_inset
+
+and so this special case is proven.
+ Now,
+ for the general case,
+ we note that any function 
+\begin_inset Formula $f$
+\end_inset
+
+ that satisfies the assumptions of the problem statement,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ may be bounded from above by a function of type 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fspecial"
+
+\end_inset
+
+ with 
+\begin_inset Formula $m=f'(1)+\varepsilon$
+\end_inset
+
+,
+ and from below by a function of type 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fspecial"
+
+\end_inset
+
+ with 
+\begin_inset Formula $m=f'(1)-\varepsilon$
+\end_inset
+
+.
+ Thus,
+ any sublimit of 
+\begin_inset Formula $n\int_{0}^{1}f(x)^{n}\,\dl x$
+\end_inset
+
+ is between 
+\begin_inset Formula $f'(1)-\varepsilon$
+\end_inset
+
+ and 
+\begin_inset Formula $f'(1)+\varepsilon$
+\end_inset
+
+,
+ which by standard real analysis arguments implies that the limit exists and equals 
+\begin_inset Formula $f'(1)$
+\end_inset
+
+.
+ This completes the proof.
+\end_layout
+
+\begin_layout Remark
+We didn't get a factor of 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+ in the assymptotic approximation,
+ which means that in fact approximating by a right triangle is an underestimate by a factor of a half.
+ It appears that we should have approximated by a rectangle instead,
+ which is pretty weird!
+\end_layout
+
+\begin_layout Standard
+Now equipped with Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:fnbound"
+
+\end_inset
+
+,
+ we can bound 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+ easily.
+ Indeed,
+ by Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:fnbound"
+
+\end_inset
+
+ we have
+\begin_inset Formula 
+\[
+Q_{1}=(n+1)\e\,\frac{h(p)}{nh'(p)}h(p)^{n}\times a_{n},
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $a_{n}\to1$
+\end_inset
+
+.
+ We see that 
+\begin_inset Formula $\frac{n+1}{n}\to1$
+\end_inset
+
+ also,
+ and so the only thing that determines the growth of 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+is the exponential term 
+\begin_inset Formula $h(p)^{n}$
+\end_inset
+
+.
+ To investigate this,
+ note that we've calculated before that 
+\begin_inset Formula $h$
+\end_inset
+
+ is increasing (strictly) up to 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+,
+ and moreover we can easily compute 
+\begin_inset Formula $h(1/2)=2$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $h(p)$
+\end_inset
+
+ is (for 
+\begin_inset Formula $p<1/2$
+\end_inset
+
+) 
+\emph on
+strictly
+\emph default
+ less than 
+\begin_inset Formula $2$
+\end_inset
+
+,
+ and so we conclude that 
+\begin_inset Formula $\frac{1}{2^{n}}Q_{1}$
+\end_inset
+
+ converges exponentially to zero,
+ which is again faster than cubic,
+ as desired.
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:baddecay"
+
+\end_inset
+
+While this proof is sufficient to get that 
+\begin_inset Formula $\frac{\#A_{np}}{2^{n}}$
+\end_inset
+
+ goes to zero exponentially,
+ it does not quite reach the exponential decay of rate 
+\begin_inset Formula $2p^{p}(1-p)^{1-p}$
+\end_inset
+
+ that we expected from Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:heuristic"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We only obtained exponential decay with rate 
+\begin_inset Formula $2p^{p}(1-p)^{1-p}+\varepsilon$
+\end_inset
+
+ for arbitrary 
+\begin_inset Formula $\varepsilon$
+\end_inset
+
+.
+ A better bound could be obtained by being more careful in step 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binomsumbound0"
+
+\end_inset
+
+.
+ Instead of bounding the whole sum by an integral,
+ leave the last term out:
+\begin_inset Formula 
+\[
+\sum_{k\leq np}{n \choose k}\leq\int_{0}^{np}\e\,h\left(\tfrac{x}{n+1}\right)^{n+1}\,\dl x+{n \choose \lfloor np\rfloor}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The first term is what we referred to in Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Q1Q2"
+
+\end_inset
+
+ as 
+\begin_inset Formula $Q_{1}$
+\end_inset
+
+,
+ which we bounded by 
+\begin_inset Formula $c\,(p^{p}(1-p)^{1-p})^{n}$
+\end_inset
+
+,
+ and the second term we can bound using Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:binombound"
+
+\end_inset
+
+ to get
+\begin_inset Formula 
+\[
+{n \choose \lfloor np\rfloor}\leq\e\,h\left(\frac{\lfloor np\rfloor}{n+1}\right)^{n+1}\leq c'\,h(p)^{n},
+\]
+
+\end_inset
+
+where we used the fact that 
+\begin_inset Formula $h$
+\end_inset
+
+ is increasing up to 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\lfloor np\rfloor}{n+1}\leq p$
+\end_inset
+
+.
+ This is a better bound than the bound we obtained for 
+\begin_inset Formula $Q_{2}$
+\end_inset
+
+,
+ and gives us an exponential bound with rate 
+\begin_inset Formula $h(p)=p^{p}(1-p)^{1-p}$
+\end_inset
+
+ as desired.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+I suspect that the same approach could be used to furnish a lower bound for 
+\begin_inset Formula $\frac{\#A_{np}}{2^{n}}$
+\end_inset
+
+,
+ and hence prove that the decay bound 
+\begin_inset Formula $(2p^{p}(1-p)^{1-p})^{-n}$
+\end_inset
+
+ is tight up to multiplicative factors,
+ but I have been unable to get it to work.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:chernoff"
+
+\end_inset
+
+Second Successful Approach:
+ Chernoff Bounds
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\EV}{\mathbb{E}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\P}{\mathbb{P}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This approach boils down to applying Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:chebyshev"
+
+\end_inset
+
+ to a well-chosen family of functions 
+\begin_inset Formula $\{f_{t}\}$
+\end_inset
+
+,
+ and keeping the best bound we obtain from this process.
+ These functions are chosen as to exploit regularities of our specific scenario.
+ Probabilistically speaking,
+ what we have is a sum of independent random variables 
+\begin_inset Formula $X_{1}+\dots+X_{n}$
+\end_inset
+
+,
+ each of which is zero or one with probability 
+\begin_inset Formula $1/2$
+\end_inset
+
+.
+ A remarkable property of independent r.v.s is that,
+ if 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+ are independent,
+ 
+\begin_inset Formula $\EV[XY]=\EV[X]\EV[Y]$
+\end_inset
+
+,
+ which suggests taking an exponential to turn the sum into a product.
+ Thus,
+ we consider the bounds obtained by applying Chebyshev/Markov's inequality to 
+\begin_inset Formula $\lambda^{X_{1}+\dots+X_{n}}$
+\end_inset
+
+ for 
+\begin_inset Formula $\lambda>0$
+\end_inset
+
+,
+ or equivalently to 
+\begin_inset Formula $\exp(t(X_{1}+\dots+X_{n}))$
+\end_inset
+
+ for 
+\begin_inset Formula $t\in\R$
+\end_inset
+
+.
+ We will in fact only consider 
+\begin_inset Formula $t>0$
+\end_inset
+
+,
+ because other choices for 
+\begin_inset Formula $t$
+\end_inset
+
+ do not preserve inequalities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To begin the proof,
+ let us recall that what we want to estimate is the proportion of strings in 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ that lie in 
+\begin_inset Formula $A_{np}$
+\end_inset
+
+.
+ In the framework of the previous paragraph,
+ this is the same as to estimate 
+\begin_inset Formula $\P[X_{1}+\dots+X_{n}\leq np]$
+\end_inset
+
+,
+ which is the same as 
+\begin_inset Formula $\P[\e^{tX_{1}}\dots\e^{tX_{n}}\leq\e^{tnp}]$
+\end_inset
+
+ for arbitrary 
+\begin_inset Formula $t>0$
+\end_inset
+
+.
+ In turn,
+ we apply Markov's inequality here to obtain
+\begin_inset Formula 
+\begin{equation}
+\P[\e^{tX_{1}}\dots\e^{tX_{n}}\leq\e^{tnp}]\leq\frac{1}{\e^{tnp}}\EV[\e^{tX_{1}}\dots\e^{tX_{n}}]=\frac{\EV[\e^{tX}]^{n}}{\e^{tnp}},\label{eq:pestimate}
+\end{equation}
+
+\end_inset
+
+where we used the fact that the 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ are independent,
+ and hence the 
+\begin_inset Formula $\e^{tX_{i}}$
+\end_inset
+
+ are independent.
+ We also use 
+\begin_inset Formula $X$
+\end_inset
+
+ to denote an arbitrary r.v.
+ with the same distribution as the 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+.
+ Finally,
+ we optimize the right-hand side of Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:pestimate"
+
+\end_inset
+
+.
+ Using 
+\begin_inset Formula $\EV[\e^{tX}]=\frac{1+\e^{t}}{2}$
+\end_inset
+
+,
+ what follows is a calculus exercise,
+ whose conclusion is that the optimal value of 
+\begin_inset Formula $t$
+\end_inset
+
+ is 
+\begin_inset Formula $t=\log\left(\frac{p}{1-p}\right)$
+\end_inset
+
+,
+ which yields the bound
+\begin_inset Formula 
+\begin{equation}
+\P[X_{1}+\dots+X_{n}\leq np]=\P[\e^{tX_{1}}\dots\e^{tX_{n}}\leq\e^{tnp}]\leq\left(\frac{1}{2}\frac{1+\frac{p}{1-p}}{\left(\frac{p}{1-p}\right)^{p}}\right)^{n}=(2p^{p}(1-p)^{1-p})^{-n}.\label{eq:cb1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is already enough to prove the Law of Large Numbers for random sequences,
+ as it provides us with exponential decay,
+ which is faster than cubic decay.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To conclude this document,
+ we briefly explain how to go from bound 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:cb1"
+
+\end_inset
+
+ to the Chernoff bounds outlined by Nies on page 101.
+ The main step is to prove that 
+\begin_inset Formula $p^{p}(1-p)^{1-p}\geq\frac{1}{2}\e^{(p-\frac{1}{2})^{2}}$
+\end_inset
+
+.
+ This can be done by optimizing the logarithm of the quotient 
+\begin_inset Formula $\frac{p^{p}(1-p)^{1-p}}{\exp((p-\frac{1}{2})^{2})}$
+\end_inset
+
+,
+ which is 
+\begin_inset Formula $p\log p+(1-p)\log(1-p)+(p-\frac{1}{2})^{2}$
+\end_inset
+
+.
+ Its derivative is 
+\begin_inset Formula $\log\left(\frac{p}{1-p}\right)-2p-1$
+\end_inset
+
+,
+ which can be seen to be negative for 
+\begin_inset Formula $p<\frac{1}{2}$
+\end_inset
+
+ by using the bound 
+\begin_inset Formula $\log x\leq x-1$
+\end_inset
+
+,
+ and positive for 
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+ because it's odd about 
+\begin_inset Formula $1/2$
+\end_inset
+
+.
+ Thus,
+ the global minimum of 
+\begin_inset Formula $\frac{p^{p}(1-p)^{1-p}}{\exp((p-\frac{1}{2})^{2})}$
+\end_inset
+
+ is at 
+\begin_inset Formula $p=\frac{1}{2}$
+\end_inset
+
+,
+ with value 
+\begin_inset Formula $1/2$
+\end_inset
+
+,
+ which proves the inequality 
+\begin_inset Formula $p^{p}(1-p)^{1-p}\geq\frac{1}{2}\e^{(p-\frac{1}{2})^{2}}$
+\end_inset
+
+.
+ Therefore,
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cb1"
+
+\end_inset
+
+ has as a consequence that
+\begin_inset Formula 
+\[
+\P[X_{1}+\dots+X_{n}\leq np]\leq\e^{-n(p-\frac{1}{2})^{2}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This gives a bound on the size of 
+\begin_inset Formula $A_{np}$
+\end_inset
+
+.
+ The bound on the size of 
+\begin_inset Formula $B_{n(1-p)}$
+\end_inset
+
+ is the same,
+ and so we get Nies' bound
+\begin_inset Formula 
+\[
+\P\left[\left|\frac{X_{1}+\dots+X_{n}}{n}-\frac{1}{2}\right|\geq\varepsilon\right]\leq2\e^{-n\varepsilon^{2}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

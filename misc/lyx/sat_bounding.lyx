@@ -47,7 +47,16 @@ duarte_theorems
 \float_alignment class
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize letter
 \use_geometry false
 \use_package amsmath 2
@@ -9619,6 +9628,12 @@ reference "cor:barlinear"
 \end_layout
 
 \begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:isolated1rk1"
+
+\end_inset
+
 There is an algorithm that turns an index for a 1rk1 tree 
 \begin_inset Formula $T$
 \end_inset
@@ -10182,6 +10197,12 @@ reference "prop:1rk1order"
 \end_layout
 
 \begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:1rk1orderstrict"
+
+\end_inset
+
 Proposition 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10406,6 +10427,12 @@ There is a relatively natural step that follows these:
 \end_layout
 
 \begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:chartriplejump"
+
+\end_inset
+
 A degree can compute 
 \begin_inset Formula $0'''$
 \end_inset
@@ -11998,6 +12025,375 @@ Suppose that
 .
 \end_layout
 
+\begin_layout Subsubsection
+The PAC Case
+\end_layout
+
+\begin_layout Standard
+First,
+ we show that Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:1rk1barlinear"
+
+\end_inset
+
+ cannot be restricted to the PAC case.
+\end_layout
+
+\begin_layout Proposition
+There is a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable algorithm that,
+ given a PAC 1rk1 tree 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ outputs a computable index for 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The proof boils down to noticing that 
+\begin_inset Formula $0''$
+\end_inset
+
+ has enough computational power to do all of the following:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Enumerate indices for the total functions,
+ of which one must be the unique rank 1 path;
+\end_layout
+
+\begin_layout Itemize
+Given an index 
+\begin_inset Formula $e\in\Tot$
+\end_inset
+
+,
+ check that 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ is a path on the tree,
+ and moreover that it is a 
+\emph on
+nonprincipal
+\emph default
+ path,
+\end_layout
+
+\begin_layout Itemize
+Given an index 
+\begin_inset Formula $e$
+\end_inset
+
+ for the unique nonprincipal path,
+ count how many paths are to the left and right of 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Upon performing these three tasks,
+ we know exactly what the final order will be and can simply output an index for it.
+\end_layout
+
+\begin_layout Standard
+This shows that the task of computing 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+ is made easier if 
+\begin_inset Formula $T$
+\end_inset
+
+ is assumed PAC,
+ though at the moment it is unclear how much easier.
+ It is plausible that the task actually becomes computable.
+ The following proposition provides a strategy that can help in dealing with the PAC case.
+\end_layout
+
+\begin_layout Theorem
+There is a computable algorithm which,
+ given a 1rk1 PAC tree 
+\begin_inset Formula $T$
+\end_inset
+
+ and an index 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+,
+ will produce a linear order 
+\begin_inset Formula $L$
+\end_inset
+
+ as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a three-block tree,
+ then 
+\begin_inset Formula $L=\barLinear(T)$
+\end_inset
+
+ 
+\emph on
+under the assumption that 
+\begin_inset Formula $e$
+\end_inset
+
+ is an index for the rank 1 path;
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a two-block tree,
+ then 
+\begin_inset Formula $L=\barLinear(T)$
+\end_inset
+
+ regardless of the value of 
+\begin_inset Formula $e$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We construct the order 
+\begin_inset Formula $L$
+\end_inset
+
+ by enumerating the branching points of 
+\begin_inset Formula $T$
+\end_inset
+
+ and ordering them as in Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:isolated1rk1"
+
+\end_inset
+
+.
+ However,
+ there is the following twist.
+ Let 
+\begin_inset Formula $m$
+\end_inset
+
+ be the first element added to 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ In the case where 
+\begin_inset Formula $T$
+\end_inset
+
+ is a three-block tree,
+ we shall ensure that 
+\begin_inset Formula $m$
+\end_inset
+
+ represents the unique rank 1 element.
+\end_layout
+
+\begin_layout Proof
+To this effect,
+ in parallel with the enumeration of branching points of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ we evaluate 
+\begin_inset Formula $\varphi_{e}(0)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\varphi_{e}(1)$
+\end_inset
+
+,
+ etc.
+ If the resulting path ever leaves the tree,
+ we simply pretend as though the corresponding computation of 
+\begin_inset Formula $\varphi_{e}(x)$
+\end_inset
+
+ is looping forever.
+ Now,
+ as we follow along the path 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ we look out for left-branches and right-branches off of this path,
+ and each time we find a distinct pairs (i.e.
+\begin_inset space \space{}
+\end_inset
+
+we are not allowed to use the same left-branch or right-branch twice),
+ we perform what we shall call a 
+\emph on
+realignment
+\emph default
+.
+ This means that we forget the assignment of branching points to elements of 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ and add an element directly to the left of 
+\begin_inset Formula $m$
+\end_inset
+
+,
+ and another directly to the right of 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ Then,
+ we wait for the next two branching points of 
+\begin_inset Formula $T$
+\end_inset
+
+ to be found,
+ and reassign the branching points (found thus far) to the elements of 
+\begin_inset Formula $L$
+\end_inset
+
+ (produced thus far) via the unique order-preserving way.
+ Then,
+ the algorithm proceeds as usual,
+ until the next realignment.
+\end_layout
+
+\begin_layout Proof
+For reasons that will become clear in a moment,
+ we stipulate that the output of this algorithm is the linear order 
+\begin_inset Formula $L'=1+L+1$
+\end_inset
+
+,
+ not 
+\begin_inset Formula $L$
+\end_inset
+
+ itself.
+ Let us investigate the output of this algorithm.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a two-block tree,
+ then regardless of the value of 
+\begin_inset Formula $e$
+\end_inset
+
+ there shall be a finite number of realignments.
+ After the final realignment,
+ the algorithm will simply execute analogously to Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:isolated1rk1"
+
+\end_inset
+
+,
+ in which case 
+\begin_inset Formula $L=\Linear(T)$
+\end_inset
+
+.
+ In the two-block case,
+ we therefore have 
+\begin_inset Formula $1+L+1=\barLinear(T)$
+\end_inset
+
+,
+ as desired.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a three-block tree,
+ we have an infinite number of realignments,
+ and therefore 
+\begin_inset Formula $m$
+\end_inset
+
+ shall be a rank 1 point from both sides.
+ It thus suffices to show that every other element of 
+\begin_inset Formula $L$
+\end_inset
+
+ is isolated.
+ Thus,
+ let 
+\begin_inset Formula $q\neq m$
+\end_inset
+
+ be an element of 
+\begin_inset Formula $L$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Consider executing the algorithm until 
+\begin_inset Formula $q$
+\end_inset
+
+ is added to 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Moreover,
+ suppose without loss of generality that 
+\begin_inset Formula $q<m$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Section
 Currently Loose Threads
 \end_layout
@@ -12027,10 +12423,6 @@ with more paths of rank 1,
 
 \begin_layout Itemize
 We may ask about the difficulty of the 0spinal case,
-\end_layout
-
-\begin_layout Itemize
-We may ask about the PAC 1rk1 case,
 \end_layout
 
 \begin_layout Itemize

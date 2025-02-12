@@ -1,0 +1,33 @@
+def factorial_no_recursion(x):
+    if x == 0:
+        return 1
+
+    data = 'def factorial_no_recursion(x):\n    if x == 0:\n        return 1\n\n    data = \'\'\n    theprogram = ""\n    escaped = False\n    def escape(string):\n        output = ""\n        for c in string:\n            if c == "\\n":\n                output = output + "\\\\n"\n            elif c == "\\\'":\n                output = output + "\\\\\'"\n            elif c == "\\\\":\n                output = output + "\\\\\\\\"\n            else:\n                output = output + c\n        return output\n    for c in data:\n        if escaped:\n            theprogram = theprogram + c\n            escaped = False\n        elif c == "E":\n            escaped = True\n        elif c == "X":\n            theprogram = theprogram + escape(data)\n        else:\n            theprogram = theprogram + c\n            \n    dic = {"inputval" : x-1}\n    exec(theprogram+"\\noutputval = factorial_no_recursion(inputval)", dic)\n    return x * dic["outputval"]'
+    theprogram = ""
+    escaped = False
+    def escape(string):
+        output = ""
+        for c in string:
+            if c == "\n":
+                output = output + "\\n"
+            elif c == "\'":
+                output = output + "\\'"
+            elif c == "\\":
+                output = output + "\\\\"
+            else:
+                output = output + c
+        return output
+    for c in data:
+        if escaped:
+            theprogram = theprogram + c
+            escaped = False
+        elif c == "E":
+            escaped = True
+        elif c == "X":
+            theprogram = theprogram + escape(data)
+        else:
+            theprogram = theprogram + c
+            
+    dic = {"inputval" : x-1}
+    exec(theprogram+"\noutputval = factorial_no_recursion(inputval)", dic)
+    return x * dic["outputval"]

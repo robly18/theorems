@@ -1,0 +1,978 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+\end_preamble
+\use_default_options true
+\begin_modules
+enumitem
+duarte_theorems
+duarte_theorems_exercises
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Quantum Computing W2025,
+ Homework 1
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\CNOT}{\mathrm{CNOT}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\TOFFOLI}{\mathrm{TOFFOLI}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\FREDKIN}{\mathrm{FREDKIN}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\tr}{\intercal}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\adj}{\dag}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\I}{\mathrm{i}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ket}[1]{}
+{\left|#1\right\rangle }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\bra}[1]{}
+{\left\langle #1\right|}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Note:
+
+\shape default
+ Throughout,
+ I use the convention 
+\begin_inset Formula $2=\{0,1\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+Prove that the basis 
+\begin_inset Formula $\{\CNOT,\TOFFOLI,\FREDKIN\}$
+\end_inset
+
+ is not complete for reverse computation,
+ even in the presence of ancilla bits.
+\end_layout
+
+\begin_layout Solution
+All of these gates take 
+\begin_inset Formula $0^{N}$
+\end_inset
+
+ to 
+\begin_inset Formula $0^{N}$
+\end_inset
+
+,
+ so if a circuit 
+\begin_inset Formula $C$
+\end_inset
+
+ is built out of them,
+ it must take 
+\begin_inset Formula $C(0^{n},0^{L})$
+\end_inset
+
+ to 
+\begin_inset Formula $(0^{n},0^{L})$
+\end_inset
+
+.
+ Consequently,
+ if a function can be computed out of these gates,
+ even using ancilla bits,
+ it must satisfy 
+\begin_inset Formula $f(0^{n})=0^{n}$
+\end_inset
+
+.
+ Obviously there are reversible functions that do not do this,
+ e.g.
+\begin_inset space \space{}
+\end_inset
+
+apply NOT to the first bit.
+\end_layout
+
+\begin_layout Exercise
+Prove that if 
+\begin_inset Formula $O$
+\end_inset
+
+ is both stochastic and orthogonal,
+ then it is double stochastic.
+\end_layout
+
+\begin_layout Solution
+I recall from class the notation:
+ 
+\begin_inset Formula $j$
+\end_inset
+
+ is the all-ones vector.
+ With it,
+ I can express:
+ 
+\begin_inset Formula $O$
+\end_inset
+
+ stochastic means all entries are nonnegative,
+ and that 
+\begin_inset Formula $j^{\tr}O=j^{\tr}$
+\end_inset
+
+.
+ If I take the transpose on both sides of this equation,
+ I get 
+\begin_inset Formula $O^{\tr}j=j$
+\end_inset
+
+,
+ and multiplying on the left by 
+\begin_inset Formula $O$
+\end_inset
+
+ I obtain 
+\begin_inset Formula $j=Oj$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $O$
+\end_inset
+
+ is stochastic on both sides,
+ and therefore double stochastic.
+\end_layout
+
+\begin_layout Exercise
+Prove that the following modified Deutsch-Josza problem cannot be solved with only phase-flipping oracles:
+ Given an unbalanced 
+\begin_inset Formula $f\colon2^{n}\to2$
+\end_inset
+
+,
+ determine whether it is unbalanced towards 0 or 1.
+\end_layout
+
+\begin_layout Solution
+Consider a circuit 
+\begin_inset Formula $C_{f}$
+\end_inset
+
+ constructed out of unitary matrices and the phase-flipping oracle 
+\begin_inset Formula $U_{f}^{*}$
+\end_inset
+
+ to solve this modified Deutsch-Josza problem.
+ Now,
+ consider what happens when we replace 
+\begin_inset Formula $f$
+\end_inset
+
+ by 
+\begin_inset Formula $1-f$
+\end_inset
+
+;
+ call the resulting circuit 
+\begin_inset Formula $C_{1-f}$
+\end_inset
+
+.
+ If our original circuit solves the problem with probability 
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+,
+ then this means that 
+\begin_inset Formula $C_{f}\ket 0$
+\end_inset
+
+ produces some state 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+ on which one can do some measurement 
+\begin_inset Formula $M$
+\end_inset
+
+ which outputs a good (
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+) guess as to which way 
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+To be a little more precise:
+ The measurement will output some data 
+\begin_inset Formula $x\in2^{k}$
+\end_inset
+
+,
+ and there is some function 
+\begin_inset Formula $g\colon2^{k}\to2$
+\end_inset
+
+ that turns this data into 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced towards 
+\begin_inset Formula $0$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced towards 
+\begin_inset Formula $1$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Then,
+ the claim is that,
+ with probability 
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+ the measurement outputs some 
+\begin_inset Formula $x$
+\end_inset
+
+ for which the statement 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced towards 
+\begin_inset Formula $g(x)$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is true.
+ Nevertheless,
+ I assume that the function 
+\begin_inset Formula $g$
+\end_inset
+
+ is baked into the measurement 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ so that the output of 
+\begin_inset Formula $M$
+\end_inset
+
+ just tells me a guess for which way 
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced directly.
+\end_layout
+
+\end_inset
+
+ But it is easy to see that 
+\begin_inset Formula $C_{1-f}\ket 0$
+\end_inset
+
+ must yield 
+\begin_inset Formula $(-1)^{k}\ket{\psi}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $k$
+\end_inset
+
+ is the number of 
+\begin_inset Formula $U_{f}^{*}$
+\end_inset
+
+ oracles used in 
+\begin_inset Formula $C_{f}$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+I don't know if this is considered obvious enough,
+ so I will write a little more detail here.
+ Let us compare the effect of the oracle 
+\begin_inset Formula $U_{f}^{*}$
+\end_inset
+
+ to the oracle 
+\begin_inset Formula $U_{1-f}^{*}$
+\end_inset
+
+.
+ We have 
+\begin_inset Formula $U_{1-f}^{*}\ket x=(-1)^{1-f(x)}\ket x=-(-1)^{f(x)}\ket x=-U_{f}^{*}\ket x$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $x$
+\end_inset
+
+ is an arbitrary string,
+ we see that 
+\begin_inset Formula $U_{1-f}^{*}=-U_{f}^{*}$
+\end_inset
+
+.
+ Moreover,
+ the tensor-product-of-operators operation is bilinear,
+ so 
+\begin_inset Formula $U_{1-f}^{*}\otimes I=-U_{f}^{*}\otimes I$
+\end_inset
+
+.
+ Now,
+ inducting on the number of gates used we obtain the result.
+\end_layout
+
+\end_inset
+
+ Since a global phase change does not change the probability of any outcome on measurement,
+ with probability 
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+ the measurement 
+\begin_inset Formula $M$
+\end_inset
+
+ will still output the direction towards which 
+\begin_inset Formula $f$
+\end_inset
+
+ is balanced,
+ which is the 
+\emph on
+opposite
+\emph default
+ of the direction towards which 
+\begin_inset Formula $1-f$
+\end_inset
+
+ is balanced.
+ Thus,
+ our circuit cannot solve the modified Deutsch-Josza problem with probability 
+\begin_inset Formula $p>\frac{1}{2}$
+\end_inset
+
+ for every unbalanced input.
+\end_layout
+
+\begin_layout Exercise
+True or false,
+ where 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ are normal,
+ 
+\begin_inset Formula $U$
+\end_inset
+
+ is unitary,
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+ is Hermitian:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $AB$
+\end_inset
+
+ is normal,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A+B$
+\end_inset
+
+ is normal,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $U^{\adj}AU$
+\end_inset
+
+ is normal,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $HAH$
+\end_inset
+
+ is normal.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+False.
+ Let 
+\begin_inset Formula $A=\left[\begin{smallmatrix}1 & 1\\
+1 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $B=\left[\begin{smallmatrix}1 & 1\\
+1 & 0
+\end{smallmatrix}\right]$
+\end_inset
+
+.
+ These two matrices are real and symmetric,
+ hence Hermitian,
+ hence normal.
+ However,
+ we have
+\begin_inset Formula 
+\[
+AB=\begin{bmatrix}2 & 1\\
+2 & 1
+\end{bmatrix},
+\]
+
+\end_inset
+
+which fails to be normal because 
+\begin_inset Formula $AB(AB)^{\adj}=\left[\begin{smallmatrix}5 & 5\\
+5 & 5
+\end{smallmatrix}\right]$
+\end_inset
+
+,
+ while 
+\begin_inset Formula $(AB)^{\adj}AB=\left[\begin{smallmatrix}8 & 4\\
+4 & 2
+\end{smallmatrix}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+False.
+ Let 
+\begin_inset Formula $A=\left[\begin{smallmatrix}1 & 0\\
+0 & 2
+\end{smallmatrix}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $B=\left[\begin{smallmatrix}0 & 1\\
+-1 & 0
+\end{smallmatrix}\right]$
+\end_inset
+
+.
+ Then,
+ both of these matrices are normal because they are respectively Hermitian and anti-Hermitian.
+ Because of these properties,
+ we have
+\begin_inset Formula 
+\begin{align*}
+(A+B)(A+B)^{\adj}-(A+B)^{\adj}(A+B)= & (A+B)(A-B)-(A-B)(A+B)\\
+= & 2(BA-AB),
+\end{align*}
+
+\end_inset
+
+and so 
+\begin_inset Formula $A+B$
+\end_inset
+
+ being normal is equivalent to 
+\begin_inset Formula $AB=BA.$
+\end_inset
+
+ However,
+ this is not true,
+ because
+\begin_inset Formula 
+\[
+AB=\begin{bmatrix}0 & 1\\
+-2 & 0
+\end{bmatrix}\text{ and }BA=\begin{bmatrix}0 & 2\\
+-1 & 0
+\end{bmatrix}.
+\]
+
+\end_inset
+
+Thus,
+ 
+\begin_inset Formula $A+B$
+\end_inset
+
+ is not normal.
+\end_layout
+
+\begin_layout Enumerate
+True:
+ 
+\begin_inset Formula $U^{\adj}AU(U^{\adj}AU)^{\adj}=U^{\adj}AUU^{\adj}A^{\adj}U=U^{\adj}AA^{\adj}U$
+\end_inset
+
+,
+ and since 
+\begin_inset Formula $AA^{\adj}=A^{\adj}A$
+\end_inset
+
+,
+ we can swap these two and undo the reasoning to get 
+\begin_inset Formula $(U^{\adj}AU)^{\adj}U^{\adj}AU$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+False:
+ Let 
+\begin_inset Formula $A=\left[\begin{smallmatrix}1 & -2\\
+2 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $H=\left[\begin{smallmatrix}1 & 1\\
+1 & 0
+\end{smallmatrix}\right]$
+\end_inset
+
+.
+ Then,
+ 
+\begin_inset Formula $HAH=\left[\begin{smallmatrix}2 & 3\\
+-1 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+,
+ which is not normal because
+\begin_inset Formula 
+\[
+HAH(HAH)^{\adj}=\begin{bmatrix}13 & 1\\
+1 & 2
+\end{bmatrix}\text{ and }(HAH)^{\adj}HAH=\begin{bmatrix}5 & 5\\
+5 & 10
+\end{bmatrix}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Exercise
+Prove the uniqueness theorem for continued fractions.
+\end_layout
+
+\begin_layout Solution
+First,
+ a proposition:
+ Let 
+\begin_inset Formula $x=[a_{0};a_{1},\dots,a_{n}]$
+\end_inset
+
+,
+ with each 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ an integer,
+ and all of them except possibly 
+\begin_inset Formula $a_{0}$
+\end_inset
+
+ being positive.
+ Then,
+ one of the two following two things must happen.
+ Either 
+\begin_inset Formula $a_{0}=\left\lfloor x\right\rfloor $
+\end_inset
+
+,
+ or 
+\begin_inset Formula $x$
+\end_inset
+
+ is an integer and this is the continued fraction 
+\begin_inset Formula $[x-1;1]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+The proposition is proven as follows.
+ If 
+\begin_inset Formula $n=0$
+\end_inset
+
+ we have 
+\begin_inset Formula $x=[a_{0};]$
+\end_inset
+
+ and the statement is obvious,
+ so assume 
+\begin_inset Formula $n\geq1$
+\end_inset
+
+.
+ We have 
+\begin_inset Formula $x=a_{0}+\frac{1}{[a_{1};\dots,a_{n}]}$
+\end_inset
+
+,
+ and since 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+is a positive integer and every 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ is positive,
+ we necessarily have 
+\begin_inset Formula $[a_{1};\dots,a_{n}]\geq1$
+\end_inset
+
+,
+ with the only equality case being the trivial case 
+\begin_inset Formula $[1;]$
+\end_inset
+
+.
+ Any other change would add some strictly positive amount to this.
+ In the equality case,
+ we have the continued fraction 
+\begin_inset Formula $x=[a_{0};1]$
+\end_inset
+
+,
+ giving the second case.
+ If we do have 
+\begin_inset Formula $[a_{1};\dots,a_{n}]>1$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $x=a_{0}+\delta$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $0<\delta<1$
+\end_inset
+
+,
+ and so obviously 
+\begin_inset Formula $a_{0}=\left\lfloor x\right\rfloor $
+\end_inset
+
+ as desired.
+\end_layout
+
+\begin_layout Solution
+Now,
+ the uniqueness theorem is proved by induction.
+ In other words,
+ we prove by induction on 
+\begin_inset Formula $n$
+\end_inset
+
+ the following statement:
+ If 
+\begin_inset Formula $[a_{0};a_{1},\dots,a_{n}]=[b_{0};b_{1},\dots,b_{m}]$
+\end_inset
+
+ with 
+\begin_inset Formula $m\geq n$
+\end_inset
+
+,
+ then either the two expansions or the same,
+ or they are the same with 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ replaced by 
+\begin_inset Formula $(a_{n}-1),1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+The case 
+\begin_inset Formula $n=0$
+\end_inset
+
+ reduces to the proposition above.
+ Indeed,
+ if 
+\begin_inset Formula $[b_{0};b_{1},\dots,b_{m}]=a_{0}$
+\end_inset
+
+,
+ then either 
+\begin_inset Formula $b_{0}=\left\lfloor a_{0}\right\rfloor =a_{0}$
+\end_inset
+
+ which implies 
+\begin_inset Formula $m=0$
+\end_inset
+
+ or the rest would overflow,
+ or else we have 
+\begin_inset Formula $b_{0}=a_{0}-1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $b_{1}=1$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $m=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Now,
+ for the induction step.
+ Suppose the statement has been proven for some 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and now suppose that 
+\begin_inset Formula $[a_{0};a_{1},\dots,a_{n+1}]=[b_{0};b_{1},\dots,b_{m}]=x$
+\end_inset
+
+ for some 
+\begin_inset Formula $m\geq n+1$
+\end_inset
+
+.
+ Since this continued fraction has at least two terms,
+ it cannot result in an integer,
+ and so by the proposition we must have 
+\begin_inset Formula $a_{0}=b_{0}=\left\lfloor x\right\rfloor $
+\end_inset
+
+.
+ Then,
+ by elementary algebra we must have 
+\begin_inset Formula $[a_{1};\dots,a_{n+1}]=[b_{1};\dots,b_{m}]$
+\end_inset
+
+,
+ and now the induction hypothesis applies.
+ It evidently gives the desired result.
+\end_layout
+
+\end_body
+\end_document
