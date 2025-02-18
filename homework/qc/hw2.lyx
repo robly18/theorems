@@ -169,6 +169,31 @@ Duarte Maia
 \end_inset
 
 
+\begin_inset FormulaMacro
+\newcommand{\Z}{\mathbb{Z}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ord}{\mathop{{\rm ord}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\e}{{\rm e}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Norm}[1]{\left\Vert #1\right\Vert }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\abs}[1]{\left|#1\right|}
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -186,792 +211,1501 @@ Note:
 \end_layout
 
 \begin_layout Exercise
-Prove that the basis 
-\begin_inset Formula $\{\CNOT,\TOFFOLI,\FREDKIN\}$
+Is it possible to compute the order of 
+\begin_inset Formula $a\in\Z_{N}^{*}$
 \end_inset
 
- is not complete for reverse computation,
- even in the presence of ancilla bits.
+ using the operator 
+\begin_inset Formula $V_{a}\ket x=\ket{ax+1\bmod N}$
+\end_inset
+
+?
 \end_layout
 
 \begin_layout Solution
-All of these gates take 
-\begin_inset Formula $0^{N}$
-\end_inset
-
- to 
-\begin_inset Formula $0^{N}$
-\end_inset
-
-,
- so if a circuit 
-\begin_inset Formula $C$
-\end_inset
-
- is built out of them,
- it must take 
-\begin_inset Formula $C(0^{n},0^{L})$
-\end_inset
-
- to 
-\begin_inset Formula $(0^{n},0^{L})$
-\end_inset
-
-.
- Consequently,
- if a function can be computed out of these gates,
- even using ancilla bits,
- it must satisfy 
-\begin_inset Formula $f(0^{n})=0^{n}$
-\end_inset
-
-.
- Obviously there are reversible functions that do not do this,
- e.g.
-\begin_inset space \space{}
-\end_inset
-
-apply NOT to the first bit.
-\end_layout
-
-\begin_layout Exercise
-Prove that if 
-\begin_inset Formula $O$
-\end_inset
-
- is both stochastic and orthogonal,
- then it is double stochastic.
-\end_layout
-
-\begin_layout Solution
-I recall from class the notation:
- 
-\begin_inset Formula $j$
-\end_inset
-
- is the all-ones vector.
- With it,
- I can express:
- 
-\begin_inset Formula $O$
-\end_inset
-
- stochastic means all entries are nonnegative,
- and that 
-\begin_inset Formula $j^{\tr}O=j^{\tr}$
-\end_inset
-
-.
- If I take the transpose on both sides of this equation,
- I get 
-\begin_inset Formula $O^{\tr}j=j$
-\end_inset
-
-,
- and multiplying on the left by 
-\begin_inset Formula $O$
-\end_inset
-
- I obtain 
-\begin_inset Formula $j=Oj$
-\end_inset
-
-.
- Thus,
- 
-\begin_inset Formula $O$
-\end_inset
-
- is stochastic on both sides,
- and therefore double stochastic.
-\end_layout
-
-\begin_layout Exercise
-Prove that the following modified Deutsch-Josza problem cannot be solved with only phase-flipping oracles:
- Given an unbalanced 
-\begin_inset Formula $f\colon2^{n}\to2$
-\end_inset
-
-,
- determine whether it is unbalanced towards 0 or 1.
-\end_layout
-
-\begin_layout Solution
-Consider a circuit 
-\begin_inset Formula $C_{f}$
-\end_inset
-
- constructed out of unitary matrices and the phase-flipping oracle 
-\begin_inset Formula $U_{f}^{*}$
-\end_inset
-
- to solve this modified Deutsch-Josza problem.
- Now,
- consider what happens when we replace 
-\begin_inset Formula $f$
-\end_inset
-
- by 
-\begin_inset Formula $1-f$
-\end_inset
-
-;
- call the resulting circuit 
-\begin_inset Formula $C_{1-f}$
-\end_inset
-
-.
- If our original circuit solves the problem with probability 
-\begin_inset Formula $p>\frac{1}{2}$
-\end_inset
-
-,
- then this means that 
-\begin_inset Formula $C_{f}\ket 0$
-\end_inset
-
- produces some state 
-\begin_inset Formula $\ket{\psi}$
-\end_inset
-
- on which one can do some measurement 
-\begin_inset Formula $M$
-\end_inset
-
- which outputs a good (
-\begin_inset Formula $p>\frac{1}{2}$
-\end_inset
-
-) guess as to which way 
-\begin_inset Formula $f$
-\end_inset
-
- is balanced.
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-To be a little more precise:
- The measurement will output some data 
-\begin_inset Formula $x\in2^{k}$
-\end_inset
-
-,
- and there is some function 
-\begin_inset Formula $g\colon2^{k}\to2$
-\end_inset
-
- that turns this data into 
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset Formula $f$
-\end_inset
-
- is balanced towards 
-\begin_inset Formula $0$
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
- or 
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset Formula $f$
-\end_inset
-
- is balanced towards 
-\begin_inset Formula $1$
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
-.
- Then,
- the claim is that,
- with probability 
-\begin_inset Formula $p>\frac{1}{2}$
-\end_inset
-
- the measurement outputs some 
-\begin_inset Formula $x$
-\end_inset
-
- for which the statement 
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset Formula $f$
-\end_inset
-
- is balanced towards 
-\begin_inset Formula $g(x)$
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
- is true.
- Nevertheless,
- I assume that the function 
-\begin_inset Formula $g$
-\end_inset
-
- is baked into the measurement 
-\begin_inset Formula $M$
-\end_inset
-
-,
- so that the output of 
-\begin_inset Formula $M$
-\end_inset
-
- just tells me a guess for which way 
-\begin_inset Formula $f$
-\end_inset
-
- is balanced directly.
-\end_layout
-
-\end_inset
-
- But it is easy to see that 
-\begin_inset Formula $C_{1-f}\ket 0$
-\end_inset
-
- must yield 
-\begin_inset Formula $(-1)^{k}\ket{\psi}$
-\end_inset
-
-,
- where 
-\begin_inset Formula $k$
-\end_inset
-
- is the number of 
-\begin_inset Formula $U_{f}^{*}$
-\end_inset
-
- oracles used in 
-\begin_inset Formula $C_{f}$
-\end_inset
-
-.
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-I don't know if this is considered obvious enough,
- so I will write a little more detail here.
- Let us compare the effect of the oracle 
-\begin_inset Formula $U_{f}^{*}$
-\end_inset
-
- to the oracle 
-\begin_inset Formula $U_{1-f}^{*}$
-\end_inset
-
-.
- We have 
-\begin_inset Formula $U_{1-f}^{*}\ket x=(-1)^{1-f(x)}\ket x=-(-1)^{f(x)}\ket x=-U_{f}^{*}\ket x$
-\end_inset
-
-.
- Since 
-\begin_inset Formula $x$
-\end_inset
-
- is an arbitrary string,
- we see that 
-\begin_inset Formula $U_{1-f}^{*}=-U_{f}^{*}$
-\end_inset
-
-.
- Moreover,
- the tensor-product-of-operators operation is bilinear,
- so 
-\begin_inset Formula $U_{1-f}^{*}\otimes I=-U_{f}^{*}\otimes I$
-\end_inset
-
-.
- Now,
- inducting on the number of gates used we obtain the result.
-\end_layout
-
-\end_inset
-
- Since a global phase change does not change the probability of any outcome on measurement,
- with probability 
-\begin_inset Formula $p>\frac{1}{2}$
-\end_inset
-
- the measurement 
-\begin_inset Formula $M$
-\end_inset
-
- will still output the direction towards which 
-\begin_inset Formula $f$
-\end_inset
-
- is balanced,
- which is the 
-\emph on
-opposite
-\emph default
- of the direction towards which 
-\begin_inset Formula $1-f$
-\end_inset
-
- is balanced.
- Thus,
- our circuit cannot solve the modified Deutsch-Josza problem with probability 
-\begin_inset Formula $p>\frac{1}{2}$
-\end_inset
-
- for every unbalanced input.
-\end_layout
-
-\begin_layout Exercise
-True or false,
- where 
-\begin_inset Formula $A$
-\end_inset
-
-,
- 
-\begin_inset Formula $B$
-\end_inset
-
- are normal,
- 
-\begin_inset Formula $U$
-\end_inset
-
- is unitary,
- and 
-\begin_inset Formula $H$
-\end_inset
-
- is Hermitian:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset Formula $AB$
-\end_inset
-
- is normal,
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $A+B$
-\end_inset
-
- is normal,
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $U^{\adj}AU$
-\end_inset
-
- is normal,
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $HAH$
-\end_inset
-
- is normal.
-\end_layout
-
-\end_deeper
-\begin_layout Solution
-\begin_inset space \space{}
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-False.
- Let 
-\begin_inset Formula $A=\left[\begin{smallmatrix}1 & 1\\
-1 & 1
-\end{smallmatrix}\right]$
-\end_inset
-
- and 
-\begin_inset Formula $B=\left[\begin{smallmatrix}1 & 1\\
-1 & 0
-\end{smallmatrix}\right]$
-\end_inset
-
-.
- These two matrices are real and symmetric,
- hence Hermitian,
- hence normal.
- However,
- we have
-\begin_inset Formula 
-\[
-AB=\begin{bmatrix}2 & 1\\
-2 & 1
-\end{bmatrix},
-\]
-
-\end_inset
-
-which fails to be normal because 
-\begin_inset Formula $AB(AB)^{\adj}=\left[\begin{smallmatrix}5 & 5\\
-5 & 5
-\end{smallmatrix}\right]$
-\end_inset
-
-,
- while 
-\begin_inset Formula $(AB)^{\adj}AB=\left[\begin{smallmatrix}8 & 4\\
-4 & 2
-\end{smallmatrix}\right]$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-False.
- Let 
-\begin_inset Formula $A=\left[\begin{smallmatrix}1 & 0\\
-0 & 2
-\end{smallmatrix}\right]$
-\end_inset
-
- and 
-\begin_inset Formula $B=\left[\begin{smallmatrix}0 & 1\\
--1 & 0
-\end{smallmatrix}\right]$
-\end_inset
-
-.
- Then,
- both of these matrices are normal because they are respectively Hermitian and anti-Hermitian.
- Because of these properties,
- we have
-\begin_inset Formula 
-\begin{align*}
-(A+B)(A+B)^{\adj}-(A+B)^{\adj}(A+B)= & (A+B)(A-B)-(A-B)(A+B)\\
-= & 2(BA-AB),
-\end{align*}
-
-\end_inset
-
-and so 
-\begin_inset Formula $A+B$
-\end_inset
-
- being normal is equivalent to 
-\begin_inset Formula $AB=BA.$
-\end_inset
-
- However,
- this is not true,
- because
-\begin_inset Formula 
-\[
-AB=\begin{bmatrix}0 & 1\\
--2 & 0
-\end{bmatrix}\text{ and }BA=\begin{bmatrix}0 & 2\\
--1 & 0
-\end{bmatrix}.
-\]
-
-\end_inset
-
-Thus,
- 
-\begin_inset Formula $A+B$
-\end_inset
-
- is not normal.
-\end_layout
-
-\begin_layout Enumerate
-True:
- 
-\begin_inset Formula $U^{\adj}AU(U^{\adj}AU)^{\adj}=U^{\adj}AUU^{\adj}A^{\adj}U=U^{\adj}AA^{\adj}U$
-\end_inset
-
-,
- and since 
-\begin_inset Formula $AA^{\adj}=A^{\adj}A$
-\end_inset
-
-,
- we can swap these two and undo the reasoning to get 
-\begin_inset Formula $(U^{\adj}AU)^{\adj}U^{\adj}AU$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-False:
- Let 
-\begin_inset Formula $A=\left[\begin{smallmatrix}1 & -2\\
-2 & 1
-\end{smallmatrix}\right]$
-\end_inset
-
- and 
-\begin_inset Formula $H=\left[\begin{smallmatrix}1 & 1\\
-1 & 0
-\end{smallmatrix}\right]$
-\end_inset
-
-.
- Then,
- 
-\begin_inset Formula $HAH=\left[\begin{smallmatrix}2 & 3\\
--1 & 1
-\end{smallmatrix}\right]$
-\end_inset
-
-,
- which is not normal because
-\begin_inset Formula 
-\[
-HAH(HAH)^{\adj}=\begin{bmatrix}13 & 1\\
-1 & 2
-\end{bmatrix}\text{ and }(HAH)^{\adj}HAH=\begin{bmatrix}5 & 5\\
-5 & 10
-\end{bmatrix}.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Exercise
-Prove the uniqueness theorem for continued fractions.
+My answer is YES.
 \end_layout
 
 \begin_layout Solution
 First,
- a proposition:
- Let 
-\begin_inset Formula $x=[a_{0};a_{1},\dots,a_{n}]$
+ I claim that the powers 
+\begin_inset Formula $V_{a}^{2^{t}}$
 \end_inset
 
-,
- with each 
-\begin_inset Formula $a_{i}$
+ can be efficiently calculated.
+ This is because iterating a linear function gives another linear function,
+ and so every power 
+\begin_inset Formula $V_{a}^{2^{t}}$
 \end_inset
 
- an integer,
- and all of them except possibly 
-\begin_inset Formula $a_{0}$
-\end_inset
-
- being positive.
- Then,
- one of the two following two things must happen.
- Either 
-\begin_inset Formula $a_{0}=\left\lfloor x\right\rfloor $
-\end_inset
-
-,
- or 
-\begin_inset Formula $x$
-\end_inset
-
- is an integer and this is the continued fraction 
-\begin_inset Formula $[x-1;1]$
+ is of the form 
+\begin_inset Formula $\ket x\mapsto\ket{Ax+B\bmod M}$
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Solution
-The proposition is proven as follows.
- If 
-\begin_inset Formula $n=0$
+ In particular,
+ every such power is computed by a small circuit,
+ and moreover these circuits are uniform because we can find the coefficients for 
+\begin_inset Formula $V_{a}^{2^{t}}$
 \end_inset
 
- we have 
-\begin_inset Formula $x=[a_{0};]$
+ in time linear in 
+\begin_inset Formula $t$
 \end_inset
 
- and the statement is obvious,
- so assume 
-\begin_inset Formula $n\geq1$
+,
+ e.g.
+\begin_inset space \space{}
+\end_inset
+
+by repeatedly squaring the matrix 
+\begin_inset Formula $\left[\begin{smallmatrix}A & B\\
+0 & 1
+\end{smallmatrix}\right]$
 \end_inset
 
 .
- We have 
-\begin_inset Formula $x=a_{0}+\frac{1}{[a_{1};\dots,a_{n}]}$
-\end_inset
-
-,
- and since 
-\begin_inset Formula $a_{1}$
-\end_inset
-
-is a positive integer and every 
-\begin_inset Formula $a_{i}$
-\end_inset
-
- is positive,
- we necessarily have 
-\begin_inset Formula $[a_{1};\dots,a_{n}]\geq1$
-\end_inset
-
-,
- with the only equality case being the trivial case 
-\begin_inset Formula $[1;]$
-\end_inset
-
-.
- Any other change would add some strictly positive amount to this.
- In the equality case,
- we have the continued fraction 
-\begin_inset Formula $x=[a_{0};1]$
-\end_inset
-
-,
- giving the second case.
- If we do have 
-\begin_inset Formula $[a_{1};\dots,a_{n}]>1$
-\end_inset
-
-,
- then 
-\begin_inset Formula $x=a_{0}+\delta$
-\end_inset
-
-,
- with 
-\begin_inset Formula $0<\delta<1$
-\end_inset
-
-,
- and so obviously 
-\begin_inset Formula $a_{0}=\left\lfloor x\right\rfloor $
-\end_inset
-
- as desired.
 \end_layout
 
 \begin_layout Solution
 Now,
- the uniqueness theorem is proved by induction.
- In other words,
- we prove by induction on 
-\begin_inset Formula $n$
+ let us consider the eigenvectors of 
+\begin_inset Formula $V_{a}$
 \end_inset
 
- the following statement:
- If 
-\begin_inset Formula $[a_{0};a_{1},\dots,a_{n}]=[b_{0};b_{1},\dots,b_{m}]$
+.
+ For this,
+ I look at the orbit of 
+\begin_inset Formula $V_{a}\ket x$
 \end_inset
 
- with 
-\begin_inset Formula $m\geq n$
+.
+ It is easy to show by induction that the following formula holds:
+\begin_inset Formula 
+\[
+V_{a}^{s}\ket x=\ket{a^{s}x+\frac{a^{s}-1}{a-1}\bmod N}.
+\]
+
+\end_inset
+
+(This is where the assumption that 
+\begin_inset Formula $a-1$
+\end_inset
+
+ is invertible mod 
+\begin_inset Formula $N$
+\end_inset
+
+ comes in.)
+\end_layout
+
+\begin_layout Solution
+It turns out that the orbit of 
+\begin_inset Formula $\ket 0$
+\end_inset
+
+ and of 
+\begin_inset Formula $\ket 1$
+\end_inset
+
+ are the same,
+ because 
+\begin_inset Formula $V_{a}\ket 0=\ket 1$
 \end_inset
 
 ,
- then either the two expansions or the same,
- or they are the same with 
-\begin_inset Formula $a_{n}$
+ so I can pick either of these as initialization.
+ I will pick 
+\begin_inset Formula $\ket 0$
 \end_inset
 
- replaced by 
-\begin_inset Formula $(a_{n}-1),1$
+,
+ because it makes the arithmetic slightly simpler.
+\end_layout
+
+\begin_layout Solution
+So,
+ let's consider the eigenvectors of 
+\begin_inset Formula $V_{a}$
+\end_inset
+
+ that will be useful to us.
+ Henceforth,
+ let 
+\begin_inset Formula $\ord$
+\end_inset
+
+ be the order of 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ (In the notes and in class this has been denoted by 
+\begin_inset Formula $r$
+\end_inset
+
+.) For 
+\begin_inset Formula $k=1,\dots,\ord$
+\end_inset
+
+,
+ we set
+\begin_inset Formula 
+\[
+\ket{\psi_{k}}=\frac{1}{\sqrt{\ord}}\sum_{s=1}^{\ord}\e^{2\I\pi\frac{ks}{\ord}}\ket{\frac{a^{s}-1}{a-1}\bmod N}=\frac{1}{\sqrt{\ord}}\sum_{s=1}^{\ord}\e^{2\I\pi\frac{ks}{\ord}}V_{a}^{s}\ket 0.
+\]
+
+\end_inset
+
+Evidently,
+ we have 
+\begin_inset Formula $V_{a}\ket{\psi_{k}}=\e^{-2\I\pi\frac{k}{\ord}}\ket{\psi_{k}}$
+\end_inset
+
+,
+ so these are all eigenvectors.
+ Moreover,
+ we can write
+\begin_inset Formula 
+\[
+\ket 0=\frac{1}{\sqrt{\ord}}\sum_{j=1}^{\ord}\ket{\psi_{k}},
+\]
+
+\end_inset
+
+and so 
+\begin_inset Formula $\ket 0$
+\end_inset
+
+ is a uniform superposition of these eigenvectors 
+\begin_inset Formula $\ket{\psi_{k}}$
+\end_inset
+
+.
+ The rest of the argument proceeds as we did for the original Shor's algorithm:
+ Applying the phase-finding algorithm to 
+\begin_inset Formula $V_{a}$
+\end_inset
+
+ with the initial state 
+\begin_inset Formula $\ket 0$
+\end_inset
+
+ will yield a close approximation 
+\begin_inset Formula $q$
+\end_inset
+
+ of 
+\begin_inset Formula $\frac{k}{\ord}$
+\end_inset
+
+ for a uniformly chosen value of 
+\begin_inset Formula $k$
+\end_inset
+
+ in 
+\begin_inset Formula $\left[0,\ord\right[$
+\end_inset
+
+,
+ and then with high enough probability we have 
+\begin_inset Formula $k$
+\end_inset
+
+ coprime with 
+\begin_inset Formula $\ord$
+\end_inset
+
+ (assuming that 
+\begin_inset Formula $N$
+\end_inset
+
+ is not divisible by 2),
+ and the continued fraction expansion of 
+\begin_inset Formula $q$
+\end_inset
+
+ will in that case give us a few good candidates for 
+\begin_inset Formula $\ord$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+Consider the following generalization of Deutsch-Josza:
+\begin_inset Formula 
+\[
+F(X):=\begin{cases}
+0 & \text{if \ensuremath{X} is constant,}\\
+1 & \text{if \ensuremath{\sum X_{i}\in[\ell,N-\ell]},}\\
+\text{undefined} & \text{otherwise.}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Prove that 
+\begin_inset Formula $Q_{2}(F)=\Theta(\sqrt{N/\ell})$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Solution
-The case 
-\begin_inset Formula $n=0$
+(Upper bound??)
+\end_layout
+
+\begin_layout Solution
+For the lower bound,
+ consider an arbitrary circuit,
+ applying 
+\begin_inset Formula $n$
 \end_inset
 
- reduces to the proposition above.
- Indeed,
- if 
-\begin_inset Formula $[b_{0};b_{1},\dots,b_{m}]=a_{0}$
+ calls to the oracle 
+\begin_inset Formula $U_{X}\ket{xy}=\ket x\otimes U^{X_{x}}\ket y$
 \end_inset
 
-,
- then either 
-\begin_inset Formula $b_{0}=\left\lfloor a_{0}\right\rfloor =a_{0}$
+ where 
+\begin_inset Formula $U$
 \end_inset
 
- which implies 
-\begin_inset Formula $m=0$
+ is an arbitrary fixed unitary operator,
+ and 
+\begin_inset Formula $U^{X_{x}}$
 \end_inset
 
- or the rest would overflow,
- or else we have 
-\begin_inset Formula $b_{0}=a_{0}-1$
+ means 
+\begin_inset Quotes eld
+\end_inset
+
+Identity if 
+\begin_inset Formula $X_{x}=0$
 \end_inset
 
 ,
  
-\begin_inset Formula $b_{1}=1$
+\begin_inset Formula $U$
+\end_inset
+
+ if 
+\begin_inset Formula $X_{x}=1$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ As in class,
+ suppose that this circuit has the form 
+\begin_inset Formula $U_{n}U_{X}U_{n-1}\dots U_{1}U_{X}U_{0}\ket 0$
 \end_inset
 
 ,
- and 
-\begin_inset Formula $m=1$
+ and we define 
+\begin_inset Formula $\ket{\psi_{j}^{X}}=U_{j}U_{X}U_{j-1}\dots U_{0}\ket 0$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Solution
+With a little loss of generality,
+ let us assume 
+\begin_inset Formula $N$
+\end_inset
+
+ is a multiple of 
+\begin_inset Formula $\ell$
+\end_inset
+
+;
+ the following argument works with some tedious modification and approximation if this isn't the case.
+ If 
+\begin_inset Formula $N=m\ell$
+\end_inset
+
+,
+ we define the function 
+\begin_inset Formula $X^{k}$
+\end_inset
+
+ as the characteristic function of 
+\begin_inset Formula $\left[m\ell,m\ell+\ell\right[$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $k=0,\dots,m-1$
+\end_inset
+
+.
+ Set 
+\begin_inset Formula $V=U_{0}=I$
+\end_inset
+
+,
+ and set 
+\begin_inset Formula $V_{k}=U_{X^{k}}$
+\end_inset
+
+.
+ Finally,
+ set 
+\begin_inset Formula $\ket{\psi_{j}}=\ket{\psi_{j}^{0}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket{\psi_{j}^{k}}=\ket{\psi_{j}^{X^{k}}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+We estimate the following quantity:
+\begin_inset Formula 
+\[
+D_{j}=\sum_{k}\Norm{\ket{\psi_{j}}-\ket{\psi_{j}^{k}}}^{2},
+\]
+
+\end_inset
+
+by establishing a recursive inequality for 
+\begin_inset Formula $D_{j+1}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $D_{j}$
+\end_inset
+
+.
+ As in class,
+ applying the operator 
+\begin_inset Formula $U_{j+1}$
+\end_inset
+
+ does not change any of the norms,
+ and so we estimate
+\begin_inset Formula 
+\begin{align}
+\begin{aligned}D_{j+1} & =\sum_{k}\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}^{k}}}^{2}\\
+ & \leq\sum_{k}\begin{aligned} & \Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}^{2}+\Norm{V_{k}\ket{\psi_{j}}-V_{k}\ket{\psi_{j}^{k}}}^{2}\\
+ & +2\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}\Norm{V_{k}\ket{\psi_{j}}-V_{k}\ket{\psi_{j}^{k}}}
+\end{aligned}
+ &  & \text{(Triangle Inequality)}\\
+ & \leq\sum_{k}\begin{aligned} & \Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}^{2}+\Norm{\ket{\psi_{j}}-\ket{\psi_{j}^{k}}}^{2}\\
+ & +2\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}\Norm{\ket{\psi_{j}}-\ket{\psi_{j}^{k}}}
+\end{aligned}
+ &  & \text{(\ensuremath{V_{k}} unitary)}\\
+ & \leq\left(\sum_{k}\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}^{2}\right)+D_{j}+2\sqrt{\sum_{k}\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}^{2}}\sqrt{D_{j}} &  & \text{(Cauchy-Schwarz in \ensuremath{k}).}
+\end{aligned}
+\label{eq:dj}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
 Now,
- for the induction step.
- Suppose the statement has been proven for some 
+ let us estimate the quantity 
+\begin_inset Formula $A=\sum_{k}\Norm{\ket{\psi_{j}}-V_{k}\ket{\psi_{j}}}^{2}$
+\end_inset
+
+.
+ We rewrite this as
+\begin_inset Formula 
+\[
+A=\sum_{k}\bra{\psi_{j}}(I-V_{k})^{*}(I-V_{k})\ket{\psi_{j}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+To proceed,
+ we observe the following property:
+ If 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ 
+\begin_inset Formula $k'$
+\end_inset
+
+ are distinct,
+ then 
+\begin_inset Formula $(I-V_{k'})^{*}(I-V_{k})=0$
+\end_inset
+
+.
+ This is because,
+ plugging in 
+\begin_inset Formula $\ket{xy}$
+\end_inset
+
+ on the right and 
+\begin_inset Formula $\bra{x'y'}$
+\end_inset
+
+ on the left,
+ we get
+\begin_inset Formula 
+\[
+\bra{x'y'}(I-V_{k'})^{*}(I-V_{k})\ket{xy}=(\bra{x'y'}-\bra{x'}\bra{y'}(U^{X_{x'}^{k'}})^{*})(\ket{xy}-\ket xU^{X_{x}^{k}}\ket y).
+\]
+
+\end_inset
+
+Now,
+ since this is an inner product between 
+\begin_inset Formula $\ket{x'}\otimes\text{something}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket x\otimes\text{something}$
+\end_inset
+
+,
+ the only way this could be nonzero is if 
+\begin_inset Formula $x=x'$
+\end_inset
+
+.
+ In that case,
+\begin_inset Formula 
+\begin{align*}
+\bra{x'y'}(I-V_{k'})^{*}(I-V_{k})\ket{xy} & =(\bra{y'}-\bra{y'}(U^{X_{x}^{k'}})^{*})(\ket y-U^{X_{x}^{k}}\ket y).
+\end{align*}
+
+\end_inset
+
+Now,
+ to finish off this part,
+ note that,
+ since the domains of 
+\begin_inset Formula $X^{k'}$
+\end_inset
+
+ and 
+\begin_inset Formula $X^{k}$
+\end_inset
+
+ are disjoint,
+ 
+\emph on
+at most one of
+\emph default
+ 
+\begin_inset Formula $X_{x}^{k'}$
+\end_inset
+
+ and 
+\begin_inset Formula $X_{x}^{k}$
+\end_inset
+
+ are nonzero.
+ Thus,
+ either 
+\begin_inset Formula $U^{X_{x}^{k'}}=I$
+\end_inset
+
+ or 
+\begin_inset Formula $U^{X_{x}^{k}}=I$
+\end_inset
+
+.
+ In the first case,
+ the bra term is zero and the whole quantity dies.
+ In the second case,
+ the ket term is zero and the whole quantity dies.
+ In summary,
+ 
+\begin_inset Formula $\bra{x'y'}(I-V_{k'})^{*}(I-V_{k})\ket{xy}=0$
+\end_inset
+
+ for all 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $(I-V_{k'})^{*}(I-V_{k})=0$
+\end_inset
+
+ whenever 
+\begin_inset Formula $k\neq k'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Let's go back to our estimate of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ Our calculation just now gives us the property that
+\begin_inset Formula 
+\begin{align*}
+A & =\sum_{k}\bra{\psi_{j}}(I-V_{k})^{*}(I-V_{k})\ket{\psi_{j}}\\
+ & =\left(\sum_{k'}\bra{\psi_{j}}(I-V_{k'})^{*}\right)\left(\sum_{k}(I-V_{k})\ket{\psi_{j}}\right)\\
+ & =\Norm{\sum_{k}(I-V_{k})\ket{\psi_{j}}}\\
+ & \leq\Norm{\sum_{k}(I-V_{k})}^{2}\Norm{\ket{\psi_{j}}}^{2}=\Norm{\sum_{k}(I-V_{k})}^{2},
+\end{align*}
+
+\end_inset
+
+where the norms in the last line are operator norms.
+ Wow,
+ we're still not done.
+ Ok.
+ Let's take a look at 
+\begin_inset Formula $\sum_{k}I-V_{k}$
+\end_inset
+
+.
+ Applying it to a basis vector,
+ we get
+\begin_inset Formula 
+\[
+\sum_{k}(I-V_{k})\ket{xy}=\ket x\otimes\sum_{k}(I-U^{X_{x}^{k}})\ket y,
+\]
+
+\end_inset
+
+and the sum in the right-hand side is null 
+\emph on
+except
+\emph default
+ once,
+ in which case it is 
+\begin_inset Formula $I-U$
+\end_inset
+
+.
+ This is because each value of 
+\begin_inset Formula $x$
+\end_inset
+
+ is supported on exactly one 
+\begin_inset Formula $X^{k}$
+\end_inset
+
+.
+ Thus,
+\end_layout
+
+\begin_layout Solution
+\begin_inset Formula 
+\[
+\sum_{k}(I-V_{k})\ket{xy}=\ket x\otimes(I-U)\ket y,
+\]
+
+\end_inset
+
+and therefore 
+\begin_inset Formula $\sum_{k}I-V_{k}=I\otimes(I-U)=I-I\otimes U$
+\end_inset
+
+ and so this is a difference of two unitary operators,
+ each of which has operator norm 1,
+ and so we (finally) conclude the estimate 
+\begin_inset Formula $A\leq2^{2}=4$
+\end_inset
+
+.
+ Thus,
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:dj"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ becomes
+\begin_inset Formula 
+\[
+D_{j+1}\leq4+D_{j}+4\sqrt{D_{j}}\ \left(=(\sqrt{D_{j}}+2)^{2}\right),
+\]
+
+\end_inset
+
+and so by induction (and using 
+\begin_inset Formula $D_{0}=0$
+\end_inset
+
+) we obtain the inequality 
+\begin_inset Formula $D_{j}\leq4j^{2}$
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $D_{n}\leq4n^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Now the argument proceeds as in the hybrid method as per usual.
+ I will sketch the argument here.
+ Let 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ be the smallest value of 
+\begin_inset Formula $\Norm{\ket{\psi_{n}}-\ket{\psi_{n}^{k}}}^{2}$
+\end_inset
+
+,
+ as 
+\begin_inset Formula $k$
+\end_inset
+
+ ranges over 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $m-1$
+\end_inset
+
+.
+ Then we have 
+\begin_inset Formula $4n^{2}\geq m\lambda=\frac{N}{\ell}\lambda$
+\end_inset
+
+.
+ On the other hand,
+ any algorithm that solves this modified DJ problem will be able to reliably distinguish 
+\begin_inset Formula $\ket{\psi_{n}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket{\psi_{n}^{k}}$
+\end_inset
+
+ for this value of 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ and so the distance between these vectors has to be bounded from below by some uniform number,
+ let's say 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $\lambda\geq c$
+\end_inset
+
+,
+ and so
+\begin_inset Formula 
+\[
+4n^{2}\geq cN/\ell,
+\]
+
+\end_inset
+
+hence 
+\begin_inset Formula $n\geq\Omega(\sqrt{N/\ell})$
+\end_inset
+
+,
+ which is the desired lower bound.
+\end_layout
+
+\begin_layout Exercise
+Let 
+\begin_inset FormulaMacro
+\newcommand{\MW}{\mathop{{\rm MW}}}
+\end_inset
+
+
+\begin_inset Formula $\MW(X)$
+\end_inset
+
+ be the characteristic function of the mid-Western strings.
+ Compute its sensitivity and block-sensitivity up to a multiplicative constant.
+\end_layout
+
+\begin_layout Solution
+First,
+ let's do the block-sensitivity.
+ It is obvious that it is bounded from above by 
+\begin_inset Formula $N$
+\end_inset
+
+.
+ We bound it from below by 
+\begin_inset Formula $N/2$
+\end_inset
+
+:
+ Simply consider 
+\begin_inset Formula $X=0$
+\end_inset
+
+,
+ which is obviously not mid-Western,
+ and cover the domain with 
+\begin_inset Formula $\left\lfloor N/2\right\rfloor $
+\end_inset
+
+ disjoint blocks containing two adjacent elements.
+ Flipping any of these will create a mid-Western string.
+ Thus:
+\begin_inset Formula 
+\[
+\mathop{{\rm bs}}(\MW)=\Theta(N).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Now,
+ let's cover the sensitivity.
+ First,
+ we claim that it must be at least 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+,
+ by considering an input 
+\begin_inset Formula $X$
+\end_inset
+
+ that is zero except at positions 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $2\sqrt{N}$
+\end_inset
+
+,
+ and so on.
+ (Round down if 
+\begin_inset Formula $N$
+\end_inset
+
+ isn't a perfect square.) This is not mid-Western (at least assuming 
+\begin_inset Formula $N>3$
+\end_inset
+
+),
+ because it admits no adjacent ones.
+ However,
+ a flip at the positions 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sqrt{N}+1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $2\sqrt{N}+1$
+\end_inset
+
+,
+ etc.
+ will flip it into a mid-Western string,
+ and so this input is 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+-sensitive.
+ This bounds the sensitivity from below.
+\end_layout
+
+\begin_layout Solution
+Now let us bound the sensitivity from above.
+ Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be an 
+\begin_inset Formula $s$
+\end_inset
+
+-sensitive input.
+ We cover two cases:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $X$
+\end_inset
+
+ is not mid-Western,
+ let's consider how many bits we could flip to make it mid-Western in the best case scenario.
+ If 
+\begin_inset Formula $i$
+\end_inset
+
+ is the position of such a bit (let's call these positions by the name 
+\begin_inset Quotes eld
+\end_inset
+
+flipping positions
+\begin_inset Quotes erd
+\end_inset
+
+),
+ then by inspection we see that there can be at most one flipping position within a radius of 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For a more rigorous argument,
+ note that any flipping position has to be adjacent to a pre-existing 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ and outside of one or two exceptions (depending on the value of 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+),
+ everything in a radius of 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+ (give or take,
+ it's closer to something like 
+\begin_inset Formula $\sqrt{N}-3$
+\end_inset
+
+) must be 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ In this wasteland of zeros,
+ there can be no more flipping bits,
+ and in this 
+\begin_inset Quotes eld
+\end_inset
+
+oasis
+\begin_inset Quotes erd
+\end_inset
+
+ it's easy to see that there will always be exactly two flipping bits.
+\end_layout
+
+\begin_layout Standard
+Thus,
+ flipping positions come in pairs,
+ and any two pair are at a distance of 
+\begin_inset Formula $\approx\sqrt{N}$
+\end_inset
+
+ apart at least.
+ This means that we can have at most 
+\begin_inset Formula $\approx N/\sqrt{N}=\sqrt{N}$
+\end_inset
+
+ such flipping pairs over the length of the domain,
+ 
+\begin_inset Formula $N$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $s\apprle2\sqrt{N}$
+\end_inset
+
+.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This argument was kind of handwavey and has a few off-by-ones,
+ but I think it's clear that they don't matter in the end.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $X$
+\end_inset
+
+ is mid-Western,
+ let 
+\begin_inset Formula $c$
+\end_inset
+
+ be a position witnessing to this fact.
+ Then,
+ any flipping bit 
+\emph on
+must
+\emph default
+ be within a distance of 
+\begin_inset Formula $\sqrt{N}$
+\end_inset
+
+ of 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ because any flip outside this range will not change the mid-Westernness of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Thus,
+ in this scenario,
+ 
+\begin_inset Formula $s\apprle2\sqrt{N}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+In either case,
+ we got 
+\begin_inset Formula $s\apprle2\sqrt{N}$
+\end_inset
+
+,
+ and so we conclude
+\begin_inset Formula 
+\[
+\mathop{{\rm s}}(\MW)=\Theta(\sqrt{N}).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\apdeg}{\mathop{\widetilde{{\rm deg}}}}
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label=(
+\backslash
+alph*)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Prove that any total function 
+\begin_inset Formula $F(X)$
+\end_inset
+
+ with 
+\begin_inset Formula $\apdeg(F)\leq1$
+\end_inset
+
+ depends on at most five variables.
+\end_layout
+
+\begin_layout Enumerate
+Give an example of such a function.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label=(
+\backslash
+alph*)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $p(X)=A+\sum B_{i}X_{i}$
+\end_inset
+
+ be a degree 1 (or less) polynomial approximating 
+\begin_inset Formula $F$
+\end_inset
+
+.
+ I use the 
+\begin_inset Formula $0$
+\end_inset
+
+-
+\begin_inset Formula $1$
+\end_inset
+
+ convention here,
+ not 
+\begin_inset Formula $\pm1$
+\end_inset
+
+.
+ However,
+ I assume without loss of generality that 
+\begin_inset Formula $F(0)=0$
+\end_inset
+
+.
+ This implies that 
+\begin_inset Formula $A$
+\end_inset
+
+ is between 
+\begin_inset Formula $-1/3$
+\end_inset
+
+ and 
+\begin_inset Formula $+1/3$
+\end_inset
+
+.
+ Assume also that 
+\begin_inset Formula $F$
+\end_inset
+
+ is 
+\emph on
+not
+\emph default
+ identically constant,
+ as otherwise the result is trivial.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Let 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ be a variable on which 
+\begin_inset Formula $F$
+\end_inset
+
+ depends.
+ This means that there is a pair of inputs 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $X'$
+\end_inset
+
+,
+ differing only in the 
+\begin_inset Formula $i$
+\end_inset
+
+-th place,
+ for which the output of 
+\begin_inset Formula $F$
+\end_inset
+
+ is different.
+ Then,
+ 
+\begin_inset Formula $\abs{B_{i}}\geq1/3$
+\end_inset
+
+ for such an index 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ for the polynomial to close the gap between 
+\begin_inset Formula $1/3$
+\end_inset
+
+ and 
+\begin_inset Formula $2/3$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Now,
+ let's suppose that there are 
+\begin_inset Formula $p$
+\end_inset
+
+ positive such values of 
+\begin_inset Formula $B_{i}$
+\end_inset
+
+,
+ and 
 \begin_inset Formula $n$
 \end_inset
 
-,
- and now suppose that 
-\begin_inset Formula $[a_{0};a_{1},\dots,a_{n+1}]=[b_{0};b_{1},\dots,b_{m}]=x$
-\end_inset
-
- for some 
-\begin_inset Formula $m\geq n+1$
-\end_inset
-
-.
- Since this continued fraction has at least two terms,
- it cannot result in an integer,
- and so by the proposition we must have 
-\begin_inset Formula $a_{0}=b_{0}=\left\lfloor x\right\rfloor $
-\end_inset
-
-.
+ negative such values.
  Then,
- by elementary algebra we must have 
-\begin_inset Formula $[a_{1};\dots,a_{n+1}]=[b_{1};\dots,b_{m}]$
+ by considering the value of 
+\begin_inset Formula $p(x)$
+\end_inset
+
+ on appropriate inputs,
+ we obtain the inequalities
+\begin_inset Formula 
+\[
+A+\frac{1}{3}p\leq\frac{4}{3},\quad\text{and}\quad A-\frac{1}{3}n\geq-\frac{1}{3},
+\]
+
+\end_inset
+
+and by taking the difference of these equations we get 
+\begin_inset Formula $\frac{1}{3}(p+n)\leq\frac{5}{3}$
 \end_inset
 
 ,
- and now the induction hypothesis applies.
- It evidently gives the desired result.
+ or 
+\begin_inset Formula $p+n\leq5$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $p+n$
+\end_inset
+
+ is an upper bound on the number of variables on which 
+\begin_inset Formula $F$
+\end_inset
+
+ depends,
+ the proof is complete.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $F(X_{1},\dots,X_{5})$
+\end_inset
+
+ be the 
+\begin_inset Quotes eld
+\end_inset
+
+majority vote
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+ (You can add extra dummy variables if you want more inputs.) Then,
+ 
+\begin_inset Formula $F$
+\end_inset
+
+ obviously depends on all 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+,
+ and has approximate degree 1 because it is approximated by the polynomial
+\begin_inset Formula 
+\[
+p(X)=\frac{1}{3}(-1+X_{1}+\dots+X_{5}).
+\]
+
+\end_inset
+
+This polynomial is built exactly to take only the values 
+\begin_inset Formula $-\frac{1}{3},0,\frac{1}{3},\frac{2}{3},1$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\frac{4}{3}$
+\end_inset
+
+,
+ based on the number of nonzero values of 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Prove that
+\begin_inset FormulaMacro
+\newcommand{\CLIQUE}{{\rm CLIQUE}}
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Omega(N)\leq Q_{2}(\CLIQUE_{3,N})\leq O(N^{3/2}).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+For the upper bound,
+ consider the following algorithm.
+ Given a graph (represented by the data) 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ define 
+\begin_inset Formula $Y$
+\end_inset
+
+ as the function on 
+\begin_inset Formula ${N \choose 3}\approx N^{3}$
+\end_inset
+
+ variables that,
+ given a trio of vertices,
+ checks whether they form a triangle in 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ This requires 
+\begin_inset Formula $3$
+\end_inset
+
+ calls to the oracle 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Next,
+ use Grover's search algorithm (decision version) to see if 
+\begin_inset Formula $Y$
+\end_inset
+
+ ever outputs 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ This uses 
+\begin_inset Formula $\sqrt{N^{3}}$
+\end_inset
+
+ calls to 
+\begin_inset Formula $Y$
+\end_inset
+
+,
+ approximately,
+ and hence 
+\begin_inset Formula $3\sqrt{N^{3}}$
+\end_inset
+
+calls to 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ approximately.
+ This furnishes the desired upper bound.
+\end_layout
+
+\begin_layout Solution
+Next,
+ for the lower bound,
+ we also reduce the problem to Grover's search (decision version).
+ Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be a string of size 
+\begin_inset Formula ${N \choose 2}$
+\end_inset
+
+,
+ let's say indexed in pairs 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+ with 
+\begin_inset Formula $1\leq i<j\leq N$
+\end_inset
+
+,
+ for which we want to decide whether it is identically zero or not.
+ Define 
+\begin_inset Formula $Y$
+\end_inset
+
+ as the adjacency matrix of the graph in 
+\begin_inset Formula $N+1$
+\end_inset
+
+ vertices,
+ which consists of the graph whose adjacency matrix is 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ plus an extra vertex connected to everyone else.
+ Note that calls to the oracle 
+\begin_inset Formula $Y$
+\end_inset
+
+ require at most one call to the oracle 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Now,
+ a triangle in 
+\begin_inset Formula $Y$
+\end_inset
+
+ is exactly the same as a nonzero element in 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ and so if we could solve 
+\begin_inset Formula $\CLIQUE_{3,N}$
+\end_inset
+
+ in,
+ say,
+ 
+\begin_inset Formula $q$
+\end_inset
+
+ calls to the oracle,
+ we could solve the search problem (of size 
+\begin_inset Formula ${N \choose 2}=\Theta(N^{2})$
+\end_inset
+
+) in 
+\begin_inset Formula $q$
+\end_inset
+
+ calls to the oracle,
+ and by optimality of Grover's search we know that 
+\begin_inset Formula $q\geq\Omega(\sqrt{N^{2}})=\Omega(N)$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $Q_{2}(\CLIQUE_{3,N})\geq\Omega(N)$
+\end_inset
+
+,
+ and the proof is complete.
 \end_layout
 
 \end_body
