@@ -1,0 +1,892 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+\end_preamble
+\use_default_options true
+\begin_modules
+enumitem
+duarte_theorems
+duarte_theorems_exercises
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Quantum Computing W2025,
+ Homework 3
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\tr}{\intercal}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\adj}{\dag}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\I}{\mathrm{i}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\interval}[2]{\left[#1,#2\right]}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ket}[1]{}
+{\left|#1\right\rangle }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\bra}[1]{}
+{\left\langle #1\right|}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Z}{\mathbb{Z}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\e}{{\rm e}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Norm}[1]{\left\Vert #1\right\Vert }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\abs}[1]{\left|#1\right|}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\NEQ}{{\rm NEQ}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\QC}{{\rm QC}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ttn}{\widetilde{{\rm tr}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\rank}{\mathop{{\rm rank}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\EQ}{{\rm EQ}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Let 
+\begin_inset Formula $F(X)$
+\end_inset
+
+ be the total function that outputs 
+\begin_inset Formula $1$
+\end_inset
+
+ exactly when 
+\begin_inset Formula $\sum X\in\interval{\ell}{N-\ell}$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $1\leq\ell\leq N/2$
+\end_inset
+
+.
+ Show that 
+\begin_inset Formula $Q_{2}(F)\geq\Omega(\sqrt{N})$
+\end_inset
+
+,
+ where the constant does not depend on 
+\begin_inset Formula $N$
+\end_inset
+
+ or 
+\begin_inset Formula $\ell$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+We know from the proof of optimality of Grover's search the following fact:
+ The complexity of the 
+\emph on
+partial
+\emph default
+ function 
+\begin_inset Formula $S$
+\end_inset
+
+ on size-
+\begin_inset Formula $M$
+\end_inset
+
+ input that outputs 
+\begin_inset Formula $0$
+\end_inset
+
+ on the constant zero string,
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+ on every string with exactly one 
+\begin_inset Formula $1$
+\end_inset
+
+ is 
+\begin_inset Formula $\Omega(\sqrt{M})$
+\end_inset
+
+.
+ We show that 
+\begin_inset Formula $F$
+\end_inset
+
+ can be used to compute 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ providing a lower bound on 
+\begin_inset Formula $Q_{2}(F)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Say we have a string 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ with a promise that 
+\begin_inset Formula $\sum X\leq1$
+\end_inset
+
+.
+ Then,
+ consider the string 
+\begin_inset Formula $Y=1^{\ell-1}X$
+\end_inset
+
+.
+ (This is where we use 
+\begin_inset Formula $\ell\geq1$
+\end_inset
+
+.) Note that every call to 
+\begin_inset Formula $Y$
+\end_inset
+
+ requires at most one call to 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Moreover,
+ it is easy to see that 
+\begin_inset Formula $F(Y)=S(X)$
+\end_inset
+
+ (this uses that 
+\begin_inset Formula $\ell\in\interval{\ell}{N-\ell},$
+\end_inset
+
+in other words that 
+\begin_inset Formula $\ell\leq N/2$
+\end_inset
+
+).
+ Thus,
+ if we can calculate 
+\begin_inset Formula $F(Y)$
+\end_inset
+
+ (for some value of 
+\begin_inset Formula $\ell$
+\end_inset
+
+,
+ 
+\begin_inset Formula $N$
+\end_inset
+
+) with 
+\begin_inset Formula $C$
+\end_inset
+
+ calls to the oracle of 
+\begin_inset Formula $Y$
+\end_inset
+
+,
+ then we can solve 
+\begin_inset Formula $S(X)$
+\end_inset
+
+ for size 
+\begin_inset Formula $M=N-\ell+1$
+\end_inset
+
+ with 
+\begin_inset Formula $C$
+\end_inset
+
+ calls to the oracle of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ Therefore,
+ 
+\begin_inset Formula $Q_{2}(F)=C\geq\Omega(\sqrt{N-\ell+1})$
+\end_inset
+
+,
+ and finally,
+ using again the fact that 
+\begin_inset Formula $\ell\leq N/2$
+\end_inset
+
+,
+ we get
+\begin_inset Formula 
+\[
+Q_{2}(F)\geq\Omega(\sqrt{N-\ell+1})\geq\Omega(\sqrt{N-N/2})=\Omega(\sqrt{N/2})=\Omega(\sqrt{N}).
+\]
+
+\end_inset
+
+The proof is complete.
+\end_layout
+
+\begin_layout Exercise
+Give a lower bound for the quantum communication complexity of 
+\begin_inset Formula $\NEQ(x,y)=\bigvee(x_{i}\oplus y_{i})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+We apply the Discrepancy Method (eq.
+ (12) in p.56 of the notes).
+ It gives us that,
+ for our communication problem on 
+\begin_inset Formula $n$
+\end_inset
+
+ qubits,
+\begin_inset Formula 
+\[
+2^{2\QC_{2}(\NEQ)}\geq\Omega\left(\frac{2^{n}}{\Norm M}\right),
+\]
+
+\end_inset
+
+where the 
+\begin_inset Formula $\Norm M$
+\end_inset
+
+ is the operator norm of the 
+\begin_inset Formula $2^{n}\times2^{n}$
+\end_inset
+
+ matrix whose 
+\begin_inset Formula $xy$
+\end_inset
+
+-th entry is 
+\begin_inset Formula $\pm1$
+\end_inset
+
+,
+ depending on whether 
+\begin_inset Formula $\NEQ(x,y)$
+\end_inset
+
+ holds.
+ This matrix is simple to describe:
+ It is 
+\begin_inset Formula $-1$
+\end_inset
+
+ on the diagonal,
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+ elsewhere.
+ In other words,
+ if 
+\begin_inset Formula $J$
+\end_inset
+
+ is the all-ones matrix,
+ 
+\begin_inset Formula $M=J-2I$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $\Norm M\leq\Norm J+2\Norm I$
+\end_inset
+
+.
+ The operator norm of 
+\begin_inset Formula $I$
+\end_inset
+
+ is obviously 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ To find the operator norm of 
+\begin_inset Formula $J$
+\end_inset
+
+,
+ note that 
+\begin_inset Formula $J=\ket j\bra j$
+\end_inset
+
+ where 
+\begin_inset Formula $\ket j$
+\end_inset
+
+ is the all-ones vector.
+ By Cauchy-Schwarz,
+ we get 
+\begin_inset Formula $\Norm J=\max_{\Norm x=1}\sqrt{\braket{x\mid J\mid x}}\leq\max\Norm x\Norm j=\Norm j=\sqrt{2^{n}}$
+\end_inset
+
+.
+ On the other hand,
+ this maximum is attained for 
+\begin_inset Formula $\ket x=\ket j/\Norm j$
+\end_inset
+
+,
+ so we get the bound
+\begin_inset Formula 
+\[
+\Norm M\leq2^{n/2}+2=O(2^{n/2}).
+\]
+
+\end_inset
+
+Thus,
+ we get the bound
+\begin_inset Formula 
+\[
+2^{2\QC_{2}(\NEQ)}\geq\Omega(2^{n/2}),
+\]
+
+\end_inset
+
+so 
+\begin_inset Formula $\QC_{2}(\NEQ)\geq\Omega(n)$
+\end_inset
+
+.
+ This is the strongest of the two bounds I was offered,
+ so this completes the proof.
+\end_layout
+
+\begin_layout Exercise
+Relate the two reasonable definitions of 
+\begin_inset Quotes eld
+\end_inset
+
+angle
+\begin_inset Quotes erd
+\end_inset
+
+ between two qubits 
+\begin_inset Formula $\ket{\varphi}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+:
+ The angle between them as vectors,
+ and the angle between them in the Bloch sphere.
+\end_layout
+
+\begin_layout Solution
+As per the argument in the problem statement,
+ since unitary operators preserve both notions of angle,
+ I can without loss of generality assume that 
+\begin_inset Formula $\ket{\varphi}=\ket 0$
+\end_inset
+
+,
+ and I let 
+\begin_inset Formula $\ket{\psi}=\alpha\ket 0+\beta\ket 1$
+\end_inset
+
+ with 
+\begin_inset Formula $\alpha,\beta$
+\end_inset
+
+ complex numbers.
+ Multiplying 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+ by a unit norm scalar does not change the physical state represented by 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+,
+ and it's easy to see by looking at the formula for angle as arccos of absolute value of inner product that it also does not change the angle between 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+ and another vector,
+ so I assume without loss of generality that 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a nonnegative real number.
+ Now,
+ the physical angle between these is 
+\begin_inset Formula $A=\arccos\alpha$
+\end_inset
+
+,
+ so it remains to figure out the Bloch angle 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+To figure out the Bloch angle,
+ I figure out the points that 
+\begin_inset Formula $\ket{\varphi}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+ correspond to on the Bloch sphere.
+ Indeed,
+ 
+\begin_inset Formula $\ket{\varphi}$
+\end_inset
+
+ is known to be the north pole,
+ 
+\begin_inset Formula $(0,0,1)$
+\end_inset
+
+,
+ following the convention in Nielsen and Chuang.
+ On the other hand,
+ 
+\begin_inset Formula $\ket{\psi}$
+\end_inset
+
+ is the point with latitude 
+\begin_inset Formula $\theta$
+\end_inset
+
+ such that 
+\begin_inset Formula $\alpha=\cos\frac{\theta}{2}$
+\end_inset
+
+,
+ and its longitude does not matter,
+ because the latitude (again,
+ according to our convention) is the angle between a point and the north pole.
+ Thus,
+ 
+\begin_inset Formula $\theta=B(\ket{\varphi},\ket{\psi})$
+\end_inset
+
+,
+ and the physical angle is 
+\begin_inset Formula 
+\[
+A(\ket{\varphi},\ket{\psi})=\arccos\alpha=\arccos\cos\frac{\theta}{2}=\frac{1}{2}B(\ket{\varphi},\ket{\psi}).
+\]
+
+\end_inset
+
+This is the formula relating the two angles,
+ as desired.
+ In words:
+ The Bloch angle is twice the physical angle.
+\end_layout
+
+\begin_layout Exercise
+Prove that there is no probability distribution on pure states of two qubits that has the same density matrix as the EPR state.
+\end_layout
+
+\begin_layout Solution
+Let 
+\begin_inset Formula $\{(p_{i},\ket{a_{i}}\otimes\ket{b_{i}})\}_{i\in I}$
+\end_inset
+
+ be such a probability distribution,
+ where 
+\begin_inset Formula $\ket{a_{i}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\ket{b_{i}}$
+\end_inset
+
+ are qubit states (not necessarily in the computational basis).
+ The associated density matrix is
+\begin_inset Formula 
+\[
+\rho=\sum p_{i}\ket{a_{i}b_{i}}\bra{a_{i}b_{i}}.
+\]
+
+\end_inset
+
+Now,
+ let 
+\begin_inset Formula $\ket{\varepsilon}=\frac{1}{\sqrt{2}}(\ket{00}+\ket{11})$
+\end_inset
+
+ be the EPR state.
+ The density matrix associated to it is 
+\begin_inset Formula $\sigma=\ket{\varepsilon}\bra{\varepsilon}$
+\end_inset
+
+,
+ which has the property that 
+\begin_inset Formula $\braket{\varepsilon\mid\sigma\mid\varepsilon}=1$
+\end_inset
+
+.
+ We show that 
+\begin_inset Formula $\rho$
+\end_inset
+
+ does not have this property.
+\end_layout
+
+\begin_layout Solution
+So,
+ let us compute 
+\begin_inset Formula $\braket{\varepsilon\mid\rho\mid\varepsilon}=\sum p_{i}\braket{\varepsilon\mid a_{i}b_{i}}\braket{a_{i}b_{i}\mid\varepsilon}$
+\end_inset
+
+,
+ in particular the quantity 
+\begin_inset Formula $\braket{\varepsilon\mid a_{i}b_{i}}$
+\end_inset
+
+.
+ In long form,
+ this is:
+\begin_inset Formula 
+\[
+\braket{\varepsilon\mid a_{i}b_{i}}=\frac{1}{\sqrt{2}}\braket{0\mid a_{i}}\braket{0\mid b_{i}}+\frac{1}{\sqrt{2}}\braket{1\mid a_{i}}\braket{1\mid b_{i}}.
+\]
+
+\end_inset
+
+By the Cauchy-Schwarz inequality,
+ we then have
+\begin_inset Formula 
+\[
+\abs{\braket{\varepsilon\mid a_{i}b_{i}}}\leq\frac{1}{\sqrt{2}}\sqrt{\abs{\braket{0\mid a_{i}}}^{2}+\abs{\braket{1\mid a_{i}}}^{2}}\sqrt{\abs{\braket{0\mid b_{i}}}^{2}+\abs{\braket{1\mid b_{i}}}^{2}}=\frac{1}{\sqrt{2}}\braket{a_{i}\mid a_{i}}\braket{b_{i}\mid b_{i}}=\frac{1}{\sqrt{2}}.
+\]
+
+\end_inset
+
+As a consequence,
+\begin_inset Formula 
+\[
+\braket{\varepsilon\mid\rho\mid\varepsilon}=\sum p_{i}\braket{\varepsilon\mid a_{i}b_{i}}\braket{a_{i}b_{i}\mid\varepsilon}\leq\sum p_{i}\frac{1}{2}=\frac{1}{2},
+\]
+
+\end_inset
+
+which,
+ as the reader will readily observe,
+ is not 1.
+ Thus,
+ 
+\begin_inset Formula $\rho$
+\end_inset
+
+ must necessarily differ from 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ which concludes the proof of the exercise.
+\end_layout
+
+\begin_layout Exercise
+Prove or disprove:
+ Every superoperator 
+\begin_inset Formula $T$
+\end_inset
+
+ acting on an 
+\begin_inset Formula $N$
+\end_inset
+
+-dimensional Hilbert space must necessarily preserve the completely depolarized state 
+\begin_inset Formula $\frac{1}{N}I$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Not true.
+ Here is an example for the Hilbert space 
+\begin_inset Formula $\mathbb{C}^{2}$
+\end_inset
+
+,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+acting on a single qubit.
+ Define the two matrices
+\begin_inset Formula 
+\[
+E_{1}=\frac{1}{2}\begin{bmatrix}1 & 1\\
+-1 & -1
+\end{bmatrix},\quad E_{2}=\frac{1}{2}\begin{bmatrix}1 & -1\\
+-1 & 1
+\end{bmatrix}.
+\]
+
+\end_inset
+
+Then,
+ direct computation will show that 
+\begin_inset Formula $E_{1}^{*}E_{1}=\frac{1}{2}\left[\begin{smallmatrix}1 & 1\\
+1 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{2}^{*}E_{2}=\frac{1}{2}\left[\begin{smallmatrix}1 & -1\\
+-1 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+,
+ so that 
+\begin_inset Formula $E_{1}^{*}E_{1}+E_{2}^{*}E_{2}=I$
+\end_inset
+
+,
+ and so the following expression is a valid superoperator:
+\begin_inset Formula 
+\[
+T(\rho)=E_{1}\rho E_{1}^{*}+E_{2}\rho E_{2}^{*}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Now,
+ we calculate 
+\begin_inset Formula $T(\frac{1}{2}I)$
+\end_inset
+
+.
+ This is simply 
+\begin_inset Formula $\frac{1}{2}(E_{1}E_{1}^{*}+E_{2}E_{2}^{*})$
+\end_inset
+
+,
+ and again direct computation shows 
+\begin_inset Formula $E_{1}E_{1}^{*}=E_{2}E_{2}^{*}=\frac{1}{2}\left[\begin{smallmatrix}1 & -1\\
+-1 & 1
+\end{smallmatrix}\right]$
+\end_inset
+
+,
+ and so
+\begin_inset Formula 
+\[
+T(\tfrac{1}{2}I)=\frac{1}{2}\begin{bmatrix}1 & -1\\
+-1 & 1
+\end{bmatrix},
+\]
+
+\end_inset
+
+which is not the identity!
+ Instead,
+ this is the matrix corresponding to the pure state 
+\begin_inset Formula $\ket -=\frac{1}{\sqrt{2}}(\ket 0-\ket 1)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Thus,
+ we have an example of a superoperator 
+\begin_inset Formula $T$
+\end_inset
+
+ that does 
+\emph on
+not
+\emph default
+ preserve the depolarized state.
+\end_layout
+
+\end_body
+\end_document

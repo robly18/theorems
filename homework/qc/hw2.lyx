@@ -119,21 +119,6 @@ Duarte Maia
 
 \begin_layout Standard
 \begin_inset FormulaMacro
-\newcommand{\CNOT}{\mathrm{CNOT}}
-\end_inset
-
-
-\begin_inset FormulaMacro
-\newcommand{\TOFFOLI}{\mathrm{TOFFOLI}}
-\end_inset
-
-
-\begin_inset FormulaMacro
-\newcommand{\FREDKIN}{\mathrm{FREDKIN}}
-\end_inset
-
-
-\begin_inset FormulaMacro
 \newcommand{\tr}{\intercal}
 \end_inset
 
@@ -233,13 +218,13 @@ First,
 \end_inset
 
  can be efficiently calculated.
- This is because iterating a linear function gives another linear function,
+ This is because iterating a degree 1 polynomial gives another degree 1 polynomial,
  and so every power 
 \begin_inset Formula $V_{a}^{2^{t}}$
 \end_inset
 
  is of the form 
-\begin_inset Formula $\ket x\mapsto\ket{Ax+B\bmod M}$
+\begin_inset Formula $\ket x\mapsto\ket{Ax+B\bmod N}$
 \end_inset
 
 .
@@ -253,7 +238,11 @@ First,
 \begin_inset Formula $t$
 \end_inset
 
-,
+ (and polynomial in 
+\begin_inset Formula $N$
+\end_inset
+
+),
  e.g.
 \begin_inset space \space{}
 \end_inset
@@ -457,7 +446,210 @@ Prove that
 \end_layout
 
 \begin_layout Solution
-(Upper bound??)
+For the upper bound,
+ we adapt Grover's search algorithm.
+ We prove as a lemma that the following generalization of Grover search applies:
+\end_layout
+
+\begin_deeper
+\begin_layout Proposition
+Consider the following generalization of the search problem:
+\begin_inset Formula 
+\begin{equation}
+S(X):=\begin{cases}
+0 & \text{if \ensuremath{X=0^{N}}},\\
+1 & \text{if \ensuremath{\sum X_{i}\geq\ell}},\\
+\text{undefined} & \text{otherwise.}
+\end{cases}\label{eq:search}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Then,
+ we have 
+\begin_inset Formula $Q_{2}(S)=O(\sqrt{N/\ell})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+In the definition of Grover's search algorithm,
+ I recall the phase where we divide the interval 
+\begin_inset Formula $[1,N]$
+\end_inset
+
+ into geometric pieces 
+\begin_inset Formula $[1,c]$
+\end_inset
+
+,
+ 
+\begin_inset Formula $[c,c^{2}]$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+,
+ 
+\begin_inset Formula $[c^{t-1},c^{t}]$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $t\approx\log_{c}N$
+\end_inset
+
+ and 
+\begin_inset Formula $c=1+\varepsilon$
+\end_inset
+
+.
+ The solution of Grover's search when 
+\begin_inset Formula $\sum X_{i}\in[c^{i},c^{i-1}]$
+\end_inset
+
+ was,
+ as I recall,
+ solvable with approximately 
+\begin_inset Formula $\sqrt{N/c^{i}}$
+\end_inset
+
+ steps,
+ which made the solution in the interval 
+\begin_inset Formula $[1,N]$
+\end_inset
+
+ doable in number of oracle calls:
+\begin_inset Formula 
+\[
+\sum_{i=0}^{t-1}\sqrt{\frac{N}{c^{i}}}=\sqrt{N}\sum_{i=0}^{t-1}\left(\frac{1}{\sqrt{c}}\right)^{i}\leq\sqrt{N}\sum_{i=0}^{\infty}\left(\frac{1}{\sqrt{c}}\right)^{i}=O(\sqrt{N}).
+\]
+
+\end_inset
+
+Now,
+ the idea is that to solve the modified search problem 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:search"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we simply apply the Grover search procedure,
+ but 
+\emph on
+only
+\emph default
+ on the intervals 
+\begin_inset Formula $[c^{i},c^{i+1}]$
+\end_inset
+
+ with 
+\begin_inset Formula $c^{i+1}\geq\ell$
+\end_inset
+
+.
+ In other words,
+ the first interval has 
+\begin_inset Formula $c^{i}=c^{i_{0}}\in[\ell/c,\ell]$
+\end_inset
+
+.
+ This gives the following upper bound for oracle calls:
+\begin_inset Formula 
+\[
+\sum_{\substack{c^{i+1}\geq\ell\\
+c^{i}\leq N
+}
+}\sqrt{\frac{N}{c^{i}}}=\sqrt{N}\sum_{\substack{c^{i+1}\geq\ell\\
+c^{i}\leq N
+}
+}\left(\frac{1}{\sqrt{c}}\right)^{i}\leq\sqrt{N}\sum_{c^{i+1}\geq\ell}\left(\frac{1}{\sqrt{c}}\right)^{i}=\sqrt{N}\frac{(1/\sqrt{c})^{i_{0}}}{1-1/\sqrt{c}}=O\left(\frac{\sqrt{N}}{\sqrt{c}^{i_{0}}}\right)=O\left(\sqrt{\frac{N}{\ell}}\right),
+\]
+
+\end_inset
+
+which is the desired bound.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+With this generalization of the search problem in hand,
+ calculating 
+\begin_inset Formula $F$
+\end_inset
+
+,
+ the generalization of Deutsch-Josza,
+ is easy.
+ First,
+ evaluate 
+\begin_inset Formula $X$
+\end_inset
+
+ at some point of your choice.
+ If the output is 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ then apply the search algorithm described above;
+ if 
+\begin_inset Formula $X$
+\end_inset
+
+ satisfies the promise,
+ then it is either constant equal to zero or 
+\begin_inset Formula $\sum X_{i}\geq\ell$
+\end_inset
+
+,
+ and so the search algorithm above will output the correct answer for 
+\begin_inset Formula $F$
+\end_inset
+
+.
+ If the output is 1,
+ apply the search algorithm above to the function 
+\begin_inset Formula $1-X$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $1-X$
+\end_inset
+
+ is calculated easily from 
+\begin_inset Formula $X$
+\end_inset
+
+ (namely,
+ it requires only one call to the oracle) this does not increase the number of oracle calls,
+ and so the algorithm described in this paragraph also requires only 
+\begin_inset Formula $O(\sqrt{N/\ell})$
+\end_inset
+
+ uses of the oracle.
+ This completes the proof of the upper bound.
+\end_layout
+
+\begin_layout Solution
+\begin_inset VSpace defskip
+\end_inset
+
+
 \end_layout
 
 \begin_layout Solution

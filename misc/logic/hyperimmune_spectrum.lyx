@@ -1,0 +1,3895 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,
+decorations.pathreplacing, decorations.pathmorphing}
+\usepackage{braket}
+
+
+\tikzset{interval/.style={{Bracket[width=1em]}-{Bracket[width=1em]}},
+ilbl/.style={midway, above=0.3em}}
+
+\setlist[enumerate,2]{ref=\theenumi.\theenumii}
+\setlist[enumerate,3]{ref=\theenumi.\theenumii.\theenumiii}
+\setlist[enumerate,4]{ref=\theenumi.\theenumii.\theenumiii.\theenumiv}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The Hyperimmune Spectrum of a Linear Order
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\N}{\mathbb{N}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\card}[1]{\##1}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\Lang}{\mathcal{L}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\iswd}{\mathord{\downarrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\isnotwd}{\mathord{\uparrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\turing}{\mathrm{T}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\upto}{\!\!\upharpoonright\!}
+{\upharpoonright}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\im}{\mathop{\mathrm{im}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ointerval}[2]{\left]#1,#2\right[}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\NA}{{\rm n/a}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is based on Russell Miller's paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "miller"
+literal "false"
+
+\end_inset
+
+.
+ In it,
+ Miller argues by 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting that there is a noncomputable linear order that is computed by every nonzero 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ degree.
+ According to Hirschfeldt,
+ it has been observed by Downey and Barmpalias
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+?
+\end_layout
+
+\end_inset
+
+ that Miller's proof actually extends cleanly to make usage of hyperimmune permitting instead,
+ proving the stronger result:
+ There is a noncomputable linear order that is computed by every hyperimmune degree.
+ In this document,
+ I present the modified argument.
+ I would like to make it clear that no new idea is introduced:
+ It is the exact same proof,
+ just phrased differently.
+\end_layout
+
+\begin_layout Standard
+I would like to thank Matthew Harrison-Trainor for being the introducing me to some of the most important ideas behind this paper,
+ notably the idea of 
+\begin_inset Formula $\Pi_{2}$
+\end_inset
+
+ guesses.
+\end_layout
+
+\begin_layout Standard
+Besides this introduction,
+ this document contains three sections,
+ with the last of these containing a proof of the main result.
+ The sections prior to it contain proofs of weaker versions that will serve to scaffold the important ideas for the final proof.
+\end_layout
+
+\begin_layout Section
+The Basic Module
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:basicmodule"
+
+\end_inset
+
+Let 
+\begin_inset Formula $d$
+\end_inset
+
+ be a hyperimmune degree.
+ Then,
+ there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-uniform procedure which,
+ given an index for a computable linear order 
+\begin_inset Formula $(L,<)$
+\end_inset
+
+,
+ and an element 
+\begin_inset Formula $\hat{b}\in L$
+\end_inset
+
+,
+ will produce an order of the form:
+\begin_inset Formula 
+\begin{equation}
+B=\begin{cases}
+\omega, & \text{if \ensuremath{\hat{b}} has infinitely many predecessors in \ensuremath{L}}\\
+c+\omega^{*}, & \text{if \ensuremath{\hat{b}} has exactly \ensuremath{c<\aleph_{0}} predecessors in \ensuremath{L}.}
+\end{cases}\label{eq:defB}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Theorem
+Notably,
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ is therefore nonisomorphic to 
+\begin_inset Formula $L$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We start by establishing a frame shift that will be useful to us in the sequence.
+ If 
+\begin_inset Formula $d$
+\end_inset
+
+ is a hyperimmune degree,
+ then it computes a function 
+\begin_inset Formula $f$
+\end_inset
+
+ with the property that it is not dominated by any computable function.
+ Without loss of generality,
+ we can assume 
+\begin_inset Formula $f$
+\end_inset
+
+ to be injective and strictly increasing,
+ and so we may think instead of 
+\begin_inset Formula $f$
+\end_inset
+
+ as a 
+\begin_inset Quotes eld
+\end_inset
+
+sparse set
+\begin_inset Quotes erd
+\end_inset
+
+ of natural numbers,
+ 
+\begin_inset Formula $S=\im f$
+\end_inset
+
+.
+ Now,
+ if we imagine a process occurring in time indexed in the natural numbers,
+ we refer to a stage 
+\begin_inset Formula $s$
+\end_inset
+
+ in 
+\begin_inset Formula $S$
+\end_inset
+
+ as a 
+\emph on
+true stage
+\emph default
+.
+ In the context of hyperimmune permitting this is a bit idiosyncratic,
+ but it is the natural extension of the corresponding nomenclature for c.e.
+\begin_inset space \space{}
+\end_inset
+
+and 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting.
+\end_layout
+
+\begin_layout Proof
+Now,
+ let us explain the algorithm to compute 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ Consider following along the construction of 
+\begin_inset Formula $L$
+\end_inset
+
+ (envisioned as,
+ at each stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ adding zero or one elements 
+\begin_inset Formula $a_{s}$
+\end_inset
+
+ to the order and defining how it relates to the pre-existing elements) until the element 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ has been added.
+ Then,
+ continue following along,
+ constructing 
+\begin_inset Formula $B$
+\end_inset
+
+ in the following fashion.
+ At every true stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ query how many predecessors 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ has in 
+\begin_inset Formula $L$
+\end_inset
+
+ right now;
+ let's say this number is 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Then,
+ add a new element 
+\begin_inset Formula $b_{s}$
+\end_inset
+
+ to 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ with as close to 
+\begin_inset Formula $p$
+\end_inset
+
+ predecessors as possible.
+ This is to say:
+ If currently 
+\begin_inset Formula $B$
+\end_inset
+
+ has 
+\begin_inset Formula $p$
+\end_inset
+
+ or more elements,
+ add the element 
+\begin_inset Formula $b_{s}$
+\end_inset
+
+ at the 
+\begin_inset Formula $p+1$
+\end_inset
+
+-th position;
+ if 
+\begin_inset Formula $B$
+\end_inset
+
+ has less than 
+\begin_inset Formula $p$
+\end_inset
+
+ elements,
+ add 
+\begin_inset Formula $b_{s}$
+\end_inset
+
+ at the very end.
+\end_layout
+
+\begin_layout Proof
+Let us see why the resulting order satisfies the requirements in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:defB"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ has finitely many predecessors 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ then at every stage after which all of these predecessors have been added we will be adding an element at position 
+\begin_inset Formula $c+1$
+\end_inset
+
+ and no more,
+ so the result is evidently 
+\begin_inset Formula $c+\omega^{*}$
+\end_inset
+
+.
+ On the other hand,
+ if 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ admits infinitely many predecessors,
+ we will show that the resulting order is isomorphic to 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ This is the same as verifying that it is infinite (obvious) and that every element 
+\begin_inset Formula $b\in B$
+\end_inset
+
+ admits finitely many predecessors.
+ To this effect,
+ consider the computable function
+\begin_inset Formula 
+\[
+pt(x)=\text{the first time by which more than \ensuremath{x} predecessors of \ensuremath{\hat{b}} have been added to \ensuremath{L}.}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $pt$
+\end_inset
+
+ is computable,
+ it cannot dominate the fast-growing function 
+\begin_inset Formula $f$
+\end_inset
+
+.
+ In particular,
+ there must be arbitrarily large values of 
+\begin_inset Formula $x$
+\end_inset
+
+ for which 
+\begin_inset Formula $f(x)>pt(x)$
+\end_inset
+
+.
+ This implies that there are arbitrarily large true stages 
+\begin_inset Formula $s=f(x)$
+\end_inset
+
+ by which 
+\begin_inset Formula $B$
+\end_inset
+
+ has 
+\begin_inset Formula $\leq x$
+\end_inset
+
+ elements,
+ but 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ has more than 
+\begin_inset Formula $x$
+\end_inset
+
+ predecessors.
+ An element added to 
+\begin_inset Formula $B$
+\end_inset
+
+ at this stage is then added at the very end of 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ and moreover it's easy to see that every element that will ever be added henceforth will be added to the right of all currently existing elements.
+ In other words,
+ at these stages 
+\begin_inset Formula $s=f(x)>pt(x)$
+\end_inset
+
+ all current elements of 
+\begin_inset Formula $B$
+\end_inset
+
+ have their set of predecessors frozen,
+ and hence will remain finite in the limit.
+ Since there exist infinitely many such stages,
+ every element will eventually have its set of predecessors frozen by one of them,
+ and hence all elements of 
+\begin_inset Formula $B$
+\end_inset
+
+ have finitely many predecessors.
+ The proof is complete.
+\end_layout
+
+\begin_layout Section
+Intermediate Step:
+ Shifting the Goal
+\end_layout
+
+\begin_layout Standard
+When diagonalizing against more than one linear order,
+ Miller uses the method of separators.
+ The essential idea is that we shall encode within our linear order some features that indicate 
+\begin_inset Quotes eld
+\end_inset
+
+this zone (say 
+\begin_inset Formula $A_{e}$
+\end_inset
+
+) is reserved for diagonalizing against the order induced by 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and the way this diagonalization occurs is that we look in the order induced by 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ for features 
+\begin_inset Formula $S_{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{e+1}$
+\end_inset
+
+ that look like these separators,
+ and make sure that what happens in 
+\begin_inset Formula $A_{e}$
+\end_inset
+
+ is different from what happens in 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ between 
+\begin_inset Formula $S_{e}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{e+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The main issue with this approach is that looking for features within a linear order is generally computationally hard,
+ so we will be forced to 
+\emph on
+guess
+\emph default
+ as to the location of these features,
+ and thus at what 
+\begin_inset Formula $A_{e}$
+\end_inset
+
+ is diagonalizing against.
+ Miller's choice of separators (orders of the form 
+\begin_inset Formula $S_{e}=1+\eta+1+i+1+\eta+1$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is the order type of the rationals) requires power on the order of 
+\begin_inset Formula $0''$
+\end_inset
+
+ to identify within a linear order,
+ which means that the best we can do when it comes to identifying the position of these separators is 
+\begin_inset Quotes eld
+\end_inset
+
+guessing right infinitely many times
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+On the subject of guesses,
+ since we will be diagonalizing against an arbitrary linear order induced by 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+,
+ we cannot assume much from this order.
+ For example,
+ we cannot assume that the order we are given admits two or more elements – and in fact we will even allow it to be empty (in the event that 
+\begin_inset Formula $\varphi_{e}$
+\end_inset
+
+ never outputs anything).
+ This causes an issue for the notion of 
+\begin_inset Quotes eld
+\end_inset
+
+guessing where the separators are
+\begin_inset Quotes erd
+\end_inset
+
+,
+ as we have no guarantee that there is even such a thing as a valid guess.
+ Thus,
+ we also introduce a special symbol,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\NA$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ that stands for a refusal to guess at a given point in time.
+\end_layout
+
+\begin_layout Standard
+We will produce more details on this matter in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ but for now the point was to motivate the following theorem:
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:buildB"
+
+\end_inset
+
+Let 
+\begin_inset Formula $d$
+\end_inset
+
+ be a hyperimmune degree.
+ Then,
+ there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-uniform procedure that performs the following task.
+ Let 
+\begin_inset Formula $(L,<)$
+\end_inset
+
+ be a computable linear order,
+ and let 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}=\{(\ell_{n},u_{n},d_{n})\}_{n\in\N}$
+\end_inset
+
+ be a computable sequence satisfying the following conditions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is either a triplet 
+\begin_inset Formula $(\ell_{n},u_{n},d_{n})$
+\end_inset
+
+ or a fixed code representing 
+\begin_inset Quotes eld
+\end_inset
+
+missing element
+\begin_inset Quotes erd
+\end_inset
+
+,
+ let's say 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\NA$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $T_{n}=(\ell_{n},u_{n},d_{n})$
+\end_inset
+
+,
+ the following conditions are satisfied:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\ell_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ are elements of 
+\begin_inset Formula $L$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $\ell_{n}<u_{n}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $d_{n}$
+\end_inset
+
+ is some data that has no effect but allows the same pair 
+\begin_inset Formula $(\ell_{n},u_{n})$
+\end_inset
+
+ to appear in distinct triplets yet have these be counted as distinct.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+There is no alternation of triplets,
+ in the following sense:
+ If a triplet 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated for the first time at time 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ the triplet 
+\begin_inset Formula $T'$
+\end_inset
+
+ is enumerated for the first time at time 
+\begin_inset Formula $y>x$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated again at some time 
+\begin_inset Formula $z>y$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T'$
+\end_inset
+
+ will never be enumerated again after 
+\begin_inset Formula $z$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+As a consequence of this property,
+ at most one triplet appears infinitely many times in the sequence.
+ If there is such a triplet,
+ we refer to it as 
+\begin_inset Formula $T_{\infty}=(\ell_{\infty},u_{\infty},d_{\infty})$
+\end_inset
+
+.
+ In this case,
+ we say that the sequence 
+\emph on
+subconverges
+\emph default
+,
+ with 
+\begin_inset Formula $T_{\infty}$
+\end_inset
+
+ being the 
+\emph on
+sublimit
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The above rule does not apply to the missing element code 
+\begin_inset Formula $\NA$
+\end_inset
+
+,
+ which may appear a finite or an infinite number of times.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges,
+ it must be the case that 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+ is infinite.
+\end_layout
+
+\end_deeper
+\begin_layout Theorem
+Then,
+ our procedure builds a linear order 
+\begin_inset Formula $B$
+\end_inset
+
+ which depends only on the order 
+\begin_inset Formula $L$
+\end_inset
+
+ and sequence 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+;
+ notably,
+ it does not depend on the choice of degree 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ This order 
+\begin_inset Formula $B$
+\end_inset
+
+ is always infinite and discrete,
+ and if the sequence 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges,
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ is nonisomorphic to 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+.
+ See Remark 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rmk:descB"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ below for a taxonomy of the possible orders 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+As in the proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:basicmodule"
+
+\end_inset
+
+,
+ we fix a fast-growing strictly increasing 
+\begin_inset Formula $d$
+\end_inset
+
+-computable function 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ and define a 
+\emph on
+true stage
+\emph default
+ as a value of 
+\begin_inset Formula $s$
+\end_inset
+
+ in 
+\begin_inset Formula $\im f$
+\end_inset
+
+.
+ We will now outline the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ The basic idea is that we perform a similar construction to Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:basicmodule"
+
+\end_inset
+
+,
+ but we work with multiple 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ at the same time,
+ each corresponding to a different guess for 
+\begin_inset Formula $T_{\infty}=(\ell_{\infty,},u_{\infty},d_{\infty})$
+\end_inset
+
+,
+ but some sophistication is required to handle these choices in such a way that they don't interfere with each other.
+\end_layout
+
+\begin_layout Proof
+We decompose the constructions into a 
+\begin_inset Quotes eld
+\end_inset
+
+computable part
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which does not depend on 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ and a 
+\begin_inset Quotes eld
+\end_inset
+
+noncomputable part
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which will be where 
+\begin_inset Formula $d$
+\end_inset
+
+ comes into play.
+ First,
+ we sketch the idea behind the computable portion of the construction.
+\end_layout
+
+\begin_layout Proof
+Imagine that for each 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ that appears we assign an interval of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ in increasing order of appearance.
+ Let's establish the notation 
+\begin_inset Formula $T^{(0)}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $T^{(1)}$
+\end_inset
+
+,
+ etc.
+\begin_inset space \space{}
+\end_inset
+
+for an injective enumeration of the triples in order of appearance,
+ with the caveat that every 
+\begin_inset Formula $\NA$
+\end_inset
+
+ counts as distinct from each other.
+ In other words,
+ if 
+\begin_inset Formula $T_{0}=T_{2}\neq\NA$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{1}=T_{3}=\NA$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T^{(0)}=T_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $T^{(1)}=\NA$
+\end_inset
+
+,
+ 
+\begin_inset Formula $T^{(2)}=\NA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.3]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (9,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (9.3,0) -- (10,0) node[ilbl] {$I(T^{(3)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:state1"
+
+\end_inset
+
+A state in the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+When a we come across a new element 
+\begin_inset Formula $T^{(n)}$
+\end_inset
+
+ we assign it a new corresponding interval at the end of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.3]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (9,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (9.3,0) -- (10,0) node[ilbl] {$I(T^{(3)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (10.3,0) -- (11,0) node[ilbl] {$I(T^{(4)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A new tuple 
+\begin_inset Formula $T^{(4)}$
+\end_inset
+
+ was enumerated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+When we come across a tuple that already has an assigned interval 
+\begin_inset Formula $I$
+\end_inset
+
+,
+ we collapse all intervals to its right into 
+\begin_inset Formula $I$
+\end_inset
+
+.
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.3,
+ decoration={brace,amplitude=1em}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{scope}[yshift=3cm]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (9,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (9.3,0) -- (10,0) node[ilbl] {$I(T^{(3)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (10.3,0) -- (11,0) node[ilbl] {$I(T^{(4)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[decorate] (11,
+ -0.2) -- (4.3,
+ -0.2) node[midway,
+ below=0.2cm] {$T^{(2)}$ enumerated again;
+ collapse these.};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (A) at (5.5,-1) {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (B) at (5.5,
+ 0.6) {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (11,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scope}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] decorate[decoration={snake,
+ amplitude=0.1cm,
+ post length=0.2cm}] {(A) -- (B)};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The tuple 
+\begin_inset Formula $T^{(2)}$
+\end_inset
+
+ is enumerated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Note that by the non-alternating imposition on the sequence 
+\begin_inset Formula $\{T_{n}\}$
+\end_inset
+
+,
+ the triples whose intervals have been collapsed will never be enumerated again.
+ 
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.3,
+ decoration={brace,amplitude=1em}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (B) at (5.5,
+ 0.6) {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (11,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (11.3,0) -- (12,0) node[ilbl]{$I(T^{(5)})$};
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:state4"
+
+\end_inset
+
+A new tuple 
+\begin_inset Formula $T^{(5)}$
+\end_inset
+
+ is enumerated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The idea is that a triplet 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ can only modify its assigned interval.
+ Thus,
+ we will try to assign to it a value of 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ so that,
+ in order to perform the construction of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:basicmodule"
+
+\end_inset
+
+,
+ it does not need to modify any of the intervals assigned to other tuples – and by the collapsing mechanic,
+ this means only that it does not need to modify any of the intervals to its left.
+ Thus,
+ we will want to pick a value of 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ that has at least 
+\begin_inset Formula $P(T^{(i)}):=\sum_{i<n}\card{I(T^{(i)})}$
+\end_inset
+
+ predecessors in 
+\begin_inset Formula $\ointerval{\ell_{n}}{u_{n}}$
+\end_inset
+
+.
+ It is possible that,
+ at the time that 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is enumerated,
+ there is no such value of 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+.
+ Nevertheless,
+ we consider 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ to 
+\begin_inset Quotes eld
+\end_inset
+
+reserve
+\begin_inset Quotes erd
+\end_inset
+
+ the first element of 
+\begin_inset Formula $L$
+\end_inset
+
+ that satisfies this property;
+ any elements enumerated between 
+\begin_inset Formula $\ell_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ before this happens are considered to precede the (as yet undefined) 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+This concludes the computable part of the construction,
+ where we write 
+\begin_inset Formula $B$
+\end_inset
+
+ as a union of ever-shifting intervals.
+ Every time a new element 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is enumerated,
+ an element will be added to 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ with the interval it's added to being computably determined.
+ The part that remains to be defined,
+ and indeed the part that will depend on the degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ is precisely where in the interval 
+\begin_inset Formula $I(T_{n})$
+\end_inset
+
+ a new element is to be added.
+ In other words,
+ the decomposition of 
+\begin_inset Formula $B$
+\end_inset
+
+ (at each stage) as a union of intervals is computably determined,
+ but the ordering on each of these intervals is not.
+\end_layout
+
+\begin_layout Proof
+Let us be more concrete about the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ Consider executing the construction of 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Do this until a true stage 
+\begin_inset Formula $s=f(n)$
+\end_inset
+
+ is reached.
+ At this point:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate the next value of 
+\begin_inset Formula $T_{n}=T^{(k)}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+If this is the first time that 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+ has appeared:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:newtuple"
+
+\end_inset
+
+Set 
+\begin_inset Formula $P(T^{(k)})=\sum_{i<k}\card{I(T^{(i)})}$
+\end_inset
+
+ and define 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+ to be an interval of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ containing one new element,
+ whose elements are greater than all 
+\begin_inset Formula $I(T^{(i)})$
+\end_inset
+
+ that have appeared so far.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If this is not the first time that 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+ has appeared:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Since each 
+\begin_inset Formula $\NA$
+\end_inset
+
+ counts as distinct,
+ 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+ must be a triple,
+ say 
+\begin_inset Formula $T^{(k)}=(\ell^{(k)},u^{(k)},d^{(k)})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Absorb all elements to the right of 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+ into this interval.
+ Note that we are not modifying the ordering on the elements in this step,
+ just modifying our organization of them.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\hat{b}(T^{(k)})$
+\end_inset
+
+ has not yet been defined:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:setbhat"
+
+\end_inset
+
+Check if 
+\begin_inset Formula $L$
+\end_inset
+
+ admits 
+\begin_inset Formula $\geq P(T^{(k)})$
+\end_inset
+
+ elements between 
+\begin_inset Formula $\ell^{(k)}$
+\end_inset
+
+ and 
+\begin_inset Formula $u^{(k)}$
+\end_inset
+
+.
+ If it does,
+ set 
+\begin_inset Formula $\hat{b}(T^{(k)})$
+\end_inset
+
+ to be the 
+\begin_inset Formula $P(T^{(k)})$
+\end_inset
+
+-th element added to 
+\begin_inset Formula $L$
+\end_inset
+
+ between 
+\begin_inset Formula $\ell^{(k)}$
+\end_inset
+
+ and 
+\begin_inset Formula $u^{(k)}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\hat{b}(T^{(k)})$
+\end_inset
+
+ is defined:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $p$
+\end_inset
+
+ be the number of elements currently between 
+\begin_inset Formula $\ell^{(k)}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{b}(T^{(k)})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:addbhat"
+
+\end_inset
+
+Add an element 
+\begin_inset Formula $x$
+\end_inset
+
+ to 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+ as to admit as close to 
+\begin_inset Formula $p$
+\end_inset
+
+ predecessors as possible.
+ Note:
+ Due to the interval-collapsing mechanism,
+ which ensures that at this moment 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+ is at the very end of the order,
+ plus the fact that 
+\begin_inset Formula $p\geq P(T^{(k)})=\sum_{i<k}\card{I(T^{(i)})}$
+\end_inset
+
+ always,
+ the only possible failure case is that 
+\begin_inset Formula $B$
+\end_inset
+
+ does not currently admit enough elements to add an element with exactly 
+\begin_inset Formula $p$
+\end_inset
+
+ predecessors,
+ and so 
+\begin_inset Formula $x$
+\end_inset
+
+ is added at the very end of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Proof
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.1,
+ decoration={brace,amplitude=1em}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (B) at (5.5,
+ 0.6) {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (11,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (11.3,0) -- (12,0) node[ilbl]{$I(T^{(5)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (12.3,0) -- (13,0) node[ilbl]{$I(
+\backslash
+NA)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (13.3,0) -- (14,0) node[ilbl]{$I(
+\backslash
+NA)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The next two 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ are 
+\begin_inset Formula $T^{(6)}=T^{(7)}=\NA$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[scale=1.1,
+ decoration={brace,amplitude=1em}]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node (B) at (5.5,
+ 0.6) {};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (0.3,0) -- (3,0) node[ilbl] {$I(T^{(0)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (3.3,0) -- (4,0) node[ilbl] {$I(T^{(1)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (4.3,0) -- (11,0) node[ilbl] {$I(T^{(2)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (11.3,0) -- (12,0) node[ilbl]{$I(T^{(5)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (12.3,0) -- (13,0) node[ilbl]{$I(
+\backslash
+NA)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (13.3,0) -- (14,0) node[ilbl]{$I(
+\backslash
+NA)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[interval] (14.3,0) -- (15,0) node[ilbl]{$I(T^{(8)})$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+An as-yet unseen tuple 
+\begin_inset Formula $T^{(8)}$
+\end_inset
+
+ is enumerated.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Now that the construction is complete,
+ let us investigate the possible outcomes.
+ Note that at each true stage we add one or two new elements to the order,
+ so the resulting linear order is certainly infinite.
+\end_layout
+
+\begin_layout Itemize
+Suppose that 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ does not subconverge.
+ We show that the resulting order is a copy of 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ To see this,
+ choose any particular element 
+\begin_inset Formula $x\in B$
+\end_inset
+
+.
+ Wait until this element gets enumerated into the order,
+ and then wait further until all tuples that have appeared by this point are never to appear again.
+ Then,
+ any element added henceforth is added to the right of 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ meaning that 
+\begin_inset Formula $x$
+\end_inset
+
+ has finitely many predecessors in 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ This proves 
+\begin_inset Formula $B=\omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Now,
+ assume that 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges to the tuple 
+\begin_inset Formula $T_{\infty}=T^{(k)}$
+\end_inset
+
+.
+ By assumption,
+ the interval 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+ is infinite,
+ and so eventually instruction 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:setbhat"
+
+\end_inset
+
+ will be executed.
+ Thus,
+ eventually a value of 
+\begin_inset Formula $\hat{b}(T^{(k)})$
+\end_inset
+
+ will be set;
+ we henceforth refer to it as 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+.
+ Crucially,
+ this value 
+\emph on
+does not depend on the degree 
+\begin_inset Formula $d$
+\end_inset
+
+
+\emph default
+.
+ Now,
+ we split into cases:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{\hat{b}}$
+\end_inset
+
+ is finite,
+ say of size 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ consider executing the procedure until all the elements in this interval have been enumerated into 
+\begin_inset Formula $L$
+\end_inset
+
+.
+ Henceforth,
+ at every stage of the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+ we will either be executing instruction 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:addbhat"
+
+\end_inset
+
+,
+ adding an element with 
+\begin_inset Formula $p$
+\end_inset
+
+ predecessors into 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ or executing instructions corresponding to tuples that come after 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+,
+ thereby adding elements to the right of 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+.
+ We are guaranteed that instruction 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:addbhat"
+
+\end_inset
+
+ will occur infinitely many times,
+ resulting in a linear order of the form 
+\begin_inset Formula $c+\omega^{*}+R$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $R$
+\end_inset
+
+ encoding the elements that are added to the right of 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+ over the course of the algorithm.
+ If the sequence 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ is constant equal to 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+ after a point,
+ 
+\begin_inset Formula $R=0$
+\end_inset
+
+ and the resulting order is 
+\begin_inset Formula $c+\omega^{*}$
+\end_inset
+
+.
+ On the other hand,
+ if 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ does not stabilize in this manner,
+ we will infinitely often be adding a finite number of elements to the right of 
+\begin_inset Formula $I(T^{(k)})$
+\end_inset
+
+,
+ resulting in the order type 
+\begin_inset Formula $c+\omega^{*}+\omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Finally,
+ suppose that 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{\hat{b}}$
+\end_inset
+
+ is infinite.
+ We show that the order produced by this algorithm is 
+\begin_inset Formula $B=\omega$
+\end_inset
+
+.
+ To this effect,
+ we pick an arbitrary element 
+\begin_inset Formula $x\in B$
+\end_inset
+
+ and show that it admits finitely many predecessors.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Consider executing the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+ until 
+\begin_inset Formula $x$
+\end_inset
+
+ is enumerated.
+ Wait further until 
+\begin_inset Formula $T^{(k)}$
+\end_inset
+
+ is introduced,
+ if it hasn't yet.
+ Finally,
+ wait until a stage 
+\begin_inset Formula $s=f(n)$
+\end_inset
+
+ where 
+\begin_inset Formula $\card{\ointerval{\ell_{\infty}}{\hat{b}}_{\text{at stage \ensuremath{s}}}>n}$
+\end_inset
+
+.
+ That such a stage exists is justified,
+ as in the proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:basicmodule"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ by considering the computable function 
+\begin_inset Formula $pt(n)$
+\end_inset
+
+ that outputs the first stage in the construction of 
+\begin_inset Formula $L$
+\end_inset
+
+ where 
+\begin_inset Formula $\card{\ointerval{\ell_{\infty}}{\hat{b}}>n}$
+\end_inset
+
+ and considering a large value of 
+\begin_inset Formula $n$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $f(n)>pt(n)$
+\end_inset
+
+.
+ By inspection of the algorithm,
+ from this point onward every element introduced into 
+\begin_inset Formula $B$
+\end_inset
+
+ will be introduced at position 
+\begin_inset Formula $n$
+\end_inset
+
+ or greater,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+to the right of every currently existing element,
+ including in particular 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ will only ever have as many predecessors as it does at this moment,
+ which is a finite amount.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Proof
+This concludes the classification of possibilities.
+ The only three possible orders resulting from this algorithm are 
+\begin_inset Formula $\omega$
+\end_inset
+
+,
+ 
+\begin_inset Formula $c+\omega^{*}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $c+\omega^{*}+\omega$
+\end_inset
+
+,
+ all of which are infinite and discrete.
+ Moreover,
+ if 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges to 
+\begin_inset Formula $T_{\infty}$
+\end_inset
+
+,
+ a corresponding element 
+\begin_inset Formula $\hat{b}\in\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+ will eventually be defined,
+ and the order 
+\begin_inset Formula $B$
+\end_inset
+
+ will contain no element with the same number element of predecessors as 
+\begin_inset Formula $\hat{b}$
+\end_inset
+
+ in 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $B$
+\end_inset
+
+ is nonisomorphic to this interval.
+ This concludes the proof.
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:descB"
+
+\end_inset
+
+The linear order 
+\begin_inset Formula $B$
+\end_inset
+
+ produced by Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:buildB"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If the sequence 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ does not subconverge,
+ 
+\begin_inset Formula $B=\omega$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If the sequence 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges with sublimit 
+\begin_inset Formula $T_{\infty}=(\ell_{\infty},u_{\infty},d_{\infty})$
+\end_inset
+
+,
+ then there is 
+\begin_inset Formula $\hat{b}\in\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+ such that
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{\hat{b}}$
+\end_inset
+
+ is infinite,
+ then 
+\begin_inset Formula $B=\omega$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{\hat{b}}$
+\end_inset
+
+ is finite,
+ admitting 
+\begin_inset Formula $c$
+\end_inset
+
+ elements,
+ then
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If there is a point after which 
+\begin_inset Formula $T_{n}=T_{\infty}$
+\end_inset
+
+ for all 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $B=c+\omega^{*}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+Otherwise,
+ 
+\begin_inset Formula $B=c+\omega^{*}+\omega$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+The case where 
+\begin_inset Formula $B=c+\omega^{*}$
+\end_inset
+
+ can easily be eliminated,
+ by replacing 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ in the construction by
+\begin_inset Formula 
+\[
+T'_{n}=\begin{cases}
+T_{n/2}, & \text{if \ensuremath{n} is even,}\\
+\NA, & \text{if \ensuremath{n} is odd.}
+\end{cases}
+\]
+
+\end_inset
+
+This matches more closely with what is done in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "miller"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:final"
+
+\end_inset
+
+The Final Construction
+\end_layout
+
+\begin_layout Standard
+We are now ready to prove (a mild generalization of) Miller's theorem.
+ There is some amount of motivation – namely,
+ the specifics of separators and how they are helpful in our current task – that are well explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "miller"
+literal "false"
+
+\end_inset
+
+,
+ so we assume that the reader is familiar with that part of the ideas of the proof.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:miller"
+
+\end_inset
+
+There exists a noncomputable linear order that is computed by every hyperimmune degree.
+\end_layout
+
+\begin_layout Remark
+By a theorem of Knight,
+ this is equivalent to:
+ There exists a noncomputable linear order with a copy in every hyperimmune degree.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:miller"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+First,
+ we define 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ as the (computable) linear order 
+\begin_inset Formula $1+\eta+1+i+1+\eta+1$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is a copy of the rational numbers.
+ Now,
+ let 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+ be the 
+\begin_inset Formula $e$
+\end_inset
+
+-th linear order in a standard computable enumeration of computable linear orders.
+ Consider that we are searching for a copy of 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+,
+ or,
+ more precisely,
+ the upper (or lower) element of this copy.
+ Checking if some 
+\begin_inset Formula $x\in L_{e}$
+\end_inset
+
+ is the upper (or lower) element of a copy of 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ predicate:
+ We need to check that there exist 
+\begin_inset Formula $s_{1},s_{2},\vec{t},s_{3}$
+\end_inset
+
+ such that:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The interval 
+\begin_inset Formula $\ointerval{s_{1}}{s_{2}}$
+\end_inset
+
+ is a dense order with no endpoints (a 
+\begin_inset Formula $\Pi_{2}$
+\end_inset
+
+ predicate),
+\end_layout
+
+\begin_layout Itemize
+The interval 
+\begin_inset Formula $\ointerval{s_{3}}x$
+\end_inset
+
+ is a dense order with no endpoints (a 
+\begin_inset Formula $\Pi_{2}$
+\end_inset
+
+ predicate),
+\end_layout
+
+\begin_layout Itemize
+The elements 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $t_{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+,
+\begin_inset Formula $t_{i}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $s_{3}$
+\end_inset
+
+ are all adjacent (a 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+ predicate).
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Now,
+ recall that,
+ given a 
+\begin_inset Formula $\Pi_{2}$
+\end_inset
+
+ predicate 
+\begin_inset Formula $P(x)\equiv\forall_{y}\exists_{z}P_{0}(x,y,z)$
+\end_inset
+
+,
+ we can try to guess at what elements satisfy 
+\begin_inset Formula $P$
+\end_inset
+
+ via the following computable method:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In parallel,
+ for each value of 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Loop over 
+\begin_inset Formula $y=0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Loop over all values of 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ checking if 
+\begin_inset Formula $P_{0}(x,y,z)$
+\end_inset
+
+.
+ In the affirmative case,
+ print 
+\begin_inset Formula $x$
+\end_inset
+
+ into the output and move on to the next value of 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Proof
+In following this procedure,
+ the values of 
+\begin_inset Formula $x$
+\end_inset
+
+ that get output 
+\emph on
+infinitely many times
+\emph default
+ are precisely the ones that satisfy the predicate.
+ Thus,
+ we can consider such a procedure applied to finding a copy of 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+,
+ identifying such a copy by its 
+\begin_inset Formula $i+4$
+\end_inset
+
+ isolated points,
+ then focusing only on the topmost (or bottommost) element of this tuple.
+ Nevertheless,
+ we do need to keep the remaining 
+\begin_inset Formula $i+3$
+\end_inset
+
+ points as part of the output,
+ to ensure that the predicate we are representing is 
+\begin_inset Formula $\Pi_{2}$
+\end_inset
+
+ and not 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Note that,
+ to turn from the 
+\begin_inset Quotes eld
+\end_inset
+
+print 
+\begin_inset Formula $x$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ viewpoint into a sequential viewpoint,
+ we need to allow for the possibility that no element ever gets printed,
+ or that we don't know how long to wait until the next element is output.
+ Thus,
+ we introduce a 
+\begin_inset Quotes eld
+\end_inset
+
+no output
+\begin_inset Quotes erd
+\end_inset
+
+ symbol 
+\begin_inset Formula $\NA$
+\end_inset
+
+,
+ and we obtain
+\end_layout
+
+\begin_deeper
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:guesses"
+
+\end_inset
+
+There is a uniform computable procedure that,
+ given a linear order 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+ and a number 
+\begin_inset Formula $i\in\N$
+\end_inset
+
+,
+ produces an infinite sequence 
+\begin_inset Formula $\{\hat{T}_{n}\}_{n\in\N}$
+\end_inset
+
+whose elements are either pairs 
+\begin_inset Formula $(x_{n},d_{n})$
+\end_inset
+
+ or no output symbols 
+\begin_inset Formula $\NA$
+\end_inset
+
+,
+ such that a pair 
+\begin_inset Formula $(x,d)$
+\end_inset
+
+ is output infinitely many times iff 
+\begin_inset Formula $x$
+\end_inset
+
+ is the top (or bottom) element of a copy of 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+.
+ Moreover,
+ for every 
+\begin_inset Formula $x$
+\end_inset
+
+ there is at most one distinct value of 
+\begin_inset Formula $d$
+\end_inset
+
+ for which 
+\begin_inset Formula $(x,d)$
+\end_inset
+
+ is enumerated infinitely many times.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Now,
+ we carefully construct out of this a sequence satisfying the assumptions of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:buildB"
+
+\end_inset
+
+ that will find a copy 
+\begin_inset Formula $S_{e}$
+\end_inset
+
+ and a copy of 
+\begin_inset Formula $S_{e+1}$
+\end_inset
+
+ in 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+,
+ so that we can diagonalize against the intervening space.
+ Let 
+\begin_inset Formula $\lambda_{n}$
+\end_inset
+
+ be the sequence obtained from Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:guesses"
+
+\end_inset
+
+ that tries to find the top element of a copy of 
+\begin_inset Formula $S_{e}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\theta_{n}$
+\end_inset
+
+ the sequence that tries to find the bottom element of a copy of 
+\begin_inset Formula $S_{e+1}$
+\end_inset
+
+.
+ Our first step is to interweave them using a pairing function:
+ We define 
+\begin_inset Formula $\check{T}_{\braket{n,m}}$
+\end_inset
+
+ via
+\begin_inset Formula 
+\begin{equation}
+\check{T}_{\braket{n,m}}=\begin{cases}
+\NA & \text{if either \ensuremath{\lambda_{n}=\NA} or \ensuremath{\theta_{m}=\NA},}\\
+(\ell_{n},u_{m},\braket{d_{n},d'_{m}}) & \text{if \ensuremath{\lambda_{n}=(\ell_{n},d_{n})} and \ensuremath{\theta_{m}=(u_{m},d'_{m})}.}
+\end{cases}\label{eq:checkT}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Now,
+ one-by-one,
+ we look at the conditions of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:buildB"
+
+\end_inset
+
+ and modify the sequence as to satisfy them.
+ We enumerate each of these conditions,
+ followed by how we modify the sequence in accordance.
+ The order in which the fixes are performed matters,
+ and the modification that ensures that there is no alternation of triplets should be performed 
+\emph on
+last
+\emph default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\shape slanted
+If 
+\begin_inset Formula $T_{n}=(\ell_{n},u_{n},d_{n})$
+\end_inset
+
+,
+ the following conditions are satisfied:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\shape slanted
+\begin_inset Formula $\ell_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{n}$
+\end_inset
+
+ are elements of 
+\begin_inset Formula $L$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $\ell_{n}<u_{n}$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fix:
+ Whenever 
+\begin_inset Formula $x_{n}<y_{m}$
+\end_inset
+
+,
+ replace 
+\begin_inset Formula $\check{T}_{\braket{n,m}}$
+\end_inset
+
+ by 
+\begin_inset Formula $\NA$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\shape slanted
+\begin_inset Formula $d_{n}$
+\end_inset
+
+ is some data that has no effect but allows the same pair 
+\begin_inset Formula $(\ell_{n},u_{n})$
+\end_inset
+
+ to appear in distinct triplets yet have these be counted as distinct.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fix:
+ N/A.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\shape slanted
+There is no alternation of triplets,
+ in the following sense:
+ If a triplet 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated for the first time at time 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ the triplet 
+\begin_inset Formula $T'$
+\end_inset
+
+ is enumerated for the first time at time 
+\begin_inset Formula $y>x$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated again at some time 
+\begin_inset Formula $z>y$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $T'$
+\end_inset
+
+ will never be enumerated again after 
+\begin_inset Formula $z$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fix:
+ Augment the data 
+\begin_inset Formula $d_{n}$
+\end_inset
+
+ in the triplet 
+\begin_inset Formula $\check{T}_{n}$
+\end_inset
+
+,
+ replacing it by 
+\begin_inset Formula $\braket{d_{n},j_{n}}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $j_{n}$
+\end_inset
+
+ is incremented whenever a triplet that has been enumerated before 
+\begin_inset Formula $\check{T}_{n}$
+\end_inset
+
+ is enumerated again into 
+\begin_inset Formula $\{\check{T}_{n}\}_{n\in\N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This step is doing some amount of heavy lifting,
+ so it is worthwhile to go over it in more detail.
+ The point is that,
+ whenever a triplet 
+\begin_inset Formula $T$
+\end_inset
+
+ is enumerated into the sequence,
+ we force all triplets that appeared between now and the last appearance of 
+\begin_inset Formula $T$
+\end_inset
+
+ (if applicable) to never appear again,
+ by ensuring that those triplets will never appear with the same value of 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ To this effect,
+ we modify their value of 
+\begin_inset Formula $j$
+\end_inset
+
+ permanently.
+\end_layout
+
+\begin_layout Standard
+Note also that we are being careful in modifying this property as to preserve the following:
+ If there was a triplet that was enumerated infinitely many times in the original sequence,
+ there will also be such a triplet in the new sequence.
+ In fact,
+ it will be the case that,
+ if 
+\begin_inset Formula $\check{T}_{n}=(\ell_{n},u_{n},d_{n})$
+\end_inset
+
+ is the 
+\emph on
+first
+\emph default
+ triplet that appears infinitely many times in the original sequence,
+ then 
+\begin_inset Formula $(\ell_{n},u_{n},\braket{d_{n},j})$
+\end_inset
+
+ will be the 
+\emph on
+only
+\emph default
+ triplet that appears infinitely many times in the modified sequence,
+ for some fixed value of 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ To be more precise,
+ this is the value of 
+\begin_inset Formula $j$
+\end_inset
+
+ that 
+\begin_inset Formula $\check{T}_{n}$
+\end_inset
+
+ is assigned after all triplets enumerated before 
+\begin_inset Formula $\check{T}_{n}$
+\end_inset
+
+ have already been enumerated as many times as they ever would be.
+\end_layout
+
+\begin_layout Standard
+Obviously,
+ the converse property holds:
+ If every triplet appears finitely many times in the original sequence,
+ this will also be the case in the modified sequence.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\shape slanted
+As a consequence of this property,
+ at most one triplet appears infinitely many times in the sequence.
+ If there is such a triplet,
+ we refer to it as 
+\begin_inset Formula $T_{\infty}=(\ell_{\infty},u_{\infty},d_{\infty})$
+\end_inset
+
+.
+ In this case,
+ we say that the sequence 
+\emph on
+subconverges
+\emph default
+,
+ with 
+\begin_inset Formula $T_{\infty}$
+\end_inset
+
+ being the 
+\emph on
+sublimit
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\shape slanted
+The above rule does not apply to the missing element code 
+\begin_inset Formula $\NA$
+\end_inset
+
+,
+ which may appear a finite or an infinite number of times.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fix:
+ N/A
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\shape slanted
+If 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ subconverges,
+ it must be the case that 
+\begin_inset Formula $\ointerval{\ell_{\infty}}{u_{\infty}}$
+\end_inset
+
+ is infinite.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fix:
+ Between two enumerations of the same triplet,
+ say 
+\begin_inset Formula $\check{T_{n}}=\check{T}_{m}=(\ell,u,d)$
+\end_inset
+
+,
+ unless an element has been enumerated into 
+\begin_inset Formula $\ointerval{\ell}u$
+\end_inset
+
+ between stages 
+\begin_inset Formula $n$
+\end_inset
+
+ and 
+\begin_inset Formula $m$
+\end_inset
+
+,
+ replace 
+\begin_inset Formula $\check{T}_{m}$
+\end_inset
+
+ by 
+\begin_inset Formula $\NA$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Proof
+We are now prepared to apply Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:buildB"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to the sequence 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+ obtained from these modifications.
+ Let 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+ be the order obtained from this theorem,
+ and define
+\begin_inset Formula 
+\[
+B=S_{0}+B_{0}+S_{1}+B_{1}+S_{2}+\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Clearly,
+ 
+\begin_inset Formula $B$
+\end_inset
+
+ is computable in any hyperimmune degree,
+ so it remains to show that 
+\begin_inset Formula $B$
+\end_inset
+
+ is not computable.
+ Suppose otherwise;
+ say 
+\begin_inset Formula $B\cong L_{e}$
+\end_inset
+
+.
+ Then,
+ let us follow along the construction of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ and more precisely 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+,
+ to see why this would cause a contradiction.
+\end_layout
+
+\begin_layout Proof
+First,
+ consider the sequence 
+\begin_inset Formula $\{\check{T}_{n}\}_{n\in\N}$
+\end_inset
+
+ obtained from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:checkT"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We claim that there is a unique triplet 
+\begin_inset Formula $(\ell,u,d)$
+\end_inset
+
+ that appears infinitely many times in this sequence.
+ The proof is routine checking,
+ based on the fact that the predicate 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:guesses"
+
+\end_inset
+
+ will only output the same tuple infinitely often if it represents a copy of 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ in the linear order in question,
+ and that there is only one such copy in 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ (The routine checking consists of verifying that there are no more such copies,
+ which hinges on the fact that the 
+\begin_inset Formula $B_{i}$
+\end_inset
+
+ are all infinite and admit no dense subsets.) The values 
+\begin_inset Formula $\ell$
+\end_inset
+
+ and 
+\begin_inset Formula $u$
+\end_inset
+
+ are readily seen to be,
+ respectively,
+ the rightmost element of the copy of 
+\begin_inset Formula $S_{e}$
+\end_inset
+
+ and the leftmost element of the copy of 
+\begin_inset Formula $S_{e+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Now,
+ the recurrence of this triplet is preserved when we go from 
+\begin_inset Formula $\{\check{T}_{n}\}_{n\in\N}$
+\end_inset
+
+ to 
+\begin_inset Formula $\{T_{n}\}_{n\in\N}$
+\end_inset
+
+,
+ and so the construction of 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+ ensures that 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+ is nonisomorphic to 
+\begin_inset Formula $\ointerval{\ell}u$
+\end_inset
+
+ in 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+.
+ However,
+ since 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+ are isomorphic,
+ and the image of the elements 
+\begin_inset Formula $\ell$
+\end_inset
+
+ and 
+\begin_inset Formula $u$
+\end_inset
+
+ in 
+\begin_inset Formula $B$
+\end_inset
+
+ are necessarily going to be the elements just above and below 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+ in 
+\begin_inset Formula $B$
+\end_inset
+
+ (by their unique definition via a 
+\begin_inset Formula $\Sigma_{3}$
+\end_inset
+
+ formula),
+ this amounts to saying that 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+ is nonisomorphic to 
+\begin_inset Formula $B_{e}$
+\end_inset
+
+,
+ which is evidently a contradiction.
+ Thus,
+ it must be the case that 
+\begin_inset Formula $B$
+\end_inset
+
+ is nonisomorphic to 
+\begin_inset Formula $L_{e}$
+\end_inset
+
+ for every 
+\begin_inset Formula $e\in\N$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $B$
+\end_inset
+
+ is noncomputable as desired.
+ This concludes the proof.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
