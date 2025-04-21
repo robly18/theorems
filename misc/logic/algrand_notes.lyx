@@ -113,7 +113,7 @@ Algorithmic Randomness Notes
 Duarte Maia
 \end_layout
 
-\begin_layout In Preamble
+\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input
 filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
@@ -122,6 +122,9 @@ literal "false"
 \end_inset
 
 
+\end_layout
+
+\begin_layout In Preamble
 \begin_inset FormulaMacro
 \newcommand{\emptystring}{\varepsilon}
 \end_inset
@@ -1184,6 +1187,7 @@ begin{scope}
 
 \backslash
 draw[->] (-5,0) -- (5,0);
+ 
 \end_layout
 
 \begin_layout Plain Layout
@@ -7995,6 +7999,12 @@ Nevertheless,
 \end_layout
 
 \begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:lowcompression"
+
+\end_inset
+
 There is a low compression function 
 \begin_inset Formula $F$
 \end_inset
@@ -8973,16 +8983,6 @@ low
  function,
  not just computable.
  I do not know how much stronger this is.
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-talk to denis abt this
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -9015,7 +9015,7 @@ hands-on
 \begin_inset Formula $g$
 \end_inset
 
- a 
+ (assumed computable for simplicity of notation) a 
 \begin_inset Formula $\Pi_{1}$
 \end_inset
 
@@ -9034,7 +9034,7 @@ The existence of
  is used to dominate the inner quantifier;
  otherwise,
  this would be a 
-\begin_inset Formula $\Sigma_{2}$
+\begin_inset Formula $\Pi_{2}$
 \end_inset
 
  class.
@@ -9090,7 +9090,7 @@ nolink "false"
 \end_layout
 
 \begin_layout Remark
-We can extract from this a property that contrasts wildly from Martin-Löf randomness.
+We can extract from this reasoning a property of 2-randomness that contrasts wildly from Martin-Löf randomness.
  While there are nontrivial 
 \begin_inset Formula $\Pi_{1}$
 \end_inset
@@ -9106,6 +9106,1561 @@ A
 \end_inset
 
  class whose elements are all weakly 2-random must be empty.
+\end_layout
+
+\begin_layout Standard
+We finish this section with a mostly unrelated result (because it is an exercise in Nies):
+\end_layout
+
+\begin_layout Proposition
+There exists a low compression function for 
+\begin_inset Formula $K$
+\end_inset
+
+,
+ that is,
+ a low injective function 
+\begin_inset Formula $F\colon2^{<\omega}\to2^{<\omega}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\sum_{\sigma}2^{-\length{F(\sigma)}}\leq1$
+\end_inset
+
+ and,
+ for all 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\length{F(\sigma)}\leq K(\sigma)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Similar to Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:lowcompression"
+
+\end_inset
+
+,
+ consider the following 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+ class (in Baire space) which is composed entirely of compression functions:
+\begin_inset Formula 
+\[
+P(F)\equiv\forall_{\sigma}(\length{F(\sigma)}\leq K(\sigma))\land\sum2^{-\length{F(\sigma)}}\leq1\land\text{\ensuremath{F} is injective}.
+\]
+
+\end_inset
+
+(This is 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+ because both 
+\begin_inset Formula $x\leq K(y)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sum_{i\in I}x_{i}\leq1$
+\end_inset
+
+,
+ and injectivity are co-c.e.
+\begin_inset space \space{}
+\end_inset
+
+properties.) Moreover,
+ this class is computably bounded because for any 
+\begin_inset Formula $F\in P$
+\end_inset
+
+ we have 
+\begin_inset Formula $\length{F(\sigma)}\leq c+\length{\sigma}$
+\end_inset
+
+,
+ and it is nonempty because 
+\begin_inset Formula $K$
+\end_inset
+
+ is in it.
+ Thus,
+ the Low Basis Theorem applies and we get the existence of a low element of this class.
+\end_layout
+
+\begin_layout Section
+2-Randomness and Being Low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+\begin_inset FormulaMacro
+\newcommand{\Low}{\mathop{{\rm Low}}}
+\end_inset
+
+A set 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\emph on
+low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+
+\emph default
+ if 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ is MLR relative to 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ The class of sets that are low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ are denoted 
+\begin_inset Formula $\Low(\Omega)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is not obvious that this does not depend on the choice of prefix-free machine,
+ but Nies says he will talk about that in Chapter 10.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:lowforomega"
+
+\end_inset
+
+The following two statements hold:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label=(
+\backslash
+alph*)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:lowforomega1"
+
+\end_inset
+
+
+\begin_inset Formula $\Low(\Omega)$
+\end_inset
+
+ is closed downward under Turing reducibility,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:lowforomega2"
+
+\end_inset
+
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ then 
+\begin_inset Formula $A'\equiv A\oplus0'$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:lowforomega1"
+
+\end_inset
+
+ Given sets 
+\begin_inset Formula $A\leq B$
+\end_inset
+
+ such that 
+\begin_inset Formula $B$
+\end_inset
+
+ is low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+,
+ we notice that the ML tests that 
+\begin_inset Formula $A$
+\end_inset
+
+ can produce can all be produced by 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $B$
+\end_inset
+
+ is low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ must pass all those tests,
+ and so passes all the tests produced by 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:lowforomega2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ The inequality 
+\begin_inset Formula $\geq$
+\end_inset
+
+ is always true,
+ so we show that 
+\begin_inset Formula $A\oplus0'$
+\end_inset
+
+ computes 
+\begin_inset Formula $A'$
+\end_inset
+
+ or,
+ equivalently,
+ that 
+\begin_inset Formula $A\oplus\Omega$
+\end_inset
+
+ computes 
+\begin_inset Formula $A'$
+\end_inset
+
+.
+ We will do this by using 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ to compute a function that grows faster than any chosen 
+\begin_inset Formula $A$
+\end_inset
+
+-computable partial function 
+\begin_inset Formula $\varphi$
+\end_inset
+
+,
+ which (by applying to the 
+\begin_inset Quotes eld
+\end_inset
+
+runtime of a program
+\begin_inset Quotes erd
+\end_inset
+
+ function) implies that it,
+ joined with 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ computes 
+\begin_inset Formula $A'$
+\end_inset
+
+.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+look at terms like 
+\begin_inset Quotes eld
+\end_inset
+
+uniform domination
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+almost everywhere domination
+\begin_inset Quotes erd
+\end_inset
+
+ (related?)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+So,
+ let 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ be a partial 
+\begin_inset Formula $A$
+\end_inset
+
+-computable function.
+ From it,
+ define an 
+\begin_inset Formula $A$
+\end_inset
+
+-computable ML test as follows:
+ 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+ is generated by the strings 
+\begin_inset Formula $\sigma_{nk}$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $k\in\N$
+\end_inset
+
+,
+ and in turn these strings are obtained by simulating 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ for 
+\begin_inset Formula $\varphi(k)$
+\end_inset
+
+ time (if it halts) and outputting the 
+\begin_inset Formula $k+n$
+\end_inset
+
+ first bits obtained in this manner.
+ It is easy to see that the output really is an 
+\begin_inset Formula $A$
+\end_inset
+
+-ML test.
+\end_layout
+
+\begin_layout Proof
+Now,
+ we know that 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ is 
+\begin_inset Formula $A$
+\end_inset
+
+-MLR,
+ so it must fail to be in some 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+.
+ This means that every one of the prefixes output by the previous program is wrong.
+ Thus,
+ the (
+\begin_inset Formula $\Omega$
+\end_inset
+
+-computable) function 
+\begin_inset Formula 
+\[
+f(k)=\text{time it takes the first \ensuremath{k} bits of \ensuremath{\Omega} to stabilize}
+\]
+
+\end_inset
+
+must be greater than 
+\begin_inset Formula $\varphi(k)+n$
+\end_inset
+
+ for every value of 
+\begin_inset Formula $k$
+\end_inset
+
+ for which 
+\begin_inset Formula $\varphi(k)$
+\end_inset
+
+ is defined,
+ which completes the proof.
+\end_layout
+
+\begin_layout Proposition
+A set is 2-random iff it is MLR and low for 
+\begin_inset Formula $\Omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+A set 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 2-random iff it's MLR relative to 
+\begin_inset Formula $0'$
+\end_inset
+
+ iff it's MLR relative to 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ which,
+ by van Lambalgen's Theorem (and the fact that 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ is MLR),
+ is equivalent to requiring that 
+\begin_inset Formula $Z$
+\end_inset
+
+ is MLR and 
+\begin_inset Formula $\Omega$
+\end_inset
+
+ is MLR rel 
+\begin_inset Formula $Z$
+\end_inset
+
+.
+ This finishes the proof.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset Formula $\Omega^{0'}\in\Low(\Omega)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+The 2-random sets are closed downward inside 
+\begin_inset Formula $\MLR$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:2rjump"
+
+\end_inset
+
+Any 2-random set 
+\begin_inset Formula $Z$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $Z'\equiv Z\oplus0'$
+\end_inset
+
+.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+tell denis to send me errata
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We strengthen Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:2rjump"
+
+\end_inset
+
+.
+ A more direct proof may be found in Theorem 8.14.1 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "algrand_downey_hirschfeldt"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proposition
+The following three statements are true for all 
+\begin_inset Formula $n\geq1$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label=(
+\backslash
+alph*)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:3n1"
+
+\end_inset
+
+A set 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random iff 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $(n-1)$
+\end_inset
+
+-random and 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-low for 
+\begin_inset Formula $\Omega^{0^{(n-1)}}$
+\end_inset
+
+ (i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $\Omega^{0^{(n-1)}}$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random relative to 
+\begin_inset Formula $Z$
+\end_inset
+
+),
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:3n2"
+
+\end_inset
+
+If 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random then 
+\begin_inset Formula $Z^{(n-1)}\equiv Z\oplus0^{(n-1)}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:3n3"
+
+\end_inset
+
+Van Lambalgen's theorem holds for 
+\begin_inset Formula $n$
+\end_inset
+
+-randomness,
+ i.e:
+ 
+\begin_inset Formula $A\oplus B$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random iff 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random and 
+\begin_inset Formula $B$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random rel 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We prove these results simultaneously by induction on 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ All of these results are already established for 
+\begin_inset Formula $n=1$
+\end_inset
+
+,
+ so we proceed to do the induction step.
+ Assume that all these results have been proven for a given value of 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and we shall prove them for 
+\begin_inset Formula $n+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We start by proving 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:3n1"
+
+\end_inset
+
+.
+ A set 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+-random iff it is MLR relative to 
+\begin_inset Formula $0^{(n)}$
+\end_inset
+
+ iff it is MLR relative to 
+\begin_inset Formula $\Omega^{0^{(n-1)}}\oplus0^{(n-1)}$
+\end_inset
+
+ iff it is 
+\begin_inset Formula $n$
+\end_inset
+
+-random relative to 
+\begin_inset Formula $\Omega^{0^{(n-1)}}$
+\end_inset
+
+.
+ By van Lambalgen's theorem for 
+\begin_inset Formula $n$
+\end_inset
+
+ (which is part of our induction hypothesis),
+ this happens iff 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random and 
+\begin_inset Formula $n$
+\end_inset
+
+-low for 
+\begin_inset Formula $\Omega^{0^{(n-1)}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Next,
+ we prove 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:3n2"
+
+\end_inset
+
+.
+ By relativizing Proposition 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:lowforomega"
+
+\end_inset
+
+,
+ we conclude:
+ If 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $X$
+\end_inset
+
+-low for 
+\begin_inset Formula $\Omega^{X}$
+\end_inset
+
+ then 
+\begin_inset Formula $(Z\oplus X)'\equiv Z\oplus X'$
+\end_inset
+
+.
+ Applying this to 
+\begin_inset Formula $X=0^{(n-1)}$
+\end_inset
+
+,
+ we get that if 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-low for 
+\begin_inset Formula $\Omega^{0^{(n-1)}}$
+\end_inset
+
+ then 
+\begin_inset Formula $(Z\oplus0^{(n-1)})'\equiv Z\oplus0^{(n)}$
+\end_inset
+
+.
+ Finally,
+ if 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+-random then it is 
+\begin_inset Formula $n$
+\end_inset
+
+-low for 
+\begin_inset Formula $\Omega^{(n-1)}$
+\end_inset
+
+,
+ so 
+\begin_inset Formula $(Z\oplus0^{(n-1)})'\equiv Z\oplus0^{(n)}$
+\end_inset
+
+,
+ and moreover 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random,
+ hence by IH the left-hand side is the same as 
+\begin_inset Formula $Z^{(n)}$
+\end_inset
+
+,
+ which provides the desired result.
+\end_layout
+
+\begin_layout Proof
+Finally,
+ we prove 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:3n3"
+
+\end_inset
+
+.
+ The relativization of van Lambalgen's theorem for Martin-Löf randomness is:
+ 
+\begin_inset Formula $A\oplus B$
+\end_inset
+
+ is 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+-random iff 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+-random and 
+\begin_inset Formula $B$
+\end_inset
+
+ is random rel 
+\begin_inset Formula $A\oplus0^{(n)}$
+\end_inset
+
+.
+ Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:3n2"
+
+\end_inset
+
+ for 
+\begin_inset Formula $n+1$
+\end_inset
+
+ (which we just proved) immediately gives us that 
+\begin_inset Formula $A^{(n)}\equiv A\oplus0^{(n)}$
+\end_inset
+
+ ,
+ hence randomness rel 
+\begin_inset Formula $A\oplus0^{(n)}$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+-randomness rel 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ which concludes the proof.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ we solve and generalize a couple exercises from Nies' book.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset FormulaMacro
+\newcommand{\symmetricdifference}{\mathbin{\triangle}}
+\end_inset
+
+If 
+\begin_inset Formula $Z$
+\end_inset
+
+ is 
+\begin_inset Formula $n$
+\end_inset
+
+-random and 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\begin_inset Formula $\Delta_{n}$
+\end_inset
+
+ then 
+\begin_inset Formula $Z\symmetricdifference A$
+\end_inset
+
+ is also 
+\begin_inset Formula $n$
+\end_inset
+
+-random.
+\end_layout
+
+\begin_layout Proof
+Given a 
+\begin_inset Formula $0^{(n-1)}$
+\end_inset
+
+-computable ML test 
+\begin_inset Formula $\{U_{n}\}_{n\in\N}$
+\end_inset
+
+,
+ we can define a 
+\begin_inset Formula $0^{(n-1)}$
+\end_inset
+
+-computable test 
+\begin_inset Formula $\{U_{n}^{\symmetricdifference A}\}_{n\in\N}$
+\end_inset
+
+ that consists of the same sets with the bits of 
+\begin_inset Formula $A$
+\end_inset
+
+ flipped.
+ Clearly,
+ 
+\begin_inset Formula $Z$
+\end_inset
+
+ passes the former test iff 
+\begin_inset Formula $Z\symmetricdifference A$
+\end_inset
+
+ passes the latter.
+ This is enough to prove the desired result.
+\end_layout
+
+\begin_layout Proof
+In hindsight this is just the relativization of the same result for 
+\begin_inset Formula $n=1$
+\end_inset
+
+.
+ Oops.
+\end_layout
+
+\begin_layout Proposition
+For 
+\begin_inset Formula $n\geq2$
+\end_inset
+
+ there is a weakly 
+\begin_inset Formula $n$
+\end_inset
+
+-random set 
+\begin_inset Formula $R$
+\end_inset
+
+ of 
+\begin_inset Formula $0^{(n-2)}$
+\end_inset
+
+-hyperimmune degree such that no set of the same Turing degree is 
+\begin_inset Formula $n$
+\end_inset
+
+-random.
+\end_layout
+
+\begin_layout Proof
+This is just the relativization of the result for 
+\begin_inset Formula $n=2$
+\end_inset
+
+,
+ which maybe is why Nies only states it as such.
+\end_layout
+
+\begin_layout Proof
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+wait,
+ I actually have no idea how to do this...
+ check solutions or ask Denis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Demuth Randomness
+\end_layout
+
+\begin_layout Definition
+An 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set/function is a limit-computable set/function for which there is a computable bound on the number of times that the computable approximation changes for each given 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+A 
+\emph on
+Demuth test
+\emph default
+ is a 
+\begin_inset Formula $\omega$
+\end_inset
+
+-uniform sequence of uniform opens 
+\begin_inset Formula $\{U_{n}\}_{n\in\N}$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $\mu(U_{n})\leq2^{-n}$
+\end_inset
+
+.
+ By 
+\begin_inset Formula $\omega$
+\end_inset
+
+-uniform we mean:
+ There is an 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+function 
+\begin_inset Formula $f\colon\N\to\N$
+\end_inset
+
+ such that 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+ is the 
+\begin_inset Formula $f(n)$
+\end_inset
+
+-th open.
+\end_layout
+
+\begin_layout Definition
+A set 
+\begin_inset Formula $Z$
+\end_inset
+
+ 
+\emph on
+passes
+\emph default
+ a Demuth test 
+\begin_inset Formula $\{U_{n}\}_{n\in\N}$
+\end_inset
+
+ if it is in only finitely many of the 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+So many parameters to tinker with here!
+ Why 
+\begin_inset Formula $\omega$
+\end_inset
+
+-uniform and not 
+\begin_inset Formula $n$
+\end_inset
+
+-uniform?
+ Why is the pass condition Solovay-like and not ML-like?
+ Also,
+ I get that the point is partially to eliminate 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+ sets like left-c.e.
+ sets,
+ but then we could consider replacing 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+ by 
+\begin_inset Formula $g(n)=2^{n}$
+\end_inset
+
+-c.e.
+ to exclude specifically the lce sets,
+ why not do that?
+ I guess that being 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+-c.e.
+ isn't closed under subsequences,
+ so van Lambalgen would be shot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Every 2-random set is Demuth random,
+ because every Demuth test can be turned into a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable ML test or Solovay test.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+Every Demuth random set is ML random,
+ because any ML test is also a Demuth test,
+ and the passing condition for Demuth tests is stronger than that for ML tests.
+\end_layout
+
+\begin_layout Remark
+Nies claims (but I believe does not prove
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+denissss
+\end_layout
+
+\end_inset
+
+) that there is no universal Demuth test.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+An 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $Z$
+\end_inset
+
+ is not Demuth random.
+ In particular,
+ any l.c.e.
+\begin_inset space \space{}
+\end_inset
+
+real,
+ including 
+\begin_inset Formula $\Omega$
+\end_inset
+
+,
+ is not Demuth random.
+\end_layout
+
+\begin_layout Proof
+For the first part of the proposition,
+ simply make a Demuth test 
+\begin_inset Formula $U_{n}=\downcl{Z\upto n}$
+\end_inset
+
+.
+ For the second part,
+ note that an l.c.e.
+ set is 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+because the 
+\begin_inset Formula $n$
+\end_inset
+
+-th bit changes at most 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ times.
+\end_layout
+
+\begin_layout Lemma
+There is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable function 
+\begin_inset Formula $q(e,n)$
+\end_inset
+
+ that enumerates all 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+functions,
+ in the sense that for any 
+\begin_inset Formula $\omega$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+function 
+\begin_inset Formula $g$
+\end_inset
+
+ there is an index 
+\begin_inset Formula $e$
+\end_inset
+
+ such that 
+\begin_inset Formula $g=q_{e}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Given input 
+\begin_inset Formula $e,n$
+\end_inset
+
+,
+ write 
+\begin_inset Formula $e=\braket{i,j}$
+\end_inset
+
+.
+ In this case,
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ is meant to represent the computable guesses,
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ is meant to represent the bound on number of changes.
+ Then,
+ check if 
+\begin_inset Formula $\varphi_{j}(n)$
+\end_inset
+
+ halts using 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+ If it doesn't,
+ output whatever.
+ If it does halt,
+ say with value 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ see what 
+\begin_inset Formula $\varphi_{i}$
+\end_inset
+
+ has to say about the value on 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Using 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ check if it changes its mind 
+\begin_inset Formula $k$
+\end_inset
+
+ or more times;
+ if so,
+ run it until it changes its mind for the 
+\begin_inset Formula $k$
+\end_inset
+
+-th time,
+ and output that.
+ If it changes its mind less than 
+\begin_inset Formula $k$
+\end_inset
+
+ times,
+ run it until it isn't going to change its mind anymore and output that.
+ There are some issues to deal with if it's nontotal but they're not too difficult to think around.
+\end_layout
+
+\begin_layout Proposition
+There is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable Demuth random set.
+\end_layout
+
+\begin_layout Proof
+First,
+ we show that 
+\begin_inset Formula $0'$
+\end_inset
+
+ computes all Demuth tests,
+ with some false positives,
+ in a specific way.
+ Nies calls this a 
+\emph on
+special test
+\emph default
+.
+\end_layout
+
+\begin_layout Proof
+First,
+ define the open sets 
+\begin_inset Formula $U_{\braket{e,n}}$
+\end_inset
+
+by:
+ Enumerate an open according to 
+\begin_inset Formula $q(e,n)$
+\end_inset
+
+,
+ but if its measure is about to exceed 
+\begin_inset Formula $2^{-n}$
+\end_inset
+
+,
+ stop.
+ Note that all Demuth tests are of the form 
+\begin_inset Formula $\{U_{\braket{e,n}}\}_{n\in\N}$
+\end_inset
+
+for some 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ though there may be values of 
+\begin_inset Formula $e$
+\end_inset
+
+ that don't correspond to a Demuth test.
+ (I suspect that if you build 
+\begin_inset Formula $q$
+\end_inset
+
+ appropriately this will not happen,
+ but this isn't relevant.) Now,
+ define 
+\begin_inset Formula $V_{n}=\cup_{e}U_{\braket{e,n+e}}$
+\end_inset
+
+.
+ This is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-uniform sequence of 
+\begin_inset Formula $0'$
+\end_inset
+
+-effective opens with measure 
+\begin_inset Formula $\mu(V_{n})\leq2\cdot2^{-n}$
+\end_inset
+
+.
+ ???
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+nyeh
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
