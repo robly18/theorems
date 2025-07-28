@@ -226,7 +226,7 @@ literal "false"
 \begin_inset Formula $\Delta_{2}$
 \end_inset
 
- permitting that there is a noncomputable linear order that is computed by every nonzero 
+ permitting that there is a noncomputable linear order that admits a presentation in every nonzero 
 \begin_inset Formula $\Delta_{2}$
 \end_inset
 
@@ -236,7 +236,7 @@ literal "false"
  Barmpalias,
  and Chisholm that Miller's proof actually extends cleanly to make usage of hyperimmune permitting instead,
  proving the stronger result:
- There is a noncomputable linear order that is computed by every hyperimmune degree.
+ There is a noncomputable linear order that is admits a presentation in every hyperimmune degree.
  In this document,
  I present the modified argument.
  I would like to make it clear that no new idea is introduced:
@@ -245,17 +245,8 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-I would like to thank Matthew Harrison-Trainor for being the introducing me to some of the most important ideas behind Miller's paper,
- notably the idea of 
-\begin_inset Formula $\Pi_{2}$
-\end_inset
-
- guesses.
-\end_layout
-
-\begin_layout Standard
 Besides this introduction,
- this document contains four sections sections:
+ this document contains four sections:
 \end_layout
 
 \begin_layout Itemize
@@ -278,7 +269,7 @@ and
 \begin_inset Formula $\Delta_{2}$
 \end_inset
 
- permitting in terms of sparse sets,
+ permitting in terms of fast-growing functions,
  which we then use to explain hyperimmune permitting and how to turn other types of permitting arguments into hyperimmune permitting arguments,
 \end_layout
 
@@ -306,7 +297,11 @@ nolink "false"
 \end_inset
 
  contain proofs of weaker results,
- scaffolding and leading up to Section 
+ scaffolding and leading up to
+\end_layout
+
+\begin_layout Itemize
+Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:final"
@@ -341,17 +336,11 @@ permitting is often described in the following terms.
 \begin_inset Formula $A$
 \end_inset
 
-,
- satisfying some non-computable properties,
- but that we wish to do so below a given noncomputable c.e.
-\begin_inset space \space{}
+ satisfying some properties that force 
+\begin_inset Formula $A$
 \end_inset
 
-set 
-\begin_inset Formula $C$
-\end_inset
-
-.
+ to be noncomputable.
  Perhaps the set 
 \begin_inset Formula $A$
 \end_inset
@@ -401,8 +390,20 @@ A priori
 
 .
  However,
- permitting gives us a way to modify the construction as to make it so that 
-\begin_inset Formula $A\leq C$
+ c.e.
+\begin_inset space \space{}
+\end_inset
+
+permitting (sometimes) gives us a way to modify the construction as to make it so that 
+\begin_inset Formula $A$
+\end_inset
+
+ is below a pre-established noncomputable c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $C$
 \end_inset
 
 ,
@@ -429,7 +430,7 @@ a priori
 \end_inset
 
 ) gives us permission,
- which consists of enumerating into 
+ which often consists of enumerating into 
 \begin_inset Formula $C$
 \end_inset
 
@@ -505,7 +506,7 @@ set in stone
 \end_inset
 
 ,
- so asking if 
+ so asking whether 
 \begin_inset Formula $x\in A$
 \end_inset
 
@@ -543,70 +544,588 @@ true stages
 
  are of great relevance,
  so we shall put them front and center.
- For convenience in what follows,
- let us imagine the construction of 
+ In the sequence,
+ assume implied a pre-established computable enumeration of 
 \begin_inset Formula $C$
 \end_inset
 
 ,
- not as an enumeration of elements of 
-\begin_inset Formula $\N$
+ and define 
+\begin_inset Formula $C\upto x$
 \end_inset
 
-,
- but instead as a string of zeros and ones built incrementally.
- When we enumerate an element 
+ to mean the string of length 
 \begin_inset Formula $x$
 \end_inset
 
- into 
-\begin_inset Formula $C$
-\end_inset
-
-,
- we imagine 
-\begin_inset Quotes eld
-\end_inset
-
-backspacing
-\begin_inset Quotes erd
-\end_inset
-
- up to the 
+ obtained by the first 
 \begin_inset Formula $x$
 \end_inset
 
--th position,
- where we previously had written a 0,
- and we now instead write a 1.
- We then proceed to rewrite everything else that we had written.
-\begin_inset Formula 
-\[
-S=\{t\in\N\mid\text{a new initial segment of \ensuremath{C} is correct}\}.
-\]
-
-\end_inset
-
-Note that 
-\begin_inset Formula $S$
-\end_inset
-
- is Turing equivalent to 
+ bits of 
 \begin_inset Formula $C$
 \end_inset
 
 .
- Now 
-\begin_inset Note Note
-status open
+ For each 
+\begin_inset Formula $x$
+\end_inset
 
-\begin_layout Plain Layout
-this is harder to write than expected...
-\end_layout
+,
+ define
+\begin_inset Formula 
+\[
+f(x)=\text{first stage where \ensuremath{C\upto x} is correct}.
+\]
 
 \end_inset
 
+This function is Turing equivalent to 
+\begin_inset Formula $C$
+\end_inset
 
+,
+ and for 
+\begin_inset Formula $C$
+\end_inset
+
+ noncomputable it has the property of growing faster than any computable function – or,
+ to be more precise,
+ not being dominated by any computable function.
+ We can also envision 
+\begin_inset Formula $f$
+\end_inset
+
+ as a slow-moving marker,
+ whose position at time 
+\begin_inset Formula $t$
+\end_inset
+
+ is 
+\begin_inset Formula $\mu x.f(x)>t$
+\end_inset
+
+;
+ in other words,
+ 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ represents the time it takes the marker to get past 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ This marker is very related to the notion of permitting described above:
+ An element that we attempt to add to 
+\begin_inset Formula $A$
+\end_inset
+
+ will get permission if,
+ and only if,
+ it is to the right of the marker at the moment we try to add it.
+\end_layout
+
+\begin_layout Standard
+This suggests that we may rephrase the construction of 
+\begin_inset Formula $A$
+\end_inset
+
+ in this language,
+ with 
+\begin_inset Formula $f$
+\end_inset
+
+ – or this fictitious marker – as the object around which the construction revolves.
+ However,
+ there is an obstacle:
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ is a noncomputable object,
+ and 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ while generally not computable,
+ does generally need to be generated by a computable process,
+ for example if we're trying to construct it to be c.e.
+ Thus,
+ we need to construct a computable 
+\begin_inset Quotes eld
+\end_inset
+
+shadow
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Formula $f$
+\end_inset
+
+ to perform the construction of 
+\begin_inset Formula $A$
+\end_inset
+
+ with,
+ which is the role that the enumeration of 
+\begin_inset Formula $C$
+\end_inset
+
+ plays in the construction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us now look at 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting,
+ this time starting with the 
+\begin_inset Quotes eld
+\end_inset
+
+fast function
+\begin_inset Quotes erd
+\end_inset
+
+ perspective.
+ Let 
+\begin_inset Formula $D$
+\end_inset
+
+ be a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable set,
+ which we envision as being the limit of a computable process 
+\begin_inset Formula $D_{s}$
+\end_inset
+
+.
+ Define
+\begin_inset Formula 
+\[
+g(x)=\text{first stage where \ensuremath{D\upto x} is correct}.
+\]
+
+\end_inset
+
+Again,
+ we envision 
+\begin_inset Formula $g$
+\end_inset
+
+ as a slow-moving marker,
+ and we commit ourselves to making no changes between the marker and 0.
+ This will ensure that the set that we build is computable from 
+\begin_inset Formula $g$
+\end_inset
+
+ and hence from 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ but again we have the same problem:
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ is a noncomputable object,
+ which is an issue if we're trying to construct a computable-ish object – for example,
+ a 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ set.
+ As before,
+ we use the enumeration 
+\begin_inset Formula $D_{s}$
+\end_inset
+
+ to provide a computable shadow of 
+\begin_inset Formula $g$
+\end_inset
+
+ on which we may base our construction,
+ though in this case the manner in which this computable shadow plays into the construction being performed is more complex than in the c.e.
+\begin_inset space \space{}
+\end_inset
+
+case.
+ We will not go in depth into the details of 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting here,
+ but the interested reader may consult Miller's paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "miller"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main difference between c.e.
+\begin_inset space \space{}
+\end_inset
+
+and 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting lies in the type of computable shadow we have for our slow-moving marker.
+ In the c.e.
+\begin_inset space \space{}
+\end_inset
+
+case,
+ this shadow is a reliable approximation from above of the position of the marker.
+ This leads to the possibility of constructing c.e.
+\begin_inset space \space{}
+\end_inset
+
+objects,
+ because if we're given permission to add something to the set we can be sure it will never be revoked,
+ though when permission is not given we can never be sure that it might not be given in a later date.
+ In the 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ case,
+ this shadow is a less reliable approximation,
+ which may sometimes say 
+\begin_inset Quotes eld
+\end_inset
+
+oops,
+ sorry,
+ you weren't supposed to get that permission after all
+\begin_inset Quotes erd
+\end_inset
+
+,
+ forcing us to roll back time and continue the process from a previous state,
+ though we do have the guarantee that,
+ for every moment in time,
+ we shall roll back to it finitely many times.
+ This means that the objects we can expect to construct are now limit-computable,
+ but not necessarily c.e.
+\end_layout
+
+\begin_layout Standard
+This brings us to hyperimmune permitting.
+ It is what happens if we decide that we don't need the set we are constructing to be c.e.
+\begin_inset space \space{}
+\end_inset
+
+or limit computable or anything of the like.
+ Hyperimmune permitting is what we get if we are trying to construct an object below a given degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ by committing to never modifying our set to the left of a slow-moving marker that 
+\begin_inset Formula $d$
+\end_inset
+
+ can compute.
+ Our process still needs to be a little computable – it needs to be controlled by a computable process with access to the position of the marker – but we no longer need to concern ourselves with computable shadows of the marker,
+ and can work with the marker itself.
+ The only restriction is that the marker has to be moving quite slowly,
+ or,
+ in terms of functions like we discussed in the case of c.e.
+\begin_inset space \space{}
+\end_inset
+
+and 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting,
+ the marker's position must be controlled by a function that is not dominated by any computable function.
+ Hence,
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ must be a hyperimmune degree.
+\end_layout
+
+\begin_layout Standard
+Since we do not need to concern ourselves with these computable shadows of fast-growing functions,
+ hyperimmune permitting is much simpler and less technical than the others.
+ In fact,
+ one wonders whether it's even fair to call it a permitting method – one may argue that the notion of 
+\begin_inset Quotes eld
+\end_inset
+
+computable shadows
+\begin_inset Quotes erd
+\end_inset
+
+ is what makes permitting be permitting in the first place – but it can be made to fit in the same framework,
+ hence presumably the name.
+\end_layout
+
+\begin_layout Standard
+To turn a c.e.
+\begin_inset space \space{}
+\end_inset
+
+or 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting argument into a hyperimmune permitting argument,
+ when applicable,
+ should be relatively easy:
+ throw away all the references to the computable shadow of the fast-growing function and replace them by references to the function itself.
+ This is what we have done to Russell Miller's argument.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before proceeding with the rest of the document,
+ we present another slightly different perspective.
+ Consider hyperimmune permitting as consisting of a computable process,
+ making use of a slow-moving marker,
+ that commits to never modifying anything past the marker.
+ Since we are constructing this object with full knowledge of the marker's position,
+ there is no need (as there is with c.e.
+\begin_inset space \space{}
+\end_inset
+
+and 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting) to committing or 
+\begin_inset Quotes eld
+\end_inset
+
+semi-committing
+\begin_inset Quotes erd
+\end_inset
+
+ to anything past the marker.
+ In other words,
+ we can envision the construction in the following different light:
+ Each time the marker moves,
+ we must commit to making a decision on all the elements the marker has just moved past.
+ Since the marker is assumed to move very slowly,
+ this corresponds to building our set or structure very deliberately,
+ with a lot of time between decisions.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ if we assume (with no loss of generality) that the marker moves at most one step at a time,
+ we can make this idea more notationally convenient by introducing the notion of a 
+\emph on
+true stage
+\emph default
+ 
+\begin_inset Formula $s$
+\end_inset
+
+ as a stage in which the marker has moved.
+ This extends the notion of the same name that is associated to c.e.
+\begin_inset space \space{}
+\end_inset
+
+or 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ permitting.
+ We should imagine the true stages as happening very sparsely.
+ Then,
+ we may envision hyperimmune permitting as:
+ We want to build an object bit-by-bit,
+ but we can never be quite sure of what is the next bit we want to add,
+ so in a vacuum we might take forever because we are paralyzed by indecision.
+ To stop this,
+ once in a while (that is,
+ at a true stage) someone will be shouting at us 
+\begin_inset Quotes eld
+\end_inset
+
+just make a choice already!
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and at this moment we send out our best guess for what the next bit might be,
+ and move on.
+ Over the course of this document,
+ this is how we envision hyperimmune permitting.
+ We make this description more rigorous in the following definition,
+ though our arguments will follow a structure closer to the informal description given in this paragraph.
+\end_layout
+
+\begin_layout Definition
+A 
+\emph on
+construction by hyperimmune permitting
+\emph default
+ 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is a computable funcion 
+\begin_inset Formula $\pi\colon2^{<\omega}\times\N\to2^{<\omega}$
+\end_inset
+
+ such that,
+ for each string 
+\begin_inset Formula $\sigma$
+\end_inset
+
+,
+ the 
+\begin_inset Formula $\sigma$
+\end_inset
+
+-section of 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is a computable sequence 
+\begin_inset Formula $\pi_{\sigma0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\pi_{\sigma1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\pi_{\sigma2}$
+\end_inset
+
+,
+ etc.
+\begin_inset space \space{}
+\end_inset
+
+all of whose elements 
+\emph on
+strictly
+\emph default
+ extend 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ but need not obey any other restrictions.
+ To such a computable function 
+\begin_inset Formula $\pi$
+\end_inset
+
+,
+ given a sequence 
+\begin_inset Formula $s_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $s_{2}$
+\end_inset
+
+,
+ etc.
+\begin_inset space \space{}
+\end_inset
+
+we assign the set 
+\begin_inset Formula $A(\{s_{n}\}_{n\in\N},\pi)$
+\end_inset
+
+ whose characteristic function is the limit of the sequence of strings defined by the following recursion:
+\begin_inset Formula 
+\[
+\begin{cases}
+\sigma_{0}=\varepsilon,\\
+\sigma_{n+1}=\pi_{\sigma_{n},s_{n}}.
+\end{cases}
+\]
+
+\end_inset
+
+Given a construction by hyperimmune permitting 
+\begin_inset Formula $\pi$
+\end_inset
+
+ and a hyperimmune degree 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ we assign a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable set 
+\begin_inset Formula $A(d,\pi)$
+\end_inset
+
+ (in a noncanonical way) as 
+\begin_inset Formula $A(\{s_{n}\}_{n\in\N},\pi)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\{s_{n}\}_{n\in\N}$
+\end_inset
+
+ is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable sequence witnessing the fact that 
+\begin_inset Formula $d$
+\end_inset
+
+ is hyperimmune.
+ We call such a sequence a sequence of 
+\emph on
+true stages
+\emph default
+.
 \end_layout
 
 \begin_layout Section
@@ -675,76 +1194,7 @@ Notably,
 \end_layout
 
 \begin_layout Proof
-We start by establishing a frame shift that will be useful to us in the sequence.
- If 
-\begin_inset Formula $d$
-\end_inset
-
- is a hyperimmune degree,
- then it computes a function 
-\begin_inset Formula $f$
-\end_inset
-
- with the property that it is not dominated by any computable function.
- Without loss of generality,
- we can assume 
-\begin_inset Formula $f$
-\end_inset
-
- to be injective and strictly increasing,
- and so we may think instead of 
-\begin_inset Formula $f$
-\end_inset
-
- as a 
-\begin_inset Quotes eld
-\end_inset
-
-sparse set
-\begin_inset Quotes erd
-\end_inset
-
- of natural numbers,
- 
-\begin_inset Formula $S=\im f$
-\end_inset
-
-.
- Now,
- if we imagine a process occurring in time indexed in the natural numbers,
- we refer to a stage 
-\begin_inset Formula $s$
-\end_inset
-
- in 
-\begin_inset Formula $S$
-\end_inset
-
- as a 
-\emph on
-true stage
-\emph default
-.
- In the context of hyperimmune permitting this is a bit idiosyncratic,
- but it is the natural extension of the corresponding nomenclature for c.e.
-\begin_inset space \space{}
-\end_inset
-
-and 
-\begin_inset Formula $\Delta_{2}$
-\end_inset
-
- permitting.
-\end_layout
-
-\begin_layout Proof
-Now,
- let us explain the algorithm to compute 
-\begin_inset Formula $B$
-\end_inset
-
-.
- Consider following along the construction of 
+Consider following along the construction of 
 \begin_inset Formula $L$
 \end_inset
 
@@ -909,7 +1359,7 @@ Since
 \begin_inset Formula $f$
 \end_inset
 
-.
+ that enumerates the true stages.
  In particular,
  there must be arbitrarily large values of 
 \begin_inset Formula $x$

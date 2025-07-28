@@ -1,0 +1,1237 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Math 306 Talk
+\begin_inset Newline newline
+\end_inset
+
+The Slaman-Wehner Theorem
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+May 14,
+ 2025
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Abstract
+\end_layout
+
+\begin_layout Standard
+In this talk,
+ I will give a brief introduction to the areas of Computable Model Theory and Computable Structure Theory,
+ with a focus on the latter.
+ I will introduce the audience to the so-called Slaman-Wehner Theorem,
+ which is an interesting result that roughly states that there is a countable graph 
+\begin_inset Formula $G$
+\end_inset
+
+ that encapsulates the property of being noncomputable,
+ in the following sense:
+ A Turing degree 
+\begin_inset Formula $d$
+\end_inset
+
+ can compute a copy of 
+\begin_inset Formula $G$
+\end_inset
+
+ iff 
+\begin_inset Formula $d\neq0$
+\end_inset
+
+.
+ This theorem has historically been proven in three different ways,
+ one due to Slaman,
+ one due to Wehner,
+ and more recently one based on results due to Hirschfeldt.
+ We will sketch the proof based on Hirschfeldt's results,
+ and use it to segue into a discussion of a related open problem (
+\begin_inset Quotes eld
+\end_inset
+
+the Slaman-Wehner Theorem for linear orders
+\begin_inset Quotes erd
+\end_inset
+
+) and my own current research interests.
+\end_layout
+
+\begin_layout Section
+Intro
+\end_layout
+
+\begin_layout Point
+Main resources:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Pure Computable Model Theory
+\begin_inset Quotes erd
+\end_inset
+
+ by Harizanov,
+\end_layout
+
+\begin_layout Itemize
+Unpublished book 
+\begin_inset Quotes eld
+\end_inset
+
+Computable Structure Theory:
+ A Unified Approach
+\begin_inset Quotes erd
+\end_inset
+
+ by Downey and Melnikov,
+\end_layout
+
+\begin_layout Itemize
+Original Sources.
+\end_layout
+
+\begin_layout Section
+Model Theory Recap
+\end_layout
+
+\begin_layout Point
+Have a language 
+\begin_inset Formula $\Lang$
+\end_inset
+
+,
+ theory 
+\begin_inset Formula $T$
+\end_inset
+
+ is a set of sentences (not necessarily closed under deduction),
+ a model (or structure) is a set 
+\begin_inset Formula $M$
+\end_inset
+
+ with interpretations for the symbols in 
+\begin_inset Formula $\Lang$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Example theorems:
+\end_layout
+
+\begin_layout Point
+Completeness:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a consistent theory then it admits a model.
+\end_layout
+
+\begin_layout Point
+Soundness:
+ The theory of a model 
+\begin_inset Formula $M$
+\end_inset
+
+ is consistent.
+\end_layout
+
+\begin_layout Point
+Atomic Model Theorem 1:
+ If a complete theory 
+\begin_inset Formula $T$
+\end_inset
+
+ admits countably many types,
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ admits an atomic model.
+\end_layout
+
+\begin_layout Point
+Atomic Model Theorem 2:
+ A complete theory 
+\begin_inset Formula $T$
+\end_inset
+
+ admits an atomic model iff every formula is in a principal/isolated type.
+\end_layout
+
+\begin_layout Section
+Computable Model Theory
+\end_layout
+
+\begin_layout Point
+See if theorems remain true when you put 
+\begin_inset Quotes eld
+\end_inset
+
+computable
+\begin_inset Quotes erd
+\end_inset
+
+ in front of it.
+\end_layout
+
+\begin_layout Point
+Ex.
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable consistent theory,
+ does it admit a computable model?
+\end_layout
+
+\begin_layout Point
+Some words on computable language,
+ enumeration of formulas,
+ etc.
+\end_layout
+
+\begin_layout Point
+Needs thinking about what 
+\begin_inset Quotes eld
+\end_inset
+
+computable model
+\begin_inset Quotes erd
+\end_inset
+
+ means,
+ which is the main split between CMT and CST.
+\end_layout
+
+\begin_layout Point
+Define computable model,
+ computable structure.
+\end_layout
+
+\begin_layout Point
+Theorem 1:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable consistent theory,
+ it needn't have a computable model,
+ nor even a computable structure.
+\end_layout
+
+\begin_layout Point
+Theorem 2 (Computable completeness):
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable consistent 
+\emph on
+complete
+\emph default
+ theory,
+ it admits a computable model.
+\end_layout
+
+\begin_layout Point
+Theorem 3:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable consistent theory,
+ it admits a PA model.
+ This is optimal:
+ There exists a computable consistent theory all of whose 
+\emph on
+structures
+\emph default
+ are PA.
+\end_layout
+
+\begin_layout Point
+The result will be kind of cheat-y,
+ but the following theorem proves that this is the best we can do:
+\end_layout
+
+\begin_layout Point
+Theorem 4:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computable consistent theory such that the relation 
+\begin_inset Formula $P(\varphi)\equiv(T\vdash\varphi)$
+\end_inset
+
+ is computable,
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ admits a computable consistent completion.
+\end_layout
+
+\begin_layout Point
+Sketch proofs of these theorems.
+ T3 implies T1,
+ so focus on T2,
+ T3,
+ T4.
+\end_layout
+
+\begin_layout Point
+T4:
+ Enumerate all sentences 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+,
+ and iteratively decide whether each is in 
+\begin_inset Formula $T'$
+\end_inset
+
+ or not by asking whether 
+\begin_inset Formula $T\vdash(\pm\varphi_{0}\land\dots\pm\varphi_{n-1})\rightarrow\varphi_{n}$
+\end_inset
+
+ or 
+\begin_inset Formula $T\vdash(\pm\varphi_{0}\land\dots\pm\varphi_{n-1})\rightarrow\neg\varphi_{n}$
+\end_inset
+
+.
+ If either of these holds,
+ put that one.
+ If neither holds,
+ do whatever.
+ Will show that both cannot happen atst.
+\end_layout
+
+\begin_layout point
+Computable:
+ Obvious.
+ Complete:
+ Obvious.
+ Consistent:
+ If 
+\begin_inset Formula $T'\vdash\bot$
+\end_inset
+
+ then there is 
+\begin_inset Formula $n$
+\end_inset
+
+ minimal such that 
+\begin_inset Formula $T\vdash(\pm\varphi_{0}\land\dots\land\pm\varphi_{n})\rightarrow\bot$
+\end_inset
+
+.
+ In other words,
+ 
+\begin_inset Formula $T\vdash(\pm\varphi_{0}\land\dots\land\pm\varphi_{n-1})\rightarrow\mp\varphi_{n}$
+\end_inset
+
+,
+ which means that we should have decided to put 
+\begin_inset Formula $\mp\varphi_{n}$
+\end_inset
+
+,
+ not 
+\begin_inset Formula $\pm\varphi_{n}$
+\end_inset
+
+.
+ If we did put 
+\begin_inset Formula $\pm\varphi_{n}$
+\end_inset
+
+,
+ that must be because 
+\begin_inset Formula $T\vdash(\pm\varphi_{0}\land\dots\land\pm\varphi_{n-1})\rightarrow\pm\varphi_{n}$
+\end_inset
+
+ and this contradicts minimality of 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Something something 
+\begin_inset Formula $n=-1$
+\end_inset
+
+ but 
+\begin_inset Formula $T$
+\end_inset
+
+ consistent whatever.
+\end_layout
+
+\begin_layout Point
+T2:
+ Effective Henkin construction.
+ Actually only using assumptions of T4.
+ Add countably many constants and existential witness sentences.
+ Show that the result still has decidable deduction by using standard 
+\begin_inset Quotes eld
+\end_inset
+
+remove constants
+\begin_inset Quotes erd
+\end_inset
+
+ trick to reduce to (effective) finite number of additional axioms,
+ in which case can use implication trick.
+ Complete the result.
+ Obtain model given by constants.
+\end_layout
+
+\begin_layout Point
+T3p1:
+ Strategy is to show that 
+\begin_inset Formula $T$
+\end_inset
+
+ has a PA completion,
+ and apply relativized T2.
+ Define PA degree as one that completes the universal 
+\series bold
+zero-one valued function
+\series default
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+ Define a partial computable function which,
+ given a sequence of choices for 
+\begin_inset Formula $\pm\varphi_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\pm\varphi_{n}$
+\end_inset
+
+,
+ tries to decide what 
+\begin_inset Formula $\pm\varphi_{n+1}$
+\end_inset
+
+ should be,
+ using the fact that the relation 
+\begin_inset Formula $P(\varphi)$
+\end_inset
+
+ is necessarily c.e.
+ This makes a decision whenever a decision is forced,
+ but we are immobilized whenever either alternative works.
+ The completion takes care of this issue,
+ which finishes the proof.
+\end_layout
+
+\begin_layout Point
+T3p2:
+ Consider a language consisting of countably many zeroary predicate constants 
+\begin_inset Formula $P_{en}$
+\end_inset
+
+.
+ Enumerate an axiom 
+\begin_inset Formula $\pm P_{en}$
+\end_inset
+
+ into 
+\begin_inset Formula $T$
+\end_inset
+
+ for each computed value of 
+\begin_inset Formula $\varphi(n)$
+\end_inset
+
+.
+ A consistent completion of 
+\begin_inset Formula $T$
+\end_inset
+
+ will then make a decision on every 
+\begin_inset Formula $P_{en}$
+\end_inset
+
+ and then compute a completion of 
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+ Any structure of this theory will have its own interpretation of the 
+\begin_inset Formula $P_{en}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+If you feel like this is cheating,
+ you can instead consider 
+\begin_inset Formula $P$
+\end_inset
+
+ to be a single binary predicate,
+ and encode the natural numbers into your language using something like 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $S(0)$
+\end_inset
+
+,
+ etc.
+ This even gets you a counterexample in a finite language.
+\end_layout
+
+\begin_layout Point
+This theory is c.e,
+ not computable,
+ but you can get around this by using the 
+\begin_inset Formula $P\land\dots\land P$
+\end_inset
+
+ trick.
+\end_layout
+
+\begin_layout point
+Remark:
+ You might feel that this trick is cheating and try to get rid of such loopholes.
+ My attempts at doing so lead to T4.
+ 
+\end_layout
+
+\begin_layout Point
+If you want a computable consistent theory all of whose 
+\emph on
+models
+\emph default
+ have PA degree,
+ you can do simpler by using PA.
+\end_layout
+
+\begin_layout Point
+You can also get this result for structures by using PA + existence of a nonstandard element.
+ Remark that 
+\begin_inset Formula $\N$
+\end_inset
+
+ is simple as a structure but complicated as a model if you haven't already.
+\end_layout
+
+\begin_layout Point
+Observe that the proof of T3 can be reconceptualized by using a binary 
+\begin_inset Quotes eld
+\end_inset
+
+choice tree
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Juxtapose with theorem:
+ 
+\begin_inset Formula $d$
+\end_inset
+
+ computes a path through any computable tree iff 
+\begin_inset Formula $d$
+\end_inset
+
+ is PA.
+\end_layout
+
+\begin_layout Point
+Let's look at the Atomic Model Theorem under the computable light.
+ We've seen that there is more than one way to reinterpret a theorem computably.
+ Here are two ways to reinterpret AMT1:
+\end_layout
+
+\begin_layout Point
+CAMT1:
+ Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a complete computable theory that admits an atomic model.
+ Then,
+ 
+\begin_inset Formula $T$
+\end_inset
+
+ admits a computable atomic model iff there is a computable listing of the principal types of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+This theorem is true,
+ and is a striaghtforward effectivization of the classical proof.
+\end_layout
+
+\begin_layout Point
+CAMT2:
+ If complete theory 
+\begin_inset Formula $T$
+\end_inset
+
+ has all its types computable,
+ then does it admit a computable atomic model?
+ Not necessarily!
+\end_layout
+
+\begin_layout Point
+True result,
+ which is interesting:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a complete computable theory with all types computable,
+ it needn't admit a computable atomic model.
+ However,
+ for any 
+\begin_inset Formula $d\neq0$
+\end_inset
+
+ there will be a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable atomic model of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Proof sketch:
+ By CAMT1,
+ it suffices to find a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable listing of the principal types.
+ Some model theory work translates this result to a question about trees:
+ If 
+\begin_inset Formula $T'$
+\end_inset
+
+ is a binary tree with no dead ends,
+ and whose paths are all computable,
+ then any 
+\begin_inset Formula $d\neq0$
+\end_inset
+
+ will compute a listing of the isolated paths of 
+\begin_inset Formula $T'$
+\end_inset
+
+.
+ Hirschfeldt (2006) proved that this is the case by a cute argument.
+ (Do the argument?)
+\end_layout
+
+\begin_layout Point
+Likewise,
+ to show that this result is optimal,
+ we need to show that there is a complete computable theory all of whose types are all computable,
+ but that does not admit a computable atomic model.
+ By CAMT1,
+ this is the same as not admitting a listing of principal types,
+ and by a similar translation arguments the question is reduced affirmatively to a construction due to Millar (1978):
+\end_layout
+
+\begin_layout Point
+Theorem:
+ There exists a computable tree with no dead ends,
+ all of whose paths are computable,
+ but that does not admit a computable listing of all isolated paths.
+\end_layout
+
+\begin_layout point
+The construction is a straightforward diagonalization-type construction once you understand what's going on.
+ Maybe you should do it.
+\end_layout
+
+\begin_layout Section
+Computable Structure Theory
+\end_layout
+
+\begin_layout Point
+Talk about how 
+\begin_inset Formula $\N$
+\end_inset
+
+ is complicated as a model but we think it should be simple,
+ and indeed it is simple as a structure.
+\end_layout
+
+\begin_layout Point
+Early example (Tennenbaum,
+ ????):
+ There is a computable copy of 
+\begin_inset Formula $(\omega+\omega^{*},<)$
+\end_inset
+
+ that admits no computable monotone sequence.
+\end_layout
+
+\begin_layout Point
+Explain why this is surprising:
+ Any infinite linear order admits a monotone sequence,
+ and it's not hard to find such a sequence for any computable copy of 
+\begin_inset Formula $\omega$
+\end_inset
+
+ or 
+\begin_inset Formula $\Z$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Proof sketch:
+ Finite injury argument.
+ Build two sequences like 
+\begin_inset Formula $\rightarrow\leftarrow$
+\end_inset
+
+,
+ but in parallel look at 
+\begin_inset Formula $\Phi_{n}$
+\end_inset
+
+ for every 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ For example,
+ once you find 
+\begin_inset Formula $\Phi_{0}(0)<\Phi_{0}(1)$
+\end_inset
+
+,
+ say,
+ retroactively commit to putting the latter in the 
+\begin_inset Quotes eld
+\end_inset
+
+wrong
+\begin_inset Quotes erd
+\end_inset
+
+ side of the infinity.
+ Repeat for 
+\begin_inset Formula $\Phi_{1}$
+\end_inset
+
+,
+ making sure not to break the previous one.
+ The issue is that eventually one of them may be nontotal and you'll be waiting forever.
+ Thus,
+ you commit to dealing with them as they come,
+ but in order to prevent runaway issues,
+ you let 
+\begin_inset Formula $\Phi_{n}$
+\end_inset
+
+ override the decisions made by 
+\begin_inset Formula $\Phi_{N}$
+\end_inset
+
+ for 
+\begin_inset Formula $N>n$
+\end_inset
+
+ (though not for 
+\begin_inset Formula $N<n$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout point
+Comment on the different flavor of proof maybe?
+\end_layout
+
+\begin_layout Point
+Speaking of 
+\begin_inset Formula $(\omega+\omega^{*},<)$
+\end_inset
+
+,
+ we can use Tennenbaum's theorem to observe an interesting property of this structure:
+ It is not computably categorical.
+ In other words,
+ there are two computable copies of this structure between which there is no computable isomorphism.
+\end_layout
+
+\begin_layout Point
+The story is different for structures with more 
+\begin_inset Quotes eld
+\end_inset
+
+rigidity
+\begin_inset Quotes erd
+\end_inset
+
+.
+ For example,
+ the structure 
+\begin_inset Formula $(\omega+\omega^{*},<,S)$
+\end_inset
+
+ 
+\emph on
+is
+\emph default
+ computably categorical,
+ because you map an element to any other and then make the entire structure grow with the successor relation.
+\end_layout
+
+\begin_layout Point
+Another computably categorical structure is 
+\begin_inset Formula $(\Q,<)$
+\end_inset
+
+ by the standard categoricity argument.
+\end_layout
+
+\begin_layout point
+Trivia Theorem (Dzgoev,
+ 1978):
+ A computable linear linear order is computably categorical iff it admits a finite number of adjacencies.
+\end_layout
+
+\begin_layout Section
+Slaman-Wehner
+\end_layout
+
+\begin_layout Point
+Richter (1981) published an influential paper called 
+\begin_inset Quotes eld
+\end_inset
+
+Degrees of Structures
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The idea is that one can attempt to measure how complicated a structure is (as opposed to a 
+\emph on
+presentation
+\emph default
+ of a structure) by asking for the lowest degree that computes an isomorphic copy of said structure.
+\end_layout
+
+\begin_layout Point
+In her paper,
+ she concluded that this does not always make sense.
+ One of her results is the following:
+\end_layout
+
+\begin_layout Point
+Theorem (Richter,
+ 1981):
+ If a linear order 
+\begin_inset Formula $L$
+\end_inset
+
+ has a degree,
+ it is 
+\begin_inset Formula $0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Proof sketch:
+ If 
+\begin_inset Formula $L$
+\end_inset
+
+ is noncomputable,
+ one can build two copies of it that form a minimal pair.
+ In fact,
+ for any copy of 
+\begin_inset Formula $L$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ one can find another copy,
+ say 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ form a minimal pair.
+\end_layout
+
+\begin_layout point
+This is done by building 
+\begin_inset Formula $B$
+\end_inset
+
+ by a sort of FEM.
+ If audience is uncomfortable,
+ maybe sketch the usual proof for:
+ Given any noncomputable set,
+ there is another set that forms a minimal pair with.
+ Remember,
+ you are diagonalizing against:
+ 
+\begin_inset Formula $\varphi_{e}^{A}=\varphi_{i}^{B}$
+\end_inset
+
+ noncomputable.
+\end_layout
+
+\begin_layout Point
+This means that,
+ generically,
+ a structure's complexity cannot be characterized by a single degree,
+ but rather a 
+\begin_inset Quotes eld
+\end_inset
+
+degree
+\begin_inset Quotes erd
+\end_inset
+
+ spectrum.
+ Some amount of ink has been spilled in attempting to determine what degree spectra can look like,
+ and this is still an active area of research.
+\end_layout
+
+\begin_layout Point
+Simple-looking spectra,
+ like cones,
+ are easy to come by – Richter's paper shows that for every degree 
+\begin_inset Formula $d$
+\end_inset
+
+ there is a graph,
+ an abelian group,
+ and a poset whose degree spectrum are exactly 
+\begin_inset Formula $\braket d$
+\end_inset
+
+.
+ A result by Knight (1986) states that,
+ for a finite language,
+ the spectrum of any nontrivial structure (for a very strict sense of trivial) is upper-closed.
+\end_layout
+
+\begin_layout Point
+On the other hand,
+ other types of simple-looking spectra are shown to be impossible:
+ Knight (unpublished) proved that the union of 
+\begin_inset Formula $2\leq n\leq\aleph_{0}$
+\end_inset
+
+ cones is 
+\emph on
+not
+\emph default
+ the degree spectrum of any structure.
+\end_layout
+
+\begin_layout Point
+Some time in the 90's,
+ Lempp asked whether there might be a structure whose spectrum consists of exactly the noncomputable degrees.
+ In 1998,
+ in back-to-back papers,
+ Slaman and Wehner answered this question in the affirmative,
+ with distinct proofs.
+ Slaman builds this structure directly,
+ while Wehner instead builds an intermediate family of sets and then encodes said sets in a structure.
+ A similar family of sets can be recovered by Hirschfeldt's 2009 result.
+ I will provide a proof of Slaman-Wehner's theorem based on that.
+\end_layout
+
+\begin_layout Point
+Let 
+\begin_inset Formula $T_{\mathrm{M}}$
+\end_inset
+
+ be the tree constructed by Millar,
+ so that there is no computable listing of its paths.
+ By Hirschfeldt's result,
+ a degree 
+\begin_inset Formula $d$
+\end_inset
+
+ computes a listing of the paths of 
+\begin_inset Formula $T_{\mathrm{M}}$
+\end_inset
+
+iff 
+\begin_inset Formula $d\neq0$
+\end_inset
+
+.
+ Thus,
+ it suffices to perform a construction,
+ similar to Wehner,
+ that encodes a family of sets as a structure such that listing the family of sets 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ computing a copy of the structure.
+\end_layout
+
+\begin_layout Point
+Wehner did an ad-hoc kind of thing,
+ but we'll do a graph just so that instead of an abstract structure we have a very concrete thing:
+ A graph such that a copy of it is computed by exactly the noncomputable degrees.
+\end_layout
+
+\begin_layout Point
+For each set 
+\begin_inset Formula $X$
+\end_inset
+
+ in our listing,
+ add a thing that looks like:
+ A 5-cycle,
+ connected to a countably long string,
+ and at the 
+\begin_inset Formula $n$
+\end_inset
+
+-th node you add a 
+\begin_inset Formula $3$
+\end_inset
+
+-cycle if 
+\begin_inset Formula $n\in X$
+\end_inset
+
+ and a 4-cycle if 
+\begin_inset Formula $n\notin X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Theorem (Slaman-Wehner):
+ There is a graph 
+\begin_inset Formula $G$
+\end_inset
+
+ whose spectrum is exactly the noncomputable degrees.
+\end_layout
+
+\begin_layout Section
+Next Steps
+\end_layout
+
+\begin_layout Point
+The Slaman-Wehner theorem generates a list of interesting questions:
+ For any given type of structure,
+ we can ask whether there is a structure of that type whose spectrum is exactly the noncomputable degrees.
+\end_layout
+
+\begin_layout Point
+Results aren't always positive.
+ For example,
+ we know that there is no such theorem for Boolean algebras,
+ due to the following theorem due to Downey and Jockusch (1994):
+ Every Boolean algebra that admits a low representation also admits a computable representation.
+\end_layout
+
+\begin_layout Point
+This is a longstanding open question for linear orders:
+ Does there exist a noncomputable linear order that admits copies in every noncomputable oracle?
+\end_layout
+
+\begin_layout Point
+Some of my current research projects are related to this question,
+ motivated by an approach idea due to Schweber:
+\end_layout
+
+\begin_layout Point
+Question (Schweber):
+ Does there exist a PAC tree such that the linear order on its isolated paths is noncomputable?
+\end_layout
+
+\begin_layout Point
+An affirmative answer to this question would solve SW for linear orders,
+ though I believe that consensus is (weakly) that the answer is no.
+\end_layout
+
+\begin_layout Point
+Schweber showed that,
+ even if this is true,
+ this result cannot be uniform,
+ in the sense that there is no algorithm that turns a PAC tree into a presentation for its order.
+ However,
+ his argument strongly exploits finitely branching PAC trees,
+ so it may be the case that there is a uniform algorithm that solves the problem for infinitely branching PAC trees.
+\end_layout
+
+\end_body
+\end_document

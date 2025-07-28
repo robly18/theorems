@@ -1,0 +1,205 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\DeclarePairedDelimiter{\abs}\lvert\rvert
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\intercal}
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\frakB}{\mathfrak{B}}
+
+\pagestyle{headandfoot}
+\runningheader{MATH 19620 Section 42}{Final Exam}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Exam
+
+MATH 19620 - Section 42
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+May 29, 2025
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item Answer the following questions in the provided examination book.
+
+\item Write the number of the question you are answering at the start of your solution, and ensure that your final answer is clearly delineated.
+
+\item Write your name and UCID in the cover page of the examination book. You may ask for additional paper if necessary.
+
+\item Unless otherwise specified, you do not need to justify your answers.
+
+\item This exam is graded out of \numpoints\ points.
+\end{itemize}
+}
+}
+\end{center}
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item Change of basis: $[\vec x]_\frakB = S^{-1} \vec x$, $A = S [A]_\frakB S^{-1}$.
+\item $\det(AB) = \det A \det B$, $\det(A^{-1}) = 1/\det A$, $\det A^\tr = \det A$.
+\item Laplace Expansion: $\det A = \sum_i (-1)^{i+j} a_{ij} \det A_{ij}$.
+\item Quadratic formula: $ax^2 + bx + c = 0$ solved by $x = \frac{-b\pm\sqrt{b^2 -4ac}}{2a}$.
+\item Polar form: $z = r \e^{\I \theta} = r \cos(\theta) + \I r \sin(\theta)$ where $r = \abs z$ and $\theta$ is a real number.
+\item Projection on line spanned by unit vector $\vec u$: $\vec u \vec u^\tr$.
+\item Projection on plane perpendicular to unit vector $\vec u$: $I - \vec u \vec u^\tr$.
+\item Reflection: $2P-I$, where $P$ is projection.
+\item 2d dynamical system with complex eigenvalues: If $A$ has eigenvalues $\lambda_\pm = r \e^{\pm \I \theta}$ with eigenvectors $\vec v \pm \I \vec w$ then
+\[A^t = r^t S \begin{bmatrix}
+\cos(\theta t) & -\sin(\theta t) \\
+\sin(\theta t) & \cos(\theta t)
+\end{bmatrix}
+S^{-1},\text{ where } S = \begin{bmatrix}
+\vphantom{\begin{bmatrix}w\\w\end{bmatrix}}\vec w & \vec v
+\end{bmatrix}.\]
+\item Angle between $\vec v$ and $\vec w$: $\theta = \arccos\left(\frac{\vec v \cdot \vec w}{\Norm{\vec v} \Norm{\vec w}}\right)$.
+\end{itemize}
+
+%\hrule
+
+\qformat{\textbf{Exercise \thequestion} \quad (Total: \totalpoints \ points)\hfill}
+
+\begin{questions}
+
+\newpage
+
+\section*{Part A -- General Linear Algebra}
+
+\question
+
+Consider the matrices
+\[A = \begin{bmatrix}
+1 & 2 & 3 \\
+2 & 4 & 6
+\end{bmatrix}, \;
+B = \begin{bmatrix}
+1 & -1 & 1 \\
+2 & -1 & -1 \\
+3 & -2 & 0
+\end{bmatrix}
+\text{ and }
+C = \begin{bmatrix}
+4 & -3 & 1 \\
+-1 & 1 & -1
+\end{bmatrix}.\]
+
+\begin{parts}
+\part[30] Do any of these matrices have the same kernel? Justify your answer.
+\part[15] Do any of these matrices have the same image? Justify your answer.
+\part[15] Consider the linear equation $A \vec x = \vec b$, where $A$ is the matrix above. For what values of $\vec b$ does this equation:
+\begin{itemize}
+\item have exactly one solution?
+\item have infinitely many solutions?
+\item have no solutions?
+\end{itemize}
+\end{parts}
+ 
+\question Let $\vec v_1 = (1,2,3,1)$ and $\vec v_2 = (1,3,4,2)$ be two vectors in $\R^4$.
+\begin{parts}
+\part[5] Verify that $\vec v_1$ and $\vec v_2$ forms a basis of $V = \mathrm{span}(\vec v_1, \vec v_2)$.
+\part[10] Determine if the following vectors are in $V$. In the affirmative case, write the coordinates in this basis of $V$.
+\[\vec x_1 = (0,1,1,2), \quad \vec x_2 = (1,1,2,0).\]
+\part[10] Given vectors $\vec w_1, \dots, \vec w_k$ in $\R^n$, the dimension of $\mathrm{span}(\vec w_1,\dots,\vec w_k)$ is (choose one):
+\begin{itemize}
+\item equal to $n$,
+\item equal to $k$,
+\item not enough information,
+\item other.
+\end{itemize}
+Justify your answer.
+\part[15] Set $\vec v_3 = (0,0,1,0)$ and $\vec v_4 = (0,0,0,1)$. It is given that $\frakB = \{\vec v_1, \vec v_2, \vec v_3, \vec v_4\}$ form a basis of $\R^4$. Let $\vec x = (a,b,c,d)$. Write a fully simplified expression for $[\vec x]_\frakB$.
+\end{parts}
+
+\question
+\begin{parts}
+\part[15] Consider the matrix of rotation by $45^\circ$ around the $z$ axis:
+\[Q = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & \frac 1{\sqrt 2} & -\frac1{\sqrt 2}\\
+0 & \frac 1{\sqrt 2} & \frac1{\sqrt 2}
+\end{bmatrix}\]
+and the vector $\vec v = (1,1,1)$. Compute the angle between $\vec v$ and $Q\vec v$. Write your answer in exact form, which could be entered into a calculator.
+\part[15] Let $T(\vec x) = A\vec x$ be an invertible linear transformation. We say that $T$ is \emph{orientation preserving} if $\det A > 0$, and \emph{orientation reversing} if $\det A < 0$. Show that the composition of two orientation reversing transformations is orientation preserving.
+\part[20] A certain region $R$ of $\R^3$ has volume equal to 5. A certain $3\times 3$ matrix $B$ satisfies the equation $B^3 = -I$. What is the volume of $BR$, the region obtained by multiplying every element of $R$ by the matrix $B$?
+%\part[15] Let $A$ be an $n\times n$ matrix. What is the relation between $\det A$ and $\det(-A)$? \textit{Hint: It may be useful to remember the effect of row operations on the determinant of a matrix.}
+\end{parts}
+
+\newpage
+
+
+\section*{Part B -- Spectral Theory}
+
+\question[50] Diagonalize the matrix
+\[A = \begin{bmatrix}
+3 & 0 & 0 \\
+-2 & 5 & 4 \\
+2 & -2 & -1
+\end{bmatrix}.
+\]
+%NB: Eigenvalues are 1,3,3 and eigenvectors are, resp:
+%0,1,-1
+%1,1,0
+%2,0,1
+
+\question Consider a Fibonacci-like sequence defined by
+\[\begin{cases}
+a_0 = 0,\\
+a_1 = 1,\\
+a_{n+2}=-a_n+\frac52 a_{n+1}.
+\end{cases}\]
+
+\begin{parts}
+\part[10] The vectors $\vec x(t) = (a_t, a_{t+1})$, for $t=0,1,2,\dots$ form a linear discrete dynamical system. Find the matrix $A$ associated to this system.
+\part[35] The matrix you found may be diagonalized as $A = SDS^{-1}$, with
+\[S = \begin{bmatrix}
+\frac12 & 2 \\
+1 & 1
+\end{bmatrix}, \;
+D = \begin{bmatrix}
+2 & 0 \\
+0 & \frac12
+\end{bmatrix}, \text{ and }
+S^{-1} = \frac13 \begin{bmatrix}
+-2 & 4 \\
+2 & -1
+\end{bmatrix}.\]
+
+Using this information, write an explicit expression for $\vec x(t)$. Use this to write an explicit expression for the sequence $a_n$, and show that $a_n \to \infty$.
+\part[20] A friend of yours claims that, by choosing the right values of $a_0$ and $a_1$ (but preserving the rule for $a_{n+2}$), with neither value being zero, it is possible to make it so that $a_n \to 0$ instead. Is this statement true or false? Justify your answer.
+\end{parts}
+
+\question Determine whether each of the following statements is true or false. Justify your answer.
+\begin{parts}
+\part[10] If $A$ is a matrix that admits $\vec e_1, \dots, \vec e_n$ as an eigenbasis, then $A$ is diagonal.
+\part[10] If $A$ is a $4\times 4$ matrix that admits the vectors $(1,1,0,0
+)$, $(0,1,1,0)$, $(0,0,1,1)$, and $(1,0,0,1)$ as an eigenbasis, then $A$ cannot be a diagonal matrix.
+\part[15] There is a value of $x$ for which the matrix
+\[B_x = \begin{bmatrix}
+x-3 & 0 \\
+x^2-5x+4 & 1
+\end{bmatrix}\]
+is \emph{not} diagonalizable.
+%\part[15] A rotation matrix $\left[\begin{smallmatrix} \sin\alpha & -\cos\alpha \\ \cos\alpha & \sin\alpha\end{smallmatrix}\right]$ is always diagonalizable.
+\end{parts}
+\end{questions}
+\end{document}

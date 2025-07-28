@@ -1,0 +1,911 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Grad Logic+
+\nospellcheck on
+Combi
+\nospellcheck default
+ Seminar
+\begin_inset Newline newline
+\end_inset
+
+
+\size larger
+A Broad Overview of Computability Theory
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+May 5,
+ 2025
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Abstract
+\end_layout
+
+\begin_layout Standard
+Previously,
+ I gave a talk in this seminar titled 
+\begin_inset Quotes eld
+\end_inset
+
+A Biased Primer on Modern Computability Theory
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It was relatively detailed,
+ contained some proofs,
+ and was focused on specific examples.
+ This talk will be a sort of dual talk:
+ I will give a very broad (and oversimplified) overview of the geography of Cantor Space,
+ from the perspective of computability theory.
+\end_layout
+
+\begin_layout Standard
+Cantor Space (2^N) is the collection of all subsets of N.
+ Computability theory places a preorder on this space by defining A
+\backslash
+
+\nospellcheck on
+leq
+\nospellcheck default
+ B if there is a computer program that computes A given access to B as an oracle.
+ This preorder called 
+\begin_inset Quotes eld
+\end_inset
+
+Turing Reducibility
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and Cantor Space modded out by Turing Equivalence is called 
+\begin_inset Quotes eld
+\end_inset
+
+the set of degrees
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which has a good claim to being called 
+\begin_inset Quotes eld
+\end_inset
+
+the world of computability theory
+\begin_inset Quotes erd
+\end_inset
+
+.
+ (It does not have a bulletproof claim,
+ however.
+ There are other spaces that computability theory can take place in – Baire Space N^N being another common choice – and even within Cantor Space there are other notions of reducibility that divide up the space in coarser or finer ways.)
+\end_layout
+
+\begin_layout Standard
+Assuming for the sake of simplification that Cantor Space mod Turing Reducibility is the world of computability theory,
+ I will be giving a brief introduction to its geography,
+ dividing it up into four (three?
+ five?) 
+\begin_inset Quotes eld
+\end_inset
+
+continents
+\begin_inset Quotes erd
+\end_inset
+
+ that correspond to distinct areas of Computability Theory and trying to give a flavor of what each of them is about (to the best of my ability).
+\end_layout
+
+\begin_layout Section
+Broad Overview
+\end_layout
+
+\begin_layout Point
+Draw the standard picture.
+ Continents:
+ Randomness,
+ Genericity,
+ (Hyper)Arithmetic Hierarchy (as an ocean?),
+ Higher Recursion Theory,
+ 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ contains c.e.
+\begin_inset space \space{}
+\end_inset
+
+contains 
+\begin_inset Formula $0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Much wider than it is tall.
+\end_layout
+
+\begin_layout Point
+Bring out books associated to each.
+\end_layout
+
+\begin_layout point
+Soare is like a book about NY dedicated entirely to Manhattan.
+\end_layout
+
+\begin_layout point
+Sacks goes out to explore the galaxy.
+\end_layout
+
+\begin_layout Section
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Closest that computability theory gets to computable,
+ because of Limit Lemma.
+\end_layout
+
+\begin_layout Point
+Contains an important district called 
+\begin_inset Quotes eld
+\end_inset
+
+computably enumerable
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which is even closer to computable.
+\end_layout
+
+\begin_layout Point
+Not much to say about it.
+ It is a rich field of study and contains many ideas special to itself (though many are applicable to a neighborhood),
+ but they are generally quite technical.
+ Examples:
+ Permitting Method,
+ Priority Methods.
+\end_layout
+
+\begin_layout Point
+Example theorems:
+ There are countably many incomparable c.e.
+\begin_inset space \space{}
+\end_inset
+
+sets.
+ There is a minimal set,
+ but no minimal c.e.
+\begin_inset space \space{}
+\end_inset
+
+set.
+ For every 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ there is a (strictly) low-
+\begin_inset Formula $n$
+\end_inset
+
+ c.e.
+\begin_inset space \space{}
+\end_inset
+
+set,
+ high-
+\begin_inset Formula $n$
+\end_inset
+
+ c.e.
+\begin_inset space \space{}
+\end_inset
+
+set,
+ and an intermediate c.e.
+\begin_inset space \space{}
+\end_inset
+
+set.
+\end_layout
+
+\begin_layout Section
+Randomness
+\end_layout
+
+\begin_layout Point
+Have discussed in a previous talk the notion of a Martin-Löf random set,
+ also known as a 1-random set.
+\end_layout
+
+\begin_layout Point
+We can define other notions of randomness,
+ some weaker (e.g.
+\begin_inset space \space{}
+\end_inset
+
+Schnorr Random,
+ Weakly Random) and some stronger (
+\begin_inset Formula $n$
+\end_inset
+
+-randomness,
+ weak 
+\begin_inset Formula $n$
+\end_inset
+
+-randomness).
+\end_layout
+
+\begin_layout Point
+This is a very large portion of the world,
+ as it has measure 1.
+ It is almost the entire world,
+ in fact.
+ Remark:
+ 
+\begin_inset Formula $2^{\aleph_{0}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+As a general rule,
+ its elements behave as though they were randomly generated.
+ If a randomly generated set satisfies some property,
+ then likely the random sets will satisfy it.
+ Examples:
+ Law of large numbers,
+ 
+\end_layout
+
+\begin_layout Point
+Example definitions/theorems:
+ Define MLR in 3 different ways,
+ van Lambalgen's Theorem,
+ any 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+class consisting entirely of MLR elements is either empty or has MLR measure,
+ every weakly 2-random set is 
+\begin_inset Formula $\mathrm{GL}_{1}$
+\end_inset
+
+ and every 2-random set is hyperimmune-free.
+\end_layout
+
+\begin_layout Point
+This continent has good trade relations with the world of 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+:
+ its methods are often useful for randomness (e.g.
+\begin_inset space \space{}
+\end_inset
+
+MLR sets are defined in terms of 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+ objects) and there are some notions from randomness (e.g.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $K$
+\end_inset
+
+-trivials) that shed light on 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Genericity
+\end_layout
+
+\begin_layout Point
+The world of genericity is an offshoot of 
+\begin_inset Formula $\Delta_{2}$
+\end_inset
+
+,
+ borne from the notion of Forcing used by Cohen to build a model of 
+\begin_inset Formula $\mathrm{ZF}$
+\end_inset
+
+ without Choice.
+\end_layout
+
+\begin_layout Point
+Brief introduction to computability-theoretic forcing.
+ Start with Cohen forcing,
+ introduce Sacks forcing.
+\end_layout
+
+\begin_layout Point
+Cohen forcing applied to all 
+\begin_inset Formula $\Sigma_{n}$
+\end_inset
+
+ properties gives the 
+\begin_inset Formula $n$
+\end_inset
+
+-generics,
+ which roughly behave by the rule 
+\begin_inset Quotes eld
+\end_inset
+
+if something can happen,
+ it will happen
+\begin_inset Quotes erd
+\end_inset
+
+.
+ More precisely,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+if something is not ruled out by any finite prefix of the set,
+ then it will happen
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Property of 1-generics:
+ For every 
+\begin_inset Formula $\Sigma_{1}$
+\end_inset
+
+formula 
+\begin_inset Formula $\varphi(X)$
+\end_inset
+
+,
+ either 
+\begin_inset Formula $\varphi(A)$
+\end_inset
+
+ holds or there is a finite prefix of 
+\begin_inset Formula $A$
+\end_inset
+
+ that forbids 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ from holding.
+\end_layout
+
+\begin_layout Point
+Example:
+ Every 1-generic 
+\begin_inset Formula $A$
+\end_inset
+
+ is 
+\begin_inset Formula $\mathrm{GL}_{1}$
+\end_inset
+
+ by the following argument.
+ We wish to know if a program 
+\begin_inset Formula $P^{A}$
+\end_inset
+
+ halts using 
+\begin_inset Formula $A\oplus0'$
+\end_inset
+
+.
+ If it does halt,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ can figure it out in finite time by just running it.
+ If it does not halt,
+ then (since 
+\begin_inset Formula $\varphi(X)\colon P^{A}\text{ halts}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\Sigma_{1}$
+\end_inset
+
+ formula) there is a prefix 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ of 
+\begin_inset Formula $A$
+\end_inset
+
+ that ensures that this is the case.
+ Then,
+ 
+\begin_inset Formula $0'$
+\end_inset
+
+ can look through finite strings that ensure 
+\begin_inset Formula $P$
+\end_inset
+
+ does not halt,
+ and in finite time find a prefix of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Example:
+ Every 1-generic fails the law of large numbers spectacularly.
+\end_layout
+
+\begin_layout Point
+Reason for the name:
+ The generic sets are 
+\begin_inset Quotes eld
+\end_inset
+
+topologically common
+\begin_inset Quotes erd
+\end_inset
+
+:
+ they form a comeager set.
+ Interesting duality with randomness!
+\end_layout
+
+\begin_layout point
+Recall comeager.
+\end_layout
+
+\begin_layout point
+A set 
+\begin_inset Formula $A$
+\end_inset
+
+ is comeager if it contains a countable intersection of dense open sets.
+ This is a topological notion of 
+\begin_inset Quotes eld
+\end_inset
+
+almost the entire space
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Baire Category Theorem:
+ In certain types of spaces (including Cantor Space and any complete metric space),
+ every comeager set is dense.
+\end_layout
+
+\begin_layout point
+Comeager sets are closed under intersection,
+ and BCT implies comeager sets are nonempty.
+ As a consequence,
+ a set and its complement cannot both be comeager.
+\end_layout
+
+\begin_layout Point
+Remark:
+ 
+\begin_inset Formula $2^{\aleph_{0}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+There are other notions of forcing.
+ Different notions of forcing give different results.
+ The 
+\begin_inset Formula $n$
+\end_inset
+
+-generics are specifically about Cohen forcing.
+ Example:
+ One can use Sacks forcing to build a minimal set,
+ but a result by Jockusch (1980) implies that no set below a 2-generic is minimal.
+ This means that no amount of Cohen forcing will build you a minimal set.
+\end_layout
+
+\begin_layout Section
+Higher Recursion Theory
+\end_layout
+
+\begin_layout Point
+You know that VSauce video about 
+\begin_inset Quotes eld
+\end_inset
+
+supertasks
+\begin_inset Quotes erd
+\end_inset
+
+?
+ It asks the question:
+ What if you could do infinitely much stuff in finite time?
+ For example,
+ suppose that you have a light switch and you flick it on at even stages and off and odd stages.
+ What's the status of the switch at 
+\begin_inset Formula $t=\omega$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Point
+Higher Recursion Theory provides a framework where this kind of stuff does work.
+ I don't know a lot about it.
+ It's the subject of Denis' class 
+\begin_inset Quotes eld
+\end_inset
+
+Topics in Logic
+\begin_inset Quotes erd
+\end_inset
+
+ this quarter.
+ I don't know what it has to say about the light switch thing,
+ or if it's even a well-posed question.
+\end_layout
+
+\begin_layout Point
+In any case,
+ one way to look at HRT is:
+ What if you had a computer that had more than 
+\begin_inset Formula $\N$
+\end_inset
+
+ worth of space and time to work with?
+\end_layout
+
+\begin_layout Point
+Maybe talk about 
+\begin_inset Formula $\omega_{1}^{\mathrm{CK}}$
+\end_inset
+
+ as a natural setting for HRT.
+\end_layout
+
+\begin_layout Point
+At a base level,
+ HRT generalizes a lot of results from 
+\begin_inset Quotes eld
+\end_inset
+
+normal
+\begin_inset Quotes erd
+\end_inset
+
+ computability theory to the 
+\begin_inset Quotes eld
+\end_inset
+
+metacomputable
+\begin_inset Quotes erd
+\end_inset
+
+ setting.
+\end_layout
+
+\begin_layout Point
+Since HRT works in universes that need not even be countable,
+ HRT sounds like it doesn't quite fit into the setting of Cantor space,
+ but there is a way to see an intersection.
+ The three smallest universes one can do computability in (called admissible ordinals) are 
+\begin_inset Formula $\omega$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\omega_{1}^{\mathrm{CK}}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\omega_{1}$
+\end_inset
+
+.
+ The first gives us normal computability.
+ The third is already uncountable.
+ But the second one is countable and admits a reflection in Cantor space.
+ The details of this reflection are complicated,
+ and historically there have even been some false starts,
+ but here is the basic idea.
+\end_layout
+
+\begin_layout Point
+Define ordinal many jumps for 
+\begin_inset Quotes eld
+\end_inset
+
+appropriate
+\begin_inset Quotes erd
+\end_inset
+
+ (i.e.
+\begin_inset space \space{}
+\end_inset
+
+computable) ordinals.
+ Idea is that when taking limits,
+ e.g.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $0^{(\omega)}$
+\end_inset
+
+,
+ there is an aspect of choice in how you organize the jumps below you,
+ and so we require that the ordinal have some kind of computable representation.
+ These ordinal jumps,
+ and everything below them,
+ are called 
+\begin_inset Quotes eld
+\end_inset
+
+hyperarithmetic
+\begin_inset Quotes erd
+\end_inset
+
+.
+ At the top of all of them,
+ we have Kleene's 
+\begin_inset Formula $\mathcal{O}$
+\end_inset
+
+,
+ which for the purposes of this 
+\begin_inset Quotes eld
+\end_inset
+
+metacomputability
+\begin_inset Quotes erd
+\end_inset
+
+ takes the role of the Halting Problem,
+ and the hyperarithmetic sets take the role of the finite sets.
+ So we see that this world of 
+\begin_inset Quotes eld
+\end_inset
+
+metacomputability
+\begin_inset Quotes erd
+\end_inset
+
+ has a much larger scope than the world of usual computability,
+ to the point where almost all of ordinary mathematics is considered by it basically 
+\begin_inset Quotes eld
+\end_inset
+
+finite
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Wrapping Up
+\end_layout
+
+\begin_layout Point
+Maybe talk about Baire Space and how it differs from Cantor Space,
+ most notably:
+ It's not compact.
+ Another example:
+ Say you define a 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+ (
+\begin_inset Quotes eld
+\end_inset
+
+simple
+\begin_inset Quotes erd
+\end_inset
+
+) predicate 
+\begin_inset Formula $P(X)$
+\end_inset
+
+ and want to find someone as simple as you can that satisfies it.
+ In Cantor space,
+ if anyone satisfies it,
+ you can find someone low who satisfies it.
+ In Baire space,
+ on the other hand,
+ it is possible that there is not even a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable solution.
+\end_layout
+
+\begin_layout Point
+Inside CS,
+ talk about 
+\begin_inset Formula $\leq_{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\leq_{m}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\leq_{tt}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\leq_{wtt}$
+\end_inset
+
+,
+ Turing,
+ 
+\begin_inset Formula $\leq_{e}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\leq_{h}$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

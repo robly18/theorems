@@ -1,0 +1,811 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,
+decorations.pathreplacing, decorations.pathmorphing}
+\usepackage{braket}
+
+
+\tikzset{interval/.style={{Bracket[width=1em]}-{Bracket[width=1em]}},
+ilbl/.style={midway, above=0.3em}}
+
+\setlist[enumerate,2]{ref=\theenumi.\theenumii}
+\setlist[enumerate,3]{ref=\theenumi.\theenumii.\theenumiii}
+\setlist[enumerate,4]{ref=\theenumi.\theenumii.\theenumiii.\theenumiv}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Escaping Tennenbaum
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\N}{\mathbb{N}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\card}[1]{\##1}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\Lang}{\mathcal{L}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\iswd}{\mathord{\downarrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\isnotwd}{\mathord{\uparrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\turing}{\mathrm{T}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\upto}{\!\!\upharpoonright\!}
+{\upharpoonright}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ZFniptc}{\mathsf{ZF}\mathord{-}\mathsf{inf}\mathord{+}\mathsf{TC}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is based on Pakhomov's paper 
+\begin_inset Quotes eld
+\end_inset
+
+How to Escape Tennenbaum's Theorem
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pakhomov"
+literal "false"
+
+\end_inset
+
+,
+ in which a theory 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ is defined which is 
+\emph on
+definitonally equivalent
+\emph default
+ to a specific collection of axioms of set theory,
+ notably 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+:
+ Zermelo-Fraenkel set theory,
+ minus the axiom of infinity,
+ plus the 
+\emph on
+axiom of transitive closure
+\emph default
+,
+ which in this context is equivalent to allowing 
+\begin_inset Formula $\in$
+\end_inset
+
+-induction.
+ This theory axiomatizes a certain ternary predicate,
+ which Pakhomov calls 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ which can be defined in 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ via ordinal recursion,
+ and which therein satisfies the rule
+\begin_inset Formula 
+\[
+\ZFniptc\vdash\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z)).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main property of this predicate 
+\begin_inset Formula $S$
+\end_inset
+
+ is that it is endowed with a certain 
+\begin_inset Quotes eld
+\end_inset
+
+flexibility
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In a precise sense,
+ if we are attempting to build a model of 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ and make some mistakes along the way,
+ any extra 
+\begin_inset Quotes eld
+\end_inset
+
+garbage
+\begin_inset Quotes erd
+\end_inset
+
+ elements we might have added on accident can still be reused as 
+\begin_inset Quotes eld
+\end_inset
+
+real
+\begin_inset Quotes erd
+\end_inset
+
+ elements added later on.
+ Pakhomov exploits this flexibility to prove:
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory extending 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ (in the language containing only 
+\begin_inset Formula $S$
+\end_inset
+
+),
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ admits a computable model.
+\end_layout
+
+\begin_layout Standard
+Pakhomov proves this using an explicit 
+\begin_inset Quotes eld
+\end_inset
+
+Henkin construction
+\begin_inset Quotes erd
+\end_inset
+
+ type of argument.
+ In this document,
+ we provide an improved version of Pakhomov's proof,
+ which yields the following stronger result:
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $M$
+\end_inset
+
+ is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+,
+ it admits a computable copy.
+\end_layout
+
+\begin_layout Section
+Preliminaries
+\end_layout
+
+\begin_layout Standard
+For the sake of concreteness,
+ we provide a definition for the ternary predicate 
+\begin_inset Formula $S$
+\end_inset
+
+ within 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+.
+ Our definition is not exactly equal to Pakhomov's,
+ but differs only in inessential ways.
+\end_layout
+
+\begin_layout Standard
+We define an ascending sequence of relations 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ on 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+,
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Using the convention on ordinal multiplication that satisfies 
+\begin_inset Formula $\beta\sup\alpha_{i}=\sup(\beta\alpha_{i})$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ where 
+\begin_inset Formula $q$
+\end_inset
+
+ is a large enough finite ordinal to be determined (Pakhomov's construction sets 
+\begin_inset Formula $q=6$
+\end_inset
+
+,
+ while we shall set 
+\begin_inset Formula $q=9$
+\end_inset
+
+),
+ in such a way that each 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ agrees with every other 
+\begin_inset Formula $S_{\beta}$
+\end_inset
+
+where mutually defined.
+ This relation is uniquely defined on limit ordinals,
+ as 
+\begin_inset Formula $V_{q\sup\alpha_{i}}=\cup V_{q\alpha_{i}}$
+\end_inset
+
+,
+ so it suffices to describe the successor step.
+ As such,
+ let us define 
+\begin_inset Formula $S_{\alpha+1}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Given 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ 
+\begin_inset Formula $A\subseteq V_{q\alpha}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $SA\subseteq(A\cup\{q\alpha\})^{3}$
+\end_inset
+
+,
+ define an element 
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+ satisfying the following conditions:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q(\alpha+1)}\setminus V_{q\alpha}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w$
+\end_inset
+
+ is injective as a class function 
+\begin_inset Formula $V\times V\times V\to V$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+ is not 
+\begin_inset Formula $\in$
+\end_inset
+
+-related to 
+\begin_inset Formula $A$
+\end_inset
+
+ nor 
+\begin_inset Formula $SA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An example of such a function is 
+\begin_inset Formula $w(\alpha,A,SA):=(q\alpha,(A,SA))$
+\end_inset
+
+.
+ Assuming the usage of Kuratowski pairs 
+\begin_inset Formula $(x,y):=\{\{x\},\{x,y\}\}$
+\end_inset
+
+,
+ we may obtain a coefficient of 
+\begin_inset Formula $q=9$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A\subseteq V_{q\alpha}$
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $A\in V_{q\alpha+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Thus,
+ 
+\begin_inset Formula $A\cup\{q\alpha\}\subseteq V_{q\alpha+1}$
+\end_inset
+
+,
+ and any pair of its elements is thereby in 
+\begin_inset Formula $V_{q\alpha+3}$
+\end_inset
+
+,
+ whence any triplet is in 
+\begin_inset Formula $V_{q\alpha+5}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+As a consequence,
+ we have 
+\begin_inset Formula $SA\subseteq V_{q\alpha+5}$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $SA\in V_{q\alpha+6}$
+\end_inset
+
+ Thus,
+ we conclude 
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q\alpha+9}$
+\end_inset
+
+,
+ and so setting 
+\begin_inset Formula $q=9$
+\end_inset
+
+ this implies 
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q(\alpha+1)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $w=w(\alpha,A,SA)$
+\end_inset
+
+ is not in 
+\begin_inset Formula $V_{6\alpha}$
+\end_inset
+
+because 
+\begin_inset Formula $V_{6\alpha}$
+\end_inset
+
+is transitive and does not contain 
+\begin_inset Formula $6\alpha$
+\end_inset
+
+,
+ while 
+\begin_inset Formula $w$
+\end_inset
+
+ does.
+\end_layout
+
+\begin_layout Standard
+We also place a certain type of restriction on the sets 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ we will consider.
+ We say that a pair 
+\begin_inset Formula $(A,SA)$
+\end_inset
+
+ is 
+\emph on
+good
+\emph default
+ (for the ordinal 
+\begin_inset Formula $\alpha$
+\end_inset
+
+) if,
+ (
+\begin_inset Formula $SA$
+\end_inset
+
+ is a set of triples from 
+\begin_inset Formula $A\cup\{q\alpha\}$
+\end_inset
+
+ and) for every 
+\begin_inset Formula $a,b\in A$
+\end_inset
+
+ with 
+\begin_inset Formula $a\in b$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $(a,b,q\alpha)\in SA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We are now ready to define 
+\begin_inset Formula $S_{\alpha+1}$
+\end_inset
+
+.
+ Given a triplet 
+\begin_inset Formula $(a,b,c)\in V_{q(\alpha+1)}^{3}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If all elements of the triplet are in 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)\equiv S_{\alpha}(a,b,c)$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If,
+ for some choice of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ that is good for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ every element of the triplet is either in 
+\begin_inset Formula $A$
+\end_inset
+
+ or is equal to 
+\begin_inset Formula $w=w(\alpha,A,SA)$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)$
+\end_inset
+
+ to hold true if,
+ and only if,
+ upon replacing every instance of 
+\begin_inset Formula $w$
+\end_inset
+
+ in the triplet 
+\begin_inset Formula $(a,b,c)$
+\end_inset
+
+ by 
+\begin_inset Formula $q\alpha$
+\end_inset
+
+,
+ the resulting triplet is in 
+\begin_inset Formula $SA$
+\end_inset
+
+.
+ For example,
+ if 
+\begin_inset Formula $a,b\in A$
+\end_inset
+
+ and 
+\begin_inset Formula $c=w(\alpha,A,SA)$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)\equiv[(a,b,q\alpha)\in SA]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+For every other triplet from 
+\begin_inset Formula $V_{q(\alpha+1)}$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)$
+\end_inset
+
+ to hold true.
+\end_layout
+
+\begin_layout Standard
+With this,
+ we may define a relation within 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ as follows:
+ Given 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ it holds by the axiom of transitive closure that all three lie in some common 
+\begin_inset Formula $V_{\alpha}$
+\end_inset
+
+.
+ Then,
+ evaluate 
+\begin_inset Formula $S(a,b,c)\equiv S_{\alpha}(a,b,c)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

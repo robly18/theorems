@@ -12125,7 +12125,7 @@ This shows that the task of computing
 \end_layout
 
 \begin_layout Standard
-Here are two results for the case when we do not require a computable index for 
+Here are is a result for the case when we do not require a computable index for 
 \begin_inset Formula $\barLinear(T)$
 \end_inset
 
@@ -12165,129 +12165,129 @@ Since
  Sorting this list lexicographically performs the desired task.
 \end_layout
 
-\begin_layout Proposition
-If 
-\begin_inset Formula $d$
+\begin_layout Standard
+We consider changing the problem to a 
+\begin_inset Quotes eld
 \end_inset
 
- is hyperimmune,
- there is an algorithm that,
- given a PAC 1rk1 tree 
+stream-based
+\begin_inset Quotes erd
+\end_inset
+
+ problem,
+ where 
+\begin_inset Formula $T$
+\end_inset
+
+ is given not as a computable index but rather as a stream.
+ This raises the question of what is meant by PAC in this case.
+ A possible interpretation is that every path of 
+\begin_inset Formula $T$
+\end_inset
+
+ must be computable in 
 \begin_inset Formula $T$
 \end_inset
 
 ,
- computes 
+ but this is not very fruitful:
+ it's not hard to prove that in this case there is no oracle that computes 
+\begin_inset Formula $\barLinear(T)$
+\end_inset
+
+ uniformly.
+ Another interpretation that all paths must be computable by themselves.
+ I have not thought about this too much.
+ Finally,
+ we may imagine the case where the paths are not necessarily computable,
+ but the decisions at branching points are.
+\end_layout
+
+\begin_layout Definition
+Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a tree with no dead ends.
+ We say that it is 
+\emph on
+decision-PAC
+\emph default
+ if,
+ for every nonisolated path of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ the sequence of decisions made at branching points is computable.
+\end_layout
+
+\begin_layout Proposition
+For every subenumerative degree 
+\begin_inset Formula $d$
+\end_inset
+
+ there is a 
+\begin_inset Formula $d$
+\end_inset
+
+-computable algorithm that turns decision-PAC trees 
+\begin_inset Formula $T$
+\end_inset
+
+ into their full linear order 
 \begin_inset Formula $\barLinear(T)$
 \end_inset
 
 .
 \end_layout
 
-\begin_layout Standard
-The following idea is due to Matthew Harrison-Trainor.
-\end_layout
-
 \begin_layout Proof
-First,
- we show that there is a computable process that outputs guesses for an index of the unique rank 1 path of 
-\begin_inset Formula $T$
+Let 
+\begin_inset Formula $d$
+\end_inset
+
+ compute a listing of all total computable functions 
+\begin_inset Formula $f_{0}$
 \end_inset
 
 ,
- with the property that exactly one guess occurs infinitely often,
- and this guess is correct.
-\end_layout
+ 
+\begin_inset Formula $f_{1}$
+\end_inset
 
-\begin_layout Proof
-In parallel,
- for each index 
+,
+ etc,
+ possibly with some false positives,
+ which admits no repetitions.
+ We 
+\begin_inset Formula $(d\oplus T)$
+\end_inset
+
+-enumerate a set of indices 
+\begin_inset Formula $W$
+\end_inset
+
+ as follows:
+ Enumerate 
 \begin_inset Formula $e$
 \end_inset
 
-,
- calculate 
-\begin_inset Formula $\varphi_{e}(x)$
+ into 
+\begin_inset Formula $W$
 \end_inset
 
- for 
-\begin_inset Formula $x=0,1,\dots$
+ if following along the path decided by 
+\begin_inset Formula $f_{e}$
 \end_inset
 
- in series.
- If the resulting path ever leaves 
-\begin_inset Formula $T$
-\end_inset
-
-,
- halt this process.
- Every time the resulting path hits a branching point of 
-\begin_inset Formula $T$
-\end_inset
-
-,
- output 
-\begin_inset Formula $e$
-\end_inset
-
- as a guess,
- albeit with the following caveat:
- Each time a guess 
-\begin_inset Formula $e_{0}$
-\end_inset
-
- is output,
- it 
-\begin_inset Quotes eld
-\end_inset
-
-garbage collects
-\begin_inset Quotes erd
-\end_inset
-
- all guesses 
-\begin_inset Formula $e_{1}>e_{0}$
+ will split you off from all prior 
+\begin_inset Formula $f_{i}$
 \end_inset
 
 .
- For example,
- if the algorithm outputs 
-\begin_inset Formula $3$
-\end_inset
-
- and 
-\begin_inset Formula $5$
-\end_inset
-
- alternating in an infinite sequence,
- this counts as guessing 
-\begin_inset Formula $3$
-\end_inset
-
- infinitely many times,
- and guessing different instances of 
-\begin_inset Formula $5$
-\end_inset
-
- once each.
- It is easy to see that,
- due to this stipulation,
- at most one guess may be counted as being guessed infinitely many times,
- and if 
-\begin_inset Formula $e$
-\end_inset
-
- is the smallest index of the rank 1 path of 
-\begin_inset Formula $T$
-\end_inset
-
-,
- we see that it is in fact guessed infinitely many times.
-\end_layout
-
-\begin_layout Proof
-Now,
- we combine this with a hyperimmune degree as follows.
+ Then,
+ enumerate this set of indices lexicographically.
 \end_layout
 
 \begin_layout Section
