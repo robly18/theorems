@@ -1,0 +1,1820 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,
+decorations.pathreplacing, decorations.pathmorphing}
+\usepackage{braket}
+
+
+\tikzset{interval/.style={{Bracket[width=1em]}-{Bracket[width=1em]}},
+ilbl/.style={midway, above=0.3em}}
+
+\setlist[enumerate,2]{ref=\theenumi.\theenumii}
+\setlist[enumerate,3]{ref=\theenumi.\theenumii.\theenumiii}
+\setlist[enumerate,4]{ref=\theenumi.\theenumii.\theenumiii.\theenumiv}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Escaping Tennenbaum
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\N}{\mathbb{N}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\card}[1]{\##1}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\Lang}{\mathcal{L}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\iswd}{\mathord{\downarrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\isnotwd}{\mathord{\uparrow}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\turing}{\mathrm{T}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\upto}{\mathord{\upharpoonright}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\ZFniptc}{\mathsf{ZF}\mathord{-}\mathsf{inf}\mathord{+}\mathsf{TC}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document is based on Pakhomov's paper 
+\begin_inset Quotes eld
+\end_inset
+
+How to Escape Tennenbaum's Theorem
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pakhomov"
+literal "false"
+
+\end_inset
+
+,
+ in which a theory 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ is defined which is 
+\emph on
+definitonally equivalent
+\emph default
+ to a specific collection of axioms of set theory,
+ notably 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+:
+ Zermelo-Fraenkel set theory,
+ minus the axiom of infinity,
+ plus the 
+\emph on
+axiom of transitive closure
+\emph default
+,
+ which in this context is equivalent to allowing 
+\begin_inset Formula $\in$
+\end_inset
+
+-induction.
+ This theory axiomatizes a certain ternary predicate,
+ which Pakhomov calls 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ which can be defined in 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ via ordinal recursion,
+ and which therein satisfies the rule
+\begin_inset Formula 
+\[
+\ZFniptc\vdash\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z)).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main property of this predicate 
+\begin_inset Formula $S$
+\end_inset
+
+ is that it is endowed with a certain 
+\begin_inset Quotes eld
+\end_inset
+
+flexibility
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In a precise sense,
+ if we are attempting to build a model of 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ and make some mistakes along the way,
+ any extra 
+\begin_inset Quotes eld
+\end_inset
+
+garbage
+\begin_inset Quotes erd
+\end_inset
+
+ elements we might have added on accident can still be reused as 
+\begin_inset Quotes eld
+\end_inset
+
+real
+\begin_inset Quotes erd
+\end_inset
+
+ elements added later on.
+ Pakhomov exploits this flexibility to prove:
+\end_layout
+
+\begin_layout Theorem
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory extending 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ (in the language containing only 
+\begin_inset Formula $S$
+\end_inset
+
+),
+ then 
+\begin_inset Formula $T$
+\end_inset
+
+ admits a computable model.
+\end_layout
+
+\begin_layout Standard
+Pakhomov proves this using an explicit 
+\begin_inset Quotes eld
+\end_inset
+
+Henkin construction
+\begin_inset Quotes erd
+\end_inset
+
+ type of argument.
+ In this document,
+ we provide a slightly improved version of Pakhomov's proof,
+ which yields the following stronger result:
+\end_layout
+
+\begin_layout Theorem
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:main"
+
+\end_inset
+
+If 
+\begin_inset Formula $M$
+\end_inset
+
+ is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ (that is,
+ 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ with the definition of 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ or equivalently 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ with the added axiom 
+\begin_inset Formula $\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z))$
+\end_inset
+
+),
+ then 
+\begin_inset Formula $M$
+\end_inset
+
+ admits a computable copy.
+\end_layout
+
+\begin_layout Section
+Preliminaries
+\end_layout
+
+\begin_layout Standard
+For the sake of concreteness,
+ we provide a definition for the ternary predicate 
+\begin_inset Formula $S$
+\end_inset
+
+ within 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+.
+ Our definition is not exactly equal to Pakhomov's,
+ but differs only in inessential ways.
+\end_layout
+
+\begin_layout Standard
+We define an ascending sequence of relations 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ on 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+,
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Using the convention on ordinal multiplication that satisfies 
+\begin_inset Formula $\beta\sup\alpha_{i}=\sup(\beta\alpha_{i})$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ where 
+\begin_inset Formula $q$
+\end_inset
+
+ is a large enough finite ordinal to be determined (Pakhomov's construction sets 
+\begin_inset Formula $q=6$
+\end_inset
+
+,
+ while we shall set 
+\begin_inset Formula $q=9$
+\end_inset
+
+),
+ in such a way that each 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ agrees with every other 
+\begin_inset Formula $S_{\beta}$
+\end_inset
+
+where mutually defined.
+ This relation is uniquely defined on limit ordinals,
+ as 
+\begin_inset Formula $V_{q\sup\alpha_{i}}=\cup V_{q\alpha_{i}}$
+\end_inset
+
+,
+ so it suffices to describe the successor step.
+ As such,
+ let us define 
+\begin_inset Formula $S_{\alpha+1}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Given 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ a set 
+\begin_inset Formula $A\subseteq V_{q\alpha}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $SA\subseteq(A\cup\{q\alpha\})^{3}$
+\end_inset
+
+,
+ define an element 
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+ satisfying the following conditions:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q(\alpha+1)}\setminus V_{q\alpha}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w$
+\end_inset
+
+ is injective as a class function 
+\begin_inset Formula $V\times V\times V\to V$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+ is not 
+\begin_inset Formula $\in$
+\end_inset
+
+-related to 
+\begin_inset Formula $A$
+\end_inset
+
+ nor 
+\begin_inset Formula $SA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An example of such a function is 
+\begin_inset Formula $w(\alpha,A,SA):=(q\alpha,(A,SA))$
+\end_inset
+
+.
+ Assuming the usage of Kuratowski pairs 
+\begin_inset Formula $(x,y):=\{\{x\},\{x,y\}\}$
+\end_inset
+
+,
+ we may obtain a coefficient of 
+\begin_inset Formula $q=9$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A\subseteq V_{q\alpha}$
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $A\in V_{q\alpha+1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Thus,
+ 
+\begin_inset Formula $A\cup\{q\alpha\}\subseteq V_{q\alpha+1}$
+\end_inset
+
+,
+ and any pair of its elements is thereby in 
+\begin_inset Formula $V_{q\alpha+3}$
+\end_inset
+
+,
+ whence any triplet is in 
+\begin_inset Formula $V_{q\alpha+5}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+As a consequence,
+ we have 
+\begin_inset Formula $SA\subseteq V_{q\alpha+5}$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $SA\in V_{q\alpha+6}$
+\end_inset
+
+ Thus,
+ we conclude 
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q\alpha+9}$
+\end_inset
+
+,
+ and so setting 
+\begin_inset Formula $q=9$
+\end_inset
+
+ this implies 
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q(\alpha+1)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note that 
+\begin_inset Formula $w=w(\alpha,A,SA)$
+\end_inset
+
+ is not in 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+because 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+is transitive and does not contain 
+\begin_inset Formula $q\alpha$
+\end_inset
+
+,
+ while 
+\begin_inset Formula $w$
+\end_inset
+
+ does.
+\end_layout
+
+\begin_layout Standard
+We also place a certain type of restriction on the sets 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ we will consider.
+ We say that a pair 
+\begin_inset Formula $(A,SA)$
+\end_inset
+
+ is 
+\emph on
+good
+\emph default
+ (for the ordinal 
+\begin_inset Formula $\alpha$
+\end_inset
+
+) if (
+\begin_inset Formula $SA$
+\end_inset
+
+ is a set of triples from 
+\begin_inset Formula $A\cup\{q\alpha\}$
+\end_inset
+
+ and) the following two conditions hold:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $SA$
+\end_inset
+
+ agrees with 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ on 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ in the sense that 
+\begin_inset Formula $SA\cap A^{3}=\{(a,b,c)\in A^{3}\mid S_{\alpha}(a,b,c)\}$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+For every 
+\begin_inset Formula $a,b\in A$
+\end_inset
+
+ with 
+\begin_inset Formula $a\in b$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $(a,b,z)\in SA$
+\end_inset
+
+ for every 
+\begin_inset Formula $z\in A\cup\{q\alpha\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We are now ready to define 
+\begin_inset Formula $S_{\alpha+1}$
+\end_inset
+
+.
+ Given a triplet 
+\begin_inset Formula $(a,b,c)\in V_{q(\alpha+1)}^{3}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If all elements of the triplet are in 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)\equiv S_{\alpha}(a,b,c)$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+If,
+ for some choice of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ that is good for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ every element of the triplet is either in 
+\begin_inset Formula $A$
+\end_inset
+
+ or is equal to 
+\begin_inset Formula $w=w(\alpha,A,SA)$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)$
+\end_inset
+
+ to hold true if,
+ and only if,
+ upon replacing every instance of 
+\begin_inset Formula $w$
+\end_inset
+
+ in the triplet 
+\begin_inset Formula $(a,b,c)$
+\end_inset
+
+ by 
+\begin_inset Formula $q\alpha$
+\end_inset
+
+,
+ the resulting triplet is in 
+\begin_inset Formula $SA$
+\end_inset
+
+.
+ For example,
+ if 
+\begin_inset Formula $a,b\in A$
+\end_inset
+
+ and 
+\begin_inset Formula $c=w(\alpha,A,SA)$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)\equiv[(a,b,q\alpha)\in SA]$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For posteriority,
+ when such a choice of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ is clear from context,
+ denote by 
+\begin_inset Formula $a^{*}$
+\end_inset
+
+ the operation of replacing 
+\begin_inset Formula $q\alpha$
+\end_inset
+
+ by 
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $a_{*}$
+\end_inset
+
+ the inverse operation.
+ Thus,
+ the definition of 
+\begin_inset Formula $S_{\alpha+1}$
+\end_inset
+
+ in this case can be reworded as:
+ 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)\equiv[(a_{*},b_{*},c_{*})\in SA]$
+\end_inset
+
+ or,
+ equivalently,
+ 
+\begin_inset Formula $S_{\alpha+1}(a^{*},b^{*},c^{*})\equiv[(a,b,c)\in SA]$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+For every other triplet from 
+\begin_inset Formula $V_{q(\alpha+1)}$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $S_{\alpha+1}(a,b,c)$
+\end_inset
+
+ to hold true.
+\end_layout
+
+\begin_layout Standard
+Note that the first item in the definition of 
+\begin_inset Quotes eld
+\end_inset
+
+good pair
+\begin_inset Quotes erd
+\end_inset
+
+ ensures that the first and second item in the definition do not contradict each other.
+\end_layout
+
+\begin_layout Standard
+With this,
+ we may define a relation within 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ as follows:
+ Given 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+,
+ it holds by the axiom of transitive closure that all three lie in some common 
+\begin_inset Formula $V_{\alpha}$
+\end_inset
+
+.
+ Then,
+ evaluate 
+\begin_inset Formula $S(a,b,c)\equiv S_{\alpha}(a,b,c)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The main defining properties of the relation 
+\begin_inset Formula $S$
+\end_inset
+
+ are following two lemmas:
+\end_layout
+
+\begin_layout Lemma
+Provably in 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+:
+ Given sets 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x\in y$
+\end_inset
+
+ iff 
+\begin_inset Formula $\forall_{z}S(x,y,z)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Suppose 
+\begin_inset Formula $x\in y$
+\end_inset
+
+,
+ but also that there is 
+\begin_inset Formula $z$
+\end_inset
+
+ such that 
+\begin_inset Formula $\neg S(x,y,z)$
+\end_inset
+
+.
+ The only way for this to happen is if,
+ at some least stage 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+ we have a good choice of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $SA$
+\end_inset
+
+ for which 
+\begin_inset Formula $(x_{*},y_{*},z_{*})\notin SA$
+\end_inset
+
+.
+ Since this is a good choice,
+ it must be the case that 
+\begin_inset Formula $x_{*}\notin y_{*}$
+\end_inset
+
+,
+ while 
+\begin_inset Formula $x\in y$
+\end_inset
+
+.
+ This requires that either 
+\begin_inset Formula $x_{*}\neq x$
+\end_inset
+
+ or 
+\begin_inset Formula $y_{*}\neq y$
+\end_inset
+
+,
+ which in turn requires that one of these two is equal to 
+\begin_inset Formula $w(\alpha,A,SA)$
+\end_inset
+
+.
+ But if this was the case,
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ could not be related by 
+\begin_inset Formula $\in$
+\end_inset
+
+,
+ which is a contradiction.
+ This proves that 
+\begin_inset Formula $x\in y$
+\end_inset
+
+ implies 
+\begin_inset Formula $\forall_{z}S(x,y,z)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+For the other direction,
+ assume 
+\begin_inset Formula $x\notin y$
+\end_inset
+
+.
+ Pick a large enough value of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ such that 
+\begin_inset Formula $A=\{x,y\}$
+\end_inset
+
+ is contained in 
+\begin_inset Formula $V_{q\alpha}$
+\end_inset
+
+,
+ and consider the set 
+\begin_inset Formula $SA=\{(y,x,x),(y,x,y),(y,x,q\alpha)\}\cup(S_{\alpha}\cap A^{3})$
+\end_inset
+
+.
+ It is not hard to verify that the pair 
+\begin_inset Formula $(A,SA)$
+\end_inset
+
+ is good (in fact,
+ if 
+\begin_inset Formula $y\notin x$
+\end_inset
+
+ we could even set 
+\begin_inset Formula $SA=\emptyset$
+\end_inset
+
+).
+ As such,
+ for 
+\begin_inset Formula $w=w(\alpha,A,SA)$
+\end_inset
+
+,
+ we shall have 
+\begin_inset Formula $S_{\alpha+1}(x,y,w)$
+\end_inset
+
+ iff 
+\begin_inset Formula $(x,y,w)\in SA$
+\end_inset
+
+,
+ which is not the case.
+ Thus,
+ 
+\begin_inset Formula $\neg S_{\alpha}(x,y,w)$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $\exists_{z}\neg S(x,y,z)$
+\end_inset
+
+ as desired.
+\end_layout
+
+\begin_layout Lemma
+Let 
+\begin_inset Formula $M$
+\end_inset
+
+ be a model of 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $A$
+\end_inset
+
+ be a finite
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Here we mean finite from the perspective of the metatheory,
+ but indeed this result holds also from within the theory,
+ basically by definition.
+\end_layout
+
+\end_inset
+
+ subset of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ and suppose that we wish to find an element 
+\begin_inset Formula $w$
+\end_inset
+
+ that 
+\begin_inset Formula $S$
+\end_inset
+
+-relates to all elements of 
+\begin_inset Formula $A$
+\end_inset
+
+ in a prescribed manner.
+ So long as the prescription satisfies the rule:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+For all 
+\begin_inset Formula $a,b\in A$
+\end_inset
+
+ with 
+\begin_inset Formula $a\in b$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $S(a,b,w)$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ there is in fact some 
+\begin_inset Formula $w\in M$
+\end_inset
+
+ satisfying this prescription.
+\end_layout
+
+\begin_layout Proof
+This follows basically from the definition of the 
+\begin_inset Formula $S$
+\end_inset
+
+ relation,
+ together with the fact that every finite set (from the perspective of the metatheory) is represented in 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+The Main Result
+\end_layout
+
+\begin_layout Standard
+We now turn to proving the main result of this document:
+\end_layout
+
+\begin_layout Theorem*
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:main"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $D$
+\end_inset
+
+ be a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ (i.e.
+\begin_inset space \space{}
+\end_inset
+
+set theory with set membership and the 
+\begin_inset Formula $S$
+\end_inset
+
+ predicate).
+ Then,
+ the reduct of 
+\begin_inset Formula $D$
+\end_inset
+
+ to the language with only the 
+\begin_inset Formula $S$
+\end_inset
+
+ predicate (call it 
+\begin_inset Formula $D\mathord{\upharpoonright}_{S}$
+\end_inset
+
+) admits a computable copy.
+\end_layout
+
+\begin_layout Proof
+For the purpose of this proof,
+ we envision the 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable structure 
+\begin_inset Formula $D$
+\end_inset
+
+ as being given in the following manner:
+ A computable process produces a sequence of elements.
+ This process shall,
+ for each new given element,
+ also say how this element is related (by 
+\begin_inset Formula $S$
+\end_inset
+
+ and by 
+\begin_inset Formula $\in$
+\end_inset
+
+) to all the 
+\noun on
+previous
+\noun default
+ly added elements.
+ By itself,
+ this would produce a computable model,
+ but we also allow for this process to change its mind and erase 
+\noun on
+previous
+\noun default
+ly added elements.
+ Let 
+\begin_inset Formula $D_{\omega}$
+\end_inset
+
+ be the collection of all elements that are added by the process and never removed.
+ This set admits its own version of the set membership and 
+\begin_inset Formula $S$
+\end_inset
+
+ predicates,
+ which is assumed to be isomorphic to 
+\begin_inset Formula $D$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We shall build a computable copy of 
+\begin_inset Formula $D\upto_{S}$
+\end_inset
+
+ via a finite injury argument.
+ We imagine a countable assortment of workers,
+ referred to as 
+\begin_inset Quotes eld
+\end_inset
+
+worker 
+\begin_inset Formula $i$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ for 
+\begin_inset Formula $i=0,1,2,\dots$
+\end_inset
+
+ and describe how each of these workers builds up their part of the computable model 
+\begin_inset Formula $M\cong D\upto_{S}$
+\end_inset
+
+.
+ At the start of the process,
+ only worker 
+\begin_inset Formula $0$
+\end_inset
+
+ shall be active,
+ with each worker activating or deactivating higher-index workers as part of their functioning.
+ Worker 
+\begin_inset Formula $i$
+\end_inset
+
+ is the only one responsible for,
+ and responsible only for,
+ the activation of worker 
+\begin_inset Formula $i+1$
+\end_inset
+
+,
+ and when a worker is deactivated,
+ all higher-index workers are deactivated as well.
+ The model 
+\begin_inset Formula $M$
+\end_inset
+
+ is seen as a dynamical variable,
+ whose contents are changed over the course of the execution of the algorithm.
+ Moreover,
+ 
+\begin_inset Formula $D$
+\end_inset
+
+ is also seen as a dynamic variable,
+ being modified by a computable process,
+ as per the description in the first paragraph of this proof.
+ It is assumed that this computable process is executing in parallel with the execution of the algorithm here being described,
+ and this algorithm will dynamically react to modifications to 
+\begin_inset Formula $D$
+\end_inset
+
+ as described below.
+\end_layout
+
+\begin_layout Proof
+Worker 
+\begin_inset Formula $i$
+\end_inset
+
+'s internal state contains a partition of the (dynamic) structure 
+\begin_inset Formula $M$
+\end_inset
+
+ into three parts:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+
+\noun on
+previous
+\noun default
+
+\begin_inset Quotes erd
+\end_inset
+
+ part,
+ which is the responsibility of lower-index workers and worker 
+\begin_inset Formula $i$
+\end_inset
+
+ shall not touch,
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+current
+\begin_inset Quotes erd
+\end_inset
+
+ part,
+ whose elements it is worker 
+\begin_inset Formula $i$
+\end_inset
+
+'s responsibility to match to elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+next
+\begin_inset Quotes erd
+\end_inset
+
+ part,
+ consisting of elements created by workers activated by worker 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ which worker 
+\begin_inset Formula $i$
+\end_inset
+
+ shall not touch;
+\end_layout
+
+\begin_layout Standard
+As indicated above,
+ every worker's goal is to create a matching between the 
+\begin_inset Quotes eld
+\end_inset
+
+current
+\begin_inset Quotes erd
+\end_inset
+
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ (from its perspective) and a subset of 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Only once this is done shall worker 
+\begin_inset Formula $i$
+\end_inset
+
+ initialize worker 
+\begin_inset Formula $i+1$
+\end_inset
+
+.
+ As such,
+ each worker also has access to a matching between its 
+\noun on
+previous
+\noun default
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ and a subset of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ induced by the lower-index workers.
+\end_layout
+
+\begin_layout Standard
+When worker 
+\begin_inset Formula $i$
+\end_inset
+
+ is activated,
+ its internal state is initialized as follows:
+\end_layout
+
+\begin_layout Itemize
+The 
+\noun on
+previous
+\noun default
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ is the union of the 
+\begin_inset Quotes eld
+\end_inset
+
+current
+\begin_inset Quotes erd
+\end_inset
+
+ part of workers 
+\begin_inset Formula $0,1,\dots,i-1$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+current
+\begin_inset Quotes erd
+\end_inset
+
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ consists of every element in 
+\begin_inset Formula $M$
+\end_inset
+
+ (at the moment of initialization of worker 
+\begin_inset Formula $i$
+\end_inset
+
+) that is not in the 
+\noun on
+previous
+\noun default
+ part,
+\end_layout
+
+\begin_layout Itemize
+The 
+\begin_inset Quotes eld
+\end_inset
+
+next
+\begin_inset Quotes erd
+\end_inset
+
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ starts out empty.
+ Whenever an element is added to 
+\begin_inset Formula $M$
+\end_inset
+
+ by a worker of higher index than 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ it will be added to the 
+\begin_inset Quotes eld
+\end_inset
+
+next
+\begin_inset Quotes erd
+\end_inset
+
+ part.
+\end_layout
+
+\begin_layout Standard
+Once worker 
+\begin_inset Formula $i$
+\end_inset
+
+ is done being initialized,
+ it performs the following three tasks in order:
+\end_layout
+
+\begin_layout Itemize
+To begin,
+ it finds the first
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We are being deliberately ambiguous about the 
+\begin_inset Quotes eld
+\end_inset
+
+type
+\begin_inset Quotes erd
+\end_inset
+
+ of the elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ but any reasonable well-ordering of its elements will be appropriate for our purposes.
+ The one we find to be most elegant consists of ordering elements by the order in which they were added to 
+\begin_inset Formula $D$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ element of 
+\begin_inset Formula $D$
+\end_inset
+
+ that is not yet matched to any element of 
+\begin_inset Formula $M$
+\end_inset
+
+;
+ let's call it 
+\begin_inset Formula $q$
+\end_inset
+
+.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+There is a minor detail to keep note of here,
+ which is that this search will,
+ in fact,
+ eventually terminate.
+ This is because 
+\begin_inset Formula $D$
+\end_inset
+
+ is infinite,
+ as it is a model of some type of set theory.
+\end_layout
+
+\end_inset
+
+ Then,
+ it performs the following sanity check:
+ Are there any two elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ that are already matched to elements of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ that satisfy 
+\begin_inset Formula $a\in b$
+\end_inset
+
+ and 
+\begin_inset Formula $\neg S(a,b,q)$
+\end_inset
+
+?
+ If there are such elements,
+ wait without doing anything until 
+\begin_inset Formula $D$
+\end_inset
+
+ either changes removes 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ in which case this task is restarted,
+ or until 
+\begin_inset Formula $D$
+\end_inset
+
+ removes 
+\begin_inset Formula $a$
+\end_inset
+
+ or 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ in which case – as described below – an injury will occur in a lower-index worker and worker 
+\begin_inset Formula $i$
+\end_inset
+
+ will be deactivated as a result.
+ On the other hand,
+ if there are no such elements 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+,
+ we add to 
+\begin_inset Formula $M$
+\end_inset
+
+ a new element 
+\begin_inset Formula $q'$
+\end_inset
+
+,
+ which is 
+\begin_inset Formula $S$
+\end_inset
+
+-related to the elements of the 
+\noun on
+previous
+\noun default
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+ in the way prescribed by 
+\begin_inset Formula $D$
+\end_inset
+
+ and the pre-existing matching between this part and a subset of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ and the 
+\begin_inset Formula $S$
+\end_inset
+
+-relations between 
+\begin_inset Formula $q'$
+\end_inset
+
+ and elements not in the 
+\noun on
+previous
+\noun default
+ part can be chosen arbitrarily.
+ For the sake of concreteness,
+ let's say that we set 
+\begin_inset Formula $S(x,y,z)\equiv\top$
+\end_inset
+
+ whenever 
+\begin_inset Formula $(x,y,z)$
+\end_inset
+
+ is a triple of elements of which at least one is 
+\begin_inset Formula $q'$
+\end_inset
+
+ and the remainder are not all in the 
+\noun on
+previous
+\noun default
+ part of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
