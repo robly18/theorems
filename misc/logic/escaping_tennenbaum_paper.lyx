@@ -184,6 +184,21 @@ Duarte Maia
 Introduction
 \end_layout
 
+\begin_layout Subsection
+Background
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand nocite
+key "lutz_walsh_tennenbaum"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 It is a well-known result of Stanley Tennenbaum (see e.g.
 \begin_inset space \space{}
@@ -224,6 +239,16 @@ literal "false"
 
 \end_inset
 
+,
+ alternative operations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schmerl_tennenbaum_recursive_reducts"
+literal "false"
+
+\end_inset
+
+,
  and finite set theory 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -589,6 +614,12 @@ axiom of transitive closure
 \end_layout
 
 \begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:vonneumann"
+
+\end_inset
+
 Under the remaining axioms of 
 \begin_inset Formula $\mathsf{ZF}$
 \end_inset
@@ -599,6 +630,18 @@ Under the remaining axioms of
 \end_inset
 
 -induction.
+ It is also equivalent (under the same circumstances) to the claim that every set is in some level of the von
+\begin_inset space ~
+\end_inset
+
+Neumann hierarchy 
+\begin_inset Formula $V_{\alpha}$
+\end_inset
+
+.
+ This is,
+ in fact,
+ the principal way in which this axiom will be necessary for our work.
 \begin_inset Separator plain
 \end_inset
 
@@ -700,22 +743,42 @@ literal "false"
 .
 \end_layout
 
-\begin_layout Theorem
-I AM HERE 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-continue from here
-\end_layout
+\begin_layout Standard
+Besides serving as an interesting example of definitional equivalence,
+ 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:pazffineqv"
 
 \end_inset
 
+ also underlies the entirety of Pakhomov's construction,
+ as it is more convenient to work with a set-theoretical framework than it would be to work directly with 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
 
+.
+ It also gives us a little bit more flexibility,
+ allowing us to construct computable models of theories definitionally equivalent to 
+\begin_inset Formula $\mathsf{ZF}$
+\end_inset
+
+ or 
+\begin_inset Formula $\mathsf{ZFC}$
+\end_inset
+
+,
+ though we will not explore this avenue in this document.
+ We now briefly present the idea behind Pakhomov's construction,
+ as well as the main results of this document.
+\end_layout
+
+\begin_layout Subsection
+Pakhomov's Construction and New Results
 \end_layout
 
 \begin_layout Standard
-This document is based on Pakhomov's paper 
+In Fedor Pakhomov's paper 
 \begin_inset Quotes eld
 \end_inset
 
@@ -732,48 +795,121 @@ literal "false"
 \end_inset
 
 ,
- in which a theory 
+ the author defines a theory 
 \begin_inset Formula $T_{0}$
 \end_inset
 
- is defined which is definitonally equivalent to a specific collection of axioms of set theory,
- notably 
+,
+ definitionally equivalent to 
 \begin_inset Formula $\ZFniptc$
 \end_inset
 
-:
- Zermelo-Fraenkel set theory,
- minus the axiom of infinity,
- plus the so-called axiom of transitive closure,
- which in this context is equivalent to assuming the validity of 
-\begin_inset Formula $\in$
+,
+ which axiomatizes a certain ternary predicate 
+\begin_inset Formula $S(x,y,z)$
 \end_inset
 
--induction.
- Pakhomov's theory 
-\begin_inset Formula $T_{0}$
+.
+ This ternary predicate acts as 
+\begin_inset Quotes eld
 \end_inset
 
- axiomatizes a certain ternary predicate,
- which Pakhomov calls 
+set membership with witnesses
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and is initially defined in 
+\begin_inset Formula $\ZFniptc$
+\end_inset
+
+ by transfinite recursion in the von
+\begin_inset space ~
+\end_inset
+
+Neumann hierarchy (see also 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:vonneumann"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) in such a way as to satisfy the rule
+\begin_inset Formula 
+\begin{equation}
+\ZFniptc\vdash\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z)).\label{eq:Sdef}
+\end{equation}
+
+\end_inset
+
+Since 
+\begin_inset Formula $S$
+\end_inset
+
+ is initially defined in the context of set theory,
+ it is definable in terms of set membership,
+ and Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Sdef"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ ensures that set membership is itself definable in terms of 
 \begin_inset Formula $S$
 \end_inset
 
 ,
- which can be defined in 
+ which is why these two theories are definitionally equivalent.
+\end_layout
+
+\begin_layout Definition
+Henceforth,
+ 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ denotes the theory of 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ that is,
+ the collection of first-order sentences written in the signature containing only the predicate 
+\begin_inset Formula $S$
+\end_inset
+
+ (to be defined later) that are provable in 
 \begin_inset Formula $\ZFniptc$
 \end_inset
 
- via ordinal recursion,
- and which therein satisfies the rule
-\begin_inset Formula 
-\[
-\ZFniptc\vdash\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z)).
-\]
-
+.
+ Moreover,
+ 
+\begin_inset Formula $T_{1}$
 \end_inset
 
+ denotes the set of all sentences provable from 
+\begin_inset Formula $\ZFniptc$
+\end_inset
 
+ plus the definition of 
+\begin_inset Formula $S$
+\end_inset
+
+ in the signature containing both 
+\begin_inset Formula $S$
+\end_inset
+
+ and set inclusion.
 \end_layout
 
 \begin_layout Standard
@@ -782,11 +918,11 @@ The main property of this predicate
 \end_inset
 
  is that it is endowed with a certain 
-\begin_inset Quotes eld
+\begin_inset Quotes els
 \end_inset
 
 flexibility
-\begin_inset Quotes erd
+\begin_inset Quotes ers
 \end_inset
 
 .
@@ -797,19 +933,19 @@ flexibility
 
  and make some mistakes along the way,
  any extra 
-\begin_inset Quotes eld
+\begin_inset Quotes els
 \end_inset
 
 garbage
-\begin_inset Quotes erd
+\begin_inset Quotes ers
 \end_inset
 
  elements we might have added on accident can still be reused as 
-\begin_inset Quotes eld
+\begin_inset Quotes els
 \end_inset
 
 real
-\begin_inset Quotes erd
+\begin_inset Quotes ers
 \end_inset
 
  elements added later on.
@@ -821,7 +957,7 @@ If
 \begin_inset Formula $T$
 \end_inset
 
- is a c.e.
+ is a consistent c.e.
 \begin_inset space \space{}
 \end_inset
 
@@ -829,11 +965,7 @@ theory extending
 \begin_inset Formula $T_{0}$
 \end_inset
 
- (in the language containing only 
-\begin_inset Formula $S$
-\end_inset
-
-),
+,
  then 
 \begin_inset Formula $T$
 \end_inset
@@ -893,25 +1025,7 @@ If
 \begin_inset Formula $T_{1}$
 \end_inset
 
- (that is,
- 
-\begin_inset Formula $\ZFniptc$
-\end_inset
-
- with the definition of 
-\begin_inset Formula $S$
-\end_inset
-
 ,
- or equivalently 
-\begin_inset Formula $T_{0}$
-\end_inset
-
- with the added axiom 
-\begin_inset Formula $\forall_{x,y}(x\in y\leftrightarrow\forall_{z}S(x,y,z))$
-\end_inset
-
-),
  then 
 \begin_inset Formula $M$
 \end_inset
@@ -1004,7 +1118,7 @@ Each
 \begin_inset Formula $T^{n}$
 \end_inset
 
- is in the language containing 
+ is in the signature containing 
 \begin_inset Formula $\in$
 \end_inset
 
@@ -1097,10 +1211,10 @@ The last item relativizes:
 \end_inset
 
 -computable model of 
-\begin_inset Formula $T^{0}\cup\dots\cup T^{n}$
+\begin_inset Formula $T^{n}$
 \end_inset
 
- in the last 
+ implementing the last 
 \begin_inset Formula $k$
 \end_inset
 
@@ -1171,8 +1285,7 @@ First,
 \end_inset
 
 theory.
- Moreover,
- by results of Kaye and Wong 
+ By the results of Kaye and Wong 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kaye_wong"
@@ -1186,10 +1299,10 @@ literal "false"
 \end_inset
 
  is definitionally equivalent to 
-\begin_inset Formula $\ZFniptc$
+\begin_inset Formula $\ZFfinptc$
 \end_inset
 
- plus the negation of the axiom of infinity,
+,
  and therefore 
 \begin_inset Formula $T$
 \end_inset
@@ -1245,7 +1358,7 @@ reference "thm:main2"
 \end_inset
 
 ,
- in the language containing the 
+ in the signature containing the 
 \begin_inset Formula $n+2$
 \end_inset
 
@@ -1356,7 +1469,7 @@ Using the convention on ordinal multiplication that satisfies
 
 ,
  while we shall set 
-\begin_inset Formula $q=9$
+\begin_inset Formula $q=10$
 \end_inset
 
 ),
@@ -1368,7 +1481,7 @@ Using the convention on ordinal multiplication that satisfies
 \begin_inset Formula $S_{\beta}$
 \end_inset
 
-where mutually defined.
+ where mutually defined.
  This relation is uniquely defined on limit ordinals,
  as 
 \begin_inset Formula $V_{q\sup\alpha_{i}}=\cup V_{q\alpha_{i}}$
@@ -1457,7 +1570,7 @@ An example of such a function is
 
 .
  This yields a coefficient of 
-\begin_inset Formula $q=9$
+\begin_inset Formula $q=10$
 \end_inset
 
 :
@@ -1505,14 +1618,15 @@ As a consequence,
 \begin_inset Formula $SA\in V_{q\alpha+6}$
 \end_inset
 
+.
  Thus,
  we conclude 
-\begin_inset Formula $w(\alpha,A,SA)\in V_{q\alpha+9}$
+\begin_inset Formula $w(\alpha,A,SA)\in V_{q\alpha+10}$
 \end_inset
 
 ,
  and so setting 
-\begin_inset Formula $q=9$
+\begin_inset Formula $q=10$
 \end_inset
 
  this implies 
@@ -1531,11 +1645,11 @@ Note that
 \begin_inset Formula $V_{q\alpha}$
 \end_inset
 
-because 
+ because 
 \begin_inset Formula $V_{q\alpha}$
 \end_inset
 
-is transitive and does not contain 
+ is transitive and does not contain 
 \begin_inset Formula $q\alpha$
 \end_inset
 
@@ -1612,6 +1726,12 @@ For every
 
 ,
  we have 
+\begin_inset Formula $(a,b,q\alpha)\in SA$
+\end_inset
+
+.
+ By induction,
+ this shall be equivalent to the stronger demand that 
 \begin_inset Formula $(a,b,z)\in SA$
 \end_inset
 
@@ -1715,7 +1835,7 @@ If,
 
 \begin_deeper
 \begin_layout Standard
-For posteriority,
+In the sequence,
  when such a choice of 
 \begin_inset Formula $\alpha$
 \end_inset
@@ -1878,13 +1998,30 @@ Suppose
 \end_inset
 
 .
+ Let 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ be the least ordinal for which there exist 
+\begin_inset Formula $x,y,z\in V_{q\alpha}$
+\end_inset
+
+ with 
+\begin_inset Formula $x\in y$
+\end_inset
+
+ and 
+\begin_inset Formula $\neg S_{\alpha}(x,y,z)$
+\end_inset
+
+.
  The only way for this to happen is if,
- at some least stage 
+ for this value of 
 \begin_inset Formula $\alpha$
 \end_inset
 
 ,
- we have a good choice of 
+ there is a good choice of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -1897,46 +2034,58 @@ Suppose
 \end_inset
 
 .
- Since this is a good choice,
- it must be the case that 
-\begin_inset Formula $x_{*}\notin y_{*}$
+ Because 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is minimal,
+ at least one of 
+\begin_inset Formula $x_{*}$
 \end_inset
 
 ,
- while 
+ 
+\begin_inset Formula $y_{*}$
+\end_inset
+
+,
+ or 
+\begin_inset Formula $z_{*}$
+\end_inset
+
+ must be 
+\begin_inset Formula $q\alpha$
+\end_inset
+
+,
+ and since 
 \begin_inset Formula $x\in y$
 \end_inset
 
-.
- This requires that either 
-\begin_inset Formula $x_{*}\neq x$
+ it cannot be 
+\begin_inset Formula $x_{*}$
 \end_inset
 
- or 
-\begin_inset Formula $y_{*}\neq y$
-\end_inset
-
-,
- which in turn requires that one of these two is equal to 
-\begin_inset Formula $w(\alpha,A,SA)$
+ nor 
+\begin_inset Formula $y_{*}$
 \end_inset
 
 .
- But if this was the case,
- 
-\begin_inset Formula $x$
+ However,
+ since 
+\begin_inset Formula $x_{*}\in y_{*}$
 \end_inset
 
  and 
-\begin_inset Formula $y$
+\begin_inset Formula $z_{*}=q\alpha$
 \end_inset
 
- could not be related by 
-\begin_inset Formula $\in$
+ we must then have 
+\begin_inset Formula $(x_{*},y_{*},z_{*})\in SA$
 \end_inset
 
 ,
- which is a contradiction.
+ a contradiction.
  This proves that 
 \begin_inset Formula $x\in y$
 \end_inset
@@ -1969,11 +2118,11 @@ For the other direction,
 
 ,
  and consider the set 
-\begin_inset Formula $SA=\{(y,x,x),(y,x,y),(y,x,q\alpha)\}\cup(S_{\alpha}\cap A^{3})$
+\begin_inset Formula $SA=\{(y,x,q\alpha)\}\cup(S_{\alpha}\cap A^{3})$
 \end_inset
 
 .
- It is not hard to verify that the pair 
+ It can be checked that the pair 
 \begin_inset Formula $(A,SA)$
 \end_inset
 
@@ -1998,7 +2147,7 @@ For the other direction,
 \end_inset
 
  iff 
-\begin_inset Formula $(x,y,w)\in SA$
+\begin_inset Formula $(x,y,q\alpha)\in SA$
 \end_inset
 
 ,
@@ -2190,6 +2339,20 @@ set theory with set membership and the
 ) admits a computable copy.
 \end_layout
 
+\begin_layout Standard
+The following proof uses standard techniques from computability theory,
+ most notably the Limit Lemma and the Priority Method with Finite Injury.
+ A standard reference is 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "soare1"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Proof
 For the purpose of this proof,
  we envision the 
@@ -2238,7 +2401,8 @@ real
 \end_inset
 
  predicates,
- which is assumed to be isomorphic to 
+ inherited from the finite stages,
+ under which it is assumed to be isomorphic to 
 \begin_inset Formula $D$
 \end_inset
 
@@ -2297,7 +2461,7 @@ worker
 \begin_inset Formula $M$
 \end_inset
 
- is seen as a dynamical variable,
+ is seen as a dynamic variable,
  whose contents are changed over the course of the execution of the algorithm.
  Moreover,
  
@@ -2307,7 +2471,11 @@ worker
  is also seen as a dynamic variable,
  being modified by a computable process,
  as per the description in the first paragraph of this proof.
- It is assumed that this computable process is executing in parallel with the execution of the algorithm here being described,
+ It is assumed that the computable process corresponding to 
+\begin_inset Formula $D$
+\end_inset
+
+ is executing in parallel with the execution of the algorithm here being described,
  and this algorithm will dynamically react to modifications to 
 \begin_inset Formula $D$
 \end_inset
@@ -2634,7 +2802,7 @@ There is a minor detail to keep note of here,
 \begin_inset Formula $D$
 \end_inset
 
- either changes removes 
+ either removes 
 \begin_inset Formula $q$
 \end_inset
 
@@ -2668,15 +2836,39 @@ There is a minor detail to keep note of here,
 \end_inset
 
 ,
- we add to 
+ we find in the 
+\noun on
+current
+\noun default
+ part the first
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+As in the case of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ assume that the elements of 
 \begin_inset Formula $M$
 \end_inset
 
- a new element 
+ are ordered by time of creation/entry into 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ element 
 \begin_inset Formula $q'$
 \end_inset
 
 ,
+ if one exists,
  which is 
 \begin_inset Formula $S$
 \end_inset
@@ -2689,11 +2881,7 @@ previous
 \begin_inset Formula $M$
 \end_inset
 
- in the way prescribed by 
-\begin_inset Formula $D$
-\end_inset
-
- and the pre-existing matching between this part and a subset of 
+ in the way prescribed the pre-existing matching between this part and a subset of 
 \begin_inset Formula $D$
 \end_inset
 
@@ -2710,9 +2898,20 @@ previous
 \noun on
 previous
 \noun default
- part can be chosen arbitrarily.
+ part can be arbitrary.
+ If no such element exists,
+ we add it to 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ to the 
+\noun on
+current
+\noun default
+ part.
  For the sake of concreteness,
- let's say that we set 
+ let's say that in this scenario we set 
 \begin_inset Formula $S(x,y,z)\equiv\top$
 \end_inset
 
@@ -2751,30 +2950,7 @@ current
 
 .
  To this effect,
- we iterate through these elements one by one in order
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-As in the case of 
-\begin_inset Formula $D$
-\end_inset
-
-,
- assume that the elements of 
-\begin_inset Formula $M$
-\end_inset
-
- are ordered by time of creation/entry into 
-\begin_inset Formula $M$
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-,
+ we iterate through these elements one by one in order,
  and to each of them (say,
  
 \begin_inset Formula $m$
@@ -2796,7 +2972,7 @@ As in the case of
 \begin_inset Formula $S$
 \end_inset
 
--Related to all elements of 
+-related to all elements of 
 \begin_inset Formula $D$
 \end_inset
 
@@ -3273,6 +3449,14 @@ Pick a time in the simulation where all workers less than
 
 ,
  and this match is permanent.
+ More precisely,
+ even if worker 
+\begin_inset Formula $i$
+\end_inset
+
+ ever gets injured,
+ thereby wiping this match,
+ the first thing it does after the injury is to re-create this match.
 \end_layout
 
 \begin_layout Standard
@@ -3392,6 +3576,19 @@ reference "lem:sflex"
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Corollary
 \begin_inset CommandInset label
 LatexCommand label
@@ -3484,17 +3681,10 @@ There is a computable nonstandard model of a theory definitionally equivalent to
 \end_layout
 
 \begin_layout Proof
-First,
- we note that 
-\begin_inset Formula $\ZFniptc$
-\end_inset
-
- plus the negation of axiom of infinity,
- which we denote by 
+Recall that 
 \begin_inset Formula $\ZFfinptc$
 \end_inset
 
-,
  is definitionally equivalent to 
 \begin_inset Formula $\mathsf{PA}$
 \end_inset
@@ -3512,7 +3702,7 @@ literal "false"
 \begin_inset Formula $T_{0}$
 \end_inset
 
-.
+ is as well.
  Thus,
  let 
 \begin_inset Formula $T$
@@ -3742,7 +3932,11 @@ witness
 
 -computable models into computable models.
  On the other hand,
- it is providing the 
+ the predicate 
+\begin_inset Formula $\in$
+\end_inset
+
+ is providing the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3759,7 +3953,7 @@ definitional flexibility
 \begin_inset Formula $S$
 \end_inset
 
- over a hypothetical extra element,
+ for a hypothetical extra element,
  in order to ensure that an element satisfying this prescription does exist.
  Upon understanding these roles as separate,
  one gets the idea that the construction could be applied to other predicates,
@@ -3952,7 +4146,7 @@ The last item relativizes:
 \end_inset
 
 -computable model of 
-\begin_inset Formula $T^{0}\cup\dots\cup T^{n}$
+\begin_inset Formula $T^{n}$
 \end_inset
 
  in the last 
@@ -4245,7 +4439,7 @@ Let us go back to defining
 \begin_inset Formula $S_{\alpha}^{n+1}$
 \end_inset
 
- is already defined on 
+ is already defined on tuples of elements of 
 \begin_inset Formula $V_{\alpha}$
 \end_inset
 
@@ -4378,18 +4572,22 @@ We are now ready to define
 
 .
  Given an 
-\begin_inset Formula $n+3$
+\begin_inset Formula $(n+3)$
 \end_inset
 
 -uple 
-\begin_inset Formula $\vec{x}\in V_{\alpha+1}^{n+3}$
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ of elements in 
+\begin_inset Formula $V_{\alpha+1}$
 \end_inset
 
 ,
 \end_layout
 
 \begin_layout Itemize
-If all elements of the triplet are in 
+If all elements of the tuple are in 
 \begin_inset Formula $V_{\alpha}$
 \end_inset
 
@@ -4417,7 +4615,7 @@ If there is a good sequence
 \end_inset
 
  is in 
-\begin_inset Formula $V^{\alpha+1}$
+\begin_inset Formula $V_{\alpha+1}$
 \end_inset
 
 ,
@@ -4454,7 +4652,7 @@ If there is a good sequence
 
 \begin_deeper
 \begin_layout Standard
-For posteriority,
+In the sequence,
  when such a choice of good sequence is clear from context,
  denote by 
 \begin_inset Formula $\vec{x}^{*}$
@@ -4518,10 +4716,11 @@ Note that the first and second item in the definition do not contradict each oth
 
 ,
  in which case the definition of good sequence ensures that there is agreement between both possible definitions of 
-\begin_inset Formula $S_{\alpha+1}^{n+1}(\vec{x}),$
+\begin_inset Formula $S_{\alpha+1}^{n+1}(\vec{x})$
 \end_inset
 
-or one of its elements is 
+,
+ or one of its elements is 
 \begin_inset Formula $w=w^{n+1}(\beta,mA,A,\dots,S^{n+1}A)$
 \end_inset
 
@@ -4530,7 +4729,7 @@ or one of its elements is
 \begin_inset Formula $S_{\gamma}^{n+1}(\vec{x})$
 \end_inset
 
- would have defined to agree with the second bullet point for 
+ would have been defined to agree with the second bullet point for 
 \begin_inset Formula $\gamma$
 \end_inset
 
@@ -4539,17 +4738,6 @@ or one of its elements is
 \end_inset
 
 .
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-i think there's a small amount of checking to do here,
- but i'll postpone it.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -4631,7 +4819,7 @@ Let
 \begin_inset Formula $\in$
 \end_inset
 
--incomparable to 
+-incomparable to every element of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -4731,7 +4919,7 @@ The sanity checks performed when adding a new element
 
 ,
  and for every 
-\begin_inset Formula $j+2$
+\begin_inset Formula $(j+2)$
 \end_inset
 
 -uple 
@@ -4862,6 +5050,198 @@ all true
 \end_inset
 
  that admits a computable non-standard model.
+\end_layout
+
+\begin_layout Section
+Further Questions
+\end_layout
+
+\begin_layout Standard
+In our main results,
+ we were able to get the complexity of models down by 
+\begin_inset Quotes eld
+\end_inset
+
+one jump
+\begin_inset Quotes erd
+\end_inset
+
+,
+ turning a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory into a computable model.
+ However,
+ a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory admits models with complexity far below 
+\begin_inset Formula $0'$
+\end_inset
+
+.
+ We wonder if this could be exploited to obtain stronger results.
+\end_layout
+
+\begin_layout Question*
+Can 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main"
+
+\end_inset
+
+ and its variants be strengthened in the assumption that we are given,
+ say,
+ a low model instead of a merely 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model?
+\end_layout
+
+\begin_layout Standard
+As always with this kind of work,
+ one may wonder whether there exist less artificial theories or predicates that could have filled the role of our predicates 
+\begin_inset Formula $S^{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $S^{2}$
+\end_inset
+
+,
+ etc.
+ In following with 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lutz_walsh_tennenbaum"
+literal "false"
+
+\end_inset
+
+,
+ we define a 
+\begin_inset Quotes els
+\end_inset
+
+natural
+\begin_inset Quotes ers
+\end_inset
+
+ theory or predicate as one that has been studied by mathematicians who are not logicians.
+\end_layout
+
+\begin_layout Question*
+Does there exist a natural theory that is definitionally equivalent to 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+ which admits a non-standard computable model?
+\end_layout
+
+\begin_layout Standard
+As a dual to this question,
+ once one has been made aware of the role of the signature in Tennenbaum's theorem,
+ one may think to study more deeply the impact that the signature has on the complexity of nonstandard models of 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+.
+ For example:
+ It is a standard theorem (or definition) that a 
+\begin_inset Formula $\mathrm{PA}$
+\end_inset
+
+ degree is the same as one which computes a nonstandard model of 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+.
+ On the other hand,
+ we saw that there is a computable nonstandard model of the definitionally equivalent theory 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ constructed by Pakhomov – and hence,
+ by a theorem of Knight 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "knight_degrees_coded_in_jumps"
+literal "false"
+
+\end_inset
+
+,
+ in every degree.
+ Let us define,
+ for a theory 
+\begin_inset Formula $T$
+\end_inset
+
+ that is definitionally equivalent to 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+,
+ its 
+\emph on
+nonstandard spectrum
+\emph default
+ as the set of degrees of nonstandard models of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Question*
+If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory that is definitionally equivalent to 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+,
+ we can see that its nonstandard spectrum is at most the set of all Turing degrees,
+ and at least the set of all 
+\begin_inset Formula $\mathrm{PA}$
+\end_inset
+
+ degrees.
+ Does there exist such a theory whose nonstandard spectrum is strictly in-between these two cases?
+ More generally,
+ what can the nonstandard spectrum of a c.e.
+\begin_inset space \space{}
+\end_inset
+
+theory definitionally equivalent to 
+\begin_inset Formula $\mathsf{PA}$
+\end_inset
+
+ look like?
+\end_layout
+
+\begin_layout Standard
+The methods used in this paper are too coarse to address this question;
+ they would have to be cleverly modified to stop the nonstandard spectrum from including 
+\begin_inset Formula $0$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
