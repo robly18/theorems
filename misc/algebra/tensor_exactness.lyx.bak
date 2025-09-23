@@ -1,0 +1,3408 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{fullpage}
+\usepackage{braket}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type authoryear
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 1
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A Rant on the Right-Exactness of Tensor Product and Flatness
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+In 2021,
+ I set up a Wordpress blog on my undergraduate webpage with the intent to post math content there,
+ though I didn't write more than three or four posts.
+ Meanwhile,
+ some software update or incompatibility has taken the original blog down.
+ I've been able to obtain a copy of my post from the Internet Archive.
+ For safekeeping,
+ this document is a direct transcription of this post to \SpecialChar LaTeX
+ form,
+ with all the blemishes and issues of the original format.
+\end_layout
+
+\begin_layout Section
+On the Visualization of Dual Space
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+June 7,
+ 2021
+\begin_inset FormulaMacro
+\newcommand{\Hom}{\mathop{\mathrm{Hom}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\blank}{\mathord{-}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\image}{\mathop{\mathrm{im}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\braket}[1]{}
+{\langle#1\rangle}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Z}{\mathbb{Z}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Q}{\mathbb{Q}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\id}{\mathord{\mathrm{id}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\coker}{\mathop{\mathrm{coker}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I love the language of Category theory.
+ It allows us to talk about many different contexts using the same language,
+ and can be helpful in discovering what seemingly unrelated phenomena have in common,
+ by pointing out that they are all manifestations of the same categorical concept,
+ e.g.
+ functoriality,
+ adjointness,
+ or some universal property.
+ Furthermore,
+ it allows us to speak of Things (groups,
+ rings,
+ modules,
+ topological spaces) without speaking of the smaller things that make up the Things,
+ which sometimes shows a forest previously hidden by the trees.
+ The concept of tensor product of modules,
+ which I'll be going over,
+ is one of those:
+ its 
+\begin_inset Quotes eld
+\end_inset
+
+rough
+\begin_inset Quotes erd
+\end_inset
+
+,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+pointwise
+\begin_inset Quotes erd
+\end_inset
+
+ definition looks random and weird,
+ but the universal property that defines it is simple and reasonable.
+\end_layout
+
+\begin_layout Standard
+However,
+ this great generality and disregard for nitty gritty details is also the cause for some of my problems with Algebra as of late:
+ it's very easy to use the language of category theory to make intuitive properties look (to me) uninteresting or undistinguished.
+ To say that so-and-so is left-exact,
+ right-exact,
+ natural...
+ It all looks neat and tidy in diagrams,
+ but I find it very easy to lose track of what functors do what,
+ and I feel like these properties give me no insight.
+ Tools for proof,
+ yes,
+ but then we begin to enter abstract nonsense territory,
+ in which a lot of words are said but little meaning is grasped.
+\end_layout
+
+\begin_layout Standard
+In this post,
+ we will look at the exactness properties of 
+\begin_inset Formula $\Hom$
+\end_inset
+
+,
+ the tensor product,
+ and attempt to grasp what it means for a module to be flat.
+ It's not perfect (anyone know what's so 
+\begin_inset Quotes eld
+\end_inset
+
+flat
+\begin_inset Quotes erd
+\end_inset
+
+ about flat modules?
+ I don't.
+ If you know please tell me),
+ but it's a lot better than nothing,
+ I think.
+ Prerequisites
+\end_layout
+
+\begin_layout Standard
+This post assumes that the reader is already more or less familiar with the notion of module and tensor product.
+ Of course,
+ they need not have mastered it  what would be the point of a post explaining 
+\begin_inset Formula $X$
+\end_inset
+
+ to someone who already knows it?
+  but I'm not going to define what a ring is,
+ and you won't catch me doing routine verifications.
+ Exactness Properties of 
+\begin_inset Formula $\Hom$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us start where an algebra book would start:
+ with the rather simple (bi)functor which,
+ given two 
+\begin_inset Formula $R$
+\end_inset
+
+-modules,
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ and 
+\begin_inset Formula $N$
+\end_inset
+
+,
+ returns the set (
+\begin_inset Formula $R$
+\end_inset
+
+-module,
+ in fact) of homomorphisms 
+\begin_inset Formula $M\to N$
+\end_inset
+
+.
+ This is actually a slightly more complicated object than a functor,
+ because it takes two arguments rather than one,
+ so we actually work with two 
+\begin_inset Quotes eld
+\end_inset
+
+particular cases
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Given an 
+\begin_inset Formula $R$
+\end_inset
+
+-module 
+\begin_inset Formula $N$
+\end_inset
+
+,
+ we define the two functors (covariant and contravariant,
+ respectively)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Hom(N,\blank)\text{, and }\Hom(\blank,N).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This notation makes clear what the functor means when applied to an 
+\begin_inset Formula $R$
+\end_inset
+
+-module,
+ but I personally dislike the notation 
+\begin_inset Formula $\Hom(N,f)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $f$
+\end_inset
+
+ is a homomorphism.
+ I prefer to use the following notation,
+ which is inspired by point-free programming in Haskell:
+ if 
+\begin_inset Formula $f\colon A\to B$
+\end_inset
+
+ is an 
+\begin_inset Formula $R$
+\end_inset
+
+-module homomorphism,
+ we consider the functions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Hom(N,A)\xrightarrow{f\circ}\Hom(N,B),\quad\Hom(B,N)\xrightarrow{\circ f}\Hom(A,N),
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which do what they say on the tin:
+ 
+\begin_inset Formula $(f\circ)(g)=f\circ g$
+\end_inset
+
+ and 
+\begin_inset Formula $(\circ f)(g)=g\circ f$
+\end_inset
+
+.
+ While I find this notation to be very descriptive,
+ it does require some care,
+ especially when expressions such as 
+\begin_inset Formula $g\circ(\circ f)$
+\end_inset
+
+ and 
+\begin_inset Formula $(h\circ(f\circ))(g)$
+\end_inset
+
+ start to crop up.
+ Contravariant Left-Exactness
+\end_layout
+
+\begin_layout Standard
+Anyhow,
+ exactness properties of 
+\begin_inset Formula $\Hom$
+\end_inset
+
+ right?
+ Instead of starting there,
+ I'll start with something the reader should be familiar with:
+ the universal property of a quotient.
+ If 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ are modules,
+ with 
+\begin_inset Formula $A$
+\end_inset
+
+ a submodule of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ we can define the module 
+\begin_inset Formula $B/A$
+\end_inset
+
+,
+ with associated projection 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+ The fundamental property of this quotient is that,
+ if we define a function 
+\begin_inset Formula $g\colon B\to N$
+\end_inset
+
+ which is null on all of 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ we induce a function 
+\begin_inset Formula $\tilde{g}\colon B/A\to N$
+\end_inset
+
+.
+ This is a bijection,
+ in fact,
+ as from any such 
+\begin_inset Formula $\tilde{g}$
+\end_inset
+
+,
+ a 
+\begin_inset Formula $g$
+\end_inset
+
+ can be recovered as 
+\begin_inset Formula $g=\tilde{g}\circ\pi$
+\end_inset
+
+.
+ We leave it to the reader to do the details (they're not many) and conclude that there is a one-to-one correspondence:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Hom(B/A,N)\leftrightarrow\{\,g\colon B\to N\text{ such that }g(A)=0\,\}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A one-to-one correspondence is a bijection.
+ While we're at it,
+ we can grasp additional structure:
+ since this correspondence behaves well with regard to sum and product by scalars,
+ we get an isomorphism of 
+\begin_inset Formula $R$
+\end_inset
+
+-modules.
+\end_layout
+
+\begin_layout Standard
+Can we describe the module on the right a little bit more concisely?
+ Sure we can.
+ To say that 
+\begin_inset Formula $g\colon B\to N$
+\end_inset
+
+ makes 
+\begin_inset Formula $g(A)=0$
+\end_inset
+
+ is the same as to say that 
+\begin_inset Formula $g|_{A}$
+\end_inset
+
+ is the zero function.
+ In other words,
+ if 
+\begin_inset Formula $i:A\to B$
+\end_inset
+
+ is the inclusion function,
+ 
+\begin_inset Formula $g\circ i=0$
+\end_inset
+
+,
+ and so we can write the above correspondence as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Hom(B/A,N)\cong\ker(\circ i)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and this condition is usually expressed by saying that the following diagram is exact:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0\rightarrow\Hom(B/A,N)\xrightarrow{\circ\pi}\Hom(B,N)\xrightarrow{\circ i}\Hom(A,N).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So we have just concluded a (weaker) version of the exactness property of 
+\begin_inset Formula $\Hom(\blank,N)$
+\end_inset
+
+:
+ given an exact sequence
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+0\rightarrow A\overset{i}{\hookrightarrow}B\xrightarrow{\pi}C\rightarrow0,\label{eq1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+the following sequence is exact
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+0\rightarrow\Hom(C,N)\xrightarrow{\circ\pi}\Hom(B,N)\xrightarrow{\circ i}\Hom(A,N).\label{eq2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can be understood in natural language as:
+ the set of functions leaving the quotient is 
+\begin_inset Quotes eld
+\end_inset
+
+kind of
+\begin_inset Quotes erd
+\end_inset
+
+ the set of functions leaving 
+\begin_inset Formula $B$
+\end_inset
+
+ which,
+ when restricted to 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ equal zero.
+ In other words,
+ the kernel of composition with 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Of course,
+ now one could dig a little bit deeper.
+ It can be shown without much difficulty that the assumption that 
+\begin_inset Formula $A$
+\end_inset
+
+ is a subset of 
+\begin_inset Formula $B$
+\end_inset
+
+ is unnecessary,
+ so 
+\begin_inset Formula $i$
+\end_inset
+
+ could be any homomorphism,
+ and in fact it is even unnecessary that it is injective (
+\begin_inset Formula $C$
+\end_inset
+
+ becomes simply (isomorphic to) 
+\begin_inset Formula $B/\image i$
+\end_inset
+
+),
+ and so we can replace the hypothesis 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ by the weaker version
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A\xrightarrow{i}B\xrightarrow{\pi}C\rightarrow0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also,
+ one might ask why we don't also have right-exactness in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ To say that would be to say that any function 
+\begin_inset Formula $A\to N$
+\end_inset
+
+ is the restriction of a function 
+\begin_inset Formula $B\to N$
+\end_inset
+
+,
+ or in other words that any function 
+\begin_inset Formula $A\to N$
+\end_inset
+
+ can be extended to a function 
+\begin_inset Formula $B\to N$
+\end_inset
+
+.
+ If this happens,
+ we say that 
+\begin_inset Formula $N$
+\end_inset
+
+ is an injective module,
+ but this is in general not true.
+\end_layout
+
+\begin_layout Standard
+To find a counterexample,
+ we want to imagine a function 
+\begin_inset Formula $f\colon A\to N$
+\end_inset
+
+ which is well-defined and consistent,
+ but would stop 
+\begin_inset Quotes eld
+\end_inset
+
+working
+\begin_inset Quotes erd
+\end_inset
+
+ if one added a 
+\begin_inset Quotes eld
+\end_inset
+
+wrong element
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ For example,
+ it might be the case that for some 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ 
+\begin_inset Formula $f(a)\neq0$
+\end_inset
+
+,
+ and this causes no problem in 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ But then in 
+\begin_inset Formula $B$
+\end_inset
+
+ there exists some 
+\begin_inset Formula $b$
+\end_inset
+
+ such that 
+\begin_inset Formula $rb=a$
+\end_inset
+
+,
+ and so taking 
+\begin_inset Formula $f$
+\end_inset
+
+ on both sides (assuming it is extendible to 
+\begin_inset Formula $B$
+\end_inset
+
+) one gets 
+\begin_inset Formula $rf(b)=f(a)\neq0$
+\end_inset
+
+.
+ But then,
+ if we arrange things in order to make 
+\begin_inset Formula $rf(b)=0$
+\end_inset
+
+ regardless of the choice of 
+\begin_inset Formula $f(b)$
+\end_inset
+
+,
+ we reach a contradiction.
+\end_layout
+
+\begin_layout Standard
+We can now find a specific example of such a scenario.
+ The idea that 
+\begin_inset Formula $rf(b)=0$
+\end_inset
+
+ no matter the choice of 
+\begin_inset Formula $f(b)$
+\end_inset
+
+ is easy enough to arrange:
+ simply let 
+\begin_inset Formula $N=R/\!\braket r$
+\end_inset
+
+,
+ for example.
+ For definiteness,
+ let us set 
+\begin_inset Formula $R=\Z$
+\end_inset
+
+ (the most vanilla ring out there,
+ when it's not being too nice) and 
+\begin_inset Formula $N=\Z/2$
+\end_inset
+
+ (because 
+\begin_inset Formula $2$
+\end_inset
+
+ is the smallest nontrivial number).
+ As for our choice of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ might as well set 
+\begin_inset Formula $A=R=\Z$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $f$
+\end_inset
+
+ as the projection 
+\begin_inset Formula $\Z\to\Z/2$
+\end_inset
+
+,
+ and the most natural setting for us to put 
+\begin_inset Formula $\Z$
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+inside of
+\begin_inset Quotes erd
+\end_inset
+
+ that allows us to divide by two is 
+\begin_inset Formula $B=\Q$
+\end_inset
+
+.
+ And so we conclude our example:
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\pi:A\to N$
+\end_inset
+
+ be the projection 
+\begin_inset Formula $\Z\to\Z/2$
+\end_inset
+
+.
+ We wish to show that 
+\begin_inset Formula $\pi$
+\end_inset
+
+ cannot be extended as a function 
+\begin_inset Formula $p:\Q\to\Z/2$
+\end_inset
+
+.
+ Indeed,
+ if this were possible,
+ we would get 
+\begin_inset Formula $1=\pi(1)=p(1)=2p(1/2)=0$
+\end_inset
+
+ (modulo 
+\begin_inset Formula $2$
+\end_inset
+
+).
+ This proves that,
+ in general,
+ we cannot expect 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to be right-exact.
+ Covariant Left-Exactness
+\end_layout
+
+\begin_layout Standard
+For our next magic trick,
+ we will look at a dual notion of what we have done so far.
+ What we have done was simply use the fact:
+ a function leaving the quotient 
+\begin_inset Formula $B/A$
+\end_inset
+
+ is the same as a function leaving 
+\begin_inset Formula $B$
+\end_inset
+
+ which is null all over 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ In order to reach a similar exactness property for the covariant 
+\begin_inset Formula $\Hom$
+\end_inset
+
+ functor,
+ we need to have a similar statement,
+ but with functions going to some space.
+\end_layout
+
+\begin_layout Standard
+Since there is a very strong correlation between exact sequences and quotients,
+ we can try again to look at a pair of modules 
+\begin_inset Formula $A\subseteq B$
+\end_inset
+
+.
+ Now,
+ we wish to relate functions going from 
+\begin_inset Formula $N$
+\end_inset
+
+ to 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ 
+\begin_inset Formula $N$
+\end_inset
+
+ to 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $N$
+\end_inset
+
+ to 
+\begin_inset Formula $B/A$
+\end_inset
+
+.
+ Before,
+ we answered the question:
+ when can a function 
+\begin_inset Formula $B\to N$
+\end_inset
+
+ be seen as a function 
+\begin_inset Formula $B/A\to N$
+\end_inset
+
+?
+ Now,
+ instead,
+ we ask:
+ when can a function 
+\begin_inset Formula $N\to B$
+\end_inset
+
+ be seen as a function-- 
+\begin_inset Formula $N\to B/A$
+\end_inset
+
+?
+ Or would 
+\begin_inset Formula $N\to A$
+\end_inset
+
+ be a better choice?
+ Surprisingly enough,
+ whichever choice leads to the same conclusion.
+ 
+\begin_inset Formula $N\to B/A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is trivial to turn a function 
+\begin_inset Formula $N\to B$
+\end_inset
+
+ into a function 
+\begin_inset Formula $N\to B/A$
+\end_inset
+
+:
+ simply compose with the projection.
+ In other words,
+ we get the arrow
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Hom(N,B)\xrightarrow{\pi\circ}\Hom(N,B/A).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Problem:
+ this is neither injective nor surjective.
+ I don't know about you,
+ but I can't see any way to easily investigate surjectivity.
+ Injectivity,
+ however,
+ (or the lack thereof) is easy:
+ the kernel of 
+\begin_inset Formula $\pi\circ$
+\end_inset
+
+ is precisely those functions 
+\begin_inset Formula $f\colon N\to B$
+\end_inset
+
+ such that 
+\begin_inset Formula $f(N)\subseteq A$
+\end_inset
+
+.
+ Why,
+ this is precisely the set we call 
+\begin_inset Formula $\Hom(N,A)$
+\end_inset
+
+!
+ Therefore,
+ the following sequence is exact
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0\rightarrow\Hom(N,A)\hookrightarrow\Hom(N,B)\xrightarrow{\pi\circ}\Hom(N,B/A).
+\]
+
+\end_inset
+
+
+\begin_inset Formula $N\to A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Any function from 
+\begin_inset Formula $N$
+\end_inset
+
+ to 
+\begin_inset Formula $A$
+\end_inset
+
+ can be seen as a function from 
+\begin_inset Formula $N$
+\end_inset
+
+ to 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ In other words,
+ 
+\begin_inset Formula $\Hom(N,A)\hookrightarrow\Hom(N,B)$
+\end_inset
+
+.
+ Is there an easy characterization of which functions 
+\begin_inset Formula $N\to B$
+\end_inset
+
+ are actually 
+\begin_inset Formula $N\to A$
+\end_inset
+
+?
+ Since we're on the subject of short exact sequences,
+ we might try to express it in terms of 
+\begin_inset Formula $\pi:B\to B/A$
+\end_inset
+
+,
+ and easily conclude that 
+\begin_inset Formula $f\in\Hom(N,B)$
+\end_inset
+
+ is in 
+\begin_inset Formula $\Hom(N,A)$
+\end_inset
+
+ if and only if 
+\begin_inset Formula $\pi(f(n))=0$
+\end_inset
+
+ for all 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ or 
+\begin_inset Formula $\pi\circ f=0$
+\end_inset
+
+.
+ Or,
+ more suggestively,
+ if 
+\begin_inset Formula $f\in\ker(\pi\circ)$
+\end_inset
+
+.
+ Therefore,
+ we again conclude the exactness of
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+0\rightarrow\Hom(N,A)\hookrightarrow\Hom(N,B)\xrightarrow{\pi\circ}\Hom(N,B/A).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You might object that these two 
+\begin_inset Quotes eld
+\end_inset
+
+different paths
+\begin_inset Quotes erd
+\end_inset
+
+ are actually the same,
+ just worded slightly different.
+ Yeah.
+ They are.
+ But the point I'm trying to make is the inevitability of the idea.
+ As long as I throw the words 
+\begin_inset Quotes eld
+\end_inset
+
+relate these 
+\begin_inset Formula $\Hom$
+\end_inset
+
+s
+\begin_inset Quotes erd
+\end_inset
+
+,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+projection
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+kernel
+\begin_inset Quotes erd
+\end_inset
+
+ into the same cooking pot,
+ I'll end up with the same theorem.
+\end_layout
+
+\begin_layout Standard
+As in the contravariant case,
+ it is unreasonable to expect right-exactness.
+ In this case,
+ the property that 
+\begin_inset Formula $N$
+\end_inset
+
+ makes 
+\begin_inset Formula $\Hom(N,\blank)$
+\end_inset
+
+ right-exact is called projectiveness,
+ and the easiest way to find a counterexample is to find modules where functions don't exist.
+ For example,
+ the only (
+\begin_inset Formula $\Z$
+\end_inset
+
+-module) homomorphism from 
+\begin_inset Formula $\Z/2$
+\end_inset
+
+ to 
+\begin_inset Formula $\Z$
+\end_inset
+
+ is the null homomorphism,
+ so 
+\begin_inset Formula $\Z/2$
+\end_inset
+
+ is a good candidate for 
+\begin_inset Formula $N$
+\end_inset
+
+ and 
+\begin_inset Formula $\Z$
+\end_inset
+
+ a good candidate for 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ Now,
+ in order to make sure that 
+\begin_inset Formula $\Hom(N,B/A)$
+\end_inset
+
+ has more than one element,
+ we need only make 
+\begin_inset Formula $A=2\Z$
+\end_inset
+
+.
+ This shows that 
+\begin_inset Formula $\Z/2$
+\end_inset
+
+ is not projective as a 
+\begin_inset Formula $\Z$
+\end_inset
+
+-module.
+ A Look at the Tensor Product
+\end_layout
+
+\begin_layout Standard
+The Tensor Product is an object that took me a while to grasp,
+ and I still feel like I don't understand it completely.
+ For modules there are,
+ in my view,
+ three big definitions/points of view,
+ each with advantages and disadvantages:
+\end_layout
+
+\begin_layout Standard
+The Universal Property Generators and Relations 
+\begin_inset Quotes eld
+\end_inset
+
+Bilinear Function Data
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Universal Property
+\end_layout
+
+\begin_layout Standard
+This is,
+ for most intents and purposes,
+ The Right Definition.
+ What it tells us is that the tensor product turns questions of bilinearity into questions of linearity.
+ In other words,
+ the Tensor Product 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ of two modules 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ is the unique module (up to isomorphism) such that there exists a nice one-to-one correspondence between bilinear functions leaving 
+\begin_inset Formula $A\times B$
+\end_inset
+
+ and linear functions leaving 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+.
+ The reader should already be familiar with this correspondence:
+ given a function 
+\begin_inset Formula $f\colon A\otimes B\to N$
+\end_inset
+
+,
+ one turns it into a bilinear function as 
+\begin_inset Formula $\tilde{f}(a,b):=f(a\otimes b)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This definition is generally the cleanest and most useful to prove things.
+ It can provide a lot of insight in some proofs,
+ but mostly for proofs 
+\begin_inset Quotes eld
+\end_inset
+
+around
+\begin_inset Quotes erd
+\end_inset
+
+ the tensor product:
+ it gives notoriously little information as to what kind of 
+\begin_inset Quotes eld
+\end_inset
+
+stuff
+\begin_inset Quotes erd
+\end_inset
+
+ lives in the tensor product.
+ When is 
+\begin_inset Formula $a\otimes b$
+\end_inset
+
+ equal or not to 
+\begin_inset Formula $a'\otimes b'$
+\end_inset
+
+?
+ Beats me.
+ Generators and Relations
+\end_layout
+
+\begin_layout Standard
+The main problem of the definition via the universal property is that it is nonconstructive:
+ a priori there is no reason to believe that there exists a 
+\begin_inset Quotes eld
+\end_inset
+
+linear object which encodes bilinearity
+\begin_inset Quotes erd
+\end_inset
+
+.
+ As we know from logic,
+ the most straightforward way to show that there exists an object satisfying so-and-so axioms is to construct it.
+\end_layout
+
+\begin_layout Standard
+The idea is that we'll make sure that there exists a function 
+\begin_inset Formula $\otimes:A\times B\to A\otimes B$
+\end_inset
+
+,
+ and we will ensure that it is bilinear-- And that's basically it.
+ The resulting module is the tensor product we have been looking for.
+\end_layout
+
+\begin_layout Standard
+More specifically,
+ we will use the method of generators and relations.
+ We consider a module with generators of the form 
+\begin_inset Formula $a\otimes b$
+\end_inset
+
+,
+ and we add just enough relations to ensure that the function 
+\begin_inset Formula $\otimes$
+\end_inset
+
+ is bilinear,
+ i.e.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A\otimes B=\left\langle a\otimes b,a\in A,b\in B\,\middle|\,\begin{aligned} & (a+a')\otimes b=a\otimes b+a'\otimes b, &  & a\otimes(b+b')=a\otimes b+a\otimes b',\\
+ & (ra)\otimes b=r(a\otimes b), &  & a\otimes(rb)=r(a\otimes b),\\
+ & \text{ for all \ensuremath{a,a'\in A}, \ensuremath{b,b'\in B} and \ensuremath{r\in R}.}
+\end{aligned}
+\right\rangle 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a lot of work to write,
+ a lot of work to read,
+ and doesn't really add that much information,
+ so I'll just start writing the word 
+\begin_inset Formula $\mathrm{bilinearity}$
+\end_inset
+
+ to mean that whole set of relations.
+\end_layout
+
+\begin_layout Standard
+If you are not familiar with defining modules by generators and relations,
+ here's how it goes:
+ you have a bunch of generators,
+ which we usually collect in a set we call 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ The free module over these generators,
+ written as 
+\begin_inset Formula $\braket G$
+\end_inset
+
+ or sometimes something like 
+\begin_inset Formula $\bigoplus_{g\in G}R$
+\end_inset
+
+ or 
+\begin_inset Formula $R^{\oplus G}$
+\end_inset
+
+,
+ is simply the set of (formal) sums of elements of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ Then,
+ we can add relations of the form,
+ say,
+ 
+\begin_inset Formula $r_{1}g_{1}+\dots+r_{n}g_{n}=s_{1}g'_{1}+\dots+s_{m}g'_{m}$
+\end_inset
+
+.
+ To make the formalism easier to handle in theoretical terms,
+ we pretend that we're actually writing relations of the form 
+\begin_inset Formula $r_{1}g_{1}+\dots+r_{n}g_{n}=0$
+\end_inset
+
+ (just subtract the right-hand side from both sides),
+ and if we write 
+\begin_inset Formula $\rho$
+\end_inset
+
+ to mean an expression of the form 
+\begin_inset Formula $r_{1}g_{1}+\dots+r_{n}g_{n}$
+\end_inset
+
+,
+ we can consider a module which we write as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\braket{G\mid\rho=0,\rho=0,\dots},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the different 
+\begin_inset Formula $\rho$
+\end_inset
+
+s represent different linear combinations of the generators.
+ What we mean when we write this expression is actually the free module 
+\begin_inset Formula $\braket G$
+\end_inset
+
+,
+ quotiented by the submodule generated by all the things we wish to identify with zero.
+\end_layout
+
+\begin_layout Standard
+This is the rigorous definition of the whole ordeal.
+ The way to work with it is as follows:
+ when meddling with elements of 
+\begin_inset Formula $\braket{G\mid A}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $A$
+\end_inset
+
+ is a set of relations,
+ we work with linear combinations of elements of 
+\begin_inset Formula $G$
+\end_inset
+
+,
+ with the understanding that two linear combinations are equal if and only if we can show that they are equal in a finite amount of steps,
+ using only the laws of 
+\begin_inset Formula $R$
+\end_inset
+
+-modules and the relations in 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The good news:
+ this method gives us easy ways to show that two elements of the tensor product are equal (get from one to the other using the bilinearity relations),
+ and more crucially,
+ it gives us a way to use the hypothesis that two elements of the tensor product are equal.
+ For example,
+ if we know that a sum 
+\begin_inset Formula $\sum a_{i}\otimes b_{i}$
+\end_inset
+
+ is null,
+ we know that there exists a finite-time process,
+ using only the laws of bilinearity at each step,
+ that reduces this expression to zero.
+ We will do an example later.
+\end_layout
+
+\begin_layout Standard
+The bad news:
+ Using the assumption that two things are equal in this manner is very ugly.
+ It's ugly to write,
+ and it lends itself to ugly arguments.
+ Even if it's potentially a useful tool to have in your toolbelt,
+ any proof you write using it is going to come out ugly.
+\end_layout
+
+\begin_layout Standard
+As further bad news,
+ even though it is easy to show that two things are equal in the generators-and-relations point of view,
+ to show that two things are different is horrible at best.
+ Indeed,
+ the situation is so ugly that there exists a theorem which shows that,
+ for some (finite!) presentations of groups,
+ there exists no algorithm which is guaranteed to distinguish different expressions in finite time.
+\end_layout
+
+\begin_layout Standard
+As a last remark on this point of view,
+ if you're not familiar with it,
+ here is how to show that the module 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ represented above satisfies the universal property of the tensor product.
+ It is easy to show (using the universal properties of the sum of modules and the quotient) that to define a module homomorphism 
+\begin_inset Formula $f$
+\end_inset
+
+ leaving something of the form 
+\begin_inset Formula $\braket{G\mid A}$
+\end_inset
+
+ is the same as to define the image 
+\begin_inset Formula $f(g)$
+\end_inset
+
+ of all 
+\begin_inset Formula $g\in G$
+\end_inset
+
+,
+ as long as their images satisfy the relations in 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ In other words,
+ for all equations of the form 
+\begin_inset Formula $\sum r_{i}g_{i}=\sum s_{i}g'_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ we need to ensure that 
+\begin_inset Formula $\sum r_{i}f(g_{i})=\sum s_{i}f(g'_{i})$
+\end_inset
+
+.
+ However,
+ as long as these equations are all ensured,
+ we get a well-defined and unique 
+\begin_inset Formula $f$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the case of our tensor product,
+ the generators are (effectively) pairs 
+\begin_inset Formula $(a,b)$
+\end_inset
+
+,
+ which we write as 
+\begin_inset Formula $a\otimes b$
+\end_inset
+
+.
+ So a function 
+\begin_inset Formula $f$
+\end_inset
+
+ leaving 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ is the same as a function 
+\begin_inset Formula $g$
+\end_inset
+
+ defined on 
+\begin_inset Formula $A\times B$
+\end_inset
+
+,
+ which satisfies certain relations-- Which are precisely the axioms stating that 
+\begin_inset Formula $g$
+\end_inset
+
+ is bilinear.
+ In other words,
+ defining a function 
+\begin_inset Formula $f$
+\end_inset
+
+ leaving 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ is precisely the same as defining a bilinear function 
+\begin_inset Formula $g$
+\end_inset
+
+ leaving 
+\begin_inset Formula $A\times B$
+\end_inset
+
+,
+ and the relation between these two is that 
+\begin_inset Formula $f(a\otimes b)=g(a,b)$
+\end_inset
+
+.
+ This is exactly the universal property of the tensor product.
+ Bilinear Function Data
+\end_layout
+
+\begin_layout Standard
+This approach (which I've never seen anywhere else,
+ though I can't possibly claim originality since it is a rather simple idea) is somewhat of an intermediate between the previous two approaches,
+ combining the specificity of the generators and relations methods,
+ but with some of the 
+\begin_inset Quotes eld
+\end_inset
+
+True Meaning of Tensor Product
+\begin_inset Quotes erd
+\end_inset
+
+ in the mix as in the universal property approach.
+\end_layout
+
+\begin_layout Standard
+The idea is to consider the tensor product of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ as 
+\begin_inset Quotes eld
+\end_inset
+
+the set of data that can be plugged into bilinear functions
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As an example,
+ suppose that 
+\begin_inset Formula $a\in A$
+\end_inset
+
+ and 
+\begin_inset Formula $b\in B$
+\end_inset
+
+.
+ Then,
+ if 
+\begin_inset Formula $f$
+\end_inset
+
+ is a bilinear function leaving 
+\begin_inset Formula $A\times B$
+\end_inset
+
+,
+ we could certainly feed it the pair 
+\begin_inset Formula $(a,b)$
+\end_inset
+
+.
+ So 
+\begin_inset Formula $a\otimes b$
+\end_inset
+
+ is now considered an element of the tensor product.
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $a'$
+\end_inset
+
+ is another element of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $b'$
+\end_inset
+
+ another of 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ we can now consider feeding 
+\begin_inset Formula $f$
+\end_inset
+
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+formal sum
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $(a,b)+(a',b')$
+\end_inset
+
+.
+ This isn't a legitimate thing to give 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ as it accepts pairs,
+ not formal sums of pairs.
+ But it is data that can be fed into 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ just not directly:
+ we have to specify that we are evaluating 
+\begin_inset Formula $f$
+\end_inset
+
+ on each pair separately,
+ and afterwards adding all.
+\end_layout
+
+\begin_layout Standard
+This can be formalized by considering a function 
+\begin_inset Formula $\tilde{f}$
+\end_inset
+
+ defined on 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+,
+ defined by 
+\begin_inset Formula $\tilde{f}(a,b)=f(a,b)$
+\end_inset
+
+.
+ Now,
+ we can talk about all formal sums and the result of 
+\begin_inset Quotes eld
+\end_inset
+
+feeding them to 
+\begin_inset Formula $f$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The problem with this construction is that it contains a lot of redundant elements,
+ which could be simplified.
+ For example,
+ even though 
+\begin_inset Formula $(a,b)+(a',b)$
+\end_inset
+
+ and 
+\begin_inset Formula $(a+a',b)$
+\end_inset
+
+ are 
+\begin_inset Quotes eld
+\end_inset
+
+different data
+\begin_inset Quotes erd
+\end_inset
+
+,
+ they yield the same result when fed to any bilinear function.
+ Therefore,
+ we may wish to consider them the same data.
+\end_layout
+
+\begin_layout Standard
+There are now two ways to look at the situation.
+ One of them is what we've already seen:
+ identify 
+\begin_inset Quotes eld
+\end_inset
+
+bilinear data
+\begin_inset Quotes erd
+\end_inset
+
+ using the bilinear relations.
+ Another equivalent but interesting way is as follows:
+ we identify two sets of bilinear data if they yield the same result for all bilinear functions.
+\end_layout
+
+\begin_layout Standard
+A more mathematical way to express this definition of tensor product is as follows:
+ we define 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ as the quotient of 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+ by the relation that 
+\begin_inset Formula $s\sim t$
+\end_inset
+
+ iff 
+\begin_inset Formula $\tilde{f}(s)=\tilde{f}(t)$
+\end_inset
+
+ for all bilinear functions 
+\begin_inset Formula $f$
+\end_inset
+
+ leaving 
+\begin_inset Formula $A\times B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is necessary to do a bit of busywork to show that this is a well-defined module.
+ You need to show that this is an equivalence relation and that the module operations are well-defined on the equivalence classes.
+ Alternatively,
+ you show that the set 
+\begin_inset Formula $Z=\{\,s\in\braket{A\otimes B}\mid\tilde{f}(s)=0\text{, for all \ensuremath{f}}\,\}$
+\end_inset
+
+ is a submodule of 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+,
+ and define 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ as 
+\begin_inset Formula $\braket{A\times B}/Z$
+\end_inset
+
+.
+ However,
+ once these verifications are done,
+ you have a cute criterion for checking if two elements of the tensor product are equal.
+ To show that they are,
+ prove that they yield the same when fed to any bilinear function.
+ But more useful yet,
+ to show that they are different,
+ find a bilinear function that gives different results to both.
+ This is great,
+ because this is something you can actually do!
+ We will give examples soon.
+\end_layout
+
+\begin_layout Standard
+Two remarks are in order.
+ First of all,
+ we need to check that this notion coincides with the usual definition of tensor product.
+ Second,
+ it is worth mentioning that this way to prove that two elements of the tensor product differ is already imbued in the usual definition of tensor product,
+ and you might already have used it or be familiar with it.
+\end_layout
+
+\begin_layout Standard
+So,
+ why is this definition equivalent to the other two?
+ We will present two different proofs.
+ Using the Universal Property
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $f$
+\end_inset
+
+ be a bilinear function 
+\begin_inset Formula $A\times B\to N$
+\end_inset
+
+.
+ Then,
+ it induces a function 
+\begin_inset Formula $\tilde{f}:\braket{A\times B}\to N$
+\end_inset
+
+,
+ which in turn induces a function in the quotient 
+\begin_inset Formula $\hat{f}\colon\braket{A\times B}/Z\to N$
+\end_inset
+
+ (why?
+ Recall the definition of 
+\begin_inset Formula $Z$
+\end_inset
+
+).
+ This correspondence is one-to-one,
+ as 
+\begin_inset Formula $f$
+\end_inset
+
+ can be recovered by 
+\begin_inset Formula $f(a,b)=\hat{f}(a\otimes b)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $a\otimes b$
+\end_inset
+
+ is defined as the equivalence class of 
+\begin_inset Formula $(a,b)\in\braket{A\times B}$
+\end_inset
+
+.
+ Using Relations
+\end_layout
+
+\begin_layout Standard
+We've already defined the tensor product as a quotient of 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+,
+ except instead of taking the quotient by 
+\begin_inset Formula $Z$
+\end_inset
+
+ we took the quotient by 
+\begin_inset Quotes eld
+\end_inset
+
+the bilinear kernel
+\begin_inset Quotes erd
+\end_inset
+
+,
+ i.e.
+ the submodule generated by 
+\begin_inset Formula $(a,b)+(a',b)(a+a',b)$
+\end_inset
+
+,
+ etc.
+ Therefore,
+ a way to show that these two notions coincide is to show that these two submodules of 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+ coincide.
+\end_layout
+
+\begin_layout Standard
+It is trivial to check that every element of the bilinear kernel is in 
+\begin_inset Formula $Z$
+\end_inset
+
+;
+ it is the very definition of bilinear function.
+ The tricky part is that 
+\begin_inset Formula $Z$
+\end_inset
+
+ contains no more than the bilinear kernel.
+ The only way I know to do this is kind of a cheat.
+ You see,
+ as we've said before (in slightly different words),
+ an effective way to show that an element 
+\begin_inset Formula $s$
+\end_inset
+
+ of 
+\begin_inset Formula $\braket{A\times B}$
+\end_inset
+
+ is not in 
+\begin_inset Formula $Z$
+\end_inset
+
+ is to find a bilinear function 
+\begin_inset Formula $A\times B\to N$
+\end_inset
+
+ which does not vanish on 
+\begin_inset Formula $s$
+\end_inset
+
+.
+ And so,
+ the function we pick is precisely the tensor 
+\begin_inset Formula $\otimes:A\times B\to A\otimes B$
+\end_inset
+
+,
+ where the tensor product 
+\begin_inset Formula $A\otimes B$
+\end_inset
+
+ is considered in the sense of 
+\begin_inset Formula $\braket{A\times B}/\{\text{bilinear kernel}\}$
+\end_inset
+
+.
+ With this function,
+ we prove that any 
+\begin_inset Formula $s$
+\end_inset
+
+ not in the bilinear kernel is also not in 
+\begin_inset Formula $Z$
+\end_inset
+
+,
+ which shows that they coincide.
+ Why This Point of View Adds Nothing New (in theory)
+\end_layout
+
+\begin_layout Standard
+What we mean by this title is that this method of proving that two elements of the tensor product are distinct was already present in the characterization by the universal property,
+ just hidden.
+ Indeed,
+ if we wish to show that an expression of the form 
+\begin_inset Formula $s=\sum_{i}a_{i}\otimes b_{i}$
+\end_inset
+
+ is different from zero (for simplicity),
+ the universal property could always have been used for this purpose,
+ for if we find a bilinear function 
+\begin_inset Formula $f\colon A\times B\to N$
+\end_inset
+
+ such that 
+\begin_inset Formula $\sum f(a_{i},b_{i})\neq0$
+\end_inset
+
+,
+ then the universal property induces 
+\begin_inset Formula $\tilde{f}\colon A\otimes B\to N$
+\end_inset
+
+ such that 
+\begin_inset Formula $\tilde{f}(s)=\sum_{i}\tilde{f}(a_{i}\otimes b_{i})\neq0$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $s$
+\end_inset
+
+ must have been nonzero to begin with.
+\end_layout
+
+\begin_layout Standard
+However,
+ even though the new point of view has not created a new proof method,
+ it has put an important idea in the center of attention,
+ and I think that's a valuable thing.
+ Even though it was always available,
+ this method of proof is not an obvious a priori consequence of the universal property to someone who has never thought of it in this manner.
+ Exactness of Tensor
+\end_layout
+
+\begin_layout Standard
+We are now prepared to examine the exactness of the tensor product,
+ as we have for the 
+\begin_inset Formula $\Hom$
+\end_inset
+
+ functor.
+ As in the 
+\begin_inset Formula $\Hom$
+\end_inset
+
+ case,
+ the tensor product is not actually a functor,
+ but a bifunctor,
+ as it receives two arguments.
+ Thus,
+ like with 
+\begin_inset Formula $\Hom$
+\end_inset
+
+,
+ we could look at the two 
+\begin_inset Quotes eld
+\end_inset
+
+particular cases
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Formula $\blank\otimes N$
+\end_inset
+
+ and 
+\begin_inset Formula $N\otimes\blank$
+\end_inset
+
+.
+ However,
+ unlike in the case of 
+\begin_inset Formula $\Hom$
+\end_inset
+
+,
+ these two are effectively the same thing;
+ in the language of category theory,
+ we say that these two functors are naturally isomorphic (for each 
+\begin_inset Formula $N$
+\end_inset
+
+) by the isomorphism given by the swap function 
+\begin_inset Formula $A\otimes N\to N\otimes A$
+\end_inset
+
+.
+ Consequently,
+ when inspecting the functor given by tensor product,
+ we consider only it as only the functor 
+\begin_inset Quotes eld
+\end_inset
+
+tensor by 
+\begin_inset Formula $N$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and either decide or one specific side or leave it ambiguous as it does not matter.
+ In what follows,
+ I will consider the functor 
+\begin_inset Formula $\blank\otimes N$
+\end_inset
+
+,
+ or sometimes just 
+\begin_inset Formula $\otimes N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+What the functor 
+\begin_inset Formula $\otimes N$
+\end_inset
+
+ does on objects (modules) is obvious to the eye:
+ given an 
+\begin_inset Formula $R$
+\end_inset
+
+-module 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ it returns the 
+\begin_inset Formula $R$
+\end_inset
+
+-module 
+\begin_inset Formula $A\otimes N$
+\end_inset
+
+.
+ So what does it do on functions?
+\end_layout
+
+\begin_layout Standard
+Given a function 
+\begin_inset Formula $f\colon A\to B$
+\end_inset
+
+,
+ there is a way that jumps to mind to make a function 
+\begin_inset Formula $\tilde{f}\colon A\otimes N\to B\otimes N$
+\end_inset
+
+:
+ just 
+\begin_inset Quotes eld
+\end_inset
+
+apply 
+\begin_inset Formula $f$
+\end_inset
+
+ to the first coordinate and leave the second unchanged
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Some denote this as 
+\begin_inset Formula $f\otimes N$
+\end_inset
+
+,
+ but I will denote it by 
+\begin_inset Formula $f\otimes\id$
+\end_inset
+
+,
+ as it is a particular case of a general phenomenon:
+ Given 
+\begin_inset Formula $f\colon A\to B$
+\end_inset
+
+ and 
+\begin_inset Formula $g\colon C\to D$
+\end_inset
+
+,
+ there exists a function 
+\begin_inset Formula 
+\begin{align*}
+f\otimes g\colon A\otimes C & \to B\otimes D\\
+a\otimes c & \mapsto f(a)\otimes g(c).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us then begin to investigate the exactness of the tensor product.
+ We begin with a simple statement:
+ if 
+\begin_inset Formula $g\colon B\to C$
+\end_inset
+
+ is surjective,
+ so is 
+\begin_inset Formula $g\otimes\id\colon B\otimes N\to C\otimes N$
+\end_inset
+
+.
+ This is a triviality:
+ we know that 
+\begin_inset Formula $C\otimes N$
+\end_inset
+
+ is generated by elements of the form 
+\begin_inset Formula $c\otimes n$
+\end_inset
+
+,
+ so to show that 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ is surjective it suffices to show that all such elements are in its image.
+ To do so,
+ write 
+\begin_inset Formula $c=g(b)$
+\end_inset
+
+ for some 
+\begin_inset Formula $b$
+\end_inset
+
+ and clearly 
+\begin_inset Formula $c\otimes n=(g\otimes\id)(b\otimes n)$
+\end_inset
+
+.
+ So we have shown that the tensor product preserves surjectivity.
+\end_layout
+
+\begin_layout Standard
+Let us now try to investigate if the tensor product preserves injectivity.
+ This is a much trickier subject,
+ because the identifications that go on in the tensor product are complicated.
+\end_layout
+
+\begin_layout Standard
+To investigate the injectivity of a map 
+\begin_inset Formula $f\colon B\otimes N\to C\otimes N$
+\end_inset
+
+ is to ask the question:
+ if 
+\begin_inset Formula $f(\sum b_{i}\otimes n_{i})=0$
+\end_inset
+
+,
+ can I guarantee that 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}=0$
+\end_inset
+
+?
+ In our particular case,
+ 
+\begin_inset Formula $f=g\otimes\id$
+\end_inset
+
+,
+ so that we know 
+\begin_inset Formula 
+\[
+\sum g(b_{i})\otimes n_{i}=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's see what our three points of view on the tensor product have to say about this:
+\end_layout
+
+\begin_layout Standard
+Universal Property:
+ As before remarked,
+ the universal property of the tensor product seldom has anything to say on specific elements of the tensor.
+ It is possible to use it to prove exactness properties of the tensor,
+ and we will do it later,
+ but through inspection of specific elements is not that way.
+ Generators and Relations:
+ This alternative gives us a way to handle the hypothesis that 
+\begin_inset Formula $\sum g(b_{i})\otimes n_{i}=0$
+\end_inset
+
+,
+ in the sense that there exists a process to reduce this expression to zero using only the bilinear relations.
+ It also gives us a way to prove that 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}=0$
+\end_inset
+
+:
+ likewise,
+ reduce it to zero using only the bilinear relations.
+ The obvious proof idea is to use the process that shows 
+\begin_inset Formula $\sum g(b_{i})\otimes n_{i}=0$
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+translate it backwards
+\begin_inset Quotes erd
+\end_inset
+
+ somehow,
+ in order to create a process that shows 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}=0$
+\end_inset
+
+.
+ Bilinear Data:
+ This alternative also gives us a way forward.
+ The hypothesis corresponds to assuming that,
+ given any bilinear function 
+\begin_inset Formula $h\colon C\times N\to M$
+\end_inset
+
+,
+ the sum 
+\begin_inset Formula $\sum h(g(b_{i}),n_{i})$
+\end_inset
+
+ is null.
+ There are two candidate ways forward.
+ We could try to show a similar condition for things of the form 
+\begin_inset Formula $\sum j(b_{i},n_{i})$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $j\colon B\times N\to M$
+\end_inset
+
+,
+ but that would require 
+\begin_inset Quotes eld
+\end_inset
+
+pushing 
+\begin_inset Formula $j$
+\end_inset
+
+ forward somehow
+\begin_inset Quotes erd
+\end_inset
+
+,
+ writing it as something of the form 
+\begin_inset Formula $j(b,n)=\tilde{\jmath}(g(b),n)$
+\end_inset
+
+ for some 
+\begin_inset Formula $\tilde{\jmath}$
+\end_inset
+
+.
+ An easier,
+ more direct way,
+ would be to simply arrange a bilinear 
+\begin_inset Formula $h$
+\end_inset
+
+ that makes 
+\begin_inset Formula $h(g(b),n)=b\otimes n$
+\end_inset
+
+,
+ which immediately shows that 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}=\sum h(g(b_{i}),n_{i})=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let us take a look at the Generators and Relations method,
+ which will show that surjectivity of 
+\begin_inset Formula $g$
+\end_inset
+
+ turns out to be crucial.
+\end_layout
+
+\begin_layout Standard
+To write the details in full generality is difficult and obfuscating,
+ so we will do a kind of specific example.
+ Suppose that you manage to show that 
+\begin_inset Formula $g(b_{1})\otimes n_{1}+g(b_{2})\otimes n_{2}=0$
+\end_inset
+
+ through a computation of the following sort:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+g(b_{1})\otimes n_{1}+g(b_{2})\otimes n_{2} & =c_{1}\otimes n_{1}+c_{2}\otimes n_{2}\\
+ & =(rc_{3})\otimes n_{1}+(sc_{3}+tc_{4})\otimes n_{2}\\
+ & =c_{3}\otimes(rn_{1})+(sc_{3})\otimes n_{2}+(tc_{4})\otimes n_{2}\\
+ & =c_{3}\otimes(rn_{1})+c_{3}\otimes(sn_{2})+c_{4}\otimes(tn_{2})\\
+ & =c_{3}\otimes\cancel{(rn_{1}+sn_{2})}+c_{4}\otimes(un_{3})\\
+ & =0+\cancel{(uc_{4})}\otimes n_{3}=0.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this computation,
+ some steps correspond to hypotheses we're making for the sake of computation,
+ e.g.
+ that 
+\begin_inset Formula $c_{2}=sc_{3}+tc_{4}$
+\end_inset
+
+,
+ or that 
+\begin_inset Formula $uc_{4}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The most important property of this kind of computations is that sometimes,
+ auxiliary variables are necessary.
+ For example,
+ to show that 
+\begin_inset Formula $1\otimes1\in\Q\otimes\Z/2$
+\end_inset
+
+ is null,
+ it is necessary to write 
+\begin_inset Formula $1=2\frac{1}{2}$
+\end_inset
+
+,
+ and then 
+\begin_inset Quotes eld
+\end_inset
+
+pass 2 to the other side of the tensor
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It is these auxiliary variables that force the hypothesis that 
+\begin_inset Formula $g$
+\end_inset
+
+ is surjective on us,
+ so that we can write,
+ for example,
+ 
+\begin_inset Formula $c_{3}=g(b_{3})$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{4}=g(b_{4})$
+\end_inset
+
+,
+ and try to reproduce the same computation,
+ with 
+\begin_inset Formula $b$
+\end_inset
+
+'s instead of 
+\begin_inset Formula $c$
+\end_inset
+
+'s.
+ In other words,
+ we want to write the following computation (it's the same but with 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+ instead of 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+b_{1}\otimes n_{1}+b_{2}\otimes n_{2} & =(rb_{3})\otimes n_{1}+(sb_{3}+tb_{4})\otimes n_{2}\\
+ & =b_{3}\otimes(rn_{1})+(sb_{3})\otimes n_{2}+(tb_{4})\otimes n_{2}\\
+ & =b_{3}\otimes(rn_{1})+b_{3}\otimes(sn_{2})+b_{4}\otimes(tn_{2})\\
+ & =b_{3}\otimes\cancel{(rn_{1}+sn_{2})}+b_{4}\otimes(un_{3})\\
+ & =0+\cancel{(ub_{4})}\otimes n_{3}=0.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For this to work is where injectivity comes in.
+ For example,
+ from 
+\begin_inset Formula $c_{2}=sc_{3}+tc_{4}$
+\end_inset
+
+ we obtain 
+\begin_inset Formula $g(b_{2})=g(sb_{3}+tb_{4})$
+\end_inset
+
+,
+ and by injectivity 
+\begin_inset Formula $b_{2}=sb_{3}+tb_{4}$
+\end_inset
+
+,
+ and so all the steps follow through as they should.
+\end_layout
+
+\begin_layout Standard
+The unfortunate fact is that we have just proven a triviality.
+ We have shown that,
+ if 
+\begin_inset Formula $g$
+\end_inset
+
+ is injective and surjective,
+ then 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ is injective-- But this was always obvious,
+ because 
+\begin_inset Formula $g$
+\end_inset
+
+ is an isomorphism,
+ and therefore (check) so is 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+However,
+ the argument is not beyond repair.
+ Surjectivity is essential if we are to have any hope of 
+\begin_inset Quotes eld
+\end_inset
+
+passing a computation from 
+\begin_inset Formula $C\otimes N$
+\end_inset
+
+ backwards to 
+\begin_inset Formula $B\otimes N$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ However,
+ instead of considering 
+\begin_inset Formula $g$
+\end_inset
+
+ to be injective,
+ we could instead examine the relation between the kernel of 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ and the kernel of 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ In other words,
+ measure how much tensoring with the identity increases the failure to be injective.
+\end_layout
+
+\begin_layout Standard
+The previous argument,
+ of 
+\begin_inset Quotes eld
+\end_inset
+
+pulling back the computation
+\begin_inset Quotes erd
+\end_inset
+
+,
+ works almost flawlessly-- Except for the part were we required that 
+\begin_inset Formula $g$
+\end_inset
+
+ be injective.
+ Now,
+ instead of 
+\begin_inset Formula $c_{2}=sc_{3}+tc_{4}$
+\end_inset
+
+ implying that 
+\begin_inset Formula $b_{2}=sb_{3}+tb_{4}$
+\end_inset
+
+,
+ we need to add a kernel term,
+ i.e.
+ 
+\begin_inset Formula $b_{2}=sb_{3}+tb_{4}+K$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $K\in\ker g$
+\end_inset
+
+.
+ We will henceforth use the letter 
+\begin_inset Formula $K$
+\end_inset
+
+ as a catchall term for elements on 
+\begin_inset Formula $\ker g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In conclusion,
+ if 
+\begin_inset Formula $g(b_{1})\otimes n_{1}+g(b_{2})\otimes n_{2}=0$
+\end_inset
+
+,
+ we can pull back the computation that shows this in order to obtain something of the sort
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+b_{1}\otimes n_{1}+b_{2}\otimes n_{2} & =(rb_{3})\otimes n_{1}+K\otimes n_{1}+(sb_{3}+tb_{4})\otimes n_{2}+K\otimes n_{2}\\
+ & =b_{3}\otimes(rn_{1})+(sb_{3})\otimes n_{2}+(tb_{4})\otimes n_{2}+K\otimes n_{1}+K\otimes n_{2}\\
+ & =b_{3}\otimes(rn_{1})+b_{3}\otimes(sn_{2})+b_{4}\otimes(tn_{2})+K\otimes n_{1}+K\otimes n_{2}\\
+ & =b_{3}\otimes\cancel{(rn_{1}+sn_{2})}+b_{4}\otimes(un_{3})+K\otimes n_{1}+K\otimes n_{2}\\
+ & =0+\cancel{(ub_{4})}\otimes n_{3}+K\otimes n_{1}+K\otimes n_{2}\\
+ & =K\otimes n_{1}+K\otimes n_{2}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We could not show that 
+\begin_inset Formula $b_{1}\otimes n_{1}+b_{2}\otimes n_{2}$
+\end_inset
+
+ was null (as to be expected;
+ if 
+\begin_inset Formula $g$
+\end_inset
+
+ isn't injective there is no reason to expect that 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ would be),
+ but we did manage to show that it is of the form 
+\begin_inset Formula $k_{1}\otimes n_{1}+k_{2}\otimes n_{2}$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $k_{1},k_{2}\in\ker g$
+\end_inset
+
+.
+ This suggests that any element in the kernel of 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ can be written as a sum 
+\begin_inset Formula $\sum k_{i}\otimes n_{i}$
+\end_inset
+
+.
+ Since every element of this form is in the kernel of 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+,
+ our hopeful conclusion is the following relation between the kernel of 
+\begin_inset Formula $g$
+\end_inset
+
+ and the kernel of 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ker(g\otimes\id)=\text{``\ensuremath{(\ker g)\otimes N}'' }\subseteq B\otimes N.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is necessary to be careful with notation here,
+ and distinguish the module 
+\begin_inset Formula $(\ker g)\otimes N$
+\end_inset
+
+ from the subset of 
+\begin_inset Formula $B\otimes N$
+\end_inset
+
+ generated by elements of the form 
+\begin_inset Formula $K\otimes n$
+\end_inset
+
+,
+ 
+\begin_inset Formula $K\in\ker g$
+\end_inset
+
+,
+ 
+\begin_inset Formula $n\in\ker N$
+\end_inset
+
+,
+ as the latter subset might have more identifications,
+ which come from 
+\begin_inset Quotes eld
+\end_inset
+
+passages through 
+\begin_inset Formula $B$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In other words,
+ if 
+\begin_inset Formula $i\colon\ker g\to B$
+\end_inset
+
+ is the inclusion,
+ the map 
+\begin_inset Formula $i\otimes\id\colon\ker g\otimes N\to B\otimes N$
+\end_inset
+
+ might not be injective.
+\end_layout
+
+\begin_layout Standard
+With these remarks in mind,
+ the exactness property of the tensor product we seek to prove is the following.
+ If 
+\begin_inset Formula $g$
+\end_inset
+
+ is a surjective map,
+ then so is 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+,
+ and its kernel in 
+\begin_inset Formula $B\otimes N$
+\end_inset
+
+ is given by (the image under inclusion of) 
+\begin_inset Formula $\ker g\otimes N$
+\end_inset
+
+.
+ In other words,
+ the following sequence is exact
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\ker g\otimes N\xrightarrow{i\otimes\id}B\otimes N\xrightarrow{g\otimes\id}C\otimes N\rightarrow0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We will now present two different ways to prove exactness of this sequence,
+ starting from the exactness of 
+\begin_inset Formula 
+\[
+0\rightarrow\ker g\xrightarrow{i}B\xrightarrow{g}C\rightarrow0.
+\]
+
+\end_inset
+
+We could also prove this in a third way,
+ which is to 
+\begin_inset Quotes eld
+\end_inset
+
+generalize the above example
+\begin_inset Quotes erd
+\end_inset
+
+,
+ using generators and relations.
+ But I wouldn't recommend it.
+ Bilinear Data
+\end_layout
+
+\begin_layout Standard
+Now that we have a working conjecture,
+ it is not too difficult to verify it using the method of bilinear data.
+ This is a proof that lies somewhere between the harsh but visible 
+\begin_inset Quotes eld
+\end_inset
+
+concreteness
+\begin_inset Quotes erd
+\end_inset
+
+ of the method of generators and relations,
+ and the abstract and clean proof using only the universal property.
+\end_layout
+
+\begin_layout Standard
+We intend to show that if 
+\begin_inset Formula $\sum g(b_{i})\otimes n_{i}=0$
+\end_inset
+
+ then 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}\in i(\ker g\otimes N)$
+\end_inset
+
+.
+ Our hypothesis tells us that,
+ for any bilinear function 
+\begin_inset Formula $h\colon C\times N\to M$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\sum h(g(b_{i}),n_{i})=0$
+\end_inset
+
+.
+ We will simply construct an appropriate 
+\begin_inset Formula $h$
+\end_inset
+
+,
+ from 
+\begin_inset Formula $C\times N$
+\end_inset
+
+ to 
+\begin_inset Formula $B\otimes N/i(\ker g\otimes N)$
+\end_inset
+
+.
+ In this space,
+ zero-ness of equivalence classes of things guarantees that said things are in 
+\begin_inset Formula $i(\ker g\otimes N)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Another way to motivate the codomain of this 
+\begin_inset Formula $h$
+\end_inset
+
+ is as follows.
+ We wish to make 
+\begin_inset Formula $h(g(b),n)=b\otimes n\in B\otimes N$
+\end_inset
+
+.
+ However,
+ this function is not well-defined.
+ This is a valid attempted definition,
+ as all elements of 
+\begin_inset Formula $C$
+\end_inset
+
+ can be written as 
+\begin_inset Formula $g(b)$
+\end_inset
+
+ for some 
+\begin_inset Formula $b$
+\end_inset
+
+.
+ The problem is that this 
+\begin_inset Formula $b$
+\end_inset
+
+ is not well-defined,
+ and so the expression 
+\begin_inset Formula $b\otimes n$
+\end_inset
+
+ could take several different values.
+ The easy solution is simply to take a quotient in order to ensure that this is well-defined.
+ Since the possible variations in 
+\begin_inset Formula $b$
+\end_inset
+
+ satisfying 
+\begin_inset Formula $g(b)=c$
+\end_inset
+
+ are changing 
+\begin_inset Formula $b$
+\end_inset
+
+ by an element of 
+\begin_inset Formula $\ker g$
+\end_inset
+
+,
+ it makes sense to consider 
+\begin_inset Formula 
+\begin{align*}
+h\colon C\times N & \to(B\otimes N)/i(\ker g\otimes N)\\
+(g(b),n) & \mapsto[b\otimes n].
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We leave it to the reader to verify that this is a well-defined bilinear map,
+ and with it we conclude 
+\begin_inset Formula $\sum h(g(b_{i}),n_{i})=0$
+\end_inset
+
+,
+ and so 
+\begin_inset Formula $\sum[b_{i}\otimes n_{i}]=0$
+\end_inset
+
+,
+ whence 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}\in i(\ker g\otimes N)$
+\end_inset
+
+.
+ The Universal Property
+\end_layout
+
+\begin_layout Standard
+This is the standard proof of right-exactness of the tensor product,
+ which is found in algebra books.
+ It is equivalent to the proof by Bilinear Data,
+ albeit in slightly different clothes.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $A\xrightarrow{f}B\xrightarrow{g}C\to0$
+\end_inset
+
+ be exact.
+ We will show that the following sequence is exact 
+\begin_inset Formula 
+\[
+A\otimes N\xrightarrow{f\otimes\id}B\otimes N\xrightarrow{g\otimes\id}C\otimes N\to0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To this effect,
+ consider 
+\begin_inset Formula $D=(B\otimes N)/\image(f\otimes\id)$
+\end_inset
+
+,
+ also known as the cokernel of 
+\begin_inset Formula $f\otimes\id$
+\end_inset
+
+.
+ It is easy to check that 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ induces a function 
+\begin_inset Formula $h\colon D\to C\otimes N$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $g\otimes\id=h\circ\pi$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\pi$
+\end_inset
+
+ is the projection on 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ If we show that 
+\begin_inset Formula $h$
+\end_inset
+
+ is an isomorphism,
+ exactness of the above sequence is a trivial consequence.
+\end_layout
+
+\begin_layout Standard
+To show that 
+\begin_inset Formula $h$
+\end_inset
+
+ is an isomorphism,
+ we construct an inverse.
+ The construction is done as in the Bilinear Data proof.
+\end_layout
+
+\begin_layout Standard
+An observation about this proof is that it shifts the focus of the proposition.
+ The way I prefer to think of the right-exactness of the tensor (subject to change) is in terms of preservation of the kernel.
+ That is,
+ the kernel of 
+\begin_inset Formula $g\otimes\id$
+\end_inset
+
+ is given by 
+\begin_inset Formula $(\ker g)\otimes N$
+\end_inset
+
+,
+ or at least the 
+\begin_inset Quotes eld
+\end_inset
+
+identified copy of this inside 
+\begin_inset Formula $B\otimes N$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The universal property view of the proof shifts the focus to cokernels:
+ it says that the tensor commutes with cokernels,
+ in that 
+\begin_inset Formula $\coker(f\otimes\id)=\coker f\otimes N$
+\end_inset
+
+,
+ where this is an actual tensor product,
+ and not identified as in the case with the kernel.
+ This is certainly more elegant to state,
+ but my non-algebraist brain cannot think in cokernels.
+\end_layout
+
+\begin_layout Standard
+A particular case of cokernels that I can think about,
+ and is also a nice way to look at it,
+ and a different perspective,
+ is to say that tensors preserve quotients.
+ In other words,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is a submodule of 
+\begin_inset Formula $B$
+\end_inset
+
+ then 
+\begin_inset Formula $(B/A)\otimes N$
+\end_inset
+
+ is nicely isomorphic to 
+\begin_inset Formula $(B\otimes N)/i(A\otimes N)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $i$
+\end_inset
+
+ is the 
+\begin_inset Quotes eld
+\end_inset
+
+inclusion
+\begin_inset Quotes erd
+\end_inset
+
+ of 
+\begin_inset Formula $A\otimes N$
+\end_inset
+
+ in 
+\begin_inset Formula $B\otimes N$
+\end_inset
+
+.
+ The isomorphism is given in the obvious way,
+ identifying 
+\begin_inset Formula $[b]\otimes n$
+\end_inset
+
+ with 
+\begin_inset Formula $[b\otimes n]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+(write more about this preservation of quotients?) Summary of Tensor Product Exactness
+\end_layout
+
+\begin_layout Standard
+The main idea I want to get across is that the right-exactness of the tensor product can be seen in terms of 
+\begin_inset Quotes eld
+\end_inset
+
+pulling back the tensor relations
+\begin_inset Quotes erd
+\end_inset
+
+.
+ That is,
+ if we get from 
+\begin_inset Formula $\sum g(b_{i})\otimes n_{i}$
+\end_inset
+
+ to zero,
+ we can write this process down in a finite number of steps using bilinearity relations,
+ and then we can 
+\begin_inset Quotes eld
+\end_inset
+
+pull this deduction back
+\begin_inset Quotes erd
+\end_inset
+
+ by replacing 
+\begin_inset Formula $g(b_{i})$
+\end_inset
+
+ terms with just 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+.
+ This can be done because 
+\begin_inset Formula $g$
+\end_inset
+
+ is surjective (this hypothesis is a necessity because we might need auxilliary elements of 
+\begin_inset Formula $C$
+\end_inset
+
+ that otherwise we couldn't pull back to 
+\begin_inset Formula $B$
+\end_inset
+
+),
+ and we will in general not be able to reduce 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}$
+\end_inset
+
+ to zero because in pulling back these computations we may need to add additional terms of the form 
+\begin_inset Formula $K\otimes n$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $k\in\ker g$
+\end_inset
+
+.
+ The consequence is that 
+\begin_inset Formula $\sum b_{i}\otimes n_{i}$
+\end_inset
+
+ can be written as 
+\begin_inset Formula $0+\sum k_{j}\otimes n_{j}$
+\end_inset
+
+,
+ for 
+\begin_inset Formula $k_{j}\in\ker g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+(Quotients) 
+\end_layout
+
+\end_body
+\end_document
