@@ -1,0 +1,959 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{comment}
+\ifsolution
+\else
+\excludecomment{solution}
+\fi
+
+
+\setlist[enumerate,1]{label=(\alph*)}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+duarte_theorems_exercises
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment center
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Homework 3
+\begin_inset Newline newline
+\end_inset
+
+Math 152 - Section 45
+\end_layout
+
+\begin_layout Date
+Fall Quarter 2025
+\end_layout
+
+\begin_layout Author
+Section Instructor:
+ Duarte Maia
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newif
+\backslash
+ifsolution
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+solutiontrue
+\end_layout
+
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\R}{\mathbb{R}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\dl}{\mathrm{d}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\diff}[1]{\mathop{\frac{\dl}{\dl#1}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\difft}{\mathop{\diff t}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\width}{\mathop{\mathrm{width}}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Norm}[1]{\left\Vert #1\right\Vert }
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\transpose}{\intercal}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\I}{\mathrm{i}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\abs}[1]{\left|#1\right|}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\e}{\mathrm{e}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\C}{\mathbb{C}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+The goal of this exercise is to find the formula for the volume of a pyramid.
+ In everything that follows,
+ consider a square pyramid of height 
+\begin_inset Formula $h$
+\end_inset
+
+ and base side 
+\begin_inset Formula $s$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (-1,0,1) -- (1,0,1) node[midway,
+ below]{$s$} -- (1,0,-1) node[midway,
+ right]{$s$} -- (0,3,0) -- cycle;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,3,0) -- (1,0,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[dashed] (-1,0,1) -- (-1,0,-1) -- (1,0,-1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[dashed] (-1,0,-1) -- (0,3,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[{|-|}]  (-1.5,0,0) -- (-1.5,3,0) node[midway,
+ left]{$h$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A pyramid.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The strategy consists of slicing the pyramid horizontally into many thin horizontal slices;
+ we label each slice by its 
+\begin_inset Formula $z$
+\end_inset
+
+ coordinate,
+ and we imagine each slice to have a very small thickness 
+\begin_inset Formula $\Delta z$
+\end_inset
+
+ or 
+\begin_inset Formula $\dl z$
+\end_inset
+
+ (use whichever you prefer).
+\end_layout
+
+\begin_layout Enumerate
+Find the side length of the horizontal cross-section of the pyramid at a given 
+\begin_inset Formula $z$
+\end_inset
+
+-value (
+\begin_inset Formula $0\leq z\leq h$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+Draw a diagram representing the strategy we described to find the volume of the pyramid.
+ This diagram should represent a pyramid cut into thin slices,
+ and,
+ for at least one of the slices,
+ whose 
+\begin_inset Formula $z$
+\end_inset
+
+-coordinate you may refer to as 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ clearly indicate its horizontal side lengths and height.
+\end_layout
+
+\begin_layout Enumerate
+Find the volume of the thin slice at a given 
+\begin_inset Formula $z$
+\end_inset
+
+-value.
+ You should pretend that the slice is a parelleliped;
+ ignore the fact that it is a little bit skinnier at the top than at the bottom.
+\end_layout
+
+\begin_layout Enumerate
+The result of adding up the volume of all the slices,
+ for 
+\begin_inset Formula $0\leq z\leq h$
+\end_inset
+
+,
+ can be represented as an integral.
+ Write out this integral explicitly and calculate it.
+ Conclude a formula for the volume of the pyramid.
+\end_layout
+
+\end_deeper
+\begin_layout Solution
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+We find the side length by triangle similarity.
+ See the following figure:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (-1,0,1) -- (1,0,1) -- (1,0,-1) -- (0,3,0) -- cycle;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,3,0) -- (1,0,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[dashed] (-1,0,1) -- (-1,0,-1) -- (1,0,-1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[dashed] (-1,0,-1) -- (0,3,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[thick] (-1,0,0) -- (1,0,0) node[midway,below]{$s$} -- (0,3,0) -- cycle;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[thick] (-.5,1.5,0) -- (.5,1.5,0) node[midway,below]{$?$};
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[{|-|}]  (-1.5,0,0) -- (-1.5,3,0) node[midway,
+ left]{$h$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[{|-|}]  (1.2,0,0) -- (1.2,1.5,0) node[midway,
+ right]{$z$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Some triangles in a pyramid.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The side length we're trying to find is denoted by 
+\begin_inset Formula $?$
+\end_inset
+
+ in the figure.
+ Let us call it 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+ from now on.
+ Denote also by 
+\begin_inset Formula $h_{1}$
+\end_inset
+
+ the height of the small triangle.
+ Then,
+ triangle similarity gives us
+\begin_inset Formula 
+\[
+s_{1}/h_{1}=s/h.
+\]
+
+\end_inset
+
+Moreover,
+ we find that 
+\begin_inset Formula $h_{1}=h-z$
+\end_inset
+
+.
+ Combining these two facts and solving for 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+,
+ we obtain that the cross-section at a given 
+\begin_inset Formula $z$
+\end_inset
+
+-value has side length
+\begin_inset Formula 
+\[
+s_{1}=\frac{s}{h}(h-z).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Here is the desired diagram:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Preview
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (-1,0,1) -- (1,0,1) node[midway,
+ below]{$s$} -- (1,0,-1) node[midway,
+ right]{$s$} -- (0,3,0) -- cycle;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (0,3,0) -- (1,0,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[dashed] (-1,0,1) -- (-1,0,-1) -- (1,0,-1);
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+draw[dashed] (-1,0,-1) -- (0,3,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+foreach 
+\backslash
+z in {0.1,0.2,...,2.9} {
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (-1+
+\backslash
+z/3,
+\backslash
+z,1-
+\backslash
+z/3) -- (1-
+\backslash
+z/3,
+\backslash
+z,1-
+\backslash
+z/3) -- (1-
+\backslash
+z/3,
+\backslash
+z,-1+
+\backslash
+z/3);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] (0.8,1.55,0) -- (2,1.55,0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (2.5,1.5,0.5) -- (3.5,1.5,0.5) node[midway,name=s1]{} -- (3.5,1.5,-0.5) node[midway,
+ name=s2]{};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (2.5+.0333,1.6,0.5-.0333) -- (3.5-.0333,1.6,0.5-.0333) -- (3.5-.0333,1.6,-0.5+.0333) -- (2.5+.0333,1.6,-0.5+.0333) -- cycle;
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (2.5,1.5,0.5) -- (2.5+.0333,1.6,0.5-.0333);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (3.5,1.5,0.5) -- (3.5-.0333,1.6,0.5-.0333);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (3.5,1.5,-0.5) -- (3.5-.0333,1.6,-0.5+.0333);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw  (3.5,1.5,-0.5) -- (3.5,1.6,-0.5) node[midway,name=h1]{};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (4.2,1.6,-0.5) node[name=h]{$
+\backslash
+dl z$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] (h) -- (h1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw (3.8,0.8,0.5) node[name=s]{$
+\backslash
+frac sh (h-z)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] (s) -- (s1);
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[->] (s) -- (s2);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+draw[{|-|}]  (-1.5,0,0) -- (-1.5,3,0) node[midway,
+ left]{$h$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A pyramid,
+ cut into thin horizontal slices.
+ A generic slice,
+ at some 
+\begin_inset Formula $z$
+\end_inset
+
+ coordinate,
+ is set aside and its horizontal side lengths and height are displayed.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The volume of this thin slice is 
+\begin_inset Formula $\left(\frac{s}{h}(h-z)\right)^{2}\dl z$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Adding up the volume of these thin slices,
+ with 
+\begin_inset Formula $z$
+\end_inset
+
+ going from 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $h$
+\end_inset
+
+,
+ can be represented by the integral
+\begin_inset Formula 
+\[
+\int_{0}^{h}\left(\frac{s}{h}(h-z)\right)^{2}\,\dl z.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This integral can be calculated explicitly.
+ Here are three ways to do it.
+ One is to explicitly expand the integral:
+\begin_inset Formula 
+\begin{align*}
+\int_{0}^{h}\left(\frac{s}{h}(h-z)\right)^{2}\,\dl z & =\int_{0}^{h}\frac{s^{2}}{h^{2}}z^{2}-2\frac{s^{2}}{h}z+s^{2}\,\dl z\\
+ & =\left[\frac{1}{3}\frac{s^{2}}{h^{2}}z^{3}-\frac{s^{2}}{h}z^{2}+s^{2}z\right]_{z=0}^{z=h}\\
+ & =\frac{1}{3}s^{2}h-s^{2}h+s^{2}h\\
+ & =\frac{1}{3}s^{2}h.
+\end{align*}
+
+\end_inset
+
+This recovers the formula for the volume of the pyramid.
+\end_layout
+
+\begin_layout Standard
+An alternative cleaner way to calculate this integral is to guess 
+\begin_inset Formula $\left(\frac{s}{h}(h-z)\right)^{2}=\diff z\left(-\frac{1}{3}\frac{s^{2}}{h^{2}}(h-z)^{3}\right)$
+\end_inset
+
+,
+ which gives
+\begin_inset Formula 
+\begin{align*}
+\int_{0}^{h}\left(\frac{s}{h}(h-z)\right)^{2}\,\dl z & =\int_{0}^{h}\diff z\left(-\frac{1}{3}\frac{s^{2}}{h^{2}}(h-z)^{3}\right)\,\dl z\\
+ & =\left[-\frac{1}{3}\frac{s^{2}}{h^{2}}(h-z)^{3}\right]_{z=0}^{z=h}\\
+ & =0-\left(-\frac{1}{3}\frac{s^{2}}{h^{2}}(h-0)^{3}\right)\\
+ & =\frac{1}{3}s^{2}h.
+\end{align*}
+
+\end_inset
+
+Finally,
+ if this homework is being solved after learning about 
+\begin_inset Formula $u$
+\end_inset
+
+-substitution,
+ one could solve it by setting 
+\begin_inset Formula $u=h-z$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In every case,
+ the correct formula for the volume of a pyramid is recovered.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_body
+\end_document

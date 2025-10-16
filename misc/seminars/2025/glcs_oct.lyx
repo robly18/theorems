@@ -1,0 +1,1392 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Grad Logic+
+\nospellcheck on
+Combi
+\nospellcheck default
+ Seminar
+\begin_inset Newline newline
+\end_inset
+
+Escaping Tennenbaum's Theorem
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+October 9,
+ 2025
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Abstract
+\end_layout
+
+\begin_layout Standard
+Tennenbaum's theorem is a classical result (1959) that states that non-standard models of Peano Arithmetic are pretty complicated;
+ more precisely,
+ they have no computable copy.
+ In fact,
+ the standard proof of this fact shows that neither addition nor multiplication can be computable!
+ One can extend this result in multiple ways,
+ but in 2022,
+ Fedor Pakhomov noticed that all the proofs of these different variants were all tailored for the particular language being used.
+ This raises the following question:
+ Can we rewrite Peano Arithmetic using different symbols,
+ in such a way that now there are computable nonstandard models?
+ The answer turns out to be yes.
+ I will explain more precisely what this all means,
+ try to sketch a proof,
+ and if time allows,
+ I will discuss some further research in this area.
+\end_layout
+
+\begin_layout Section
+Background
+\end_layout
+
+\begin_layout Point
+Recall language,
+ theory,
+ model
+\end_layout
+
+\begin_layout Point
+Gödel's completeness theorem:
+ If a set of axioms does not prove a contradiction,
+ then it admits a model
+\end_layout
+
+\begin_layout Point
+Corollary (Compactness):
+ If a set of axioms admits models for all its finite subsets,
+ then it admits a model.
+\end_layout
+
+\begin_layout Point
+Construct a nonstandard model of PA.
+ (Mention True Arithmetic works too.)
+\end_layout
+
+\begin_layout Point
+Question:
+ What does it look like?
+ Can we build it explicitly?
+\end_layout
+
+\begin_layout Point
+Theorem (Tennenbaum):
+ Any nonstandard model of PA (with universe 
+\begin_inset Formula $\N$
+\end_inset
+
+) has 
+\begin_inset Formula $+$
+\end_inset
+
+ and 
+\begin_inset Formula $\times$
+\end_inset
+
+ noncomputable.
+\end_layout
+
+\begin_layout Point
+Fake sketch:
+ We will 
+\begin_inset Quotes eld
+\end_inset
+
+show
+\begin_inset Quotes erd
+\end_inset
+
+ that any nonstandard model of PA can be used solve the Halting Problem.
+ (This is not true.)
+\end_layout
+
+\begin_layout Point
+Main idea:
+ We can encode information into numbers,
+ e.g.
+\begin_inset space \space{}
+\end_inset
+
+we can encode a 
+\series bold
+finite sequence
+\series default
+ of numbers 
+\begin_inset Formula $x_{0},x_{1},\dots,x_{n}$
+\end_inset
+
+ as the number 
+\begin_inset Formula $p_{0}^{x_{0}}\dots p_{n}^{x_{n}}$
+\end_inset
+
+.
+ But 
+\series bold
+finiteness is in the eye of the beholder.
+\end_layout
+
+\begin_layout Point
+Fact:
+ If 
+\begin_inset Formula $\phi(x)$
+\end_inset
+
+ is a formula,
+ for every 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+ there is a number 
+\begin_inset Formula $N$
+\end_inset
+
+ so that,
+ for all 
+\begin_inset Formula $k\leq n$
+\end_inset
+
+,
+ 
+\begin_inset Formula $p_{k}\mid N$
+\end_inset
+
+ iff 
+\begin_inset Formula $\varphi(k)$
+\end_inset
+
+.
+ This is proven by induction.
+ (One adds the slightly stronger assumption that 
+\begin_inset Formula $p_{\ell}\nmid N$
+\end_inset
+
+ for 
+\begin_inset Formula $\ell>n$
+\end_inset
+
+.)
+\end_layout
+
+\begin_layout Point
+Fact(ish):
+ There is a formula 
+\begin_inset Formula $H(x)$
+\end_inset
+
+ that takes as input a program 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ interprets it as a Turing Machine,
+ and outputs whether it halts in finite time.
+\end_layout
+
+\begin_layout Point
+Kinda corollary:
+ If 
+\begin_inset Formula $M$
+\end_inset
+
+ is a nonstandard model of PA,
+ there is a number 
+\begin_inset Formula $N\in M$
+\end_inset
+
+ such that,
+ for all 
+\begin_inset Formula $k\in\N$
+\end_inset
+
+,
+ 
+\begin_inset Formula $p_{k}\mid N$
+\end_inset
+
+ iff 
+\begin_inset Formula $H(k)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Fact:
+ If you can calculate 
+\begin_inset Formula $+$
+\end_inset
+
+,
+ then you can calculate 
+\begin_inset Formula $p_{k}$
+\end_inset
+
+ for 
+\begin_inset Formula $k\in\N$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Surprising fact,
+ if you can calculate 
+\begin_inset Formula $+$
+\end_inset
+
+ and 
+\begin_inset Formula $\times$
+\end_inset
+
+,
+ you can computably check if 
+\begin_inset Formula $p_{k}\mid N$
+\end_inset
+
+.
+\begin_inset FormulaMacro
+\renewcommand{\PA}{\mathsf{PA}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout point
+Uses the fact that 
+\begin_inset Formula $\mathsf{PA}\vdash\forall_{N}\forall_{q\neq0}\exists_{Q}\exists_{r}(N=qQ+r)$
+\end_inset
+
+,
+ so you can brute force search for 
+\begin_inset Formula $Q$
+\end_inset
+
+ and 
+\begin_inset Formula $r$
+\end_inset
+
+.
+ Note that since we'll only be doing this for 
+\begin_inset Formula $q$
+\end_inset
+
+ a 
+\begin_inset Quotes eld
+\end_inset
+
+real natural
+\begin_inset Quotes erd
+\end_inset
+
+,
+ you don't even need multiplication.
+ This proves(ish) that 
+\begin_inset Formula $+$
+\end_inset
+
+ cannot be computable.
+\end_layout
+
+\begin_layout point
+The result for 
+\begin_inset Formula $\times$
+\end_inset
+
+ is obtained by doing everything as powers of two and using the exponent to turn 
+\begin_inset Formula $\times$
+\end_inset
+
+ into 
+\begin_inset Formula $+$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Issue with this proof is that 
+\begin_inset Formula $H(x)$
+\end_inset
+
+ checks if a program halts in finite time,
+ and finiteness is in the eye of the beholder!
+\end_layout
+
+\begin_layout Point
+There are ways to get around this issue,
+ but I won't get into them.
+ But I will say that it is 
+\emph on
+not
+\emph default
+ true that any nonstandard model solves the Halting Problem.
+\end_layout
+
+\begin_layout Point
+Bottom line is that,
+ regardless,
+ this requires 
+\begin_inset Formula $+$
+\end_inset
+
+ in an essential way.
+ If we want to escape Tennenbaum's theorem,
+ we need to make addition difficult to calculate.
+\end_layout
+
+\begin_layout Section
+Definitional Equivalence
+\end_layout
+
+\begin_layout Point
+Pakhomov constructed a theory that is 
+\begin_inset Quotes eld
+\end_inset
+
+PA in different clothing
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which admits computable nonstandard models.
+\end_layout
+
+\begin_layout Point
+To discuss it requires what it means to say 
+\begin_inset Quotes eld
+\end_inset
+
+PA in different clothing
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and the technical term is 
+\begin_inset Quotes eld
+\end_inset
+
+definitional equivalence
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Basic example of PA without 
+\begin_inset Formula $1$
+\end_inset
+
+ vs.
+ PA without 
+\begin_inset Formula $S$
+\end_inset
+
+ vs.
+ PA with both.
+\begin_inset FormulaMacro
+\newcommand{\FST}{\mathsf{FST}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Discuss Finite Set Theory (
+\begin_inset Formula $\FST$
+\end_inset
+
+ for this talk):
+ Axioms of ZF,
+ replace infinity by its negation,
+ add axiom of transitive closure (maybe formulate it as epsilon-induction).
+\end_layout
+
+\begin_layout Point
+The standard model consists of the hereditarily finite sets.
+ Another way to see it is:
+ 
+\begin_inset Formula $\cup_{n\in\N}P^{n}(\emptyset)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Surprising fact:
+ 
+\begin_inset Formula $\FST$
+\end_inset
+
+ is definitionally equivalent to 
+\begin_inset Formula $\PA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Explanation:
+ If you're in PA,
+ you can define the so-called 
+\begin_inset Quotes eld
+\end_inset
+
+Ackermann membership predicate
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset FormulaMacro
+\newcommand{\ackin}{\mathbin{\bar{\in}}}
+\end_inset
+
+ where 
+\begin_inset Formula $x\ackin y$
+\end_inset
+
+ iff the 
+\begin_inset Formula $x$
+\end_inset
+
+-th binary digit of 
+\begin_inset Formula $y$
+\end_inset
+
+ is 1,
+ where units is 
+\begin_inset Formula $0$
+\end_inset
+
+th.
+\end_layout
+
+\begin_layout point
+Maybe draw a diagram with some numbers and the sets they correspond to,
+ and vice-versa.
+ I have a handwritten paper with some examples.
+\end_layout
+
+\begin_layout Point
+On the other hand,
+ if you're in FST,
+ it is possible to make a bijection between sets and in-universe numbers (you build a copy of 
+\begin_inset Formula $\N$
+\end_inset
+
+ in the ordinals,
+ define a map by recursion that corresponds to Ackermann membership,
+ prove by induction that this map is bijective),
+ and define addition in the numbers via recursion,
+ and mix and match all of these to define what it means to add and multiply sets which are actually numbers in disguise.
+\end_layout
+
+\begin_layout Point
+One last crucial part is that these two operations are inverses.
+ If you start with PA,
+ define 
+\begin_inset Formula $\ackin$
+\end_inset
+
+ and forget how to add and multiply,
+ then do this process to recover an addition and multiplication,
+ you get the original operations back.
+ In other words,
+ no logical information is lost going from one definition to the other.
+\end_layout
+
+\begin_layout Point
+This result is due to Kaye and Wong,
+ and it's strangely recent,
+ being from 2007.
+ This is surprising because Ackermann membership was introduced 70 years prior,
+ in 1937,
+ and definitional equivalence 42 years prior by de Bouvère in 1965.
+\end_layout
+
+\begin_layout Point
+Maybe it's a good idea to write out the full definition.
+\end_layout
+
+\begin_layout point
+A definitional extension of a theory 
+\begin_inset Formula $T$
+\end_inset
+
+ is a theory 
+\begin_inset Formula $T'$
+\end_inset
+
+ over a larger language,
+ such that:
+\end_layout
+
+\begin_layout point
+For every new symbol 
+\begin_inset Formula $P(\vec{x})$
+\end_inset
+
+,
+ there is a formula using only old symbols 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ such that 
+\begin_inset Formula $T'\vdash P(x)\leftrightarrow\varphi(\vec{x})$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout point
+The theory 
+\begin_inset Formula $T'$
+\end_inset
+
+ cannot prove any new theorems in the old language.
+\end_layout
+
+\begin_layout point
+Two theories 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ are definitionally equivalent if (potentially requiring some renaming of symbols) there is a theory 
+\begin_inset Formula $T$
+\end_inset
+
+ that is a definitional extension of both.
+\end_layout
+
+\begin_layout point
+Remark:
+ This is an equivalence relation.
+\end_layout
+
+\begin_layout Point
+Remark:
+ The theory 
+\begin_inset Formula $\FST$
+\end_inset
+
+ shown here does 
+\emph on
+not
+\emph default
+ escape Tennenbaum's theorem.
+ Source:
+ Mancini and Zambella,
+ 2001.
+\end_layout
+
+\begin_layout Section
+Pakhomov's 
+\begin_inset Formula $S$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+Pakhomov built a theory 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ definitionally equivalent to PA,
+ by passing through finite set theory.
+ A very high-level way of explaining what he did was:
+ He defined a ternary predicate 
+\begin_inset Formula $S(x,y,z)$
+\end_inset
+
+ that satisfies the rule 
+\begin_inset Formula $x\in y\leftrightarrow\forall_{z}S(x,y,z)$
+\end_inset
+
+.
+ Intuitively,
+ we may expect this to work because it makes 
+\begin_inset Formula $\in$
+\end_inset
+
+ very difficult to calculate,
+ so it becomes hard to extract noncomputable information from a nonstandard model.
+\end_layout
+
+\begin_layout point
+Details:
+ This predicate is defined 
+\begin_inset Quotes eld
+\end_inset
+
+internally
+\begin_inset Quotes erd
+\end_inset
+
+ in set theory,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+there is a particular (but very large) formula 
+\begin_inset Formula $\varphi(x,y,z)$
+\end_inset
+
+,
+ written in terms of 
+\begin_inset Formula $\in$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $S(x,y,z)\overset{\text{def}}{\leftrightarrow}\varphi(x,y,z)$
+\end_inset
+
+.
+ This makes the theories 
+\begin_inset Formula $\FST$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+ definitionally equivalent,
+ where 
+\begin_inset Formula $T$
+\end_inset
+
+ is the set of 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $S$
+\end_inset
+
+-theorems
+\begin_inset Quotes erd
+\end_inset
+
+ provable in 
+\begin_inset Formula $\FST$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Rough definition of 
+\begin_inset Formula $S$
+\end_inset
+
+:
+ Imagine the set-theoretic universe built up as 
+\begin_inset Formula $V_{0}\subset V_{1}\subset V_{2}\subset\cdots$
+\end_inset
+
+.
+ The basic idea is that,
+ at each stage 
+\begin_inset Formula $V_{n}$
+\end_inset
+
+,
+ we are going to consider every 
+\begin_inset Quotes eld
+\end_inset
+
+feasible
+\begin_inset Quotes erd
+\end_inset
+
+ way of adding a new element 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ and how it relates to the elements of 
+\begin_inset Formula $V_{n}$
+\end_inset
+
+.
+ Here,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+feasible
+\begin_inset Quotes erd
+\end_inset
+
+ means that they have to satisfy the rule:
+ If 
+\begin_inset Formula $x\in y$
+\end_inset
+
+ then we must set 
+\begin_inset Formula $S(x,y,z)$
+\end_inset
+
+ true;
+ everything else is fair game.
+ Then,
+ we're going to add it.
+\end_layout
+
+\begin_layout point
+Note:
+ Pakhomov's original paper adds it to the next 
+\begin_inset Formula $V_{n}$
+\end_inset
+
+,
+ though he has to leapfrog via 
+\begin_inset Formula $V_{6n}$
+\end_inset
+
+ to make enough space.
+ I,
+ on the other hand,
+ prefer to think of it as 
+\begin_inset Quotes eld
+\end_inset
+
+scheduling
+\begin_inset Quotes erd
+\end_inset
+
+ a new element,
+ which may appear only later on.
+\end_layout
+
+\begin_layout Point
+Ok.
+ I think that's basically all there is to the definition,
+ right?
+\end_layout
+
+\begin_layout Section
+Why It Works
+\end_layout
+
+\begin_layout Point
+Now we have to get into computable structure theory to get into how this 
+\begin_inset Formula $S$
+\end_inset
+
+ is able to escape Tennenbaum's theorem.
+\end_layout
+
+\begin_layout Point
+Some black box theorems:
+\end_layout
+
+\begin_layout Point
+Computable Completeness Theorem:
+ If 
+\begin_inset Formula $T$
+\end_inset
+
+ is a computably axiomatized consistent theory,
+ it admits a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model.
+\end_layout
+
+\begin_layout Point
+Limit Lemma for Structures:
+ If 
+\begin_inset Formula $D$
+\end_inset
+
+ is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable structure over a finite relational language,
+ it can be envisioned as follows:
+ A 
+\emph on
+computable
+\emph default
+ process gives us elements and tells us how each element relates to the previous.
+ However,
+ it may also delete elements at will.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+final
+\begin_inset Quotes erd
+\end_inset
+
+ model consists of the set of elements that are added and never deleted.
+\end_layout
+
+\begin_layout Point
+Example of LLfS:
+ Consider the structure in the language:
+ 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $S(x,y)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $H(x)$
+\end_inset
+
+,
+ consisting of the naturals with successor predicate and we say 
+\begin_inset Formula $H$
+\end_inset
+
+ is a unary predicate that computes the HP on its argument.
+\end_layout
+
+\begin_layout point
+Can envision via LL as follows:
+ We continuously add elements 
+\begin_inset Formula $0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $2$
+\end_inset
+
+,
+ etc.
+ with appropriate 
+\begin_inset Formula $S$
+\end_inset
+
+ relation,
+ and we always set 
+\begin_inset Formula $H(x)=\bot$
+\end_inset
+
+.
+ However,
+ in the background,
+ we are also running all of these Turing Machines to see if any halts.
+ If we ever find that the TM 
+\begin_inset Formula $x$
+\end_inset
+
+ halts,
+ we delete the element 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ and add a new copy of it,
+ with the appropriate 
+\begin_inset Formula $S$
+\end_inset
+
+ relations and now we set 
+\begin_inset Formula $H(x)=\top$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Now,
+ let's build our nonstandard model of Pakhomov's 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ First,
+ we build a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable nonstandard model.
+ This is not special of Pakhomov's 
+\begin_inset Formula $T$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout point
+Consider the theory 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ and add a new constant symbol to the language,
+ 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ Then,
+ add a bunch of axioms saying 
+\begin_inset Formula $c\neq0$
+\end_inset
+
+,
+ 
+\begin_inset Formula $c\neq1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $c\neq2$
+\end_inset
+
+,
+ etc.,
+ and of course this all has to be translated from 
+\begin_inset Formula $\PA$
+\end_inset
+
+ to 
+\begin_inset Formula $\FST$
+\end_inset
+
+ to 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ but it's doable.
+\end_layout
+
+\begin_layout point
+Now,
+ by CCT,
+ build a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of 
+\begin_inset Formula $T+c$
+\end_inset
+
+,
+ call it 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Then,
+ just forget 
+\begin_inset Formula $c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Now,
+ here is the main theorem.
+ It's a slightly stronger version than what Pakhomov proved.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ If 
+\begin_inset Formula $(D,\in,S)$
+\end_inset
+
+ is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable model of 
+\begin_inset Formula $T+\FST$
+\end_inset
+
+ then there is a computable copy 
+\begin_inset Formula $(M,S)$
+\end_inset
+
+ of its reduct to 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Proof sketch:
+ (I don't even know how to write this down.
+ Just wave your hands.
+ I guess.)
+\end_layout
+
+\begin_layout point
+There's a copy of 
+\begin_inset Formula $D$
+\end_inset
+
+ downstairs and a copy of 
+\begin_inset Formula $M$
+\end_inset
+
+ upstairs,
+ and when you add elements to 
+\begin_inset Formula $D$
+\end_inset
+
+ you add corresponding matches to 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ but when elements of 
+\begin_inset Formula $D$
+\end_inset
+
+ are deleted,
+ you get orphaned elements in 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Before adding anyone else into 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ you wait to find someone in 
+\begin_inset Formula $D$
+\end_inset
+
+ who looks at the matched elements the same way that the orphaned element of 
+\begin_inset Formula $M$
+\end_inset
+
+ looks at their matches.
+ The construction of 
+\begin_inset Formula $S$
+\end_inset
+
+ guarantees that such an element will,
+ in fact,
+ exist,
+ with some asterisks.
+ Anyway,
+ once you have all elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ back to matched,
+ you go through your backlog of elements of 
+\begin_inset Formula $D$
+\end_inset
+
+ and add them one by one,
+ until one or more of them disappear,
+ in which case you go back into damage control.
+\end_layout
+
+\begin_layout point
+Bunch of details that have to be checked,
+ there's a priority argument here in the mix to ensure that you don't get caught in infinite damage control loops,
+ but this is the jist of it.
+\end_layout
+
+\begin_layout Section
+Original Work
+\end_layout
+
+\begin_layout Point
+Very briefly talk about my own theorem.
+\end_layout
+
+\begin_layout Point
+Distinguish between 
+\begin_inset Formula $\PA$
+\end_inset
+
+ and true arithmetic.
+ Pakhomov showed that 
+\begin_inset Formula $\mathsf{TA}$
+\end_inset
+
+ cannot escape Tennenbaum's theorem.
+\end_layout
+
+\begin_layout Point
+Introduce 
+\begin_inset Formula $\PA$
+\end_inset
+
+ plus 
+\begin_inset Formula $\Pi_{n}$
+\end_inset
+
+ truths.
+ Pakhomov asked if these can escape Tennebaum's theorem,
+ for 
+\begin_inset Formula $n=1,2,3,\dots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Point
+I was able to prove that the answer is yes.
+ The main idea was to stack Pakhomov's construction on top of itself.
+\end_layout
+
+\begin_layout Point
+Example for 
+\begin_inset Formula $\Pi_{1}$
+\end_inset
+
+.
+ Maybe go over a little more concretely what the corresponding theory is.
+\end_layout
+
+\begin_layout Point
+Note that Computable Completeness Theorem doesn't directly apply because this theory is not computably axiomatizable,
+ though it is 
+\begin_inset Formula $0'$
+\end_inset
+
+-computably axiomatizable.
+ Thus,
+ CCT only guarantees a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable model.
+\end_layout
+
+\begin_layout Point
+Introduce 
+\begin_inset Formula $S^{2}(x,y,z,w)$
+\end_inset
+
+.
+ First,
+ you define 
+\begin_inset Formula $S=S^{1}$
+\end_inset
+
+ as usual,
+ and then you define 
+\begin_inset Formula $S^{2}$
+\end_inset
+
+ on top of it 
+\begin_inset Quotes eld
+\end_inset
+
+as generally as possible
+\begin_inset Quotes erd
+\end_inset
+
+ as we did before,
+ but now satisfying the axiom
+\begin_inset Formula 
+\[
+\neg S^{1}(x,y,z)\leftrightarrow\forall_{w}S^{2}(x,y,z,w).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout point
+Note the negation.
+ Maybe mention that the natural 
+\begin_inset Formula $S^{0}$
+\end_inset
+
+ is 
+\begin_inset Formula $\notin$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Idea is that we now have a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable model with three predicates,
+ and discarding the lower one buys us a jump.
+\end_layout
+
+\begin_layout Point
+Theorem:
+ For every 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ there is a theory 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+,
+ definitionally equivalent to 
+\begin_inset Formula $\PA$
+\end_inset
+
+ plus 
+\begin_inset Formula $\Pi_{n}$
+\end_inset
+
+ truths,
+ which admits a computable nonstandard model.
+\end_layout
+
+\end_body
+\end_document
