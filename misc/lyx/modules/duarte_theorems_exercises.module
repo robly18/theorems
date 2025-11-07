@@ -1,0 +1,87 @@
+#\DeclareLyXModule{Duarte Theorems Exercises}
+#\DeclareCategory{My Custom Modules}
+#DescriptionBegin
+#ntheorem theorems for exercises.
+#DescriptionEnd
+#Excludes: theorems-ams | theorems-starred | theorems-std
+#Requires: duarte_theorems
+
+# Author: Duarte Maia
+
+Format 60
+
+
+
+Style Solution
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	Category              Exercises
+	LatexName             solution
+	LabelString           "Solution:"
+    LabelCounter          ""
+	AddToToc              ""
+	Preamble
+        \theoremstyle{nonumberplain}
+        \theoremheaderfont{\itshape}
+        \theorembodyfont{\upshape}
+        \theoremseparator{:}
+        \theoremsymbol{\ensuremath{\blacksquare}}
+        \newtheorem{solution}{Solution}
+        
+        \theoremstyle{plain}
+        \theorembodyfont{\upshape}
+        \theoremheaderfont{\bfseries}
+        \theoremseparator{.}
+        \theoremnumbering{arabic}
+        \theoremsymbol{}
+	EndPreamble
+
+	LabelFont
+	  Shape               Italic
+	  Series              Medium
+	EndFont
+    EndLabelType Filled_Box
+    Requires amssymb
+End
+
+Style Exercise
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	Category              Exercises
+	LatexName             exercise
+	LabelString           "Exercise \thetheorem."
+    RefPrefix             def
+	Preamble
+		\newtheorem{exercise}[thm]{Exercise}
+	EndPreamble
+End
+
+Style Exercise*
+	CopyStyle             Theorem
+	DependsOn             Exercise
+	Category              Exercises
+	LatexName             exercise*
+	LabelCounter          ""
+	LabelString           "Exercise."
+    RefPrefix             def
+	Preamble
+        \theoremstyle{nonumberplain}
+        \theorembodyfont{\upshape}
+        \theoremheaderfont{\bfseries}
+        \theoremseparator{.}
+		\renewtheorem{exercise*}{Exercise}
+        \theoremstyle{plain}
+        \theorembodyfont{\upshape}
+        \theoremheaderfont{\bfseries}
+        \theoremseparator{.}
+        \theoremnumbering{arabic}
+        \theoremsymbol{}
+	EndPreamble
+End
+
+
+Counter theorem
+	GuiName Theorem
+	LaTeXName thm
+	RefFormat ex "Exercise \arabic{theorem}"
+End

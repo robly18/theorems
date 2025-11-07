@@ -1,7 +1,7 @@
-#\DeclareLyXModule{Duarte Theorems}
+#\DeclareLyXModule{Duarte Theorems, SecSubsec Numbering}
 #\DeclareCategory{My Custom Modules}
 #DescriptionBegin
-#My standard ntheorem theorems
+#My standard ntheorem theorems. Numbering set to Section.Subsection.Number
 #DescriptionEnd
 #Excludes: theorems-ams | theorems-starred | theorems-std
 
@@ -21,7 +21,6 @@ Style Theorem
 	Margin                First_Dynamic
 	LatexType             Environment
 	LatexName             thm
-    RefPrefix             thm
 	NextNoIndent          1
 	ResetArgs             1
 	AddToToc              thm
@@ -52,17 +51,15 @@ Style Theorem
 	  Series              Bold
 	EndFont
 	Preamble
-        \newref{thm}{refcmd={Theorem~\ref{#1}}}
         \theoremstyle{plain}
         \theorembodyfont{\upshape}
         \theoremheaderfont{\bfseries}
         \theoremseparator{.}
         \theoremnumbering{arabic}
         \theoremsymbol{}
-        \newtheorem{thm}{Theorem}
+        \newtheorem{thm}{Theorem}[subsection]
 	EndPreamble
 	Requires              ntheorem
-    Requires              refstyle
 End
 
 Style Proof
@@ -101,9 +98,7 @@ Style Definition
 	DependsOn             Theorem
 	LatexName             definition
 	LabelString           "Definition \thetheorem."
-    RefPrefix             def
 	Preamble
-        \newref{def}{refcmd={Definition~\ref{#1}}}
 		\newtheorem{definition}[thm]{Definition}
 	EndPreamble
 End
@@ -113,9 +108,7 @@ Style Proposition
 	DependsOn             Theorem
 	LatexName             prop
 	LabelString           "Proposition \thetheorem."
-    RefPrefix             prop
 	Preamble
-        \newref{prop}{refcmd={Proposition~\ref{#1}}}
 		\newtheorem{prop}[thm]{Proposition}
 	EndPreamble
 End
@@ -125,9 +118,7 @@ Style Lemma
 	DependsOn             Theorem
 	LatexName             lemma
 	LabelString           "Lemma \thetheorem."
-    RefPrefix             lem
 	Preamble
-        \newref{lem}{refcmd={Lemma~\ref{#1}}}
 		\newtheorem{lemma}[thm]{Lemma}
 	EndPreamble
 End
@@ -137,9 +128,7 @@ Style Remark
 	DependsOn             Theorem
 	LatexName             remark
 	LabelString           "Remark \thetheorem."
-    RefPrefix             rmk
 	Preamble
-        \newref{rmk}{refcmd={Remark~\ref{#1}}}
 		\newtheorem{remark}[thm]{Remark}
 	EndPreamble
 End
@@ -149,9 +138,7 @@ Style Corollary
 	DependsOn             Theorem
 	LatexName             corollary
 	LabelString           "Corollary \thetheorem."
-    RefPrefix             cor
 	Preamble
-        \newref{cor}{refcmd={Corollary~\ref{#1}}}
 		\newtheorem{corollary}[thm]{Corollary}
 	EndPreamble
 End
@@ -161,9 +148,7 @@ Style Example
 	DependsOn             Theorem
 	LatexName             example
 	LabelString           "Example \thetheorem."
-    RefPrefix             ex
 	Preamble
-        \newref{example}{refcmd={Example~\ref{#1}}}
 		\newtheorem{example}[thm]{Example}
 	EndPreamble
 End
@@ -175,7 +160,6 @@ Style Claim
 	LatexName             claim
 	LabelString           "Claim:"
     LabelCounter          ""
-    RefPrefix             claim
 	Preamble
         \theoremstyle{nonumberplain}
         \theorembodyfont{\upshape}
@@ -196,7 +180,6 @@ Style Fact
 	DependsOn             Theorem
 	LatexName             fact
 	LabelString           "Fact \thetheorem."
-    RefPrefix             fact
 	Preamble
 		\newtheorem{fact}[thm]{Fact}
 	EndPreamble
@@ -215,26 +198,6 @@ Style Theorem*
         \theoremheaderfont{\bfseries}
         \theoremseparator{.}
         \renewtheorem{thm*}{Theorem}
-        \theoremstyle{plain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-        \theoremnumbering{arabic}
-        \theoremsymbol{}
-	EndPreamble
-End
-
-Style Corollary*
-	CopyStyle             Theorem*
-	DependsOn             Theorem*
-	LatexName             corollary*
-	LabelString           "Corollary."
-	Preamble
-        \theoremstyle{nonumberplain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-		\renewtheorem{corollary*}{Corollary}
         \theoremstyle{plain}
         \theorembodyfont{\upshape}
         \theoremheaderfont{\bfseries}
@@ -264,19 +227,6 @@ Style Question*
 	EndPreamble
 End
 
-Style Conjecture
-	CopyStyle             Theorem
-	DependsOn             Theorem
-	LatexName             conjecture
-	LabelString           "Conjecture \thetheorem."
-    RefPrefix             conj
-	Preamble
-        \newref{conj}{refcmd={Conjecture~\ref{#1}}}
-		\newtheorem{conjecture}[thm]{Conjecture}
-	EndPreamble
-End
-
-
 
 Counter theorem
 	GuiName Theorem
@@ -288,5 +238,4 @@ Counter theorem
     RefFormat cor "Corollary \arabic{theorem}"
     RefFormat def "Definition \arabic{theorem}"
     RefFormat rmk "Remark \arabic{theorem}"
-    RefFormat conj "Conjecture \arabic{theorem}"
 End

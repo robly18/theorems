@@ -10,7 +10,7 @@
 Format 104
 
 Preamble
-\usepackage[amsmath,thmmarks]{ntheorem}
+\usepackage[thmmarks]{ntheorem}
 EndPreamble
 
 
@@ -52,7 +52,6 @@ Style Theorem
 	  Series              Bold
 	EndFont
 	Preamble
-        \newref{thm}{refcmd={Theorem~\ref{#1}}}
         \theoremstyle{plain}
         \theorembodyfont{\upshape}
         \theoremheaderfont{\bfseries}
@@ -62,7 +61,6 @@ Style Theorem
         \newtheorem{thm}{Theorem}
 	EndPreamble
 	Requires              ntheorem
-    Requires              refstyle
 End
 
 Style Proof
@@ -79,7 +77,39 @@ Style Proof
         \theoremseparator{:}
         \theoremsymbol{\ensuremath{\blacksquare}}
         \newtheorem{proof}{Proof}
-        
+
+        \theoremstyle{plain}
+        \theorembodyfont{\upshape}
+        \theoremheaderfont{\bfseries}
+        \theoremseparator{.}
+        \theoremnumbering{arabic}
+        \theoremsymbol{}
+	EndPreamble
+
+	LabelFont
+	  Shape               Italic
+	  Series              Medium
+	EndFont
+    EndLabelType Filled_Box
+    Requires amssymb
+End
+
+
+Style Solution
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	LatexName             solution
+	LabelString           "Solution:"
+    LabelCounter          ""
+	AddToToc              ""
+	Preamble
+        \theoremstyle{nonumberplain}
+        \theoremheaderfont{\itshape}
+        \theorembodyfont{\upshape}
+        \theoremseparator{:}
+        \theoremsymbol{\ensuremath{\blacksquare}}
+        \newtheorem{solution}{Solution}
+
         \theoremstyle{plain}
         \theorembodyfont{\upshape}
         \theoremheaderfont{\bfseries}
@@ -101,9 +131,7 @@ Style Definition
 	DependsOn             Theorem
 	LatexName             definition
 	LabelString           "Definition \thetheorem."
-    RefPrefix             def
 	Preamble
-        \newref{def}{refcmd={Definition~\ref{#1}}}
 		\newtheorem{definition}[thm]{Definition}
 	EndPreamble
 End
@@ -113,9 +141,7 @@ Style Proposition
 	DependsOn             Theorem
 	LatexName             prop
 	LabelString           "Proposition \thetheorem."
-    RefPrefix             prop
 	Preamble
-        \newref{prop}{refcmd={Proposition~\ref{#1}}}
 		\newtheorem{prop}[thm]{Proposition}
 	EndPreamble
 End
@@ -125,10 +151,18 @@ Style Lemma
 	DependsOn             Theorem
 	LatexName             lemma
 	LabelString           "Lemma \thetheorem."
-    RefPrefix             lem
 	Preamble
-        \newref{lem}{refcmd={Lemma~\ref{#1}}}
 		\newtheorem{lemma}[thm]{Lemma}
+	EndPreamble
+End
+
+Style Problem
+	CopyStyle             Theorem
+	DependsOn             Theorem
+	LatexName             prob
+	LabelString           "Problem \thetheorem."
+	Preamble
+		\newtheorem{prob}[thm]{Problem}
 	EndPreamble
 End
 
@@ -137,34 +171,8 @@ Style Remark
 	DependsOn             Theorem
 	LatexName             remark
 	LabelString           "Remark \thetheorem."
-    RefPrefix             rmk
 	Preamble
-        \newref{rmk}{refcmd={Remark~\ref{#1}}}
 		\newtheorem{remark}[thm]{Remark}
-	EndPreamble
-End
-
-Style Corollary
-	CopyStyle             Theorem
-	DependsOn             Theorem
-	LatexName             corollary
-	LabelString           "Corollary \thetheorem."
-    RefPrefix             cor
-	Preamble
-        \newref{cor}{refcmd={Corollary~\ref{#1}}}
-		\newtheorem{corollary}[thm]{Corollary}
-	EndPreamble
-End
-
-Style Example
-	CopyStyle             Theorem
-	DependsOn             Theorem
-	LatexName             example
-	LabelString           "Example \thetheorem."
-    RefPrefix             ex
-	Preamble
-        \newref{example}{refcmd={Example~\ref{#1}}}
-		\newtheorem{example}[thm]{Example}
 	EndPreamble
 End
 
@@ -175,7 +183,6 @@ Style Claim
 	LatexName             claim
 	LabelString           "Claim:"
     LabelCounter          ""
-    RefPrefix             claim
 	Preamble
         \theoremstyle{nonumberplain}
         \theorembodyfont{\upshape}
@@ -196,11 +203,11 @@ Style Fact
 	DependsOn             Theorem
 	LatexName             fact
 	LabelString           "Fact \thetheorem."
-    RefPrefix             fact
 	Preamble
 		\newtheorem{fact}[thm]{Fact}
 	EndPreamble
 End
+
 
 Style Theorem*
 	CopyStyle             Theorem
@@ -214,67 +221,13 @@ Style Theorem*
         \theorembodyfont{\upshape}
         \theoremheaderfont{\bfseries}
         \theoremseparator{.}
+        \theoremnumbering{arabic}
+        \theoremsymbol{}
         \renewtheorem{thm*}{Theorem}
-        \theoremstyle{plain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-        \theoremnumbering{arabic}
-        \theoremsymbol{}
 	EndPreamble
+	Requires              ntheorem
 End
 
-Style Corollary*
-	CopyStyle             Theorem*
-	DependsOn             Theorem*
-	LatexName             corollary*
-	LabelString           "Corollary."
-	Preamble
-        \theoremstyle{nonumberplain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-		\renewtheorem{corollary*}{Corollary}
-        \theoremstyle{plain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-        \theoremnumbering{arabic}
-        \theoremsymbol{}
-	EndPreamble
-End
-
-Style Question*
-	CopyStyle             Theorem*
-	DependsOn             Theorem
-	LatexName             question*
-	LabelString           "Question."
-	Preamble
-        \theoremstyle{nonumberplain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-        \newtheorem{question*}{Question}
-        \theoremstyle{plain}
-        \theorembodyfont{\upshape}
-        \theoremheaderfont{\bfseries}
-        \theoremseparator{.}
-        \theoremnumbering{arabic}
-        \theoremsymbol{}
-	EndPreamble
-End
-
-Style Conjecture
-	CopyStyle             Theorem
-	DependsOn             Theorem
-	LatexName             conjecture
-	LabelString           "Conjecture \thetheorem."
-    RefPrefix             conj
-	Preamble
-        \newref{conj}{refcmd={Conjecture~\ref{#1}}}
-		\newtheorem{conjecture}[thm]{Conjecture}
-	EndPreamble
-End
 
 
 
@@ -282,11 +235,5 @@ Counter theorem
 	GuiName Theorem
 	LaTeXName thm
 	RefFormat thm "Theorem \arabic{theorem}"
-	RefFormat lem "Lemma \arabic{theorem}"
-	RefFormat prop "Proposition \arabic{theorem}"
 	RefFormat fact "Fact \arabic{theorem}"
-    RefFormat cor "Corollary \arabic{theorem}"
-    RefFormat def "Definition \arabic{theorem}"
-    RefFormat rmk "Remark \arabic{theorem}"
-    RefFormat conj "Conjecture \arabic{theorem}"
 End
