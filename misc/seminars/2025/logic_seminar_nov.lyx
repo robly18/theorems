@@ -1,0 +1,816 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass presentation_notes
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+
+\renewcommand\Point[1]{\noindent \hspace{0.5em plus 0em} \large $\bullet$ #1 \par \smallskip}
+\end_preamble
+\use_default_options true
+\begin_modules
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+UChicago Logic Seminar
+\begin_inset Newline newline
+\end_inset
+
+Escaping Tennenbaum's Theorem and Jump Inversion Theorems
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Date
+October 9,
+ 2025
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Abstract
+\end_layout
+
+\begin_layout Standard
+Tennenbaum's theorem is a classical ('59) result which states that any non-standard model of Peano Arithmetic is necessarily noncomputable.
+ Many variants of this result were developed over the decades,
+ but in 2022 Fedor Pakhomov observed that all of these proofs are very signature-dependent:
+ To prove Tennenbaum's theorem with a new choice of basic operations,
+ one has to rebuild the proof apparatus from scratch.
+ This culminated in a paper showing that this is unavoidable,
+ titled 
+\begin_inset Quotes eld
+\end_inset
+
+Escaping Tennenbaum's Theorem
+\begin_inset Quotes erd
+\end_inset
+
+,
+ where Pakhomov builds a theory which is definitionally equivalent to PA (roughly,
+ it's 
+\begin_inset Quotes eld
+\end_inset
+
+PA in other clothes
+\begin_inset Quotes erd
+\end_inset
+
+) but 
+\emph on
+does
+\emph default
+ admit computable non-standard models.
+ In answering an open question left by him at the end of his paper,
+ I stumbled into the world of 
+\begin_inset Quotes eld
+\end_inset
+
+jump inversion theorems
+\begin_inset Quotes erd
+\end_inset
+
+ in computable structure theory -- a world in its own right --,
+ and was able to prove a theorem that might unify a few disparate results in the literature.
+\end_layout
+
+\begin_layout Standard
+In this talk I'll try to walk the audience through the (still ongoing) narrative behind what I am hopeful is to be my first paper.
+ There will be plot twists,
+ phyrric successes,
+ and the whole talk might end in a cliffhanger.
+ Some remarks will require some computability theory background to understand,
+ but the bulk of the talk should be accessible to anyone who can understand the words 
+\begin_inset Quotes eld
+\end_inset
+
+0'-computable model
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Background
+\end_layout
+
+\begin_layout Point
+Recall 
+\begin_inset FormulaMacro
+\renewcommand{\PA}{\mathsf{PA}}
+\end_inset
+
+
+\begin_inset Formula $\PA$
+\end_inset
+
+.
+ Define non-standard model.
+\end_layout
+
+\begin_layout Point
+State Tennenbaum's theorem:
+ Every computable model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+ is isomorphic to the true naturals.
+ More precisely,
+ if 
+\begin_inset Formula $M$
+\end_inset
+
+ is a nonstandard model with universe 
+\begin_inset Formula $\omega$
+\end_inset
+
+,
+ neither 
+\begin_inset Formula $+$
+\end_inset
+
+ nor 
+\begin_inset Formula $\times$
+\end_inset
+
+ is a computable function.
+\end_layout
+
+\begin_layout Point
+Proof sketch:
+ Let 
+\begin_inset Formula $\varphi(e,x)$
+\end_inset
+
+ be the 
+\emph on
+universal two-valued Turing Machine
+\emph default
+,
+ that is:
+ 
+\begin_inset Formula $\varphi(e,x)$
+\end_inset
+
+ is the result of the 
+\begin_inset Formula $e$
+\end_inset
+
+-th TM on input 
+\begin_inset Formula $x$
+\end_inset
+
+ if the output is 
+\begin_inset Formula $0$
+\end_inset
+
+ or 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ and undefined otherwise.
+\end_layout
+
+\begin_layout Point
+Prove in 
+\begin_inset Formula $\PA$
+\end_inset
+
+ that,
+ for every 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ there exists a finite sequence of numbers (in some reasonable encoding) 
+\begin_inset Formula $a=(a_{ij})_{i,j<n}$
+\end_inset
+
+ such that 
+\begin_inset Formula $a_{ij}=\varphi(i,j)$
+\end_inset
+
+ if this halts in 
+\begin_inset Quotes eld
+\end_inset
+
+finite
+\begin_inset Quotes erd
+\end_inset
+
+ time,
+ and (say) zero otherwise.
+\end_layout
+
+\begin_layout point
+Important note:
+ The notion of 
+\begin_inset Quotes eld
+\end_inset
+
+halts in finite time
+\begin_inset Quotes erd
+\end_inset
+
+ is not absolute (a nonstandard model may have different opinions from us),
+ but it does exhibit absoluteness in one direction:
+ If we believe that a certain Turing machine halts in finite time with a certain output,
+ then every model,
+ standard or not,
+ agrees with us.
+ The reason for this is that this notion is 
+\begin_inset Formula $\Sigma_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Now,
+ if you have access a nonstandard model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+,
+ pick 
+\begin_inset Formula $n$
+\end_inset
+
+ nonstandard,
+ and consider the resulting sequence 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ This sequence can be decoded computably for every standard pair of numbers 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+,
+ though it doesn't need to agree with the 
+\begin_inset Quotes eld
+\end_inset
+
+truth
+\begin_inset Quotes erd
+\end_inset
+
+ because the nonstandard model might think that some machines halt in finite time when they actually don't.
+\end_layout
+
+\begin_layout Point
+If there is such a computable model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+,
+ one can then 
+\emph on
+compute
+\emph default
+ a sequence 
+\begin_inset Formula $f(i)=1-a_{ii}$
+\end_inset
+
+,
+ which is guaranteed to be different from every row of 
+\begin_inset Formula $a_{ij}$
+\end_inset
+
+.
+ But 
+\begin_inset Formula $f(i)$
+\end_inset
+
+ is a total 2-valued computable function,
+ and therefore is a row of 
+\begin_inset Formula $\varphi$
+\end_inset
+
+,
+ which is correctly encoded in 
+\begin_inset Formula $a$
+\end_inset
+
+ because finite outside implies finite inside,
+ and so 
+\begin_inset Formula $f(i)$
+\end_inset
+
+ is a row of 
+\begin_inset Formula $a_{ij}$
+\end_inset
+
+,
+ a contradiction.
+\end_layout
+
+\begin_layout Point
+This shows that there cannot be a computable nonstandard model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+.
+ In fact,
+ if the encoding is done properly,
+ it only requires addition to decode,
+ showing that there can be no computable nonstandard reduct to addition either,
+ and a similar thing holds for multiplication.
+ This is all based on elementary facts regarding number theory and Euclidean division.
+\end_layout
+
+\begin_layout point
+Remark:
+ This actually shows that every nonstandard model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+ computes a 
+\begin_inset Quotes eld
+\end_inset
+
+2-DNR function
+\begin_inset Quotes erd
+\end_inset
+
+,
+ and this turns out to be an equivalence.
+ Such degrees are called PA degrees.
+\end_layout
+
+\begin_layout Point
+Crucially,
+ this is not a general procedure:
+ It relies on the existence of a nice encoding that can be nicely decoded.
+ This means that,
+ in principle,
+ if you wrote down the axioms of 
+\begin_inset Formula $\PA$
+\end_inset
+
+ with a different set of basic operations,
+ you'd have to rewrite the entire proof from scratch – and that is assuming that the proof even works!
+ (Foreshadowing.)
+\end_layout
+
+\begin_layout Section
+Definitional Equivalence
+\end_layout
+
+\begin_layout Point
+In order to talk about 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\PA$
+\end_inset
+
+ in different clothes
+\begin_inset Quotes erd
+\end_inset
+
+,
+ we need to define a notion of 
+\begin_inset Quotes eld
+\end_inset
+
+sameness
+\begin_inset Quotes erd
+\end_inset
+
+ for theories.
+ There are multiple such notions in the literature,
+ but the one we will use is quite strong.
+ It is called definitional equivalence,
+ and it was introduced by Bouvère in 65.
+ Henceforth,
+ we restrict all attention to relational languages.
+\end_layout
+
+\begin_layout Point
+Definition:
+ Let 
+\begin_inset Formula $T$
+\end_inset
+
+ be a theory over the signature 
+\begin_inset Formula $\Lang$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $T'\supseteq T$
+\end_inset
+
+ an extension over the signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+.
+ We say that 
+\begin_inset Formula $T'$
+\end_inset
+
+ is a 
+\emph on
+definitional extension of 
+\begin_inset Formula $T$
+\end_inset
+
+
+\emph default
+ if:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T'$
+\end_inset
+
+ is a conservative extension of 
+\begin_inset Formula $T$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+For every predicate 
+\begin_inset Formula $P$
+\end_inset
+
+ in 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+ there is a formula 
+\begin_inset Formula $\phi_{P}$
+\end_inset
+
+ in 
+\begin_inset Formula $\Lang$
+\end_inset
+
+ so that 
+\begin_inset Formula $T'\vdash\phi_{P}\leftrightarrow P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+Definition:
+ Let 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ be theories over (wlog) disjoint languages.
+ We say that they are 
+\emph on
+definitionally equivalent
+\emph default
+ if there is a common definitional extension.
+\end_layout
+
+\begin_layout Point
+Simple example of PA without zero or without successor.
+\end_layout
+
+\begin_layout Point
+To 
+\begin_inset Quotes eld
+\end_inset
+
+escape Tennenbaum's theorem
+\begin_inset Quotes erd
+\end_inset
+
+,
+ in our eyes,
+ means to find a theory definitionally equivalent to 
+\begin_inset Formula $\PA$
+\end_inset
+
+ which admits a computable nonstandard model.
+\end_layout
+
+\begin_layout Point
+Recall Ackermann inclusion:
+ 
+\begin_inset Formula $x\bar{\in}y$
+\end_inset
+
+ if the 
+\begin_inset Formula $x$
+\end_inset
+
+-th binary digit of 
+\begin_inset Formula $y$
+\end_inset
+
+ is 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ This turns models of 
+\begin_inset Formula $\PA$
+\end_inset
+
+ into models of finite set theory,
+ and (asterisk) from a model of finite set theory we can recover a model of 
+\begin_inset Formula $\PA$
+\end_inset
+
+.
+ With some care,
+ this leads to the following theorem by Kaye and Wong from 2007:
+\end_layout
+
+\begin_layout Point
+Theorem:
+ Finite set theory,
+ by which we mean 
+\begin_inset Formula $\mathsf{ZF}$
+\end_inset
+
+ with infinity replaced by its negation and with the addition of epsilon-induction,
+ is definitionally equivalent to 
+\begin_inset Formula $\PA$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Point
+This means that,
+ in principle,
+ FST could be a way to escape Tennenbaum's theorem.
+ Indeed,
+ the original proof fails to hold,
+ so perhaps FST could admit a computable nonstandard model?
+\end_layout
+
+\begin_layout Point
+Nope!
+ Mancili and Zambella,
+ 2001.
+\end_layout
+
+\begin_layout Section
+Pakhomov's Result
+\end_layout
+
+\begin_layout Point
+Theorem (Pakhomov,
+ 2022):
+ There exists a theory,
+ say 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+,
+ which is definitionally equivalent to 
+\begin_inset Formula $\PA$
+\end_inset
+
+,
+ but which does admit a non-standard model.
+\end_layout
+
+\begin_layout Point
+Pakhomov actually builds his theory on top of FST.
+ He defines a ternary predicate 
+\begin_inset Formula $S(x,y,z)$
+\end_inset
+
+,
+ with the property that 
+\begin_inset Formula $x\in y\leftrightarrow\forall_{z}S(x,y,z)$
+\end_inset
+
+ – so it's sort of a 
+\begin_inset Quotes eld
+\end_inset
+
+set membership with a witness
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The details of how these witnesses are chosen is...
+ involved.
+ If people are interested I can say a few words,
+ but to describe the construction would be an entire talk by itself,
+ and I have other things I want to share.
+\end_layout
+
+\begin_layout Point
+Baby version of the construction:
+ Start from set theory,
+ and imagine the universe built up as in the von Neumann hierarchy.
+ At each stage,
+ you will look at every possible way that a new 
+\begin_inset Quotes eld
+\end_inset
+
+generic
+\begin_inset Quotes erd
+\end_inset
+
+ element 
+\begin_inset Formula $z$
+\end_inset
+
+ could be 
+\begin_inset Formula $S$
+\end_inset
+
+-related to the elements you currently have on hand,
+ in such a way that the rule 
+\begin_inset Formula $x\in y\rightarrow S(x,y,z)$
+\end_inset
+
+ is not broken.
+ For every such possible assignment of 
+\begin_inset Formula $S$
+\end_inset
+
+-relations,
+ you define the 
+\begin_inset Formula $S$
+\end_inset
+
+-relation on the next layer in such a way that someone on the next layer does satisfy that set of relations.
+\end_layout
+
+\begin_layout Point
+This can be turned into a sort of definition by 
+\begin_inset Formula $\in$
+\end_inset
+
+-recursion,
+ which can be written in set theory,
+ showing that this relation 
+\begin_inset Formula $S$
+\end_inset
+
+ is definable in terms of 
+\begin_inset Formula $\in$
+\end_inset
+
+.
+ In turn,
+ 
+\begin_inset Formula $\in$
+\end_inset
+
+ is obviously definable in terms of 
+\begin_inset Formula $S$
+\end_inset
+
+.
+ Thus,
+ these two theories are definitionally equivalent,
+ with the common definitional extension being the theory describing both relations at once.
+\end_layout
+
+\begin_layout Section
+My Result (V1)
+\end_layout
+
+\begin_layout Section
+My Result (V2) and Solving Pakhomov's Question
+\end_layout
+
+\begin_layout Section
+My Result (V3) and Lutz' Idea
+\end_layout
+
+\begin_layout Section
+Setbacks
+\end_layout
+
+\begin_layout Section
+My Result (V4) and Khisamiev's Theorem
+\end_layout
+
+\end_body
+\end_document
