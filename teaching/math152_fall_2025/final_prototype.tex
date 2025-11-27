@@ -1,0 +1,227 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{float}
+\usepackage{tikz}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\dl}{\mathrm{d}}
+\newcommand{\diff}[1]{\frac{\dl}{\dl #1}}
+
+\pagestyle{headandfoot}
+\runningheader{MATH 152 Section 45}{Final Exam Prototype}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\qformat{\textbf{Exercise \thequestion.} (Total points: \totalpoints) \hfill}
+\renewcommand{\partlabel}{Part (\thepartno)}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Exam Prototype
+
+MATH 152 - Section 45
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+No date.
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item You have 2 hours to answer the questions below on the provided examination book.
+
+\textbf{Note: This prototype is rated for 2 hours and 30 minutes, not 2 hours.}
+
+\item Write your name and UCID in the cover page of the examination book.
+
+\item You may ask for additional paper. If you do, sign both exam books and number them.
+
+\item Unless otherwise specified, you do not need to justify your answers. However, you must still show your work. You may lose points if I deem you to have performed a significant leap in logic.
+
+\item This exam is graded out of 100 points.
+
+\item You will not be penalized for forgetting to add constants in the calculation of indefinite integrals, unless the constant is of relevance to the problem.
+\end{itemize}
+}
+}
+\end{center}
+
+%\gradetable
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item Half-angle formulas:
+
+\begin{tabular}{c c}
+$\cos^2(x) = \frac12 + \frac12 \cos(2x)$, &
+$\sin^2(x) = \frac12 - \frac12 \cos(2x)$
+\end{tabular}
+\item Angle sum formulas:
+
+\begin{tabular}{c c}
+$\cos(x+y) = \cos(x)\cos(y) - \sin(x)\sin(y)$,\\
+$\sin(x+y) = \sin(x)\cos(y) + \cos(x)\sin(y)$
+\end{tabular}
+\item Some derivatives:
+
+\begin{tabular}{c c}
+$\diff x \arcsin(x) = \frac1{\sqrt{1-x^2}}$, &
+$\diff x \arctan(x) = \frac1{1+x^2}$
+\end{tabular}
+
+\item Miscellaneous:
+\begin{tabular}{c c}
+$a^b = \e^{b \ln a}$, for $a > 0$, &
+$\log_a(b) = \frac{\ln(b)}{\ln(a)}$, for $a>0$, $b>0$, and $a \neq 1$
+\end{tabular}
+\end{itemize}
+
+\pagebreak
+
+\begin{questions}
+\question
+\begin{parts}
+\part[6] Calculate the upper, lower, and right Riemann sums of the function pictured below, using the partition of $[0,4]$ into three intervals: $[0,1]$, $[1,2]$, and $[2,4]$.
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \x in {1,2,3,4} {
+\draw[help lines] (\x,-2.5) -- (\x,2.5);
+}
+\foreach \y in {-2,-1,1,2} {
+\draw[help lines] (-0.5,\y) -- (4.5,\y);
+}
+
+\draw[->] (-1, 0) -- (5,0) node[below]{$x$};x
+\draw[->] (0,-3) -- (0, 3) node[left]{$y$};
+
+\draw[very thick, looseness=0.9] (0,2) to[out=-40, in=180-70] (1,0) to[in=180,out=-70,looseness=0.5] (1.6, -2) to[out=0,in=83-180] (2,-1) to[out=83,in=180] (2.8, 1) to[out=0] (4, -2);
+
+\foreach \x in {1,2,3,4} {
+\draw (\x,0.1) -- (\x,-0.1) node[below left]{\x};
+}
+\foreach \y in {-2,-1,1,2} {
+\draw (0.1,\y) -- (-0.1,\y) node[left, fill=white]{\y};
+}
+
+\end{tikzpicture}
+\end{center}
+\part[4] Let $f(x)$ be a function, $[a,b]$ an interval, and $P$ a partition of $[a,b]$.
+
+Determine whether the following statements are true or false.
+
+For those that are false, sketch a counter-example.
+
+Note: In the following, we say that $x$ is between $A$ and $B$ if either $A\leq x\leq B$ or $B\leq x \leq A$.
+\begin{subparts}
+\subpart The integral $\int_a^b f(x)\,\dl x$ is necessarily between the upper and lower Riemann sums of $f$ relative to the partition $P$.
+\subpart The integral $\int_a^b f(x)\,\dl x$ is necessarily between the left and right Riemann sums of $f$ relative to the partition $P$.
+\subpart The upper and lower Riemann sums are always distinct.
+\subpart The midpoint Riemann sum will give you the exact value of the integral.
+\end{subparts}
+\end{parts}
+
+\question
+\begin{parts}
+\part[5] Write the area of the following shape as an integral, or sum of integrals, in two different ways: One, by slicing the figure into many thin vertical rectangles (i.e.\ an integral in $\dl x$) and two, by slicing the figure into many thin horizontal rectangles (i.e.\ an integral in $\dl y$). You do not need to compute the integrals.
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \x in {1,2,3} {
+\draw[help lines] (\x,-0.5) -- (\x,4.5);
+}
+\foreach \y in {1,2,3,4} {
+\draw[help lines] (-0.5,\y) -- (3.5,\y);
+}
+
+\draw[->] (-1, 0) -- (4,0) node[below]{$x$};x
+\draw[->] (0,-1) -- (0, 5) node[left]{$y$};
+
+
+\draw plot[domain=0:3] (\x,{(\x-1)*(\x-1)});
+\path (2.5,2) node[below right, fill=white]{$y=(x-1)^2$};
+\draw plot[domain=0:3] (\x,\x+1);
+\path (2,3) node[above left,fill=white]{$y=x+1$};
+
+\foreach \x in {1,2,3} {
+\draw (\x,0.1) -- (\x,-0.1) node[below left]{\x};
+}
+\foreach \y in {1,2,3,4} {
+\draw (0.1,\y) -- (-0.1,\y) node[left, fill=white]{\y};
+}
+
+\end{tikzpicture}
+\end{center}
+
+\part[5] A water tank is being filled at a varying rate. At $t=0$ (measured in minutes), the amount of water is $W(0) = 5$ (measured in gallons). At a given time $t$, the amount of water in the tank is increasing at a rate of $\sin(t)+2$ gallons per minute. Determine a formula for the amount of water in the tank at time $t$. Your formula must not contain any integral signs.
+\part[5] Let us define a new function by the formula
+\[Q(x) = \int_0^x \frac{\cos(t)}{t^2 + 1} \,\dl t.\]
+Complete and justify the following sentence: The function $Q(x)$ is increasing/decreasing (choose one) from $x=0$ to $x=\fillin[xx][0.5cm]$, where it changes direction and decreases/increases (choose one) until $x = \fillin[xx][.5cm]$, where it changes direction again.
+\end{parts}
+
+\question
+\begin{parts}
+\part[5] Consider the function
+\[f(x) = x + k \sin(x),\]
+where $k$ is a number. For which values of $k$ is $f(x)$ invertible?
+\part[5] It turns out that $f(x) = x + \frac{\pi}3 \sin(x)$, restricted to the interval $[-2,2]$, is invertible. Let $g(x)$ be its inverse. Calculate $g'(\frac\pi3)$.
+\end{parts}
+
+\question
+\begin{parts}
+\part[4] A leak in the international space station causes its interior pressure to \textbf{decrease at a rate proportional to the pressure}. When the leak was first detected, the interior pressure was $0.5$ atmospheres. Now, $3$ hours later, the interior pressure is $1/3$ atmospheres. Assuming that a human loses consciousness around the Armstrong limit (about $1/15$ atmospheres), how much time do the astronauts have, starting now, to fix the space station before it becomes unlivable?
+
+Your answer should be in the form of an algebraic expression that you could enter into a calculator, containing only $\ln$ and standard operations (multiplication, division, etc).
+
+\part[6]
+\begin{subparts}
+\subpart Calculate the derivative of $f(x) = 2^x$.
+\subpart Calculate the derivative of $f(x) = \log_5(x)$.
+\subpart The number $A = \log_3 28$ is not an integer, but it is close to one. What is this integer? Briefly justify your answer.
+\end{subparts}
+\end{parts}
+
+\question Solve the following integrals.
+\begin{parts}
+\part[5] $\displaystyle \int \tan^3 x \,\dl x$
+\part[5] $\displaystyle \int_0^{\pi/2} x \sin(x) \,\dl x$
+\part[5] $\displaystyle \int_0^{\sqrt\pi} x^3 \sin(x^2) \,\dl x$
+\part[5] $\displaystyle \int x^2 \sqrt{x^3 + 1} \,\dl x$
+\part[5] $\displaystyle \int \frac{x^3 - 1}{x^2} \,\dl x$
+\part[5] $\displaystyle \int \sin(x) \cos(x) \e^{\sin(x)} \,\dl x$
+\part[10] $\displaystyle \int \sin(2x) \sin(3x) \,\dl x$
+
+Hint: Calculate $\cos(3x+2x)$ and $\cos(3x-2x)$ by the angle sum formula, and use your result to simplify the integrand.
+\end{parts}
+
+\question[5]
+Find the function(s) $y(x)$ that satisfy the differential equation
+\[y'(x) = x - x y(x),\quad \text{with} \;\;y(1) = 0.\]
+
+\question[10] Consider the sequence of numbers
+\[1, \qquad 1+\frac12, \qquad 1+\frac12+\frac13, \qquad \cdots \qquad 1+\frac12+\dots+\frac1n, \qquad \cdots\]
+This sequence is very closely related to the $\ln(x)$ function, and can be used to approximate it. Verify this fact by proving the inequality:
+\[\frac12+\dots+\frac1n \leq \ln(n) \leq 1+\frac12+\dots+\frac1{n-1}.\]
+
+Hint: Write $\ln(n)$ as an integral, and use an upper and lower Riemann sum.
+
+{\footnotesize Curiosity: As a result, we obtain (and you don't have to prove this) that $1+\frac12+\dots+\frac1n$ and $\ln(n)$ are at most a distance of $1$ away. It turns out that, for very large values of $n$, the distance between these two numbers is approximately $0.5772\dots$ This limiting number is called the \emph{Euler-Mascheroni constant}.}
+\end{questions}
+\end{document}
