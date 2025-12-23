@@ -56,7 +56,7 @@ InStar
 \use_dash_ligatures true
 \graphics default
 \default_output_format default
-\output_sync 0
+\output_sync 1
 \bibtex_command default
 \index_command default
 \float_placement H
@@ -94,6 +94,7 @@ InStar
 \shortcut idx
 \color #008000
 \end_index
+\spellchecker_ignore english QETP
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -130,6 +131,16 @@ Duarte Maia
 \begin_layout In Preamble
 \begin_inset FormulaMacro
 \newcommand{\N}{\mathbb{N}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Z}{\mathbb{Z}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Q}{\mathbb{Q}}
 \end_inset
 
 
@@ -195,6 +206,20 @@ Duarte Maia
 
 \begin_inset FormulaMacro
 \newcommand{\PPfin}{\PP^{\mathrm{fin}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\llor}{\bigvee\mathchoice{\hspace{-1.1em}}{\hspace{-0.7em}}{\hspace{-0.7em}}{\hspace{-0.6em}}\bigvee}
+{\bigvee\bigvee}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\llorc}{\llor^{c}}
 \end_inset
 
 
@@ -2156,11 +2181,7 @@ Let
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed structure
+-computable c.e.-typed structure
 \emph default
  
 \begin_inset Formula $D$
@@ -2236,11 +2257,7 @@ A
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed structure 
+-computable c.e.-typed structure 
 \begin_inset Formula $D$
 \end_inset
 
@@ -2269,11 +2286,7 @@ typed structure
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed structure and other structures.
+-computable c.e.-typed structure and other structures.
  In particular,
  if 
 \begin_inset Formula $D_{0}$
@@ -2289,11 +2302,7 @@ typed structure and other structures.
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed copy of 
+-computable c.e.-typed copy of 
 \begin_inset Formula $D_{0}$
 \end_inset
 
@@ -2303,11 +2312,7 @@ typed copy of
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed structure 
+-computable c.e.-typed structure 
 \begin_inset Formula $D$
 \end_inset
 
@@ -2547,11 +2552,7 @@ If
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed structure which satisfies the c.e.
+-computable c.e.-typed structure which satisfies the c.e.
 \begin_inset space \space{}
 \end_inset
 
@@ -4049,14 +4050,21 @@ This follows basically from the definition of the
 .
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
-Main Result (real?)
+Main Result
 \end_layout
 
 \begin_layout Remark
 \begin_inset CommandInset label
 LatexCommand label
-name "rmk:qftypes-1-1"
+name "rmk:qftypes-1-1-1"
 
 \end_inset
 
@@ -4078,7 +4086,7 @@ In the following,
 \begin_layout Definition
 \begin_inset CommandInset label
 LatexCommand label
-name "def:cetyped-1"
+name "def:cetyped-1-1"
 
 \end_inset
 
@@ -4088,11 +4096,7 @@ A
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.
-\begin_inset space \space{}
-\end_inset
-
-typed presentation of a structure
+-computable c.e.-typed presentation of a structure
 \emph default
  
 \begin_inset Formula $D$
@@ -4137,7 +4141,7 @@ index for the atomic
 \begin_layout Remark
 \begin_inset CommandInset ref
 LatexCommand formatted
-reference "def:cetyped-1"
+reference "def:cetyped-1-1"
 plural "false"
 caps "false"
 noprefix "false"
@@ -4167,43 +4171,428 @@ nolink "false"
 \end_layout
 
 \begin_layout Definition
-A 
+We shall work in the Computable Infinitary Language,
+ as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "montalban_cst"
+posttextlist "montalban_cst Part 2, III"
+literal "false"
+
+\end_inset
+
+.
+ We will only work with a very small fragment of this language,
+ which we now describe.
+\end_layout
+
+\begin_layout Definition
+Given a relational signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+,
+ we define the set of 
 \emph on
-positive
+positive computable quantifier-free disjunctive formulas
 \emph default
- quantifier-free formula in the language 
+,
+ denoted by 
+\begin_inset Formula $\llorc$
+\end_inset
+
+,
+ as the set of formulas in finitely many variables of the type
+\begin_inset Formula 
+\[
+\varphi(\vec{x})\equiv\llor_{i<\omega}\varphi_{i}(\vec{x}),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\{\varphi_{i}\}_{i<\omega}$
+\end_inset
+
+ is a 
+\emph on
+computable
+\emph default
+ sequence of formulas of the type
+\begin_inset Formula 
+\[
+\varphi_{i}(\vec{x})=P_{1}\land\dots\land P_{n},
+\]
+
+\end_inset
+
+where each 
+\begin_inset Formula $P_{j}$
+\end_inset
+
+ denotes a relation in 
 \begin_inset Formula $\Lang'$
 \end_inset
 
- is a formula using only the symbols from 
-\begin_inset Formula $\Lang'$
+ being applied to a tuple of variables from 
+\begin_inset Formula $\vec{x}$
 \end_inset
 
 ,
- variables,
- parentheses,
- 
-\begin_inset Formula $\land$
+ in any order,
+ with the possibility of repeated or omitted variables.
+ We also allow for 
+\begin_inset Formula $P_{j}$
 \end_inset
 
-,
- 
-\begin_inset Formula $\lor$
-\end_inset
-
-,
- 
+ to denote 
 \begin_inset Formula $\top$
 \end_inset
 
 ,
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+true
+\begin_inset Quotes erd
+\end_inset
+
+ predicate,
  and 
 \begin_inset Formula $\bot$
+\end_inset
+
+,
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+false
+\begin_inset Quotes erd
+\end_inset
+
+ predicate.
+\end_layout
+
+\begin_layout Definition
+Given a 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formula,
+ say 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+,
+ a structure 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ and a tuple of elements 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ we assign a truth value to the expression 
+\begin_inset Formula $D\vDash\varphi(\vec{b})$
+\end_inset
+
+ in the obvious way.
+ We also assign truth values to 
+\begin_inset Formula $D\vDash\alpha$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ may denote a more complicated expression in the Computable Infinitary Language,
+ always with the obvious meaning.
+ For example,
+ if 
+\begin_inset Formula $\varphi(x,y)$
+\end_inset
+
+ is a 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formula,
+ the expression 
+\begin_inset Formula $D\vDash\exists_{x}\forall_{y}\varphi(x,y)$
+\end_inset
+
+ means:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+There is 
+\begin_inset Formula $a\in D$
+\end_inset
+
+ such that,
+ for every 
+\begin_inset Formula $b\in D$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $D\vDash\varphi(a,b)$
+\end_inset
+
+
+\begin_inset Quotes erd
 \end_inset
 
 .
 \end_layout
 
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:llorc"
+
+\end_inset
+
+The main properties of the 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formulas are the following:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There is a canonical way to associate indices to 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formulas,
+ so that a computer program may manipulate them,
+ and
+\end_layout
+
+\begin_layout Itemize
+Given a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the atomic 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+-type of a tuple of elements 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ in some structure,
+ and a 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formula 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+,
+ we can computably confirm in finite time that (if) the tuple 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ satisfies the formula 
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Compare the properties in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:llorc"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to the following properties of a related class of computable infinitary formulas.
+ The 
+\begin_inset Formula $\Sigma_{1}^{c}$
+\end_inset
+
+ formulas are those formulas in the Computable Infinitary Language of the form:
+\begin_inset Formula 
+\[
+\llor_{i<\omega}\exists_{\vec{y}_{i}}\varphi_{i}(\vec{x},\vec{y}_{i}),
+\]
+
+\end_inset
+
+where the sequence of formulas 
+\begin_inset Formula $\{\exists_{\vec{y}_{i}}\varphi_{i}(\vec{x},\vec{y})\}_{i\in\N}$
+\end_inset
+
+ is computable,
+ and each 
+\begin_inset Formula $\varphi_{i}$
+\end_inset
+
+ is a finite Boolean combination of predicates applied to variables in the tuple 
+\begin_inset Formula $(\vec{x},\vec{y})$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The 
+\begin_inset Formula $\Sigma_{1}^{c}$
+\end_inset
+
+ formulas also admit a canonical way to associate indices,
+ and
+\end_layout
+
+\begin_layout Itemize
+Given a tuple 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ of elements in a computable structure 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ we can confirm in finite time that (if) the tuple 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ satisfies the formula 
+\begin_inset Formula $\varphi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Despite the similarities,
+ the 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formulas shall be more useful in our treatment,
+ because to check the truth of a 
+\begin_inset Formula $\Sigma_{1}^{c}$
+\end_inset
+
+ formula,
+ we need access to the entire model (so that we may brute-force the tuples 
+\begin_inset Formula $\vec{y}_{i}$
+\end_inset
+
+),
+ whilst we shall be working with 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed structures,
+ which may contain 
+\begin_inset Quotes eld
+\end_inset
+
+phantom elements
+\begin_inset Quotes erd
+\end_inset
+
+ that could otherwise lead to false positives.
+ Moreover,
+ since we only have a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the positive information about elements,
+ we cannot computably check arbitrary finite boolean combinations of predicates – hence why we restrict to positive formulas.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+In the sequence,
+ we shall have two nested signatures,
+ 
+\begin_inset Formula $\Lang\subseteq\Lang'$
+\end_inset
+
+.
+ We shall follow the following conventions:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Unless indicated otherwise,
+ all formulas are assumed to be quantifier-free,
+\end_layout
+
+\begin_layout Itemize
+All named 
+\begin_inset Formula $\Lang$
+\end_inset
+
+-formulas will be quantifier-free finitary first-order formulas,
+ and will be denoted by lower-case Roman letters,
+\end_layout
+
+\begin_layout Itemize
+All named 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+-formulas will be 
+\begin_inset Formula $\llorc$
+\end_inset
+
+,
+ and will be denoted by lower-case Greek letters.
+ Conversely,
+ all 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formulas in the sequence are assumed to be over the signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -4216,11 +4605,7 @@ positive
 status open
 
 \begin_layout Plain Layout
-Property 
-\begin_inset Formula $(*)$
-\end_inset
-
-
+QETP
 \end_layout
 
 \end_inset
@@ -4228,7 +4613,7 @@ Property
 
 \begin_inset CommandInset label
 LatexCommand label
-name "def:propstar-1-1"
+name "def:qetp"
 
 \end_inset
 
@@ -4250,10 +4635,16 @@ Let
 \begin_inset Formula $D$
 \end_inset
 
- satisfies Property 
-\begin_inset Formula $(*)$
-\end_inset
+ satisfies the 
+\emph on
+Computable Positive Quantifier Elimination and Trash Existence Property
+\emph default
+,
+ abbreviated to 
+\emph on
+QETP,
 
+\emph default
  if the following properties hold:
 \end_layout
 
@@ -4283,7 +4674,7 @@ alph*)
 
 \begin_inset CommandInset label
 LatexCommand label
-name "enu:star0-1-1"
+name "enu:qetp0"
 
 \end_inset
 
@@ -4303,15 +4694,15 @@ name "enu:star0-1-1"
 \begin_layout Enumerate
 \begin_inset CommandInset label
 LatexCommand label
-name "enu:star1-1-1"
+name "enu:qetp1"
 
 \end_inset
 
-For every quantifier-free 
+For every 
 \begin_inset Formula $\Lang$
 \end_inset
 
--formula 
+ formula 
 \begin_inset Formula $q(\vec{x},\vec{y})$
 \end_inset
 
@@ -4319,15 +4710,13 @@ For every quantifier-free
 \begin_inset Formula $D$
 \end_inset
 
- there is a quantifier-free 
-\begin_inset Formula $\Lang'$
+,
+ there is a 
+\begin_inset Formula $\llorc$
 \end_inset
 
- 
-\series bold
+
 \emph on
-positive
-\series default
  
 \emph default
 formula 
@@ -4340,87 +4729,226 @@ formula
 \end_inset
 
 ,
- such that 
-\begin_inset Formula $D\vDash\forall_{\vec{x}}\left[\chi_{q}(\vec{x})\leftrightarrow\exists_{\vec{y}}q(\vec{x},\vec{y})\right]$
+ such that
+\begin_inset Formula 
+\[
+D\vDash\forall_{\vec{x}}\left[\chi_{q}(\vec{x})\leftrightarrow\exists_{\vec{y}}q(\vec{x},\vec{y})\right],
+\]
+
 \end_inset
 
-,
+
 \end_layout
 
 \begin_layout Enumerate
 \begin_inset CommandInset label
 LatexCommand label
-name "enu:star3"
+name "enu:qetp2"
 
 \end_inset
 
-For every quantifier-free 
-\begin_inset Formula $\Lang$
+There is a 
+\begin_inset Formula $0'$
 \end_inset
 
--
-\emph on
-type
-\emph default
- 
+-computable function,
+ which takes as input a pair 
+\begin_inset Formula $(q(\vec{x},y,\vec{z}),\varphi(\vec{x}))$
+\end_inset
+
+,
+ where 
 \begin_inset Formula $q(\vec{x},y,\vec{z})$
 \end_inset
 
- that is realized in 
-\begin_inset Formula $D$
-\end_inset
-
- there is a quantifier-free 
-\begin_inset Formula $\Lang'$
-\end_inset
-
- 
-\series bold
-\shape italic
-positive
-\series default
-\shape default
- formula 
-\begin_inset Formula $\tau_{q}(\vec{x},y)$
-\end_inset
-
-,
- computable from 
-\begin_inset Formula $q$
-\end_inset
-
-,
- such that
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:tau1"
-
-\end_inset
-
-
-\begin_inset Formula $D\vDash\forall_{\vec{x}}\chi_{q}(\vec{x})\rightarrow\exists_{y}\tau_{q}(\vec{x},y)$
-\end_inset
-
-,
- and
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:tau3"
-
-\end_inset
-
-For every quantifier-free 
+ is a quantifier-free 
 \begin_inset Formula $\Lang$
 \end_inset
 
--formula 
+-type
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Note the lack of 
+\begin_inset Quotes eld
+\end_inset
+
+vector arrow
+\begin_inset Quotes erd
+\end_inset
+
+ on the variable 
+\begin_inset Formula $y$
+\end_inset
+
+.
+ This denotes a 
+\emph on
+single
+\emph default
+ variable,
+ not a tuple of them.
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ is a 
+\emph on
+finitary
+\emph default
+ 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+-formula,
+ whose output is a 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formula denoted 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)$
+\end_inset
+
+,
+ that satisfies the following two properties:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For every tuple 
+\begin_inset Formula $(\vec{x},y,\vec{z})$
+\end_inset
+
+ of elements in 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ of 
+\begin_inset Formula $\Lang$
+\end_inset
+
+-type 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+,
+ there is a formula 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ satisfied by 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ such that 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+ is in the domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ Equivalently,
+ if 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ is a tuple of elements in 
+\begin_inset Formula $D$
+\end_inset
+
+ such that 
+\begin_inset Formula $D\vDash\chi_{q}(\vec{b})$
+\end_inset
+
+,
+ there is 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ such that 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+ is in the domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and 
+\begin_inset Formula $D\vDash\varphi(\vec{b})$
+\end_inset
+
+.
+ Moreover,
+\end_layout
+
+\begin_layout Itemize
+The following formula holds in 
+\begin_inset Formula $D$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+D\vDash\forall_{\vec{x}}\left[\chi_{q}(\vec{x})\land\varphi(\vec{x})\rightarrow\exists_{y}\tau_{q\varphi}(\vec{x},y)\right].
+\]
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+denis idea:
+ assume that tau only hits the true tau i.o.
+ instead of a.e.
+ and try to get a 
+\begin_inset Formula $0''$
+\end_inset
+
+ isomorphism
+\end_layout
+
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\etau}{\mathord{\varepsilon\tau}}
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:qetpetau"
+
+\end_inset
+
+Given a pair 
+\begin_inset Formula $(q(\vec{x},y,\vec{z}),\varphi(\vec{x}))$
+\end_inset
+
+ in the domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ as above,
+ together with a quantifier-free 
+\begin_inset Formula $\Lang$
+\end_inset
+
+-type 
 \begin_inset Formula $Q(\vec{x},y,\vec{z},\vec{w})$
 \end_inset
 
@@ -4429,9 +4957,108 @@ For every quantifier-free
 \end_inset
 
 ,
+ there is a 
+\begin_inset Formula $\llorc$
+\end_inset
+
+ formula 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+,
+ computable from the triple 
+\begin_inset Formula $(q,\varphi,Q)$
+\end_inset
+
+,
+ such that
 \begin_inset Formula 
 \[
-D\vDash\forall_{\vec{x}}\forall_{y}(\chi_{Q}(\vec{x})\land\tau_{q}(\vec{x},y))\rightarrow\chi_{Q}(\vec{x},y).
+D\vDash\forall_{\vec{x}}\left[\exists_{y}\left[\chi_{Q}(\vec{x},y)\land\tau_{q\varphi}(\vec{x},y)\right]\leftrightarrow\etau_{q\varphi Q}(\vec{x})\right].
+\]
+
+\end_inset
+
+The function 
+\begin_inset Formula $(q,\varphi,Q)\mapsto\etau_{q\varphi Q}$
+\end_inset
+
+ may be defined in some cases even if the pair 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+ is not in the domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ In this scenario,
+ we do not make any requirement of 
+\begin_inset Formula $\etau_{q\varphi Q}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Note:
+ As a corollary of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp2"
+
+\end_inset
+
+,
+ we obtain 
+\begin_inset Formula $D\vDash\forall_{\vec{x}}\left[\chi_{q}(\vec{x})\land\varphi(\vec{x})\rightarrow\etau_{q\varphi q}(\vec{x})\right]$
+\end_inset
+
+ for 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+ in the domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:qetp3"
+
+\end_inset
+
+Finally,
+ for all 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+,
+ 
+\begin_inset Formula $Q$
+\end_inset
+
+,
+ 
+\begin_inset Formula $k$
+\end_inset
+
+,
+ we require 
+\begin_inset Formula 
+\[
+D\vDash\forall_{\vec{x},y}\left[\etau_{q\varphi Q}(\vec{x})\land\tau_{q\varphi}(\vec{x},y)\rightarrow\chi_{Q}(\vec{x},y)\right].
 \]
 
 \end_inset
@@ -4439,25 +5066,6 @@ D\vDash\forall_{\vec{x}}\forall_{y}(\chi_{Q}(\vec{x})\land\tau_{q}(\vec{x},y))\r
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-maybe replace by:
- 
-\begin_inset Formula $D\vDash\forall_{\vec{x}}(\exists_{y,\vec{z},\vec{w}}Q(\vec{x},y,\vec{z},\vec{w})\land\tau_{q}(\vec{x},y))\rightarrow\forall_{y}(\tau_{q}(\vec{x},y)\rightarrow\chi_{Q}(\vec{x},y))$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -4469,119 +5077,48 @@ maybe replace by:
 \begin_layout Remark
 \begin_inset CommandInset label
 LatexCommand label
-name "rmk:weakerchi-1-1"
+name "rmk:tauwork"
 
 \end_inset
 
-We make an additional technical assumption on the formulas 
-\begin_inset Formula $\chi_{q}$
+We will work with Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp2"
+
 \end_inset
 
-,
- albeit with no loss with generality.
- Let 
-\begin_inset Formula $q(\vec{x},\vec{y},\vec{z})$
-\end_inset
-
- be a quantifier-free 
-\begin_inset Formula $\Lang$
-\end_inset
-
--type (or formula) realized in 
-\begin_inset Formula $D$
-\end_inset
-
-.
- We can assign a 
-\begin_inset Formula $\chi$
-\end_inset
-
--formula to 
-\begin_inset Formula $q$
-\end_inset
-
- in (at least) two different ways:
- By grouping the variables as 
-\begin_inset Formula $(\vec{x},[\vec{y},\vec{z}])$
+ of the QETP in the following manner:
+ We envision a computable process that enumerates triplets 
+\begin_inset Formula $(q,\varphi,\tau)$
 \end_inset
 
 ,
- or by grouping them as 
-\begin_inset Formula $([\vec{x},\vec{y}],\vec{z})$
+ and sometimes deletes them,
+ in such a manner that,
+ if 
+\begin_inset Formula $\tau_{q\varphi}$
 \end_inset
 
-.
- This leads to two different formulas,
- which we notate respectively as 
-\begin_inset Formula $\chi_{q(\vec{x},\cdot,\cdot)}(\vec{x})$
+ is well-defined,
+ the triple 
+\begin_inset Formula $(q,\varphi,\tau_{q\varphi})$
 \end_inset
 
- and 
-\begin_inset Formula $\chi_{q(\vec{x},\vec{y},\cdot)}(\vec{x},\vec{y})$
+ will eventually be enumerated and never removed,
+ and ever triplet that is not of the form 
+\begin_inset Formula $(q,\varphi,\tau_{q\varphi})$
 \end_inset
 
-.
- Now,
- 
-\series bold
-we assume without loss of generality
-\series default
- that,
- in such a scenario,
- 
-\begin_inset Formula $\chi_{q(\vec{x},\vec{y},\cdot)}(\vec{x},\vec{y})$
+ for 
+\begin_inset Formula $(q,\varphi)$
 \end_inset
 
- contains 
-\begin_inset Formula $\chi_{q(\vec{x},\cdot,\cdot)}(\vec{x})$
+ in the domain of 
+\begin_inset Formula $\tau$
 \end_inset
 
- as a subformula.
-\end_layout
-
-\begin_layout Remark
-The reason why we can make such an assumption is that,
- given a quantifier-free 
-\begin_inset Formula $\Lang$
-\end_inset
-
--formula 
-\begin_inset Formula $q(\vec{x},\vec{y})$
-\end_inset
-
-,
- we may redefine 
-\begin_inset Formula $\bar{\chi}_{q}(\vec{x})$
-\end_inset
-
- as
-\begin_inset Formula 
-\[
-\bar{\chi}_{q}(\vec{x})=\bigwedge_{\vec{x}=(\vec{x}_{1},\vec{x}_{2})}\chi_{q(\vec{x}_{1},\cdot,\cdot)}(\vec{x}),
-\]
-
-\end_inset
-
-where the conjunction ranges over all decompositions of the tuple 
-\begin_inset Formula $\vec{x}$
-\end_inset
-
- into two tuples of variables (not necessarily in order).
- This new definition of 
-\begin_inset Formula $\bar{\chi}$
-\end_inset
-
- still serves as a witness to Property 
-\begin_inset Formula $(*)$
-\end_inset
-
-,
- if the previous 
-\begin_inset Formula $\chi$
-\end_inset
-
- did,
- but has this additional technical benefit that will be necessary in our proof.
+ will eventually be removed.
 \end_layout
 
 \begin_layout Standard
@@ -4595,14 +5132,14 @@ where the conjunction ranges over all decompositions of the tuple
 As a consequence of Item 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "enu:star1-1-1"
+reference "enu:qetp1"
 
 \end_inset
 
  of Definition 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "def:propstar-1-1"
+reference "def:qetp"
 
 \end_inset
 
@@ -4615,11 +5152,7 @@ reference "def:propstar-1-1"
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.-typed structure satisfying Property 
-\begin_inset Formula $(*)$
-\end_inset
-
-,
+-computable c.e.-typed structure satisfying the QETP,
  we can enumerate the quantifier-free 
 \begin_inset Formula $\Lang$
 \end_inset
@@ -4660,10 +5193,14 @@ reference "def:propstar-1-1"
  that are realized.
 \end_layout
 
+\begin_layout Standard
+We now present our main result.
+\end_layout
+
 \begin_layout Theorem
 \begin_inset CommandInset label
 LatexCommand label
-name "thm:maingeneral-1-1"
+name "thm:main_final"
 
 \end_inset
 
@@ -4675,21 +5212,42 @@ If
 \begin_inset Formula $0'$
 \end_inset
 
--computable c.e.-typed structure over the finite signature 
+-computable c.e.-typed structure over the signature 
 \begin_inset Formula $\Lang'\supseteq\Lang$
 \end_inset
 
- satisfying Property 
-\begin_inset Formula $(*)$
-\end_inset
-
-,
+ satisfying the QETP,
  then the reduct 
 \begin_inset Formula $D\upto\Lang$
 \end_inset
 
- admits a computable copy.
- This result is uniform,
+ admits a computable copy 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ There is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism between 
+\begin_inset Formula $D\upto\Lang$
+\end_inset
+
+ and 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ This result is uniform in the index for 
+\begin_inset Formula $D$
+\end_inset
+
+ and index for witnesses that 
+\begin_inset Formula $D$
+\end_inset
+
+ satisfies the QETP,
  and relativizes uniformly.
 \end_layout
 
@@ -4699,32 +5257,12 @@ We shall build a computable copy of
 \end_inset
 
  via a finite injury argument.
- We shall imagine an assortment of workers,
- referred to as 
-\begin_inset Quotes eld
-\end_inset
-
-worker 
-\begin_inset Formula $i$
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
- for 
-\begin_inset Formula $i=0,1,2,\dots$
-\end_inset
-
-,
- each of which will be responsible for one step in a back-and-forth construction of an isomorphism between 
-\begin_inset Formula $D$
-\end_inset
-
- and the structure we are constructing.
+ First,
+ we lay down the foundation for the functioning of our algorithm:
 \end_layout
 
-\begin_layout Proof
+\begin_deeper
+\begin_layout Itemize
 We visualize the structure 
 \begin_inset Formula $D$
 \end_inset
@@ -4739,27 +5277,11 @@ indices for the atomic
 \end_inset
 
 -type of the elements output thus far,
- which can sometimes erase previously constructed elements.
- We assume that when an element is removed from 
-\begin_inset Formula $D$
-\end_inset
-
-,
- all elements that were added after it are removed as well.
- In other words,
- if a real element is added to 
-\begin_inset Formula $D$
-\end_inset
-
-,
- all elements in 
-\begin_inset Formula $D$
-\end_inset
-
- at this time are also real.
+ and sometimes erasing previously constructed elements.
+ We shall be executing this construction in parallel in the background of ours.
 \end_layout
 
-\begin_layout Proof
+\begin_layout Itemize
 We shall build the 
 \begin_inset Formula $\Lang$
 \end_inset
@@ -4777,149 +5299,7 @@ We shall build the
 -type of the elements output thus far.
 \end_layout
 
-\begin_layout Proof
-The process starts with the initialization of worker 
-\begin_inset Formula $0$
-\end_inset
-
-.
- We will soon describe the behavior of worker 
-\begin_inset Formula $i$
-\end_inset
-
- when initialized.
- Before this,
- we lay down some inductive assumptions about the process we are about to describe.
- We will be careful in our description of the process to ensure that these assumptions hold.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-label={Assumption (
-\backslash
-alph*)},
- leftmargin=*
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-We assume that only one worker is active at each time.
- When worker 
-\begin_inset Formula $i$
-\end_inset
-
- is done with its task,
- it will activate worker 
-\begin_inset Formula $i+1$
-\end_inset
-
-.
- When an injury occurs (which shall happen when we change our mind about an element of 
-\begin_inset Formula $D$
-\end_inset
-
-),
- we may divert execution back to a prior worker,
- say worker 
-\begin_inset Formula $j$
-\end_inset
-
-,
- and delete the state of all workers past worker 
-\begin_inset Formula $j$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset CommandInset label
-LatexCommand label
-name "enu:asm1"
-
-\end_inset
-
-We shall keep track of the structure 
-\begin_inset Formula $M$
-\end_inset
-
-,
- and matchings between some elements of 
-\begin_inset Formula $M$
-\end_inset
-
- and some elements of 
-\begin_inset Formula $D$
-\end_inset
-
-.
- At a given state,
- we will use 
-\begin_inset Formula $q(\vec{x},\vec{y})$
-\end_inset
-
- to refer to the quantifier-free 
-\begin_inset Formula $\Lang$
-\end_inset
-
--type of the elements of 
-\begin_inset Formula $M$
-\end_inset
-
- at this moment,
- with the tuple 
-\begin_inset Formula $\vec{x}$
-\end_inset
-
- refering to the elements of 
-\begin_inset Formula $M$
-\end_inset
-
- that currently have a match in 
-\begin_inset Formula $D$
-\end_inset
-
-,
- and 
-\begin_inset Formula $\vec{y}$
-\end_inset
-
- referring to those that do not.
- We refer to the elements of 
-\begin_inset Formula $D$
-\end_inset
-
- matched to the tuple 
-\begin_inset Formula $\vec{x}$
-\end_inset
-
- by the name 
-\begin_inset Formula $\vec{b}$
-\end_inset
-
-.
- Some of the elements of 
-\begin_inset Formula $\vec{b}$
-\end_inset
-
- may be removed later.
-\end_layout
-
-\begin_layout Enumerate
+\begin_layout Itemize
 We well-order the elements of 
 \begin_inset Formula $M$
 \end_inset
@@ -4962,71 +5342,456 @@ the first element of
  we mean the one that was added earliest.
 \end_layout
 
-\begin_layout Enumerate
-Some elements of 
+\begin_layout Itemize
+We shall imagine an assortment of workers,
+ referred to as 
+\begin_inset Quotes eld
+\end_inset
+
+worker 
+\begin_inset Formula $i$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ for 
+\begin_inset Formula $i=0,1,2,\dots$
+\end_inset
+
+,
+ each of which will be responsible for one step in a back-and-forth construction of an isomorphism between 
+\begin_inset Formula $D$
+\end_inset
+
+ and the structure 
 \begin_inset Formula $M$
 \end_inset
 
- will be assigned a 
-\begin_inset Formula $\Lang'$
+ that we are constructing.
+\end_layout
+
+\begin_layout Itemize
+We assume that only one worker is active at each time.
+ When worker 
+\begin_inset Formula $i$
 \end_inset
 
--formula 
-\begin_inset Formula $\tau(\vec{x},y)$
+ is done with its task,
+ it will activate worker 
+\begin_inset Formula $i+1$
 \end_inset
 
 .
- This formula will 
-\emph on
-always
-\emph default
- be of the form 
-\begin_inset Formula $\tau_{q}(\vec{x},y)$
+ When an injury occurs (the means by which this may be caused will be discussed later),
+ we may divert execution back to a prior worker,
+ say worker 
+\begin_inset Formula $j$
+\end_inset
+
+,
+ and delete the state of all workers past worker 
+\begin_inset Formula $j$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The internal state of this construction,
+ that is,
+ the information we shall be keeping track of,
+ consists of the following data (plus whatever ancilliary information is necessary to keep track of the worker mechanism):
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The current status of the structures 
+\begin_inset Formula $M$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+One-to-one matchings between some elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ and some elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ the latter of which may or may not be real,
+\end_layout
+
+\begin_layout Itemize
+To some elements 
+\begin_inset Formula $m$
+\end_inset
+
+ of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ we match a triplet of formulas 
+\begin_inset Formula $(q(\vec{x},y,\vec{z}),\varphi(\vec{x}),\tau(\vec{x},y))$
+\end_inset
+
+ that have been output by the process from 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:tauwork"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ together with a decomposition of the elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ at the time that this matching was created,
+ into 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $y=m$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\vec{z}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+To each matching of the previous two kinds,
+ we keep track of which worker created it and when.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The internal state of this construction may be modified via the following operations:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We may add a new element to 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ in which case we immediately match it to an element of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+We may create a matching between an element of 
+\begin_inset Formula $M$
+\end_inset
+
+ and an element of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+We may match a triplet of formulas 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ to an element 
+\begin_inset Formula $y\in M$
+\end_inset
+
+,
+ together with the decomposition 
+\begin_inset Formula $M_{\mathrm{current}}=(\vec{x},y,\vec{z})$
 \end_inset
 
 ,
  where 
-\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\begin_inset Formula $\vec{x}$
 \end_inset
 
- is the quantifier-free 
-\begin_inset Formula $\Lang$
+ denotes the elements of 
+\begin_inset Formula $M$
 \end_inset
 
--type of a collection of elements of 
+ that have a match in 
+\begin_inset Formula $D$
+\end_inset
+
+ at this moment (note that in particular we assume 
+\begin_inset Formula $y$
+\end_inset
+
+ does not have a match at this moment),
+\end_layout
+
+\begin_layout Itemize
+In the event of injury,
+ we may remove matches of the two kinds above.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The construction will be injured if either of the following two events occur:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An element of 
+\begin_inset Formula $D$
+\end_inset
+
+ which admits a match to an element of 
+\begin_inset Formula $M$
+\end_inset
+
+ is deleted,
+\end_layout
+
+\begin_layout Itemize
+There is an element of 
 \begin_inset Formula $M$
 \end_inset
 
 ,
- with 
-\begin_inset Formula $y$
+ with an assigned triplet of formulas 
+\begin_inset Formula $(q,\varphi,\tau)$
 \end_inset
 
- corresponding to the element in question,
- and 
+,
+ for which the tripet of formulas has been deleted from the enumeration of the process of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:tauwork"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In either of these cases,
+ all matches created after the 
+\begin_inset Quotes eld
+\end_inset
+
+faulty match
+\begin_inset Quotes erd
+\end_inset
+
+ will be deleted.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Now,
+ we establish some assumptions about the internal state of the construction,
+ which we will be careful to uphold at every step.
+ Together with each assumption,
+ we point out the operations that we need to be careful in exercising – the remaining operations will always preserve the given assumption.
+ Moreover,
+ the assumptions will not be broken with the passage of time unless injury happens,
+ in which case the injury-handling part of the algorithm will rectify any issues.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label={Assumption (
+\backslash
+Alph*)},
+ leftmargin=*
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:asmchi"
+
+\end_inset
+
+If 
+\begin_inset Formula $M=(\vec{x},\vec{y})$
+\end_inset
+
+,
+ where 
 \begin_inset Formula $\vec{x}$
 \end_inset
 
- corresponding to a subset of the elements of 
+ denotes the elements of 
 \begin_inset Formula $M$
 \end_inset
 
- that admit a match in 
+ that currently admit matches in 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ denotes these matches,
+ and 
+\begin_inset Formula $q(\vec{x},\vec{y})$
+\end_inset
+
+ is the type of the elements of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ we demand that 
+\begin_inset Formula $D\vDash\chi_{q}(\vec{b})$
+\end_inset
+
+ if all elements of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ are real.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We need to be careful to ensure that this is true when we add new elements to 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ and when we create matches between elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ and elements of 
 \begin_inset Formula $D$
 \end_inset
 
 .
- Not every element of 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:asmphi"
+
+\end_inset
+
+If 
+\begin_inset Formula $y\in M$
+\end_inset
+
+ is matched with a triplet of formulas 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ and decomposition 
+\begin_inset Formula $(\vec{x},y,\vec{z})\subseteq M$
+\end_inset
+
+,
+ we demand that 
+\begin_inset Formula $M\vDash q(\vec{x},y,\vec{z})$
+\end_inset
+
+ and that all elements of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ admit matches 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ in 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ which satisfy 
+\begin_inset Formula $D\vDash\varphi(\vec{b})$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We need to be careful to ensure that this is true when we assign a triplet to an element.
+ We don't need to be careful when removing matches or elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ because our injury process will,
+ in that case,
+ unmatch the formulas assigned to 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:asmutau"
+
+\end_inset
+
+At most one unmatched element 
+\begin_inset Formula $m$
+\end_inset
+
+ of 
 \begin_inset Formula $M$
 \end_inset
 
- will have a formula assigned to it,
- and these assignments may be erased.
- At most one unmatched element of 
-\begin_inset Formula $M$
-\end_inset
-
- will have an assigned formula at any given time,
+ will have an assigned triplet at any given time,
  and in this event,
  the variables 
 \begin_inset Formula $\vec{x}$
@@ -5041,63 +5806,12 @@ always
 \end_inset
 
 ,
- and the next action to be taken shall be to match the element under discussion to an element of 
+ and the next action to be taken shall be to match 
+\begin_inset Formula $m$
+\end_inset
+
+ to an element of 
 \begin_inset Formula $D$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-We shall generally use the letter 
-\begin_inset Formula $s$
-\end_inset
-
- to denote the current stage of execution.
- If 
-\begin_inset Formula $\alpha(\vec{x})$
-\end_inset
-
- is a positive quantifier-free 
-\begin_inset Formula $\Lang'$
-\end_inset
-
--formula and 
-\begin_inset Formula $\vec{b}$
-\end_inset
-
- is a tuple of elements that have been added to 
-\begin_inset Formula $D$
-\end_inset
-
- (but some of which may eventually be removed),
- we use the notation 
-\begin_inset Formula $D\vDash^{s}\alpha(\vec{b})$
-\end_inset
-
- to mean 
-\begin_inset Quotes eld
-\end_inset
-
-When given 
-\begin_inset Formula $s$
-\end_inset
-
- time to enumerate the atomic 
-\begin_inset Formula $\Lang'$
-\end_inset
-
--type of 
-\begin_inset Formula $\vec{b}$
-\end_inset
-
-,
- we have found enough information to conclude 
-\begin_inset Formula $D\vDash\alpha(\vec{b})$
-\end_inset
-
-
-\begin_inset Quotes erd
 \end_inset
 
 .
@@ -5106,40 +5820,163 @@ When given
 \begin_layout Enumerate
 \begin_inset CommandInset label
 LatexCommand label
-name "enu:asm2"
+name "enu:asmtau"
 
 \end_inset
 
-Using the notation of 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "enu:asm1"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
+If 
+\begin_inset Formula $y$
+\end_inset
 
+ is an element of 
+\begin_inset Formula $M$
+\end_inset
+
+ with assigned triplet 
+\begin_inset Formula $(q(\vec{x},y,\vec{z}),\varphi(\vec{x}),\tau(\vec{x},y))$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ admits a match 
+\begin_inset Formula $d$
+\end_inset
+
+ in 
+\begin_inset Formula $D$
 \end_inset
 
 ,
- we make the following demand:
- It must be the case,
- at every step of the process,
- that 
-\begin_inset Formula $D\vDash\chi_{q}(\vec{b})$
+ if 
+\begin_inset Formula $\vec{b}$
 \end_inset
 
- holds.
+ is the tuple of elements matched with 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+,
+ it must be the case that 
+\begin_inset Formula $D\vDash\tau(\vec{b},d)$
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Enumerate
-(note to self:
- if you work with the 
-\begin_inset Formula $\tau$
+\begin_deeper
+\begin_layout Standard
+We need to be careful to ensure that this is true when we create a match between an element of 
+\begin_inset Formula $M$
 \end_inset
 
-'s that change over time,
- add an assumption that you're keeping track of them here.)
+ with an assigned triplet 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ and an element of 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ We will not need to be careful when we assign a triplet 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ to an element of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ because (it turns out) we will always match such triplets to unmatched elements.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:asmetau"
+
+\end_inset
+
+If 
+\begin_inset Formula $m$
+\end_inset
+
+ is an element with assigned formulas 
+\begin_inset Formula $(q(\vec{x},y,\vec{z}),\varphi(\vec{x}),\tau(\vec{x},y))$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ denoting the matches of the 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+,
+ and at this stage 
+\begin_inset Formula $M$
+\end_inset
+
+ is decomposed as 
+\begin_inset Formula $M=(\vec{x},y,\vec{z},\vec{w})$
+\end_inset
+
+ with quantifier-free 
+\begin_inset Formula $\Lang$
+\end_inset
+
+-type 
+\begin_inset Formula $Q(\vec{x},y,\vec{z},\vec{w})$
+\end_inset
+
+,
+ it must be the case that,
+ if the 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ are real elements of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $D\vDash\etau_{q\varphi Q}(\vec{b})$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We need to be careful to ensure that this is true when new elements are added to 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ and when we assign triplets 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ to elements of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The process starts with the initialization of worker 
+\begin_inset Formula $0$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -5183,14 +6020,10 @@ If
 
  does not have an assigned formula:
  Let 
-\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\begin_inset Formula $(\vec{x},y,\vec{z})$
 \end_inset
 
- be the quantifier-free 
-\begin_inset Formula $\Lang$
-\end_inset
-
--type of the current elements of 
+ be the current elements of 
 \begin_inset Formula $M$
 \end_inset
 
@@ -5203,7 +6036,11 @@ If
 \begin_inset Formula $D$
 \end_inset
 
-,
+ – call them 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ –,
  
 \begin_inset Formula $y$
 \end_inset
@@ -5218,20 +6055,131 @@ If
 \end_inset
 
  corresponding to the remaining elements.
- We assign to 
-\begin_inset Formula $m$
+ Look through the triplets 
+\begin_inset Formula $(q,\varphi,\tau)$
 \end_inset
 
- the formula 
-\begin_inset Formula $\tau(\vec{x},y)\equiv\tau_{q}(\vec{x},y)$
+ enumerated as per 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:tauwork"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ until you find such a triplet that satisfies 
+\begin_inset Formula $M\vDash q(\vec{x},y,\vec{z})$
+\end_inset
+
+ and 
+\begin_inset Formula $D\vDash\varphi(\vec{b})$
 \end_inset
 
 .
+ If all elements of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ are real,
+ such a triple will be found in finite time by 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmchi"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ in conjunction with Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp2"
+
+\end_inset
+
+ of the QETP.
+ If not all are real,
+ injury will occur.
+ Once such a triple is found,
+ we assign to 
+\begin_inset Formula $m$
+\end_inset
+
+ the triplet 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ with the decomposition 
+\begin_inset Formula $(\vec{x},y,\vec{z})$
+\end_inset
+
+ above.
+\end_layout
+
+\begin_layout Standard
+We need to make sure that 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:asmphi"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:asmetau"
+
+\end_inset
+
+ are preserved.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:asmphi"
+
+\end_inset
+
+ – By design.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:asmetau"
+
+\end_inset
+
+ – We need to guarantee that,
+ if the 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ are all real,
+ we have 
+\begin_inset Formula $D\vDash\etau_{q\varphi q}(\vec{b})$
+\end_inset
+
+.
+ This is a consequence of the note at the end of Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetpetau"
+
+\end_inset
+
+ of the QETP.
 \end_layout
 
 \begin_layout Standard
 Let 
-\begin_inset Formula $\tau_{q}(\vec{x},y)$
+\begin_inset Formula $(q,\varphi,\tau)$
 \end_inset
 
  be the formula assigned to 
@@ -5243,7 +6191,9 @@ Let
 \begin_inset Formula $q(\vec{x},y,\vec{z})$
 \end_inset
 
- might not be the the quantifier-free 
+ will not,
+ in general,
+ be the the quantifier-free 
 \begin_inset Formula $\Lang$
 \end_inset
 
@@ -5261,12 +6211,19 @@ Let
 \end_inset
 
 .
- By assumption,
+ By 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:asmutau"
+
+\end_inset
+
+,
  the elements corresponding to 
 \begin_inset Formula $\vec{x}$
 \end_inset
 
- are exactly the ones that admit matches in 
+ are exactly the ones that currently admit matches in 
 \begin_inset Formula $D$
 \end_inset
 
@@ -5283,7 +6240,7 @@ We let
 \begin_inset Formula $Q(\vec{x},y,\vec{z},\vec{w})$
 \end_inset
 
- denote the current quantifier-free type of the elements of 
+ denote the quantifier-free type of the current elements of 
 \begin_inset Formula $M$
 \end_inset
 
@@ -5315,64 +6272,132 @@ Look through the elements of
 \end_inset
 
  satisfying 
-\begin_inset Formula $\tau_{q}(\vec{b},d)$
+\begin_inset Formula $D\vDash\tau(\vec{b},d)$
 \end_inset
 
 .
- Pick the first such element 
-\begin_inset Formula $d\in D$
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Technical note:
+ This search must be done in some systematic way so that,
+ if all 
+\begin_inset Formula $\vec{b}$
 \end_inset
 
- that satisfies 
-\begin_inset Formula $D\vDash_{s}\tau_{q}(\vec{b},d)$
+ are real,
+ we eventually find a 
+\emph on
+real
+\emph default
+ element 
+\begin_inset Formula $d$
 \end_inset
 
-,
- where 
-\begin_inset Formula $s$
+ satisfying this formula.
+ An example of such a systematic way:
+ Let's say we give the 
+\begin_inset Formula $n$
 \end_inset
 
- is the current stage.
- Once you've exhausted all elements of 
+-th element added to 
 \begin_inset Formula $D$
 \end_inset
 
- that were present at the time you started,
- try again with a larger value of 
-\begin_inset Formula $s$
+,
+ say 
+\begin_inset Formula $d_{n}$
 \end_inset
 
-.
- This process is done in this specific way to ensure consistency in the event of injury.
+,
+ a penalty of 
+\begin_inset Formula $n$
+\end_inset
+
+ stages in the time it takes to compute whether 
+\begin_inset Formula $D\vDash\tau(\vec{b},d_{n})$
+\end_inset
+
+,
+ and select the 
+\begin_inset Formula $d$
+\end_inset
+
+ such that 
+\begin_inset Formula $D\vDash\tau(\vec{b},d)$
+\end_inset
+
+ is verified in the least amount of stages.
+ This will be important when proving finite injury.
 \end_layout
 
 \begin_layout Standard
 We claim that,
  unless an injury occurs,
- this process will eventually terminate.
- Indeed,
- by assumption,
- it must be the case that 
-\begin_inset Formula $D\vDash\chi_{Q}(\vec{b})$
-\end_inset
-
- .
- Assuming that all elements in 
+ this search will eventually terminate.
+ By this we mean:
+ Assume that all 
 \begin_inset Formula $\vec{b}$
 \end_inset
 
  are real,
- it must also be the case that 
-\begin_inset Formula $D\vDash\chi_{q}(\vec{b})$
+ and that the triple 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ will never be removed from the enumeration from 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:tauwork"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Then,
+ by 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmchi"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ it must be the case that 
+\begin_inset Formula $D\vDash\chi_{Q}(\vec{b})$
+\end_inset
+
+ and by 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmetau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ it must be the case that 
+\begin_inset Formula $D\vDash\etau_{q\varphi Q}(\vec{b})$
 \end_inset
 
 .
  Thus,
- it must be the case (by the definition of 
-\begin_inset Formula $\tau_{q}$
+ by definition of 
+\begin_inset Formula $\etau$
 \end_inset
 
-) that 
+,
+ it must be the case that 
 \begin_inset Formula $D\vDash\exists_{y}\tau_{q}(\vec{b},y)$
 \end_inset
 
@@ -5385,10 +6410,27 @@ We claim that,
 \end_layout
 
 \begin_layout Standard
-We note that 
+Once such a 
+\begin_inset Formula $d$
+\end_inset
+
+ is found,
+ we match 
+\begin_inset Formula $m$
+\end_inset
+
+ to 
+\begin_inset Formula $d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We need to make sure that 
 \begin_inset CommandInset ref
 LatexCommand formatted
-reference "enu:asm2"
+reference "enu:asmchi"
 plural "false"
 caps "false"
 noprefix "false"
@@ -5396,30 +6438,58 @@ nolink "false"
 
 \end_inset
 
- holds – that is,
- 
-\begin_inset Formula $D\vDash\chi_{Q}(\vec{b},d)$
+ and 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmtau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
 \end_inset
 
- – because of Item 
+ hold.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmchi"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ – If 
+\begin_inset Formula $d$
+\end_inset
+
+ is real,
+ this is direct by Item 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "enu:star3"
+reference "enu:qetp3"
 
 \end_inset
 
-.
+ of the QETP.
+\end_layout
+
+\begin_layout Itemize
 \begin_inset CommandInset ref
-LatexCommand ref
-reference "enu:tau3"
+LatexCommand formatted
+reference "enu:asmtau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
 
 \end_inset
 
- of Property 
-\begin_inset Formula $(*)$
-\end_inset
-
-.
+ – By construction
 \end_layout
 
 \end_deeper
@@ -5465,19 +6535,7 @@ Let
 \begin_inset Formula $M$
 \end_inset
 
- that admit matches,
- as per the notation of 
-\begin_inset CommandInset ref
-LatexCommand formatted
-reference "enu:asm2"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-
-\end_inset
-
-.
+ that admit matches.
  Let 
 \begin_inset Formula $r(\vec{x},z)$
 \end_inset
@@ -5491,6 +6549,23 @@ nolink "false"
 \end_inset
 
 .
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Here,
+ we use Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp0"
+
+\end_inset
+
+ of the QETP.
+\end_layout
+
+\end_inset
+
  In parallel,
  look through the realized quantifier-free 
 \begin_inset Formula $\Lang$
@@ -5504,35 +6579,207 @@ nolink "false"
 \begin_inset Formula $Q(\vec{x},z,\vec{y})$
 \end_inset
 
- that extends 
+ extending 
 \begin_inset Formula $q(\vec{x},\vec{y})\land r(\vec{x},z)$
 \end_inset
 
- such that 
+ such that:
+\end_layout
+
+\begin_layout Itemize
 \begin_inset Formula $D\vDash\chi_{Q(\vec{x},z,\cdot)}(\vec{b},d)$
 \end_inset
 
-.
- An argument shows that,
- if such a 
-\begin_inset Formula $Q$
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+For every 
+\begin_inset Formula $m$
 \end_inset
 
- is not found in finite time,
- either 
-\begin_inset Formula $d$
-\end_inset
-
- or an element of 
-\begin_inset Formula $\vec{b}$
-\end_inset
-
- is not real and will eventually be deleted from 
-\begin_inset Formula $D$
+ with an assigned triplet 
+\begin_inset Formula $(q_{0}(\vec{x}_{0},y_{0},\vec{z}_{0}),\varphi(\vec{x}_{0}),\tau(\vec{x}_{0},y_{0}))$
 \end_inset
 
 ,
- and so an injury shall occur.
+ if 
+\begin_inset Formula $\vec{b}_{0}$
+\end_inset
+
+ are the elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ corresponding to 
+\begin_inset Formula $\vec{x}_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D\vDash\etau_{q_{0}\varphi Q}(\vec{b}_{0})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We argue that either such a 
+\begin_inset Formula $Q$
+\end_inset
+
+ is found in finite time or otherwise an injury will occur.
+ Indeed,
+ suppose that both 
+\begin_inset Formula $d$
+\end_inset
+
+ and the elements of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ are all real,
+ and that every triplet 
+\begin_inset Formula $(q_{0},\varphi,\tau)$
+\end_inset
+
+ will nevermore be injured.
+ Now,
+ since we assume 
+\begin_inset Formula $D\vDash\chi_{q}(\vec{b})$
+\end_inset
+
+,
+ there must be a tuple of real elements 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+ in 
+\begin_inset Formula $D$
+\end_inset
+
+ such that 
+\begin_inset Formula $D\vDash q(\vec{b},\vec{c})$
+\end_inset
+
+.
+ Now,
+ we claim that the type 
+\begin_inset Formula $Q$
+\end_inset
+
+ of the tuple 
+\begin_inset Formula $(\vec{b},d,\vec{c})$
+\end_inset
+
+ satisfies the desired requisites:
+\end_layout
+
+\begin_layout Itemize
+Since 
+\begin_inset Formula $D\vDash Q(\vec{b},d,\vec{c})$
+\end_inset
+
+,
+ we must have 
+\begin_inset Formula $D\vDash\exists_{\vec{y}}Q(\vec{b},d,\vec{y})$
+\end_inset
+
+ and hence 
+\begin_inset Formula $D\vDash\chi_{Q}(\vec{b},d)$
+\end_inset
+
+,
+ and
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $m$
+\end_inset
+
+ has the triplet 
+\begin_inset Formula $(q_{0},\varphi,\tau)$
+\end_inset
+
+ assigned,
+ with decomposition 
+\begin_inset Formula $(\vec{x}_{0},y_{0},\vec{z}_{0})\subseteq M$
+\end_inset
+
+,
+ with 
+\begin_inset Formula $\vec{b}_{0}$
+\end_inset
+
+ being the elements of 
+\begin_inset Formula $D$
+\end_inset
+
+ corresponding to 
+\begin_inset Formula $\vec{x}_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $d_{0}$
+\end_inset
+
+ being the element corresponding to 
+\begin_inset Formula $m$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $D\vDash\chi_{Q}(\vec{b}_{0},d_{0})$
+\end_inset
+
+ as a consequence of 
+\begin_inset Formula $D\vDash\chi_{Q}(\vec{b},d)$
+\end_inset
+
+ as a consequence of 
+\begin_inset Formula $D\vDash Q(\vec{b},d,\vec{c})$
+\end_inset
+
+,
+ and moreover 
+\begin_inset Formula $D\vDash\tau(\vec{b}_{0},d_{0})$
+\end_inset
+
+ by 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmtau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ hence 
+\begin_inset Formula $D\vDash\exists_{y}\left[\chi_{Q}(\vec{b}_{0},y)\land\tau_{q\varphi}(\vec{b}_{0},y)\right])$
+\end_inset
+
+,
+ and thus 
+\begin_inset Formula $D\vDash\etau_{q_{0}\varphi Q}(\vec{b}_{0})$
+\end_inset
+
+ by Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetpetau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of the QETP.
 \end_layout
 
 \begin_layout Standard
@@ -5579,10 +6826,10 @@ Once such a
 \end_layout
 
 \begin_layout Standard
-Note that we have been careful to ensure that 
+We need to make sure that 
 \begin_inset CommandInset ref
 LatexCommand formatted
-reference "enu:asm2"
+reference "enu:asmchi"
 plural "false"
 caps "false"
 noprefix "false"
@@ -5590,7 +6837,51 @@ nolink "false"
 
 \end_inset
 
- holds.
+ and 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmetau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ hold.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmchi"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ – By construction,
+ since we ensured 
+\begin_inset Formula $D\vDash\chi_{Q}(\vec{b},d)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "enu:asmetau"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ – By construction.
 \end_layout
 
 \end_deeper
@@ -5610,7 +6901,11 @@ Once both of the above steps are done,
 
 \begin_layout Standard
 We now describe the process of injury.
- Suppose that an element of 
+ There are two means of injury:
+\end_layout
+
+\begin_layout Itemize
+Suppose that an element of 
 \begin_inset Formula $D$
 \end_inset
 
@@ -5685,9 +6980,59 @@ We now describe the process of injury.
 .
 \end_layout
 
+\begin_layout Itemize
+Suppose that an element 
+\begin_inset Formula $m\in M$
+\end_inset
+
+ has an assigned triplet 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+,
+ which is seen to be deleted from the enumeration described in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:tauwork"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ at a given stage.
+ Suppose worker 
+\begin_inset Formula $i$
+\end_inset
+
+ is the one who has assigned this formula.
+ Then,
+ we halt the execution of all workers with index greater than 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ and erase all matches and assigned formulas created past the moment that this formula was assigned to 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ Then,
+ we run worker 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Standard
 This concludes the construction.
- It remains to show that the resulting structure is isomorphic to 
+ It remains to show that the resulting structure 
+\begin_inset Formula $M$
+\end_inset
+
+ is isomorphic to 
 \begin_inset Formula $D\upto\Lang$
 \end_inset
 
@@ -5773,29 +7118,10 @@ First,
  if there is any,
  is injured finitely many times.
  Indeed,
- the formula 
-\begin_inset Formula $\tau_{q}(\vec{x},y)$
-\end_inset
-
- that was assigned to 
-\begin_inset Formula $m$
-\end_inset
-
- the last time that worker 
-\begin_inset Formula $i$
-\end_inset
-
- has been activated thus far will never be changed,
- because it would only change if a worker below 
-\begin_inset Formula $i$
-\end_inset
-
- were injured.
- Moreover,
- we know that (using the notation of 
+ per the notation of 
 \begin_inset CommandInset ref
 LatexCommand formatted
-reference "enu:asm1"
+reference "rmk:tauwork"
 plural "false"
 caps "false"
 noprefix "false"
@@ -5803,7 +7129,45 @@ nolink "false"
 
 \end_inset
 
-) there must be a real element 
+ and using Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of the QETP,
+ eventually a triplet 
+\begin_inset Formula $(q,\varphi,\tau)$
+\end_inset
+
+ will be enumerated and never removed,
+ such that the relevant elements of 
+\begin_inset Formula $D$
+\end_inset
+
+ satisfy 
+\begin_inset Formula $\chi_{q}\land\varphi$
+\end_inset
+
+.
+ Past this point,
+ after all previously-added false triplets have been removed,
+ this triplet (or another) will be permanently assigned to 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ Afterward,
+ we know (see the technical note in the first bullet point of the description of the worker process) that after enough steps we match 
+\begin_inset Formula $m$
+\end_inset
+
+ with a real element 
 \begin_inset Formula $d$
 \end_inset
 
@@ -5812,38 +7176,13 @@ nolink "false"
 \end_inset
 
  that satisfies 
-\begin_inset Formula $\tau_{q}(\vec{b},d)$
+\begin_inset Formula $\tau(\vec{b},d)$
 \end_inset
 
-,
- and the requisite predicates are enumerated into the type of 
-\begin_inset Formula $(\vec{b},d)$
-\end_inset
-
- within a finite amount of time.
- If worker 
-\begin_inset Formula $i$
-\end_inset
-
- is ever activated after this time has elapsed,
- and after all non-real elements prior to 
-\begin_inset Formula $d$
-\end_inset
-
- have been removed from 
-\begin_inset Formula $D$
-\end_inset
-
-,
- 
-\begin_inset Formula $m$
-\end_inset
-
- will be matched with 
-\begin_inset Formula $d$
-\end_inset
-
- and this match will never be removed.
+.
+ Thus,
+ past this point,
+ this match will never be injured.
 \end_layout
 
 \begin_layout Itemize
@@ -5884,11 +7223,36 @@ This concludes the proof.
 
 \end_deeper
 \begin_layout Section
-Applications
+Previously Known Applications
+\end_layout
+
+\begin_layout Standard
+In this section,
+ we present a list of some consequences of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ We claim originality over none of the results themselves – our goal here is merely to show how they all follow from the same general principle,
+ and we present prior references to where the results may be found in the literature.
+\end_layout
+
+\begin_layout Standard
+All of the following results are bidirectional,
+ but due to the direction of this paper,
+ we will only be focusing on the most relevant of the two directions in each case,
+ which will generally be arguably the most difficult one.
 \end_layout
 
 \begin_layout Subsection
-Equivalence Relations
+Equivalence Relations of Infinite Rank
 \end_layout
 
 \begin_layout Proposition
@@ -5896,17 +7260,47 @@ Equivalence Relations
 status open
 
 \begin_layout Plain Layout
-folklore?
+Folklore,
  
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cst_downey_melnikov"
+posttextlist "cst_downey_melnikov Theorem 9.1.4"
 literal "false"
 
 \end_inset
 
- theorem 9.1.4
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
 \end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:eqvinf"
 
 \end_inset
 
@@ -5921,7 +7315,7 @@ Let
 
  be an equivalence relation with infinitely many equivalence classes,
  and assume that the structure 
-\begin_inset Formula $(E,\eqvrel,\{P_{n}\}_{n\in\N})$
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
 \end_inset
 
  admits a 
@@ -5930,7 +7324,7 @@ Let
 
 -computable copy,
  where 
-\begin_inset Formula $P_{n}(x)$
+\begin_inset Formula $P_{\geq n}(x)$
 \end_inset
 
  is the predicate 
@@ -5941,11 +7335,7 @@ the equivalence class of
 \begin_inset Formula $x$
 \end_inset
 
- has size 
-\emph on
-at least
-\emph default
- 
+ has size at least 
 \begin_inset Formula $n$
 \end_inset
 
@@ -5965,7 +7355,7 @@ at least
 \begin_layout Proof
 First,
  we note that if 
-\begin_inset Formula $(E,\eqvrel,\{P_{n}\}_{n\in\N})$
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
 \end_inset
 
  admits a 
@@ -5973,7 +7363,7 @@ First,
 \end_inset
 
 -computable copy then 
-\begin_inset Formula $(E,\eqvrel,\{P_{n}\}_{n\in\N\cup\{\infty\}}$
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N\cup\{\infty\}})$
 \end_inset
 
  admits a 
@@ -5982,7 +7372,7 @@ First,
 
 -computable c.e.-typed copy,
  where 
-\begin_inset Formula $P_{\infty}(x)$
+\begin_inset Formula $P_{\geq\infty}(x)$
 \end_inset
 
  is the predicate 
@@ -6005,7 +7395,7 @@ the equivalence class of
 
 ,
  run the construction of 
-\begin_inset Formula $(E,\eqvrel,\{P_{n}\}_{n\in\N})$
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
 \end_inset
 
 ,
@@ -6018,15 +7408,15 @@ the equivalence class of
 \end_inset
 
 satisfies 
-\begin_inset Formula $P_{n}$
+\begin_inset Formula $P_{\geq n}$
 \end_inset
 
  but not 
-\begin_inset Formula $P_{n+1}$
+\begin_inset Formula $P_{\geq n+1}$
 \end_inset
 
 ),
- output an equivalence class of size 
+ output an equivalence class of size exactly 
 \begin_inset Formula $n$
 \end_inset
 
@@ -6053,11 +7443,7 @@ Next,
 \begin_inset Formula $E$
 \end_inset
 
- satisfies Property 
-\begin_inset Formula $(*)$
-\end_inset
-
- relative to the languages:
+ satisfies the QETP relative to the languages:
 \end_layout
 
 \begin_deeper
@@ -6097,7 +7483,7 @@ Next,
 
 ,
  plus the countably many predicates 
-\begin_inset Formula $P_{n}$
+\begin_inset Formula $P_{\geq n}$
 \end_inset
 
 .
@@ -6113,8 +7499,14 @@ It is obvious that
 \begin_inset Formula $\chi$
 \end_inset
 
- and 
+,
+ 
 \begin_inset Formula $\tau$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\etau$
 \end_inset
 
 .
@@ -6209,11 +7601,19 @@ To construct
 \end_layout
 
 \begin_layout Standard
-We also assume without loss of generality that every 
+We also assume without loss of generality that 
+\begin_inset Formula $q$
+\end_inset
+
+ includes the information that every 
 \begin_inset Formula $x_{i}$
 \end_inset
 
- is distinct,
+ and 
+\begin_inset Formula $y_{j}$
+\end_inset
+
+ is distinct from evert other,
  and that we have knowledge about the equivalences or lack thereof between them.
 \end_layout
 
@@ -6279,7 +7679,20 @@ Thus,
 .
  As such,
  we set 
-\begin_inset Formula $\chi_{q}(\vec{x})\equiv\land_{i}P_{n_{i}}(x_{i})$
+\begin_inset Formula $\chi_{q}(\vec{x})\equiv q_{0}(\vec{x})\land\bigwedge_{i}P_{\geq n_{i}}(x_{i})$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $q_{0}(\vec{x})$
+\end_inset
+
+ is the information in 
+\begin_inset Formula $q$
+\end_inset
+
+ that relates the elements of 
+\begin_inset Formula $\vec{x}$
 \end_inset
 
 .
@@ -6288,8 +7701,10 @@ Thus,
 \end_inset
 
  by construction.
- Note that we are using the assumption that there exist infinitely many arbitrarily large (in particular,
- infinite) equivalence classes to handle variables 
+\end_layout
+
+\begin_layout Standard
+Note that we are using the assumption that there exist infinitely many arbitrarily large equivalence classes to handle variables 
 \begin_inset Formula $y_{i}$
 \end_inset
 
@@ -6303,74 +7718,62 @@ Thus,
 \end_deeper
 \begin_layout Itemize
 To construct 
-\begin_inset Formula $\tau_{q}(\vec{x},y)$
-\end_inset
-
- given 
-\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)$
 \end_inset
 
 :
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-If 
-\begin_inset Formula $q$
-\end_inset
-
- includes the information that 
-\begin_inset Formula $y$
-\end_inset
-
- is equivalent to some 
-\begin_inset Formula $x_{i}$
-\end_inset
-
-,
- set 
-\begin_inset Formula $\tau_{q}(\vec{x},y)\equiv y\eqvrel x_{i}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-If 
-\begin_inset Formula $q$
-\end_inset
-
- includes the information that 
-\begin_inset Formula $y$
-\end_inset
-
- is equivalent to none of the 
-\begin_inset Formula $x_{i}$
-\end_inset
-
-,
- set 
-\begin_inset Formula $\tau_{q}(\vec{x},y)\equiv P_{\infty}(y)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-In either case,
- one can verify without much difficulty that the requirements for 
+ The domain of 
 \begin_inset Formula $\tau$
 \end_inset
 
- hold.
+ shall be the set of pairs 
+\begin_inset Formula $(q,\top)$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $\tau_{q\top}(\vec{x},y)\equiv\chi_{q}(\vec{x},y)\land\left(P_{\geq\infty}(y)\lor\bigvee_{i}y\eqvrel x_{i}\right)$
+\end_inset
+
+.
 \end_layout
 
-\end_deeper
+\begin_layout Itemize
+To construct 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+:
+ Simply set 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})\equiv\chi_{Q}(\vec{x})$
+\end_inset
+
+ in all circumstances.
+\end_layout
+
 \begin_layout Standard
-By application of 
+It is a tedious but straight-forward exercise in model theory to verify that the above assignments serve as witnesses to the QETP.
+ We use the fact that there are infinitely many infinite equivalence classes in an essential way when verifying Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of the QETP.
+ By application of 
 \begin_inset CommandInset ref
 LatexCommand formatted
-reference "thm:maingeneral-1-1"
+reference "thm:main_final"
 plural "false"
 caps "false"
 noprefix "false"
@@ -6385,6 +7788,4467 @@ nolink "false"
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are a few properties of the above proof that will come up again,
+ so we remark on them now.
+\end_layout
+
+\begin_layout Remark
+We have used a very weak version of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ For example:
+ We used no infinitary formulas,
+ our 
+\begin_inset Formula $\tau$
+\end_inset
+
+ was computable with computable domain,
+ instead of merely 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable with 
+\begin_inset Formula $0'$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+domain,
+ etc.
+ This reflects the fact that,
+ as far as jump inversion theorems go,
+ 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ is rather simple!
+ We will see some other natural (though not necessarily much more complicated) examples that use more of the power of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Even though 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ provides a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism between the reduct of the original structure and the resulting structure,
+ 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ does not provide such a guarantee.
+ Indeed,
+ one can show that the best we can do in general is to find a 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable isomorphism between the original 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable equivalence relation – call it 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ –,
+ and the computable copy – call it 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+.
+ This stems from the fact that we have built an intermediate auxilliary structure to apply 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to – say 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ – and even though 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ guarantees that there is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism between 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+,
+ an isomorphism between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ may be computably more complicated.
+ The best that we can guarantee,
+ and indeed the best that can be guaranteed,
+ is that such an isomorphism is 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable,
+ as 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvcomplexiso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ below shows.
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:eqvcomplexiso"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+is this anywhere in the literature?
+\end_layout
+
+\end_inset
+
+There is a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable equivalence relation 
+\begin_inset Formula $(E_{0},\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+ with infinitely many infinite equivalence classes such that any isomorphism 
+\begin_inset Formula $f$
+\end_inset
+
+ between 
+\begin_inset Formula $E_{0}\upto\eqvrel$
+\end_inset
+
+ and a computable equivalence relation 
+\begin_inset Formula $(E_{1},\eqvrel)$
+\end_inset
+
+ can be used to compute 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We shall build 
+\begin_inset Formula $E_{0}=E_{00}\amalg E_{01}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $E_{00}$
+\end_inset
+
+ shall be used to encode 
+\begin_inset Formula $0'$
+\end_inset
+
+ (into any isomorphism between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and a computable equivalence relation),
+ and 
+\begin_inset Formula $E_{01}$
+\end_inset
+
+ shall be used to encode 
+\begin_inset Formula $0''$
+\end_inset
+
+,
+ via encoding the set of total Turing indices – though the decoding process will require the usage of 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ which is why 
+\begin_inset Formula $E_{00}$
+\end_inset
+
+ is necessary.
+\end_layout
+
+\begin_layout Proof
+To build 
+\begin_inset Formula $E_{00}$
+\end_inset
+
+:
+ Consider designated elements 
+\begin_inset Formula $a_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $a_{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $a_{2}$
+\end_inset
+
+,
+ etc.
+ where 
+\begin_inset Formula $a_{2n}$
+\end_inset
+
+ is defined to be equivalent to 
+\begin_inset Formula $a_{2n+1}$
+\end_inset
+
+ if,
+ and only if,
+ 
+\begin_inset Formula $n\in0'$
+\end_inset
+
+,
+ and no other equivalences exist between any 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+and any other element of 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+.
+ If we have an isomorphism 
+\begin_inset Formula $f$
+\end_inset
+
+ between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and a computable equivalence relation,
+ we can therefore tell if 
+\begin_inset Formula $n\in0'$
+\end_inset
+
+ by checking whether 
+\begin_inset Formula $f(a_{2n})$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $f(a_{2n+1})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+To build 
+\begin_inset Formula $E_{01}$
+\end_inset
+
+:
+ Consider designated elements 
+\begin_inset Formula $\{b_{nx}\}_{(n,x)\in\N^{2}}$
+\end_inset
+
+.
+ For each 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+,
+ iterate through the values of 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+ until such an 
+\begin_inset Formula $x$
+\end_inset
+
+ is found with 
+\begin_inset Formula $\varphi_{n}(x)\isnotwd$
+\end_inset
+
+.
+ If no such 
+\begin_inset Formula $x$
+\end_inset
+
+ is found,
+ make 
+\begin_inset Formula $b_{ni}\eqvrel b_{nj}$
+\end_inset
+
+ for all 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ Otherwise,
+ suppose that 
+\begin_inset Formula $x$
+\end_inset
+
+ is the first value for which 
+\begin_inset Formula $\varphi_{n}(x)\isnotwd$
+\end_inset
+
+.
+ Look through the first 
+\begin_inset Formula $x$
+\end_inset
+
+ elements of the 
+\begin_inset Formula $n$
+\end_inset
+
+ computable equivalence classes,
+ and using 
+\begin_inset Formula $0'$
+\end_inset
+
+ find a number 
+\begin_inset Formula $k\geq x$
+\end_inset
+
+ such that none of these 
+\begin_inset Formula $xn$
+\end_inset
+
+ elements are in an equivalence class of size exactly 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Then,
+ make 
+\begin_inset Formula $b_{n0}\eqvrel\dots\eqvrel b_{nk}$
+\end_inset
+
+,
+ and no other 
+\begin_inset Formula $b_{ni}$
+\end_inset
+
+ equivalent to any other.
+ The essential part of this choice is that it ensures that no isomorphism between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and one of these equivalence classes will take 
+\begin_inset Formula $b_{n0}$
+\end_inset
+
+ to one of their first 
+\begin_inset Formula $x$
+\end_inset
+
+ elements.
+\end_layout
+
+\begin_layout Proof
+Now,
+ let us show that any isomorphism 
+\begin_inset Formula $f$
+\end_inset
+
+ between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and a computable equivalence relation 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+ will compute 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+ As argued before,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ computes 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ so we use an oracle for 
+\begin_inset Formula $0'$
+\end_inset
+
+ with impunity.
+ Suppose we wish to know whether some 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+ is a total Turing index.
+ Without loss of generality – because this happens all but finitely many times – assume that 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+ is one of the first 
+\begin_inset Formula $n$
+\end_inset
+
+ computable equivalence classes.
+ Then,
+ find the index of 
+\begin_inset Formula $f(b_{n0})$
+\end_inset
+
+ in the equivalence relation 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+ – say this index is 
+\begin_inset Formula $t$
+\end_inset
+
+ – and check whether 
+\begin_inset Formula $\varphi_{n}(0)$
+\end_inset
+
+ up to 
+\begin_inset Formula $\varphi_{n}(t)$
+\end_inset
+
+ all terminate.
+ If not,
+ then clearly 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ is nontotal.
+ On the other hand,
+ if 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ is nontotal,
+ with 
+\begin_inset Formula $x$
+\end_inset
+
+ the first element with 
+\begin_inset Formula $\varphi_{n}(x)\isnotwd$
+\end_inset
+
+,
+ we know that 
+\begin_inset Formula $f(b_{n0})$
+\end_inset
+
+ must have index 
+\begin_inset Formula $t$
+\end_inset
+
+ greater than 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ in which case one of the computations 
+\begin_inset Formula $\varphi_{n}(0)$
+\end_inset
+
+ to 
+\begin_inset Formula $\varphi_{n}(t)$
+\end_inset
+
+ will not have terminated.
+ Thus,
+ checking these first 
+\begin_inset Formula $t$
+\end_inset
+
+ elements suffices to tell whether 
+\begin_inset Formula $\varphi_{n}$
+\end_inset
+
+ is total.
+\end_layout
+
+\begin_layout Remark
+Our choice of 
+\begin_inset Formula $\tau_{q\varphi}$
+\end_inset
+
+ included 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+ in its definition,
+ and our choice of 
+\begin_inset Formula $\etau_{q\varphi Q}$
+\end_inset
+
+ included (and,
+ in this case,
+ was equal to) 
+\begin_inset Formula $\chi_{Q}$
+\end_inset
+
+.
+ Inspecting the definition of QETP,
+ one finds that we can always do so – that is,
+ if 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\tau_{q\varphi}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\etau_{q\varphi Q}$
+\end_inset
+
+ serve as witnesses to the QETP,
+ so will 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\tau_{q\varphi}\land\chi_{q}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\etau_{q\varphi Q}\land\chi_{Q}$
+\end_inset
+
+,
+ though the converse need not be true.
+\end_layout
+
+\begin_layout Remark
+If we had wanted to,
+ we could have modified the definition of QETP to make our formulas simpler in practice,
+ by replacing e.g.
+\begin_inset space \space{}
+\end_inset
+
+every instance of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ with 
+\begin_inset Formula $\tau\land\chi$
+\end_inset
+
+,
+ and likewise for 
+\begin_inset Formula $\etau$
+\end_inset
+
+.
+ For instance,
+ Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp3"
+
+\end_inset
+
+ currently requires
+\begin_inset Formula 
+\[
+D\vDash\forall_{\vec{x},y}\left[\etau_{q\varphi Q}(\vec{x})\land\tau_{q\varphi}(\vec{x},y)\rightarrow\chi_{Q}(\vec{x},y)\right],
+\]
+
+\end_inset
+
+and we might consider making the weaker requirement that
+\begin_inset Formula 
+\[
+D\vDash\forall_{\vec{x},y}\left[\etau_{q\varphi Q}(\vec{x})\land\chi_{Q}(\vec{x})\land\tau_{q\varphi}(\vec{x},y)\land\chi_{q}(\vec{x},y)\rightarrow\chi_{Q}(\vec{x},y)\right].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Such a change would not alter which structures satisfy the QETP,
+ only what their witnessing formulas are,
+ and if we were optimizing for the writing of applications,
+ we could have used the weaker version instead.
+ For example,
+ in the case of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+
+\end_inset
+
+,
+ we currently have
+\begin_inset Formula 
+\[
+\tau_{q}(\vec{x},y)\equiv\chi_{q}(\vec{x},y)\land\left(P_{\geq\infty}(y)\lor\bigvee_{i}y\eqvrel x_{i}\right)\text{ and }\etau_{q\varphi Q}(\vec{x})\equiv\chi_{Q}(\vec{x}),
+\]
+
+\end_inset
+
+and with the alternate version of the QETP this could be replaced by the simpler and arguably more elegant
+\begin_inset Formula 
+\[
+\tau_{q}(\vec{x},y)\equiv P_{\geq\infty}(y)\lor\bigvee_{i}y\eqvrel x_{i}\text{ and }\etau_{q\varphi Q}(\vec{x})\equiv\top.
+\]
+
+\end_inset
+
+We opted against using this sleeker version of the QETP because the definition was already technical and complicated enough as it is,
+ and we gave priority to the understandability of the definition over a minor gain in characters in the proof of applications.
+\end_layout
+
+\begin_layout Subsection
+Equivalence Relations of Finite Rank
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ below was one of the main motivators for the current form of the QETP.
+ We need to state a couple of important definitions first.
+\end_layout
+
+\begin_layout Definition
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Khisamiev,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cst_downey_melnikov"
+posttextlist "cst_downey_melnikov Definition 9.1.3"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+A set 
+\begin_inset Formula $X\subseteq\N$
+\end_inset
+
+ is said to be 
+\emph on
+limitwise monotonic
+\emph default
+ if there is a total computable function 
+\begin_inset Formula $f\colon\N\times\N\to\N$
+\end_inset
+
+ such that,
+ for every 
+\begin_inset Formula $x\in\N$
+\end_inset
+
+,
+ the sequence 
+\begin_inset Formula $\{f(x,y)\}_{y\in\N}$
+\end_inset
+
+ is increasing and bounded (and therefore convergent),
+ and 
+\begin_inset Formula $X$
+\end_inset
+
+ is the image of the pointwise limit function 
+\begin_inset Formula $g(x)=\lim_{y}f(x,y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cst_downey_melnikov"
+posttextlist "cst_downey_melnikov Definition 9.1.1"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+ be an equivalence relation.
+ The 
+\emph on
+characteristic set of 
+\begin_inset Formula $E$
+\end_inset
+
+
+\emph default
+ is the set
+\begin_inset Formula 
+\[
+\#E=\{\,n\in\N\mid\text{\ensuremath{E} admits at least one equivalence class of size \ensuremath{n}}\,\}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Folklore,
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cst_downey_melnikov"
+posttextlist "cst_downey_melnikov Theorem 9.1.4"
+literal "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:eqvfin"
+
+\end_inset
+
+Let 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+ be an equivalence relation with finitely many equivalence classes,
+ and assume that the structure 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+ admits a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable copy,
+ where 
+\begin_inset Formula $P_{\geq n}(x)$
+\end_inset
+
+ is the predicate 
+\begin_inset Quotes eld
+\end_inset
+
+the equivalence class of 
+\begin_inset Formula $x$
+\end_inset
+
+ has size at least 
+\begin_inset Formula $n$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Assume moreover that the characteristic set of 
+\begin_inset Formula $E$
+\end_inset
+
+ is limitwise monotonic.
+ Then,
+ 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+ admits a computable copy.
+\end_layout
+
+\begin_layout Proof
+Similarly but not exactly like in proof of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ our first step is to construct a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N\cup\{\infty\}},\{P_{=n}\}_{n\in\N\cup\{\infty\}})$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $P_{=n}(x)$
+\end_inset
+
+ denotes 
+\begin_inset Quotes eld
+\end_inset
+
+the equivalence class of 
+\begin_inset Formula $x$
+\end_inset
+
+ has size exactly 
+\begin_inset Formula $n$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The same construction as in the proof of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ can be used with very minor modifications.
+ The added predicates are no issue,
+ because when we add an element we already know its equivalence class size exactly,
+ and instead of manually adding infinitely many equivalence classes,
+ we add as many as 
+\begin_inset Formula $E$
+\end_inset
+
+ has (a finite number which has to be obtained non-uniformly).
+ It then remains to show that 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\leq\infty},\{P_{=n}\}_{n\leq\infty})$
+\end_inset
+
+ has the QETP over the language containing only 
+\begin_inset Formula $\eqvrel$
+\end_inset
+
+ (and its negation,
+ and equality and its negation),
+ though there are some added technicalities.
+\end_layout
+
+\begin_layout Proof
+Throughout,
+ we shall assume that 
+\begin_inset Formula $E$
+\end_inset
+
+ admits arbitrarily large finite equivalence classes,
+ or in other words that 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is an infinite set.
+ The case where 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is finite is relatively trivial and is handled separately:
+ If 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is finite,
+ then it takes finitely much space to encode how many equivalence classes 
+\begin_inset Formula $E$
+\end_inset
+
+ admits in each size,
+ and we simply make a computable equivalence relation with this specification.
+ We will see in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:cardefinitehard"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ that this is necessary,
+ and in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "rmk:cardefinitewhy"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ the root cause and how to get around it.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+To construct 
+\begin_inset Formula $\chi_{q}(\vec{x})$
+\end_inset
+
+ given 
+\begin_inset Formula $q(\vec{x},\vec{y})$
+\end_inset
+
+:
+ The same construction as in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ holds,
+ so long as,
+ as therein observed,
+ 
+\begin_inset Formula $E$
+\end_inset
+
+ is assumed to have arbitrarily large finite equivalence classes.
+\end_layout
+
+\begin_layout Itemize
+To construct 
+\begin_inset Formula $\tau$
+\end_inset
+
+:
+ Let 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+ range over the quantifier-free 
+\begin_inset Formula $\Lang$
+\end_inset
+
+-types realized in 
+\begin_inset Formula $E$
+\end_inset
+
+,
+ and let 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ range over the possible assignments of equivalence class sizes for the elements of the tuple 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+.
+ For such a pair 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $N_{0}$
+\end_inset
+
+ to be the largest finite size of equivalence class imposed by 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $N_{1}$
+\end_inset
+
+ to be the smallest size of the equivalence class of a 
+\begin_inset Formula $y$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $\chi_{q}(\vec{x},y)$
+\end_inset
+
+,
+ and find the smallest pair 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+ in some fixed well-ordering of 
+\begin_inset Formula $\N^{2}$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $f(i,j)>\max\{N_{0},N_{1}\}$
+\end_inset
+
+.
+ Then,
+ set 
+\begin_inset Formula $M(i)=\lim_{k}f(i,k)$
+\end_inset
+
+.
+ Finally,
+ we set 
+\begin_inset Formula 
+\[
+\tau_{q\varphi}(\vec{x},y)\equiv\chi_{q}(\vec{x},y)\land\left(P_{=M(i)}(y)\lor\bigvee_{i}y\eqvrel x_{i}\right).
+\]
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+To construct 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+,
+ let 
+\begin_inset Formula $N$
+\end_inset
+
+ be the least equivalence class size that 
+\begin_inset Formula $y$
+\end_inset
+
+ would need to have in order to satisfy 
+\begin_inset Formula $\chi_{Q}(y)$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $i$
+\end_inset
+
+ the value obtained from the previous bullet point,
+ and set
+\begin_inset Formula 
+\[
+\etau_{q\varphi Q}(\vec{x})\equiv\llor_{k\in\N}\chi_{Q}(\vec{x})\land\left(\left\llbracket f(i,k)\geq N\right\rrbracket \lor\bigvee_{i}y\eqvrel x_{i}\right),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\llbracket f(i,k)\geq N\rrbracket$
+\end_inset
+
+ denotes
+\begin_inset Formula 
+\[
+\llbracket f(i,k)\geq N\rrbracket\equiv\begin{cases}
+\top & \text{if \ensuremath{f(i,k)\geq N},}\\
+\bot & \text{otherwise.}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ checking the QETP is a straight-forward,
+ if tedious,
+ affair.
+ The most interesting part of the proof consists of noticing that 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+ is logically equivalent to 
+\begin_inset Formula $\chi_{Q}(\vec{x})\land\left(\llbracket M(i)\geq N\rrbracket\lor\bigvee_{i}y\eqvrel x_{i}\right)$
+\end_inset
+
+,
+ which uses the fact that 
+\begin_inset Formula $f(i,k)$
+\end_inset
+
+ is monotonic in 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ By application of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ the proof is complete in the case where 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is infinite.
+\end_layout
+
+\end_deeper
+\begin_layout Remark
+Unlike in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvinf"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ for 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ we can,
+ in fact,
+ guarantee the existence of a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism,
+ albeit non-uniformly so.
+ To do this,
+ one picks one element of each infinite equivalence class of the original equivalence relation,
+ say 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+,
+ and hard-codes this collection of representatives into our algorithm (which is fine,
+ because there are finitely many of them).
+ Then,
+ in the case where 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is infinite (the case where 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is finite is straightforward and left to the reader),
+ one defines 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ as outlined in the proof,
+ and defines an isomorphism between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ as follows:
+ The elements of 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ that belong to a finite equivalence class are mapped in an obvious way to the equivalence class they're responsible for creating,
+ and the elements of 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ that belong to an infinite class are detected (by checking against equivalence with one of the finitely many representatives),
+ and to each infinite class of 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ one remembers an infinite class of 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ to biject it to,
+ and does so.
+ This isomorphism is 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable,
+ and since there is also a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism between 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ and the final computable equivalence relation 
+\begin_inset Formula $E_{1}$
+\end_inset
+
+,
+ 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ can in fact be made to guarantee the existence of a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism.
+\end_layout
+
+\begin_layout Remark
+To show that this cannot be done uniformly,
+ not even for the case where the equivalence relation 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ is guaranteed to have equivalence classes of every finite size (which immediately makes 
+\begin_inset Formula $\#E$
+\end_inset
+
+ uniformly limitwise monotonic) and have at most – or even exactly – one infinite equivalence class,
+ one can piggyback on the proof of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvcomplexiso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+,
+ by noticing that the equivalence relation therein defined is a computable disjoint union 
+\begin_inset Formula $\amalg_{i}E_{(i)}$
+\end_inset
+
+ of infinite equivalence relations with either zero or one infinite classes.
+ These equivalence relations also do not have equivalence classes of every finite size,
+ but since the factor that makes the isomorphism computably complicated is the designated elements of each 
+\begin_inset Formula $E_{(i)}$
+\end_inset
+
+,
+ we can simply append one equivalence class of each size to every 
+\begin_inset Formula $E_{(i)}$
+\end_inset
+
+.
+ We can also ensure that each 
+\begin_inset Formula $E_{(i)}$
+\end_inset
+
+ has exactly one infinite class by,
+ in the case of (in the language of the proof of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvcomplexiso"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+) 
+\begin_inset Formula $E_{00}$
+\end_inset
+
+,
+ simply appending one infinite class,
+ and in the case of each component of 
+\begin_inset Formula $E_{01}$
+\end_inset
+
+,
+ making all the 
+\begin_inset Formula $\{b_{ni}\}_{i}$
+\end_inset
+
+ equivalent for large values of 
+\begin_inset Formula $i$
+\end_inset
+
+ (instead of making them all singleton classes).
+ This shows that 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ cannot be made to uniformly produce a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable isomorphism,
+ even restricted to the case where the equivalence relation has exactly one equivalence class of every size in 
+\begin_inset Formula $\N\cup\{\infty\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+On the flip side,
+ if 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ is guaranteed to have 
+\emph on
+no
+\emph default
+ infinite classes whilst still having 
+\begin_inset Formula $\#E$
+\end_inset
+
+ infinite limitwise monotonic,
+ we do in fact obtain uniformity
+\emph on
+ in 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ together with a witness to the fact that 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is limitwise monotonic
+\emph default
+,
+ and this is direct from the proof of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+:
+ If 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ has no equivalence classes,
+ the isomorphism between 
+\begin_inset Formula $E_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{+}$
+\end_inset
+
+ is easily and uniformly constructed,
+ and we need the witness that 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is limitwise monotonic to construct 
+\begin_inset Formula $\etau$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Finally,
+ here is a sketch of proof that you really do need a witness to 
+\begin_inset Formula $\#E$
+\end_inset
+
+ being limitwise monotonic as part of the input,
+ to guarantee uniformity.
+ Suppose there were a computable process 
+\begin_inset Formula $F$
+\end_inset
+
+ that took as input a 
+\begin_inset Formula $0'$
+\end_inset
+
+-index for an equivalence relation 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+ with no infinite classes and with 
+\begin_inset Formula $\#E$
+\end_inset
+
+ limitwise monotonic,
+ and produced as output a computable index for 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+.
+ Then,
+ using the Recursion Theorem relativized to 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ we may build an equivalence relation 
+\begin_inset Formula $E$
+\end_inset
+
+ as follows:
+ First,
+ look at 
+\begin_inset Formula $F(E)$
+\end_inset
+
+.
+ We may assume WLOG that 
+\begin_inset Formula $F(E)$
+\end_inset
+
+ is a well-defined index for a relational structure by appealing to 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ and we may assume that it represents a valid equivalence relation because there is a computable process that takes an index for a relational structure 
+\begin_inset Formula $R$
+\end_inset
+
+ and outputs an index for an equivalence relation 
+\begin_inset Formula $E(R)$
+\end_inset
+
+ such that,
+ if 
+\begin_inset Formula $R$
+\end_inset
+
+ was already an equivalence relation then 
+\begin_inset Formula $E(R)\cong R$
+\end_inset
+
+.
+ Now,
+ using 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ ask whether 
+\begin_inset Formula $F(E)$
+\end_inset
+
+ contains any elements.
+ If not,
+ set 
+\begin_inset Formula $E$
+\end_inset
+
+ to consist of one equivalence class of every size.
+ If yes,
+ pick an element and repeatedly ask:
+ Does the equivalence class of this element have size at least 
+\begin_inset Formula $n+1$
+\end_inset
+
+?
+ Whenever the answer is 
+\begin_inset Quotes els
+\end_inset
+
+yes
+\begin_inset Quotes ers
+\end_inset
+
+,
+ add an equivalence class of size 
+\begin_inset Formula $n$
+\end_inset
+
+ to 
+\begin_inset Formula $E$
+\end_inset
+
+.
+ If the answer is ever seen to be 
+\begin_inset Quotes els
+\end_inset
+
+no
+\begin_inset Quotes ers
+\end_inset
+
+,
+ this implies that the equivalence class of this element has size exactly 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ and so we 
+\emph on
+do not
+\emph default
+ add an equivalence class of this size,
+ but add an equivalence class of every other size.
+ It should be clear that this ensures that 
+\begin_inset Formula $E$
+\end_inset
+
+ is not isomorphic to 
+\begin_inset Formula $F(E)$
+\end_inset
+
+ despite the fact that 
+\begin_inset Formula $E$
+\end_inset
+
+ admits no infinite equivalence classes and 
+\begin_inset Formula $\#E$
+\end_inset
+
+ is either 
+\begin_inset Formula $\N$
+\end_inset
+
+ or 
+\begin_inset Formula $\N$
+\end_inset
+
+ minus a point,
+ and hence limitwise monotonic.
+ This is a contradiction,
+ which shows that such a computable 
+\begin_inset Formula $F$
+\end_inset
+
+ cannot exist.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:cardefinitehard"
+
+\end_inset
+
+The fact that we have handled the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\#E$
+\end_inset
+
+ is finite
+\begin_inset Quotes erd
+\end_inset
+
+ case separately (and non-uniformly) is unavoidable,
+ and here is why.
+ We claim that there is no uniform way to turn an index for a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable equivalence relation 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+,
+ even one with no infinite equivalence classes,
+ into a computable index for 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+.
+ In fact,
+ we prove the even stronger fact:
+ Any oracle 
+\begin_inset Formula $X$
+\end_inset
+
+ that is capable of uniformly turning a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable equivalence relation 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+ with infinitely many singleton classes,
+ and either one or two size-two equivalence classes
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that this means 
+\begin_inset Formula $\#E=\{1,2\}$
+\end_inset
+
+,
+ and in particular is uniformly limitwise monotonic.
+\end_layout
+
+\end_inset
+
+,
+ and no classes of any other size,
+ into a computable index for 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+,
+ may be used to compute 
+\begin_inset Formula $0''$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Suppose we wish to determine if a computable function 
+\begin_inset Formula $f(x)$
+\end_inset
+
+ is total.
+ First,
+ note that we can uniformly (and computably) create an index for a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable equivalence relation 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+ that is composed entirely of infinitely many singletons and one size-two class,
+ unless a value of 
+\begin_inset Formula $x$
+\end_inset
+
+ is exists for which 
+\begin_inset Formula $f(x)\isnotwd$
+\end_inset
+
+,
+ in which case we add a second equivalence class with two elements.
+ Then,
+ using the oracle 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ we create a computable index for 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+.
+ Computably,
+ we can search in 
+\begin_inset Formula $E$
+\end_inset
+
+ for two distinct pairs of distinct but equivalent elements.
+ We will find two if,
+ and only if,
+ 
+\begin_inset Formula $f$
+\end_inset
+
+ is nontotal.
+ This shows that 
+\begin_inset Formula $X$
+\end_inset
+
+ enumerates the set of nontotal indices,
+ which straightforwardly implies 
+\begin_inset Formula $X\geq0'$
+\end_inset
+
+.
+ Thus,
+ instead of computably searching in 
+\begin_inset Formula $E$
+\end_inset
+
+ for two pairs of distinct elements,
+ 
+\begin_inset Formula $X$
+\end_inset
+
+ can check in finite time if such a elements exist,
+ and thus determine whether 
+\begin_inset Formula $f$
+\end_inset
+
+ is total.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "rmk:cardefinitewhy"
+
+\end_inset
+
+A way to understand what makes equivalence classes with finite characteristic set so computationally hard to handle is the following intuition:
+ A computable copy of 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+ contains more descriptive power,
+ from the perspective of 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ than a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable copy of 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n\in\N})$
+\end_inset
+
+.
+ In other words,
+ there is computational content that 
+\begin_inset Formula $0'$
+\end_inset
+
+ can read off from a computable copy of 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+ that it could not read off from a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable copy of 
+\begin_inset Formula $(E,\eqvrel,\{P_{\geq n}\}_{n})$
+\end_inset
+
+,
+ and an example of such content is the answer to the questions:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Is there an equivalence relation in 
+\begin_inset Formula $E$
+\end_inset
+
+ of size greater than or equal to 
+\begin_inset Formula $n$
+\end_inset
+
+?
+\begin_inset Quotes erd
+\end_inset
+
+ or,
+ more generally,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Are there at least 
+\begin_inset Formula $k$
+\end_inset
+
+ equivalence relations in 
+\begin_inset Formula $E$
+\end_inset
+
+ of size 
+\begin_inset Formula $\geq n$
+\end_inset
+
+?
+\begin_inset Quotes erd
+\end_inset
+
+ As such,
+ knowledge of the answer to these questions is a necessary condition to be able to turn a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable copy of 
+\begin_inset Formula $E$
+\end_inset
+
+ into a computable copy thereof,
+ because the answer to these questions 
+\emph on
+can
+\emph default
+ be computed using 
+\begin_inset Formula $0'$
+\end_inset
+
+ from the computable copy.
+ This explains what makes the case with infinitely many equivalence relations,
+ or with arbitrarily large finite equivalence classes,
+ computationally easy to handle:
+ The answer to these questions is always 
+\begin_inset Quotes els
+\end_inset
+
+yes
+\begin_inset Quotes ers
+\end_inset
+
+.
+ Moreover,
+ the answer to these questions is always simple enough that it can be encoded in finitely many bits of information,
+ and hence could be non-uniformly hardcoded into an algorithm to obtain a computable copy of 
+\begin_inset Formula $(E,\eqvrel)$
+\end_inset
+
+,
+ but the fact that this cannot be done uniformly explains why 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:eqvfin"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ cannot be made uniform as it is.
+\end_layout
+
+\begin_layout Subsection
+Khisamiev's Theorem
+\end_layout
+
+\begin_layout Standard
+The following theorem is in the literature.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+put a reference
+\end_layout
+
+\end_inset
+
+ We obtain it as a corollary of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ It was the main motivator for the definition of 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed structure.
+\end_layout
+
+\begin_layout Standard
+In the following,
+ we interpret a c.e.
+\begin_inset space \space{}
+\end_inset
+
+presentation of a group as being a description of the group as a list of generators and relations,
+ such that there is a computer program that enumerates the list of generators and relations.
+ In the present case,
+ this is equivalent to the more general notion of c.e.
+\begin_inset space \space{}
+\end_inset
+
+presentation of a structure in computability theory.
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Khisamiev
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:khisamiev"
+
+\end_inset
+
+Every c.e.
+\begin_inset space \space{}
+\end_inset
+
+presented torsion-free abelian group is isomorphic to a computable group.
+ Furthermore,
+ if the group is non-trivial,
+ then this computable copy can be built uniformly in the index of the c.e.
+\begin_inset space \space{}
+\end_inset
+
+presentation.
+\end_layout
+
+\begin_layout Proof
+Given a c.e.
+\begin_inset space \space{}
+\end_inset
+
+presentation of a group 
+\begin_inset Formula $G$
+\end_inset
+
+,
+ we first build a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of 
+\begin_inset Formula $G$
+\end_inset
+
+ over an appropriate signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+,
+ and we will then show that any nontrivial torsion-free abelian group has the QETP (uniformly) over 
+\begin_inset Formula $\Lang\subseteq\Lang'$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $\Lang$
+\end_inset
+
+ is the signature containing only the ternary predicate 
+\begin_inset Formula $S(x,y,z)\equiv\text{``\ensuremath{x+y=z}''}$
+\end_inset
+
+(and its negation,
+ and equality and its negation).
+\end_layout
+
+\begin_layout Proof
+The signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+ shall contain 
+\begin_inset Formula $\Lang$
+\end_inset
+
+,
+ plus:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The countably many predicates 
+\begin_inset Formula $Q_{n,\vec{c}}(\vec{x})$
+\end_inset
+
+,
+ parametrized over 
+\begin_inset Formula $n\in\N$
+\end_inset
+
+ and finite tuples 
+\begin_inset Formula $c_{1},\dots,c_{k}\in\Z$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Q_{n,\vec{c}}(\vec{x})\equiv\text{``\ensuremath{n\mid c_{1}x_{1}+\dots+c_{k}x_{k}}''}.
+\]
+
+\end_inset
+
+Note that we allow 
+\begin_inset Formula $n$
+\end_inset
+
+ to equal zero,
+ in which case (since 
+\begin_inset Formula $0\mid y$
+\end_inset
+
+ iff 
+\begin_inset Formula $y=0$
+\end_inset
+
+) 
+\begin_inset Formula $Q_{0,\vec{c}}(\vec{x})$
+\end_inset
+
+ corresponds to the predicate 
+\begin_inset Formula $\vec{c}\cdot\vec{x}=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The countably many predicates 
+\begin_inset Formula $\neg Q_{0,\vec{c}}(\vec{x})$
+\end_inset
+
+,
+ parametrized over finite tuples 
+\begin_inset Formula $c_{1},\dots,c_{k}\in\Z$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\neg Q_{0,\vec{c}}(\vec{x})\equiv\text{``\ensuremath{c_{1}x_{1}+\dots+c_{k}x_{k}\neq0}''}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Countably many predicates 
+\begin_inset Formula $\{n\Delta(x)\}_{n\in\Z}$
+\end_inset
+
+,
+ whose meaning is as follows:
+ We will carefully pick a single designated nonzero element of 
+\begin_inset Formula $G$
+\end_inset
+
+,
+ which we refer to as 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $n\Delta(x)$
+\end_inset
+
+ should be interpreted as 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $x=n\delta$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We shall require some linear algebra of 
+\begin_inset Formula $\Z$
+\end_inset
+
+-modules to show that,
+ from a c.e.
+\begin_inset space \space{}
+\end_inset
+
+presentation of 
+\begin_inset Formula $G$
+\end_inset
+
+,
+ we can uniformly obtain a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ Then,
+ we will explain how we choose the element of 
+\begin_inset Formula $G$
+\end_inset
+
+ that will be tagged with 
+\begin_inset Formula $\Delta$
+\end_inset
+
+.
+ To obtain the 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of 
+\begin_inset Formula $G$
+\end_inset
+
+,
+ here is the basic idea:
+ Consider the computable process that outputs all possible linear combinations of generators.
+ We want to,
+ with each new linear combination of generators,
+ say 
+\begin_inset Formula $d$
+\end_inset
+
+,
+ first check if it is not equal to any of the combinations previously produced (this is an easy check with 
+\begin_inset Formula $0'$
+\end_inset
+
+),
+ and if it is not,
+ we want to output a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for its type relative to the elements previously output.
+ This is easy for the positive predicates – to check if,
+ for example,
+ 
+\begin_inset Formula $5\mid4d+6c$
+\end_inset
+
+ (where 
+\begin_inset Formula $c$
+\end_inset
+
+ is a previously output combination of generators),
+ it suffices to check if there is a further combination of generators 
+\begin_inset Formula $u$
+\end_inset
+
+ that satisfies the relation 
+\begin_inset Formula $5u-4d-6c=0$
+\end_inset
+
+.
+ This is a c.e.
+\begin_inset space \space{}
+\end_inset
+
+check.
+ The difficulty lies in the negative predicates,
+ of which 
+\begin_inset Formula $\neg Q_{0,\vec{c}}(\vec{x})$
+\end_inset
+
+ is the general case.
+ In other words,
+ we need to encode 
+\emph on
+into a single c.e.
+\begin_inset space \space{}
+\end_inset
+
+index
+\emph default
+ the full information about what linear combinations of elements-output-thus-far equal zero.
+\end_layout
+
+\begin_layout Proof
+Here is a fact from commutative algebra,
+ whose proof can be found in any standard book that covers modules over principal ideal domains (e.g.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dummit_foote"
+literal "false"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label={Fact 
+\backslash
+Alph*}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Any submodule 
+\begin_inset Formula $M$
+\end_inset
+
+ of 
+\begin_inset Formula $\Z^{k}$
+\end_inset
+
+ admits a finite basis.
+\end_layout
+
+\begin_layout Standard
+We will need an effective version of this fact.
+ A stepping stone,
+ which we will not directly use but displays the main idea,
+ is the following:
+\end_layout
+
+\begin_layout Enumerate-Resume
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:gauss"
+
+\end_inset
+
+Given a finite set 
+\begin_inset Formula $X\subseteq\Z^{k}$
+\end_inset
+
+,
+ we can effectively find a basis for the submodule of 
+\begin_inset Formula $\Z^{k}$
+\end_inset
+
+ generated by 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Proof idea:
+ A slight modification of the usual Gaussian elimination algorithm,
+ applied to the matrix whose rows are the elements of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ To zero out entries below a pivot,
+ instead of dividing to turn the pivot element into 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ use the Euclidean algorithm to turn the pivot into the GCD of itself with all elements beneath it,
+ whereupon all elements beneath it may be zeroed out.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Now we are ready to state and prove the version we will use:
+\end_layout
+
+\begin_layout Enumerate-Resume
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:cemodulebasis"
+
+\end_inset
+
+Given a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for a submodule 
+\begin_inset Formula $M$
+\end_inset
+
+ of 
+\begin_inset Formula $\Z^{k}$
+\end_inset
+
+,
+ we may 
+\begin_inset Formula $0'$
+\end_inset
+
+-effectively find a basis of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Proof idea:
+ Consider the 
+\begin_inset Formula $k$
+\end_inset
+
+-width and possibly-infinite-height matrix whose rows are the elements of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Use 
+\begin_inset Formula $0'$
+\end_inset
+
+ to find the GCD of the elements of the first column,
+ call it 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $d=0$
+\end_inset
+
+ (i.e.
+\begin_inset space \space{}
+\end_inset
+
+all elements of the first column are zero),
+ skip to the next step.
+ If 
+\begin_inset Formula $d\neq0$
+\end_inset
+
+,
+ find a combination of rows of 
+\begin_inset Formula $M$
+\end_inset
+
+ that has 
+\begin_inset Formula $d$
+\end_inset
+
+ in its first coordinate,
+ and add this combination to the basis.
+ Then,
+ if 
+\begin_inset Formula $k\geq1$
+\end_inset
+
+,
+ recursively apply this algorithm to the 
+\begin_inset Formula $(k-1)$
+\end_inset
+
+-width and possibly-infinite-height matrix whose elements consist of the rows of the previous matrix that have a 
+\begin_inset Formula $0$
+\end_inset
+
+ as a first entry.
+ Upon finding a combination of rows that has the new GCD as its first coordinates,
+ add the corresponding combination of the rows of the original matrix to the basis.
+ After 
+\begin_inset Formula $k$
+\end_inset
+
+ steps,
+ one shall have a basis of 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Returning to our original problem:
+ We have a collection of combinations of generators,
+ say 
+\begin_inset Formula $d_{0}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $d_{1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\dots$
+\end_inset
+
+,
+ 
+\begin_inset Formula $d_{k}$
+\end_inset
+
+,
+ and we wish to encode all possible linear combinations of these elements that yield zero.
+ We do this by applying 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:cemodulebasis"
+
+\end_inset
+
+ to the c.e.
+\begin_inset space \space{}
+\end_inset
+
+submodule of 
+\begin_inset Formula $\Z^{k+1}$
+\end_inset
+
+ given by
+\begin_inset Formula 
+\[
+M=\{\,\vec{c}\in\Z^{k+1}\mid\vec{c}\cdot\vec{d}=0\,\}.
+\]
+
+\end_inset
+
+With access to a basis of 
+\begin_inset Formula $M$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $b_{1},\dots,b_{\ell}$
+\end_inset
+
+ (encoded into the columns of a matrix 
+\begin_inset Formula $B$
+\end_inset
+
+),
+ we can tell whether any set of coefficients 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+ is in 
+\begin_inset Formula $M$
+\end_inset
+
+ (and hence,
+ whether we should say yes or no to 
+\begin_inset Formula $Q_{0,\vec{c}}(\vec{d})$
+\end_inset
+
+) by using standard algorithms to solve the linear equation 
+\begin_inset Formula $B\vec{x}=\vec{c}$
+\end_inset
+
+ over 
+\begin_inset Formula $\Q$
+\end_inset
+
+,
+ and conclude 
+\begin_inset Formula $\vec{c}\in M$
+\end_inset
+
+ if and only if a solution exists and its coefficients are all integers.
+ By hardcoding this basis into a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index,
+ we can therefore obtain a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the atomic 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+-type of a tuple 
+\begin_inset Formula $\vec{d}$
+\end_inset
+
+ of linear combinations of generators.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now,
+ let us explain how to choose the element 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ which we shall use to decide the predicates 
+\begin_inset Formula $n\Delta$
+\end_inset
+
+.
+ Of course,
+ this has to have been done in advance,
+ so that we can hardcode the combination of generators corresponding to 
+\begin_inset Formula $\delta$
+\end_inset
+
+ into the c.e.
+\begin_inset space \space{}
+\end_inset
+
+indices of the types of the elements of 
+\begin_inset Formula $G$
+\end_inset
+
+ in advance.
+\end_layout
+
+\begin_layout Standard
+There is an easy way and a hard way to choose 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+ The easy way is simply to pick an arbitrary nonzero element of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ The issue is that to make this choice requires the usage of an oracle for 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ which will lead to a non-uniform presentation.
+ Nevertheless,
+ if one is not interested in uniformity,
+ one may move on and ignore the difficult but uniform way to choose the element that we will now propose.
+\end_layout
+
+\begin_layout Standard
+Consider the following schema:
+ Let 
+\begin_inset Formula $\{C_{i}\}_{i\in\N}$
+\end_inset
+
+ enumerate all possible combinations of generators.
+ To start,
+ we will guess 
+\begin_inset Formula $\delta=C_{0}$
+\end_inset
+
+,
+ and look through the relations until (if ever) we see enough relations to conclude 
+\begin_inset Formula $C_{0}=0$
+\end_inset
+
+.
+ When this happens,
+ we will guess 
+\begin_inset Formula $\delta=N_{1}C_{1}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $N_{1}$
+\end_inset
+
+ is a nonzero number divisible by enough integers.
+ This choice is made so that,
+ for every number 
+\begin_inset Formula $k$
+\end_inset
+
+ for which we'd been able to conclude 
+\begin_inset Formula $k\mid C_{0}$
+\end_inset
+
+ before we found that 
+\begin_inset Formula $C_{0}=0$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $k\mid N_{1}$
+\end_inset
+
+ and so 
+\begin_inset Formula $k\mid N_{1}C_{1}$
+\end_inset
+
+.
+ We proceed in this manner,
+ enumerating relations until we are able to conclude that 
+\begin_inset Formula $N_{1}C_{1}=0$
+\end_inset
+
+,
+ or equivalently that 
+\begin_inset Formula $C_{1}=0$
+\end_inset
+
+.
+ If this happens,
+ we change our mind to guess 
+\begin_inset Formula $\delta=N_{2}C_{2}$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $N_{2}$
+\end_inset
+
+ has enough divisibilities that,
+ again,
+ every divisibility we'd already concluded about 
+\begin_inset Formula $N_{1}C_{1}$
+\end_inset
+
+ also holds for 
+\begin_inset Formula $N_{2}$
+\end_inset
+
+ and hence 
+\begin_inset Formula $N_{2}C_{2}$
+\end_inset
+
+.
+ Since,
+ by assumption,
+ 
+\begin_inset Formula $G$
+\end_inset
+
+ is a nontrivial group,
+ eventually this procedure will run into a nonzero combination of generators,
+ and 
+\begin_inset Formula $0'$
+\end_inset
+
+ is able to figure out which element is 
+\begin_inset Formula $\delta$
+\end_inset
+
+ in advance.
+\end_layout
+
+\begin_layout Standard
+The reader may be wondering in what respect this procedure is more uniform.
+ After all,
+ the limiting combination of generators 
+\begin_inset Formula $N_{M}C_{M}$
+\end_inset
+
+ cannot be computed uniformly,
+ only 
+\begin_inset Formula $0'$
+\end_inset
+
+-uniformly.
+ However,
+ and crucially,
+ we can uniformly compute a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the type of the limiting combination of generators 
+\begin_inset Formula $\delta$
+\end_inset
+
+ as follows:
+ follow along the procedure used to find 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ and every time we conclude a new divisibility for (the current guess for) 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ we add this divisibility to its type.
+ We took care so that any divisibility we add never needs to be removed.
+ The predicates 
+\begin_inset Formula $\neg Q_{0,c}(x)$
+\end_inset
+
+ are all true except for 
+\begin_inset Formula $\neg Q_{0,0}(x)$
+\end_inset
+
+ because the group is torsion-free,
+ and thus,
+ adding those to the type,
+ we obtain an enumeration of the type of 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Below,
+ we shall be using the type of 
+\begin_inset Formula $\delta$
+\end_inset
+
+ in an essential way (namely,
+ to compute 
+\begin_inset Formula $\etau$
+\end_inset
+
+),
+ which is why having a uniform way to compute this type is essential.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+Now that we have a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of our group over the signature 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+,
+ we shall show that every nontrivial torsion-free abelian group with a designated nonzero element with c.e.
+\begin_inset space \space{}
+\end_inset
+
+atomic type satisfies the QETP.
+\end_layout
+
+\begin_layout Itemize
+First,
+ we construct 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+.
+ This is an adaptation of the standard proof that the theory of torsion-free abelian groups with divisibility-by-integer predicates admits quantifier elimination,
+ which can be found e.g.
+\begin_inset space \space{}
+\end_inset
+
+in 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cite hodges
+\end_layout
+
+\end_inset
+
+.
+ Very briefly:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assume without loss of generality that 
+\begin_inset Formula $q(\vec{x},\vec{y})$
+\end_inset
+
+ is a disjunction of atomic formulas,
+ and hence can be expressed as a system of integer coefficient equations and inequations
+\begin_inset Formula 
+\[
+q(\vec{x},\vec{y})\equiv\left\{ \begin{array}{l}
+M\vec{x}=N\vec{y},\\
+K\vec{x}\neq L\vec{y}.
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Important:
+
+\series default
+ The notation 
+\begin_inset Formula $K\vec{x}\neq L\vec{y}$
+\end_inset
+
+ is 
+\emph on
+not
+\emph default
+ being used two mean 
+\begin_inset Quotes eld
+\end_inset
+
+the vectors 
+\begin_inset Formula $K\vec{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $L\vec{y}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ are distinct,
+ but rather the stronger fact:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+every entry of the vector 
+\begin_inset Formula $K\vec{x}$
+\end_inset
+
+ is distinct from the corresponding entry in 
+\begin_inset Formula $L\vec{y}$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This means that one must not be careless in handling these inequalities – one cannot,
+ for example,
+ apply any kind of Gaussian elimination thereto.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Now,
+ write 
+\begin_inset Formula $N=ADB$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $D$
+\end_inset
+
+ is diagonal and 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ are invertible,
+ all over the integers – the fact that this can always be done can be obtained using a strategy like the one from 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:gauss"
+
+\end_inset
+
+,
+ and a reference is 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+cite the guy that hodges cites
+\end_layout
+
+\end_inset
+
+.
+ Then,
+ 
+\begin_inset Formula $q(\vec{x},\vec{y})$
+\end_inset
+
+ is logically equivalent to a new system of equations and inequations
+\begin_inset Formula 
+\[
+q(\vec{x},\vec{y})\Leftrightarrow\left\{ \begin{array}{l}
+M'\vec{x}=DB\vec{y},\\
+K'\vec{x}\neq LB^{-1}B\vec{y}.
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The existence of a solution to this system is,
+ since 
+\begin_inset Formula $B$
+\end_inset
+
+ is invertible,
+ equivalent to the existence of a solution to the following other system
+\begin_inset Formula 
+\[
+\exists_{\vec{y}}q(\vec{x},\vec{y})\Leftrightarrow\exists_{\vec{z}}\left\{ \begin{array}{l}
+M'\vec{x}=D\vec{z},\\
+K'\vec{x}\neq L'\vec{z}.
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The rows of the equation 
+\begin_inset Formula $M'\vec{x}=D\vec{z}$
+\end_inset
+
+ that correspond to nonzero entries of 
+\begin_inset Formula $D$
+\end_inset
+
+ yield equations of the type 
+\begin_inset Formula $nz_{i}=\vec{a}\cdot\vec{x}$
+\end_inset
+
+.
+ This allows us to remove (whilst preserving logical equivalence) every instance of 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ from every other (in)equation:
+ Any other (in)equation can be multiplied by 
+\begin_inset Formula $n$
+\end_inset
+
+ preserving logical equivalence (this uses 
+\begin_inset Formula $n\neq0$
+\end_inset
+
+ and the fact that we're working with torsion-free groups),
+ resulting in an instance of 
+\begin_inset Formula $\text{(coefficient)\ensuremath{\times}}nz_{i}$
+\end_inset
+
+,
+ which can be substituted for 
+\begin_inset Formula $\text{(coefficient)}\times(\sum a_{i}x_{i})$
+\end_inset
+
+.
+ Thus,
+ we may eliminate all 
+\begin_inset Formula $z$
+\end_inset
+
+ variables corresponding to nonzero rows of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ and our system now becomes
+\begin_inset Formula 
+\[
+\exists_{\vec{y}}q(\vec{x},\vec{y})\Leftrightarrow\exists_{\vec{z}}\exists_{\vec{w}}\left\{ \begin{array}{l}
+M_{0}\vec{x}=0,\\
+n_{1}z_{1}=\vec{c}_{1}\cdot\vec{x},\\
+\vdots\\
+n_{\ell}z_{\ell}=\vec{c}_{\ell}\cdot\vec{x},\\
+K'\vec{x}\neq L'\vec{w}.
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The equations including the 
+\begin_inset Formula $z$
+\end_inset
+
+ variables become divisibility statements,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $\exists_{z_{i}}nz_{i}=\vec{c}\cdot\vec{x}\Leftrightarrow n\mid\vec{c}\cdot\vec{x}\equiv Q_{n,\vec{c}}(\vec{x})$
+\end_inset
+
+,
+ so we now need only deal with the inequations 
+\begin_inset Formula $K'\vec{x}\neq L'\vec{w}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Now,
+ let us stratify the equations 
+\begin_inset Formula $K'\vec{x}\neq L'\vec{w}$
+\end_inset
+
+ as follows:
+ First,
+ consider the equations that use no 
+\begin_inset Formula $w$
+\end_inset
+
+-variable.
+ Then,
+ consider the ones that use 
+\begin_inset Formula $w_{1}$
+\end_inset
+
+ and no other.
+ Then,
+ consider the ones that use only 
+\begin_inset Formula $w_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{2}$
+\end_inset
+
+,
+ and so on.
+ The equations that use no 
+\begin_inset Formula $w$
+\end_inset
+
+-variable are important – keep them.
+ These are are a requirement on 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ that we cannot get rid of.
+ Let us refer to these equations as 
+\begin_inset Formula $K_{0}\vec{x}\neq0$
+\end_inset
+
+.
+ On the other hand,
+ at every new stage of the strata,
+ the resulting equations will doubtlessly be satisfied by some 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+.
+ For example,
+ if the first stratum has 
+\begin_inset Formula $e$
+\end_inset
+
+ equations,
+ this is forbidding at most 
+\begin_inset Formula $e$
+\end_inset
+
+ possible values of 
+\begin_inset Formula $w_{1}$
+\end_inset
+
+.
+ But the group is nontrivial and hence infinite,
+ whereby there is at least one valid choice for 
+\begin_inset Formula $w_{1}$
+\end_inset
+
+.
+ Then,
+ in the next strata,
+ contingent on this choice of 
+\begin_inset Formula $w_{1}$
+\end_inset
+
+,
+ there are once again at most (number of equations) forbidden values for 
+\begin_inset Formula $w_{2}$
+\end_inset
+
+.
+ Simply choose 
+\begin_inset Formula $w_{2}$
+\end_inset
+
+ to not be one of those.
+ Continuing in this manner,
+ we see that we can ensure that all equations that include a 
+\begin_inset Formula $w$
+\end_inset
+
+ variable can be automatically satisfied and are therefore adding no information.
+\end_layout
+
+\begin_layout Itemize
+In conclusion,
+ we've shown that any existential statement is equivalent to a system of the type
+\begin_inset Formula 
+\begin{equation}
+\exists_{\vec{y}}q(\vec{x},\vec{y})\Leftrightarrow\left\{ \begin{array}{l}
+M_{0}\vec{x}=0,\\
+n_{1}\mid\vec{c}_{1}\cdot\vec{x},\\
+\vdots\\
+n_{\ell}\mid\vec{c}_{\ell}\cdot\vec{x},\\
+K_{0}\vec{x}\neq0,
+\end{array}\right.\label{eq:syseqchi}
+\end{equation}
+
+\end_inset
+
+with the system found effectively,
+ and thus it is in this manner that we define 
+\begin_inset Formula $\chi_{q}(\vec{x})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $q$
+\end_inset
+
+ were not a disjunction of atomic formulas,
+ as initially assumed,
+ write it in conjunctive normal form as 
+\begin_inset Formula $q\equiv q_{1}\lor\dots\lor q_{k}$
+\end_inset
+
+ and set 
+\begin_inset Formula $\chi_{q}\equiv\chi_{q_{1}}\lor\dots\lor\chi_{q_{k}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Next,
+ we construct 
+\begin_inset Formula $\tau$
+\end_inset
+
+.
+ Intuitively,
+ given 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+,
+ we consider all possible assignments of 
+\begin_inset Formula $y$
+\end_inset
+
+ of the form 
+\begin_inset Formula $y=\frac{1}{a}\vec{c}\cdot\vec{x}$
+\end_inset
+
+ (if such an element exists).
+ We will prove below,
+ when establishing the QETP,
+ that assuming not every element of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ is null there is such a combination that satisfies 
+\begin_inset Formula $\chi_{q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})$
+\end_inset
+
+.
+ We will choose one such combination,
+ and set 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)\equiv(ay=\vec{c}\cdot\vec{x}$
+\end_inset
+
+).
+ We also need to handle the case where every element of the tuple 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ is zero (which will generally happen if the tuple is empty,
+ or if it contains a single element that happens to be zero),
+ which is why we have the designated element 
+\begin_inset Formula $\delta$
+\end_inset
+
+ – if every element of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ is null,
+ we set 
+\begin_inset Formula $\tau(\vec{x},y)\equiv N\Delta(y)$
+\end_inset
+
+ where 
+\begin_inset Formula $N$
+\end_inset
+
+ is large enough to encompass all divisibilities demanded by the tuple of elements 
+\begin_inset Formula $\vec{z}$
+\end_inset
+
+ (e.g.
+\begin_inset space \space{}
+\end_inset
+
+if 
+\begin_inset Formula $q(y,z)\equiv(z+z=y)$
+\end_inset
+
+,
+ we would set 
+\begin_inset Formula $y=2\delta$
+\end_inset
+
+).
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Let's discuss this process more formally.
+ Given 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+Set 
+\begin_inset Formula $\varphi_{0}(\vec{x})\equiv\land_{i}(x_{i}=0)$
+\end_inset
+
+ (or,
+ if we are being unnecessarily precise,
+ 
+\begin_inset Formula $\varphi_{0}(\vec{x})\equiv\land_{i}Q_{0,1}(x_{i})$
+\end_inset
+
+),
+ and set 
+\begin_inset Formula $\tau_{q\varphi_{0}}(\vec{x},y)\equiv\varphi_{0}(\vec{x})\land N\Delta(y)$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $N$
+\end_inset
+
+ is large enough to ensure 
+\begin_inset Formula $\forall_{d}\chi_{q}(\vec{0},Nd)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+For every nonzero integer 
+\begin_inset Formula $a$
+\end_inset
+
+ and tuple of integers 
+\begin_inset Formula $\vec{c}$
+\end_inset
+
+,
+ set 
+\begin_inset Formula $\varphi_{a\vec{c}}(\vec{x})\equiv\text{``\ensuremath{\chi_{q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})}''}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tau_{q\varphi_{a\vec{c}}}(\vec{x},y)\equiv(ay=\vec{c}\cdot\vec{x})$
+\end_inset
+
+.
+ It remains to explain what we mean by 
+\begin_inset Formula $\chi_{q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Since 
+\begin_inset Formula $q$
+\end_inset
+
+ is assumed to be a type,
+ we have by definition that 
+\begin_inset Formula $\chi_{q}(\vec{x},y)$
+\end_inset
+
+ is a system of equations as in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:syseqchi"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ By multiplying all equations by 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ we obtain an equivalent system of equations where every instance of 
+\begin_inset Formula $y$
+\end_inset
+
+ is being multiplied by 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ In other words,
+ we can rewrite 
+\begin_inset Formula $\chi_{q}(\vec{x},y)\Leftrightarrow\psi(\vec{x},ay)$
+\end_inset
+
+,
+ and thus the formula 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\chi_{q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ may be taken to mean
+\begin_inset Formula 
+\[
+\text{``\ensuremath{\chi_{q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})}''}\equiv(a\mid\vec{c}\cdot\vec{x})\land\psi(\vec{x},\vec{c}\cdot\vec{x}).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Finally,
+ we construct 
+\begin_inset Formula $\etau$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $q(\vec{x},y,\vec{z})$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi(\vec{x})$
+\end_inset
+
+ as one of the above cases,
+ as well as 
+\begin_inset Formula $Q(\vec{x},y,\vec{z},\vec{w})$
+\end_inset
+
+ extending 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ we wish to find a quantifier-free expression that is equivalent to 
+\begin_inset Formula $\exists_{y}\left[\chi_{Q}(\vec{x},y)\land\tau_{q\varphi}(\vec{x},y)\right]$
+\end_inset
+
+.
+ Intuitively,
+ the idea is that in either case our formula 
+\begin_inset Formula $\tau$
+\end_inset
+
+ determines 
+\begin_inset Formula $y$
+\end_inset
+
+ exactly (as a function of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+),
+ so we can just 
+\begin_inset Quotes eld
+\end_inset
+
+plug that 
+\begin_inset Formula $y$
+\end_inset
+
+ into 
+\begin_inset Formula $\chi_{Q}(\vec{x},y)$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ To do this more precisely,
+ we split into cases:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)\equiv(ay=\vec{c}\cdot\vec{x})$
+\end_inset
+
+,
+ we apply the same 
+\begin_inset Quotes eld
+\end_inset
+
+multiply every equation by 
+\begin_inset Formula $a$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ trick to write a formula that corresponds to 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\left(a\mid\vec{c}\cdot\vec{x}\right)\land\chi_{Q}(\vec{x},\frac{1}{a}\vec{c}\cdot\vec{x})$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The resulting formula is the desired 
+\begin_inset Formula $\etau$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)\equiv\varphi_{0}(\vec{x})\land N\Delta(y)$
+\end_inset
+
+,
+ then,
+ intuitively,
+ we know for a tuple satisfying 
+\begin_inset Formula $\tau$
+\end_inset
+
+ we have that all 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ are zero,
+ and that 
+\begin_inset Formula $y=N\delta$
+\end_inset
+
+.
+ Thus,
+ the existential quantifier may be eliminated,
+ and we wish to determine whether 
+\begin_inset Formula $\chi_{Q}(\vec{0},N\delta)$
+\end_inset
+
+.
+ This is where it is important that we have a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the type of 
+\begin_inset Formula $\delta$
+\end_inset
+
+ – and,
+ if we desire a uniform result,
+ that we have this index without recourse to any oracle.
+ Knowing the c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for the type of 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ we can just consult whether 
+\begin_inset Formula $\chi_{Q}(\vec{0},N\delta)$
+\end_inset
+
+ holds – more precisely,
+ there is a computable sequence 
+\begin_inset Formula $\{B_{n}\}_{n\in\N}$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\[
+\left\{ \begin{aligned} & G\nvDash\chi_{Q}(\vec{0},N\delta) & \Rightarrow & B_{n}=\bot\text{ for all \ensuremath{n},}\\
+ & G\vDash\chi_{Q}(\vec{0},N\delta) & \Rightarrow & B_{n}=\top\text{ for all but finitely many \ensuremath{n}.}
+\end{aligned}
+\right.
+\]
+
+\end_inset
+
+Thus,
+ in this scenario,
+ we set 
+\begin_inset Formula 
+\[
+\etau_{q\varphi Q}(\vec{x})\equiv\llor_{n}B_{n}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Now we verify that the above definitions are witnesses to the QETP.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+label=(
+\backslash
+alph*)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+(
+\begin_inset Formula $\Lang$
+\end_inset
+
+ is finite and closed under negation) Obvious.
+\end_layout
+
+\begin_layout Enumerate
+(
+\begin_inset Formula $G\vDash\chi_{q}(\vec{x})\leftrightarrow\exists_{\vec{y}}q(\vec{x},\vec{y})$
+\end_inset
+
+) By construction.
+\end_layout
+
+\begin_layout Enumerate
+There are two bullet points here.
+ In reverse order:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(
+\begin_inset Formula $G\vDash\chi_{q}(\vec{x})\land\varphi(\vec{x})\rightarrow\exists_{y}\tau_{q\varphi}(\vec{x},y)$
+\end_inset
+
+) Direct from construction.
+\end_layout
+
+\begin_layout Itemize
+(Every tuple 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ of elements of 
+\begin_inset Formula $G$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $\chi_{q}(\vec{b})$
+\end_inset
+
+ satisfies some 
+\begin_inset Formula $\varphi(\vec{b})$
+\end_inset
+
+ with 
+\begin_inset Formula $(q,\varphi)$
+\end_inset
+
+ in domain of 
+\begin_inset Formula $\tau$
+\end_inset
+
+)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\vec{b}=\vec{0}$
+\end_inset
+
+ this is obvious.
+\end_layout
+
+\begin_layout Itemize
+If some 
+\series bold
+
+\begin_inset Formula $b_{i}\neq0$
+\end_inset
+
+
+\series default
+:
+ We wish to show that there are 
+\begin_inset Formula $a\in\Z_{\neq0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{c}\subseteq\Z$
+\end_inset
+
+ such that 
+\begin_inset Formula $a\mid\vec{c}\cdot\vec{b}$
+\end_inset
+
+ and 
+\begin_inset Formula $\chi_{q}(\vec{b},\frac{1}{a}\vec{c}\cdot\vec{b})$
+\end_inset
+
+.
+ To this effect,
+ we prove the following related lemma,
+ which obviously implies the desired claim:
+\end_layout
+
+\begin_deeper
+\begin_layout Lemma
+If 
+\begin_inset Formula $q(\vec{x},\vec{y})$
+\end_inset
+
+ is a quantifier-free type in the smaller language 
+\begin_inset Formula $\Lang$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ is a tuple in 
+\begin_inset Formula $G$
+\end_inset
+
+ such that 
+\begin_inset Formula $G\vDash\exists_{\vec{y}}q(\vec{b},\vec{y})$
+\end_inset
+
+,
+ and some element of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ is nonzero,
+ then there exist integer vectors 
+\begin_inset Formula $\vec{c}_{1},\dots,\vec{c}_{\ell}$
+\end_inset
+
+ and nonzero integers 
+\begin_inset Formula $a_{1},\dots,a_{\ell}$
+\end_inset
+
+ such that,
+ for every 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ 
+\begin_inset Formula $a_{i}\mid\vec{c}_{i}\cdot\vec{b}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $G\vDash q(\vec{b},\frac{1}{a_{1}}\vec{c}_{1}\cdot\vec{b},\dots,\frac{1}{a_{\ell}}\vec{c}_{\ell}\cdot\vec{b})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\shape italic
+Proof of lemma:
+
+\shape default
+ We start by writing 
+\begin_inset Formula $q(\vec{b},\vec{y})$
+\end_inset
+
+ as a linear system of equations
+\begin_inset Formula 
+\[
+q(\vec{x},\vec{y})\equiv\left\{ \begin{aligned}M\vec{b} & =N\vec{y},\\
+K\vec{b} & \neq L\vec{y}.
+\end{aligned}
+\right.
+\]
+
+\end_inset
+
+Then,
+ as in the construction of 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+,
+ we rewrite this system in terms of alternate variables 
+\begin_inset Formula $\vec{z}$
+\end_inset
+
+,
+ which are related to the variables 
+\begin_inset Formula $\vec{y}$
+\end_inset
+
+ by the relation 
+\begin_inset Formula $\vec{z}=B\vec{y}$
+\end_inset
+
+ for an invertible matrix 
+\begin_inset Formula $B$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left\{ \begin{aligned} & M'\vec{b}=D\vec{z},\\
+ & K'\vec{b}\neq L'\vec{z},
+\end{aligned}
+\right.
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $D$
+\end_inset
+
+ a diagonal matrix.
+ Now,
+ let us look at the rows of the equation 
+\begin_inset Formula $M'\vec{b}=D\vec{z}$
+\end_inset
+
+.
+ Some rows correspond to a zero element in the diagonal of 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+are of the form 
+\begin_inset Formula $\vec{m}\cdot\vec{b}=0$
+\end_inset
+
+.
+ These can be ignored – since it is known that 
+\begin_inset Formula $\exists_{y}q(\vec{b},\vec{y})$
+\end_inset
+
+,
+ these rows simply consist of true linear relations between the 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+,
+ and the corresponding 
+\begin_inset Formula $z$
+\end_inset
+
+-variables are free.
+ Let us call them 
+\begin_inset Formula $\vec{z}_{\mathrm{free}}$
+\end_inset
+
+.
+ The remaining 
+\begin_inset Formula $z$
+\end_inset
+
+-variables are determined,
+ corresponding to equations of the form 
+\begin_inset Formula $\vec{c}_{i}\cdot\vec{b}=a_{i}z_{i}$
+\end_inset
+
+.
+ As in the construction of 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+,
+ this means that the corresponding 
+\begin_inset Formula $z$
+\end_inset
+
+ variables are determined as 
+\begin_inset Formula $z_{i}=\frac{1}{a_{i}}\vec{c}_{i}\cdot\vec{b}$
+\end_inset
+
+ (which in particular precludes the fact that 
+\begin_inset Formula $a_{i}\mid\vec{c}_{i}\cdot\vec{b}$
+\end_inset
+
+).
+ Without loss of generality,
+ we substitute the determined variables by their corresponding expansion in terms of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ (which may require clearing denominators),
+ leaving us only to satisfy the relation 
+\begin_inset Formula $K''\vec{b}\neq L''\vec{z}_{\mathrm{free}}$
+\end_inset
+
+.
+ Here,
+ one again applies a similar reasoning to the one used in the construction of 
+\begin_inset Formula $\chi_{q}$
+\end_inset
+
+,
+ with a minor twist.
+ Stratifying the equations so that we first determine 
+\begin_inset Formula $z_{1}$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $z_{2}$
+\end_inset
+
+,
+ and so on,
+ we see that at each step 
+\begin_inset Formula $z_{i}$
+\end_inset
+
+ is only forbidden to take a finite number of values.
+ Then,
+ we take some 
+\emph on
+nonzero
+\emph default
+ 
+\begin_inset Formula $b_{j}$
+\end_inset
+
+,
+ and set 
+\begin_inset Formula $z_{i}=kb_{j}$
+\end_inset
+
+ for some large enough coefficient 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the end,
+ one concludes that there is a solution to the system of equations 
+\begin_inset Formula $q(\vec{b},B\vec{z})$
+\end_inset
+
+ whereby every entry of 
+\begin_inset Formula $\vec{z}$
+\end_inset
+
+ is a valid rational combination of the entries of 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+.
+ Multiplying this by the integer matrix 
+\begin_inset Formula $B$
+\end_inset
+
+ yields the desired vector 
+\begin_inset Formula $\vec{y}$
+\end_inset
+
+,
+ also consisting solely of valid rational combinations,
+ which serves a solution to 
+\begin_inset Formula $q(\vec{b},\vec{y})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\shape italic
+(End proof of lemma.)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace smallskip
+\end_inset
+
+This completes the proof of Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+(
+\begin_inset Formula $G\vDash\exists_{y}\left[\chi_{Q}(\vec{x},y)\land\tau_{q\varphi}(\vec{x},y)\right]\leftrightarrow\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+) True by construction.
+\end_layout
+
+\begin_layout Enumerate
+(
+\begin_inset Formula $G\vDash\etau_{q\varphi Q}(\vec{x})\land\tau_{q\varphi}(\vec{x},y)\rightarrow\chi_{Q}(\vec{x},y)$
+\end_inset
+
+) Essentially,
+ this is true because 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)$
+\end_inset
+
+ 
+\emph on
+always
+\emph default
+ determines 
+\begin_inset Formula $y$
+\end_inset
+
+ uniquely in terms of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+.
+ As such,
+ if it is the case that there is some 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ that satisfies 
+\begin_inset Formula $\chi_{Q}(\vec{x},y_{0})\land\tau_{q\varphi}(\vec{x},y_{0})$
+\end_inset
+
+ (that is,
+ 
+\begin_inset Formula $\etau_{q\varphi Q}(\vec{x})$
+\end_inset
+
+ holds),
+ and it is the case that some specific 
+\begin_inset Formula $y$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)$
+\end_inset
+
+,
+ then it must be the case that 
+\begin_inset Formula $y=y_{0}$
+\end_inset
+
+ and therefore 
+\begin_inset Formula $\chi_{Q}(\vec{x},y)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Thus,
+ we are in condition to apply 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to the 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable c.e.-typed copy of 
+\begin_inset Formula $G$
+\end_inset
+
+ (plus designated element).
+ Since this copy was obtained uniformly from the original presentation
+\end_layout
+
+\end_deeper
+\begin_layout Remark
+A useful trick came up in the course of the prior proof:
+ If,
+ perchance,
+ 
+\begin_inset Formula $\tau_{q\varphi}(\vec{x},y)$
+\end_inset
+
+ has the property that 
+\begin_inset Formula $y$
+\end_inset
+
+ is determined uniquely in terms of 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+,
+ then Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:qetp3"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ of the QETP comes for free.
+ This will not apply to any of the other examples present in this article,
+ but it does point at something noteworthy:
+ It is the job of 
+\begin_inset Formula $\tau$
+\end_inset
+
+ to determine 
+\begin_inset Formula $y$
+\end_inset
+
+ as uniquely as possible,
+ so that 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+knows
+\begin_inset Quotes erd
+\end_inset
+
+ what is OK to match 
+\begin_inset Formula $y$
+\end_inset
+
+ with and what is not.
+ The case where there is a single well-determined element it can be matched with is optimal,
+ but even in other cases,
+ we want 
+\begin_inset Formula $\tau$
+\end_inset
+
+ to pin down the 
+\begin_inset Formula $\Lang'$
+\end_inset
+
+-type of 
+\begin_inset Formula $y$
+\end_inset
+
+ as much as possible (and,
+ indeed,
+ this is in some sense the essence of Item 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:main_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Linear Orders with Successors and Predecessors
+\end_layout
+
+\begin_layout Section
+Finite Signatures
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+maybe trees?
+ but low priority
+\end_layout
+
 \end_inset
 
 
@@ -10329,6 +16193,20 @@ reference "thm:booleanjumpinversion"
 \end_inset
 
  could be obtained in this manner.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+idea for question:
+ find a general theorem for lower bounds on isomorphism complexities
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
