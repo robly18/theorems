@@ -1,0 +1,257 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+
+\usepackage{float}
+\usepackage{tikz}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cm}{\mathrm{cm}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\dl}{\mathrm{d}}
+\newcommand{\diff}[1]{\frac{\dl}{\dl #1}}
+
+\pagestyle{headandfoot}
+\runningheader{MATH 152 Section 45}{Final Exam}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\qformat{\textbf{Exercise \thequestion.} (Total points: \totalpoints) \hfill}
+\renewcommand{\partlabel}{Part (\thepartno)}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Exam
+
+MATH 152 - Section 45
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+December 9, 2025
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item You have 2 hours to answer the questions below on the provided examination book.
+
+\item Write your name and UCID in the cover page of the examination book.
+
+\item You may ask for additional paper. If you do, sign both exam books and number them.
+
+\item Unless otherwise specified, you do not need to justify your answers. However, you must still show your work. You may lose points if I deem you to have performed a significant leap in logic.
+
+\item This exam is graded out of 100 points.
+
+\item You will not be penalized for forgetting to add constants in the calculation of indefinite integrals, unless the constant is of relevance to the problem.
+\end{itemize}
+}
+}
+\end{center}
+
+%\gradetable
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item Half-angle formulas:
+
+\begin{tabular}{l l}
+$\cos^2(x) = \frac12 + \frac12 \cos(2x)$ & $\sin^2(x) = \frac12 - \frac12 \cos(2x)$\\
+$\phantom{\cos^2(x)} = 1-2\sin^2 x$ & \\
+$\phantom{\cos^2(x)} = 2\cos^2 x - 1$ &
+\end{tabular}
+\item Angle sum formulas:
+
+\begin{tabular}{c c}
+$\cos(x+y) = \cos(x)\cos(y) - \sin(x)\sin(y)$\\
+$\sin(x+y) = \sin(x)\cos(y) + \cos(x)\sin(y)$
+\end{tabular}
+
+\item Angle Product to Sum Formulas
+
+\begin{tabular}{c c}
+$\sin(A) \cos(B) = \frac12 [\sin(A+B)+\sin(A-B)]$ & $\cos(A)\sin(B) = \frac12 [\sin(A+B)-\sin(A-B)]$,\\[1ex]
+$\cos(A)\cos(B) = \frac12 [\cos(A+B)+\cos(A-B)]$ & $\sin(A)\sin(B) = \frac12 [\cos(A-B) - \cos(A+B)].$
+\end{tabular}
+
+\item Other trigonometric formulas:
+
+\begin{tabular}{l l l}
+$\sin^2(x) + \cos^2(x) = 1$ & $1 + \tan^2(x) = \sec^2(x)$ & $1 + \cot^2(x) = \csc^2(x)$ \\
+$\sin\frac\theta2 = \pm\sqrt{\frac{1-\cos\theta}2}$ & $\cos\frac\theta2 = \pm \sqrt{\frac{1+\cos\theta}2}$ & $\tan\frac\theta2 = \pm\sqrt{\frac{1-\cos\theta}{1+\cos\theta}}$ \\
+& & $\phantom{\tan\frac\theta2} = \frac{\sin\theta}{1+\cos\theta}$ \\
+& & $\phantom{\tan\frac\theta2} = \frac{1-\cos\theta}{\sin\theta}$
+\end{tabular}
+
+\item Some derivatives:
+
+\begin{tabular}{c c c}
+$\diff x \arcsin(x) = \frac1{\sqrt{1-x^2}}$, &
+$\diff x \arctan(x) = \frac1{1+x^2}$, & $\diff x f^{-1}(x) = \frac1{f'(f^{-1}(x))}$.
+\end{tabular}
+
+\item Miscellaneous:
+\begin{tabular}{c c}
+$a^b = \e^{b \ln a}$, for $a > 0$, &
+$\log_a(b) = \frac{\ln(b)}{\ln(a)}$, for $a>0$, $b>0$, and $a \neq 1$
+\end{tabular}
+\end{itemize}
+
+\pagebreak
+
+\begin{questions}
+\question
+\begin{parts}
+\part[6] Calculate the lower, midpoint, and right Riemann sums of the function $f(x)=\cos(\frac\pi2 x)$ (plotted below), using the partition of $[-1,4]$ into three intervals: $[-1,0]$, $[0,3]$, and $[3,4]$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[xscale=2, yscale=1.2]
+
+\foreach \x in {-1,-0.5,...,4} {
+\draw[help lines] (\x,0.1) -- (\x,{cos(pi * \x / 2 r)});
+\pgfmathparse{notequal(\x,0)}
+\ifnum\pgfmathresult=1
+\draw (\x,0.1) -- (\x,-0.1) node[below]{\x};
+\fi
+}
+
+\foreach \y in {-1, -0.707107, 0.707107, 1} {
+\draw[help lines] (4, \y) -- (-1.5, \y);
+}
+\draw (-1.5,1) node[left] {\footnotesize $1$};
+\draw (-1.5,0.707) node[left] {\footnotesize $\sqrt2 / 2$};
+\draw (-1.5,-1) node[left] {\footnotesize $-1$};
+\draw (-1.5,-0.707) node[left] {\footnotesize $-\sqrt2 / 2$};
+
+
+\draw[->] (-2,0) -- (5,0) node[below]{$x$};
+\draw[->] (0,-1.5) -- (0,1.5) node[left]{$y$};
+
+\draw plot[domain=-1:4, smooth] (\x, {cos(pi * \x / 2 r)});
+\end{tikzpicture}
+\caption{Plot of $f(x) = \cos(\frac\pi2 x)$.}
+\end{figure}
+
+\part[4] Let $f(x)$ be a continuous function defined on the interval $[a,b]$, and $P$ a partition of $[a,b]$. Suppose that $f$ is \emph{never negative}, and that $f$ is not the constant function equal to zero.
+
+Determine whether the following statements are true or false. The word `between' means: $A\leq q \leq B$, and the word `strictly positive' means $q>0$.
+
+No justification is required.
+
+\begin{subparts}
+\subpart The lower sum of $f(x)$ must be strictly positive.
+\subpart The upper sum of $f(x)$ must be strictly positive.
+\subpart The midpoint sum of $f(x)$ must be strictly positive.
+\subpart The midpoint sum of $f(x)$ is between the left sum and the right sum.
+\end{subparts}
+\end{parts}
+
+\question
+\begin{parts}
+\part[10] Write the area of the following shaded shape as an integral, or sum of integrals, in two different ways: One, by slicing the figure into many thin vertical rectangles (i.e.\ an integral in $\dl x$) and two, by slicing the figure into many thin horizontal rectangles (i.e.\ an integral in $\dl y$). You do not need to compute the integrals.
+\begin{center}
+\begin{tikzpicture}
+
+
+\fill[fill=blue!30] (0,3) --plot[domain=1:4] ((\x,{2+ln(\x)/ln(2)}) -- (0,4) -- cycle;
+
+\foreach \x in {1,2,3,4,5} {
+\draw[help lines] (\x,-0.5) -- (\x,4.5);
+}
+\foreach \y in {1,2,3,4} {
+\draw[help lines] (-0.5,\y) -- (5.5,\y);
+}
+
+\draw[->] (-1, 0) -- (6,0) node[below]{$x$};
+\draw[->] (0,-1) -- (0, 5) node[left]{$y$};
+
+
+\draw plot[domain=0.2:5] (\x,{2+ln(\x)/ln(2)});
+\path (3.3,2.5) node[fill=white]{$y=2+\log_2 (x)$};
+\draw (0,4) -- (4,4);
+\draw (0,3) -- (1,2);
+
+\foreach \x in {1,2,3,4,5} {
+\draw (\x,0.1) -- (\x,-0.1) node[below left]{\x};
+}
+\foreach \y in {1,2,3,4} {
+\draw (0.1,\y) -- (-0.1,\y) node[left, fill=white]{\y};
+}
+
+\end{tikzpicture}
+\end{center}
+
+\part[10] On a snowy day in Chicago, the snow level rises at a rate of $0.1 + \frac1{100}t$ centimeters per hour, where $t$ measures the time in hours since midnight. Knowing that at 10AM ($t=10$) there is a $3\mathrm{cm}$ layer of snow, and that no snow has melted in the meantime, find the depth of snow at midnight at the start of the day (that is, at $t=0$). Your answer must not contain any integral signs.
+\part[5] Let us define a new function by the formula
+\[F(x) = \int_0^x \frac{\sin(t)}{\e^{t^2} + 1} \,\dl t.\]
+Complete and justify the following sentence: The function $F(x)$ is increasing/decreasing (choose one) from $x=0$ to $x=\fillin[xx][0.5cm]$, where it changes direction and decreases/increases (choose one) until $x = \fillin[xx][.5cm]$, where it changes direction again.
+\end{parts}
+
+\question[5]  Consider the function
+\[f(x) = x + k \sin(x),\]
+where $k$ is a number. For which values of $k$ is $f(x)$ invertible?
+
+\question
+\begin{parts}
+\newcommand{\atm}{\mathrm{atm}}
+\newcommand{\mm}{\mathrm{m}}
+\newcommand{\km}{\mathrm{km}}
+\part[10] It is a fact that, to good approximation, atmospheric pressure decreases exponentially as a function of altitude (measured from sea level). In 1774, surveyors were able to use barometers to accurately measure the height of the mountain of Schiehallion in Scotland. Knowing the following data, find an expression for the height of the Schiehallion mountain (measured from sea level):
+\begin{enumerate}
+\item Atmospheric pressure at sea level is $1\atm$,
+\item Pressure at $100\mm$ of height is $0.988\atm$, and
+\item Pressure at the peak of Schiehallion mountain is $0.881\atm$.
+\end{enumerate}
+
+\part[5]
+\begin{subparts}
+\subpart Calculate the derivative of $f(x) = 4^x + \log_3(x)$.
+\subpart Find a good approximation of $\log_{3}(80)$. Your answer should be an integer. Show your work.
+\end{subparts}
+\end{parts}
+
+\question Solve the following integrals.
+\begin{parts}
+\part[5] $\displaystyle \int x \e^x \,\dl x$
+\part[5] $\displaystyle \int \frac{\sin(\sqrt x)}{\sqrt x} \,\dl x$
+\part[5] $\displaystyle \int_0^{\pi/2} \sin(\sin(x))\sin(x)\cos(x) \,\dl x$
+\part[5] $\displaystyle \int_0^{3\pi/2} \cos^3(x) \,\dl x$
+\part[10] $\displaystyle \int \arcsin(x) \,\dl x$
+
+Hint: Integration by parts on $1 \times \arcsin(x)$.
+\end{parts}
+
+\question[5]
+Find the function(s) $y(x)$ that satisfy the differential equation
+\[y'(x) = \e^x y(x) + \e^{-\e^x},\quad \text{with} \;\;y(2) = 0.\]
+
+\question[10] The following is a table of values of a function $f(x)$, and an antiderivative $F(x)$ of this function:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+$x$ &   1  & 2 & 3  & 4 & 8 & 16 & 32 \\
+\hline
+$f(x)$ & 2 & 0 & -1 & 1 & 1 & 0  & 1  \\
+\hline
+$F(x)$ & 3 & 4 &  4 & 5 & 8 & 16 & 20 \\
+\hline
+\end{tabular}
+\end{center}
+
+Using this data, calculate the integral
+\[\int_1^{4} f'(\sqrt x) \,\dl x.\]
+\end{questions}
+\end{document}
