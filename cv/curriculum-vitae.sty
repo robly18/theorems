@@ -1,0 +1,105 @@
+% Created by Huu Duc Nguyen
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{curriculum-vitae}[2022/27/04]
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\RequirePackage[utf8]{inputenc}    			% Input-encoding
+\RequirePackage{xstring, xifthen}			% provides \isempty test
+\RequirePackage{fontawesome5, moresize}		% Fonts
+\RequirePackage{fontenc, fontspec}			% Fonts
+\setmonofont{Courier New}
+\newfontfamily{\bebaskai}{BebasKai}[
+	Path=./,
+	Extension = .otf,
+	UprightFont=*-Regular,
+]
+\setmainfont{Museo Sans}[
+	Path=./,
+	Extension = .otf,
+	UprightFont=*-100,
+	BoldFont=*-500,	
+]
+\RequirePackage[a4paper,margin=0.8in]{geometry}						% define page styles using geometry
+\geometry{top=1.9cm, bottom=1.4cm, left=1cm, right=1cm}	% remove all possible margins
+\RequirePackage{color}
+\definecolor{red}{RGB}{78, 38, 163}
+\definecolor{black}{RGB}{23, 23, 23}
+\definecolor{gray}{RGB}{23, 23, 23}
+\RequirePackage[pdfusetitle,
+	hidelinks,		
+	pdfborder		={0 0 0},		% Avoid borders in PDF
+	linkcolor		= red,			% simple internal links
+	colorlinks		= true,			% Set text color
+	anchorcolor		= black,		% Anchor text
+	menucolor		= black,		% Acrobat-menu
+	urlcolor		= red			% Reference to internet links 
+]{hyperref}							% Hyperlink
+\RequirePackage{fancyhdr, lastpage}	% Paging style
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\cfoot{\textbf{\thepage \ / \pageref{LastPage}}}
+\RequirePackage{setspace}			% Varying line spacing
+\RequirePackage[none]{hyphenat}		% No word break with hyphen
+
+%	SUPPORTING FUNCTIONS
+\def\hrulefill{\leavevmode\leaders\hrule height 1pt\hfill\kern\z@}
+\def\firstLetter#1#2@{#1}
+\def\secondLetter#1#2@{#2}
+\newcommand\tab[1][.9cm]{\hspace*{#1}}
+\newcommand{\cvContactSpace}{\quad\textcolor{red}{$\bullet$}\quad}
+\newcommand{\cvContactSep}{\textcolor{red}{\textbf{|}} }
+%============================================================================%
+%	CV COMMANDS
+%============================================================================%
+%	SETTING UP INFO
+\newcommand*{\setname}[2]{\def\@firstname{#1}\def\@lastname{#2}}
+\newcommand*{\setaddress}[1]{\def\@address{#1}}
+\newcommand*{\setmobile}[1]{\def\@mobile{#1}}
+\newcommand*{\setposition}[1]{\def\@position{#1}}
+\newcommand*{\setmail}[1]{\def\@mail{#1}}
+\newcommand*{\setlinkedin}[1]{\def\@linkedin{#1}}
+\newcommand*{\setgithub}[1]{\def\@github{#1}}
+\newcommand*{\setblog}[1]{\def\@blog{#1}}
+%	CV TITLE
+\newcommand{\cvtitle}[1]{
+	\begin{center}
+		{\fontsize{23}{0}\selectfont
+			\textbf{\@firstname \ {\color{gray}{\@lastname}} }
+			\textcolor{red}{\cvContactSep \textbf{#1}}}\\
+		{\fontsize{12}{0}\selectfont
+			\href{mailto:\@mail}{\faIcon{envelope} \@mail}
+			\cvContactSpace \@address
+			\cvContactSpace \faIcon{phone} \@mobile\\
+			%\href{\@github}{\faIcon{github} GitHub}
+			%\cvContactSpace \href{\@linkedin}{\faIcon{linkedin} LinkedIn}
+			%\cvContactSpace \href{\@blog}{\faIcon{blog} Blog}\\~{\Large \\~\\}
+		}
+	\end{center}
+}
+%	CV SECTION
+\newcommand{\cvSection}[1]{
+	
+	{\textcolor{red}{\bebaskai
+  \Huge{\firstLetter#1@}\LARGE{\secondLetter#1@}} \hrulefill}\\~\\
+}
+%	 CV Block with date/time
+\newcommand{\CVBlockWithTime}[5]{
+	\tab {\bebaskai \Large \textbf{#1}} \hfill \textbf{\large #2}\\
+	\ifthenelse{\isempty{#3}}{}{\tab \textbf{#3} \hfill #4\\}%
+	\ifthenelse{\isempty{#5}}{\\}{\tab \begin{minipage}{14cm}#5\end{minipage}\\~\\}
+}
+\newcommand{\CVBlockCont}[3]{
+	\tab \textbf{#1} \hfill #2\\
+	\ifthenelse{\isempty{#3}}{\\}{\tab \begin{minipage}{14cm}#3\end{minipage}\\~\\}
+}
+\newcommand{\CVHeader}[1]{
+	\tab {\bebaskai \Large \textbf{#1}} \hfill \\
+}
+\newcommand{\CVMinorTime}[3]{
+	\tab \textbf{#1} \hfill \textbf{\large #2}\\
+	\ifthenelse{\isempty{#3}}{\\}{\tab \begin{minipage}{14cm}#3\end{minipage}\\~\\}
+}
+%	 CV Text block
+\newcommand{\CVTextBlock}[1]{\tab {\large \begin{minipage}{18cm}#1\end{minipage}}\\~\\}

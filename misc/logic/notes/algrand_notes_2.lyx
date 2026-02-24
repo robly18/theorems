@@ -1,0 +1,443 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{fullpage}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning,
+decorations.pathreplacing, decorations.pathmorphing}
+\usepackage{braket}
+
+\tikzset{interval/.style={{Bracket[width=1em]}-{Bracket[width=1em]}},
+ilbl/.style={midway, above=0.3em}}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+InStar
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 2
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\listings_params "basicstyle={\ttfamily\footnotesize},keepspaces=true,tabsize=4,breaklines=true,columns=fullflexible,mathescape=true"
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Algorithmic Randomness Notes
+\end_layout
+
+\begin_layout Author
+Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "C:/Users/gaming/Desktop/theorems/misc/lyx/macros_logic.lyx"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout In Preamble
+\begin_inset FormulaMacro
+\newcommand{\emptystring}{\varepsilon}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\length}[1]{\abs{#1}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\downcl}[1]{[#1]}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\MLR}{{\rm MLR}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Second attempt at reading Nies' book 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nies"
+literal "false"
+
+\end_inset
+
+.
+ Random stuff will go here as I clear up my gaps.
+\end_layout
+
+\begin_layout Section
+Basic Randomness
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+KC
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $\{(\sigma_{i},d_{i})\}_{i\in\N}$
+\end_inset
+
+ is a computable enumeration with 
+\begin_inset Formula $\sum2^{-d_{i}}\leq1$
+\end_inset
+
+ then 
+\begin_inset Formula $K(\sigma_{i})\leq d_{i}+C$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $C$
+\end_inset
+
+ depends only on the enumeration.
+\end_layout
+
+\begin_layout Proposition
+Solovay tests are the same as Martin-Löf tests.
+\end_layout
+
+\begin_layout Proof
+Every Martin-Löf test is a Solovay test,
+ so it suffices to show that every Solovay test induces a Martin-Löf test.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $\{G_{n}\}_{n\in\N}$
+\end_inset
+
+ be a Solovay test.
+ The main necessary lemma is the following:
+ If 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+ is the set of reals that are in at least 
+\begin_inset Formula $n$
+\end_inset
+
+ distinct 
+\begin_inset Formula $G_{i}$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $\mu U_{n}\leq\frac{\sum\mu G_{i}}{n}$
+\end_inset
+
+.
+ This consists of applying Chebyshev's inequality on the function 
+\begin_inset Formula $f(X)$
+\end_inset
+
+ given by 
+\begin_inset Quotes eld
+\end_inset
+
+number of distinct 
+\begin_inset Formula $G_{i}$
+\end_inset
+
+ containing 
+\begin_inset Formula $X$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ whose integral is precisely 
+\begin_inset Formula $\sum\mu G_{i}$
+\end_inset
+
+.
+ Then,
+ 
+\begin_inset Formula $U_{2^{n}}$
+\end_inset
+
+ is the associated Martin-Löf test.
+\end_layout
+
+\begin_layout Proposition
+Let 
+\begin_inset Formula $X$
+\end_inset
+
+ be a set.
+ TFAE:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $X$
+\end_inset
+
+ is MLR in the sense of ML tests,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\exists_{b}\forall_{n}K(X\upto n)\geq n-b$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $K(X\upto n)-n$
+\end_inset
+
+ converges to infinity.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+Clearly,
+ (c) implies (b).
+\end_layout
+
+\begin_layout Proof
+(b) implies (a):
+ We show that,
+ if 
+\begin_inset Formula $X$
+\end_inset
+
+ is not MLR,
+ we can place an upper bound on the complexity of infinitely many prefixes of 
+\begin_inset Formula $X$
+\end_inset
+
+.
+ So,
+ let 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+ be a Martin-Löf test that 
+\begin_inset Formula $X$
+\end_inset
+
+ fails,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $X$
+\end_inset
+
+ is in all 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+.
+ Then,
+ if 
+\begin_inset Formula $\{\sigma_{nk}\}_{k\in\N}$
+\end_inset
+
+ is an enumeration of disjoint basic open sets generating 
+\begin_inset Formula $U_{n}$
+\end_inset
+
+,
+ apply the KC theorem to 
+\begin_inset Formula $\{(\sigma_{2n,k},\abs{\sigma_{2n,k}}-n)\}_{n,k\in\N}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bound:
+ 
+\begin_inset Formula $\sum_{k,n}2^{n-\abs{\sigma_{2n,k}}}\leq\sum_{n}2^{n}\mu(U_{2n})\leq\sum2^{-n}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Conclusion:
+ For any 
+\begin_inset Formula $b_{0}$
+\end_inset
+
+,
+ we know 
+\begin_inset Formula $X\in U_{2b_{0}}$
+\end_inset
+
+,
+ and so there exists some 
+\begin_inset Formula $\sigma_{2b_{0},k}$
+\end_inset
+
+ that is a prefix of 
+\begin_inset Formula $X$
+\end_inset
+
+,
+ say 
+\begin_inset Formula $X\upto n$
+\end_inset
+
+,
+ such that 
+\begin_inset Formula $K(X\upto n)=K(\sigma_{2b_{0},k})\leq\abs{\sigma_{2b_{0},k}}-b_{0}+C=n-b_{0}+C$
+\end_inset
+
+.
+ Setting 
+\begin_inset Formula $b_{0}=b+C+1$
+\end_inset
+
+,
+ we get:
+ For any 
+\begin_inset Formula $b$
+\end_inset
+
+ there is 
+\begin_inset Formula $n$
+\end_inset
+
+ such that 
+\begin_inset Formula $K(X\upto n)<n-b$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "C:/Users/gaming/Desktop/theorems/misc/logic/bibliography"
+options "plain"
+encoding "default"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

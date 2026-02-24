@@ -1,0 +1,1205 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\usepackage{listings}
+\lstset{
+basicstyle=\ttfamily\footnotesize,
+keepspaces=true,
+tabsize=4,
+breaklines=true,
+columns=fullflexible,
+mathescape=true
+}
+\usepackage{fullpage}
+\usepackage{tikz}
+\usepackage{braket}
+\usetikzlibrary{3d}
+
+\usepackage{hyperref}
+\usepackage{url}
+
+\usepackage[justification=centering]{caption}
+\end_preamble
+\use_default_options true
+\begin_modules
+duarte_theorems
+enumitem
+duarte_theorems_exercises
+\end_modules
+\maintain_unincluded_children no
+\language english
+\language_package default
+\inputencoding auto-legacy
+\fontencoding auto
+\font_roman "lmodern" "default"
+\font_sans "lmss" "default"
+\font_typewriter "lmtt" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command biber
+\index_command default
+\float_placement H
+\float_alignment center
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize letter
+\use_geometry false
+\use_package amsmath 2
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type authoryear
+\biblio_style plain
+\biblio_options url=true
+\biblatex_bibstyle numeric
+\biblatex_citestyle numeric
+\use_bibtopic false
+\use_indices true
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Wolfram Alpha Index
+\shortcut idx
+\color #008000
+\end_index
+\index Excel Index
+\shortcut alp
+\color #ff0000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Linear Algebra Project 3
+\begin_inset Newline newline
+\end_inset
+
+A Primer on the Usage of Excel for Matrix Calculation
+\begin_inset Newline newline
+\end_inset
+
+Math 19620 - Section 45
+\end_layout
+
+\begin_layout Date
+Winter 2026
+\end_layout
+
+\begin_layout Author
+Section Instructor:
+ Duarte Maia
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\R}{\mathbb{R}}
+\end_inset
+
+
+\begin_inset FormulaMacro
+\newcommand{\Norm}[1]{\left\Vert #1\right\Vert }
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document intends to provide you with a basic understanding of how to use Microsoft Excel to perform matrix calculations.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Note:
+ This contains the same information as 
+\family typewriter
+p2_primer.pdf
+\family default
+ for Project 2,
+ except that the message saying 
+\begin_inset Quotes eld
+\end_inset
+
+don't use least squares to solve the project
+\begin_inset Quotes erd
+\end_inset
+
+ has been removed.
+ This is because Project 3 is,
+ explicitly,
+ about the least-squares method.
+\end_layout
+
+\begin_layout Section
+TL;DR
+\end_layout
+
+\begin_layout Standard
+The commands 
+\family typewriter
+TRANSPOSE
+\family default
+,
+ 
+\family typewriter
+MMULT
+\family default
+ (matrix multiply),
+ and 
+\family typewriter
+MINVERSE
+\family default
+ (matrix inverse) may be used to solve certain linear equations.
+ Namely,
+ if 
+\begin_inset Formula $A$
+\end_inset
+
+ is an invertible matrix the solution to the equation 
+\begin_inset Formula $A\vec{x}=\vec{b}$
+\end_inset
+
+ is given by 
+\begin_inset Formula $\vec{x}=A^{-1}\vec{b}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset index_print
+LatexCommand printindex
+type "alp"
+name "Excel Index"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Long-form Explanation
+\end_layout
+
+\begin_layout Standard
+We will show an example of how to use Excel to find the least squares solution of the following system of linear equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\{ \begin{array}{c}
+\begin{array}{rcrcrcl}
+x & + & 3y & + & (2\times4)z & = & 0.99,\\
+x & + & 4y & + & (3\times5)z & = & 0.99^{2},\\
+x & + & 5y & + & (4\times6)z & = & 0.99^{3},
+\end{array}\\
+\vdots\\
+\begin{array}{rcrcrcl}
+x & + & 12y & + & (11\times13)z & = & 0.99^{10}.\end{array}
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Write this system as 
+\begin_inset Formula $A\vec{x}=\vec{b}$
+\end_inset
+
+.
+ The first step is to write 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ into Excel.
+ We start with 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ and we will do it column by column because each column has a predictable pattern.
+\end_layout
+
+\begin_layout Standard
+The first column consists of just ten 
+\begin_inset Formula $1$
+\end_inset
+
+s.
+ We could write them manually,
+ but we introduce Excel's 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Fill Handle
+\end_layout
+
+\end_inset
+
+fill handle
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Just write a single 
+\begin_inset Formula $1$
+\end_inset
+
+,
+ select the corresponding cell,
+ and drag its bottom right corner down (or right) to fill the other cells with ones.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excel1.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "50col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excel2.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Using the fill handle to fill multiple cells with the same value.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To fill out the second column,
+ perform the same procedure but write out the first 
+\emph on
+two
+\emph default
+ cells and select them both before dragging the fill handle.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excel3.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "50col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excel4.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Using the fill handle to fill multiple cells with an arithmetic sequence.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The third column will be more complicated and Excel will be unable to understand its pattern.
+ Here,
+ it's best to use auxilliary columns.
+ We first prepare two columns elsewhere in the workspace,
+ with values 
+\begin_inset Formula $2,3,4,\dots$
+\end_inset
+
+ and 
+\begin_inset Formula $4,5,6,\dots$
+\end_inset
+
+ respectively.
+ Then,
+ in the next cell of our matrix,
+ we write a formula
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Formula
+\end_layout
+
+\end_inset
+
+.
+ This is done by writing an equals sign 
+\begin_inset Formula $=$
+\end_inset
+
+ followed by a mathematical formula,
+ which may use other cells as variables.
+ Cells may be referenced by using their coordinates,
+ first a letter (column) and then a number (row).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelformula.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Writing a formula
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We may then use the fill handle to drag this down as before.
+ When using the fill handle to extend cells with formulas
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+Fill Handle + Formulas
+\end_layout
+
+\end_inset
+
+,
+ Excel will automatically change the cells being referenced in accordance.
+ If this behavior is undesired,
+ you should look for 
+\begin_inset Quotes eld
+\end_inset
+
+excel dollar sign
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+Dollar Sign
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ in a search engine.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelformula2.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Using the fill handle on a cell with a formula.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This finishes the matrix 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ To do the vector 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+ we do a similar trick,
+ using the 
+\begin_inset Quotes eld
+\end_inset
+
+power operator
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\family typewriter
+^
+\family default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelformula3.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Using the fill handle on a cell with formula 
+\family typewriter
+0.99^I4
+\family default
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To find the least squares solution,
+ we must solve the equation
+\begin_inset FormulaMacro
+\newcommand{\transpose}{\intercal}
+\end_inset
+
+ 
+\begin_inset Formula $A^{\transpose}A\vec{x}=A^{\transpose}\vec{b}$
+\end_inset
+
+,
+ or equivalently we calculate 
+\begin_inset Formula $\vec{x}=(A^{\transpose}A)^{-1}A^{\transpose}\vec{b}$
+\end_inset
+
+.
+ First,
+ we calculate the transpose
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Transpose Matrix
+\end_layout
+
+\end_inset
+
+ of 
+\begin_inset Formula $A$
+\end_inset
+
+ using the 
+\family typewriter
+TRANSPOSE
+\family default
+ formula.
+ To use it,
+ write 
+\family typewriter
+=TRANSPOSE(
+\family default
+ in a cell,
+ followed by selecting the matrix you wish to transpose.
+ This can be done by clicking your mouse and dragging along the matrix,
+ or by writing the coordinates of one corner,
+ followed by a colon 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+:
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ followed by the coordinates of the other corner,
+ and finally closing the parentheses.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm1.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "50col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm2.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Transposing a matrix.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similar notation,
+ with the command 
+\family typewriter
+MMULT
+\family default
+,
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+Multiply Matrices
+\end_layout
+
+\end_inset
+
+ may be used to multiply the two matrices to obtain 
+\begin_inset Formula $A^{\transpose}A$
+\end_inset
+
+.
+ In this case,
+ the two matrices must be separated by a comma.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm3.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "50col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm4.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Multiplying two matrices.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The command 
+\family typewriter
+MINVERSE
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+Invert Matrix
+\end_layout
+
+\end_inset
+
+
+\family default
+ may,
+ similarly to 
+\family typewriter
+TRANSPOSE
+\family default
+,
+ be used to invert this square matrix.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm5.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "50col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelm6.png
+	lyxscale 30
+	scale 60
+	groupId excelthin
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Inverting a matrix.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally the command 
+\family typewriter
+MMULT
+\family default
+ may be used twice more to calculate the product of the three matrices:
+ 
+\begin_inset Formula $(A^{\transpose}A)^{-1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $A^{\transpose}$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\vec{b}$
+\end_inset
+
+.
+ By the associativity of matrix multiplication,
+ it should not matter whether we do the product from the left or from the right.
+ We will do it from the right.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/primer/excelfinal.png
+	lyxscale 30
+	width 70text%
+	groupId alpha
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:leastsquares"
+
+\end_inset
+
+The least squares solution of 
+\begin_inset Formula $A\vec{x}=\vec{b}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:leastsquares"
+
+\end_inset
+
+ we can read off the least squares solution to our system.
+ The last element can be seen to be written in what's called 
+\begin_inset Quotes eld
+\end_inset
+
+E notation
+\begin_inset Index alp
+range none
+pageformat default
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+E Notation
+\end_layout
+
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+,
+ which Excel (and many other calculators) will use to represent numbers that are very large or very small.
+ It is a shorthand for scientific notation:
+ The symbol 
+\begin_inset Formula $4.75\mathrm{E}\mathord{-}05$
+\end_inset
+
+ means 
+\begin_inset Formula $4.75\times10^{-5}$
+\end_inset
+
+,
+ which in decimal notation is 
+\begin_inset Formula $0.0000475$
+\end_inset
+
+.
+ Thus,
+ the least squares solution to our system is:
+ 
+\begin_inset Formula $x\approx1.0203$
+\end_inset
+
+,
+ 
+\begin_inset Formula $y\approx-0.0102$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $z\approx0.0000475$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document
