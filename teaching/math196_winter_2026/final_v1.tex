@@ -1,0 +1,176 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\intercal}
+\newcommand{\im}{\mathop{\mathrm{im}}}
+
+%EDIT THESE WHEN NEW CLASS
+\newcommand{\themath}{19620}
+\newcommand{\thesec}{46}
+
+\pagestyle{headandfoot}
+\runningheader{MATH \themath\ Section \thesec}{Final Exam}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Exam
+
+MATH \themath - Section \thesec
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+March 10, 2026
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item You have 2 hours to answer the questions below on the provided examination book.
+
+\item Write your name and UCID in the cover page of the examination book.
+
+\item You may ask for additional paper. If you do, sign both exam books and number them.
+
+\item Unless otherwise specified, you do not need to justify your answers. However, you must still show your work. You may lose points if I deem you to have performed a significant leap in logic.
+
+\item This exam is graded out of 100 points.
+
+\item Errors in reasoning will be penalized more severely than errors in calculation. If you make a mistake in your calculations but interpret the results correctly, you will get most of the points for the question, unless your calculation error bypasses a significant amount of reasoning you would otherwise have to do.
+\end{itemize}
+}
+}
+\end{center}
+
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item $\det(AB) = \det A \det B$, $\det(A^{-1}) = 1/\det A$, $\det A^\tr = \det A$.
+\item Laplace Expansion: $\det A = \sum_i (-1)^{i+j} a_{ij} \det A_{ij}$.
+\item Quadratic formula: $ax^2 + bx + c = 0$ solved by $x = \frac{-b\pm\sqrt{b^2 -4ac}}{2a}$.
+\item Projection on line spanned by unit vector $\vec u$: $\vec u \vec u^\tr$.
+\item Angle between $\vec v$ and $\vec w$: $\theta = \arccos\left(\frac{\vec v \cdot \vec w}{\Norm{\vec v} \Norm{\vec w}}\right)$.
+\item Area of a circle: $\pi r^2$. Perimeter of a circle: $2 \pi r$.
+\end{itemize}
+
+%\hrule
+
+\qformat{\textbf{Exercise \thequestion} \quad (Total: \totalpoints \ points)\hfill}
+
+\newpage 
+\begin{questions}
+\fullwidth{\Large\bf Part I -- General Linear Algebra}
+
+\question Sketch the following subspaces of $\R^2$.
+\begin{parts}
+\part[4] The subspace spanned by $(3,4)$ and $(-2,-3)$,
+\part[3] The kernel of $\left[\begin{smallmatrix} -1 & 1 \\ 1 & -1 \\ 1 & -1 \end{smallmatrix}\right]$,
+\part[3] The kernel of a $3\times2$ matrix (i.e.\ three rows and two columns) whose image is two-dimensional.
+\end{parts}
+
+\question[10] (something with spanning sets and basis and linear dependence)
+
+\question[10] Consider the following matrices:
+\[A = \begin{bmatrix} 1 & 2 \\ 3 & 6 \\ 2 & 4 \end{bmatrix}, \quad
+B = \begin{bmatrix} -4 & 2 \\ 2 & -1 \end{bmatrix},\text{ and }\quad
+C = \begin{bmatrix} 3 \\ 9 \\ 6 \end{bmatrix}.\]
+Each of these three matrices corresponds to two different subspaces: The kernel and the image. Which of these six subspaces are the same, and which are distinct?
+
+\fullwidth{\Large\bf Part II -- Geometry}
+
+\question[5] Let $D$ denote the unit disk in $\R^2$ -- that is, $D$ is the circle with radius one whose center is the origin. Suppose that the matrix $A$, when seen as a linear transformation from $\R^2$ to $\R^2$, turns the disk into an ellipsoid shape with area 2. What can you say about $\det A$?
+
+\question[5] The so-called \emph{commutator} of two matrices $A$ and $B$ is the matrix given by the formula: $AB-BA$. For example, the commutator of the matrices $\left[\begin{smallmatrix}0&1\\0&0\end{smallmatrix}\right]$ and $\left[\begin{smallmatrix}0&0\\1&0\end{smallmatrix}\right]$ is given by
+\[\begin{bmatrix}0&1\\0&0\end{bmatrix}\begin{bmatrix}0&0\\1&0\end{bmatrix}
+-\begin{bmatrix}0&0\\1&0\end{bmatrix}\begin{bmatrix}0&1\\0&0\end{bmatrix}
+=\begin{bmatrix}1&0\\0&0\end{bmatrix}-\begin{bmatrix}0&0\\0&-1\end{bmatrix}=\begin{bmatrix}1&0\\0&-1\end{bmatrix}\]
+ True or false: ``The commutator of two matrices, $AB-BA$, always has determinant equal to zero.'' Justify your answer.
+ 
+\question[5] Find the angle, in three dimensions, between the line $y=z$ and $x=0$, and the line $x=y=z$.
+
+Your answer should be written in a form that can be easily input into a calculator. Your answer may include trigonometric and inverse trigonometric functions.
+
+\question[5] Let $\vec a$, $\vec b$, $\vec u$, and $\vec v$ be four vectors in $\R^n$ with the following properties:
+\begin{itemize}
+\item $\vec a$ is perpendicular to $\vec u$,
+\item $\vec b$ is perpendicular to $\vec v$, and
+\item $\vec a \cdot \vec v =\vec b \cdot \vec u$.
+\end{itemize}
+Find a number $k$ such that $\vec a + \vec b$ is perpendicular to $\vec u + k \vec v$.
+
+
+\fullwidth{\Large\bf Part III -- Diagonalization}
+
+\question[20] Diagonalize the matrix
+\[A =
+\begin{bmatrix}
+1 & 1 & -1 \\
+0 & 1 & 0 \\
+0 & 1 & 0
+\end{bmatrix}.\]
+
+\question Three holy individuals, who care not for earthly possessions, meet daily to hold the following ritual. First, individual $A$ takes their money, and gives it away to the other two, in equal parts. Then, individual $B$ does the same. Finally, individual $C$ does the same.
+
+\textbf{These steps happen in order, not at the same time.} For example, if all three start with 8 dollars, individual $A$ will give 4 dollars to $B$ and $C$, then individual $B$ will give 6 dollars to $A$ and $C$ (because 6 is half of $8+4$), and individual $C$ will give 9 dollars to $A$ and $B$.
+
+For the sake of this exercise, assume that money is infinitely divisible (so these individuals will never run into rounding errors), and that these individuals neither make nor spend money outside of this ritual.
+
+\begin{parts}
+\part[4] Let $\vec x(t) = (a(t), b(t), c(t))$ denote these individuals' money (say, in dollars) after $t$ days. Find a matrix $A$ such that $\vec x(t+1)= A \vec x(t)$.
+
+\part[8] The matrix $A$ you found in the previous exercise can be diagonalized as $A = SDS^{-1}$, where
+\[
+S = \begin{bmatrix}
+2 & -1 & -2\\
+1 & 1 & 1 \\
+0 & 0 & 1
+\end{bmatrix},
+\quad
+D = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & -\tfrac18 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+,\text{ and} \quad
+S^{-1} = \begin{bmatrix}
+\tfrac13 & \tfrac13 & \tfrac13 \\
+-\tfrac13 & \tfrac23 & -\tfrac43 \\
+0 & 0 & 1
+\end{bmatrix}.
+\]
+
+Assume that individual $C$ started out with 100 dollars, and both other individuals started empty-handed. Write an explicit formula for $b(t)$.
+
+\part[8] Let us suppose that you do not know how much money each individual started with, but you know that they have been performing their ritual for a very long time ($t\to\infty$). Approximately, how do you expect that the money is distributed between the three individuals, at the end of the day?
+\end{parts}
+
+\question Of the following three statements, two are true and one is false:
+\begin{enumerate}[label={(\roman*)}]
+\item If $\vec v$ is an eigenvector of $AB$, then $\vec v$ is an eigenvector of $A$ and an eigenvector of $B$.
+\item If $\vec v$ is an eigenvector of $A$ and an eigenvector of $B$, then it is an eigenvector of $AB$.
+\item If $A$ is a diagonalizable matrix with only one (repeated) eigenvalue $\lambda$, then $A = \lambda I$.
+\end{enumerate}
+\smallskip
+\begin{parts}
+\part[7] Justify the two true statements.
+\part[3] Find a counter-example to the false statement.
+\end{parts}
+
+\end{questions}
+\end{document}

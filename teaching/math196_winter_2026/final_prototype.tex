@@ -1,0 +1,229 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\intercal}
+\newcommand{\im}{\mathop{\mathrm{im}}}
+
+%EDIT THESE WHEN NEW CLASS
+\newcommand{\themath}{19620}
+\newcommand{\thesec}{46}
+
+\pagestyle{headandfoot}
+\runningheader{MATH \themath\ Section \thesec}{Final Prototype}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Prototype
+
+MATH \themath - Section \thesec
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+March 10, 2026
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item You have 2 hours to answer the questions below on the provided examination book.
+
+\item Write your name and UCID in the cover page of the examination book.
+
+\item You may ask for additional paper. If you do, sign both exam books and number them.
+
+\item Unless otherwise specified, you do not need to justify your answers. However, you must still show your work. You may lose points if I deem you to have performed a significant leap in logic.
+
+\item This exam is graded out of 100 points. [Note: The prototype questions add up to 130 points, because only three questions from Part I will be on the exam.]
+
+\item Errors in reasoning will be penalized more severely than errors in calculation. If you make a mistake in your calculations but interpret the results correctly, you will get most of the points for the question, unless your calculation error bypasses a significant amount of reasoning you would otherwise have to do.
+\end{itemize}
+}
+}
+\end{center}
+
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item $\det(AB) = \det A \det B$, $\det(A^{-1}) = 1/\det A$, $\det A^\tr = \det A$.
+\item Laplace Expansion: $\det A = \sum_i (-1)^{i+j} a_{ij} \det A_{ij}$.
+\item Quadratic formula: $ax^2 + bx + c = 0$ solved by $x = \frac{-b\pm\sqrt{b^2 -4ac}}{2a}$.
+\item Projection on line spanned by unit vector $\vec u$: $\vec u \vec u^\tr$.
+\item Angle between $\vec v$ and $\vec w$: $\theta = \arccos\left(\frac{\vec v \cdot \vec w}{\Norm{\vec v} \Norm{\vec w}}\right)$.
+\end{itemize}
+
+%\hrule
+
+\qformat{\textbf{Exercise \thequestion} \quad (Total: \totalpoints \ points)\hfill}
+
+\newpage 
+\begin{questions}
+\fullwidth{\Large\bf Part I -- General Linear Algebra}
+\fullwidth{\textit{Note: In the real exam, only three of the following question types would appear.}}
+\question Let $A$ be a $5\times 3$ matrix, meaning it has 5 rows and 3 columns.
+
+\begin{parts}
+\part[3] What are the possible values of $\dim(\ker A)$? You do not need to justify your answer.
+\part[3] What are the possible values of $\dim(\im A)$? You do not need to justify your answer.
+\part[4] Suppose that the subset of $\R^5$ defined by $A^\tr \vec x = \vec 0$ is a two-dimensional plane. True or false: ``The equation $A^\tr \vec x = \vec b$ has a solution, no matter the choice of $\vec b$.'' Justify your answer.
+\end{parts}
+
+\question\label{q:v} Let $V$ be the subspace of $\R^5$ spanned by:
+\[\vec v_1 = \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \\ 2 \end{bmatrix},\quad
+\vec v_2 = \begin{bmatrix} -1 \\ -2 \\ 2 \\ 0 \\ -2 \end{bmatrix},\quad
+\vec v_3 = \begin{bmatrix} 0 \\ 0 \\ 2 \\ 1 \\ 0 \end{bmatrix}, \text{ and } \quad
+\vec v_4 = \begin{bmatrix} 1 \\ 2 \\ 2 \\ 3 \\ 4 \end{bmatrix}.\]
+\begin{parts}
+\part[5] Calculate the dimension of $V$.
+\part[5] Find a spanning set of $V$ with five distinct elements.
+\end{parts}
+
+\question Consider the matrix
+\[A = \begin{bmatrix}
+3 & -2 & 6 \\
+-1 & 1 & -2 \\
+-1 & 1 & -3
+\end{bmatrix}.\]
+\begin{parts}
+\part[7] Calculate $A^{-1}$.
+\part[3] \textit{Using the result from the previous part}, solve the equation $A\vec x = (1,1,1)$.
+\end{parts}
+
+\question Consider the four vectors
+\[\vec v_1 = \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \\ 2 \end{bmatrix},\quad
+\vec v_2 = \begin{bmatrix} -1 \\ -2 \\ 2 \\ 0 \\ -2 \end{bmatrix},\quad
+\vec v_3 = \begin{bmatrix} 0 \\ 0 \\ 2 \\ 1 \\ 0 \end{bmatrix}, \text{ and } \quad
+\vec v_4 = \begin{bmatrix} 1 \\ 2 \\ 2 \\ 3 \\ 4 \end{bmatrix}.\]
+\textit{These are the same vectors from Exercise \ref{q:v}. This means that some of your work can possibly be recycled.}
+\begin{parts}
+\part[5] Is $\vec v_4$ in $\mathrm{span}(\vec v_1, \vec v_2, \vec v_3)$?
+\part[5] Is the list $(\vec v_1, \vec v_2, \vec v_3, \vec v_4)$ linearly dependent or independent?
+\end{parts}
+
+\question Sketch the following subspaces of $\R^2$.
+\begin{parts}
+\part[2] The subspace spanned by $(999,1)$, $(1,777)$, and $(123,456)$,
+\part[4] The kernel of $\left[\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\right]$,
+\part[4] The image of $\left[\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\right]$.
+\end{parts}
+
+\question[10] Consider the following matrices:
+\[A = \begin{bmatrix} 1 & -1 \\ -1 & 1 \end{bmatrix}, \quad
+B = \begin{bmatrix} 2 & -2 \\ 1 & -1 \\ 3 & -3 \end{bmatrix},\text{ and }\quad
+C = \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix}.\]
+Each of these three matrices corresponds to two different subspaces: The kernel and the image. Which of these six subspaces are the same, and which are distinct?
+
+\fullwidth{\Large\bf Part II -- Geometry}
+
+\question[5] Consider the linear transformation
+\[T(x,y,z)=(x+2y,2z+x,3z+x+y).\]
+A cube $Q$ of side length $2$ is distorted by applying $T$, as to obtain the shape $TQ$. What is the volume of $TQ$?
+
+\question Let $A$ be a $4\times 4$ matrix whose determinant is equal to $-2$. Let $S$ be an invertible $4\times 4$ matrix of unknown determinant $\det S$.
+\begin{parts}
+\part[2] Calculate $\det(SAS^{-1})$. Justify your answer.
+\part[3] Calculate $\det(-A)$. Justify your answer.
+\end{parts}
+ 
+\question[5] Find the angle between two edges of a regular tetrahedron (that is, a triangular pyramid whose edges all have the same length).
+
+\textit{Hint: The points $(1,1,-1)$, $(1,-1,1)$, $(-1,1,1)$, and $(-1,-1,-1)$ form the vertices of a regular tetrahedron. You may use this fact without justification.}
+
+\question[5] Let $V$ be the subspace of $\R^4$ defined by the equations:
+\[\left\{
+\arraycolsep=1.4pt
+\begin{array}{rrrrrrrrrr}
+x&+&y&+&z&+&w&=&0,\\
+x&-&y&+&2z&+&w&=&0.
+\end{array}
+\right.\]
+Show that every vector in $V$ is orthogonal to the vector $(2,0,3,2)$.
+
+
+\fullwidth{\Large\bf Part III -- Diagonalization}
+
+\question[20] Diagonalize the matrix
+\[A =
+\begin{bmatrix}
+1 & 0 & 0 \\
+-2 & -1 & 2 \\
+0 & 0 & 1
+\end{bmatrix}.\]
+
+\question[20] Two antagonistic countries, $X$ and $Y$, adjust their defense budget monthly in response to the other. Let $x(t)$ and $y(t)$ be their defense budget, in millions of dollars, $t$ months after some fixed date.
+
+Country $X$ is peaceful by default, but is scared of $Y$, and will therefore adjust its defense budget downward unless $Y$ has is looking scary. Let's say $x(t+1)=0.6 x(t) + 0.8 y(t)$.
+
+Country $Y$ has ambitions of world domination, but these ambitions are tempered if country $X$ is looking scary. Let's say $y(t+1)=1.2 y(t) - 0.1 x(t)$. If this calculation ever produces a negative number, let's say that country $Y$ has yielded to the overwhelming power of $X$ and agreed to a disarmament treaty.
+
+\begin{parts}
+\part[4] Let $\vec m(t) = (x(t),y(t))$. Find a matrix $A$ such that $\vec m(t+1)= A \vec m(t)$.
+
+\part[8] The matrix $A$ you found in the previous exercise can be diagonalized as $A = SDS^{-1}$, where
+\[
+S = \begin{bmatrix}
+2 & 4\\
+1 & 1
+\end{bmatrix},
+\quad
+D = \begin{bmatrix}
+1 & 0\\
+0 & 0.8
+\end{bmatrix}
+,\text{ and} \quad
+S^{-1} = \begin{bmatrix}
+-\tfrac12 & 2 \\
+\tfrac12 & -1
+\end{bmatrix}.
+\]
+
+If countries $X$ and $Y$ hold fast in their policy, what is the fate of the world? Indefinite escalation? Disarmament? An uneasy peace?
+
+There are multiple cases, depending on the initial defense budgets $x(0)$ and $y(0)$. Describe them, including edge cases.
+
+\part[8] In an alternate universe, country $X$ is slightly less reactive, following instead the rule $x(t+1) = 0.6 x(t) + 0.5 y(t)$. In this case, the matrix of the system diagonalizes as $S' D' (S')^{-1}$, with
+\[
+S' = \begin{bmatrix}
+1 & 5\\
+1 & 1
+\end{bmatrix},
+\quad
+D' = \begin{bmatrix}
+1.1 & 0\\
+0 & 0.6
+\end{bmatrix}
+,\text{ and} \quad
+(S')^{-1} = \frac14\begin{bmatrix}
+-1 & 5 \\
+1 & -1
+\end{bmatrix}.
+\]
+
+As before, determine the fate of the world, as a function of the initial defense budgets.
+\end{parts}
+
+\question[10] Some of the following statements are true, and some are false. Justify the true statement(s) and find counter-example(s) for the false statement(s).
+\begin{enumerate}[label={(\roman*)}]
+\item If $\vec v$ is an eigenvector of $A^3$ with eigenvalue $\lambda$, then $\vec v$ is also an eigenvector of $A$ with eigenvalue $\sqrt[3]\lambda$.
+\item If $\vec v$ is an eigenvector of $A$, then $\vec v$ is also an eigenvector of $A^\tr$.
+\item If $A$ is a diagonalizable matrix all of whose eigenvalues are in the interval $(-1,1)$, then $\lim_{n\to\infty} A^n$ is the zero matrix.
+\end{enumerate}
+
+\end{questions}
+\end{document}

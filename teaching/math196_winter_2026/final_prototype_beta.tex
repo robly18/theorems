@@ -1,0 +1,211 @@
+\documentclass[addpoints]{exam}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\DeclarePairedDelimiter{\Norm}\lVert\rVert
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\tr}{\intercal}
+\newcommand{\im}{\mathop{\mathrm{im}}}
+
+%EDIT THESE WHEN NEW CLASS
+\newcommand{\themath}{19620}
+\newcommand{\thesec}{46}
+
+\pagestyle{headandfoot}
+\runningheader{MATH \themath\ Section \thesec}{Final Prototype}{Duarte Maia}
+\runningheadrule
+\footer{}{\ifincomplete{Exercise continues on next page.}{}}{}
+
+
+\begin{document}
+
+\begin{center}
+\Large Final Prototype
+
+MATH \themath - Section \thesec
+
+\smallskip
+
+\large Section Instructor: Duarte Maia
+
+\smallskip
+
+March 10, 2026
+\end{center}
+
+\begin{center}
+\fbox{
+\parbox{6in}{
+\begin{itemize}
+\item You have 2 hours to answer the questions below on the provided examination book.
+
+\item Write your name and UCID in the cover page of the examination book.
+
+\item You may ask for additional paper. If you do, sign both exam books and number them.
+
+\item Unless otherwise specified, you do not need to justify your answers. However, you must still show your work. You may lose points if I deem you to have performed a significant leap in logic.
+
+\item This exam is graded out of 100 points. [Note: The prototype questions add up to 130 points, because only three questions from Part I will be on the exam.]
+
+\item Errors in reasoning will be penalized more severely than errors in calculation. If you make a mistake in your calculations but interpret the results correctly, you will get most of the points for the question, unless your calculation error bypasses a significant amount of reasoning you would otherwise have to do.
+\end{itemize}
+}
+}
+\end{center}
+
+
+\noindent Useful Formulas:
+\begin{itemize}
+\item $\det(AB) = \det A \det B$, $\det(A^{-1}) = 1/\det A$, $\det A^\tr = \det A$.
+\item Laplace Expansion: $\det A = \sum_i (-1)^{i+j} a_{ij} \det A_{ij}$.
+\item Quadratic formula: $ax^2 + bx + c = 0$ solved by $x = \frac{-b\pm\sqrt{b^2 -4ac}}{2a}$.
+\item Projection on line spanned by unit vector $\vec u$: $\vec u \vec u^\tr$.
+\item Angle between $\vec v$ and $\vec w$: $\theta = \arccos\left(\frac{\vec v \cdot \vec w}{\Norm{\vec v} \Norm{\vec w}}\right)$.
+\end{itemize}
+
+%\hrule
+
+\qformat{\textbf{Exercise \thequestion} \quad (Total: \totalpoints \ points)\hfill}
+
+\newpage 
+\begin{questions}
+\fullwidth{\Large\bf Part I -- General Linear Algebra}
+\fullwidth{\textit{Note: In the real exam, only three of the following question types would appear.}}
+\question Let $A$ be a $5\times 3$ matrix, meaning it has 5 rows and 3 columns.
+
+\begin{parts}
+\part[3] What are the possible values of $\dim(\ker A)$? You do not need to justify your answer.
+\part[3] What are the possible values of $\dim(\im A)$? You do not need to justify your answer.
+\part[4] Suppose that the subset of $\R^5$ defined by $A^\tr \vec x = \vec 0$ is a two-dimensional plane. True or false: ``The equation $A^\tr \vec x = \vec b$ has a solution, no matter the choice of $\vec b$.'' Justify your answer.
+\end{parts}
+
+\question\label{q:v} Let $V$ be the subspace of $\R^5$ spanned by:
+\[\vec v_1 = \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \\ 2 \end{bmatrix},\quad
+\vec v_2 = \begin{bmatrix} -1 \\ -2 \\ 2 \\ 0 \\ -2 \end{bmatrix},\quad
+\vec v_3 = \begin{bmatrix} 0 \\ 0 \\ 2 \\ 1 \\ 0 \end{bmatrix}, \text{ and } \quad
+\vec v_4 = \begin{bmatrix} 1 \\ 2 \\ 2 \\ 3 \\ 4 \end{bmatrix}.\]
+\begin{parts}
+\part[5] Calculate the dimension of $V$.
+\part[5] Find a spanning set of $V$ with five distinct elements.
+\end{parts}
+
+\question Consider the matrix
+\[A = \begin{bmatrix}
+3 & -2 & 6 \\
+-1 & 1 & -2 \\
+-1 & 1 & -3
+\end{bmatrix}.\]
+\begin{parts}
+\part[7] Calculate $A^{-1}$.
+\part[3] \textit{Using the result from the previous part}, solve the equation $A\vec x = (1,1,1)$.
+\end{parts}
+
+\question Consider the four vectors
+\[\vec v_1 = \begin{bmatrix} 1 \\ 2 \\ 0 \\ 1 \\ 2 \end{bmatrix},\quad
+\vec v_2 = \begin{bmatrix} -1 \\ -2 \\ 2 \\ 0 \\ -2 \end{bmatrix},\quad
+\vec v_3 = \begin{bmatrix} 0 \\ 0 \\ 2 \\ 1 \\ 0 \end{bmatrix}, \text{ and } \quad
+\vec v_4 = \begin{bmatrix} 1 \\ 2 \\ 2 \\ 3 \\ 4 \end{bmatrix}.\]
+\textit{These are the same vectors from Exercise \ref{q:v}. This means that some of your work can possibly be recycled.}
+\begin{parts}
+\part[5] Is $\vec v_4$ in $\mathrm{span}(\vec v_1, \vec v_2, \vec v_3)$?
+\part[5] Is the list $(\vec v_1, \vec v_2, \vec v_3, \vec v_4)$ linearly dependent or independent?
+\end{parts}
+
+\question Sketch the following subspaces of $\R^2$.
+\begin{parts}
+\part[2] The subspace spanned by $(3,4)$ and $(-2,-3)$,
+\part[4] The kernel of $\left[\begin{smallmatrix} 1 & 2 \\ 3 & 4 \end{smallmatrix}\right]$,
+\part[4] The image of $\left[\begin{smallmatrix} 1 & 1 \\ 1 & 1 \end{smallmatrix}\right]$.
+\end{parts}
+
+\question[10] Consider the following matrices:
+\[A = \begin{bmatrix} 1 & 2 \\ 3 & 6 \\ 2 & 4 \end{bmatrix}, \quad
+B = \begin{bmatrix} -4 & 2 \\ 2 & -1 \end{bmatrix},\text{ and }\quad
+C = \begin{bmatrix} 3 \\ 9 \\ 6 \end{bmatrix}.\]
+Each of these three matrices corresponds to two different subspaces: The kernel and the image. Which of these six subspaces are the same, and which are distinct?
+
+\fullwidth{\Large\bf Part II -- Geometry}
+
+\question[5] Let $D$ denote the unit disk in $\R^2$. Suppose that the matrix $A$, when seen as a linear transformation from $\R^2$ to $\R^2$, turns the disk into an ellipsoid shape with area 2. What can you say about $\det A$? Is $A$ invertible?
+
+\question[5] The so-called \emph{commutator} of two matrices $A$ and $B$ is the matrix given by the formula: $AB-BA$. For example, the commutator of the matrices $\left[\begin{smallmatrix}0&1\\0&0\end{smallmatrix}\right]$ and $\left[\begin{smallmatrix}0&0\\1&0\end{smallmatrix}\right]$ is given by
+\[\begin{bmatrix}0&1\\0&0\end{bmatrix}\begin{bmatrix}0&0\\1&0\end{bmatrix}
+-\begin{bmatrix}0&0\\1&0\end{bmatrix}\begin{bmatrix}0&1\\0&0\end{bmatrix}
+=\begin{bmatrix}1&0\\0&0\end{bmatrix}-\begin{bmatrix}0&0\\0&-1\end{bmatrix}=\begin{bmatrix}1&0\\0&-1\end{bmatrix}\]
+ True or false: ``The commutator of two matrices, $AB-BA$, always has determinant equal to zero.'' Justify your answer.
+ 
+\question[5] Find the angle, in three dimensions, between the line $y=z$ and $x=0$, and the line $x=y=z$. Your angle should be written as the arccosine of a fraction of integers.
+
+\question[5] Let $V$ be the subspace of $\R^4$ defined by the equations:
+\[\left\{
+\arraycolsep=1.4pt
+\begin{array}{rrrrrrrrrr}
+x&+&y&+&z&+&w&=&0,\\
+x&-&y&+&2z&+&w&=&0.
+\end{array}
+\right.\]
+Show that every vector in $V$ is orthogonal to the vector $(2,0,3,1)$.
+
+
+\fullwidth{\Large\bf Part III -- Diagonalization}
+
+\question[20] Diagonalize the matrix
+\[A =
+\begin{bmatrix}
+1 & 1 & 1 \\
+0 & 1 & 0 \\
+0 & 1 & 0
+\end{bmatrix}.\]
+
+\question[20] Three holy individuals, who care not for earthly possessions, meet daily to hold the following ritual. First, individual $A$ takes their money, and gives it away to the other two, in equal parts. Then, individual $B$ does the same. Finally, individual $C$ does the same.
+
+For the sake of this exercise, assume that money is infinitely divisible (so these individuals will never run into rounding errors), and that these individuals neither make nor spend money outside of this ritual.
+
+\begin{parts}
+\part[4] Let $\vec x(t) = (a(t), b(t), c(t))$ denote these individuals' money (say, in dollars) after $t$ days. Find a matrix $A$ such that $\vec x(t+1)= A \vec x(t)$.
+
+\part[8] The matrix $A$ you found in the previous exercise can be diagonalized as $A = SDS^{-1}$, where
+\[
+S = \begin{bmatrix}
+2 & -1 & -2\\
+1 & 1 & 1 \\
+0 & 0 & 1
+\end{bmatrix},
+\quad
+D = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & -\tfrac18 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+,\text{ and} \quad
+S^{-1} = \begin{bmatrix}
+\tfrac13 & \tfrac13 & \tfrac13 \\
+-\tfrac13 & \tfrac23 & -\tfrac43 \\
+0 & 0 & 1
+\end{bmatrix}.
+\]
+
+Assume that individual $C$ started out with 100 dollars, and both other individuals started empty-handed. Write an explicit formula for $b(t)$.
+
+\part[8] Let us suppose that you do not know how much money each individual started with, but you know that they have been performing their ritual for a very long time ($t\to\infty$). Approximately, how do you expect that the money is distributed between the three individuals, at the end of the day?
+\end{parts}
+
+\question Of the following three statements, two are true and one is false:
+\begin{enumerate}[label={(\roman*)}]
+\item If $\vec v$ is an eigenvector of $AB$, then $\vec v$ is an eigenvector of $A$ and an eigenvector of $B$.
+\item If $\vec v$ is an eigenvector of $A$ and an eigenvector of $B$, then it is an eigenvector of $AB$.
+\item If $A$ is a diagonalizable matrix with only one (repeated) eigenvalue $\lambda$, then $A = \lambda I$.
+\end{enumerate}
+\smallskip
+\begin{parts}
+\part[6] Justify the two true statements.
+\part[4] Find a counter-example to the false statement.
+\end{parts}
+
+\end{questions}
+\end{document}
