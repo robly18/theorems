@@ -4469,6 +4469,12 @@ A function
 \end_layout
 
 \begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:dncfpf1"
+
+\end_inset
+
 Every d.n.c.
 \begin_inset space \space{}
 \end_inset
@@ -6929,6 +6935,1964 @@ Lambalgen,
 \end_layout
 
 \begin_layout Section
+Higher Fixed Point Freeness
+\end_layout
+
+\begin_layout Theorem
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Sacks Jump Theorem
+\end_layout
+
+\end_inset
+
+For any 
+\begin_inset Formula $0'$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ there is a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $A'\equiv S\oplus0'$
+\end_inset
+
+.
+ This is uniform.
+ (NB.
+ The version in Soare proves more,
+ but this is enough for me.)
+\end_layout
+
+\begin_layout Proof
+Since 
+\begin_inset Formula $S$
+\end_inset
+
+ is 
+\begin_inset Formula $0'$
+\end_inset
+
+-c.e,
+ we can build a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $B$
+\end_inset
+
+ whose columns represent approximations of whether 
+\begin_inset Formula $0'$
+\end_inset
+
+ enumerates 
+\begin_inset Formula $x$
+\end_inset
+
+ into 
+\begin_inset Formula $S$
+\end_inset
+
+ or not.
+ More specifically,
+ each column is a string of ones followed by either zero or infinitely many zeros,
+ and the limit of the 
+\begin_inset Formula $x$
+\end_inset
+
+-th column says whether 
+\begin_inset Formula $x\in S$
+\end_inset
+
+ or not.
+ We will make 
+\begin_inset Formula $A$
+\end_inset
+
+ to be a subset of 
+\begin_inset Formula $B$
+\end_inset
+
+ that removes finitely many elements from each column.
+ Thus,
+ in particular,
+ 
+\begin_inset Formula $A'$
+\end_inset
+
+ will compute 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ and obviously it also computes 
+\begin_inset Formula $0'$
+\end_inset
+
+,
+ so 
+\begin_inset Formula $A'\geq S\oplus0'$
+\end_inset
+
+.
+ To keep the jump down,
+ we will do a priority method thing,
+ possibly with infinite injury,
+ to make the set 
+\begin_inset Formula $A$
+\end_inset
+
+ kind of 
+\begin_inset Quotes eld
+\end_inset
+
+generic
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+We shall have a restraining requirement 
+\begin_inset Formula $R_{e}$
+\end_inset
+
+ for each program 
+\begin_inset Formula $e$
+\end_inset
+
+.
+ This requirement is allowed to place 
+\begin_inset Quotes eld
+\end_inset
+
+locks
+\begin_inset Quotes erd
+\end_inset
+
+ on elements that have not yet been enumerated into 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ to prevent them from being enumerated.
+ This will be done in an attempt to ensure that 
+\begin_inset Formula $P_{e}^{A}$
+\end_inset
+
+ halts.
+ However,
+ 
+\begin_inset Formula $R_{e}$
+\end_inset
+
+ is only allowed to place locks on the columns of index at least 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ meaning that it may be infinitely injured by elements being added to a previous column.
+ This is so that each column is restricted by finitely many requirements,
+ and hence is locked out of finitely many elements.
+ We will see that we are able to deal with this.
+\end_layout
+
+\begin_layout Proof
+So,
+ here is the construction of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ Enumerate 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ subject to the locks we're about to describe.
+ In parallel,
+ look through the programs 
+\begin_inset Formula $P_{e}^{*}$
+\end_inset
+
+ and see whether they halt on the current approximation.
+ (If someone they use is seen to change,
+ they will start the computation over.) If such a program is ever seen to halt,
+ it places locks on the elements it uses past column 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ and keeps an eye on the elements it uses before column 
+\begin_inset Formula $e$
+\end_inset
+
+.
+ If any of those elements is ever allowed into 
+\begin_inset Formula $A$
+\end_inset
+
+,
+ all of 
+\begin_inset Formula $e$
+\end_inset
+
+'s locks are removed and its process starts over again.
+\end_layout
+
+\begin_layout Proof
+As discussed before,
+ 
+\begin_inset Formula $A'\geq S\oplus0'$
+\end_inset
+
+ easily,
+ so we show that 
+\begin_inset Formula $S\oplus0'$
+\end_inset
+
+ can compute 
+\begin_inset Formula $A'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+The main important lemma is the following:
+ 
+\begin_inset Formula $S\oplus0'$
+\end_inset
+
+ is able to uniformly compute computable indices for the columns of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ This is as follows:
+ By querying 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ determine whether column 
+\begin_inset Formula $k$
+\end_inset
+
+ has finitely or infinitely many ones.
+ If finitely many,
+ use 
+\begin_inset Formula $0'$
+\end_inset
+
+ to determine when they stop being enumerated,
+ and individually query each bit that is enumerated into 
+\begin_inset Formula $B$
+\end_inset
+
+ to tell if it's enumerated into 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ If infinitely many,
+ well,
+ okay,
+ inductively assume that we've already got computable indices for the previous columns.
+ Then,
+ look at all the (finitely many) requirements that could lock column 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Each of them falls into one of two types:
+ Either it gets injured infinitely many times,
+ in which case its locks have no effect,
+ or it gets injured finitely many times,
+ in which case it places a finite number of locks in column 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ If we can tell which case a requirement falls into,
+ we're good:
+ We only need to care about the latter,
+ 
+\begin_inset Formula $0'$
+\end_inset
+
+ can tell when it's injured nevermore,
+ and so we just wait until all locks have been placed ultimately,
+ see what's enumerated into those spots at that time,
+ and know that everyone else will get enumerated in the column.
+\end_layout
+
+\begin_layout Proof
+So,
+ how to see if a requirement gets injured infinitely many times?
+ Inductively,
+ assume that we have computable indices for the columns it 
+\emph on
+can't
+\emph default
+ lock.
+ Then,
+ we can computably confirm (if true) that it eventually stops being injured:
+ Follow along its history,
+ and when it gets locked,
+ check the stuff it relies on against the computable data you have.
+ If this ever matches up,
+ this requirement will never get injured;
+ if it doesn't match up,
+ injury is inevitable.
+ Thus,
+ 
+\begin_inset Formula $0'$
+\end_inset
+
+ can tell yes or no to whether it ever stops acting.
+\end_layout
+
+\begin_layout Proof
+Okay,
+ so,
+ now let's figure out how to compute 
+\begin_inset Formula $A'$
+\end_inset
+
+ using 
+\begin_inset Formula $S\oplus0'$
+\end_inset
+
+.
+ Well,
+ we already know that 
+\begin_inset Formula $S\oplus0'$
+\end_inset
+
+ can tell whether requirement 
+\begin_inset Formula $e$
+\end_inset
+
+ ever finishes acting without injury.
+ But this is exactly the condition for whether 
+\begin_inset Formula $P_{e}^{A}$
+\end_inset
+
+ halts or not.
+ OK,
+ done.
+\end_layout
+
+\begin_layout Remark
+The Sacks Jump Theorem relativizes as follows:
+ For any 
+\begin_inset Formula $X'$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $S$
+\end_inset
+
+ there is an 
+\begin_inset Formula $X$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A\geq X$
+\end_inset
+
+ such that 
+\begin_inset Formula $A'\equiv S\oplus X'$
+\end_inset
+
+.
+ (The proof is essentially unchanged,
+ except that we also encode 
+\begin_inset Formula $X$
+\end_inset
+
+ into 
+\begin_inset Formula $A$
+\end_inset
+
+.)
+\end_layout
+
+\begin_layout Corollary
+From a 
+\begin_inset Formula $\Sigma_{m+1}$
+\end_inset
+
+ set 
+\begin_inset Formula $S$
+\end_inset
+
+ (i.e.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $0^{(m)}$
+\end_inset
+
+-c.e.) we can effectively obtain a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $A^{(m)}\equiv S\oplus0^{(m)}$
+\end_inset
+
+.
+ Relativized version:
+ From an 
+\begin_inset Formula $X^{(m)}$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $S$
+\end_inset
+
+ we can effectively obtain an 
+\begin_inset Formula $X$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $A^{(m)}\equiv S\oplus X^{(m)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Induct on 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ The case 
+\begin_inset Formula $m=0$
+\end_inset
+
+ is obvious by setting 
+\begin_inset Formula $A=S\oplus X$
+\end_inset
+
+.
+ If true for 
+\begin_inset Formula $m$
+\end_inset
+
+:
+ Given the 
+\begin_inset Formula $X^{(m+1)}$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $S$
+\end_inset
+
+,
+ effectively obtain an 
+\begin_inset Formula $X^{(m)}$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $S_{0}\geq X^{(m)}$
+\end_inset
+
+ such that 
+\begin_inset Formula $S_{0}'\equiv S\oplus X^{(m+1)}$
+\end_inset
+
+.
+ Then,
+ apply the induction hypothesis to obtain an 
+\begin_inset Formula $X$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $A$
+\end_inset
+
+ such that 
+\begin_inset Formula $A^{(m)}\equiv S_{0}\oplus X^{(m)}\equiv S_{0}$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $A^{(m+1)}\equiv S_{0}'\equiv S\oplus X^{(m+1)}$
+\end_inset
+
+,
+ as desired.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:lowincompceset"
+
+\end_inset
+
+There is a low c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $B$
+\end_inset
+
+ such that,
+ for all 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ 
+\begin_inset Formula $B^{[\neq i]}$
+\end_inset
+
+ does not compute 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+.
+ In particular,
+ all columns of 
+\begin_inset Formula $B$
+\end_inset
+
+ are Turing incomparable.
+\end_layout
+
+\begin_layout Proof
+Finite injury construction.
+ We have the following requirements which we well-order by 
+\begin_inset Formula $\N$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(Low 
+\begin_inset Formula $e$
+\end_inset
+
+):
+ If 
+\begin_inset Formula $P_{e}^{B}$
+\end_inset
+
+ is ever seen to halt,
+ lock its use.
+\end_layout
+
+\begin_layout Itemize
+(Noncompute 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ 
+\begin_inset Formula $i$
+\end_inset
+
+):
+ If we find 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ not locked by a higher priority requirement,
+ such that 
+\begin_inset Formula $\Phi_{e}^{B^{[\neq i]}}(\braket{x,e})\iswd=0$
+\end_inset
+
+,
+ we enumerate 
+\begin_inset Formula $\braket{x,e}$
+\end_inset
+
+ into 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+ and lock the use.
+\end_layout
+
+\end_deeper
+\begin_layout Proof
+We claim that all of these requirements are injured finitely many times.
+ This is because each requirement,
+ once satisfied,
+ cannot be broken unless one of the prior requirements acts.
+ Thus,
+ inductively,
+ wait until all requirements prior to a given requirement have acted as much as they would have.
+ From this point on,
+ this requirement will either never act,
+ or if it does,
+ it will never be broken.
+\end_layout
+
+\begin_layout Proof
+Now,
+ the requirements Low 
+\begin_inset Formula $e$
+\end_inset
+
+ ensure lowness as follows:
+ To tell whether 
+\begin_inset Formula $P_{e}^{B}$
+\end_inset
+
+ halts,
+ use 
+\begin_inset Formula $0'$
+\end_inset
+
+ to find a point in time after which it will never act.
+ Then,
+ 
+\begin_inset Formula $P_{e}^{B}$
+\end_inset
+
+ halts iff it is already looking like it halts by this point.
+\end_layout
+
+\begin_layout Proof
+Finally,
+ we show that 
+\begin_inset Formula $B^{[\neq i]}$
+\end_inset
+
+ does not compute 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+.
+ Essential here is the following fact:
+ An element 
+\begin_inset Formula $\braket{x,e}$
+\end_inset
+
+ enters 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+ if,
+ and only if,
+ entered by requirement Noncompute 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ As a consequence,
+ 
+\begin_inset Formula $B^{[i][e]}$
+\end_inset
+
+ is necessarily finite.
+ Thus,
+ if 
+\begin_inset Formula $\Phi_{e}^{B^{[\neq i]}}=B^{[i]}$
+\end_inset
+
+,
+ it shall be the case for infinitely many values of 
+\begin_inset Formula $x$
+\end_inset
+
+ that 
+\begin_inset Formula $\Phi_{e}^{B^{[\neq i]}}(\braket{x,e})=0$
+\end_inset
+
+.
+ As such,
+ requirement Noncompute 
+\begin_inset Formula $e$
+\end_inset
+
+,
+ 
+\begin_inset Formula $i$
+\end_inset
+
+ will eventually be triggered if it hasn't already,
+ which obviously ensures (after waiting for all injury to occur and for it to be triggered a last time) that 
+\begin_inset Formula $\Phi_{e}^{B^{[\neq i]}}$
+\end_inset
+
+ cannot equal 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Lemma
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:turingfixedpoint"
+
+\end_inset
+
+From an index for a 
+\begin_inset Formula $0''$
+\end_inset
+
+-Turing machine 
+\begin_inset Formula $P^{0''}$
+\end_inset
+
+,
+ we can uniformly compute an index for a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $W_{f(P)}$
+\end_inset
+
+ such that,
+ if 
+\begin_inset Formula $P^{0''}\iswd$
+\end_inset
+
+,
+ 
+\begin_inset Formula $W_{f(P)}\equiv_{\turing}W_{P^{0''}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+By the limit lemma,
+ let 
+\begin_inset Formula $\{a_{ns}\}_{n,s\in\N}$
+\end_inset
+
+ be a double sequence such that for all 
+\begin_inset Formula $n$
+\end_inset
+
+,
+ 
+\begin_inset Formula $a_{n}:=\lim_{s}a_{ns}$
+\end_inset
+
+ exists,
+ and 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ converges to 
+\begin_inset Formula $a$
+\end_inset
+
+ iff 
+\begin_inset Formula $P^{0''}\iswd=a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Define the following c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $B$
+\end_inset
+
+,
+ by defining its columns.
+ To see if you should enumerate 
+\begin_inset Formula $x$
+\end_inset
+
+ into 
+\begin_inset Formula $B^{[n]}$
+\end_inset
+
+ at stage 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ first see if 
+\begin_inset Formula $a_{n,x}=a_{n,x+1}=\dots a_{n,s}$
+\end_inset
+
+ and then if 
+\begin_inset Formula $a_{n,s}=\dots=a_{n+x,s}$
+\end_inset
+
+.
+ In other words,
+ check if 
+\begin_inset Formula $a_{ns}$
+\end_inset
+
+ is constant on the 
+\begin_inset Formula $L$
+\end_inset
+
+ shape defined by starting at 
+\begin_inset Formula $(i,x)$
+\end_inset
+
+,
+ going forwards in 
+\begin_inset Formula $s$
+\end_inset
+
+-time until now,
+ and going sideways for 
+\begin_inset Formula $x$
+\end_inset
+
+ steps.
+ Now,
+ if all of these equalities hold,
+ enumerate 
+\begin_inset Formula $x$
+\end_inset
+
+ iff 
+\begin_inset Formula $x$
+\end_inset
+
+ is enumerated into 
+\begin_inset Formula $W_{a_{ns}}$
+\end_inset
+
+ by stage 
+\begin_inset Formula $s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Let us study this set 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ We work under the assumption that 
+\begin_inset Formula $a_{n}\to a$
+\end_inset
+
+.
+ To this effect,
+ set 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ to be the first stage after which 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ stays constant.
+\end_layout
+
+\begin_layout Proof
+Our first claim is that all sections 
+\begin_inset Formula $B^{[y]}$
+\end_inset
+
+ for 
+\begin_inset Formula $y<y_{0}$
+\end_inset
+
+ are finite.
+ This is because,
+ for large enough values of 
+\begin_inset Formula $s$
+\end_inset
+
+,
+ going sideways for 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ steps (or even just 
+\begin_inset Formula $y_{0}-y$
+\end_inset
+
+) will always lead you to places that have converged to a different value,
+ so for large enough values of 
+\begin_inset Formula $s$
+\end_inset
+
+ you'll never enumerate anyone greater than 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Our second claim is that 
+\begin_inset Formula $B^{[y_{0}]}$
+\end_inset
+
+ (and,
+ indeed,
+ 
+\begin_inset Formula $B^{[y]}$
+\end_inset
+
+ for any 
+\begin_inset Formula $y\geq y_{0}$
+\end_inset
+
+) is equivalent to 
+\begin_inset Formula $W_{a}$
+\end_inset
+
+ modulo finite difference.
+ This is because,
+ for 
+\begin_inset Formula $x$
+\end_inset
+
+ large enough that 
+\begin_inset Formula $a_{ys}$
+\end_inset
+
+ never changes for 
+\begin_inset Formula $s>x$
+\end_inset
+
+,
+ we'll always be trying to use the right 
+\begin_inset Formula $W_{a_{ns}}$
+\end_inset
+
+,
+ so it suffices to verify that the 
+\begin_inset Formula $L$
+\end_inset
+
+ shape will eventually be constant.
+ This consists only of waiting long enough for the next 
+\begin_inset Formula $x$
+\end_inset
+
+ values of 
+\begin_inset Formula $a_{*s}$
+\end_inset
+
+ to be correct.
+ In particular,
+ this shows that all of these sections compute 
+\begin_inset Formula $W_{a}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Finally,
+ we claim that all sections 
+\begin_inset Formula $B^{[y]}$
+\end_inset
+
+ for 
+\begin_inset Formula $y\geq y_{0}$
+\end_inset
+
+ are uniformly computable from 
+\begin_inset Formula $W_{a}$
+\end_inset
+
+.
+ Indeed,
+ let's explain how to check if 
+\begin_inset Formula $x$
+\end_inset
+
+ is enumerated into such a 
+\begin_inset Formula $B^{[y]}$
+\end_inset
+
+.
+ First:
+ Is 
+\begin_inset Formula $a_{yx}$
+\end_inset
+
+ equal to 
+\begin_inset Formula $a$
+\end_inset
+
+?
+ If not,
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ is on a timer.
+ If it doesn't enter by the time that 
+\begin_inset Formula $a_{y*}$
+\end_inset
+
+ changes,
+ it's done for.
+ So that's checkable.
+ Now,
+ suppose that 
+\begin_inset Formula $a_{yx}$
+\end_inset
+
+ is,
+ in fact,
+ the right value.
+ If 
+\begin_inset Formula $x\notin W_{a}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ is also done for.
+ So,
+ suppose 
+\begin_inset Formula $x\in W_{a}$
+\end_inset
+
+.
+ Then,
+ look at the progress of the 
+\begin_inset Formula $L$
+\end_inset
+
+ shape.
+ If the vertical leg ever breaks,
+ then 
+\begin_inset Formula $x$
+\end_inset
+
+ does not enter.
+ On the other hand,
+ if the vertical leg never breaks,
+ eventually the horizontal leg will be OK because 
+\begin_inset Formula $y\geq y_{0}$
+\end_inset
+
+,
+ in which case we can verify that 
+\begin_inset Formula $x$
+\end_inset
+
+ does enter the set.
+ Yay!
+ 
+\end_layout
+
+\begin_layout Proof
+So,
+ yeah.
+ This set 
+\begin_inset Formula $B$
+\end_inset
+
+ is the one we want.
+ It computes 
+\begin_inset Formula $W_{a}$
+\end_inset
+
+ by taking any large enough section and hardcoding the finite difference.
+ It's computed by 
+\begin_inset Formula $W_{a}$
+\end_inset
+
+ by hardcoding the first 
+\begin_inset Formula $y_{0}$
+\end_inset
+
+ columns and using the algorithm above.
+\end_layout
+
+\begin_layout Corollary
+\begin_inset CommandInset label
+LatexCommand label
+name "cor:nturingfixedpoint"
+
+\end_inset
+
+From an index for a 
+\begin_inset Formula $0^{(n+2)}$
+\end_inset
+
+-Turing machine 
+\begin_inset Formula $P^{0^{(n+2)}}$
+\end_inset
+
+,
+ we can uniformly compute an index for a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $W_{f(P)}$
+\end_inset
+
+ such that,
+ if 
+\begin_inset Formula $P^{0^{(n+2)}}\iswd$
+\end_inset
+
+,
+ 
+\begin_inset Formula $W_{f(P)}^{(n)}\equiv W_{P^{0^{(n+2)}}}^{(n)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First,
+ let's relativize 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "lem:turingfixedpoint"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Its relative version says:
+ From an index for a 
+\begin_inset Formula $0^{(n+2)}$
+\end_inset
+
+-Turing machine 
+\begin_inset Formula $Q^{0^{(n+2)}}$
+\end_inset
+
+,
+ we can 
+\begin_inset Formula $0^{(n)}$
+\end_inset
+
+-uniformly compute 
+\begin_inset Formula $f(Q)$
+\end_inset
+
+ such that,
+ if 
+\begin_inset Formula $Q^{0^{(n+2)}}\iswd=q$
+\end_inset
+
+,
+ then 
+\begin_inset Formula $W_{f(Q)}^{0^{(n)}}\oplus0^{(n)}\equiv W_{q}^{0^{(n)}}\oplus0^{(n)}$
+\end_inset
+
+.
+ Cool.
+ Ok.
+\end_layout
+
+\begin_layout Proof
+So,
+ from our original Turing machine 
+\begin_inset Formula $P$
+\end_inset
+
+,
+ consider the following 
+\begin_inset Formula $0^{(n+2)}$
+\end_inset
+
+-Turing machine 
+\begin_inset Formula $Q$
+\end_inset
+
+.
+ First,
+ execute 
+\begin_inset Formula $P^{0^{(n+2)}}$
+\end_inset
+
+,
+ say with output value 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Then,
+ since 
+\begin_inset Formula $W_{p}^{(n)}$
+\end_inset
+
+ is 
+\begin_inset Formula $0^{(n)}$
+\end_inset
+
+-c.e,
+ we can output an index 
+\begin_inset Formula $q$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{q}^{0^{(n)}}=W_{p}^{(n)}$
+\end_inset
+
+.
+ (If 
+\begin_inset Formula $P^{0^{(n+2)}}$
+\end_inset
+
+ does not halt,
+ neither does 
+\begin_inset Formula $Q^{0^{(n+2)}}$
+\end_inset
+
+).
+ Now,
+ apply the relative version of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "lem:turingfixedpoint"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+ to 
+\begin_inset Formula $Q$
+\end_inset
+
+,
+ to obtain,
+ 
+\begin_inset Formula $0^{(n)}$
+\end_inset
+
+-uniformly (regardless of convergence!) some 
+\begin_inset Formula $f(Q(P))=g_{0}(P)$
+\end_inset
+
+ such that,
+ in the event of convergence,
+ 
+\begin_inset Formula $W_{g_{0}(P)}^{0^{(n)}}\oplus0^{(n)}\equiv W_{Q^{0^{(n+2)}}}^{0^{(n)}}\oplus0^{(n)}\equiv W_{P^{0^{(n+2)}}}^{(n)}$
+\end_inset
+
+.
+ (Note:
+ Even though 
+\begin_inset Formula $g_{0}$
+\end_inset
+
+ is in principle only 
+\begin_inset Formula $0^{(n)}$
+\end_inset
+
+-computable,
+ since we're putting it into 
+\begin_inset Formula $W_{*}^{0^{(n)}}$
+\end_inset
+
+,
+ we can actually make 
+\begin_inset Formula $g_{0}$
+\end_inset
+
+ computable.) Finally,
+ apply the Sacks Jump Theorem to 
+\begin_inset Formula $g_{0}(P)$
+\end_inset
+
+ to obtain an index for a c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $g(P)$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{g(P)}^{(n)}\equiv W_{g_{0}(P)}^{0^{(n)}}\oplus0^{(n)}$
+\end_inset
+
+.
+ This concludes the proof.
+ Whew.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Define the relations on sets:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $A\sim_{1}B$
+\end_inset
+
+ if 
+\begin_inset Formula $A=B$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A\sim_{2}B$
+\end_inset
+
+ if 
+\begin_inset Formula $A=^{*}B$
+\end_inset
+
+,
+ i.e.
+\begin_inset space \space{}
+\end_inset
+
+these two sets are equal up to finite difference,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A\sim_{n+3}B$
+\end_inset
+
+ if 
+\begin_inset Formula $A^{(n)}\equiv B^{(n)}$
+\end_inset
+
+.
+ So,
+ for example,
+ 
+\begin_inset Formula $\sim_{3}$
+\end_inset
+
+ is Turing equivalence.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+We say that 
+\begin_inset Formula $g$
+\end_inset
+
+ is an 
+\begin_inset Formula $n$
+\end_inset
+
+-fixed point free function (
+\begin_inset Formula $n$
+\end_inset
+
+-f.p.f.
+\begin_inset space \space{}
+\end_inset
+
+for short) if 
+\begin_inset Formula $W_{g(x)}\not\sim_{n}W_{x}$
+\end_inset
+
+ for all 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem
+Each 
+\begin_inset Formula $n$
+\end_inset
+
+-d.n.c.
+\begin_inset space \space{}
+\end_inset
+
+function (that is,
+ d.n.c.
+\begin_inset space \space{}
+\end_inset
+
+relative to 
+\begin_inset Formula $0^{(n-1)}$
+\end_inset
+
+) computes an 
+\begin_inset Formula $n$
+\end_inset
+
+-f.p.f.
+\begin_inset space \space{}
+\end_inset
+
+and vice-versa.
+\end_layout
+
+\begin_layout Proof
+The case 
+\begin_inset Formula $n=1$
+\end_inset
+
+ consists of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:dncfpf1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Thus,
+ we will focus on 
+\begin_inset Formula $n\geq2$
+\end_inset
+
+.
+ We first show that every 
+\begin_inset Formula $n$
+\end_inset
+
+-d.n.c,
+ say 
+\begin_inset Formula $f$
+\end_inset
+
+,
+ computes an 
+\begin_inset Formula $n$
+\end_inset
+
+-f.p.f,
+ which we will call 
+\begin_inset Formula $g$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+First,
+ we do the 
+\begin_inset Formula $n=2$
+\end_inset
+
+ case.
+ Suppose that 
+\begin_inset Formula $f(x)\neq P_{x}^{0'}$
+\end_inset
+
+ for all 
+\begin_inset Formula $x$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+ be a given c.e.
+\begin_inset space \space{}
+\end_inset
+
+set.
+ Then,
+ we have 
+\begin_inset Formula $0'$
+\end_inset
+
+ try to find a finite column of 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+,
+ and use 
+\begin_inset Formula $f$
+\end_inset
+
+ on the resulting program to obtain a column 
+\begin_inset Formula $i$
+\end_inset
+
+ such that,
+ either a column other than 
+\begin_inset Formula $i$
+\end_inset
+
+ is finite,
+ or every column is infinite.
+ Then,
+ simply set 
+\begin_inset Formula $W_{g(x)}$
+\end_inset
+
+ to be the c.e.
+\begin_inset space \space{}
+\end_inset
+
+set that has all columns full,
+ except for the 
+\begin_inset Formula $i$
+\end_inset
+
+-th,
+ which is empty.
+\end_layout
+
+\begin_layout Proof
+Now,
+ we do the 
+\begin_inset Formula $n=3$
+\end_inset
+
+ case.
+ The idea is similar,
+ but with Turing equivalence instead of finiteness.
+ Before,
+ we had to check if a column was finite or not,
+ and now we have to check for Turing equivalence,
+ which is hard!
+ However,
+ the situation is made easier if we make lowness assumptions.
+\end_layout
+
+\begin_layout Proof
+Let 
+\begin_inset Formula $B$
+\end_inset
+
+ be a low set,
+ all of whose columns do not compute the other columns,
+ as per 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "lem:lowincompceset"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Consider the 
+\begin_inset Formula $0''$
+\end_inset
+
+-computable program which looks through the columns of 
+\begin_inset Formula $B$
+\end_inset
+
+ to find one which computes the given c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+.
+ (This does require 
+\begin_inset Formula $B$
+\end_inset
+
+ low.
+ But it's doable.) Then,
+ apply 
+\begin_inset Formula $f$
+\end_inset
+
+ to this program.
+ The result,
+ say 
+\begin_inset Formula $i$
+\end_inset
+
+,
+ is either a column such that another column computes 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+,
+ or alternatively some arbitrary column and 
+\emph on
+no
+\emph default
+ column computes 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+.
+ In either case,
+ we see that 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+ cannot be Turing equivalent to 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+,
+ and so just output 
+\begin_inset Formula $g(x)$
+\end_inset
+
+ a c.e.
+\begin_inset space \space{}
+\end_inset
+
+index for 
+\begin_inset Formula $B^{[i]}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Finally,
+ we do the 
+\begin_inset Formula $n\geq4$
+\end_inset
+
+ case.
+ First,
+ note that if 
+\begin_inset Formula $W_{x}$
+\end_inset
+
+ is c.e.
+\begin_inset space \space{}
+\end_inset
+
+then in particular it is 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable and hence 
+\begin_inset Formula $W_{x}^{(n-3)}$
+\end_inset
+
+ is (uniformly) 
+\begin_inset Formula $0^{(n-3)}$
+\end_inset
+
+-c.e.
+ Note that 
+\begin_inset Formula $W_{x}^{(n-3)}\geq0^{(n-3)}$
+\end_inset
+
+ By relativizing the 
+\begin_inset Formula $n=3$
+\end_inset
+
+ case,
+ we can find (using an 
+\begin_inset Formula $n$
+\end_inset
+
+-f.p.f.) an index for a 
+\begin_inset Formula $0^{(n-3)}$
+\end_inset
+
+-c.e.
+\begin_inset space \space{}
+\end_inset
+
+set 
+\begin_inset Formula $W_{y}^{0^{(n-3)}}$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{y}^{0^{(n-3)}}\oplus0^{(n-3)}$
+\end_inset
+
+ is not Turing equivalent to 
+\begin_inset Formula $W_{x}^{(n-3)}$
+\end_inset
+
+.
+ Finally,
+ apply the Sacks Jump Theorem to obtain an index 
+\begin_inset Formula $g(x)$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{x}^{(n-3)}\equiv W_{y}^{0^{(n-3)}}\oplus0^{(n-3)}$
+\end_inset
+
+,
+ and the construction is complete.
+\end_layout
+
+\begin_layout Proof
+\begin_inset VSpace defskip
+\end_inset
+
+Now,
+ let us do the other direction.
+ Suppose that we are given an 
+\begin_inset Formula $n$
+\end_inset
+
+-f.p.f 
+\begin_inset Formula $g$
+\end_inset
+
+,
+ and we wish to construct an 
+\begin_inset Formula $n$
+\end_inset
+
+-d.n.c.
+ The case 
+\begin_inset Formula $n=1$
+\end_inset
+
+ has already been done.
+ We adapt the reasoning for 
+\begin_inset Formula $n=2$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $P_{e}^{0'}$
+\end_inset
+
+ be a 
+\begin_inset Formula $0'$
+\end_inset
+
+-computable program.
+ Then,
+ we can uniformly obtain a computable sequence 
+\begin_inset Formula $\{a_{n}\}_{n\in\N}$
+\end_inset
+
+ which converges iff 
+\begin_inset Formula $P_{e}^{0'}\iswd$
+\end_inset
+
+,
+ and in this case the limit is the value taken.
+ Now,
+ define 
+\begin_inset Formula $W_{b}$
+\end_inset
+
+ to be the c.e.
+\begin_inset space \space{}
+\end_inset
+
+set that enumerates 
+\begin_inset Formula $W_{a_{n}}$
+\end_inset
+
+ until the value of 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ changes,
+ at which point it enumerates 
+\begin_inset Formula $W_{\text{new \ensuremath{a_{n}}}}$
+\end_inset
+
+,
+ until it changes again,
+ and so on.
+ Then,
+ it will be the case that,
+ if 
+\begin_inset Formula $a_{n}\to a$
+\end_inset
+
+,
+ 
+\begin_inset Formula $W_{b}=^{*}W_{a}$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $g(b)$
+\end_inset
+
+ cannot possibly be 
+\begin_inset Formula $a$
+\end_inset
+
+,
+ if 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+ converges (and obviously neither if it does not).
+\end_layout
+
+\begin_layout Proof
+For 
+\begin_inset Formula $n\geq3$
+\end_inset
+
+,
+ we apply 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "cor:nturingfixedpoint"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+
+\end_inset
+
+.
+ Given a program 
+\begin_inset Formula $P^{0^{(n)}}$
+\end_inset
+
+,
+ we uniformly obtain a number 
+\begin_inset Formula $q$
+\end_inset
+
+ such that,
+ if 
+\begin_inset Formula $P^{0^{(n)}}$
+\end_inset
+
+ converges to some value 
+\begin_inset Formula $p$
+\end_inset
+
+,
+ we have 
+\begin_inset Formula $W_{q}\sim_{n}W_{p}$
+\end_inset
+
+.
+ Then,
+ apply the f.p.f.
+ function to 
+\begin_inset Formula $q$
+\end_inset
+
+,
+ to obtain a number 
+\begin_inset Formula $r$
+\end_inset
+
+ such that 
+\begin_inset Formula $W_{r}\not\sim_{n}W_{q}$
+\end_inset
+
+.
+ Thus,
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ cannot possibly equal 
+\begin_inset Formula $p$
+\end_inset
+
+ if it does exist.
+\end_layout
+
+\begin_layout Section
 placeholder
 \end_layout
 
@@ -6943,7 +8907,7 @@ A set
 \begin_inset Formula $A$
 \end_inset
 
- is incomputable iff the collection of sets that compute it has measure zero.
+ is noncomputable iff the collection of sets that compute it has measure zero.
 \end_layout
 
 \begin_layout Proof
