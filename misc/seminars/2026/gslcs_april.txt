@@ -1,0 +1,419 @@
+Grad Student Logic+Combi Seminar
+Function Go Brr
+
+Duarte Maia
+
+October 9, 2025
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro]
+
+[math macro][math macro]
+
+
+
+1 Abstract
+
+Four mathematicians walk into a bar, and decide to play a game of 
+“fastest growing function”. To be more precise, consider the 
+preordered set of functions \N\to\R , where we say f dominates g 
+if f\geq g for all but finitely many inputs. The four 
+mathematicians each write down a short description of a function 
+in a napkin, and their goal is that their secret function 
+dominates the functions chosen by the others.
+
+The analyst tries to cram as many exponents as she can into her 
+napkin, winding up with something that looks like f(x)=\e^{\e^{\e^{\e^{x}}}}
+. The combinatorialist names the well-known \mathrm{TREE}(n) 
+function. The computability theorist names the so-called busy 
+beaver function, \mathrm{BB}(n), obliterating the competition. 
+The set theorist gets disqualified because her function provably 
+dominates any function that can be described in less than 1000 
+characters, including itself, thereby causing a paradox. This is 
+not going to be a set theory talk.
+
+I'll be talking about the computability theory of functions that 
+grow very fast – faster, in fact, than any computable function. 
+This does not cause a paradox because these functions are not, in 
+and of themselves, computable. We will be seeing some proofs that 
+I think are cute. This talk is intended for a general audience. 
+No prior knowledge of computability theorem is assumed.
+
+2 Computability Theory Review
+
+Review notion of programming language/Turing machine. Idealized 
+model, because we're mathematicians.
+
+Unsolvability of Halting Problem: There is no computer program H 
+which takes as input the code for another program, P, and outputs 
+the answer to the question: “Will P finish executing in a finite 
+amount of time?”
+
+Proof: Suppose there were such a program H. We shall write a 
+program P, designed to cause a contradiction. The program P is as 
+follows:
+
+# File p.py:
+def h(x):
+	(code for H)
+myself = open("p.py").read()
+if h(myself):
+	while True:
+		pass
+
+If we were being truly rigorous, we'd need to write a quine here 
+but whatever. Kleene figured out how to do it in 1938. Standard 
+treatments do something slightly different to get around that, 
+using the artificial definition: “Will P(P) finish executing in a 
+finite amount of time?” I don't like that.
+
+Anyway, a quick check shows that H(P) will be incorrect, causing 
+a contradiction.
+
+Nevertheless, the function H is a valid function \N\to2 that you 
+can define. It's just not write-able as a computer program.
+
+Probably worth pointing out that I wrote \N , but I could just as 
+well have written like, 2^{<\omega} or something. In 
+computability theory we usually go between perspectives freely, 
+but abstractly we work with \N  (or strings, if convenient) 
+because we have to fix some basic universe of discussion.
+
+Maybe sketch that we identify programs with numbers: To go 
+between perspectives, identify a program with its binary 
+representation in the computer, which in turn can be seen as a 
+natural number (you need to add a one at the top to disambiguate 
+leading zeros).
+
+Definition: A function f\colon\N\to\N  is said to be computable 
+if there is a computer program P which accepts one argument as 
+input, and for every input x it outputs in finite time the value 
+of f(x).
+
+Remark: Not every computer program corresponds to a valid 
+function, because it may fail to terminate on some inputs. For 
+this reason, computability theorists often work with partial 
+functions \varphi\colon\N\rightharpoonup\N  instead. But this 
+will not be relevant for us.
+
+We can imagine, as a thought experiment, a computer which is 
+given access to a black-box that computes H. And then, we have 
+access to new programs, and hence new functions (e.g. H itself). 
+The new resulting class of functions is called the class of 0'
+-computable functions.
+
+Generally, for every function f\colon\N\to\N , computable or not, 
+we can imagine a computer program that has access to f as a black 
+box. This induces a pre-order on functions called Turing 
+Reducibility: We say f\geq_{\mathrm{T}}g if there is a computer 
+program with access to f as a black box that calculates g(x) on 
+input x. We say f\equiv_{\mathrm{T}}g if f\geq g and g\geq f – 
+this means that they have the same computational content.
+
+Important note: When these black boxes are queried, the only 
+information that is conveyed is the output, and not, for example, 
+“how long did the black box take to reply”.
+
+I distinguish between “computer programs that accept one input” 
+vs. “computer programs that will be executed on their own”. The 
+former I will represent using capital letters F, G, etc. and the 
+latter by P and maybe Q.
+
+An equivalence class of functions \N\to\N  is called a Turing 
+degree. The set of Turing degrees forms a partially ordered set. 
+Do the drawing.
+
+The whole Halting Problem business can be generalized. If you 
+have an oracle f, you can define the “Halting Problem relative to 
+f”: Given a program P^{f}, does it halt in finite time? And by a 
+similar reasoning as before, the resulting function H^{f} is not 
+computable in f.
+
+Exercise: f\geq_{\mathrm{T}}g\implies H^{f}\geq_{\mathrm{T}}H^{g}
+. (Have the audience members think over this, and try to get them 
+to produce a proof.)
+
+Sketch: Suppose that g is calculated by a program G which uses f 
+at some points. Then, to calculate H^{g}(P) (where P uses g), 
+write a new program \bar{P}=f\mathrm{ify}(P) which does the same 
+thing, but every instance of g(x) is replaced by G(x). Note that 
+the function f\mathrm{ify} is itself computable. Thus, the new 
+program \bar{P} uses f, not g, but it otherwise has exactly the 
+same behavior. In particular, H^{g}(P)=H^{f}(f\mathrm{ify}(P)), 
+and the latter could be written as a computer program that refers 
+to H^{f}.
+
+Corollary: f\equiv g\implies H^{f}=H^{g}. Thus, “Halting Problem” 
+is a well-defined function on Turing degrees. Do a drawing.
+
+3 The Busy Beaver
+
+[math macro]
+
+Define \BB(n), the “busy beaver function” as follows: Take all 
+valid computer programs that can be written in at most n 
+characters or bytes or whatever. There are finitely many. Of 
+those programs, some will finish executing in a finite amount of 
+time, while others will run forever. We set \BB(n) to be the 
+maximal among the finite runtimes.
+
+Unlike real computers, our model of computation is assumed to run 
+in a predictable amount of steps.
+
+This function was defined by Radó (not Rado) in 1962.
+
+Think over with audience: \BB\colon\N\to\N  is Turing equivalent 
+to the Halting Problem.
+
+Sketch: HP computes BB b/c, with access to HP, we can iterate 
+over all programs with at most n characters, collect just the 
+ones that halt, execute all of those, and take the maximal 
+runtime.
+
+Hidden detail: This algorithm requires writing an entire computer 
+simulator, to run these programs and tally how long they take to 
+run.
+
+BB computes HP: To tell if a program P halts, run it for \BB(\mathrm{size}(P))
+ time. If it hasn't halted by this time, it will never halt.
+
+Again, we need to write an entire computer simulator. And we need 
+it to have the ability “run this computer program for X amount of 
+time, and tell me if it has terminated by then”.
+
+In fact, from this proof we recover a corollary:
+
+Corollary: If f\colon\N\to\N  dominates \BB , then f computes the 
+Halting Problem, and in particular is not computable.
+
+Corollary: \BB  is not dominated by any computable function. But 
+could it possibly be incomparable to one? Maybe there could be a 
+computable function that repeatedly catches up to it then loses 
+ground.
+
+Theorem: \BB  dominates any computable function.
+
+Proof: Let f be a computable function, associated to the program F
+. Define a computable sequence of programs P(0), P(1), P(2), etc. 
+with the following form. Here is P(73):
+
+t = F(73)
+while t > 0:
+	t = t - 1
+
+Then, we have the following properties:
+
+P(n) can be written in \log_{10}(n)+19+c characters, where c is 
+however many characters it takes to implement F,
+
+P(n) runs for at least f(n) steps.
+
+Note also that, for all but finitely many values of n, n\geq\log_{10}(n)+19+c
+. For all such values, we then have
+   
+which concludes the proof.
+
+I guess it's important here that your programming language lets 
+you write a number n in logarithmically many characters. I hope 
+no one's favorite programming language fails to meet that bar, 
+though it's technically doable if you're trying to be really 
+crummy about it?
+
+One thing you'll note is that the definition of \BB  depends on 
+your choice of programming language and model of computation. 
+Without a lot of added context, it's not possible to flat-out 
+say, “oh, I calculated \BB(3)”, because your \BB(3) can be 
+different from mine.
+
+The version introduced by Radó in 1962 is currently being studied 
+by a project called the “bbchallenge”. The version they study is 
+as follows:
+
+• The input n is the number of states in the machine,
+
+• The output is the number of steps until termination,
+
+• The tape is assumed bidirectional,
+
+• and there are some other conventions to ensure that everyone is 
+  talking about the same thing. For example, every transition 
+  moves the head left or right – there are no standing still 
+  transitions.
+
+Here is a table from their website containing what they currently 
+know:
+
+[float Table:
+
++----+-------------------------------------------------+
+| n  | \BB(n)                                          |
++----+-------------------------------------------------+
++----+-------------------------------------------------+
+| 1  | 1                                               |
++----+-------------------------------------------------+
+| 2  | 6                                               |
++----+-------------------------------------------------+
+| 3  | 21                                              |
++----+-------------------------------------------------+
+| 4  | 107                                             |
++----+-------------------------------------------------+
+| 5  | 47\,176\,870                                    |
++----+-------------------------------------------------+
+| 6  | \geq2\uparrow\uparrow5 (i.e. 2^{2^{2^{2^{2}}}}) |
++----+-------------------------------------------------+
+| 7  | \geq2\uparrow^{11}2\uparrow^{11}3               |
++----+-------------------------------------------------+
+
+
+[Table 1: 
+Busy Beaver Data
+]
+
+
+]
+
+It is also known that there's a 745-state Turing machine M that 
+halts iff \mathsf{ZFC} is inconsistent. As such we conclude:
+
+Theorem: (Assuming \mathsf{ZFC} is consistent) For large enough 
+values of n (in this case, n\geq745), \mathsf{ZFC} cannot prove 
+any upper bound of the value of \BB(n). In particular, \mathsf{ZFC}
+ does not determine the value of \BB(n).
+
+Proof sketch: If \mathsf{ZFC} was able to prove \BB(745) is less 
+than, say, a billion, then \mathsf{ZFC} would be able to prove 
+that M never halts by proving that it hasn't halted by time “one 
+billion”. Thus, \mathsf{ZFC} would prove its own consistency, 
+which is impossible by Gödel's second incompleteness theorem.
+
+4 Martin's Theorem
+
+We saw that the Busy Beaver dominates all computable functions, 
+and any function that dominates \BB  must also compute the 
+Halting Problem. This indicates that there is some amount of 
+computational power that stems from “growing very fast”.
+
+Of course, not all computational power is derived in this manner. 
+For example, the Halting function H does not even go to infinity 
+– all its computational power stems from the specific pattern of 
+ones and zeros.
+
+One may wonder: What kind of computational power can we harness 
+from dominating all computable functions? A theorem by Martin 
+(1966) characterizes this computational power:
+
+Definition: A degree X is “high” if it satisfies X'\geq0''. (Do 
+the drawing.)
+
+Theorem: If a function f dominates all (total) computable 
+functions, then f is high. Conversely, every high degree computes 
+such a function.
+
+Note the word “total” here. As I (might have) mentioned before, 
+not every computer program induces a total function, and it's not 
+easy to tell what programs do or do not do so. Thus, it's often 
+convenient to work with partial functions \N\rightharpoonup\N  
+instead. One might wonder if that makes much difference.
+
+(Get audience to define “dominate a partial function”.)
+
+Theorem: If a function f dominates all partial computable 
+functions, then f\geq_{\mathrm{T}}0'. Conversely, 0' and every 
+degree above it can compute such a function.
+
+Proof: If f dominates all partial computable functions, then in 
+particular it dominates the function n\mapsto  runtime of the n
+-th program. Say f+c majorizes it. Thus, f computes the HP by the 
+algorithm: To see if P halts, run it for f(P)+c time. Output 
+whether it's halted by now or not.
+
+Conversely, 0' computes such a function as follows:
+
+def f(n):
+	out = 0
+	for all programs P of size at most n:
+		if H("P(n)"):
+			out = max(out, P(n))
+	return out
+
+Clearly, f is well-defined for all values of n, and will dominate 
+any program P for n\geq\mathrm{length}(P).
+
+5 Final Curiosities
+
+Computing a function that dominates every computable function is 
+a “computational strength” property. Sometimes these are also 
+called “highness properties”. In this case, dominating all total 
+computable functions is a highness property that coincides with 
+the computational property that's also called “high”, and 
+dominating all partial computable functions coincides with the 
+property of being above 0'.
+
+We also like to consider “lowness properties” – that is, 
+properties of an oracle that make it weak at computation. One 
+such property is the following:
+
+Definition: A degree X is said to be hyperimmune-free, or 
+computably dominated, if every function f computed by X is 
+dominated by some computable function.
+
+This notion is of independent interest, and also coincides with 
+computability-theoretic properties that don't require talking 
+about “growth rate” to discuss. One such property is that of not 
+computing a “hyperimmune set”, which is a notion that we don't 
+have time to discuss.
+
+Curiously, this property is incompatible with some other lowness 
+properties, such as “lowness”: We say that X is low if X'\equiv0'
+.
+
+Theorem: No degree below 0' is hyperimmune, except for 0.
+
+Draw hyperimmune degrees in the drawing as a thing going off to 
+the sides.
+
+The degrees in between these two places have the property of 
+being able to define functions that are not dominated by any 
+computable function, but cannot dominate all of them.
+
